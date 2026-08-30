@@ -1306,7 +1306,7 @@
     ]
   },
   "created": "2026-08-12T10:39:56Z",
-  "updated": "2026-08-29T07:47:57Z",
+  "updated": "2026-08-30T12:29:00Z",
   "phases": [
     {
       "phase": "landscape",
@@ -1711,8 +1711,8 @@
     },
     {
       "phase": "root_cause_analysis",
-      "status": "done",
-      "artifact": "idea-stage/ROOT_CAUSE_ANALYSIS.json",
+      "status": "pending",
+      "artifact": null,
       "verdict_id": null,
       "reviewer": null,
       "reviewer_family": null,
@@ -1721,341 +1721,35 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-23T15:56:20Z",
-      "validated_artifacts": {
-        "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-        "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-        "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-      },
-      "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-      "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-      "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-      "diagnostic_pilot_artifacts": [],
-      "handoff_artifacts": {
-        "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-          "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-          "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-          "size_bytes": 21375,
-          "status": "active",
-          "producer_phase": "root_cause_analysis",
-          "registered_at": "2026-08-23T15:56:20Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          }
-        },
-        "idea-stage/ROOT_CAUSE_ANALYSIS.md": {
-          "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.md",
-          "sha256": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd",
-          "size_bytes": 4109,
-          "status": "active",
-          "producer_phase": "root_cause_analysis",
-          "registered_at": "2026-08-23T15:56:20Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          }
-        }
-      }
+      "updated": "2026-08-30T12:29:00Z"
     },
     {
       "phase": "root_cause_gate",
-      "status": "accepted",
-      "artifact": "idea-stage/ROOT_CAUSE_VERDICT.json",
-      "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-      "reviewer": "gpt-5",
-      "reviewer_family": "openai",
-      "review_independence": "independent-context",
-      "acceptance_status": "accepted",
+      "status": "pending",
+      "artifact": null,
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-23T15:58:34Z",
-      "review_request": null,
-      "validated_artifacts": {
-        "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16"
-      },
-      "gate_verdict": "DIAGNOSIS_READY",
-      "reviewed_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-      "handoff_artifacts": {
-        "idea-stage/ROOT_CAUSE_VERDICT.json": {
-          "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-          "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-          "size_bytes": 2565,
-          "status": "active",
-          "producer_phase": "root_cause_gate",
-          "registered_at": "2026-08-23T15:58:21Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-            "reviewer": "gpt-5",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-08-23T15:58:34Z",
-            "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-            "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-            "reviewed_artifact_bindings": {
-              "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-            }
-          }
-        }
-      },
-      "return_guidance": null
+      "updated": "2026-08-30T12:29:00Z"
     },
     {
       "phase": "method_design",
-      "status": "accepted",
-      "artifact": "idea-stage/METHOD_DESIGN_PACKET.json",
-      "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-      "reviewer": "gpt-5.6-sol",
-      "reviewer_family": "openai",
-      "review_independence": "independent-context",
-      "acceptance_status": "accepted",
+      "status": "pending",
+      "artifact": null,
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:47:57Z",
-      "review_request": null,
-      "history_recorded_for_reviewed_sha256": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
-      "validated_artifacts": {
-        "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
-        "idea-stage/METHOD_DESIGN.md": "37c066ffd791c00b1963c3e223f5c837eb63789d7e722e2e41188def0223fb7a",
-        "idea-stage/METHOD_DESIGN_REVIEW.json": "e19ed54e3dc1dcc789cb37d40961148f3e910dde16656d5d03d64752cc38bc28"
-      },
-      "gate_verdict": "PRINCIPLE_PACKET_READY",
-      "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-      "reviewed_artifact_hashes": {
-        "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-        "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-        "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-        "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-        "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-      },
-      "handoff_artifacts": {
-        "idea-stage/METHOD_DESIGN_PACKET.json": {
-          "path": "idea-stage\\METHOD_DESIGN_PACKET.json",
-          "sha256": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
-          "size_bytes": 30707,
-          "status": "active",
-          "producer_phase": "method_design",
-          "registered_at": "2026-08-29T07:47:09Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
-          },
-          "problem_version_binding": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 1,
-            "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-            "reviewer": "gpt-5.6-sol",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-08-29T07:47:57Z",
-            "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-            "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
-            "reviewed_artifact_bindings": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-              "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-              "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-            }
-          }
-        },
-        "idea-stage/METHOD_DESIGN.md": {
-          "path": "idea-stage\\METHOD_DESIGN.md",
-          "sha256": "37c066ffd791c00b1963c3e223f5c837eb63789d7e722e2e41188def0223fb7a",
-          "size_bytes": 4377,
-          "status": "active",
-          "producer_phase": "method_design",
-          "registered_at": "2026-08-29T07:47:09Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
-          },
-          "problem_version_binding": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 1,
-            "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-            "reviewer": "gpt-5.6-sol",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-08-29T07:47:57Z",
-            "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-            "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
-            "reviewed_artifact_bindings": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-              "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-              "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-            }
-          }
-        },
-        "idea-stage/METHOD_DESIGN_REVIEW.json": {
-          "path": "idea-stage\\METHOD_DESIGN_REVIEW.json",
-          "sha256": "e19ed54e3dc1dcc789cb37d40961148f3e910dde16656d5d03d64752cc38bc28",
-          "size_bytes": 5346,
-          "status": "active",
-          "producer_phase": "method_design",
-          "registered_at": "2026-08-29T07:47:09Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
-          },
-          "problem_version_binding": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 1,
-            "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-            "reviewer": "gpt-5.6-sol",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-08-29T07:47:57Z",
-            "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-            "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
-            "reviewed_artifact_bindings": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-              "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-              "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-            }
-          }
-        }
-      },
-      "return_guidance": {},
-      "design_cycle_id": "MDCYCLE-2026-08-29-01"
+      "updated": "2026-08-30T12:29:00Z"
     },
     {
       "phase": "principle_human_selection",
@@ -29654,578 +29348,7 @@
         "content_sha256": "13347a1992fc9eda34f5bdbb4828b45026596cdd6d728c16788962e984d14b52"
       }
     },
-    "planned_queries": [
-      {
-        "plan_item_id": "spatial-first-principles",
-        "query": "conditional sufficient statistic decision theory control state aggregation future cost action equivalence",
-        "purpose": "Derive principled criteria for when a compressed spatial state is sufficient for decisions rather than merely predictive.",
-        "search_dimension": "FIRST_PRINCIPLES",
-        "mechanism_change_ids": [
-          "RMC-SPATIAL-DECISION-QUOTIENT"
-        ],
-        "capability_ids": [
-          "CAP-SPATIAL-DECISION-SUFFICIENCY",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-SPATIAL-ANTI-ALIAS",
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-SPATIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1960,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify a formal sufficiency or equivalence criterion that yields a falsifiable spatial principle and its minimal test.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1960,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1,
-          "cited_by": null,
-          "page_size": 20
-        },
-        "query_id": "Q0064"
-      },
-      {
-        "plan_item_id": "spatial-representation-transformation",
-        "query": "quotient state representation invariance contact geometry pressure distribution control sufficient representation",
-        "purpose": "Find transformations that quotient nuisance geometry while retaining action-relevant spatial differences.",
-        "search_dimension": "REPRESENTATION_TRANSFORMATION",
-        "mechanism_change_ids": [
-          "RMC-SPATIAL-DECISION-QUOTIENT"
-        ],
-        "capability_ids": [
-          "CAP-SPATIAL-DECISION-SUFFICIENCY",
-          "CAP-ONLINE-OBSERVABILITY"
-        ],
-        "obligation_ids": [
-          "OBL-SPATIAL-ANTI-ALIAS",
-          "OBL-OBSERVABLE-MINIMALITY"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-SPATIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "TARGETED_GAP_FOLLOWUP",
-        "year_from": 1980,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Recover at least one algorithm-independent invariant, quotient, or sufficient-coordinate principle with observable target-domain variables.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1980,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0065"
-      },
-      {
-        "plan_item_id": "spatial-same-field",
-        "query": "robotic soft contact finite area contact patch geometry pressure distribution impedance control observability",
-        "purpose": "Locate same-field mechanisms that remove finite-area aliasing and evidence delimiting when scalar contact remains sufficient.",
-        "search_dimension": "SAME_FIELD_MECHANISM",
-        "mechanism_change_ids": [
-          "RMC-SPATIAL-DECISION-QUOTIENT"
-        ],
-        "capability_ids": [
-          "CAP-SPATIAL-DECISION-SUFFICIENCY",
-          "CAP-ONLINE-OBSERVABILITY"
-        ],
-        "obligation_ids": [
-          "OBL-SPATIAL-ANTI-ALIAS",
-          "OBL-OBSERVABLE-MINIMALITY"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-SPATIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "RECENT_ELITE_FRONTIER",
-        "year_from": 2000,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify a same-field mechanism and a strong scalar comparator with explicit spatial activation and failure conditions.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 2000,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0066"
-      },
-      {
-        "plan_item_id": "spatial-cross-domain",
-        "query": "state abstraction bisimulation causal representation control observation aliasing minimal sufficient state",
-        "purpose": "Transfer structurally isomorphic anti-aliasing mechanisms from state abstraction and causal control representation.",
-        "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-        "mechanism_change_ids": [
-          "RMC-SPATIAL-DECISION-QUOTIENT"
-        ],
-        "capability_ids": [
-          "CAP-SPATIAL-DECISION-SUFFICIENCY",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-SPATIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1990,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find a structural mapping from aliased observations to action-equivalent state partitions, with explicit disanalogies for physical contact.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1990,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0067"
-      },
-      {
-        "plan_item_id": "tangential-first-principles",
-        "query": "contact wrench cone limit surface friction remaining control authority distance constraint first principles",
-        "purpose": "Derive capacity-relative coordinates from contact mechanics and constrained decision geometry.",
-        "search_dimension": "FIRST_PRINCIPLES",
-        "mechanism_change_ids": [
-          "RMC-TANGENTIAL-LIMIT-COORDINATE"
-        ],
-        "capability_ids": [
-          "CAP-WRENCH-MARGIN-STATE",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-WRENCH-LIMIT-STATE",
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-TANGENTIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1960,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify a principle for representing proximity to wrench feasibility independent of a particular friction model or optimizer.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1960,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0068"
-      },
-      {
-        "plan_item_id": "tangential-representation-transformation",
-        "query": "constraint slack dual variable risk coordinate friction cone wrench limit surface representation transformation control",
-        "purpose": "Search transformations from raw tangential measurements to minimal margin, slack, or risk coordinates.",
-        "search_dimension": "REPRESENTATION_TRANSFORMATION",
-        "mechanism_change_ids": [
-          "RMC-TANGENTIAL-LIMIT-COORDINATE"
-        ],
-        "capability_ids": [
-          "CAP-WRENCH-MARGIN-STATE",
-          "CAP-ONLINE-OBSERVABILITY"
-        ],
-        "obligation_ids": [
-          "OBL-WRENCH-LIMIT-STATE",
-          "OBL-OBSERVABLE-MINIMALITY"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-TANGENTIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "TARGETED_GAP_FOLLOWUP",
-        "year_from": 1980,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find a measurement-to-margin transformation whose assumptions and identifiability can be tested before slip.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1980,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0069"
-      },
-      {
-        "plan_item_id": "tangential-same-field",
-        "query": "robot incipient slip detection tactile wrench moment friction limit surface impedance manipulation",
-        "purpose": "Find same-field mechanisms that anticipate slip or moment limits and determine whether normal proxies already suffice.",
-        "search_dimension": "SAME_FIELD_MECHANISM",
-        "mechanism_change_ids": [
-          "RMC-TANGENTIAL-LIMIT-COORDINATE"
-        ],
-        "capability_ids": [
-          "CAP-WRENCH-MARGIN-STATE",
-          "CAP-ONLINE-OBSERVABILITY"
-        ],
-        "obligation_ids": [
-          "OBL-WRENCH-LIMIT-STATE",
-          "OBL-OBSERVABLE-MINIMALITY"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-TANGENTIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "RECENT_ELITE_FRONTIER",
-        "year_from": 2000,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify a pre-event same-field capacity mechanism and a credible no-added-wrench comparator.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 2000,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0070"
-      },
-      {
-        "plan_item_id": "tangential-cross-domain",
-        "query": "remaining control authority envelope protection constraint margin structural isomorphism control systems",
-        "purpose": "Transfer envelope-protection and remaining-control-authority principles to contact wrench capacity.",
-        "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-        "mechanism_change_ids": [
-          "RMC-TANGENTIAL-LIMIT-COORDINATE"
-        ],
-        "capability_ids": [
-          "CAP-WRENCH-MARGIN-STATE",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-TANGENTIAL-SUFFICIENCY"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1970,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find a structurally mapped capacity-margin principle and state its transfer boundaries under uncertain friction.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1970,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0071"
-      },
-      {
-        "plan_item_id": "history-first-principles",
-        "query": "predictive sufficient state non Markov observation history conditional independence control theory",
-        "purpose": "Derive when and how finite state can replace raw history for action-relevant prediction.",
-        "search_dimension": "FIRST_PRINCIPLES",
-        "mechanism_change_ids": [
-          "RMC-HISTORY-PREDICTIVE-STATE"
-        ],
-        "capability_ids": [
-          "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-HISTORY-MARKOVIZATION",
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-HISTORY-SUFFICIENCY"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1960,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify a predictive-state sufficiency principle with a zero-memory null and finite-horizon falsifier.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1960,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0072"
-      },
-      {
-        "plan_item_id": "history-representation-transformation",
-        "query": "memory kernel internal variable balanced truncation Koopman predictive state low order viscoelastic control",
-        "purpose": "Find transformations that compress temporal memory into stable observable state without over-identifying constitutive parameters.",
-        "search_dimension": "REPRESENTATION_TRANSFORMATION",
-        "mechanism_change_ids": [
-          "RMC-HISTORY-PREDICTIVE-STATE"
-        ],
-        "capability_ids": [
-          "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-          "CAP-ONLINE-OBSERVABILITY"
-        ],
-        "obligation_ids": [
-          "OBL-HISTORY-MARKOVIZATION",
-          "OBL-OBSERVABLE-MINIMALITY"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-HISTORY-SUFFICIENCY"
-        ],
-        "priority_tier": "TARGETED_GAP_FOLLOWUP",
-        "year_from": 1970,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify at least one order-reduction or predictive-state transformation with online observability and failure tests.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1970,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0073"
-      },
-      {
-        "plan_item_id": "history-same-field",
-        "query": "robot soft tissue contact low order viscoelastic state relaxation creep hysteresis force impedance control",
-        "purpose": "Find same-field temporal-state mechanisms and strong memoryless or uncertainty-aware contradictory comparators.",
-        "search_dimension": "SAME_FIELD_MECHANISM",
-        "mechanism_change_ids": [
-          "RMC-HISTORY-PREDICTIVE-STATE"
-        ],
-        "capability_ids": [
-          "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-          "CAP-ONLINE-OBSERVABILITY"
-        ],
-        "obligation_ids": [
-          "OBL-HISTORY-MARKOVIZATION",
-          "OBL-OBSERVABLE-MINIMALITY"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-HISTORY-SUFFICIENCY"
-        ],
-        "priority_tier": "RECENT_ELITE_FRONTIER",
-        "year_from": 2000,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find a low-order online temporal mechanism and a matched regime in which memory remains unnecessary.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 2000,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0074"
-      },
-      {
-        "plan_item_id": "history-cross-domain",
-        "query": "predictive state representation partially observable control minimal history state system identification",
-        "purpose": "Transfer predictive-state and observable-operator mechanisms from partially observed dynamical systems.",
-        "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-        "mechanism_change_ids": [
-          "RMC-HISTORY-PREDICTIVE-STATE"
-        ],
-        "capability_ids": [
-          "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-HISTORY-SUFFICIENCY"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1980,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find a structural mapping from non-Markov observations to finite predictive state, with contact-specific disanalogies and transfer conditions.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1980,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0075"
-      },
-      {
-        "plan_item_id": "absorption-first-principles",
-        "query": "feedback sensitivity value of model information control action equivalence robust margins closed loop",
-        "purpose": "Derive a first-principles boundary for when model or state mismatch survives feedback to alter decisions.",
-        "search_dimension": "FIRST_PRINCIPLES",
-        "mechanism_change_ids": [
-          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
-        ],
-        "capability_ids": [
-          "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-          "CAP-MATCHED-MINIMALITY",
-          "CAP-INDEPENDENT-OUTCOME-VALIDITY"
-        ],
-        "obligation_ids": [
-          "OBL-ABSORPTION-BOUNDARY",
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-INDEPENDENT-ENDPOINTS",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-CLOSED-LOOP-ABSORPTION"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1960,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify a sensitivity- or value-of-information principle that makes simple-representation equivalence a positive result.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1960,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0076"
-      },
-      {
-        "plan_item_id": "absorption-representation-transformation",
-        "query": "decision focused representation action value sufficient statistic selective sensing control information bottleneck",
-        "purpose": "Find transformations that retain only information capable of changing feasible action ranking or primary outcomes.",
-        "search_dimension": "REPRESENTATION_TRANSFORMATION",
-        "mechanism_change_ids": [
-          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
-        ],
-        "capability_ids": [
-          "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-          "CAP-MATCHED-MINIMALITY"
-        ],
-        "obligation_ids": [
-          "OBL-ABSORPTION-BOUNDARY",
-          "OBL-MATCHED-DECISION-VALUE"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-CLOSED-LOOP-ABSORPTION"
-        ],
-        "priority_tier": "TARGETED_GAP_FOLLOWUP",
-        "year_from": 1990,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find an algorithm-independent decision-focused compression or gating principle and its non-equivalence test.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1990,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0077"
-      },
-      {
-        "plan_item_id": "absorption-same-field",
-        "query": "robust impedance control model uncertainty feedback bandwidth delay action equivalence contact representation",
-        "purpose": "Find same-field evidence for feedback absorption, uncertainty envelopes, and the regimes where richer contact information changes impedance.",
-        "search_dimension": "SAME_FIELD_MECHANISM",
-        "mechanism_change_ids": [
-          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
-        ],
-        "capability_ids": [
-          "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-          "CAP-INDEPENDENT-OUTCOME-VALIDITY"
-        ],
-        "obligation_ids": [
-          "OBL-ABSORPTION-BOUNDARY",
-          "OBL-INDEPENDENT-ENDPOINTS"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-CLOSED-LOOP-ABSORPTION"
-        ],
-        "priority_tier": "RECENT_ELITE_FRONTIER",
-        "year_from": 2000,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Identify both a robust simple mechanism and a richer-information counterexample with explicit bandwidth, delay, and constraint conditions.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 2000,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0078"
-      },
-      {
-        "plan_item_id": "absorption-cross-domain",
-        "query": "value of information control selective observation active sensing decision equivalence resource rational",
-        "purpose": "Transfer value-of-information and selective-observation mechanisms from resource-rational decision systems.",
-        "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-        "mechanism_change_ids": [
-          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
-        ],
-        "capability_ids": [
-          "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-          "CAP-MATCHED-MINIMALITY",
-          "CAP-INDEPENDENT-OUTCOME-VALIDITY"
-        ],
-        "obligation_ids": [
-          "OBL-MATCHED-DECISION-VALUE",
-          "OBL-INDEPENDENT-ENDPOINTS",
-          "OBL-ATOMIC-DISCRIMINATION"
-        ],
-        "causal_chain_ids": [
-          "CHAIN-CLOSED-LOOP-ABSORPTION"
-        ],
-        "priority_tier": "HIGH_CITATION_BACKBONE",
-        "year_from": 1960,
-        "year_to": 2026,
-        "page": 1,
-        "exact_title": false,
-        "target_venues": [],
-        "expected_close_condition": "Find a transferable value-of-information principle with explicit sensing-cost, latency, and closed-loop disanalogies.",
-        "status": "complete",
-        "constraints": {
-          "year_from": 1960,
-          "year_to": 2026,
-          "exact_title": false,
-          "page": 1
-        },
-        "query_id": "Q0079"
-      }
-    ],
+    "planned_queries": [],
     "accepted_artifacts": {
       "source_admission_policy": {
         "path": "idea-stage\\SOURCE_ADMISSION_POLICY.yaml",
@@ -30987,13 +30110,6 @@
         "sha256": "6db5f08b725a68d9ba250876f2e6c0aa8a1a02841d4da6364b2663f80a0ebf72",
         "read_event_id": "35fb2ba335d84d57a921bbc52291e3be",
         "accepted_at": "2026-08-23T17:04:26Z"
-      },
-      "incremental-query-plan-method_design": {
-        "path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-08227b0b3e214f9379ed10d6209e21b9558874f772a312236ff046f7819bb923.json",
-        "validator_result": "PASS",
-        "sha256": "fdcca071ac9d0164d78542433f687fc161904141ddb3d8f6f09c74e05278dd34",
-        "accepted_at": "2026-08-29T02:53:06Z",
-        "author_role": "main_research_agent"
       },
       "evidence:HUMAN-TRO-2017-CWC": {
         "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json",
@@ -32283,1269 +31399,6 @@
           },
           "re_adopted_at": "2026-08-23T14:10:57Z"
         }
-      },
-      "method_design": {
-        "evidence:scholar:15965392972228430987": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-external-b12da74d477d3d6e2a08620a14c634000ccec5c4b7bf441d7bfa7e3dfb83307f.json",
-          "validator_result": "PASS",
-          "sha256": "39abca13e3a7d755e4d2343a1aa90ca9ae96164f529263134a454414d46a9ef9",
-          "read_event_id": "bc495a564c68416083598c212dade0a3",
-          "accepted_at": "2026-08-23T17:01:46Z",
-          "evidence_key": "evidence:scholar:15965392972228430987",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
-              "obligation_ids": [
-                "OBL-HISTORY-STATE",
-                "OBL-INDEPENDENT-ENDPOINT",
-                "OBL-NESTED-DECISION-VALUE",
-                "OBL-SAFE-ABSORPTION-BOUNDARY",
-                "OBL-SPATIAL-OBSERVABILITY",
-                "OBL-TANGENTIAL-MARGIN"
-              ],
-              "obligation_context_sha256": "7875db9d0777e944fc0b793ca50f0c5c4cb4184d1bceb74a80dba057ce89a0ce"
-            }
-          }
-        },
-        "evidence:HUMAN-EJMAS-2024-105348": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-EJMAS-2024-105348.json",
-          "validator_result": "PASS",
-          "sha256": "3ba456e49b67c53e99b66428a297fc9ec6c598933bbf0aa715dc02b4e0b26e8e",
-          "read_event_id": "eeaefbc3b6e84f46bd5f633a15e457ad",
-          "accepted_at": "2026-08-23T17:01:48Z",
-          "evidence_key": "evidence:HUMAN-EJMAS-2024-105348",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
-              "obligation_ids": [
-                "OBL-HISTORY-STATE",
-                "OBL-INDEPENDENT-ENDPOINT",
-                "OBL-NESTED-DECISION-VALUE",
-                "OBL-SAFE-ABSORPTION-BOUNDARY",
-                "OBL-SPATIAL-OBSERVABILITY",
-                "OBL-TANGENTIAL-MARGIN"
-              ],
-              "obligation_context_sha256": "7875db9d0777e944fc0b793ca50f0c5c4cb4184d1bceb74a80dba057ce89a0ce"
-            }
-          }
-        },
-        "evidence:HUMAN-AUTOMATICA-2013-LBMPC": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-AUTOMATICA-2013-LBMPC.json",
-          "validator_result": "PASS",
-          "sha256": "6f7ac43588bababe96c6a147c2e4c7553446b95c25ba6ffd50ff6c96d68f6400",
-          "read_event_id": "6d90f42881cd4a4780eba4f3c88562c2",
-          "accepted_at": "2026-08-23T17:04:25Z",
-          "evidence_key": "evidence:HUMAN-AUTOMATICA-2013-LBMPC",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
-              "obligation_ids": [
-                "OBL-HISTORY-STATE",
-                "OBL-INDEPENDENT-ENDPOINT",
-                "OBL-NESTED-DECISION-VALUE",
-                "OBL-SAFE-ABSORPTION-BOUNDARY",
-                "OBL-SPATIAL-OBSERVABILITY",
-                "OBL-TANGENTIAL-MARGIN"
-              ],
-              "obligation_context_sha256": "7875db9d0777e944fc0b793ca50f0c5c4cb4184d1bceb74a80dba057ce89a0ce"
-            }
-          }
-        },
-        "evidence:HUMAN-LRA-2022-ASEE": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-LRA-2022-ASEE.json",
-          "validator_result": "PASS",
-          "sha256": "6db5f08b725a68d9ba250876f2e6c0aa8a1a02841d4da6364b2663f80a0ebf72",
-          "read_event_id": "35fb2ba335d84d57a921bbc52291e3be",
-          "accepted_at": "2026-08-23T17:04:26Z",
-          "evidence_key": "evidence:HUMAN-LRA-2022-ASEE",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
-              "obligation_ids": [
-                "OBL-HISTORY-STATE",
-                "OBL-INDEPENDENT-ENDPOINT",
-                "OBL-NESTED-DECISION-VALUE",
-                "OBL-SAFE-ABSORPTION-BOUNDARY",
-                "OBL-SPATIAL-OBSERVABILITY",
-                "OBL-TANGENTIAL-MARGIN"
-              ],
-              "obligation_context_sha256": "7875db9d0777e944fc0b793ca50f0c5c4cb4184d1bceb74a80dba057ce89a0ce"
-            }
-          }
-        },
-        "evidence:HUMAN-TRO-2017-CWC": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json",
-          "validator_result": "PASS",
-          "sha256": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-          "read_event_id": "7fb63d3cd3c44677bb404691821af78d",
-          "accepted_at": "2026-08-29T03:09:48Z",
-          "evidence_key": "evidence:HUMAN-TRO-2017-CWC",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          }
-        },
-        "evidence:HUMAN-IJRR-2011-PSR": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json",
-          "validator_result": "PASS",
-          "sha256": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          "read_event_id": "f2ad1c2bcb4e4116882c86cf88e972a8",
-          "accepted_at": "2026-08-29T03:09:48Z",
-          "evidence_key": "evidence:HUMAN-IJRR-2011-PSR",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          }
-        },
-        "evidence:ZDySGaNsMn8J@readopt-7a833c13a59d450983e9f5adcc231a4b": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json",
-          "validator_result": "PASS",
-          "sha256": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          "read_event_id": "e1d636708a284cac83ae95fe6b08ed7c",
-          "accepted_at": "2026-08-22T04:55:26Z",
-          "evidence_key": "evidence:ZDySGaNsMn8J",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:29Z",
-          "obligation_ids": [
-            "OBL-MATCHED-DECISION-VALUE",
-            "OBL-SPATIAL-ANTI-ALIAS",
-            "OBL-WRENCH-LIMIT-STATE"
-          ]
-        },
-        "evidence:Ubx3Xkv4y2kJ@readopt-95c70a1250fa47f1bb333037b9e2d976": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json",
-          "validator_result": "PASS",
-          "sha256": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          "read_event_id": "a8925a1f60314020922c851a1dc6664c",
-          "accepted_at": "2026-08-22T06:33:06Z",
-          "evidence_key": "evidence:Ubx3Xkv4y2kJ",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:30Z",
-          "obligation_ids": [
-            "OBL-HISTORY-MARKOVIZATION",
-            "OBL-SPATIAL-ANTI-ALIAS",
-            "OBL-WRENCH-LIMIT-STATE"
-          ]
-        },
-        "evidence:_8NXx8-VkcgJ@readopt-69f92a57e8d54eb08d3308f2fea82e8b": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json",
-          "validator_result": "PASS",
-          "sha256": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          "read_event_id": "08cab94642464f6a82cf275175a2edb2",
-          "accepted_at": "2026-08-22T04:57:53Z",
-          "evidence_key": "evidence:_8NXx8-VkcgJ",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:31Z",
-          "obligation_ids": [
-            "OBL-HISTORY-MARKOVIZATION",
-            "OBL-OBSERVABLE-MINIMALITY"
-          ]
-        },
-        "evidence:USER-TUFFC-2011-1961@readopt-eb25b4e43721438fa687308c36a4c66e": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json",
-          "validator_result": "PASS",
-          "sha256": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-          "read_event_id": "bd7b6509ef0042febaa3951fd0fbaa7d",
-          "accepted_at": "2026-08-22T04:57:54Z",
-          "evidence_key": "evidence:USER-TUFFC-2011-1961",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:32Z",
-          "obligation_ids": [
-            "OBL-HISTORY-MARKOVIZATION",
-            "OBL-OBSERVABLE-MINIMALITY"
-          ]
-        },
-        "evidence:USER-TASE-2023-3282974@readopt-bb13b7d1c9e64c1fb6de75cb2c1684dd": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json",
-          "validator_result": "PASS",
-          "sha256": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-          "read_event_id": "6972b3201de04901851925c3ff36cd0b",
-          "accepted_at": "2026-08-22T05:02:02Z",
-          "evidence_key": "evidence:USER-TASE-2023-3282974",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:33Z",
-          "obligation_ids": [
-            "OBL-ABSORPTION-BOUNDARY",
-            "OBL-INDEPENDENT-ENDPOINTS",
-            "OBL-MATCHED-DECISION-VALUE"
-          ]
-        },
-        "evidence:9vRJMR2dgG4J@readopt-fbea2f000bfe4276bc577c566b68147b": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json",
-          "validator_result": "PASS",
-          "sha256": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-          "read_event_id": "3607e558ee3e4c0c937b8b323764b0a0",
-          "accepted_at": "2026-08-22T06:33:05Z",
-          "evidence_key": "evidence:9vRJMR2dgG4J",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:33Z",
-          "obligation_ids": [
-            "OBL-ABSORPTION-BOUNDARY",
-            "OBL-MATCHED-DECISION-VALUE"
-          ]
-        },
-        "evidence:QPuQ4sfxSTIJ@readopt-8b46de41f5234ee295be5089c8d4a069": {
-          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json",
-          "validator_result": "PASS",
-          "sha256": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-          "read_event_id": "5eedf9d861164bf1b4e6dfa8500bde73",
-          "accepted_at": "2026-08-22T05:02:01Z",
-          "evidence_key": "evidence:QPuQ4sfxSTIJ",
-          "phase_binding_anchor": {
-            "phase": "method_design",
-            "required_inputs": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": {
-                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
-                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-                "producer_phase": "landscape",
-                "registered_at": "2026-08-22T04:18:43Z"
-              },
-              "idea-stage/RESEARCH_CONTRACT.md": {
-                "path": "idea-stage\\RESEARCH_CONTRACT.md",
-                "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-                "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                "producer_phase": "problem_human_acceptance",
-                "registered_at": "2026-08-23T15:50:55Z"
-              },
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-                "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                "producer_phase": "root_cause_analysis",
-                "registered_at": "2026-08-23T15:56:20Z"
-              },
-              "idea-stage/ROOT_CAUSE_VERDICT.json": {
-                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-                "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-                "producer_phase": "root_cause_gate",
-                "registered_at": "2026-08-23T15:58:21Z",
-                "acceptance": {
-                  "status": "accepted",
-                  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer": "gpt-5",
-                  "reviewer_family": "openai",
-                  "review_independence": "independent-context",
-                  "accepted_at": "2026-08-23T15:58:34Z",
-                  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-                  "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-                  "reviewed_artifact_bindings": {
-                    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-                  }
-                }
-              }
-            },
-            "lifecycle_return_event_id": null,
-            "active_problem_binding": {
-              "problem_id": "P-SOFTSCAN-STATE-01",
-              "version": 1,
-              "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-              "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-            },
-            "accepted_rca_binding": {
-              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-              "lifecycle_return_event_id": null
-            },
-            "design_obligation_binding": {
-              "source": "method_design_query_context",
-              "mechanism_change_ids": [
-                "RMC-CLOSED-LOOP-RELEVANCE-GATE",
-                "RMC-HISTORY-PREDICTIVE-STATE",
-                "RMC-SPATIAL-DECISION-QUOTIENT",
-                "RMC-TANGENTIAL-LIMIT-COORDINATE"
-              ],
-              "capability_ids": [
-                "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
-                "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
-                "CAP-INDEPENDENT-OUTCOME-VALIDITY",
-                "CAP-MATCHED-MINIMALITY",
-                "CAP-ONLINE-OBSERVABILITY",
-                "CAP-SPATIAL-DECISION-SUFFICIENCY",
-                "CAP-WRENCH-MARGIN-STATE"
-              ],
-              "obligation_ids": [
-                "OBL-ABSORPTION-BOUNDARY",
-                "OBL-ATOMIC-DISCRIMINATION",
-                "OBL-HISTORY-MARKOVIZATION",
-                "OBL-INDEPENDENT-ENDPOINTS",
-                "OBL-MATCHED-DECISION-VALUE",
-                "OBL-OBSERVABLE-MINIMALITY",
-                "OBL-SPATIAL-ANTI-ALIAS",
-                "OBL-WRENCH-LIMIT-STATE"
-              ],
-              "principle_search_context_sha256": "a457b00a129ace251cac1a81db10d7119c12e33747002c1b94cb90b8dfd6b3b7"
-            }
-          },
-          "re_adopted_at": "2026-08-29T03:10:35Z",
-          "obligation_ids": [
-            "OBL-INDEPENDENT-ENDPOINTS",
-            "OBL-SPATIAL-ANTI-ALIAS"
-          ]
-        }
       }
     },
     "last_coverage_status": "SUFFICIENT",
@@ -33652,7 +31505,7 @@
   },
   "scientific_core": {
     "status": "ACTIVE",
-    "current_phase": "principle_human_selection",
+    "current_phase": "root_cause_analysis",
     "accepted_artifacts": {
       "idea-stage/PROBLEM_CANDIDATES.md": {
         "path": "idea-stage\\PROBLEM_CANDIDATES.md",
@@ -33852,261 +31705,6 @@
           "version": 1,
           "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
           "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        }
-      },
-      "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
-        "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
-        "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-        "size_bytes": 21375,
-        "status": "active",
-        "producer_phase": "root_cause_analysis",
-        "registered_at": "2026-08-23T15:56:20Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        }
-      },
-      "idea-stage/ROOT_CAUSE_ANALYSIS.md": {
-        "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.md",
-        "sha256": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd",
-        "size_bytes": 4109,
-        "status": "active",
-        "producer_phase": "root_cause_analysis",
-        "registered_at": "2026-08-23T15:56:20Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        }
-      },
-      "idea-stage/ROOT_CAUSE_VERDICT.json": {
-        "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
-        "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-        "size_bytes": 2565,
-        "status": "active",
-        "producer_phase": "root_cause_gate",
-        "registered_at": "2026-08-23T15:58:21Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-          "reviewer": "gpt-5",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-08-23T15:58:34Z",
-          "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-          "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
-          "reviewed_artifact_bindings": {
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
-          }
-        }
-      },
-      "idea-stage/METHOD_DESIGN_PACKET.json": {
-        "path": "idea-stage\\METHOD_DESIGN_PACKET.json",
-        "sha256": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
-        "size_bytes": 30707,
-        "status": "active",
-        "producer_phase": "method_design",
-        "registered_at": "2026-08-29T07:47:09Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-          "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
-        },
-        "problem_version_binding": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 1,
-          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-          "reviewer": "gpt-5.6-sol",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-08-29T07:47:57Z",
-          "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-          "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
-          "reviewed_artifact_bindings": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-            "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-          }
-        }
-      },
-      "idea-stage/METHOD_DESIGN.md": {
-        "path": "idea-stage\\METHOD_DESIGN.md",
-        "sha256": "37c066ffd791c00b1963c3e223f5c837eb63789d7e722e2e41188def0223fb7a",
-        "size_bytes": 4377,
-        "status": "active",
-        "producer_phase": "method_design",
-        "registered_at": "2026-08-29T07:47:09Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-          "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
-        },
-        "problem_version_binding": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 1,
-          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-          "reviewer": "gpt-5.6-sol",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-08-29T07:47:57Z",
-          "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-          "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
-          "reviewed_artifact_bindings": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-            "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-          }
-        }
-      },
-      "idea-stage/METHOD_DESIGN_REVIEW.json": {
-        "path": "idea-stage\\METHOD_DESIGN_REVIEW.json",
-        "sha256": "e19ed54e3dc1dcc789cb37d40961148f3e910dde16656d5d03d64752cc38bc28",
-        "size_bytes": 5346,
-        "status": "active",
-        "producer_phase": "method_design",
-        "registered_at": "2026-08-29T07:47:09Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-          "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
-        },
-        "problem_version_binding": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 1,
-          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
-          "reviewer": "gpt-5.6-sol",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-08-29T07:47:57Z",
-          "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
-          "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
-          "reviewed_artifact_bindings": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
-            "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
-          }
         }
       }
     },
@@ -34541,6 +32139,315 @@
           "reason": "one-time candidate-only Method Design contract pre-alignment authorized by the Human",
           "preserved_executed_prefix_through": "root_cause_gate"
         }
+      },
+      {
+        "path": "idea-stage\\METHOD_DESIGN.md",
+        "sha256": "37c066ffd791c00b1963c3e223f5c837eb63789d7e722e2e41188def0223fb7a",
+        "size_bytes": 4377,
+        "status": "invalidated",
+        "producer_phase": "method_design",
+        "registered_at": "2026-08-29T07:47:09Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
+          "reviewer": "gpt-5.6-sol",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-08-29T07:47:57Z",
+          "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
+          "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+            "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
+          }
+        },
+        "archive_path": "manual-maintenance/batch0-db382b10302a/contents/idea-stage/METHOD_DESIGN.md",
+        "invalidated_at": "2026-08-30T12:29:00Z",
+        "invalidation": {
+          "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+          "scope": "impedance-control-landscape-e2e-only",
+          "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
+          "preserved_executed_prefix_through": "problem_human_acceptance",
+          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+        }
+      },
+      {
+        "path": "idea-stage\\METHOD_DESIGN_PACKET.json",
+        "sha256": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
+        "size_bytes": 30707,
+        "status": "invalidated",
+        "producer_phase": "method_design",
+        "registered_at": "2026-08-29T07:47:09Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
+          "reviewer": "gpt-5.6-sol",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-08-29T07:47:57Z",
+          "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
+          "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+            "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
+          }
+        },
+        "archive_path": "manual-maintenance/batch0-db382b10302a/contents/idea-stage/METHOD_DESIGN_PACKET.json",
+        "invalidated_at": "2026-08-30T12:29:00Z",
+        "invalidation": {
+          "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+          "scope": "impedance-control-landscape-e2e-only",
+          "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
+          "preserved_executed_prefix_through": "problem_human_acceptance",
+          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+        }
+      },
+      {
+        "path": "idea-stage\\METHOD_DESIGN_REVIEW.json",
+        "sha256": "e19ed54e3dc1dcc789cb37d40961148f3e910dde16656d5d03d64752cc38bc28",
+        "size_bytes": 5346,
+        "status": "invalidated",
+        "producer_phase": "method_design",
+        "registered_at": "2026-08-29T07:47:09Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "2c8d7f3a5d914df78b44f63e6dcae218",
+          "reviewer": "gpt-5.6-sol",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-08-29T07:47:57Z",
+          "review_request_id": "318fa22774664af1b259f3c8cd05b80b",
+          "reviewer_agent_id": "01a04c71-8050-7cb3-9eb8-a2dee133314f",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+            "idea-stage/ROOT_CAUSE_VERDICT.json": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TRO-2017-CWC.json": "1d8ed1a682cd40ffe39db44a264c50ee065f40fa3f22b77387e8aaf1739018a4",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+            "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9"
+          }
+        },
+        "archive_path": "manual-maintenance/batch0-db382b10302a/contents/idea-stage/METHOD_DESIGN_REVIEW.json",
+        "invalidated_at": "2026-08-30T12:29:00Z",
+        "invalidation": {
+          "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+          "scope": "impedance-control-landscape-e2e-only",
+          "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
+          "preserved_executed_prefix_through": "problem_human_acceptance",
+          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+        }
+      },
+      {
+        "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+        "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+        "size_bytes": 21375,
+        "status": "invalidated",
+        "producer_phase": "root_cause_analysis",
+        "registered_at": "2026-08-23T15:56:20Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "archive_path": "manual-maintenance/batch0-db382b10302a/contents/idea-stage/ROOT_CAUSE_ANALYSIS.json",
+        "invalidated_at": "2026-08-30T12:29:00Z",
+        "invalidation": {
+          "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+          "scope": "impedance-control-landscape-e2e-only",
+          "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
+          "preserved_executed_prefix_through": "problem_human_acceptance",
+          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+        }
+      },
+      {
+        "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.md",
+        "sha256": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd",
+        "size_bytes": 4109,
+        "status": "invalidated",
+        "producer_phase": "root_cause_analysis",
+        "registered_at": "2026-08-23T15:56:20Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "archive_path": "manual-maintenance/batch0-db382b10302a/contents/idea-stage/ROOT_CAUSE_ANALYSIS.md",
+        "invalidated_at": "2026-08-30T12:29:00Z",
+        "invalidation": {
+          "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+          "scope": "impedance-control-landscape-e2e-only",
+          "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
+          "preserved_executed_prefix_through": "problem_human_acceptance",
+          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+        }
+      },
+      {
+        "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+        "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+        "size_bytes": 2565,
+        "status": "invalidated",
+        "producer_phase": "root_cause_gate",
+        "registered_at": "2026-08-23T15:58:21Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
+          "reviewer": "gpt-5",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-08-23T15:58:34Z",
+          "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
+          "reviewer_agent_id": "01a02f57-28eb-75e0-8dff-d5a27ec266b7",
+          "reviewed_artifact_bindings": {
+            "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
+          }
+        },
+        "archive_path": "manual-maintenance/batch0-db382b10302a/contents/idea-stage/ROOT_CAUSE_VERDICT.json",
+        "invalidated_at": "2026-08-30T12:29:00Z",
+        "invalidation": {
+          "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+          "scope": "impedance-control-landscape-e2e-only",
+          "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
+          "preserved_executed_prefix_through": "problem_human_acceptance",
+          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+        }
       }
     ],
     "return_history": [
@@ -34800,19 +32707,7 @@
         }
       }
     },
-    "approval_request": {
-      "id": "a3b6d5e1df4f4edabd570500868cc31b",
-      "gate": "principle_selection",
-      "phase": "principle_human_selection",
-      "requires_selection": true,
-      "artifact_bindings": {
-        "idea-stage/METHOD_DESIGN_PACKET.json": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
-        "idea-stage/METHOD_DESIGN.md": "37c066ffd791c00b1963c3e223f5c837eb63789d7e722e2e41188def0223fb7a",
-        "idea-stage/METHOD_DESIGN_REVIEW.json": "e19ed54e3dc1dcc789cb37d40961148f3e910dde16656d5d03d64752cc38bc28"
-      },
-      "issued_by": "ARISController",
-      "created_at": "2026-08-29T07:47:57Z"
-    },
+    "approval_request": null,
     "review_request": null,
     "approvals": [
       {

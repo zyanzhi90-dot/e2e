@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+  "problem_id": "P-SOFTSCAN-STATE-01",
+  "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+  "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+  "failure_observations": [
+    {
+      "observation_id": "OBS-SPATIAL-ALIASING",
+      "phenomenon": "Finite contact area and local geometry alter pressure, deformation, force, and tracking even when a simple scalar normal-contact description is otherwise similar.",
+      "conditions": "Contact-patch, curvature, thickness, deformation, or sliding-speed changes outside the simple representation's calibrated regime.",
+      "abnormal_variables": [
+        "contact_area",
+        "local_curvature",
+        "pressure_distribution",
+        "normal_wrench_prediction",
+        "optimal_impedance_action"
+      ],
+      "evidence_source_type": "literature",
+      "evidence_refs": [
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J",
+        "Ubx3Xkv4y2kJ"
+      ],
+      "epistemic_status": "supported"
+    },
+    {
+      "observation_id": "OBS-TANGENTIAL-CAPACITY",
+      "phenomenon": "Distributed pressure, friction, tangential loading, and evolving area change tangential-force and normal-moment capacity, which cannot be inferred uniquely from normal scalar contact alone.",
+      "conditions": "Directional sliding, nonzero tangential force or moment, changing friction, or operation near slip and moment-capacity limits.",
+      "abnormal_variables": [
+        "tangential_force",
+        "normal_moment",
+        "slip_margin",
+        "friction_limit_surface",
+        "constraint_violation_risk"
+      ],
+      "evidence_source_type": "literature",
+      "evidence_refs": [
+        "ZDySGaNsMn8J",
+        "Ubx3Xkv4y2kJ",
+        "USER-TASE-2023-3282974"
+      ],
+      "epistemic_status": "supported"
+    },
+    {
+      "observation_id": "OBS-HISTORY-ALIASING",
+      "phenomenon": "Soft-contact force, area, and wrench capacity can depend on prior displacement or load history; low-order viscoelastic dynamics improve some transient descriptions, but detailed multi-exponential state can be weakly identifiable.",
+      "conditions": "Dwell, reversal, speed change, repeated loading, or disturbance timescales comparable to material relaxation or creep timescales.",
+      "abnormal_variables": [
+        "relaxation_state",
+        "creep_state",
+        "future_force_prediction",
+        "contact_area_evolution",
+        "recovery_transient"
+      ],
+      "evidence_source_type": "literature",
+      "evidence_refs": [
+        "Ubx3Xkv4y2kJ",
+        "iasK6kEBzIEJ",
+        "_8NXx8-VkcgJ",
+        "USER-TUFFC-2011-1961"
+      ],
+      "epistemic_status": "supported"
+    },
+    {
+      "observation_id": "OBS-SIMPLE-CONTROL-ADEQUACY",
+      "phenomenon": "Simple memoryless or contact-model-agnostic control can achieve strong bounded-regime force or wrench regulation, so richer contact information is not universally decision-relevant.",
+      "conditions": "Observable disturbances, adequate feedback bandwidth, bounded calibrated contact, sufficient uncertainty margins, and operation away from unobserved spatial, slip, or relaxation limits.",
+      "abnormal_variables": [
+        "incremental_information_value",
+        "impedance_action_difference",
+        "closed_loop_equivalence_margin",
+        "feedback_rejection_margin"
+      ],
+      "evidence_source_type": "literature",
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "USER-TASE-2023-3282974",
+        "_8NXx8-VkcgJ",
+        "9vRJMR2dgG4J"
+      ],
+      "epistemic_status": "supported"
+    }
+  ],
+  "phenomenon_clusters": [
+    {
+      "cluster_id": "CLUSTER-UNOBSERVED-CONTACT-STATE",
+      "observation_ids": [
+        "OBS-SPATIAL-ALIASING",
+        "OBS-HISTORY-ALIASING"
+      ],
+      "grouping_rationale": "Both observations create many-to-one aliasing: identical instantaneous simple inputs can correspond to different spatial or temporal contact states and therefore different future wrench responses."
+    },
+    {
+      "cluster_id": "CLUSTER-HIDDEN-WRENCH-CONSTRAINT",
+      "observation_ids": [
+        "OBS-SPATIAL-ALIASING",
+        "OBS-TANGENTIAL-CAPACITY"
+      ],
+      "grouping_rationale": "Area, geometry, and distributed pressure jointly determine tangential and moment constraints that a scalar normal-contact representation does not encode."
+    },
+    {
+      "cluster_id": "CLUSTER-CLOSED-LOOP-ABSORPTION",
+      "observation_ids": [
+        "OBS-SIMPLE-CONTROL-ADEQUACY",
+        "OBS-SPATIAL-ALIASING",
+        "OBS-HISTORY-ALIASING",
+        "OBS-TANGENTIAL-CAPACITY"
+      ],
+      "grouping_rationale": "The practical value of any omitted contact variable depends on whether feedback, uncertainty handling, and safety margins absorb its effect before it changes impedance actions or held-out outcomes."
+    }
+  ],
+  "causal_depth_traces": [
+    {
+      "trace_id": "TRACE-STATE-ALIASING",
+      "cluster_id": "CLUSTER-UNOBSERVED-CONTACT-STATE",
+      "why_steps": [
+        {
+          "step_id": "WHY-STATE-1",
+          "effect": "A simple representation can predict the same contact state for trials that later exhibit different wrench transients or constraint margins.",
+          "candidate_cause": "The representation collapses contact area, geometry, or history into instantaneous normal force, indentation, and rate.",
+          "evidence_refs": [
+            "QPuQ4sfxSTIJ",
+            "Ubx3Xkv4y2kJ",
+            "USER-TUFFC-2011-1961"
+          ],
+          "epistemic_status": "supported",
+          "discriminating_observation": "Conditioned on the simple variables, area, geometry, or a low-order history statistic still predicts held-out future wrench or constraint outcomes."
+        },
+        {
+          "step_id": "WHY-STATE-2",
+          "effect": "The controller evaluates the consequence of a candidate impedance using a state with missing predictive information.",
+          "candidate_cause": "Spatial and temporal contact states alter force evolution, pressure, and contact capacity over the control horizon.",
+          "evidence_refs": [
+            "ZDySGaNsMn8J",
+            "iasK6kEBzIEJ",
+            "Ubx3Xkv4y2kJ"
+          ],
+          "epistemic_status": "supported",
+          "discriminating_observation": "Nested representations produce materially different held-out wrench or constraint forecasts under equal data and compute."
+        },
+        {
+          "step_id": "WHY-STATE-3",
+          "effect": "Optimal stiffness or damping differs only in operating regimes where the omitted-state forecast error changes the action ranking.",
+          "candidate_cause": "Representation value is decision-dependent rather than equivalent to model-fit improvement.",
+          "evidence_refs": [
+            "j4KJ1EdUyYAJ",
+            "USER-TASE-2023-3282974",
+            "9vRJMR2dgG4J"
+          ],
+          "epistemic_status": "preliminary",
+          "discriminating_observation": "The richer representation changes selected impedance beyond implementation resolution and improves at least one prespecified held-out endpoint beyond its equivalence margin."
+        }
+      ]
+    },
+    {
+      "trace_id": "TRACE-WRENCH-CAPACITY",
+      "cluster_id": "CLUSTER-HIDDEN-WRENCH-CONSTRAINT",
+      "why_steps": [
+        {
+          "step_id": "WHY-WRENCH-1",
+          "effect": "Normal-force tracking can remain nominal while slip or moment capacity changes.",
+          "candidate_cause": "Distributed pressure and area determine the tangential-force and normal-moment limit surface.",
+          "evidence_refs": [
+            "ZDySGaNsMn8J",
+            "Ubx3Xkv4y2kJ"
+          ],
+          "epistemic_status": "supported",
+          "discriminating_observation": "Trials matched on normal scalar variables show different tangential or moment margins when area, geometry, direction, or history differs."
+        },
+        {
+          "step_id": "WHY-WRENCH-2",
+          "effect": "A normal-only optimizer can overestimate safe aggressive impedance or underestimate the need for directional compliance.",
+          "candidate_cause": "The optimizer lacks tangential force or moment and the spatial state needed to estimate proximity to frictional limits.",
+          "evidence_refs": [
+            "Ubx3Xkv4y2kJ",
+            "USER-TASE-2023-3282974"
+          ],
+          "epistemic_status": "preliminary",
+          "discriminating_observation": "Adding tangential wrench information changes impedance action before slip or moment-limit events and reduces those events without degrading primary task quality."
+        }
+      ]
+    },
+    {
+      "trace_id": "TRACE-CLOSED-LOOP-ABSORPTION",
+      "cluster_id": "CLUSTER-CLOSED-LOOP-ABSORPTION",
+      "why_steps": [
+        {
+          "step_id": "WHY-ABSORB-1",
+          "effect": "Richer contact information can improve prediction without improving closed-loop outcomes.",
+          "candidate_cause": "Measured-wrench feedback, disturbance estimation, or uncertainty tightening corrects or bounds the omitted dynamics quickly enough.",
+          "evidence_refs": [
+            "USER-TASE-2023-3282974",
+            "_8NXx8-VkcgJ",
+            "9vRJMR2dgG4J"
+          ],
+          "epistemic_status": "supported",
+          "discriminating_observation": "Under matched controller bandwidth and safety margins, richer and simple representations yield equivalent impedance actions and held-out outcomes despite different prediction error."
+        },
+        {
+          "step_id": "WHY-ABSORB-2",
+          "effect": "The benefit boundary moves with operating speed, estimator delay, disturbance observability, and distance to constraints.",
+          "candidate_cause": "Only mismatch that persists through the closed-loop sensitivity function and changes constrained action ranking is control-relevant.",
+          "evidence_refs": [
+            "j4KJ1EdUyYAJ",
+            "USER-TASE-2023-3282974",
+            "9vRJMR2dgG4J"
+          ],
+          "epistemic_status": "preliminary",
+          "discriminating_observation": "Information value appears when mismatch timescale or amplitude exceeds feedback rejection and equivalence margins, and disappears when feedback authority or margin is restored."
+        }
+      ]
+    }
+  ],
+  "causal_chains": [
+    {
+      "chain_id": "CHAIN-SPATIAL-SUFFICIENCY",
+      "cluster_ids": [
+        "CLUSTER-UNOBSERVED-CONTACT-STATE",
+        "CLUSTER-HIDDEN-WRENCH-CONSTRAINT"
+      ],
+      "conditions_or_input_change": "Contact area, curvature, thickness, or local deformation changes across held-out specimens, regions, speeds, or loads.",
+      "mechanism_failure": "The simple representation maps distinct finite-area geometries and pressure distributions to the same scalar state.",
+      "intermediate_state_abnormality": "Biased force, pressure, friction-capacity, or contact-loss forecasts change the ranking of candidate impedance actions.",
+      "final_failure_phenomenon": "The simple representation selects non-equivalent impedance and incurs worse held-out wrench, constraint, contact-stability, or scanning-quality outcomes.",
+      "evidence_refs": [
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J",
+        "Ubx3Xkv4y2kJ"
+      ],
+      "alternative_explanations": [
+        {
+          "explanation_id": "ALT-SPATIAL-SENSOR-BIAS",
+          "mechanism": "Apparent area or geometry value is caused by reconstruction error, registration error, or leakage from the evaluation signal.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Independent calibration and held-out reconstruction uncertainty remove the apparent incremental action and outcome value."
+        },
+        {
+          "explanation_id": "ALT-SPATIAL-RESOURCE-MISMATCH",
+          "mechanism": "The richer representation wins because it receives more data, compute, tuning, or controller authority.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "The improvement disappears after equalizing data, compute, objective, safety margins, latency, and tuning budget."
+        }
+      ],
+      "intervention_target": "The smallest observable area and geometry statistic that removes action-relevant spatial aliasing under matched resources.",
+      "falsifier": "After matched-resource calibration, removing all area and geometry variables leaves impedance actions and all prespecified held-out outcomes within equivalence margins across the declared spatial shifts.",
+      "epistemic_status": "preliminary"
+    },
+    {
+      "chain_id": "CHAIN-TANGENTIAL-SUFFICIENCY",
+      "cluster_ids": [
+        "CLUSTER-HIDDEN-WRENCH-CONSTRAINT"
+      ],
+      "conditions_or_input_change": "Sliding direction, tangential load, friction, patch shape, or moment demand changes near slip or wrench-capacity limits.",
+      "mechanism_failure": "A normal scalar representation omits tangential force or moment and cannot locate the contact state relative to the frictional limit surface.",
+      "intermediate_state_abnormality": "Slip and moment margins are misestimated, so the predicted safety and task consequences of stiffness or damping are biased.",
+      "final_failure_phenomenon": "The selected impedance causes avoidable slip, contact loss, moment-limit excursions, or scanning-quality degradation.",
+      "evidence_refs": [
+        "ZDySGaNsMn8J",
+        "Ubx3Xkv4y2kJ",
+        "USER-TASE-2023-3282974"
+      ],
+      "alternative_explanations": [
+        {
+          "explanation_id": "ALT-TANGENTIAL-FRICTION-DRIFT",
+          "mechanism": "Benefits attributed to tangential wrench sensing are actually caused by uncontrolled coupling-medium or surface-friction drift.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Measured friction and randomized surface conditions explain the outcome difference without residual tangential-wrench value."
+        },
+        {
+          "explanation_id": "ALT-TANGENTIAL-NORMAL-PROXY",
+          "mechanism": "Normal force and robot kinematics already proxy tangential risk sufficiently in the tested regime.",
+          "epistemic_status": "supported",
+          "discriminating_evidence": "Tangential force or moment adds no held-out action or outcome information after conditioning on the simple variables."
+        }
+      ],
+      "intervention_target": "The minimum tangential force or moment statistic needed to estimate action-relevant slip and wrench-capacity margin.",
+      "falsifier": "Adding tangential force or moment does not change impedance actions or improve slip, contact, wrench, or task outcomes beyond equivalence margins in any declared tangential regime.",
+      "epistemic_status": "preliminary"
+    },
+    {
+      "chain_id": "CHAIN-HISTORY-SUFFICIENCY",
+      "cluster_ids": [
+        "CLUSTER-UNOBSERVED-CONTACT-STATE"
+      ],
+      "conditions_or_input_change": "Dwell, speed, direction, reversal, repeated loading, or disturbance timing approaches material relaxation or creep timescales.",
+      "mechanism_failure": "Instantaneous indentation, rate, and force are not a sufficient Markov state because different loading histories produce different future force, area, and capacity.",
+      "intermediate_state_abnormality": "The simple model biases recovery and transient forecasts, while an over-detailed history model may itself be unidentifiable or unstable.",
+      "final_failure_phenomenon": "The simple representation selects non-equivalent impedance and worsens transient wrench, constraint, contact-stability, or task outcomes; alternatively, unnecessary history state increases latency or variance without benefit.",
+      "evidence_refs": [
+        "Ubx3Xkv4y2kJ",
+        "iasK6kEBzIEJ",
+        "_8NXx8-VkcgJ",
+        "USER-TUFFC-2011-1961"
+      ],
+      "alternative_explanations": [
+        {
+          "explanation_id": "ALT-HISTORY-DISTURBANCE",
+          "mechanism": "Apparent relaxation state is a proxy for unmeasured disturbance, drift, temperature, or changing geometry.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Independent disturbance, temperature, and geometry measurements eliminate the incremental value of history."
+        },
+        {
+          "explanation_id": "ALT-HISTORY-STATIC-UNCERTAINTY",
+          "mechanism": "A calibrated memoryless uncertainty envelope is sufficient even though a stateful model fits transients better.",
+          "epistemic_status": "supported",
+          "discriminating_evidence": "Static uncertainty-aware control matches history-aware impedance actions and held-out outcomes within prespecified margins."
+        }
+      ],
+      "intervention_target": "The lowest-dimensional observable history statistic that removes action-relevant temporal aliasing without requiring nonidentifiable constitutive parameters.",
+      "falsifier": "A simple calibrated or uncertainty-aware baseline remains decision- and outcome-equivalent across all declared history and timescale shifts, or every history statistic that changes action fails observability and reproducibility tests.",
+      "epistemic_status": "preliminary"
+    },
+    {
+      "chain_id": "CHAIN-CLOSED-LOOP-ABSORPTION",
+      "cluster_ids": [
+        "CLUSTER-CLOSED-LOOP-ABSORPTION"
+      ],
+      "conditions_or_input_change": "Feedback bandwidth and authority are high relative to contact-state variation, disturbances are observable, operation remains away from active constraints, and uncertainty margins cover residual mismatch.",
+      "mechanism_failure": "No representation failure reaches the decision layer because feedback and robust margins absorb the omitted contact dynamics.",
+      "intermediate_state_abnormality": "Prediction errors differ, but constrained action ranking and rendered impedance remain unchanged within implementation resolution.",
+      "final_failure_phenomenon": "Richer contact information produces no repeatable held-out closed-loop benefit and may only add sensing, estimation, computation, or latency burden.",
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "USER-TASE-2023-3282974",
+        "_8NXx8-VkcgJ",
+        "9vRJMR2dgG4J"
+      ],
+      "alternative_explanations": [
+        {
+          "explanation_id": "ALT-ABSORPTION-WEAK-ENDPOINT",
+          "mechanism": "The apparent no-benefit result is caused by insensitive endpoints or equivalence margins that are too wide.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Independent task-quality, transient, and constraint endpoints with sensor-grounded margins reveal a reproducible difference."
+        },
+        {
+          "explanation_id": "ALT-ABSORPTION-ESTIMATOR-LATENCY",
+          "mechanism": "The richer representation is genuinely informative but its estimator delay cancels the achievable control benefit.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Offline counterfactual action analysis shows value that disappears only when measured online latency is included."
+        }
+      ],
+      "intervention_target": "The closed-loop sensitivity boundary separating mismatch that feedback absorbs from mismatch that changes constrained impedance decisions and outcomes.",
+      "falsifier": "Under matched latency, bandwidth, authority, and safety margins, richer information changes action ranking and improves a prespecified held-out endpoint even in the purported absorption regime.",
+      "epistemic_status": "supported"
+    }
+  ],
+  "primary_causal_chain_ids": [
+    "CHAIN-SPATIAL-SUFFICIENCY",
+    "CHAIN-TANGENTIAL-SUFFICIENCY",
+    "CHAIN-HISTORY-SUFFICIENCY",
+    "CHAIN-CLOSED-LOOP-ABSORPTION"
+  ],
+  "unresolved_questions": [
+    "Which dimensionless combinations of contact-state variation, relaxation timescale, controller bandwidth, and distance to active constraints delimit each representation-benefit regime?",
+    "Which area, geometry, tangential-wrench, and history statistics are observable and reproducible at the latency and bandwidth required for impedance decisions?",
+    "Do information components act independently, redundantly, or only through interactions under held-out material and geometry shifts?",
+    "What sensor-grounded equivalence margins make an impedance-action difference and a closed-loop outcome difference practically material?",
+    "Which independent scanning-quality endpoint is sensitive enough to detect benefit without leaking into representation estimation?",
+    "How much apparent value is explained by friction, temperature, geometry, estimator latency, or unequal resource budgets?",
+    "Which regime boundaries transfer from controlled phantoms to bounded ex-vivo contact without supporting clinical generalization?"
+  ],
+  "analysis_provenance": {
+    "author_role": "main_research_agent",
+    "created_at": "2026-08-23T15:55:00Z",
+    "source_artifact_ids": [
+      "j4KJ1EdUyYAJ",
+      "QPuQ4sfxSTIJ",
+      "USER-TASE-2023-3282974",
+      "USER-TRO-2022-3216078",
+      "ZDySGaNsMn8J",
+      "_8NXx8-VkcgJ",
+      "USER-TUFFC-2011-1961",
+      "iasK6kEBzIEJ",
+      "Ubx3Xkv4y2kJ",
+      "_-WpL4QNulUJ",
+      "9vRJMR2dgG4J",
+      "0n2WntIcZ5MJ"
+    ]
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "snapshot_kind": "batch_0_pre_method_design_refactor_reset",
+  "run_id": "impedance-control-landscape-e2e",
+  "created_at": "2026-08-30T12:29:00.465Z",
+  "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
+  "snapshot_root": "manual-maintenance/batch0-db382b10302a",
+  "transport_integrity": {
+    "gitattributes": ".gitattributes",
+    "policy": "Snapshot contents are stored as binary blobs so Git preserves the manifested bytes."
+  },
+  "repository_baseline": {
+    "aris": {
+      "path": "D:/桌面/科研Agent Harness设计/ARIS",
+      "branch": "scientific-core",
+      "head": "8838041bf7b08ef4bfdd990c8f2d96ec409aa54d",
+      "worktree": "clean"
+    },
+    "e2e": {
+      "path": "D:/桌面/科研Agent Harness设计/impedance-control-e2e",
+      "branch": "scientific-core",
+      "head": "c6d433dafe9d772ac4a3d4149cf9b3ea984de197",
+      "worktree_before_snapshot": "clean"
+    }
+  },
+  "workflow": {
+    "workflow_id": "idea-discovery-v4",
+    "workflow_sha256": "1e0e076e78dab213a839b05323e6dd7e9bf04155672b4a1a904f98e3e8b1b410",
+    "embedded_workflow_sha256": "bf6ee2b72a168d987ca0eaabba93022b125ae920d610a54c9eac9d67a71a0977"
+  },
+  "accepted_problem": {
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "version": 1,
+    "active_problem_version_sha256": "695556b77a70ccbfd34dccc15fe6b25dbbcc9a54fd628c01eaf9cb80bbf6115a",
+    "problem_versions_sha256": "280fbf4472433343a98b81b5d38f0c1b728eaa9cc3fa7b723dbae1f84171c38c"
+  },
+  "preservation_baseline": {
+    "executed_prefix_through": "problem_human_acceptance",
+    "executed_prefix_state_sha256": "146c538fe5e697c3234696ace8a4b31d37dc064df83a3e99f27e2dd493e3e2f0",
+    "landscape_handoff_sha256": "ed33e29845c9e43b48f3aaaa058ed74605afe9444e6534744cebd8db11fbb27c",
+    "problem_approvals_sha256": "cf8e991e6f8f16cd6c8067803cd9c31c09ebe3a02ff42ba28e677dd69b837e8a",
+    "transition_log_sha256": "1de138828b22db9c58aaeafc800b2e68306393b23d614be69059566c4b385181",
+    "query_events_sha256": "ab6946aef5915f0f58dd44ad09ef606a166977273a9378e30c53ac55346ba469",
+    "read_events_sha256": "b272b1cd7ade5c37b7b9c71494c030431ba7e95550057b708113e2bbd357800b",
+    "papers_sha256": "964cf8bdb038a20f1c9d54a6815c3fc214c51e000e3d100a6741a2f3b5c0d7b0",
+    "accepted_evidence_records_sha256": "4e568f6376222526c517f9903a51bbac9b172fa612972b8ac846774f45236541",
+    "validator_results_sha256": "45808e8cdfe9ee75b4431987bc03418e65cc90cbd05c3cf9d382865291dffc62",
+    "research_approvals_sha256": "bb7597d85bf396dbeb2458568baf944613339183b0ee39e429acc30a76416a13",
+    "field_map_history_sha256": "2b83668784a62640738153d2755b4c6451cc38e6ff39bc2e407f2a34d5e3b470",
+    "counters": {
+      "query_count": 79,
+      "fulltext_count": 125,
+      "search_cycle_count": 7,
+      "max_queries": 80,
+      "max_fulltext_papers": 130,
+      "max_search_cycles": 8
+    },
+    "canonical_evidence_files": {
+      "count": 100,
+      "aggregate_algorithm": "sha256(UTF-8 sorted lines: repository-relative POSIX path<TAB>file_sha256<LF>)",
+      "aggregate_sha256": "18be79915e20d26319d868078aa1af4479feb48f2c7484d8749cdf4482dfe53b"
+    }
+  },
+  "preserved_files": [
+    {
+      "path": "idea-stage/ACTIVE_FIELD_MAP.md",
+      "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "size_bytes": 29779
+    },
+    {
+      "path": "idea-stage/RESEARCH_CONTRACT.md",
+      "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+      "size_bytes": 8643
+    },
+    {
+      "path": "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+      "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+      "size_bytes": 2951
+    },
+    {
+      "path": "idea-stage/EVIDENCE_REGISTRY.jsonl",
+      "sha256": "fe8a4b9f2799e3a86e5b7f8ace3d81d10bf186276a489cdbef2a60b1ca8de188",
+      "size_bytes": 992152
+    },
+    {
+      "path": "idea-stage/LITERATURE_CORPUS.jsonl",
+      "sha256": "1078b3e6dca273153951b60fa9fe5feb8efe9c7e707154c7adb8e33531768ebb",
+      "size_bytes": 3935325
+    },
+    {
+      "path": "idea-stage/SEARCH_LEDGER.jsonl",
+      "sha256": "94b11efeb2ea7f6e2a1f582a1a89a14a464a85a569f895b92d1b0357b2b4ac13",
+      "size_bytes": 2095278
+    },
+    {
+      "path": "idea-stage/SOURCE_ADMISSION_POLICY.yaml",
+      "sha256": "0aacb468316351ea4fcb10f35fcda53ea0def3c5ae5a408cf878a55038e87aa5",
+      "size_bytes": 4038
+    }
+  ],
+  "snapshot_files": [
+    {
+      "path": "contents/.aris/canonical/impedance-control-landscape-e2e/query-plan/incremental-query-plan-method_design-08227b0b3e214f9379ed10d6209e21b9558874f772a312236ff046f7819bb923.json",
+      "sha256": "fdcca071ac9d0164d78542433f687fc161904141ddb3d8f6f09c74e05278dd34",
+      "size_bytes": 37346
+    },
+    {
+      "path": "contents/.aris/canonical/impedance-control-landscape-e2e/query-plan/incremental-query-plan-method_design-4687fd791eea39656dc1265feba0dfcd68d68cff760b7b8ebcb142d7adc2e766.json",
+      "sha256": "52fac0b3ecd297c16bd06af3bfa2fb3ca5b843abcb1ff18f47c60e95cc5e0d5b",
+      "size_bytes": 14506
+    },
+    {
+      "path": "contents/.aris/runs/impedance-control-landscape-e2e.json",
+      "sha256": "db382b10302a953523aabf964c8db8376f55b750553592f1d6773c8e9e25b587",
+      "size_bytes": 2102596
+    },
+    {
+      "path": "contents/idea-stage/METHOD_DESIGN.md",
+      "sha256": "37c066ffd791c00b1963c3e223f5c837eb63789d7e722e2e41188def0223fb7a",
+      "size_bytes": 4377
+    },
+    {
+      "path": "contents/idea-stage/METHOD_DESIGN_PACKET.json",
+      "sha256": "05be720376b2762deff8b11e4694990fe8f21c0bf65fff17e93af0456a5dc7d9",
+      "size_bytes": 30707
+    },
+    {
+      "path": "contents/idea-stage/METHOD_DESIGN_REVIEW.json",
+      "sha256": "e19ed54e3dc1dcc789cb37d40961148f3e910dde16656d5d03d64752cc38bc28",
+      "size_bytes": 5346
+    },
+    {
+      "path": "contents/idea-stage/METHOD_PRINCIPLES.jsonl",
+      "sha256": "a3c47d82102ef435815a0fafc8b2846b2fdbc8ed9197f859fa6cc4bdb8629ea1",
+      "size_bytes": 8740
+    },
+    {
+      "path": "contents/idea-stage/METHOD_ROUTES.jsonl",
+      "sha256": "0aaf28c89678b23bc77ee904e714caab33e5e5b0f41bd8296723976e529c9c65",
+      "size_bytes": 20571
+    },
+    {
+      "path": "contents/idea-stage/METHOD_TEST_EVIDENCE.jsonl",
+      "sha256": "1c5869e4307008cebf97506d460d0fc50e00b51c87b5a117147c169ef17a2e7f",
+      "size_bytes": 2928
+    },
+    {
+      "path": "contents/idea-stage/ROOT_CAUSE_ANALYSIS.json",
+      "sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+      "size_bytes": 21375
+    },
+    {
+      "path": "contents/idea-stage/ROOT_CAUSE_ANALYSIS.md",
+      "sha256": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd",
+      "size_bytes": 4109
+    },
+    {
+      "path": "contents/idea-stage/ROOT_CAUSE_VERDICT.json",
+      "sha256": "a1ba6b2833d1136ce579592050f4a00d7d0298eed19513ec851fa82f66732b16",
+      "size_bytes": 2565
+    }
+  ]
+}

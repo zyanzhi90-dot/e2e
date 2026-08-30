@@ -1,0 +1,656 @@
+{
+  "schema_version": 1,
+  "design_cycle_id": "MDCYCLE-2026-08-29-01",
+  "problem_binding": {
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 1,
+    "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+  },
+  "root_cause_binding": {
+    "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "causal_chain_ids": [
+      "CHAIN-SPATIAL-SUFFICIENCY",
+      "CHAIN-TANGENTIAL-SUFFICIENCY",
+      "CHAIN-HISTORY-SUFFICIENCY",
+      "CHAIN-CLOSED-LOOP-ABSORPTION"
+    ]
+  },
+  "required_mechanism_changes": [
+    {
+      "mechanism_change_id": "RMC-SPATIAL-DECISION-QUOTIENT",
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY"
+      ],
+      "failed_relation_state_or_information_structure": "The instantaneous scalar normal-contact state is a many-to-one map from finite-area geometry and pressure configurations, so states with different future wrench and constraint consequences are aliased before impedance actions are ranked.",
+      "required_mechanism_change": "Replace the raw scalar snapshot with the coarsest observable spatial quotient that separates contact configurations only when their conditional future wrench, constraint margin, or impedance-action consequences differ.",
+      "root_cause_resolution_rationale": "A decision-sufficient spatial quotient directly removes the action-relevant part of finite-area aliasing without presuming that full fields, a particular sensor, or a particular contact model are necessary.",
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-SPATIAL-ANTI-ALIAS",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-OBSERVABLE-MINIMALITY",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "acceptance_conditions": [
+        "Conditioned on the simple state, the retained statistic predicts held-out future wrench or constraint consequences beyond calibration uncertainty.",
+        "Removing it changes rendered impedance beyond implementation resolution and improves at least one prespecified held-out endpoint beyond its equivalence margin under matched resources, or it is rejected as unnecessary."
+      ]
+    },
+    {
+      "mechanism_change_id": "RMC-TANGENTIAL-LIMIT-COORDINATE",
+      "causal_chain_ids": [
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ],
+      "failed_relation_state_or_information_structure": "A normal-only state does not encode where the distributed contact wrench lies relative to direction-dependent slip and moment-capacity boundaries.",
+      "required_mechanism_change": "Transform available contact information into the minimum observable coordinate of remaining tangential and moment authority that can change a safe impedance ranking before a limit event.",
+      "root_cause_resolution_rationale": "A capacity-relative coordinate targets the causal intermediate state\u2014misestimated slip or moment margin\u2014without committing to six-axis wrench input, a Coulomb cone, or any specific optimizer.",
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-WRENCH-LIMIT-STATE",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-OBSERVABLE-MINIMALITY",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "acceptance_conditions": [
+        "The coordinate anticipates independently measured slip, contact loss, or moment-limit approach after conditioning on normal force, pose, speed, and randomized friction conditions.",
+        "Its inclusion changes impedance before\u2014not only after\u2014a limit event and improves a held-out safety or task endpoint without material loss elsewhere, or it is rejected as redundant."
+      ]
+    },
+    {
+      "mechanism_change_id": "RMC-HISTORY-PREDICTIVE-STATE",
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ],
+      "failed_relation_state_or_information_structure": "Instantaneous indentation, rate, and wrench are non-Markov when distinct load histories yield different future force, area, recovery, or capacity, while unconstrained detailed constitutive state can be nonidentifiable.",
+      "required_mechanism_change": "Replace unbounded raw history or memoryless snapshots with the lowest-dimensional stable predictive state that makes future action-relevant contact consequences conditionally history-independent over the decision horizon.",
+      "root_cause_resolution_rationale": "Predictive-state sufficiency resolves temporal aliasing at the information-structure level while making identifiability and the possibility of a zero-dimensional memory state explicit.",
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-HISTORY-MARKOVIZATION",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-OBSERVABLE-MINIMALITY",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "acceptance_conditions": [
+        "The state is reproducibly estimable at online latency and predicts held-out future wrench or area beyond instantaneous variables across dwell, reversal, speed, and recovery shifts.",
+        "Each retained state dimension survives leave-one-state-out decision and outcome tests; a static uncertainty-aware representation remains an admissible winner."
+      ]
+    },
+    {
+      "mechanism_change_id": "RMC-CLOSED-LOOP-RELEVANCE-GATE",
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ],
+      "failed_relation_state_or_information_structure": "Representation choice is currently justified by prediction fidelity even when feedback sensitivity, robust margins, authority, and latency prevent the residual mismatch from changing constrained impedance actions or outcomes.",
+      "required_mechanism_change": "Gate representation complexity by closed-loop decision relevance: expose the boundary at which unabsorbed mismatch changes feasible action ranking, and default to the simplest equivalent representation on the absorbed side.",
+      "root_cause_resolution_rationale": "This turns closed-loop absorption from a nuisance into an explicit null principle and regime boundary, preventing prediction-only gains from being misclassified as control value.",
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "obligation_ids": [
+        "OBL-ABSORPTION-BOUNDARY",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-INDEPENDENT-ENDPOINTS",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "acceptance_conditions": [
+        "Prespecified bandwidth, latency, disturbance-observability, authority, speed, and constraint-distance strata exhibit either action/outcome equivalence or repeatable non-equivalence in the predicted direction.",
+        "Prediction improvement alone cannot retain complexity, and equivalent simple control is recorded as a positive informative result."
+      ]
+    }
+  ],
+  "required_capabilities": [
+    {
+      "capability_id": "CAP-SPATIAL-DECISION-SUFFICIENCY",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "required_capability": "Construct and test observable spatial statistics as conditional sufficient statistics for future wrench, constraint, and impedance-action consequences rather than as richer geometry for its own sake.",
+      "acceptance_conditions": [
+        "Residual predictive value and action value are both evaluated on held-out geometry or specimen shifts."
+      ]
+    },
+    {
+      "capability_id": "CAP-WRENCH-MARGIN-STATE",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "required_capability": "Estimate remaining direction-dependent tangential and moment capacity early enough to alter impedance before a limit event.",
+      "acceptance_conditions": [
+        "The state is calibrated against independent slip or capacity observations and is not merely a post-event alarm."
+      ]
+    },
+    {
+      "capability_id": "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "required_capability": "Compress loading history into a stable low-dimensional predictive state with explicit zero-state and over-parameterized alternatives.",
+      "acceptance_conditions": [
+        "State order is selected by held-out predictive and decision sufficiency plus observability, not by in-sample fit."
+      ]
+    },
+    {
+      "capability_id": "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "required_capability": "Quantify when mismatch survives feedback and robust margins strongly enough to change feasible impedance ranking and outcomes.",
+      "acceptance_conditions": [
+        "The boundary is tested across prespecified sensitivity, delay, authority, and constraint-distance strata."
+      ]
+    },
+    {
+      "capability_id": "CAP-MATCHED-MINIMALITY",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT",
+        "RMC-TANGENTIAL-LIMIT-COORDINATE",
+        "RMC-HISTORY-PREDICTIVE-STATE",
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "required_capability": "Compare nested representations under equal data, compute, latency, objective, controller authority, safety margin, and tuning budgets, retaining only components with incremental decision and outcome value.",
+      "acceptance_conditions": [
+        "Every retained component survives leave-one-component-out and matched equivalence tests."
+      ]
+    },
+    {
+      "capability_id": "CAP-ONLINE-OBSERVABILITY",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT",
+        "RMC-TANGENTIAL-LIMIT-COORDINATE",
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "required_capability": "Demonstrate calibration, reproducibility, estimator bandwidth, and latency for each nontrivial state used online.",
+      "acceptance_conditions": [
+        "A state that is informative only offline cannot support an online principle claim and is reported separately."
+      ]
+    },
+    {
+      "capability_id": "CAP-INDEPENDENT-OUTCOME-VALIDITY",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "required_capability": "Judge closed-loop value on prespecified safety and task endpoints that are not inputs to representation estimation.",
+      "acceptance_conditions": [
+        "At least one independent task-quality endpoint and separate wrench, slip, contact, and implementation outcomes are reported with equivalence margins."
+      ]
+    }
+  ],
+  "design_obligations": [
+    {
+      "obligation_id": "OBL-SPATIAL-ANTI-ALIAS",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "design_obligation": "Operationalize finite-area state through independently calibrated statistics and demonstrate conditional anti-aliasing before testing control benefit.",
+      "acceptance_conditions": [
+        "Matched scalar states with differing geometry must show a reproducible conditional consequence difference, or the spatial RMC is falsified in that regime."
+      ]
+    },
+    {
+      "obligation_id": "OBL-WRENCH-LIMIT-STATE",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "design_obligation": "Represent proximity to direction-dependent slip and moment capacity while randomizing or measuring friction and coupling-medium drift.",
+      "acceptance_conditions": [
+        "Incremental value persists after conditioning on normal variables and measured friction proxies."
+      ]
+    },
+    {
+      "obligation_id": "OBL-HISTORY-MARKOVIZATION",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "design_obligation": "Test whether a finite predictive state Markovizes action-relevant dynamics over the control horizon without relying on nonidentifiable constitutive parameters.",
+      "acceptance_conditions": [
+        "Conditional history dependence vanishes within declared uncertainty at the selected order and reappears under state removal, or the history state is rejected."
+      ]
+    },
+    {
+      "obligation_id": "OBL-ABSORPTION-BOUNDARY",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "design_obligation": "Map the sensitivity and constraint regime where representation error is absorbed versus decision-relevant, including estimator latency and fallback timing.",
+      "acceptance_conditions": [
+        "Simple and rich representations cross the prespecified action and outcome equivalence boundaries in the predicted strata, or the boundary hypothesis is revised."
+      ]
+    },
+    {
+      "obligation_id": "OBL-MATCHED-DECISION-VALUE",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT",
+        "RMC-TANGENTIAL-LIMIT-COORDINATE",
+        "RMC-HISTORY-PREDICTIVE-STATE",
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "design_obligation": "Separate prediction gain from action and outcome gain under matched resources and a common objective, safety envelope, and tuning protocol.",
+      "acceptance_conditions": [
+        "An added component is retained only when action change exceeds implementation resolution and a held-out primary endpoint exceeds its justified equivalence margin with no material loss elsewhere."
+      ]
+    },
+    {
+      "obligation_id": "OBL-OBSERVABLE-MINIMALITY",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT",
+        "RMC-TANGENTIAL-LIMIT-COORDINATE",
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "design_obligation": "Use nested additions, component removal, and state-order reduction to identify the smallest online-observable representation for each regime.",
+      "acceptance_conditions": [
+        "Removing any retained component destroys the decision-value result; adding any rejected component fails to exceed equivalence margins."
+      ]
+    },
+    {
+      "obligation_id": "OBL-INDEPENDENT-ENDPOINTS",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "design_obligation": "Prespecify independent scanning quality, wrench safety, slip/contact stability, and implementation endpoints with sensor-grounded equivalence margins.",
+      "acceptance_conditions": [
+        "No endpoint used to establish benefit is also used to estimate the representation, and unsuccessful trials are included."
+      ]
+    },
+    {
+      "obligation_id": "OBL-ATOMIC-DISCRIMINATION",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT",
+        "RMC-TANGENTIAL-LIMIT-COORDINATE",
+        "RMC-HISTORY-PREDICTIVE-STATE",
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "design_obligation": "Reduce competing principles to an atomic execution set whose tests each have explicit targets, terminal outcomes, and the smallest cost consistent with discriminating power.",
+      "acceptance_conditions": [
+        "Every fatal assumption and discriminating prediction is hit by at least one informative test, with redundant tests removed before human approval."
+      ]
+    }
+  ],
+  "principle_search_record": {
+    "first_principles": [
+      "Conditional decision sufficiency",
+      "Constraint-feasibility geometry",
+      "Closed-loop sensitivity/value of information"
+    ],
+    "representation_transformations": [
+      "observations to decision quotient",
+      "wrench to feasibility margin",
+      "history to predictive state",
+      "rich state to feedback-gated option"
+    ],
+    "same_field_mechanisms": [
+      "Finite-area/contact-wrench, viscoelastic-state and uncertainty-aware impedance mechanisms were compared; simple feedback absorption remained live."
+    ],
+    "cross_domain_structural_isomorphisms": [
+      {
+        "source_problem": "Partial observability",
+        "source_root_cause": "Observation aliases histories with different futures",
+        "source_intervention": "Core observable future-test predictions",
+        "changed_relation_state_or_information_structure": "Raw history becomes finite predictive state",
+        "source_mechanism_evidence_refs": [
+          "HUMAN-IJRR-2011-PSR"
+        ],
+        "solution_principle": "Retain the smallest observable state sufficient for controlled futures",
+        "target_source_structural_mapping": {
+          "history": "loading trajectory",
+          "test": "safe probe/action",
+          "observation": "future wrench/area/slip",
+          "value": "impedance action/outcome"
+        },
+        "causal_direction": "compression restores sufficiency, then action ranking",
+        "activation_transfer_conditions": [
+          "scalar-matched histories diverge and finite state is online-estimable"
+        ],
+        "disanalogies": [
+          "vision simulation is not deformable safety-critical contact"
+        ],
+        "transfer_boundaries": [
+          "unsafe excitation, unstable rank or decision equivalence"
+        ]
+      }
+    ],
+    "closure_rationale": "All four RMCs were searched across all four required dimensions to 79/80 queries. Four algorithm-independent competitors, including the simple null, survived to shared killer tests; inaccessible motion-cone abstract content was excluded."
+  },
+  "candidate_principles": [
+    {
+      "principle_id": "SP-DECISION-SUFFICIENT-QUOTIENT",
+      "principle_version": 1,
+      "parent_version": null,
+      "principle": "Use the coarsest observable equivalence classes preserving conditional action ranking and outcomes.",
+      "origin": "conditional sufficiency and anti-aliasing",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-SPATIAL-ANTI-ALIAS",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-OBSERVABLE-MINIMALITY",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY"
+      ],
+      "activation_conditions": [
+        "scalar-matched spatial states have different consequences"
+      ],
+      "intervention": "Partition observations by conditional decision equivalence.",
+      "changed_structure": "Scalar alias becomes a consequence-preserving quotient.",
+      "root_cause_resolution_rationale": "Preserves only RCA-relevant spatial distinctions.",
+      "failure_conditions": [
+        "no residual alias, online unobservability or outcome equivalence"
+      ],
+      "fatal_assumptions": [
+        {
+          "assumption_id": "A-DSQ",
+          "assumption": "A stable low-dimensional observable quotient exists across held-out shifts.",
+          "failure_consequence": "Retire or narrow the Principle."
+        }
+      ],
+      "target_domain_operationalization": {
+        "state": "calibrated spatial/resultant statistics",
+        "null": "scalar state"
+      },
+      "provisional_scientific_delta": "Minimal spatial state and scalar-sufficient boundary.",
+      "predictions": [
+        {
+          "prediction_id": "P-DSQ",
+          "assumption_ids": [
+            "A-DSQ"
+          ],
+          "predicted_observation": "The quotient removes scalar-matched residual differences; removing it changes action/outcome beyond margins.",
+          "activation_conditions": [
+            "held-out geometry creates aliases"
+          ],
+          "discriminates_from_principle_ids": [
+            "SP-WRENCH-FEASIBILITY-MARGIN",
+            "SP-PREDICTIVE-CONTACT-STATE",
+            "SP-FEEDBACK-GATED-SIMPLICITY"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "ZDySGaNsMn8J",
+        "Ubx3Xkv4y2kJ",
+        "QPuQ4sfxSTIJ",
+        "HUMAN-TRO-2017-CWC"
+      ],
+      "status": "ACTIVE",
+      "status_rationale": "Falsifiable spatial competitor; no full-field commitment.",
+      "substantive_difference": "Separates spatially aliased contact configurations by conditional action/outcome equivalence; unlike the wrench-margin Candidate it is not tied to proximity to wrench limits, unlike the predictive-state Candidate it does not require memory, and unlike feedback-gated simplicity it defines the retained state rather than when complexity is worth using."
+    },
+    {
+      "principle_id": "SP-WRENCH-FEASIBILITY-MARGIN",
+      "principle_version": 1,
+      "parent_version": null,
+      "principle": "Use the smallest observable coordinate of remaining direction-dependent wrench feasibility.",
+      "origin": "constraint geometry and envelope protection",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-WRENCH-LIMIT-STATE",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-OBSERVABLE-MINIMALITY",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ],
+      "activation_conditions": [
+        "normal state omits varying tangential/moment capacity"
+      ],
+      "intervention": "Map observations to calibrated feasible-set slack.",
+      "changed_structure": "Raw contact variables become a capacity-relative order coordinate.",
+      "root_cause_resolution_rationale": "Directly restores missing pre-limit authority.",
+      "failure_conditions": [
+        "unobservable/misspecified/post-event margin or failed mediation"
+      ],
+      "fatal_assumptions": [
+        {
+          "assumption_id": "A-WFM",
+          "assumption": "True feasibility slack mediates added information's action value.",
+          "failure_consequence": "Reject margin sufficiency."
+        }
+      ],
+      "target_domain_operationalization": {
+        "state": "direction-dependent slack",
+        "endpoint": "pre-event slip/contact"
+      },
+      "provisional_scientific_delta": "Minimal pre-limit coordinate and normal-only boundary.",
+      "predictions": [
+        {
+          "prediction_id": "P-WFM",
+          "assumption_ids": [
+            "A-WFM"
+          ],
+          "predicted_observation": "Divergence concentrates near small slack; conditioned on slack, raw detail adds no value.",
+          "activation_conditions": [
+            "demand approaches capacity"
+          ],
+          "discriminates_from_principle_ids": [
+            "SP-DECISION-SUFFICIENT-QUOTIENT",
+            "SP-PREDICTIVE-CONTACT-STATE",
+            "SP-FEEDBACK-GATED-SIMPLICITY"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "HUMAN-TRO-2017-CWC",
+        "ZDySGaNsMn8J",
+        "Ubx3Xkv4y2kJ"
+      ],
+      "status": "ACTIVE",
+      "status_rationale": "Stricter physics-relative competitor; killable by failed mediation.",
+      "substantive_difference": "Orders states by remaining direction-dependent wrench slack; unlike the decision-sufficient quotient it commits to a capacity-relative causal coordinate, unlike predictive contact state it is instantaneous rather than historical, and unlike feedback-gated simplicity it targets pre-limit feasibility rather than the global complexity gate."
+    },
+    {
+      "principle_id": "SP-PREDICTIVE-CONTACT-STATE",
+      "principle_version": 1,
+      "parent_version": null,
+      "principle": "Use the lowest-order observable controlled-future predictions that render history conditionally irrelevant.",
+      "origin": "predictive-state transfer",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-HISTORY-MARKOVIZATION",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-OBSERVABLE-MINIMALITY",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ],
+      "activation_conditions": [
+        "matched snapshots differ after dwell/reversal/speed/recovery"
+      ],
+      "intervention": "Compress safe action-observation history into finite future predictions.",
+      "changed_structure": "Raw history becomes finite observable predictive state.",
+      "root_cause_resolution_rationale": "Restores temporal sufficiency without constitutive identification.",
+      "failure_conditions": [
+        "unstable/unobservable order, zero-memory equivalence or no decision value"
+      ],
+      "fatal_assumptions": [
+        {
+          "assumption_id": "A-PCS",
+          "assumption": "Finite stable predictive state exists at safe excitation and online latency.",
+          "failure_consequence": "Reject/narrow; do not substitute detailed latent state."
+        }
+      ],
+      "target_domain_operationalization": {
+        "shifts": [
+          "dwell",
+          "reversal",
+          "speed",
+          "recovery"
+        ],
+        "order": "smallest held-out sufficient, including zero"
+      },
+      "provisional_scientific_delta": "Falsifiable predictive-state order boundary.",
+      "predictions": [
+        {
+          "prediction_id": "P-PCS",
+          "assumption_ids": [
+            "A-PCS"
+          ],
+          "predicted_observation": "History dependence vanishes only after finite-state conditioning and returns on removal.",
+          "activation_conditions": [
+            "history changes the control-horizon future"
+          ],
+          "discriminates_from_principle_ids": [
+            "SP-DECISION-SUFFICIENT-QUOTIENT",
+            "SP-WRENCH-FEASIBILITY-MARGIN",
+            "SP-FEEDBACK-GATED-SIMPLICITY"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "HUMAN-IJRR-2011-PSR",
+        "_8NXx8-VkcgJ",
+        "USER-TUFFC-2011-1961"
+      ],
+      "status": "ACTIVE",
+      "status_rationale": "Predicts irreducible finite memory; exposed to zero-order killer.",
+      "substantive_difference": "Represents irreducible history through controlled-future predictions; unlike the spatial quotient or wrench margin it requires finite temporal state, and unlike feedback-gated simplicity it specifies how to encode memory rather than when any enriched state has closed-loop value."
+    },
+    {
+      "principle_id": "SP-FEEDBACK-GATED-SIMPLICITY",
+      "principle_version": 1,
+      "parent_version": null,
+      "principle": "Default to the simplest state; enrich only where unabsorbed mismatch changes actions and independent outcomes.",
+      "origin": "closed-loop sensitivity and value of information",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "obligation_ids": [
+        "OBL-ABSORPTION-BOUNDARY",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-INDEPENDENT-ENDPOINTS",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ],
+      "activation_conditions": [
+        "bandwidth, delay, authority and constraint distance are stratifiable"
+      ],
+      "intervention": "Gate complexity on prospective closed-loop decision value.",
+      "changed_structure": "Rich state becomes a regime-conditioned option with simple fallback.",
+      "root_cause_resolution_rationale": "Makes feedback absorption a positive null result.",
+      "failure_conditions": [
+        "no reproducible crossover or broadly useful rich state unrelated to sensitivity"
+      ],
+      "fatal_assumptions": [
+        {
+          "assumption_id": "A-FGS",
+          "assumption": "A measurable boundary separates absorbed from decision-relevant mismatch.",
+          "failure_consequence": "Reject gating; report a global winner or heterogeneity."
+        }
+      ],
+      "target_domain_operationalization": {
+        "strata": [
+          "bandwidth",
+          "delay",
+          "authority",
+          "constraint distance"
+        ],
+        "default": "simple"
+      },
+      "provisional_scientific_delta": "Closed-loop relevance map allowing a richer-is-unnecessary conclusion.",
+      "predictions": [
+        {
+          "prediction_id": "P-FGS",
+          "assumption_ids": [
+            "A-FGS"
+          ],
+          "predicted_observation": "Rich states are equivalent at high authority/large margin, but non-equivalent near sensitivity/constraint boundaries.",
+          "activation_conditions": [
+            "matched resources and prespecified strata"
+          ],
+          "discriminates_from_principle_ids": [
+            "SP-DECISION-SUFFICIENT-QUOTIENT",
+            "SP-WRENCH-FEASIBILITY-MARGIN",
+            "SP-PREDICTIVE-CONTACT-STATE"
+          ]
+        }
+      ],
+      "evidence_refs": [
+        "USER-TASE-2023-3282974",
+        "9vRJMR2dgG4J"
+      ],
+      "status": "ACTIVE",
+      "status_rationale": "Required simple/null competitor; prediction gain cannot defeat it.",
+      "substantive_difference": "Acts as the simple/null meta-principle that permits any richer Candidate only where mismatch survives feedback and changes independent outcomes; unlike the other three it can conclude that no enriched representation is needed in an absorbed regime."
+    }
+  ],
+  "relevant_history_refs": [
+    "idea-stage/METHOD_PRINCIPLES.jsonl",
+    "idea-stage/METHOD_TEST_EVIDENCE.jsonl"
+  ],
+  "return_feedback_refs": []
+}

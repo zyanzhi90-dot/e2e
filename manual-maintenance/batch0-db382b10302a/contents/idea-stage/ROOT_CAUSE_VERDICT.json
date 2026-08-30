@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
+  "reviewer": "gpt-5",
+  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
+  "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+  "reviewed_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+  "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+  "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+  "decision": "DIAGNOSIS_READY",
+  "reasons": [
+    "The observations faithfully preserve the contract's supported physical phenomena, bounded simple-control adequacy, operating conditions, and unresolved decision-value question.",
+    "The grouping separates spatial and temporal state aliasing, hidden wrench constraints, and closed-loop absorption while explicitly representing their overlap.",
+    "The causal traces and four primary chains connect operating changes through representation failures and intermediate prediction or constraint errors to impedance decisions and held-out outcomes.",
+    "Competing sensor, resource, friction, disturbance, proxy, endpoint, uncertainty-envelope, and latency explanations are paired with discriminating evidence.",
+    "Supported physical and comparator claims are distinguished from preliminary action-value and regime-boundary claims, consistent with the evidence capsule's stated limits.",
+    "Intervention targets address minimal observable representations and the closed-loop sensitivity boundary required by the research contract.",
+    "Each primary chain has a testable falsifier based on matched resources, observability, action equivalence, and prespecified held-out outcome margins."
+  ],
+  "issues": [],
+  "observation_fidelity": "PASS",
+  "grouping_adequacy": "PASS",
+  "causal_depth": "PASS",
+  "explanatory_coverage": "PASS",
+  "evidence_calibration": "PASS",
+  "intervention_relevance": "PASS",
+  "falsifiability": "PASS",
+  "reviewed_artifact_hashes": {
+    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "schema_version": 2,
+  "reuse_baseline": {
+    "candidate_count": 171,
+    "accepted_evidence_card_count": 82,
+    "policy": "Reuse the accepted landscape and the three user-supplied anchor papers; retrieve only dominant or contradictory solutions that can satisfy the diagnosis-derived method obligations under the accepted problem version."
+  },
+  "search_strategy": {
+    "priority_order": [
+      "RECENT_AUTHORITATIVE_REVIEWS",
+      "HIGH_CITATION_BACKBONE",
+      "RECENT_ELITE_FRONTIER",
+      "TARGETED_GAP_FOLLOWUP"
+    ],
+    "discovery_sources": [
+      "Google Scholar",
+      "Crossref",
+      "OpenAlex",
+      "arXiv"
+    ],
+    "time_range": {
+      "year_from": 2000,
+      "year_to": 2026
+    },
+    "screening_requirement": "TITLE_ABSTRACT_FOR_ALL_RETRIEVED_CANDIDATES",
+    "saturation_criteria": [
+      "Every MUST design obligation has at least one same-field or cross-field dominant-solution candidate, or an explicit no-dominant-solution finding.",
+      "The closest integrated contact-aware impedance or admittance route and the strongest simpler model-agnostic comparator are both represented.",
+      "No retrieved source changes the need for nested component removal, matched resources, action-equivalence testing, and held-out closed-loop endpoints.",
+      "A targeted second query adds no new mechanism that materially changes the spatial, tangential, history, or closed-loop-absorption route design."
+    ]
+  },
+  "coverage_gaps": [],
+  "method_design_context": {
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "root_cause_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "DOMINANT_SOLUTION_SEARCH",
+    "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 1,
+    "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+    "causal_chain_ids": [
+      "CHAIN-SPATIAL-SUFFICIENCY",
+      "CHAIN-TANGENTIAL-SUFFICIENCY",
+      "CHAIN-HISTORY-SUFFICIENCY",
+      "CHAIN-CLOSED-LOOP-ABSORPTION"
+    ],
+    "design_obligations": [
+      {
+        "obligation_id": "OBL-NESTED-DECISION-VALUE",
+        "derived_from_causal_chain_ids": [
+          "CHAIN-SPATIAL-SUFFICIENCY",
+          "CHAIN-TANGENTIAL-SUFFICIENCY",
+          "CHAIN-HISTORY-SUFFICIENCY",
+          "CHAIN-CLOSED-LOOP-ABSORPTION"
+        ],
+        "required_capability": "Compare nested contact representations under matched data, compute, objective, safety, latency, and tuning budgets, separating prediction gain from impedance-action and held-out outcome gain.",
+        "why_current_methods_fail": "The supplied integrated rich model and its three anchor papers each demonstrate a mechanism or controller, but none identifies component-wise decision value or a minimal sufficient representation.",
+        "measurable_acceptance_condition": "For every retained component, leave-one-component-out removal changes rendered stiffness or damping beyond implementation resolution and changes at least one prespecified held-out endpoint beyond a sensor-grounded equivalence margin without material loss on the others.",
+        "priority": "MUST"
+      },
+      {
+        "obligation_id": "OBL-SPATIAL-OBSERVABILITY",
+        "derived_from_causal_chain_ids": [
+          "CHAIN-SPATIAL-SUFFICIENCY"
+        ],
+        "required_capability": "Represent only independently observable contact-area and local-geometry statistics, with a mechanically consistent finite-area forward model and calibrated online latency.",
+        "why_current_methods_fail": "The supplied model infers patch extent from indentation and effective radius, while also mixing a distributed HC pressure law with a separately normalized split-Hertz pressure law; this does not isolate measured spatial information value.",
+        "measurable_acceptance_condition": "Spatial statistics remain reproducible on held-out specimens or regions, predict residual future wrench or constraint outcomes after conditioning on simple variables, and improve action and outcome criteria when retained.",
+        "priority": "MUST"
+      },
+      {
+        "obligation_id": "OBL-TANGENTIAL-MARGIN",
+        "derived_from_causal_chain_ids": [
+          "CHAIN-TANGENTIAL-SUFFICIENCY"
+        ],
+        "required_capability": "Estimate an action-relevant slip or wrench-capacity margin from the minimum tangential force and moment statistics, while controlling friction and coupling-medium drift.",
+        "why_current_methods_fail": "The supplied model mainly predicts tangential force from Coulomb friction and asymmetric normal pressure and treats one bending moment as optional, without proving that measured tangential wrench changes impedance before failure.",
+        "measurable_acceptance_condition": "The retained tangential statistic changes impedance before slip, contact loss, or moment-limit events and reduces those events on held-out directional or friction shifts without degrading task quality.",
+        "priority": "MUST"
+      },
+      {
+        "obligation_id": "OBL-HISTORY-STATE",
+        "derived_from_causal_chain_ids": [
+          "CHAIN-HISTORY-SUFFICIENCY"
+        ],
+        "required_capability": "Use the lowest-dimensional observable history statistic that resolves temporal aliasing across dwell, reversal, speed change, repeated loading, and recovery.",
+        "why_current_methods_fail": "Hunt-Crossley penetration and rate are memoryless once the instantaneous state is fixed; the supplied model therefore does not represent relaxation, creep, recovery, or hysteretic state despite the accepted history root cause.",
+        "measurable_acceptance_condition": "A low-order state predicts held-out future wrench or area beyond instantaneous variables, remains identifiable and stable online, and earns inclusion only when its removal breaks action or outcome equivalence.",
+        "priority": "MUST"
+      },
+      {
+        "obligation_id": "OBL-SAFE-ABSORPTION-BOUNDARY",
+        "derived_from_causal_chain_ids": [
+          "CHAIN-CLOSED-LOOP-ABSORPTION"
+        ],
+        "required_capability": "Locate the boundary where feedback bandwidth, estimator delay, controller authority, constraint distance, and uncertainty margins absorb representation error or allow it to change a safe impedance decision.",
+        "why_current_methods_fail": "A per-update energy-tank inequality for virtual stiffness does not by itself certify the full sampled-data robot-contact loop, and a learned critic can exploit model error unless feasibility and fallback are calibrated under shift.",
+        "measurable_acceptance_condition": "Across prespecified bandwidth, delay, speed, and constraint-margin strata, the method either demonstrates action and outcome equivalence of the simple comparator or a repeatable richer-state benefit while satisfying measured safety envelopes and fallback timing.",
+        "priority": "MUST"
+      },
+      {
+        "obligation_id": "OBL-INDEPENDENT-ENDPOINT",
+        "derived_from_causal_chain_ids": [
+          "CHAIN-SPATIAL-SUFFICIENCY",
+          "CHAIN-TANGENTIAL-SUFFICIENCY",
+          "CHAIN-HISTORY-SUFFICIENCY",
+          "CHAIN-CLOSED-LOOP-ABSORPTION"
+        ],
+        "required_capability": "Evaluate transient wrench and constraint safety together with an independent scanning-quality endpoint that is not used to estimate the contact representation.",
+        "why_current_methods_fail": "The supplied control cost contains force, motion, and tangential penalties but no leakage-resistant independent ultrasound-quality endpoint, so improved internal cost cannot establish task benefit.",
+        "measurable_acceptance_condition": "Held-out trials report confidence intervals for force or wrench safety, contact stability, trajectory or speed, and prespecified image or reconstruction quality, with no endpoint used as a representation input.",
+        "priority": "SHOULD"
+      }
+    ]
+  },
+  "queries": [
+    {
+      "plan_item_id": "dominant-integrated-softscan",
+      "query": "continuous robotic ultrasound sliding soft contact optimal impedance contact area geometry tangential force moment history",
+      "purpose": "Find the closest integrated same-field route that jointly represents finite-area contact, wrench, history, and impedance decisions during continuous scanning.",
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2018,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a decision-grade integrated route or establish that no retrieved system jointly covers all four causal chains and the independent held-out decision-value test.",
+      "design_obligation_ids": [
+        "OBL-NESTED-DECISION-VALUE",
+        "OBL-SPATIAL-OBSERVABILITY",
+        "OBL-TANGENTIAL-MARGIN",
+        "OBL-HISTORY-STATE",
+        "OBL-SAFE-ABSORPTION-BOUNDARY",
+        "OBL-INDEPENDENT-ENDPOINT"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY",
+        "CHAIN-TANGENTIAL-SUFFICIENCY",
+        "CHAIN-HISTORY-SUFFICIENCY",
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ]
+    },
+    {
+      "plan_item_id": "dominant-finite-area-consistency",
+      "query": "finite area viscoelastic sliding contact pressure distribution robotic control Hunt Crossley friction moment",
+      "purpose": "Test whether an existing mechanically consistent finite-area viscoelastic sliding model subsumes the supplied HC-plus-split-Hertz construction and exposes a smaller observable spatial or tangential state.",
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Obtain a mechanically explicit candidate or counterexample that fixes the pressure-field, area, tangential-force, and moment consistency requirements without unnecessary state.",
+      "design_obligation_ids": [
+        "OBL-SPATIAL-OBSERVABILITY",
+        "OBL-TANGENTIAL-MARGIN"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY",
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ]
+    },
+    {
+      "plan_item_id": "dominant-history-state",
+      "query": "robot soft tissue contact online low order viscoelastic state force control relaxation creep hysteresis impedance",
+      "purpose": "Find the simplest identifiable history-state route and the strongest evidence that a memoryless or uncertainty-aware comparator remains sufficient.",
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a low-order observable state with a control-relevant validation protocol, or establish a defensible memoryless-equivalence comparator for the declared timescale regime.",
+      "design_obligation_ids": [
+        "OBL-HISTORY-STATE"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ]
+    },
+    {
+      "plan_item_id": "dominant-safe-variable-impedance",
+      "query": "safe variable impedance admittance control energy tank passivity model predictive learning contact model uncertainty delay",
+      "purpose": "Find the strongest safety-certified selector or shield for time-varying impedance under model error, sampled-data delay, and contact constraints.",
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Select a dominant safety mechanism with explicit assumptions and fallback behavior, and delimit what an energy tank alone can and cannot certify.",
+      "design_obligation_ids": [
+        "OBL-SAFE-ABSORPTION-BOUNDARY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ]
+    },
+    {
+      "plan_item_id": "dominant-minimal-representation",
+      "query": "minimal sufficient state representation value of information control action equivalence component ablation model predictive control",
+      "purpose": "Find a reusable cross-field design for testing whether added state changes decisions rather than only predictions, including nested removal and equivalence testing.",
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a defensible decision-focused sufficiency or value-of-information design that can be instantiated with matched impedance controllers and held-out contact regimes.",
+      "design_obligation_ids": [
+        "OBL-NESTED-DECISION-VALUE"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY",
+        "CHAIN-TANGENTIAL-SUFFICIENCY",
+        "CHAIN-HISTORY-SUFFICIENCY",
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ]
+    },
+    {
+      "plan_item_id": "dominant-independent-ultrasound-endpoint",
+      "query": "robotic ultrasound scanning contact force image quality metric reconstruction quality independent endpoint phantom",
+      "purpose": "Find leakage-resistant task-quality endpoints and practical equivalence scales independent of contact-state estimation.",
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 2010,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Choose at least one prespecifiable image or reconstruction endpoint with a held-out evaluation protocol and no use as a controller or representation input.",
+      "design_obligation_ids": [
+        "OBL-INDEPENDENT-ENDPOINT"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY",
+        "CHAIN-TANGENTIAL-SUFFICIENCY",
+        "CHAIN-HISTORY-SUFFICIENCY",
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ]
+    }
+  ]
+}
