@@ -1,0 +1,1103 @@
+This article was downloaded by: [NUS National University of Singapore]
+On: 10 August 2014, At: 20:41
+Publisher: Taylor & Francis
+Informa Ltd Registered in England and Wales Registered Number: 1072954 Registered office: Mortimer House,
+37-41 Mortimer Street, London W1T 3JH, UK
+International Journal of Control
+Publication details, including instructions for authors and subscription information:
+http://www.tandfonline.com/loi/tcon20
+Impedance adaptation for optimal robot–environment
+interaction
+Shuzhi Sam Geac, Yanan Liab & Chen Wanga
+a Social Robotics Laboratory, Interactive Digital Media Institute, and Department of
+Electrical and Computer Engineering, National University of Singapore, Singapore 119077,
+Singapore
+b NUS Graduate School for Integrative Sciences and Engineering, National University of
+Singapore, Singapore 119613, Singapore
+c Robotics Institute, and School of Computer Science and Engineering, University of
+Electronic Science and Technology of China, Chengdu 610054, China
+Accepted author version posted online: 01 Aug 2013.Published online: 13 Sep 2013.
+To cite this article: Shuzhi Sam Ge, Yanan Li & Chen Wang (2014) Impedance adaptation for optimal robot–environment
+interaction, International Journal of Control, 87:2, 249-263, DOI: 10.1080/00207179.2013.827799
+To link to this article:  http://dx.doi.org/10.1080/00207179.2013.827799
+PLEASE SCROLL DOWN FOR ARTICLE
+Taylor & Francis makes every effort to ensure the accuracy of all the information (the “Content”) contained
+in the publications on our platform. However, Taylor & Francis, our agents, and our licensors make no
+representations or warranties whatsoever as to the accuracy, completeness, or suitability for any purpose of the
+Content. Any opinions and views expressed in this publication are the opinions and views of the authors, and
+are not the views of or endorsed by Taylor & Francis. The accuracy of the Content should not be relied upon and
+should be independently verified with primary sources of information. Taylor and Francis shall not be liable for
+any losses, actions, claims, proceedings, demands, costs, expenses, damages, and other liabilities whatsoever
+or howsoever caused arising directly or indirectly in connection with, in relation to or arising out of the use of
+the Content.
+This article may be used for research, teaching, and private study purposes. Any substantial or systematic
+reproduction, redistribution, reselling, loan, sub-licensing, systematic supply, or distribution in any
+form to anyone is expressly forbidden. Terms & Conditions of access and use can be found at http://
+www.tandfonline.com/page/terms-and-conditions
+
+International Journal of Control, 2014
+V ol. 87, No. 2, 249–263, http://dx.doi.org/10.1080/00207179.2013.827799
+Impedance adaptation for optimal robot–environment interaction
+Shuzhi Sam Gea,c,∗, Y anan Lia,b and Chen Wanga
+aSocial Robotics Laboratory, Interactive Digital Media Institute, and Department of Electrical and Computer Engineering, National
+University of Singapore, Singapore 119077, Singapore; bNUS Graduate School for Integrative Sciences and Engineering, National
+University of Singapore, Singapore 119613, Singapore; cRobotics Institute, and School of Computer Science and Engineering,
+University of Electronic Science and Technology of China, Chengdu 610054, China
+(Received 7 January 2013; accepted 17 July 2013 )
+In this paper, impedance adaptation is investigated for robots interacting with unknown environments. Impedance control
+is employed for the physical interaction between robots and environments, subject to unknown and uncertain environments
+dynamics. The unknown environments are described as linear systems with unknown dynamics, based on which the desired
+impedance model is obtained. A cost function that measures the tracking error and interaction force is deﬁned, and the
+critical impedance parameters are found to minimise it. Without requiring the information of the environments dynamics, the
+proposed impedance adaptation is feasible in a large number of applications where robots physically interact with unknown
+environments. The validity of the proposed method is veriﬁed through simulation studies.
+Keywords: robot–environment interaction; impedance adaptation; optimal control
+1. Introduction
+In social applications such as elderly care, health care and
+human–robot collaboration, environments are typically un-
+known to robots and there exist uncertainties due to many
+factors. Therefore, control of interaction between robots
+and environments is essential and there has been much
+effort made on this topic. In the literature of interaction
+control, two approaches are widely studied, i.e., hybrid po-
+sition/force control (Craig & Raibert, 1979; Huang, Ge,
+& Lee, 2006; Li, Ge, & Ming, 2007) and impedance con-
+trol (Hogan, 1985). Compared to hybrid position/force con-
+trol, impedance control is more feasible in the sense that
+it does not require the decomposition of two directions.
+Besides, impedance control is preferred for its better ro-
+bustness (Colgate & Hogan, 1988).
+Under impedance control, robots are governed to be
+compliant to the interaction force exerted by environments
+and thus the safety of both robots and environments can
+be guaranteed. Speciﬁcally, imposing a passive impedance
+model to robots will guarantee the interaction stability if
+environments are also passive (Colgate & Hogan, 1988).
+In the early research works of impedance control, a desired
+passive impedance model is usually prescribed and then
+the effort is focused on handling the uncertainties in
+robots dynamics. These works include adaptive impedance
+control such as Colbaugh, Seraji, and Glass (1991) and
+Lu and Meng (1991) and learning impedance control such
+as Cheah and Wang (1998), Wang and Cheah (1998) and
+∗Corresponding author. Email: samge@nus.edu.sg
+Li, Ge, and Y ang (2012). However, in many situations, to
+impose a passive impedance model to the robot is too con-
+servative, and the environments dynamics can be taken into
+consideration to obtain desired impedance model (Buerger
+& Hogan, 2007). Besides, a ﬁxed prescribed impedance
+model does not sufﬁce in many applications. For example,
+variable impedance control is necessary in human–robot
+collaboration (Tsumugiwa, Y okogawa, & Hara,2001, 2002)
+and explosive movement (Braun et al., 2012a; Braun,
+Howard, & Vijayakumar, 2012b). Although the methods
+discussed in Tsumugiwa et al. (2001, 2002) provide a better
+control performance in the sense of more efﬁcient human–
+robot collaboration, the resulted impedance parameters
+(mass, damping and stiffness) are obtained in a heuristical
+way and cannot be easily extended to other applications. To
+cope with this problem, iterative learning has been studied
+to obtain impedance parameters subject to unknown
+environments in an analytic way. It has been generally
+acknowledged that such an ability to improve performance
+by repeating a task is an important control strategy of the
+human being (De Roover, Bosgra, & Steinbuch, 2000;
+Xu, Viswanathan, & Qu, 2000). Pioneered by Arimoto,
+Kawamura, and Miyazaki ( 1984a, 1984b), iterative
+learning control has been widely investigated for robot
+control. In Cohen and Flash (1991), associative search
+network is adopted for the impedance learning and the
+resulted impedance control is applied to a wall-following
+task. In Y ang and Asada (1996), an internal model-based
+C⃝ 2013 Taylor & Francis
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+250 S.S. Ge et al.
+impedance learning method is developed and used in a
+high-speed insertion application. In Tsuji and Morasso
+(1996), neural networks are employed to update both
+the impedance parameters and rest position iteratively.
+Compared to iterative impedance learning discussed above,
+impedance adaptation is more interesting yet it is more
+challenging. It is interesting because it does not require the
+robot to repeat operations to learn the desired impedance
+parameters. This is important because to make the robot
+repeat operations may cause inconvenience in many
+situations. It is challenging because to develop an adaptive
+scheme usually requires that a certain variable is invariant
+but this is difﬁcult to satisfy in the case of dynamically
+changing environment. There has been research effort on
+impedance adaptation in the literature, although it is less
+compared to that on impedance learning. In Uemura and
+Kawamura (2009), stiffness is updated to minimise the
+actuator torque by taking resonance into consideration. In
+Stanisic and Fernandez (2012), the switching strategies of
+impedance parameters are discussed in order to dissipate
+the system energy and realise a ‘soft’ interaction.
+In the development of impedance learning and adapta-
+tion, optimisation plays an important role because the con-
+trol objective of impedance control includes both the force
+regulation and trajectory tracking and usually it is the com-
+promise of these two objectives. In the case of impedance
+adaptation, a cost function or a reward function is deﬁned
+to describe the interaction performance, and impedance pa-
+rameters are expected to be adjusted to minimise the cost
+function or maximise the reward function. In Johansson
+and Spong (1994), the well-known linear quadratic regula-
+tor (LQR) is utilised to determine the desired impedance
+parameters with the environment dynamics known ap r i o r i.
+In Matinfar and Hashtrudi-Zaad (2005), impedance param-
+eters are adjusted as the online solutions of the deﬁned
+LQR problem, instead of ﬁxing the impedance parameters
+obtained based on LQR as in Johansson and Spong (1994).
+However, the environment dynamics are also assumed to
+be known in Matinfar and Hashtrudi-Zaad (2005). Recall-
+ing LQR in Kirk (1970), it is difﬁcult to ﬁnd the solution
+of the Riccati equation if the linear system under study is
+unknown. Therefore, when the system dynamics are un-
+known, the methods proposed in Johansson and Spong
+(1994) and Matinfar and Hashtrudi-Zaad (2005) are not
+applicable. To solve the optimal control problems in the
+case of unknown system dynamics, adaptive dynamic pro-
+gramming (ADP) or reinforcement learning (RL) has been
+widely studied in the literature (Bertsekas, 1995;L e w i s&
+Vrabie, 2009; Wang, Zhang, & Liu, 2009; W erbos,1990a,
+1990b, 1992, 2009). ADP is constructed based on the idea
+of how biological system interacts with the surrounding
+environment. In the scheme of ADP , the control system is
+deﬁned as an actor or agent, modifying its action based on
+the feedback information of the environment. The actor or
+agent is rewarded or punished for a control action which is
+evaluated by a critic (Lewis & Vrabie, 2009; Wang et al.,
+2009). Among all ADP approaches, most recognised dis-
+crete ADP algorithms are the heuristic dynamic program-
+ming (HDP), action-dependent heuristic dynamic program-
+ming (ADHDP) or Q-learning (Watkins, 1989), globalised
+DHP (GDHP) and dual-heuristic programming (DHP). The
+common feature of these ADP algorithms is that the de-
+sign of optimal controller only requires partial information
+of the system model to be controlled. There are existing
+works where ADP is adopted for the impedance adaptation
+of robot arm control. In Kim, Park, Park, and Kang (2010),
+natural actor-critic algorithm is adopted and the damping
+and stiffness matrices are updated according to deﬁned re-
+ward functions. In Buchli, Stulp, Theodorou, and Schaal
+(2011), the policy improvement with path integrals (
+PI2)
+algorithm is integrated with the RL algorithm to achieve
+variable impedance control. However, as in Arimoto et al.
+(1984a, 1984b), Cohen and Flash (1991), Y ang and Asada
+(1996) and Tsuji and Morasso (1996), a learning process is
+still required in Kim et al.(2010) and Buchli et al.(2011) for
+the robot to repeat operations to learn the desired impedance
+parameters. To solve this problem, this paper aims to de-
+velop impedance adaptation in the case of unknown envi-
+ronments dynamics. The method to be developed is based
+on the latest result of ADP in Jiang and Jiang (2012), where
+the solution of adaptive optimal control is obtained subject
+to unknown system dynamics. T wo general models of en-
+vironments are considered, one of which includes damping
+and stiffness, and the other one includes mass, damping and
+stiffness. These two models are described as linear systems
+with unknown dynamics. While ADP in Jiang and Jiang
+(2012) is only for the state regulation, it is further modiﬁed
+to handle the trajectory tracking. The developed impedance
+adaptation will result in the desired impedance parameters
+that are able to guarantee the optimal interaction, subject to
+unknown environments.
+Based on the above discussion, we highlight the contri-
+butions of this paper as follows:
+(i) Environment dynamics are taken into considera-
+tion in the analysis of optimal robot–environment
+interaction, and they are described as linear systems
+with unknown dynamics.
+(ii) ADP for systems with unknown dynamics is mod-
+iﬁed such that trajectory tracking is achievable and
+the desired impedance model can be obtained.
+(iii) Impedance parameters of robots are obtained sub-
+ject to unknown environments, which guarantee the
+optimal robot–environment interaction in the sense
+of trajectory tracking and force regulation.
+The rest of the paper is organised as follows. In
+Section 2, the dynamics of the robot and environment are
+described, and impedance control and the objective of this
+paper are discussed. In Section 3, impedance adaptation
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 251
+is developed for two general kinds of environments, such
+that the optimal interaction is achieved subject to unknown
+environments. In Section 4, the validity of the proposed
+method is veriﬁed through simulation studies. Section 5
+concludes this paper.
+2. Problem formulation
+2.1 System description
+The system under study includes a rigid robot arm and an
+environment, where the end-effector of the robot arm physi-
+cally interacts with the environment. There is a force sensor
+at the end-effector of the robot arm which measures the in-
+teraction force between the robot arm and the environment,
+as shown in Figure 1.
+Consider the robot kinematics as below
+x(t) = φ(q), (1)
+where x(t) ∈ R
+n and q ∈ Rn are positions/oritations in the
+Cartesian space and joint coordinates in the joint space,
+respectively. Differentiating Equation (1) with respect to
+time results in
+˙x(t) = J (q) ˙q, (2)
+where J (q) ∈ Rn×n is the Jacobian matrix.
+The robot dynamics in the joint space are given by
+M(q) ¨q + C(q, ˙q) ˙q + G(q) = τ+ JT (q)f, (3)
+where M(q) ∈ Rn×n is the inertia matrix; C(q, ˙q) ˙q ∈ Rn
+denotes the Coriolis and Centrifugal force; G(q) ∈ Rn is
+the gravitational force; τ∈ Rn is the vector of the con-
+Figure 1. System under study: (a) mass–damping–stiffness
+environment, and (b) damping–stiffness environment.
+trol input; and f (t) ∈ Rn denotes the force exerted by the
+environment.
+The other part of the system under study is the environ-
+ment. Without loss of generality, two kinds of environments
+are considered in this paper, of which the dynamics are re-
+spectively described by the following models:
+M
+E ¨x + CE ˙x + GEx =− f (4)
+CE ˙x + GEx =− f, (5)
+where ME, CE and GE are unknown mass, damping and
+stiffness matrices of the environment models, respectively.
+Compared to the second model (5), there is a mass matrix in
+the ﬁrst model (4). It will be shown that different impedance
+models of the robot arm are required for different environ-
+ments (4) and (5) to achieve the optimal interaction.
+Remark 1: The above two kinds of environments represent
+a large range of environments. For examples, model (4) may
+describe the dynamics of human limb in physical human–
+robot interaction (Rahman, Ikeura, & Mizutani, 2002), and
+model (5) may represent the viscoelastic object in robotic
+manipulation.
+Remark 2: M
+E, CE and GE are assumed to be unknown
+constant matrices in this paper. While it is valid in many
+applications, these matrices can be time-varying in some
+other applications. The latter assumption makes the prob-
+lem studied in this paper more complicated and it will be
+further investigated in the future work.
+2.2 Impedance control
+As discussed in the introduction, impedance control is em-
+ployed for robots interacting with environments. To imple-
+ment impedance control, a two-loop control framework is
+usually adopted, as shown in Figure 2.
+In this framework, the outer-loop is dedicated to gener-
+ate the virtual desired trajectory in the joint space, i.e., q
+d.
+In particular, the desired impedance model in the Cartesian
+space is given by
+f = Z(xd,x 0), (6)
+where xd is the desired trajectory,x0 is the virtual desired tra-
+jectory in the Cartesian space and Z(·) is a target impedance
+Figure 2. Impedance control diagram.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+252 S.S. Ge et al.
+function to be determined. Then, the virtual desired tra-
+jectory in the joint space qd =
+∫t
+0 J− 1(q(v)) ˙x0(v)dv is ob-
+tained according to the interaction forcef and the impedance
+model (6).
+Remark 3: Model (6) is a general impedance model which
+deﬁnes the impedance relationship between interaction
+force and position. In practical implementations, a typi-
+cal impedance model is usually given by M
+d ¨x0 + Cd ˙x0 +
+Gd (x0 − xd ) =− f , where Md, Cd and Gd are desired iner-
+tial, damping and stiffness matrices, respectively. A more
+simpliﬁed model, e.g., stiffness model G
+d(x0 − xd) =− f,
+may be adopted in a speciﬁc situation.
+The inner-loop is to guarantee the trajectory tracking,
+i.e., limt →∞ q(t) = qd(t). Trajectory tracking of a robot arm
+has been extensively studied in the literature (Ge, Lee, &
+Harris, 1998), and will not be discussed in this paper. For
+the analysis simplicity, it is assumed that there is an ideal
+inner-loop position controller such that q(t) = q
+d(t) and
+thus x(t) = x0(t). In this way, the desired impedance model
+becomes
+f = Z(xd,x ). (7)
+In Equation (7), the impedance function Z(·) is determined
+such that a certain interaction requirement is satisﬁed. This
+is non-trivial considering that the environment dynamics
+(4) and (5) are unknown. As discussed in the introduc-
+tion, iterative learning has been studied to cope with this
+problem, which however requires repetitive motions. In this
+paper, we aim to achieve the same objective while avoid-
+ing the learning process. This is the motivation to develop
+impedance adaptation in the rest of this paper.
+2.3 Preliminary: adaptive optimal control
+The adaptive optimal control proposed in Jiang and Jiang
+(2012) is brieﬂy introduced in this subsection, of which the
+results will be used for the development of the impedance
+adaptation.
+Consider the following linear system:
+˙ξ= Aξ+ Bu, (8)
+where ξ∈ R
+p is the system state, u ∈ Rr is the system
+input and A ∈ Rp×p and B ∈ Rp×r are unknown constant
+matrices.
+The following system input:
+u =− Kkξ (9)
+minimises a deﬁned cost function
+/Gamma1=
+∫ ∞
+0
+[ξT Qξ+ uT Ru]dt, (10)
+where Q ∈ Rp×p and R ∈ Rr×r are the weights of the state
+and the input which satisfy Q = QT ≥ 0 and R = RT > 0,
+and Kk with the iteration number k is a matrix obtained by
+following the procedures as below.
+Step 1: Employ u = K0ξ + ν as the input on the time
+interval [ t0, tl], where K0 stabilises the system (8) and ν
+is the exploration noise to satisfy the persistent excitation
+(PE) condition. Compute δξ, Iξ and Iu until the following
+rank condition is satisﬁed:
+rank([Iξ,Iu]) = p(p + 1)
+2 + pr. (11)
+Step 2: Solve Pk and Kk + 1 according to
+[ ˆPk
+vec(Kk+1)
+]
+=
+(
+/Theta1T
+k /Theta1k
+)− 1
+/Theta1T
+k /Xi1k. (12)
+Step 3: Let k + 1 → k and repeat Step 2 until Pk − Pk − 1 ≤
+ϵ where ϵ> 0 is a predeﬁned constant. And Kk in Equation
+(9) is obtained.
+In Step 1, the following deﬁnitions are needed:
+¯ξ =
+[
+ξ2
+1 ,ξ1ξ2,...,ξ 1ξp,ξ2
+2 ,ξ2ξ3,...,ξ p− 1ξp,ξ2
+p
+]T
+δξ =
+[¯ξ(t1) − ¯ξ(t0), ¯ξ(t2) − ¯ξ(t1),..., ¯ξ(tl ) − ¯ξ(tl− 1)
+]T
+Iξ =
+[∫ t1
+t0
+ξ⊗ ξdt,
+∫ t2
+t1
+ξ⊗ ξdt,...,
+∫ tl
+tl− 1
+ξ⊗ ξdt
+]T
+Iu =
+[∫ t1
+t0
+ξ⊗ udt,
+∫ t2
+t1
+ξ⊗ u dt,...,
+∫ tl
+tl− 1
+ξ⊗ udt
+]T
+,
+(13)
+where ξi, i = 1, ... , p are the elements of ξ, l is a positive
+integer and ‘⊗ ’ is the Kronecker product.
+In Step 2, the following deﬁnitions are needed:
+ˆPk = [P1,1, 2P1,2,..., 2P1,p,P 2,2, 2P2,3,...,
+2Pp− 1,p,Pp,p ]T
+/Theta1k = [δξ,− 2Iξ
+(
+Ip ⊗ KT
+k R
+)
+− 2Iu(Ip ⊗ R)]
+/Xi1k =− Iξvec(Qk ), (14)
+where Pi, j, i = 1, ... , p, j = 1, ... , p are the elements of Pk,
+Ip is a p − dimensional unit matrix, ‘vec’ is the operator that
+‘stretches’ a matrix to a vector and Qk = Q + KT
+k RKk .
+Remark 4: Note that A and B in Equation (8) are not used
+in the above procedures so the resulted adaptive optimal
+control is applicable to the system with unknown dynamics.
+This is a favourable property compared to the traditional
+LQR since in many situations the system dynamics are
+difﬁcult to obtain, if not impossible.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 253
+3. Impedance adaptation
+This section is dedicated to develop impedance adaptation
+to achieve optimal interaction subject to unknown environ-
+ments. T wo kinds of environments described by Equations
+(4) and (5) will be considered in two separate subsections,
+respectively.
+3.1 Mass–damping–stiffness environment
+The mass–damping–stiffness environment described by
+Equation (4) is considered in this subsection. By taking
+the environment dynamics into consideration, we will de-
+velop impedance adaptation such that the following cost
+function is minimised:
+/Gamma1=
+∫
+∞
+0
+[ ˙xT Q1 ˙x + (x − xd )T Q2(x − xd ) + f T Rf ]dt,
+(15)
+where Q1 ∈ Rn×n and Q2 ∈ Rn×n are the weights of the
+velocity and the trajectory tracking error, respectively, and
+R ∈ Rn×n has been deﬁned in Equation (8) and is the weight
+of the interaction force. Besides, Q1 = QT
+1 ≥ 0 and Q2 =
+QT
+2 ≥ 0.
+Remark 5: Cost functions similar to Equation (15) have
+been discussed in the related works (Johansson & Spong,
+1994; Matinfar & Hashtrudi-Zaad, 2005), which represent
+the compromise/combination of the force regulation and
+trajectory tracking and determine the interaction perfor-
+mance. Note that these cost functions are different from
+that in the traditional LQR problem, where the cost function
+usually includes the control input and trajectory tracking er-
+ror. In the traditional LQR problem, the system under study
+is the robot itself, while the interaction system under study
+in this paper includes both the robot and the environment.
+Comparing the cost function for a general linear sys-
+tem (10) and the deﬁned cost function in this paper (15),
+some manipulations are needed to make them identical. In
+particular, we consider
+ξ= [ ˙x
+T ,x T ,z T ]T , (16)
+Figure 3. Desired trajectory and actual trajectory, Q1 = 1, Q2 = 1a n d R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+254 S.S. Ge et al.
+where z ∈ Rm is the state of the following system:
+{ ˙z = Uz
+xd = Vz , (17)
+where U ∈ Rm×m and V ∈ Rn×m are two known matrices.
+Remark 6: The linear system (17) is to determine the
+desired trajectory xd and provides the feasibility to em-
+ploy the optimal control in trajectory tracking problem.
+Equation (17) is able to generate a large variety of desired
+trajectories, e.g., polynomial functions of time of any order.
+Then, according to Equations (15) and (17), we have
+/Gamma1=
+∫ ∞
+0
+(
+˙xT Q1 ˙x +
+[
+xT xT
+d
+][ Q2 −Q2
+−Q2 Q2
+][ x
+xd
+]
++f T Rf
+)
+dt
+=
+∫ ∞
+0
+(
+˙xT Q1 ˙x +
+[
+xT zT ][ Q2 −Q2V
+−V T Q2 V T Q2V
+][ x
+z
+]
++f T Rf
+)
+dt
+=
+∫ ∞
+0
+(ξT Qξ+ f T Rf )dt, (18)
+where Q =
+[
+Q1 0
+0 Q′
+2
+]
+with Q′
+2 =
+[
+Q2 −Q2V
+−V T Q2 V T Q2V
+]
+.
+Considering the deﬁned state (16), we rewrite
+Equation (4) in the following state-space form
+˙ξ= Aξ+ Bf, (19)
+where A =
+[ −M− 1
+E CE −M− 1
+E GE 0
+In 00
+00 U
+]
+and B =
+[ −M− 1
+E
+0
+0
+]
+.N o t e
+that A and B include the environment dynamics and they
+are unknown. This is the main reason to cause the difﬁ-
+culty of determining the desired impedance function Z(·)i n
+Equation (7).
+If we take the interaction force f in Equation (19) as
+the ‘system input’ to the environment dynamics, it can
+be obtained as follows such that the cost function (15) is
+minimised
+f =− K
+kξ, (20)
+where Kk is obtained according to the procedures described
+in Section 2.3.
+Figure 4. Interaction force, Q1 = 1, Q2 = 1a n d R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 255
+Figure 5. Error of impedance parameters, Q1 = 1, Q2 = 1a n d R = 1.
+Figure 6. Inner-loop control performance.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+256 S.S. Ge et al.
+Remark 7: For the augmented system, both x and ˙x are
+controllable while the uncontrollable state v is asymptoti-
+cally stable, so the system is stabilisable.
+To understand Equation (20) in the sense of impedance
+control, we assume that the optimal control has been ob-
+tained, which is
+f =− Kξ =− R
+− 1BT Pξ, (21)
+where K is the optimal feedback gain matrix and P =
+PT ∈ R(2n+m)×(2n+m) is the solution of the following Riccati
+equation
+PA+ AT P − PBR− 1BT P + Q = 0. (22)
+Denote
+P =
+⎡
+⎣
+P1 P2 P3
+∗∗∗
+∗∗∗
+⎤
+⎦ , (23)
+where P1 ∈ Rn×n,P 2 ∈ Rn×n, P3 ∈ Rn×m and ‘∗’ stand for
+elements which we do not care about. Substituting Equation
+(23) into Equation (21) leads to
+f =− R− 1P1 ˙x − R− 1P2x − R− 1P3z
+=− R− 1P1 ˙x − R− 1P2x − R− 1P4xd, (24)
+where P4 = P3(VTV)− 1VT.
+Comparing the above Equation (24) with the desired
+impedance model (7), the exact impedance function which
+guarantees the optimal interaction is obtained. Recalling
+the implementation of impedance control as described in
+Section 2.2, the virtual desired trajectory in the Cartesian
+space x is obtained according to Equation (24) with mea-
+sured f and given x
+d, and the inner-position control loop is
+to guarantee the trajectory tracking in the joint space. In this
+way, the optimal interaction is achieved and Equation (24)
+is the resulted impedance function in the presence of un-
+known environment dynamics.
+Figure 7. Desired trajectory and actual trajectory, Q1 = 1, Q2 = 1a n dR = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 257
+3.2 Damping–stiffness environment
+For the environment without mass, i.e., the damping–
+stiffness environment described by Equation (5), the re-
+sulted impedance adaptation is different and it is discussed
+in this subsection.
+First, we consider to minimise the following cost
+function:
+/Gamma1′ =
+∫ ∞
+0
+[(x − xd )T Q2(x − xd ) + f T Rf ]dt. (25)
+Remark 8: Note that the component to penalise the veloc-
+ity in Equation (15) has disappeared in Equation (25). The
+reason is that the velocity is not the state of the environment
+(5), which will be further explained in the following.
+Correspondingly, we consider the state ξ
+′ = [xT, zT]T,
+where z ∈ Rm has the same meaning as deﬁned in Equation
+(17). Based on the similar manipulation as in the previous
+section, Equation (25) can be rewritten as
+/Gamma1′ =
+∫ ∞
+0
+(ξ
+′T Qξ′ + f T Rf )dt, (26)
+where Q′ =
+[
+Q2 −Q2V
+−V T Q2 V T Q2V
+]
+.
+Similarly, Equation (5) can be rewritten in the following
+state-space form
+˙ξ′ = A′ξ′ + B′f, (27)
+where A′ =
+[
+−C− 1
+E GE 0
+0 U
+]
+and B′ =
+[
+−C− 1
+E
+0
+]
+.
+If we take the interaction force f in Equation (27) as
+the ‘system input’ to the environment dynamics (5), it can
+be obtained as follows such that the cost function (25) is
+minimised
+f =− K
+′
+kξ′, (28)
+where K′
+k is obtained according to the procedures described
+in Section 2.3.
+To understand Equation (28) in the sense of impedance
+control, we assume that the optimal control has been
+obtained, which is
+f =− K′ξ′ =− R− 1B
+′T P′ξ′, (29)
+Figure 8. Interaction force, Q1 = 1, Q2 = 1a n d R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+258 S.S. Ge et al.
+where K′ is the optimal feedback gain matrix and P′ =
+P
+′T ∈ R(n+m)×(n+m) is the solution of the following Riccati
+equation
+P′A′ + A
+′T P′ − P′B′R− 1B
+′T P′ + Q′ = 0. (30)
+Denote
+P′ =
+[ P′
+1 P′
+2
+∗∗
+]
+, (31)
+where P′
+1 ∈ Rn×n and P′
+2 ∈ Rn×m. Substituting Equa-
+tion (31) into Equation (29) leads to
+f =− R− 1P′
+1x − R− 1P′
+2z
+=− R− 1P′
+1x − R− 1P′
+3xd, (32)
+where P′
+3 = P′
+2(V T V )− 1V T .
+It is found that the resulted control is variable stiff-
+ness control, i.e., there is no damping component as in
+Equation (24). In this sense, we conclude that both the
+damping and stiffness components are needed in the
+impedance adaptation for the optimal interaction with the
+mass–damping–stiffness environments, and only the stiff-
+ness component is needed for the optimal interaction with
+the damping–stiffness environments. Similarly as in Section
+3.1, the desired impedance function Z(·) in Equation (7) is
+obtained as Equation (32), which guarantees the optimal
+interaction subject to unknown environment dynamics (5).
+Remark 9: The adaptive optimal control proposed in Jiang
+and Jiang (2012) is limited to linear and time invariant LQR
+problem, so the methods developed in Sections 3.1 and 3.2
+are also limited to linear and time invariant environment
+dynamics. However, these methods could also be further
+modiﬁed to suit the case where the parameters of the envi-
+ronment dynamics are changing slowly, using a time vary-
+ing parameter estimation.
+4. Simulation study
+4.1 Simulation conditions
+In this section, we consider a robot arm with two revo-
+lute joints physically interacting with two environments,
+as discussed through this paper and shown in Figure 1 (a)
+Figure 9. Desired trajectory and actual trajectory, Q1 = 1, Q2 = 10 and R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 259
+and 1(b). The simulation is conducted with the Robotics
+Toolbox (Corke, 1996).
+The parameters of the robot arm are: m1 = m2 = 2.0
+kg, l1 = l2 = 0.2 m, i1 = i2 = 0.027 kgm 2, lc1 = lc2 =
+0.1 m, where mj, lj, ij, lcj, j = 1, 2, represent the mass, the
+length, the inertia about the z-axis that comes out of the
+page passing through the centre of mass, and the distance
+from the previous joint to the centre of mass of link i,
+respectively.
+The initial joint coordinates of the robot arm are
+q1 =− π
+3 and q2 = 2π
+3 , and thus the initial position in the
+Cartesian space is xd = [0.20]T. The desired trajectory in
+the Cartesian space is determined by Equation (17) with
+U = 1 and V = 0.3. It is assumed that the force exerted
+by the environment is only in X direction and thus the
+robot arm in Y direction is interaction-free. Nevertheless,
+the inner-loop position control is designed for both joints.
+In particular, adaptive control in Slotine and Li (1987) is
+adopted for the inner-loop position control.
+According to the adaptation procedure in Section 3,
+three steps are included in a single simulation. As dis-
+cussed in Section 2.3, the exploration noise which meets
+the persistent excitation condition is required to guarantee
+the estimated parameters to converge to the true values. It
+is well known that the sum of sinusoid waves is a typical
+swept frequency signal which meets the persistent excita-
+tion condition. Therefore, in the simulation, the exploration
+noise is chosen as ν= ∑
+10
+w=1
+0.4
+w sin(wt ) and added in the
+ﬁrst step. The impedance model for this step is f = f0 +
+ν, where f0 =− ˙x − x + xd in Section 4.2 and f0 =− x +
+xd in Section 4.3. Impedance adaptation is conducted in the
+second step, and it stops when the condition ∥Pk∥ < 10− 10
+satisﬁes. The initial Pk is P0 = 10Ip, where Ip represents
+the p dimensional unit matrix. The impedance function for
+this step is f0. The desired impedance model based on the
+proposed method is obtained at the end of the second step,
+and it is used in the third step.
+Corresponding to Sections 3.1 and 3.2, the fol-
+lowing two environments are considered in two sub-
+sections: 0.001 ¨x + 0.01 ˙x + (x − 0.2) =− f and 0.01 ˙x +
+(x − 0.2) =− f . Note that 0.2 is the initial position of the
+robot arm. According to Equations (22) and (30), if A and
+B are known, the optimal solutions of the Riccati equations
+can be obtained and thus the desired impedance model (24)
+and (32) can be obtained. It is referred as ‘LQR’, and com-
+pared with the the proposed method in this paper. It is neces-
+Figure 10. Interaction force, Q1 = 1, Q2 = 10 and R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+260 S.S. Ge et al.
+sary to emphasise that A, B and thus the desired impedance
+model are only available in the simulation studies for the
+comparison purpose, and they are usually unknown or need
+to be estimated in a typical application. This is the motiva-
+tion of this paper, as already discussed in the introduction.
+4.2 Mass–damping–stiffness environment
+In this subsection, the mass–damping–stiffness environ-
+ment 0.001 ¨x + 0.01 ˙x + (x − 0.2) =− f is considered. In
+the ﬁrst case, the weights in Equation (15) are given by
+Q
+1=1, Q2=1 and R=1. The desired impedance model (24)
+is f =− 0.99 ˙x − 0.41x + 0.04xd based on knownA and B.
+The simulation results are shown inFigures 3–6.I n Figure 3,
+the position of the robot arm in the Cartesian space is
+shown. In the ﬁrst two seconds, there is a large position er-
+ror between LQR and the proposed method. This is because
+there is exploration noise and the initial impedance model
+f =− ˙x − x + x
+d + ν is not the desired model. The sec-
+ond step takes a very short time and the desired impedance
+function converges very quickly. More details about the
+convergence performance can be found in Figure 5, where
+the error of impedance parameters with respect to iteration
+number is shown. This error is deﬁned as ∥K
+k − K∥, and
+it decreases to around 0.05 when the adaptation stops at
+the 5th iteration (each iteration takes 0.1 s). The desired
+impedance model is obtained as f =− 0.98 ˙x − 0.38x +
+0.06xd with the proposed method, and it is used until the end
+of the simulation. It is found that the obtained impedance
+model is very near to but not exactly the same as the de-
+sired one under LQR, i.e., f =− 0.99 ˙x − 0.41x + 0.04xd .
+As a result, the position in Figure 3 is near to the position
+under LQR but there is still a small error. This is caused by
+the adaptation process in the inner-loop, and it is illustrated
+by Figure 6 where the control performance of the inner-
+loop is shown. Particularly, although zero tracking error in
+the inner-loop is achieved after about 2s, the tracking error
+exists at the beginning of the simulation. Therefore, the dy-
+namics of the robot arm are actually not exactly governed
+by the given impedance model.
+To further investigate the effect of inner-loop per-
+formance on the impedance adaptation, an additional
+simulation study is conducted. Instead of starting from the
+beginning of the simulation, the impedance adaptation
+Figure 11. Desired trajectory and actual trajectory, Q2 = 1a n d R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 261
+starts at 2s when the inner-loop tracking error is near to zero.
+Simulation results are shown in Figures 7 and 8. The desired
+impedance model is obtained as f =− 0.98 ˙x − 0.40x +
+0.04x
+d with the proposed method, which shows that the
+perfect adaptation can be achieved when a perfect tracking
+is guaranteed throughout the parameter adaptation period.
+By comparing the simulation results in Figures 3, 4, 7 and 8,
+we conclude that a good inner-loop performance during the
+parameter adaptation period is crucial to guarantee a perfect
+impedance adaptation. When the good control performance
+of the inner-loop is not achieved during the parameter adap-
+tation period, the adapted parameters cannot converge to the
+exact values. Conversely, when a perfect inner-loop control
+performance is guaranteed during the adaptation process,
+the perfect impedance adaptation can be realised.
+To further verify the effectiveness of the proposed
+impedance adaptation, another cost function is chosen in
+the second case. Particularly, the weights in Equation (15)
+are given by Q
+1 = 1, Q2 = 10 and R = 1. Compared to
+that in the ﬁrst case, the weight of the velocity is larger
+so it is expected that the system response is slower. Sim-
+ilarly, the desired impedance model (24) is obtained as
+f =− 3.15 ˙x − 0.41x + 0.02x
+d based on known A and B.
+The simulation results in this case are given in Figures 9
+and 10, and the impedance model obtained with the pro-
+posed method isf =− 3.14 ˙x − 0.40x + 0.02xd . While the
+position in Figure 3 converges to around 0.25 m in 6s, the
+position in Figure 9 converges to around 0.22 m in 10s. Sim-
+ilarly, the interaction force in Figure 4 converges to around
+− 0.05 N in 8s, and in Figure 10 it converges to around
+− 0.02 N in 16s. The above results are coherent with the
+expectation and verify the validity of the propose method.
+Similarly as in LQR, different Q1, Q2 and R can be cho-
+sen to realise different interaction performances, e.g., either
+‘softer’ interaction or more accurate trajectory tracking.
+4.3 Damping–stiffness environment
+The damping–stiffness environment 0 .01 ˙x + (x − 0.2) =
+−f is considered in this subsection. The simulation condi-
+tions are the same as in the previous subsection, which are
+described in Section 4.1. The weights in Equation (25) are
+given byQ2 = 1 and R= 1 and the desired impedance model
+(32) is obtained as f =− 0.41x + 0.70xd based on known
+A′ and B′. Similar results as in the previous subsection are
+obtained. In particular, the impedance model obtained with
+Figure 12. Interaction force, Q2 = 1a n d R = 1.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+262 S.S. Ge et al.
+the proposed method is f =− 0.40x + 0.71xd. The optimal
+interaction performance is achieved as shown in Figures 11
+and 12
+4.4 Discussion
+In summary, it has been shown that the proposed method can
+be adopted to obtain a desired impedance model based on a
+given cost function which determines an optimal interaction
+performance. Compared to impedance learning developed
+in the literature such as Kim et al. (2010) and Buchli et al.
+(2011), the proposed method does not require the repetitive
+learning process and thus provides certain convenience.
+The optimal impedance adaptation can be achieved if the
+‘perfect’ tracking can be guaranteed in the inner-loop. As
+discussed in Remark 9, the proposed method in Jiang and
+Jiang (2012) may not be applicable to the scenario where the
+environment is changing rapidly. In the future work, we will
+investigate how to derive an impedance adaptation in face of
+dynamically changing environments. Besides, some issues
+in real-world implementations might not be well described
+in the simulation studies, so future work will also be ded-
+icated to incorporate the proposed impedance adaptation
+with a real robot arm and further investigate the issues in
+real-world implementations (e.g., the effect of exploration
+noise, environment model uncertainties and time delay) of
+the proposed impedance adaptation. Furthermore, as dis-
+cussed in Braun et al. (2012b), it is non-trivial to ﬁnd a
+proper cost function in many situations, which will be also
+one of the future works that we will focus on.
+5. Conclusion
+In this paper, impedance adaptation has been developed
+to obtain the desired impedance parameters such that the
+optimal interaction is realised subject to unknown environ-
+ments. The dynamics of the unknown environments have
+been investigated and the interaction requirement has been
+described by minimising a certain cost function which in-
+cludes trajectory tracking and force regulation. Adaptive
+optimal control for unknown linear system has been em-
+ployed as the fundamental of the proposed method. The
+validity of the proposed method has been veriﬁed through
+simulation studies.
+References
+Arimoto, S., Kawamura, S., & Miyazaki, F . (1984a). Bettering
+operation of dynamic systems by learning: A new control
+theory for servomechanism or mechatronics systems. Pro-
+ceedings of the IEEE Conference on Decision and Control ,
+23, 1064–1069.
+Arimoto, S., Kawamura, S., & Miyazaki, F . (1984b). Bettering
+operation of robots by learning. Journal of Robotic Systems ,
+1, 123–140.
+Bertsekas, D. (1995). Dynamic programming and optimal control,
+V ol. 1. Belmont, MA: Athena Scientiﬁc.
+Braun, D.J., Howard, M., & Vijayakumar, S. (2012b). Optimal
+variable stiffness control: Formulation and application to ex-
+plosive movement tasks. Autonomous Robots, 33, 237–253.
+Braun, D.J., Petit, F ., Huber, F ., Haddadin, S., Smagt, P ., Albu-
+Schaffer, A., ... Vijayakumar, S. (2012a). Optimal torque
+and stiffness control in compliantly actuated robots. Proceed-
+ings of the IEEE/RSJ International Conference on Intelligent
+Robots and Systems, Portugal: IEEE pp. 2801–2808.
+Buchli, J., Stulp, F ., Theodorou, E., & Schaal, S. (2011). Learning
+variable impedance control. International Journal of Robotics
+Research, 30, 820–833.
+Buerger, S.P ., & Hogan, N. (2007). Complementary stability and
+loop shaping for improved human-robot interaction. IEEE
+Transactions on Robotics, 23, 232–244.
+Cheah, C.C., & Wang, D. (1998). Learning impedance control
+for robotic manipulators. IEEE Transactions on Robotics and
+Automation, 14, 452–465.
+Cohen, M., & Flash, T . (1991). Learning impedance parameters
+for robot control using an associative search network. IEEE
+Transactions on Robotics and Automation, 7, 382–390.
+Colbaugh, R., Seraji, H., & Glass, K. (1991). Direct adaptive
+impedance control of manipulators. Journal of Robotic Sys-
+tems, 10 (2): 217–248.
+Colgate, J.E., & Hogan, N. (1988). Robust control of dynamically
+interacting systems. International Journal of Control , 48,
+65–88.
+Corke, P .I. (1996). A robotics toolbox for MA TLAB. IEEE
+Robotics and Automation Magazine, 3, 24–32.
+Craig, J.J., & Raibert, M.H. (1979). A systematic method of hybrid
+position/force control of a manipulator. Computer Software
+and Applications Conference, IEEE Computer Society, IEEE:
+pp. 446–451.
+De Roover, D., Bosgra, O., & Steinbuch, M. (2000). Internal-
+model-based design of repetitive and iterative learning con-
+trollers for linear multivariable systems.International Journal
+of Control, 73, 914–929.
+Ge, S.S., Lee, T .H., & Harris, C.J. (1998).Adaptive neural network
+control of robotic manipulators. London: W orld Scientiﬁc.
+Hogan, N. (1985). Impedance control: An approach to
+manipulation-Part I: Theory; Part II: Implementation; Part
+III: Applications. Transaction ASME Journal of Dynamic
+Systems, Measurement and Control,
+107, 1–24.
+Huang, L., Ge, S.S., & Lee, T .H. (2006). Position/force control of
+uncertain constrained ﬂexible joint robots. Mechatronics, 16,
+111–120.
+Jiang, Y ., & Jiang, Z.P . (2012). Computational adaptive optimal
+control for continuous-time linear systems with completely
+unknown dynamics. Automatica, 48, 2699–2704.
+Johansson, R., & Spong, M.W . (1994). Quadratic optimization of
+impedance control. Proceedings of IEEE International Con-
+ference of Robotics and Automation , 1, 616–621.
+Kim, B., Park, J., Park, S., & Kang, S. (2010). Impedance learning
+for robotic contact tasks using natural actor-critic algorithm.
+IEEE Transactions on Systems, Man and Cybernetics-Part B:
+Cybernetics, 40, 433–443.
+Kirk, D.E. (1970). Optimal control theory: An introduction .E n -
+glewood Cliffs, NJ: Prentice-Hall Inc.
+Lewis, F ., & Vrabie, D. (2009). Reinforcement learning and adap-
+tive dynamic programming for feedback control. Circuits and
+Systems Magazine, IEEE, 9, 32–50.
+Li, Z.J., Ge, S.S., & Ming, A. (2007). Adaptive robust mo-
+tion/force control of holonomi-constrained nonholonomic
+mobile manipulators. IEEE Transactions on Systems, Man
+and Cybernetics-Part B: Cybernetics, 37, 607–616.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 
+
+
+International Journal of Control 263
+Li, Y ., Ge, S.S., & Y ang, C. (2012). Learning impedance con-
+trol for physical robot-environment interaction. International
+Journal of Control, 85, 182–193.
+Lu, W .S., & Meng, Q.H. (1991). Impedance control with adapta-
+tion for robotic manipulations.IEEE Transactions on Robotics
+and Automation, 7, 408–415.
+Matinfar, M., & Hashtrudi-Zaad, K. (2005). Optimization-based
+robot compliance control: Geometric and linear quadratic ap-
+proaches. The International Journal of Robotics Research, 24,
+645–656.
+Rahman, M.M., Ikeura, R., & Mizutani, K. (2002). Investigation
+of the impedance characteristic of human arm for develop-
+ment of robots to cooperate with humans. JSME International
+Journal Series C, 45, 510–518.
+Slotine, J.J.E., & Li, W . (1987). On the adaptive control of
+robotic manipulators. The International Journal of Robotics
+Research, 6, 49–59.
+Stanisic, R.Z., & Fernandez, A.V . (2012). Adjusting the param-
+eters of the mechanical impedance for velocity, impact and
+force control. Robotica, 30, 583–597.
+Tsuji, T ., & Morasso, P .G. (1996). Neural network learning of
+robot arm impedance in operational space. IEEE Transactions
+on Systems, Man and Cybernetics-Part B: Cybernetics , 26,
+290–298.
+Tsumugiwa, T ., Y okogawa, R., & Hara, K. (2001). V ariable
+impedance control with regard to working process for man-
+machine cooperation-work system. Proceedings of IEEE/RSJ
+International Conference on Intelligent Robots and Systems ,
+IEEE: pp. 1564–1569.
+Tsumugiwa, T ., Y okogawa, R., & Hara, K. (2002). V ariable
+impedance control based on estimation of human arm stiff-
+ness for human-robot cooperative calligraphic task. Proceed-
+ings of the IEEE International Conference on Robotics and
+Automation, IEEE: pp. 644–650.
+Uemura, M., & Kawamura, S. (2009). Resonance-based motion
+control method for multi-joint robot through combining stiff-
+ness adaptation and iterative learning control. Proceedings of
+IEEE International Conference on Robotics and Automation ,
+IEEE: pp. 1543–1548.
+Wang, D., & Cheah, C.C. (1998). An iterative learning-control
+scheme for impedance control of robotic manipulators.
+The International Journal of Robotics Research , 17, 1091–
+1099.
+Wang, F ., Zhang, H., & Liu, D. (2009). Adaptive dynamic
+programming: An introduction. Computational Intelligence
+Magazine, 4, 39–47.
+Watkins, C. (1989). Learning from delayed rewards (Doctoral
+thesis). Cambridge University, Cambridge, England.
+W erbos, P .J. (1990b). Consistency of HDP applied to a simple
+reinforcement learning problem. Neural Networks , 3, 179–
+189.
+W erbos, P .J. (1990a). A menu of designs for reinforcement learn-
+ing over time. In W . T . Miller, P . J. W erbos & R. S. Sutton
+(Eds.), Neural networks for control (pp. 67–95). Cambridge:
+MIT Press.
+W erbos, P .J. (1992).Handbook of intelligent control: Neural, fuzzy,
+and adaptive approaches , V ol. 15. New Y ork: V an Nostrand
+Reinhold.
+W erbos, P .J. (2009). Intelligence in the brain: A theory of how
+it works and how to build it. Neural Networks , 22, 200–
+212.
+Xu, J., Viswanathan, B., & Qu, Z. (2000). Robust learning control
+for robotic manipulators with an extension to a class of non-
+linear systems. International Journal of Control , 73, 858–
+870.
+Y ang, B.H., & Asada, H. (1996). Progressive learning and its
+application to robot impedance learning. IEEE Transactions
+on Neural Networks, 7, 941–952.
+Downloaded by [NUS National University of Singapore] at 20:41 10 August 2014 

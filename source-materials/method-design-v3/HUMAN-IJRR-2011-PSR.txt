@@ -1,0 +1,600 @@
+             Closing the Learning-Planning Loop with
+                  Predictive State Representations
+                  Byron Boots                             Sajid M. Siddiqi                      Geoffrey J. Gordon
+            Machine Learning Dept.                      Robotics Institute                   Machine Learning Dept.
+           Carnegie Mellon University               Carnegie Mellon University              Carnegie Mellon University
+              Pittsburgh, PA, USA                      Pittsburgh, PA, USA                     Pittsburgh, PA, USA
+            Email: beb@cs.cmu.edu                   Email: siddiqi@google.com               Email: ggordon@cs.cmu.edu
+
+
+
+    Abstract— A central problem in artificial intelligence is to      POMDP planning problems. Furthermore, researchers have
+choose actions to maximize reward in a partially observable,          had only limited success learning POMDP models from data.
+uncertain environment. To do so, we must learn an accurate               Predictive State Representations (PSRs) [11] and the closely
+model of our environment, and then plan to maximize reward.
+Unfortunately, learning algorithms often recover a model which        related Observable Operator Models (OOMs) [8] are gen-
+is too inaccurate to support planning or too large and complex for    eralizations of POMDPs that have attracted interest because
+planning to be feasible; or, they require large amounts of prior      they both have greater representational capacity than POMDPs
+domain knowledge or fail to provide important guarantees such         and yield representations that are at least as compact [21, 4].
+as statistical consistency. To begin to fill this gap, we propose a   In contrast to the latent-variable representations of POMDPs,
+novel algorithm which provably learns a compact, accurate model
+directly from sequences of action-observation pairs. To evaluate      PSRs and OOMs represent the state of a dynamical system
+the learner, we then close the loop from observations to actions:     by tracking occurrence probabilities of a set of future events
+we plan in the learned model and recover a policy which is near-      (called tests or characteristic events) conditioned on past
+optimal in the original environment (not the model). In more          events (called histories or indicative events). Because tests
+detail, we present a spectral algorithm for learning a Predictive     and histories are observable quantities, it has been suggested
+State Representation (PSR). We demonstrate the algorithm by
+learning a model of a simulated high-dimensional, vision-based        that learning PSRs and OOMs should be easier than learning
+mobile robot planning task, and then performing approximate           POMDPs. And, many successful approximate planning tech-
+point-based planning in the learned model. This experiment            niques for POMDPs can be used to plan in PSRs and OOMs
+shows that the learned PSR captures the essential features of the     with minimal adjustment.
+environment, allows accurate prediction with a small number of           The quality of an optimized policy for a POMDP, PSR,
+parameters, and enables successful and efficient planning. Our
+algorithm has several benefits which have not appeared together       or OOM depends strongly on the accuracy of the model:
+in any previous PSR learner: it is computationally efficient and      inaccurate models typically lead to useless plans. We can
+statistically consistent; it handles high-dimensional observations    specify a model manually or learn one from data, but due
+and long time horizons by working from real-valued features of        to the difficulty of learning, it is far more common to see
+observation sequences; and finally, our close-the-loop experiments    planning algorithms applied to hand-specified models, and
+provide an end-to-end practical test.
+                                                                      therefore to small systems where there is extensive and goal-
+                                                                      relevant domain knowledge. For example, recent extensions
+                       I. I NTRODUCTION
+                                                                      of approximate planning techniques for PSRs have only been
+   Planning a sequence of actions or a policy to maximize             applied to hand-constructed models [9, 7].
+reward has long been considered a fundamental problem for                Learning models for planning in partially observable en-
+autonomous agents. In the hardest version of the problem, an          vironments has met with only limited success. As a result,
+agent must form a plan based solely on its own experience,            there have been few successful attempts at closing the loop
+without the aid of a human engineer who can design problem-           by learning a model from an environment, planning in that
+specific features or heuristics; it is this version of the problem    model, and testing the plan in the environment. For example,
+which we must solve to build a truly autonomous agent.                Expectation-Maximization (EM) [1] does not avoid local min-
+   Partially Observable Markov Decision Processes                     ima or scale to large state spaces; and, although many learning
+(POMDPs) [24, 3] are a general framework for single-                  algorithms have been proposed for PSRs [22, 31, 14, 27, 2]
+agent planning. POMDPs model the state of the world as                and OOMs [8, 5, 12], none have been shown to learn models
+a latent variable and explicitly reason about uncertainty             that are accurate enough for planning.
+in both action effects and state observability. Plans in                 Several researchers have, however, made progress in the
+POMDPs are expressed as policies, which specify the action            problem of planning using a learned model. In one in-
+to take given any possible probability distribution over              stance [18], researchers obtained a POMDP heuristically from
+states. Unfortunately, exact planning algorithms such as value        the output of a model-free algorithm [13] and demonstrated
+iteration [24] are computationally intractable for most realistic     planning on a small toy maze. In another instance [17], re-
+searchers used Markov Chain Monte Carlo (MCMC) inference                    II. P REDICTIVE S TATE R EPRESENTATIONS
+both to learn a factored Dynamic Bayesian Network (DBN)               A predictive state representation (PSR) [11] is a compact
+representation of a POMDP in a small synthetic network             and complete description of a dynamical system. PSRs rep-
+administration domain, as well as to perform online planning.      resent state as a set of predictions of observable experiments
+Due to the cost of the MCMC sampler used, this approach            or tests that one could perform in the system. Specifically, a
+is still impractical for larger models. In a final example,        test of length k is an ordered sequence of action-observation
+researchers learned Linear-Linear Exponential Family PSRs          pairs τ = aτ1 oτ1 . . . aτk oτk that can be executed and observed
+from an agent traversing a simulated environment, and found a      at a given time. Likewise, a history is an ordered sequence
+policy using a policy gradient technique with a parameterized      of action-observation pairs h = ah1 oh1 . . . aht oht that has been
+function of the learned PSR state as input [30, 28]. In this       executed and observed prior to a given time. The prediction
+case both the learning and the planning algorithm were subject     for a test τ is the probability of the sequence of observations
+to local optima. In addition, the authors determined that the      τ O = oτ1 , . . . , oτk being generated, given that we intervene
+learned model was too inaccurate to support value-function-        to take the sequence of actions τ A = aτ1 , . . . , aτk . If the
+based planning methods [28]. Perhaps the closest prior work        observations produced by the dynamical system match those
+is that of Rosencrantz et al. [16]: like our method, their algo-   specified by the test, the test is said to have succeeded. The key
+rithm uses a straightforward sequence of algebraic operations      idea behind a PSR is that, if we know the expected outcomes
+to derive parameter estimates from matrices of observable          of executing all possible tests, then we also know everything
+statistics. However, Rosencrantz et al. do not attempt to          there is to know about the state of a dynamical system.
+provide a detailed proof of consistency such as the one in
+                                                                      In PSRs, actions in tests are interventions, not observations.
+Equations 4(a–c) and Section III below. And, their method
+                                                                   We use a single vertical bar to indicate conditioning and a
+does not easily generalize to allow real-valued observations,
+                                                                   double vertical bar to indicate intervening: e.g., Pr[τ O | h || τ A ]
+“indicative features,” and “characteristic features,” as we de-
+                                                                   is the probability of the observations in test τ , given an
+rive in Sections III-A and III-B below; in our experience,
+                                                                   observed history h, and given that we intervene to execute
+using these features (instead of discrete, mutually-exclusive
+                                                                   the actions in τ . We write Q(h) for the prediction vector of
+events) greatly reduces the variance of our estimated model
+                                                                   success probabilities for a set of tests Q = {qi }:
+parameters. Finally, the experiments of Rosencrantz et al.
+focus on the observation-only case, rather than on estimating                                                    O
+                                                                           Q(h) = [Pr[q1O | h || q1A ], ..., Pr[q|Q|         A
+                                                                                                                     | h || q|Q| ]]T
+the effects of actions and using the learned model for planning.
+(We describe several more-minor differences between the            Knowing the probabilities of some tests may allow us to
+algorithms below in Section III.)                                  compute the probabilities of other tests. That is, given a test
+                                                                   τ and a set of tests Q, there may exist a prediction function
+                                                                   fτ such that Pr[τ O | h || τ A ] = fτ (Q(h)) for all histories h.
+                                                                   In this case, we say Q(h) is a sufficient statistic for τ .
+   The current paper differs from these and other previous            Formally, a PSR is a tuple hA, O, Q, F, m1 i. A is the set of
+examples of planning in learned models: it both uses a             possible actions, and O is the set of possible observations. Q
+principled and provably statistically consistent model-learning    is a core set of tests, i.e., a set whose prediction vector Q(h)
+algorithm, and demonstrates positive results on a challenging      is a sufficient statistic for all tests. F is the set of prediction
+high-dimensional problem with continuous observations. In          functions fτ for all tests τ (which must exist since Q is a core
+particular, we propose a novel, consistent spectral algorithm      set), and m1 = Q() is the initial prediction vector after seeing
+for learning a variant of PSRs called Transformed PSRs [16]        the empty history . In this work we will restrict ourselves
+directly from execution traces. The algorithm is closely re-       to linear PSRs, in which all prediction functions are linear:
+lated to subspace identification for learning Linear Dynamical     fτ (Q(h)) = rτT Q(h) for some vector rτ ∈ R|Q| .
+Systems (LDSs) [23, 26] and spectral algorithms for learn-            Since Q(h) is a sufficient statistic for all tests, it is a state
+ing Hidden Markov Models (HMMs) [6] and Reduced-Rank               for our PSR: i.e., we can remember just Q(h) instead of h
+HMMs [19]. We then demonstrate that this algorithm is able         itself. After taking action a and seeing observation o, we can
+to learn compact models of a difficult, realistic dynamical        update Q(h) recursively: if we write Mao for the matrix with
+                                                                           T
+system without any prior domain knowledge built into the           rows raoτ   for τ ∈ Q, then we can use Bayes’ Rule to show:
+model or algorithm. Finally, we perform approximate point-                                   Mao Q(h)        Mao Q(h)
+based value iteration (PBVI) in the learned compact models,                   Q(hao) =                     = T                         (1)
+                                                                                            Pr[o | h || a]  m∞ Mao Q(h)
+and demonstrate that the greedy policy for the resulting value
+function works well in the original (not the learned) system.      where m∞ is a normalizer, defined by mT     ∞ Q(h) = 1 (∀h).
+To our knowledge this is the first research that combines all         Specifying a PSR involves first finding a core set of tests Q,
+of these achievements, closing the loop from observations to       called the discovery problem, and then finding the parameters
+actions in an unknown nonlinear, non-Gaussian system with          Mao , m∞ , and m1 for these tests, called the learning problem.
+no human intervention beyond collecting the raw transition         A core set Q for a linear PSR is said to be minimal if the
+data and specifying features.                                      tests in Q are linearly independent [8, 21], i.e., no one test’s
+prediction is a linear function of the other tests’ predictions.       Here we define sHj = E[Q(h) | Hj ] to be the expected state
+The discovery problem is usually solved by searching for               given indicative event Hj ; and as above, the vector rτi lets us
+linearly independent tests by repeatedly performing Singular           compute the probability of test τi given the state. Finally, we
+Value Decompositions (SVDs) on collections of tests [31]. The          let R ∈ R|T |×|Q| be the matrix with rows rτTi , S ∈ R|Q|×|H|
+learning problem is then solved by regression.                         be the matrix with columns sHj , and D = diag(Pr[H]).
+   Transformed PSRs (TPSRs) [16] are a generalization of                  Eq. (2b) tells us that the rank of PT ,H is no more than
+PSRs: TPSRs maintain a small number of sufficient statistics           |Q|, since its factors R and S each have rank at most |Q|. At
+which are linear combinations of a (potentially very large             this point we can define a sufficient set of indicative events as
+and non-minimal) set of test probabilities. Accordingly, TPSRs         promised: it is a set of indicative events for which the rank of
+can be thought of as linear transformations of regular PSRs.           PT ,H is equal to |Q|.
+Therefore, TPSRs include PSRs as a special case, since this               The final observable matrices are PT ,ao,H ∈ R|T |×|H| , one
+transformation can be the identity. The main benefit of TPSRs          matrix for each action-observation pair. Entries of PT ,ao,H
+is that, given a core set of tests, the parameter learning             are probabilities of triples of an indicative event, the next
+problem can be solved and a large step toward solving the              action-observation pair, and a subsequent test, if we intervene
+discovery problem can be achieved in closed form, as we will           to execute a and τiA :
+see below. In this respect, TPSRs are closely related to the
+transformed representations of LDSs and HMMs found by                       [PT ,ao,H ]i,j ≡ Pr[τiO , o, Hj || a, τiA ]
+subspace identification [26, 23, 6].                                          = E[Pr[τiO , o | h || a, τiA ] | Hj ] Pr[Hj ]
+A. Observable Representations                                                 = E[Pr[τiO | h, o || a, τiA ] Pr[o | h || a] | Hj ] Pr[Hj ]
+   Our learning algorithm is based on an observable represen-                 = E[rτTi Q(hao) Pr[o | h || a] | Hj ] Pr[Hj ]
+tation of a PSR, that is, one where each parameter corresponds
+directly to observable quantities. This representation depends                = E[rτTi Mao Q(h) | Hj ] Pr[Hj ] by Eq. (1)
+on a core set of tests T (not necessarily minimal). It also                   = rτTi Mao sHj Pr[Hj ]
+depends on a set H of indicative events, that is, a mutually                 =⇒ PT ,ao,H = RMao SD                                          (2c)
+exclusive and exhaustive partition of the set of all possible
+histories. We will assume H is sufficient (defined below).             Just like PT ,H , the matrices PT ,ao,H have rank at most |Q|
+   For purposes of gathering data, we assume that we can               due to their factors R and S.
+sample from some distribution ω over histories; our observable           We can also relate the factor S to the parameters m∞ and
+representation depends on ω as well. E.g., ω might be the              m∗ : for m∞ , we start from the fact mT         T
+                                                                                                                ∞ S = 1 (since each
+steady-state distribution of some exploration policy. Note that        column of S is a vector of core-test predictions), repeatedly
+this assumption means that we cannot estimate m1 , since               multiply by S and S † , and use the fact SS † = I.
+we don’t have samples of trajectories starting from m1 . So,
+                                                                                          †   T †          T †
+instead, we will estimate m∗ , an arbitrary feasible state, which       mT      T     T               T
+                                                                         ∞ S = 1k =⇒ m∞ SS = 1k S =⇒ m∞ = 1k S (3a)
+                                                                                           T †            T †
+is enough information to enable prediction. If we make the                      =⇒ mT                T
+                                                                                    ∞ S = 1k S S =⇒ 1k = 1k S S                             (3b)
+stronger assumption that we can repeatedly reset our PSR to
+its starting distribution, a straightforward modification of our        Here, k = |H| and 1k denotes the ones-vector of length k.
+algorithm will allow us to estimate m1 as well.                        For m∗ , we note that each column of S is a feasible state,
+   We define several observable matrices in terms of T , H, and        and so we can take m∗ to be any convex combination of the
+ω. After each definition we show how these matrices relate             columns of S. In particular, we will take m∗ = S Pr[H].
+to the parameters of the underlying PSR. These relationships              We now define a TPSR in terms of the matrices PH , PT ,H ,
+will allow us to define an equivalent TPSR, and will also be           PT ,ao,H and an additional matrix U ∈ R|T |×|Q| such that U T R
+key tools in designing our learning algorithm and showing              is invertible. A natural choice for U is the left singular vectors
+its consistency. The first observable matrix is PH ∈ R|H| ,            of PT ,H , although a randomly-generated U will work with
+containing the probabilities of every event Hi ∈ H when we             probability 1. We can think of the columns of U as specifying
+sample a history h according to ω:                                     a core set Q0 of linear combinations of tests which define a
+             [PH ]i ≡ Pr[Hi ] =⇒ PH = Pr[H]                    (2a)    state vector for our TPSR. Finally we simplify the expressions
+                                                                       using Equations 2(a–c) to show that our parameters are only a
+Here we have defined Pr[Hi ] to mean Pr[h ∈ Hi ], and Pr[H]            similarity transform away from the original PSR parameters:
+to mean the vector whose elements are Pr[Hi ] for Hi ∈ H.
+   The next observable matrix is PT ,H ∈ R|T |×|H| , whose                     b∗ ≡ U T PT ,H 1k = U T RSD1k = (U T R)m∗                    (4a)
+entries are joint probabilities of tests τi ∈ T and indicative
+events Hj ∈ H when we sample h ∼ ω and take actions τiA :
+                                                                                                 †   T †             †
+     [PT ,H ]i,j ≡ Pr[τiO , Hj || τiA ] ≡ E[rτTi Q(h) | Hj ] Pr[Hj ]           bT    T   T                   T
+                                                                                ∞ ≡ PH (U PT ,H ) = 1n S SD(U PT ,H )
+                                                                                          †      −1
+               ≡ rτTi sHj Pr[Hj ]                                                   = 1T     T
+                                                                                       n S (U R)    (U T R)SD(U T PT ,H )†
+                                                                                          †      −1            −1
+  =⇒ PT ,H = RSD                                               (2b)                 = 1T     T
+                                                                                       n S (U R)    = mT   T
+                                                                                                       ∞ (U R)                              (4b)
+       Bao ≡ U T PT ,ao,H (U T PT ,H )†                                          Bbao converge to the true parameters up to a linear transform—
+             = U T RMao SD(U T PT ,H )†                                          that is, our learning algorithm is consistent. Although pa-
+                                                                                 rameters estimated with finite data can sometimes lead to
+             = U T RMao (U T R)−1 (U T R)SD(U T PT ,H )†                         negative probability estimates when filtering or predicting,
+             = (U T R)Mao (U T R)−1                                      (4c)    this problem can be avoided in practice by thresholding the
+                                                                                 predicted probabilities by some small positive probability.
+ The derivation of Eq. 4b makes use of Eqs. 3a and 3b. To
+                                                                                    Note that the learning algorithm presented here is distinct
+get b1 = (U T R)m1 instead of b∗ in Eq. 4a, replace PT ,H 1k ,
+                                                                                 from the TPSR learning algorithm presented in Rosencrantz et
+the vector of expected probabilities of tests for h ∼ ω, with
+                                                                                 al. [16]. In addition to the differences mentioned above, a key
+the vector of probabilities of tests for h = .
+                                                                                 difference between the two algorithms is that here we estimate
+   Given these parameters, we can calculate the probability
+                                                                                 the joint probability of a past event, a current observation,
+of observations o1:t , given that we start from state m1 and
+                                                                                 and a future event in the matrix PbT ,ao,H , whereas in [16],
+intervene with actions a1:t . Here we write the product of a
+                                                                                 the authors instead estimate the probability of a future event,
+sequence of transitions as Mao1:t = Ma1 o1 Ma2 o2 . . . Mat ot .
+                        T −1             T −1
+                                                                                 conditioned on a past event and a current observation. To
+ Pr[o1:t ||a1:t ] = mT        T                T
+                     ∞(U R) (U R)Mao1:t(U R) (U R)m1                             compensate, Rosencrantz et al. later multiply this estimate by
+                 = bT
+                    ∞ Bao1:t b1                                           (5)    an approximation of the probability of the current observation,
+                                                                                 conditioned on the past event. Rosencrantz et al. also derive the
+ In addition to the initial TPSR state b1 , we define normalized                 approximate probability of the current observation differently:
+conditional internal states bt by a recursive update:                            as the result of a regression instead of directly from empirical
+                                 Bao bt                                          counts. Finally, Rosencrantz et al. do not make any attempt
+                        bt+1 = T t                           (6)
+                               b∞ Baot bt                                        to multiply by the marginal probability of the past event,
+ It is straightforward to show recursively that bt can be used                   although this term cancels in the current work. In the absence
+to compute conditional observation probabilities. (If we only                    of estimation errors, both algorithms would arrive at the same
+have b∗ instead of b1 , then initial probability estimates will be               answer, but taking errors into account, they will typically
+approximate, but the difference in predictions will disappear                    make different predictions. The difficulty of extending the
+over time as our process mixes.) The linear transform from                       Rosencrantz et al. algorithm to handle real-valued features
+a TPSR internal state bt to a PSR internal state qt = Q(ht )                     stems from the difference between joint and conditional prob-
+is given by qt = (U T R)−1 bt . If we chose U by SVD, then                       abilities: the observable matrices in Rosencrantz et al. are
+the prediction of tests Pr[T O | h || T A ] at time t is given by                conditional expectations, so their algorithm depends on being
+U bt = U U T Rqt = Rqt (since by the definition of SVD, U is                     able to condition on discrete indicative events or observations.
+orthonormal and the row spaces of U and R are the same).                         In contrast, the next section shows how to extend our algorithm
+                                                                                 to use real-valued features.
+                       III. L EARNING TPSR S
+   Our learning algorithm works by building empirical esti-                      A. Learning TPSRs with Features
+mates PbH , PbT ,H , and PbT ,ao,H of the matrices PH , PT ,H , and                 In data gathered from complex real-world dynamical sys-
+PT ,ao,H defined above. To build these estimates, we repeatedly                  tems, it may not be possible to find a reasonably-sized core
+sample a history h from the distribution ω, execute a sequence                   set of discrete tests T or sufficient set of indicative events H.
+of actions, and record the resulting observations.                               When this is the case, we can generalize the TPSR learning
+   Once we have computed PbH , PbT ,H , and PbT ,ao,H , we can                   algorithm and work with features of tests and histories, which
+generate Ub by singular value decomposition of PbT ,H . We can                   we call characteristic features and indicative features respec-
+then learn the TPSR parameters by plugging U       b , PbH , PbT ,H ,            tively. In particular let T and H be large sets of tests and
+                                 1                                               indicative events (possibly too large to work with directly)
+and PT ,ao,H into Equation 4 :
+     b
+                                                                                 and let φT and φH be shorter vectors of characteristic and
+                            b T PbH 1k
+                      bb∗ = U
+                                                                                 indicative features. The matrices PH , PT ,H , and PT ,ao,H will
+                    bb∞ = (PbT U    b †b
+                              T ,H ) PH
+                                                                                 no longer contain probabilities but rather expected values of
+                                        b T PbT ,H )†
+                         b T PbT ,ao,H (U                                        features or products of features. For the special case of features
+                   bao = U
+                   B
+                                                                                 that are indicator functions of tests and histories, we recover
+As we include more data in our averages, the law of large                        the probability matrices from Section II-A.
+numbers guarantees that our estimates PbH , PbT ,H , and PbT ,ao,H                  Here we prove the consistency of our estimation algorithm
+converge to the true matrices PH , PT ,H , and PT ,ao,H (defined                 using these more general matrices as inputs. In the following
+in Equation 2). So by continuity of the formulas above, if our                   equations ΦT and ΦH are matrices of characteristic and
+system is truly a PSR of finite rank, our estimates bb∗ , bb∞ , and              indicative features respectively, with first dimension equal to
+                                                                                 the number of characteristic or indicative features and second
+   1 The learning strategy employed here may be seen as a generalization of
+                                                                                 dimension equal to |T | and |H| respectively. An entry of ΦH
+Hsu et al.’s spectral algorithm for learning HMMs [6] to PSRs. Note that since
+HMMs and POMDPs are a proper subset of PSRs, we can use the algorithm            is the expectation of one of the indicative features given the
+in this paper to learn back both HMMs and POMDPs in PSR form.                    occurrence of one of the indicative events. An entry of ΦT
+is the weight of one of our tests in calculating one of our              each point.2 The KDE of the observation PDF is a convex
+characteristic features. With these features we generalize the           combination of these kernels; since each kernel integrates to
+matrices PH , PT ,H , and PT ,ao,H :                                     1, this estimator also integrates to 1. KDE theory [20] tells
+                                                                         us that, with the correct kernel weights, as the number of
+   [PH ]i ≡ E(φH                          H
+                          P
+                 i (h)) =    H∈H Pr[H]ΦiH                                kernel centers and the number of samples go to infinity and
+    =⇒ PH = ΦH Pr[H]                                             (7a)    the kernel bandwidth goes to zero (at appropriate rates), the
+   [PT ,H ]i,j ≡ E(φTi (τ O ) · φH         A
+                                 j (h) || τ )
+                                                                         KDE estimator converges to the observation PDF in L1 norm.
+                                                                         The kernel density estimator is completely determined by the
+    = τ ∈T H∈H Pr[τ O , H || τ A ]ΦTiτ ΦH
+      P        P
+                                               jH
+                                                                         normalized vector of kernel weights; therefore, if we can
+    = τ ∈T rτT ΦTiτ H∈H sH Pr[H]ΦH
+      P               P
+                                            jH    by Eq. (2b)            estimate this vector accurately, our estimate of the observation
+                                  T                                      PDF will converge to the observation PDF as well. Hence
+    =⇒ PT ,H = ΦT RSDΦH                                          (7b)
+                                                                         our goal is to predict the correct expected value of this
+   [PT ,ao,H ]i,j ≡ E(φTi (τ O ) · φH                   A
+                                    j (h) · δ(o) || a, τ )               normalized kernel vector given all past observations. In the
+    = τ ∈T H∈H Pr[τ O , o, H || a, τ A ]ΦTiτ ΦH
+      P        P
+                                                     jH                  continuous-observation case, we can still write our latent-state
+                                                                         update in the same form, using a matrix Bao ; however, rather
+        P          T T
+                               P                      H
+                                                          by
+    =            r
+           τ ∈T τ iτΦ    M ao      H∈H Hs    Pr[H]Φ    jH Eq. (2c)
+                                          T                              than learning each of the uncountably-many Bao matrices
+    =⇒ PT ,ao,H = ΦT RMao SDΦH                                    (7c)   separately, we learn one base operator per kernel center, and
+                                                                         use convex combinations of these base operators to compute
+where δ(o) is an indicator for observation o. The parameters
+                                                                         observable operators as needed. For details on practical aspects
+of the TPSR (b∗ , b∞ , and Bao ) are now defined in terms of a
+                                                                         of learning with continuous observations, see Section IV-B.
+matrix U such that U T ΦT R is invertible (we can take U to be
+the left singular values of PT ,H ), and in terms of the matrices        C. Practical Computation of the TPSR Parameters
+PH , PT ,H , and PT ,ao,H . We also define a new vector e s.t.
+    T                                                                        As defined above, each element of PbH is the empirical
+ΦH e = 1k ; this means that the ones vector 1T     k must be in          expectation (over histories sampled from ω) of the corre-
+the row space of ΦH . Since ΦH is a matrix of features, we
+                                                                         sponding element Pw of the indicative       feature vector—that is,
+can always ensure that this is the case by requiring one of our
+                                                                         element i is w1 t=1 φH                 H          th
+                                                                                                  it , where φit is the i indicative feature
+features to be a constant. Finally we simplify the expressions                                th
+                                                                         evaluated at the t sampled history. Similarly, each element
+using Equations 7(a–c) to show that our parameters are only a
+                                                                         of PbT ,H is an empirical expectation of the product of one
+similarity transform away from the original PSR parameters:
+                                                                         indicative feature and one characteristic feature, if we sample
+                                          T
+  b∗ ≡ U T PT ,H e = U T ΦT RSDΦH e                                      a history from ω and then follow an appropriate sequence of
+     = U T ΦT RSD1k = (U T ΦT R)m∗                               (8a)    actions. We can compute all elements of PbT ,H from a single
+                                                                         sample of trajectories if we sample histories from ω, follow
+                   †     T †      HT
+bT      T    T
+ ∞ ≡ PH (U PT ,H ) = 1n S SDΦ        (U T PT ,H )†                       an appropriate exploratory policy,Pw and then importance-weight
+    = 1T   †   T T   −1                  T
+                        (U T ΦT R)SDΦH (U T PT ,H )†                     each sample [2]: [PbT ,H ]ij is t=1 αt φTit φH     jt , where αt is an
+       n S (U Φ R)
+           †   T T   −1           T T    −1                              importance weight. (In our experiments below, the importance
+    = 1T
+       n S (U Φ R)       = mT ∞ (U Φ R)              (8b)
+                                                                         weights are constant by design, and therefore cancel out.)
+        T          T        †
+Bao ≡ U PT ,ao,H (U PT ,H )                                                  Once we have constructed PbT ,H , we can compute U        b as the
+                                              T                          matrix of left singular vectors of PT ,H . One of the advantages
+    = U TΦT RMao (U TΦT R)−1(U TΦT R)SDΦH (U TPT ,H )†
+                                                                                                                b
+                                                                         of subspace identification is that the complexity of the model
+    = (U T ΦT R)Mao (U T ΦT R)−1                     (8c)                can be tuned by selecting the number of singular vectors in
+Just as in the beginning of Section III, we can estimate PbH ,           Ub , at the risk of losing prediction quality.
+PbT ,H , and PbT ,ao,H , and then plug the matrices into Equa-               Finally, since there may be many large matrices PbT ,ao,H ,
+tions 8(a–c). Thus we see that if we work with characteristic            rather than computing them directly, we instead compute
+                                                                         Ub T PbT ,ao,H for each pair a, o. The latter matrices are much
+and indicative features, and if our system is truly a TPSR of
+finite rank, our estimates bb∗ , bb∞ , and B
+                                           bao again converge to         smaller, and in our experiments, we saved substantially on
+the true PSR parameters up to a linear transform.                        both memory and runtime by avoiding construction of the
+                                                                         larger matrices. To construct U   b T PbT ,ao,H , we restrict to those
+B. Kernel Density Estimation for Continuous Observations                 training trajectories in which the action at the middle time step
+   For continuous observations, we use Kernel Density Estima-            is a. Then, each element of PbT ,ao,H is a weighted empirical
+tion (KDE) [20] to model the observation probability density             expectation (among the restricted set of trajectories) of the
+function (PDF). Although use of kernel density estimation for            product of one indicative feature, one characteristic feature,
+continuous observations in PSRs is not new [29], extending               and element o of the observation kernel vector. So,
+our algorithm to use KDE results, for the first time, in a statis-
+                                                                            2 We use a general elliptical covariance matrix, chosen by PCA: that is,
+tically consistent learning algorithm for PSRs with continuous
+                                                                         we use a spherical covariance after projecting onto the eigenvectors of the
+observations. We use a fraction of the training data points              covariance matrix of the observations, and scaling by the square roots of the
+as kernel centers, placing one multivariate Gaussian kernel at           eigenvalues.
+                        wa
+      b T PbT ,ao,H =
+                        X
+                                   b T φTt )(φH      1                    motion model; it only has access to samples of the 256
+      U                       αta (U          t )
+                                                 T
+                                                        K(ot − o)   (9)
+                        t=1
+                                                     Zt                   pixel features, and how these features change as actions are
+                                                                          executed. Writing a correct policy for a specific task in this
+where K(·) is the kernel function and Zt is the kernel                    domain by hand would be at best tedious—and in any case, as
+normalization constant computed by summing over the ob-                   mentioned above, it is often impractical to hand-design a pol-
+servation kernels for each ot . As above, in our experiments,             icy for an autonomous agent, since doing so requires guessing
+the importance weights αta are uniform.                                   the particular planning problems that the agent may face in
+                IV. E XPERIMENTAL R ESULTS                                the future. Furthermore, the continuous and non-linear nature
+                                                                          of this domain makes learning models difficult. For example,
+   We have introduced a novel algorithm for learning TPSRs
+                                                                          a POMDP model of this domain would require a prohibitively
+directly from data, as well as a kernel-based extension for
+                                                                          large number of hidden states, making learning and planning
+modeling continuous observations. We judge the quality of
+                                                                          next to impossible. PSRs are able to overcome this problem by
+our TPSR learning algorithm by first learning a model of a
+                                                                          compactly representing state in a low-dimensional real-valued
+challenging non-linear, partially observable, controlled domain
+                                                                          space, and the algorithm presented in this work allows us to
+directly from sensor inputs and then “closing the loop” by
+                                                                          efficiently learn the parameters of the PSR in closed form.
+planning in the learned model. Successful planning is a much
+stronger result than standard dynamical system evaluations                B. Learning a Model
+such as one-step squared error or prediction log-likelihood.
+                                                                             We learn our model from a sample of 10000 short trajecto-
+Unlike previous attempts to learn PSRs, which either lack
+                                                                          ries, each containing 7 action-observation pairs. We generate
+planning results [16, 29], or which compare policies within
+                                                                          each trajectory by starting from a uniformly randomly sampled
+the learned system [30], we compare our resulting policy to a
+                                                                          position in the environment and executing a uniform random
+bound on the best possible solution in the original system and
+                                                                          sequence of actions. We used the first l = 2000 trajectories
+demonstrate that the policy is close to optimal.
+                                                                          to generate kernel centers, and the remaining w = 8000 to
+A. The Autonomous Robot Domain                                            estimate the matrices PH , PT ,H , and PT ,ao,H .
+   Our simulated autonomous robot domain consisted of a                      To define these matrices, we need to specify a set of
+simple 45 × 45 unit square arena with a central obstacle and              indicative features, a set of observation kernel centers, and a
+brightly colored walls (Figure 1(A-B)), containing a robot of             set of characteristic features. We use Gaussian kernels to define
+radius 2 units. The robot could move around the floor of the              our indicative and characteristic features, in a similar manner
+arena and rotate to face in any direction. The robot had a                to the Gaussian kernels described above for observations; our
+simulated 16 × 16 pixel color camera, with a focal plane one              analysis allows us to use arbitrary indicative and characteristic
+unit in front of the robot’s center of rotation, and with a visual        features, but we found Gaussian kernels to be convenient
+field of 45◦ in both azimuth and elevation, corresponding to              and effective. Note that the resulting features over tests and
+an angular resolution of ∼ 2.8◦ per pixel. The resulting 768-             histories are just features; unlike the kernel centers defined
+element pattern of unprocessed RGB values was the only input              over observations, there is no need to let the kernel width
+to the robot (images were not preprocessed to extract features),          approach zero, since we are not attempting to learn accurate
+and each action produced a new set of pixel values. The robot             PDFs over the histories and tests in H and T .
+was able to move forward 1 or 0 units, and simultaneously                    In more detail, we define a set of 2000 indicative kernels,
+rotate 15◦ , −15◦ , or 0◦ , resulting in 6 unique actions. In             each one centered at a sequence of 3 observations from the
+the real world, friction, uneven surfaces, and other factors              initial segment of one of our trajectories. We choose the kernel
+confound precisely predictable movements. To simulate this                covariance using PCA on these sequences of observations,
+uncertainty, a small amount of Gaussian noise was added to the            just as described for single observations in Section III-B.
+translation (mean 0, standard deviation .1 units) and rotation            We then generate our indicative features for a new sequence
+(mean 0, standard deviation 5◦ ) components of the actions.               of three observations by evaluating each indicative kernel
+The robot was allowed to occupy any real-valued (x, y, θ)                 at the new sequence, and normalizing so that the vector of
+pose that didn’t intersect a wall; in case of an attempt to drive         features sums to one. (The initial distribution ω is, therefore,
+through a wall, we interrupted the commanded motion just                  the distribution obtained by initializing uniformly and taking
+before contact, simulating an inelastic collision.                        3 random actions.) Similarly, we define 2000 characteristic
+   The autonomous robot domain was designed to be a difficult             kernels, each one centered at a sequence of 3 observations
+domain comparable to the most complex domains that previous               from the end of one of our sample trajectories, choose a
+PSR algorithms have attempted to model. In particular, the                kernel covariance, and define our characteristic feature vector
+domain in this paper was modeled after the autonomous robot               by evaluating each kernel at a new observation sequence and
+domains found in recent PSR work [29, 30]. The proposed                   normalizing. Finally, we define 500 observation kernels, each
+problem, learning a model of this domain and then planning                one centered at a single observation from the middle of one
+in the learned model, is quite difficult. The autonomous robot            of our sample trajectories, and replace each observation by its
+has no knowledge of any of the underlying properties of the               corresponding vector of normalized kernel weights. Next, we
+domain, e.g. the geometry of the environment or the robot                 construct the matrices PbH , PbT ,H , and PbT ,ao,H as the empirical
+                                                                                      −3
+ A.                      Outer Walls        B.                               C. x 10                                            D.
+
+               Inner Walls                                                       4
+
+
+                                                                                 0
+
+
+                                                                                −4
+
+                                                                                                                                 Learned Representation
+                                              Simulated Environment              −8        −4         0        4         8 −3          Mapped to
+                                                                                                                         x 10
+       Simulated Environment                    3-d View (to scale)                        Learned Subspace                         Geometric Space
+Fig. 1. Learning the Autonomous Robot Domain. (A) The robot uses visual sensing to traverse a square domain with multi-colored walls and a central
+obstacle. Examples of images recorded by the robot occupying two different positions in the environment are shown at the bottom of the figure. (B) A to-scale
+3-dimensional view of the environment. (C) The 2nd and 3rd dimension of the learned subspace (the first dimension primarily contained normalization
+information). Each point is the embedding of a single history, displayed with color equal to the average RGB color in the first image in the highest probability
+test. (D) The same points in (C) projected onto the environment’s geometric space.
+
+expectations over our 8000 training trajectories according to                    problem can be viewed as a shortest path problem. Even
+the equations in Section III. Finally we chose |Q0 | = 5 as the                  though we don’t encode this intuition into our algorithm, we
+dimension of our TPSR, the smallest dimension that was able                      can use it to quantitatively evaluate the performance of the
+to produce high quality policies (see Section IV-D below).                       policy in the original system. First we randomly sampled 100
+                                                                                 initial histories in the environment and asked the robot to
+C. Qualitative Evaluation                                                        plan paths for each based on its learned policy. We compared
+    Having learned the parameters of the TPSR according to the                   the number of actions taken both to a random policy and to
+algorithm in Section III, we can use the model for prediction,                   the optimistic path, calculated by A* search in the robot’s
+filtering, and planning in the autonomous robot domain. We                       configuration space given the true underlying position. Note
+first evaluated the model qualitatively by projecting the sets of                that this comparison is somewhat unfair: in order to achieve
+histories in the training data onto the learned TPSR state space:                the same cost as the optimistic path, the robot would have to
+Ub T PbH . We colored each datapoint according to the average of
+                                                                                 know its true underlying position, the dynamics would have to
+the red, green, and blue components of the highest probability                   be deterministic, all rotations would have to be instantaneous,
+observation following the projected history. The features of the                 and the algorithm would need an unlimited amount of training
+low dimensional embedding clearly capture the topology of the                    data. Nonetheless, the results (Figure 2(D)) indicate that the
+major features of the robot’s visual environment (Figure 1(C-                    performance of the TPSR policy is close to this optimistic
+D)), and continuous paths in the environment translate into                      bound. We think that this result is remarkable, especially
+continuous paths in the latent space (Figure 2(B)).                              given that previous approaches have encountered significant
+                                                                                 difficulty modeling continuous domains [10] and domains with
+D. Planning in the Learned Model
+                                                                                 similarly high levels of complexity [30].
+   To test the quality of the learned model, we set up a
+navigation problem where the robot was required to plan                                                 V. C ONCLUSIONS
+to reach a goal image (looking directly at the blue wall).                          We have presented a novel consistent subspace identifica-
+We specified a large reward (1000) for this observation, a                       tion algorithm that simultaneously solves the discovery and
+reward of −1 for colliding with a wall, and 0 for every other                    learning problems for TPSRs. In addition, we provided two
+observation. We learned a reward function by linear regression                   extensions to the learning algorithm that are useful in practice,
+from the embedded histories U b T PbH to the observed immediate                  while maintaining consistency: characteristic and indicative
+rewards. We used the learned reward function to compute an                       features only require one to know relevant features of tests and
+approximate state-action value function via the PSR extension                    histories, rather than core sets of tests and sufficient sets of
+of the Perseus variant of PBVI [15, 25, 9, 7] with discount                      histories, while kernel density estimation can be used to find
+factor γ = .8, a prediction horizon of 10 steps, and with                        observable operators when observations are real-valued. We
+the 8000 embedded histories as the set of belief points. The                     also showed how point-based approximate planning techniques
+learned value function is displayed in Figure 2(A). We then                      can be used to solve the planning problem in the learned
+computed an initial belief by starting with b∗ and tracking for                  model. We demonstrated the representational capacity of our
+3 action-observation pairs, and executed the greedy policy for                   model and the effectiveness of our learning algorithm by learn-
+our learned value function. Examples of paths planned in the                     ing a compact model from simulated autonomous robot vision
+learned model are presented in Figure 2(B); the same paths                       data. Finally, we closed the loop by successfully planning with
+are shown in geometric space in Figure 2(C). (Recall that the                    the learned models. To our knowledge this is the first instance
+robot only has access to images, never its own position.)                        of learning a model for a simulated robot in a nonlinear, non-
+   The reward function encouraged the robot to navigate to                       Gaussian, partially observable environment of this complexity
+a specific set of points in the environment, so the planning                     using a consistent algorithm and successfully planning in the
+A. x 10−3                                   B.          −3
+                                                     x 10                                    C.                                D.          Mean # of            291.5
+                                                                                                                                           Actions 22.8
+  4                                              4
+                                                                                                                                              12.8
+                                                                                                                                                               ~
+                                                                                                                                                               ~
+  0                                              0
+                                                                                                                                Optimistic Learned Random
+                                                                                                                                         1 Opt.
+ −4                                           −4                                                                                                        Learned
+
+
+
+
+                                                                                                                            Cumulative
+                                                                                                                             Density
+                                                                                                                                     .5
+
+  −8        −4        0         4         8 −3 −8            −4       0       4          8 −3
+                                          x 10               Policies Executed in        x 10         Paths Taken in                                          Random
+        Estimated Value Function                                                                                                         00
+                                                              Learned Subspace                       Geometric Space                                     50
+                                                                                                                                                     # of Actions
+                                                                                                                                                                        100
+
+Fig. 2. Planning in the learned state space. (A) The value function computed for each embedded point; lighter indicates higher value. (B) Policies executed
+in the learned subspace. The red, green, magenta, and yellow paths correspond to the policy executed by a robot with starting positions facing the red, green,
+magenta, and yellow walls respectively. (C) The paths taken by the robot in geometric space while executing the policy. Each of the paths corresponds to the
+path of the same color in (B). The darker circles indicate the starting and ending positions, and the tick-mark indicates the robot’s orientation. (D) Analysis
+of planning from 100 randomly sampled start positions to the target image (facing blue wall). In the bar graph: the mean number of actions taken by the
+optimistic solution found by A* search in configuration space (left); taken by executing the policy found by Perseus in the learned model (center); and taken
+by executing a random policy (right). The line graph illustrates the cumulative density of the number of actions given the optimal, learned, and random
+policies.
+
+learned model. We compare the policy generated by our model                         [10] N. K. Jong and P. Stone. Towards Employing PSRs in a Continuous
+to a bound on the best possible value, and determine that our                            Domain. Technical Report UT-AI-TR-04-309, University of Texas at
+                                                                                         Austin, 2004.
+policy is close to optimal.                                                         [11] M. Littman, R. Sutton, and S. Singh. Predictive representations of state.
+   We believe the spectral PSR learning algorithm presented                              In Advances in Neural Information Processing Systems (NIPS), 2002.
+here, and subspace identification procedures for learning                           [12] M. Zhao and H. Jaeger and M. Thon. A Bound on Modeling Error
+                                                                                         in Observable Operator Models and an Associated Learning Algorithm.
+PSRs in general, can increase the scope of planning under                                Neural Computation, 2009.
+uncertainty for autonomous agents in previously intractable                         [13] A. McCallum. Reinforcement Learning with Selective Perception and
+scenarios. We believe that this improvement is partly due                                Hidden State. PhD Thesis, University of Rochester, 1995.
+                                                                                    [14] P. McCracken and M. Bowling. Online discovery and learning of
+to the greater representational power of PSRs as compared                                predictive state representations. In Proc. NIPS, 2005.
+to POMDPs, and partly due to the efficient and statistically                        [15] J. Pineau, G. Gordon, and S. Thrun. Point-based value iteration: An
+consistent nature of the learning method.                                                anytime algorithm for POMDPs. In Proc. IJCAI, 2003.
+                                                                                    [16] M. Rosencrantz, G. J. Gordon, and S. Thrun. Learning low dimensional
+                                                                                         predictive representations. In Proc. ICML, 2004.
+                        ACKNOWLEDGEMENTS                                            [17] S. Ross and J. Pineau. Model-Based Bayesian Reinforcement Learning
+                                                                                         in Large Structured Domains. In Proc. UAI, 2008.
+SMS (now at Google) was supported by the NSF under grant                            [18] G. Shani, R. I. Brafman, and S. E. Shimony. Model-based online
+number 0000164, by the USAF under grant number FA8650-                                   learning of POMDPs. In Proc. ECML, 2005.
+                                                                                    [19] S. M. Siddiqi, B. Boots, and G. J. Gordon. Reduced-Rank Hidden
+05-C-7264, by the USDA under grant number 4400161514,                                    Markov Models. In In Proc. 13th Intl. Conf. on Artificial Intelligence
+and by MobileFusion/TTC. BB was supported by the NSF                                     and Statistics (AISTATS), 2010.
+under grant number EEEC-0540865. BB and GJG were sup-                               [20] B. W. Silverman. Density Estimation for Statistics and Data Analysis.
+                                                                                         Chapman & Hall, 1986.
+ported by ONR MURI grant number N00014-09-1-1052.                                   [21] S. Singh, M. James, and M. Rudary. Predictive state representations: A
+                                                                                         new theory for modeling dynamical systems. In Proc. UAI, 2004.
+                              R EFERENCES                                           [22] S. Singh, M. L. Littman, N. K. Jong, D. Pardoe, and P. Stone. Learning
+                                                                                         predictive state representations. In Proc. ICML, 2003.
+ [1] J. Bilmes. A gentle tutorial on the EM algorithm and its application to        [23] S. Soatto and A. Chiuso. Dynamic data factorization. Technical report,
+     parameter estimation for gaussian mixture and hidden markov models.                 UCLA, 2001.
+     Technical Report, ICSI-TR-97-021, 1997.                                        [24] E. J. Sondik. The Optimal Control of Partially Observable Markov
+ [2] M. Bowling, P. McCracken, M. James, J. Neufeld, and D. Wilkinson.                   Processes. PhD. Thesis, Stanford University, 1971.
+     Learning predictive state representations using non-blind policies. In         [25] M. T. J. Spaan and N. Vlassis. Perseus: Randomized point-based
+     Proc. ICML, 2006.                                                                   value iteration for POMDPs. Journal of Artificial Intelligence Research,
+                                                                                         24:195–220, 2005.
+ [3] A. R. Cassandra, L. P. Kaelbling, and M. R. Littman. Acting Optimally
+                                                                                    [26] P. Van Overschee and B. De Moor. Subspace Identification for Linear
+     in Partially Observable Stochastic Domains. In Proc. AAAI, 1994.
+                                                                                         Systems: Theory, Implementation, Applications. Kluwer, 1996.
+ [4] Eyal Even-Dar and Sham M. Kakade and Yishay Mansour. Planning in
+                                                                                    [27] E. Wiewiora. Learning predictive representations from a history. In
+     POMDPs Using Multiplicity Automata. In UAI, 2005.
+                                                                                         Proc. ICML, 2005.
+ [5] H. Jaeger, M. Zhao, A. Kolling. Efficient Training of OOMs. In NIPS,
+                                                                                    [28] D. Wingate. Exponential Family Predictive Representations of State.
+     2005.
+                                                                                         PhD Thesis, University of Michigan, 2008.
+ [6] D. Hsu, S. Kakade, and T. Zhang. A spectral algorithm for learning             [29] D. Wingate and S. Singh. On discovery and learning of models with
+     hidden markov models. In COLT, 2009.                                                predictive representations of state for agents with continuous actions and
+ [7] M. T. Izadi and D. Precup. Point-based Planning for Predictive State                observations. In Proc. AAMAS, 2007.
+     Representations. In Proc. Canadian AI, 2008.                                   [30] D. Wingate and S. Singh. Efficiently learning linear-linear exponential
+ [8] H. Jaeger. Observable operator models for discrete stochastic time series.          family predictive representations of state. In Proc. ICML, 2008.
+     Neural Computation, 12:1371–1398, 2000.                                        [31] B. Wolfe, M. James, and S. Singh. Learning predictive state represen-
+ [9] M. R. James, T. Wessling, and N. A. Vlassis. Improving approximate                  tations in dynamical systems without reset. In Proc. ICML, 2005.
+     value iteration using memories and predictive state representations. In
+     AAAI, 2006.
+

@@ -1,0 +1,81 @@
+{
+  "source_id": "1z4gQqRfAwkJ",
+  "read_event_id": "0df021c60d3e4f91aff959bb8f7f42a2",
+  "content_sha256": "ecd855c5b03ffa3307f5cfcf2aa3e23a0495417c20b26fa387545e05e9db6e56",
+  "claim": "The paper presents a perturbation-based framework for inferring task stiffness profiles from demonstrations in variable impedance control, using human supervision and EMG to distinguish human-applied from environmental forces and posterior uncertainty to guide informative perturbation placement; in the reported five-seed comparison and WAM bed-making task, knowledge-based placement achieved higher average coverage, lower trajectory deviation, and the random strategy's coverage with fewer perturbed trials.",
+  "claim_locator": [
+    "Controller-supplied packet: method description",
+    "Controller-supplied packet: five-seed comparative evaluation",
+    "Controller-supplied packet: WAM bed-making experiment",
+    "Controller-supplied packet: limitations and future work"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported method, comparative results, application findings, and limitations; mechanism-level synthesis is confined to the supplied packet.",
+  "problem_and_setting": "Inferring task-dependent stiffness profiles for variable impedance control from demonstrations when measured forces may originate from either a human or the environment, evaluated through a five-seed perturbation-placement comparison and a real WAM bed-making experiment.",
+  "method_or_mechanism": "Purposeful perturbations are combined with human supervision and EMG to disambiguate human and environmental forces. Posterior uncertainty or variance directs perturbations toward low-coverage or ambiguous regions. The knowledge-based policy uses coverage C_alpha, which counts times when posterior variance or applied perturbation exceeds a tracking-error-scaled threshold.",
+  "content_summary": "The framework learns stiffness profiles from perturbed demonstrations and uses posterior uncertainty to select informative perturbation locations. Against uniformly random placement over five seeds, the knowledge-based policy reportedly improves average coverage, reduces trajectory deviation, and requires fewer costly WAM perturbed trials to attain the random policy's coverage. In bed making, the inferred behavior is initially compliant, stiffens as the sheet stretches to remove wrinkles, includes a nonminimum z gain around 20–25 seconds to lower a corner, and reflects environmental constraints along x and y. The authors state that the framework can adapt to sensory equipment.",
+  "synthesis_role": "Direct evidence for uncertainty-guided, active perturbation placement in demonstration-based stiffness inference, with task-specific robotic validation and explicit sensing and scalability limitations.",
+  "development_link": "Links posterior-uncertainty estimation to knowledge-based experimental design for collecting informative demonstrations and learning variable impedance profiles.",
+  "evidence": [
+    {
+      "locator": "Controller-supplied packet: method description",
+      "status": "author-reported",
+      "finding": "Purposeful perturbations, human supervision, and EMG are used to infer stiffness while distinguishing human-applied from environmental force."
+    },
+    {
+      "locator": "Controller-supplied packet: perturbation policy and coverage definition",
+      "status": "author-reported",
+      "finding": "Posterior variance guides perturbations toward low-coverage or ambiguous regions, and C_alpha counts times when posterior variance or applied perturbation exceeds a tracking-error-scaled threshold."
+    },
+    {
+      "locator": "Controller-supplied packet: five-seed comparison",
+      "status": "author-reported",
+      "finding": "Knowledge-based placement produced higher average coverage and lower trajectory deviation than uniformly random placement and reached the random strategy's coverage with fewer WAM perturbed trials."
+    },
+    {
+      "locator": "Controller-supplied packet: WAM bed-making experiment",
+      "status": "author-reported",
+      "finding": "The inferred profile was initially compliant, stiffened while stretching the sheet, exhibited a nonminimum z gain at approximately 20–25 seconds to lower a corner, and represented environmental constraints along x and y."
+    },
+    {
+      "locator": "Controller-supplied packet: limitations and future work",
+      "status": "author-reported",
+      "finding": "The stability relationship among the impedance law, perturbations, and resultant variable impedance controller remains unresolved; full stiffness matrices require many demonstrations; force observers without sensing require negligible modeling error; and EMG remains necessary to distinguish human from environmental force."
+    }
+  ],
+  "evidence_kind": [
+    "method description",
+    "five-seed comparative evaluation",
+    "real-robot task experiment",
+    "author-reported limitations"
+  ],
+  "boundary_conditions": [
+    "Comparative evidence is limited to five seeds and uniformly random perturbation placement as described in the packet.",
+    "Real-robot evidence is limited to the reported WAM bed-making task.",
+    "The reported benefits should not be generalized to other robots, tasks, perturbation policies, or sensing configurations without additional evidence.",
+    "Force-observer substitution is conditioned on negligible modeling error.",
+    "EMG remains required in the reported framework to distinguish human-applied from environmental force."
+  ],
+  "assumptions": [
+    "Human supervision and EMG provide information sufficient to disambiguate human and environmental force in the reported setting.",
+    "Posterior variance is an informative proxy for regions where perturbations can improve stiffness inference.",
+    "The tracking-error-scaled threshold used by C_alpha is meaningful for the evaluated trajectories.",
+    "Demonstrations and perturbations adequately excite the stiffness dimensions being inferred."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The stability relationship among the impedance law, perturbations, and resultant variable impedance control remains unresolved.",
+      "Inferring full stiffness matrices requires many demonstrations.",
+      "Replacing force sensing with an observer is viable only when modeling error is negligible.",
+      "EMG is still needed to distinguish human-applied from environmental force."
+    ],
+    "inferred": [
+      "Scalability may deteriorate as stiffness dimensionality increases because full-matrix inference requires substantially more demonstrations.",
+      "Inference reliability may degrade when posterior variance is poorly calibrated or when sensing and modeling assumptions do not hold.",
+      "The five-seed comparison and single WAM application are insufficient to establish broad cross-task or cross-platform superiority."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Verified only against the Controller-supplied packet; no full-text, numerical, locator-level, or external-source verification was performed."
+}

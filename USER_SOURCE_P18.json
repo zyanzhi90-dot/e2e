@@ -1,0 +1,12 @@
+{
+  "paper_id": "USER-TMRB-2024-3349626",
+  "source_path": "source-materials/user-supplied-softscan-2026-08-22/P18_✔Toward_Safe_and_Collaborative_Robotic_Ultrasound_Tissue_Scanning_in_Neurosurgery.pdf",
+  "title": "Toward Safe and Collaborative Robotic Ultrasound Tissue Scanning in Neurosurgery",
+  "authors": ["Michael Dyck", "Alistair Weld", "Julian Klodmann", "Alexander Kirst", "Luke Dixon", "Giulio Anichini", "Sophie Camp", "Alin Albu-Schäffer", "Stamatia Giannarou"],
+  "year": 2024,
+  "venue": "IEEE Transactions on Medical Robotics and Bionics",
+  "doi_or_stable_url": "https://doi.org/10.1109/TMRB.2024.3349626",
+  "publication_type": "peer-reviewed journal article",
+  "reading_priority": "TARGETED_GAP_FOLLOWUP",
+  "screening_reason": "User-supplied robotic-ultrasound safety boundary case showing low-stiffness tissue, low-force or no-contact coupling, arbitrary surface guidance, and preliminary validation limits."
+}

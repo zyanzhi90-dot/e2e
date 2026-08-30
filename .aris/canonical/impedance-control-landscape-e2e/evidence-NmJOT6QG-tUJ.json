@@ -1,0 +1,82 @@
+{
+  "source_id": "NmJOT6QG-tUJ",
+  "read_event_id": "182270e6f3ab4dedb2ba864c7e028e20",
+  "content_sha256": "6b5750d2aba273fe67a8aa1d4c010c265101135fdb693f217b1bee44539d4c4b",
+  "claim": "End-to-end joint training of a physically consistent rigid-body dynamics model, sign-friction component and residual LSTM improves inverse-dynamics prediction and enables more precise joint-space impedance tracking at low feedback gains than the reported two-step hybrid baseline on tested Franka Panda free-space trajectories; it does not establish universal superiority, contact safety, passivity or closed-loop stability.",
+  "claim_locator": "Model formulation; offline comparisons; motion-tracking experiments and Table III; conclusion.",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "robotics method with offline model evaluation and real-robot control experiments",
+  "problem_and_setting": "Using physical priors plus recurrent residual learning to improve precision under compliant low feedback gains on a 7-DoF Franka Panda.",
+  "method_or_mechanism": "A fully physically consistent RBD parameterization plus simplified sign friction and residual LSTM is trained end-to-end. LSTM memory models history-dependent friction, flexibility and partial observability. Comparators include two-step hybrid, MLP residual, RBD and black-box LSTM.",
+  "content_summary": "Offline 10-seed tests generally favor the hybrid over black-box LSTM and RBD, while MLP fits training better and LSTM generalizes better; the last joint is an exception. Online 1000 Hz control uses five minimum-jerk trajectories under soft, medium and stiff gains. E2E hybrid RMSE is 12.799°, 2.244° and 0.744° versus two-step 16.207°, 2.599° and 0.763°. Final offsets are 18.401°, 3.125°, 0.992° versus 24.45°, 2.304°, 0.596°, so E2E does not dominate every metric. Black-box LSTM entered joint-angle constraints and failed.",
+  "synthesis_role": "Primary evidence for physical-prior plus learned-residual feedforward compensation improving the compliance–precision trade-off, while exposing extrapolation and guarantee gaps.",
+  "development_link": "Connects inverse-dynamics hybrid learning to low-gain impedance tracking rather than direct impedance adaptation.",
+  "evidence": [
+    {
+      "locator": "Offline 10-seed evaluation",
+      "status": "author_reported",
+      "finding": "Hybrid LSTM generally outperformed black-box LSTM and RBD; MLP trained better but LSTM generalized better, with a last-joint exception."
+    },
+    {
+      "locator": "Table III RMSE",
+      "status": "author_reported",
+      "finding": "E2E hybrid RMSE was 12.799/2.244/0.744° for soft/medium/stiff gains versus two-step 16.207/2.599/0.763°."
+    },
+    {
+      "locator": "Table III final offset",
+      "status": "author_reported",
+      "finding": "E2E offsets were 18.401/3.125/0.992° versus two-step 24.45/2.304/0.596°, so E2E was not best for every metric."
+    },
+    {
+      "locator": "Low-gain experiment",
+      "status": "author_reported",
+      "finding": "Soft gains were about two orders below stiff gains, making tracking depend strongly on model accuracy."
+    },
+    {
+      "locator": "Black-box comparator",
+      "status": "author_reported",
+      "finding": "Black-box LSTM entered joint-angle constraints and its online control evaluation failed."
+    }
+  ],
+  "evidence_kind": [
+    "offline model comparison",
+    "real-robot trajectory tracking",
+    "gain sensitivity",
+    "comparator failure"
+  ],
+  "boundary_conditions": [
+    "One Franka Panda and related free-space trajectories were used.",
+    "No contact-rich, collision or force-safety evaluation exists.",
+    "Physical consistency applies to the RBD part, not the full learned loop.",
+    "No closed-loop stability or passivity proof exists.",
+    "Changing payloads/dynamics are future work.",
+    "No online confidence intervals or hypothesis tests are reported."
+  ],
+  "assumptions": [
+    "Robot-specific identification data represent deployment dynamics.",
+    "External torque is absent or negligible.",
+    "Recurrent state is initialized over 500 iterations.",
+    "Inference meets the 1000 Hz loop.",
+    "Low-gain operation stays within the trained distribution."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Black-box LSTM violated joint-angle constraints.",
+      "E2E did not dominate medium/stiff final offsets.",
+      "Changing payloads were untested."
+    ],
+    "inferred": [
+      "Physical consistency does not prove full-loop passivity or stability.",
+      "Free-space compliance does not establish contact safety.",
+      "Single-robot evaluation leaves distribution shift unresolved.",
+      "The black-box failure is not a universal theorem about black-box models."
+    ]
+  },
+  "conflicts_with": [
+    "Universal superiority on every metric.",
+    "Safe contact-rich interaction.",
+    "Formal passivity or stability."
+  ],
+  "verification_status": "verified against Controller-supplied admitted full-text extraction"
+}

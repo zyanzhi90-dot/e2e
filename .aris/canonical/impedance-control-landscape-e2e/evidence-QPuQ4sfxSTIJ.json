@@ -1,0 +1,112 @@
+{
+  "source_id": "QPuQ4sfxSTIJ",
+  "read_event_id": "5eedf9d861164bf1b4e6dfa8500bde73",
+  "content_sha256": "4556705e92029c3850c865b10ccb38850c7bd2bc89a5d98c7898a6c543633e8c",
+  "claim": "A calibrated Hertzian cylinder-plane soft-contact model with velocity-dependent deformation and tangential resistance improves force and position tracking when embedded in nonlinear MPC for robotic ultrasound, but does not establish added value from contact memory, heterogeneity, or adaptive impedance.",
+  "claim_locator": [
+    "Contact-model derivation",
+    "Parameter-identification experiments",
+    "Nonlinear MPC formulation",
+    "Step, slope, and wave comparisons",
+    "Phantom reconstruction",
+    "Limitations and future work"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported formulation and experiments; novelty and minimal-state implications are evidence-grounded reader inferences.",
+  "problem_and_setting": "Autonomous robotic ultrasound scanning with a rigid cylindrical probe sliding over an approximately flat soft back, where deformation and tangential resistance affect normal-force and trajectory tracking.",
+  "method_or_mechanism": "Cylinder-plane Hertzian contact uses Young modulus and Poisson ratio; normal force depends on indentation and velocity through deformation radii assumed linear in velocity, and tangential resistance sums dry friction and deformation resistance. Parameters are identified on one agar phantom at 3, 6, 9, and 12 N and 0.2-1 m/s, then embedded in CasADi nonlinear MPC with a five-step horizon.",
+  "content_summary": "Against MPC with dry friction only, the contact-aware MPC reports lower position and force errors for step, slope, and wave references. The integrated system reconstructs a phantom spine at 33 degrees and demonstrates human scanning. The model is geometry-specific and offline-calibrated; complex anatomy, disturbance compliance, organ adaptation, and motion compensation remain unresolved.",
+  "synthesis_role": "Direct 2025 nearest prior: soft-contact modeling inside robotic-ultrasound MPC is already demonstrated, so novelty must concern whether an identifiable memory/heterogeneity state changes optimal impedance and safety or image outcomes beyond this baseline.",
+  "development_link": "Use AuSoScan as a direct baseline and retain richer state only if it changes impedance actions or improves held-out force, trajectory, image, recovery, and constraint outcomes across untrained materials, geometries, speeds, and histories.",
+  "evidence": [
+    {
+      "locator": "Contact-model derivation",
+      "status": "author_reported",
+      "finding": "The interface is a rigid cylindrical probe on an approximately flat soft surface, with Hertzian pressure/deformation and material elastic properties."
+    },
+    {
+      "locator": "Contact-model derivation",
+      "status": "author_reported",
+      "finding": "Distortion radii are linear in velocity; normal force depends on indentation and velocity, while tangential resistance combines dry friction and deformation resistance."
+    },
+    {
+      "locator": "Parameter-identification experiments",
+      "status": "author_reported",
+      "finding": "Parameters are identified on one agar phantom at four force levels and speeds from 0.2 to 1 m/s."
+    },
+    {
+      "locator": "Nonlinear MPC formulation",
+      "status": "author_reported",
+      "finding": "The calibrated model is embedded in a CasADi nonlinear MPC with a five-step horizon."
+    },
+    {
+      "locator": "Tracking comparisons",
+      "status": "author_reported",
+      "finding": "The contact-aware controller reports lower position and force tracking errors than a dry-friction-only baseline for three reference families."
+    },
+    {
+      "locator": "Phantom reconstruction and limitations",
+      "status": "author_reported",
+      "finding": "A 33-degree phantom spine reconstruction and human scanning are shown, but severe scoliosis, uneven shoulders, stronger disturbance response, organ adaptation, and motion compensation remain unestablished."
+    },
+    {
+      "locator": "Model and identification",
+      "status": "reader_inference",
+      "finding": "Offline fitting on one phantom with no relaxation state or online material adaptation leaves robustness to memory and heterogeneity unresolved."
+    }
+  ],
+  "evidence_kind": [
+    "Hertzian soft-contact model",
+    "phantom identification",
+    "nonlinear MPC",
+    "tracking comparison",
+    "phantom reconstruction",
+    "human demonstration"
+  ],
+  "boundary_conditions": [
+    "Rigid cylindrical probe and locally flat soft surface",
+    "Linear velocity dependence of distortion radii",
+    "One agar phantom",
+    "Five-step horizon",
+    "Main reconstruction validation is phantom",
+    "No explicit relaxation memory or online material adaptation"
+  ],
+  "assumptions": [
+    "Hertzian cylinder-plane mechanics are adequate",
+    "Dry friction plus deformation resistance captures dominant tangential interaction",
+    "Phantom-identified parameters transfer to evaluation",
+    "The short horizon captures relevant dynamics"
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Not demonstrated for severe scoliosis or uneven shoulders",
+      "Greater compliance and disturbance reactivity are needed",
+      "Organ adaptation and motion compensation remain future work"
+    ],
+    "inferred": [
+      "One-phantom parameters may not generalize",
+      "Flat geometry may mismatch curved or moving anatomy",
+      "A memoryless rate term may confound velocity and relaxation",
+      "Tracking error alone does not establish peak-force, passivity, image, or recovery benefit"
+    ]
+  },
+  "conflicts_with": [
+    "Novelty framed as soft-contact-aware MPC for robotic ultrasound",
+    "Broad generality of a one-phantom cylinder-plane model",
+    "Necessity of memory-aware modeling without a direct comparison"
+  ],
+  "verification_status": "verified",
+  "problem_lead_search_contexts": [
+    {
+      "phase": "problem_generation",
+      "query_plan_sha256": "a6937acfc11d3a47018b762449863c3f7136f9cc5fea0ece98b061b6e4104776",
+      "lead_id": "lead-softscan-contact-representation",
+      "lead_statement": "For continuous robotic ultrasound scanning, extending NNBO beyond a scalar normal Hunt-Crossley environment may be necessary because finite-area sliding, changing surface geometry, tangential resistance, and contact moment can alter the impedance decision and its safety/performance boundary.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Unresolvedness",
+      "purpose": "Verify the strongest application-specific prior for finite-area sliding soft contact, including exactly what contact model, measured outputs, controller, and experimental boundaries it already provides.",
+      "expected_close_condition": "Resolve whether AuSoScan or its closest follow-ons already answer the proposed contact-representation problem in the intended scanning scope and isolate any residual unresolved delta."
+    }
+  ]
+}

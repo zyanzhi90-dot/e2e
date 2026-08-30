@@ -1,0 +1,83 @@
+{
+  "source_id": "dqYs440MKMMJ",
+  "read_event_id": "60daef8675b64664a213e0d3cf89d011",
+  "content_sha256": "be9c6a029b3284db1032d7ef2d41483552a48b640db4e9acd76c22a3c61987c9",
+  "claim": "For contact-sensitive robotic tasks, a structured reinforcement-learning policy that outputs both desired joint positions and state-dependent impedance gains can improve robustness to uncertain contact conditions relative to direct-torque and fixed-gain position policies, but this empirical advantage does not provide a general stability guarantee and leaves impedance representation, exploration, and decomposition unresolved.",
+  "claim_locator": "Controller-supplied excerpts describing the policy comparison and law, hopper and wiping experiments, uncertainty ranges, regularization and hardware strategy, reported results, conclusion, and discussion of Bogdanovic, Khadiv & Righetti (RA-L 2020; arXiv:1907.07500).",
+  "access_level": "partial_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Primary-study evidence summarized from bounded Controller-supplied excerpts; numerical settings and performance findings are author-reported and were not independently reproduced.",
+  "problem_and_setting": "Establishing or breaking contact switches robot dynamics, while uncertainty in contact location, friction, and surface stiffness can degrade control. The study tests whether learned state-dependent impedance improves reliability in two contact-sensitive settings: a floating-base hopper undergoing intermittent hard impacts and a fixed-base manipulator wiping a table.",
+  "method_or_mechanism": "Neural policies receive the same state input but use one of three action structures: direct joint torque; desired joint position executed by fixed-gain PD control; or desired joint position together with state-dependent proportional gains executed by variable-gain PD control. The variable policy is tau=Kp(xi)(qdes(xi)-q)-Kd(xi)qdot, with damping Kd linked to the square root of Kp. This structure separates desired feedforward behavior from feedback response to unforeseen events while increasing the action-space dimension. Policies are state-based rather than fixed time trajectories. A trajectory-tracking regularizer discourages high-frequency changes in desired position to preserve interpretability and support transfer.",
+  "content_summary": "Across author-reported hopper and table-wiping experiments, the variable-gain policy outperformed fixed-gain and direct-torque policies under contact uncertainty. Tested wiping uncertainties included table height from 0.8 to 1.0 m, friction from 0 to 1, and surface stiffness from 50 to 500 N/m, with training repeated six times. The largest reported advantage occurred under uncertain contact location: variable gains yielded smoother forces without losing contact, direct torque frequently lost contact, and fixed gains produced high-frequency force oscillations. The desired-trajectory regularizer was reported as crucial for sim-to-real transfer. For hardware, the authors empirically identified a joint stiffness and damping range stable over broad motions and constrained learned gains to that range; no instability was observed, but state-dependent impedance was explicitly acknowledged as potentially unstable. The paper therefore supports structured variable-impedance RL as an empirically robust contact-control design, not a generally stability-certified solution. Optimal impedance modulation, local exploration failures, collapse of decomposed policy terms, and representation tradeoffs remain open.",
+  "synthesis_role": "Primary empirical transition card showing how variable impedance learning control can embed mechanical control structure inside a learned policy to improve contact robustness, while exposing the gap between empirical gain constraints and formal stability and between structured parameterization and reliable exploration.",
+  "development_link": "The work advances beyond fixed-gain impedance and unstructured direct-torque learning by jointly learning desired motion and state-dependent feedback gains. It operationalizes the review-level proposal that impedance parameterization can improve reinforcement-learning behavior in contact tasks, yet confirms the broader unresolved bottleneck: learned impedance requires stability safeguards, effective incentives and exploration, and representations that balance training efficiency against singularities, redundancy choices, and constrained behavior.",
+  "evidence": [
+    {
+      "statement": "The study compares direct-torque, fixed-gain desired-position, and state-dependent variable-impedance policies using the same state input.",
+      "support_scope": "Author-reported experimental design in supplied excerpts."
+    },
+    {
+      "statement": "The variable policy jointly outputs desired joint position and proportional impedance, with damping tied to the square root of proportional gain.",
+      "support_scope": "Reported policy equation and parameterization."
+    },
+    {
+      "statement": "Variable gain reportedly outperformed fixed gain and direct torque under uncertainties in contact location, friction, and stiffness in hopper and wiping tasks.",
+      "support_scope": "Author-reported comparative experimental result; not independently reproduced."
+    },
+    {
+      "statement": "Under uncertain contact location, variable impedance reportedly maintained smoother contact force without contact loss, while direct torque frequently lost contact and fixed gains exhibited high-frequency force oscillations.",
+      "support_scope": "Author-reported qualitative result."
+    },
+    {
+      "statement": "A trajectory-tracking regularizer was reported to prevent rapid desired-position changes, retain physical interpretability, and be crucial for simulation-to-real transfer.",
+      "support_scope": "Author-reported ablation or implementation conclusion in supplied excerpts."
+    },
+    {
+      "statement": "Hardware gains were constrained to an empirically identified stable range, and no instability was observed on the real robot.",
+      "support_scope": "Author-reported hardware safety procedure and observation; not a proof."
+    },
+    {
+      "statement": "The authors identify optimal modulation, exploration failure, decomposition collapse, and task-space representation tradeoffs as unresolved.",
+      "support_scope": "Reported discussion and conclusion."
+    }
+  ],
+  "evidence_kind": "Primary empirical comparative evidence from simulation and hardware as described in bounded excerpts, including author-reported uncertainty ranges, six training repetitions, qualitative contact behavior, and an empirical sim-to-real stability strategy; no independent reproduction or formal general stability result.",
+  "boundary_conditions": [
+    "The evidence covers two task families—a floating-base hopper and a fixed-base wiping manipulator—and does not establish generality across robots, contacts, or objectives.",
+    "Reported wiping uncertainties are bounded to table height 0.8–1.0 m, friction 0–1, and stiffness 50–500 N/m.",
+    "Training was reportedly repeated six times, but the supplied text does not provide full statistical estimates, effect sizes, or raw data.",
+    "The variable policy uses joint-space impedance with damping constrained through a square-root relationship to proportional gain; conclusions may depend on this parameterization.",
+    "Hardware safety relies on constraining gains to an empirically stable range identified for broad motions.",
+    "Absence of observed hardware instability is not equivalent to global, input-to-state, or passivity-based stability.",
+    "The trajectory regularizer and state-based policy design are part of the reported successful configuration, so robustness should not be attributed to variable gains alone.",
+    "Task-space alternatives may accelerate training but impose redundancy resolution and may encounter singularities or behavior limits."
+  ],
+  "assumptions": [
+    "The Controller-supplied excerpts accurately represent the source's policy definitions, experiments, numerical ranges, results, and limitations.",
+    "All comparative policies used sufficiently comparable state information and training conditions as stated.",
+    "The phrase 'outperformed' is retained as an author-reported comparative conclusion without inferring unreported statistical significance.",
+    "Smoother force and maintained contact are treated as task-relevant robustness indicators rather than universal measures of optimal control.",
+    "The empirically selected gain range remained enforced during the reported hardware trials.",
+    "The developmental interpretation concerns structured learned control architecture and does not imply that the method historically introduced variable impedance control."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Direct-torque policies frequently lost contact under uncertain contact location.",
+      "Fixed-gain policies exhibited high-frequency contact-force oscillations.",
+      "State-dependent impedance can cause instability.",
+      "Without trajectory regularization, high-frequency desired-position changes undermine physical interpretation and sim-to-real transfer.",
+      "Policy exploration can become stuck and fail to find optimal impedance modulation.",
+      "Decomposed desired-motion and feedback terms can collapse into one term unless incentives preserve their intended roles.",
+      "Task-space representations can predefine redundancy resolution and suffer singularities or limited behavior."
+    ],
+    "inferred": [
+      "Increasing the action space to include gains may complicate learning even when the resulting controller is more robust.",
+      "Empirical gain bounding trades policy expressiveness for practical safety and may exclude useful impedance behaviors outside the tested range.",
+      "The comparative benefit may arise from the combination of variable feedback structure, gain constraints, and trajectory regularization rather than state-dependent impedance alone.",
+      "Reliability under the reported uncertainty ranges does not establish robustness to unbounded, qualitatively different, or rapidly changing contact dynamics."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

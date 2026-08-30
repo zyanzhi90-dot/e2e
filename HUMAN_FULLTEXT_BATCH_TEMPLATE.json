@@ -1,0 +1,13 @@
+{
+  "papers": [
+    {"paper_id": "kmOXrypch9kJ", "source_path": "source-materials/user-batch/Impedance_Control_An_Approach_to_Manipulation (1).pdf", "media_type": "application/pdf"},
+    {"paper_id": "bh9zIsh1OIgJ", "source_path": "source-materials/user-batch/Stable_execution_of_contact_tasks_using_impedance_control.pdf", "media_type": "application/pdf"},
+    {"paper_id": "D0Bq_8tYnBQJ", "source_path": "source-materials/user-batch/Contact_transition_stability_in_the_impedance_control.pdf", "media_type": "application/pdf"},
+    {"paper_id": "YroEWEBohvsJ", "source_path": "source-materials/user-batch/Learning_impedance_control_for_robotic_manipulators.pdf", "media_type": "application/pdf"},
+    {"paper_id": "bl3FOCgTd_YJ", "source_path": "source-materials/user-batch/A_Solution_to_the_Accuracy_Robustness_Dilemma_in_Impedance_Control.pdf", "media_type": "application/pdf"},
+    {"paper_id": "SbaEWjemGjsJ", "source_path": "source-materials/user-batch/Impedance_Learning_for_Robots_Interacting_With_Unknown_Environments.pdf", "media_type": "application/pdf"},
+    {"paper_id": "3HbLu0M801YJ", "source_path": "source-materials/user-batch/Stability_Considerations_for_Variable_Impedance_Control.pdf", "media_type": "application/pdf"},
+    {"paper_id": "TWbe_B2DfGkJ", "source_path": "source-materials/user-batch/Composite_Learning_Variable_Impedance_Robot_Control_With_Stability_and_Passivity_Guarantees.pdf", "media_type": "application/pdf"},
+    {"paper_id": "kQorDN4oymIJ", "source_path": "source-materials/user-batch/Learning_Stable_State-Dependent_Variable_Impedance_Control_for_Compliant_Manipulation.pdf", "media_type": "application/pdf"}
+  ]
+}

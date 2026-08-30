@@ -1,0 +1,103 @@
+{
+  "source_id": "msQI3P227yEJ",
+  "read_event_id": "a8190e0748904a418e7b816ec807cbee",
+  "content_sha256": "ba618cf2f83ab44a7a13acc4b6c4a731d3b0804e77fdf79795dcd66f29abbcbb",
+  "claim": "Jin et al. learn a state-dependent human-like force/impedance field from demonstrations with a constrained GMM/GMR, then add the minimum-norm complementary acceleration required by a quadratic control-Lyapunov inequality. Their propositions give a feasible Lyapunov construction, and the closed-form correction makes the modeled second-order impedance error system globally asymptotically stable while remaining zero wherever the learned field already satisfies the decay condition. Franka rehabilitation-style and three-dimensional reproduction demonstrations show that the correction activates in learned unstable regions and after an unsuitable patient force, but learned trajectories starting far outside the demonstration distribution fail until three additional demonstrations are added. The GAS result is model/state conditional and is not a passivity or force-safety theorem; participant counts, repetition statistics, and clinical outcomes are not reported.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, equations (1)-(9)",
+    "Section III-A, equations (10)-(16)",
+    "Section III-B, equations (17)-(30), Propositions 1-2 and Theorem 1",
+    "Section IV-A, Figures 1-5",
+    "Section IV-B, Figures 6-7",
+    "Section V, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the minimum-norm CLF correction and GAS proof are analytical for the learned second-order state model with exact state feedback, while demonstration optimality, human similarity, and rehabilitation usefulness are supported only by task-specific robot demonstrations with unspecified participant counts and no statistical outcomes",
+  "problem_and_setting": "A robot should reproduce state-dependent human impedance learned from demonstrations, including behaviors that may contain negative damping or stiffness during movement, without becoming unstable away from demonstrated states. Direct stiffness/damping ground truth is difficult to measure, and an added stabilizer should disturb the demonstrated behavior as little as possible.",
+  "method_or_mechanism": "Kinesthetic demonstrations record motion-error state and human/teacher force. A GMM is fit with zero conditional intercept and positive covariance constraints, so GMR expresses force as a state-dependent linear map interpretable as stiffness and damping without explicit impedance labels. The resulting nonlinear second-order error field may be unstable. A quadratic Lyapunov function is constructed from any chosen Hurwitz reference second-order matrix through a Lyapunov equation. A control-Lyapunov inequality with positive decay term defines a convex minimum-norm problem for a complementary acceleration. KKT conditions yield a closed-form piecewise correction: zero when the learned dynamics already decrease the Lyapunov function, otherwise the smallest correction along the control direction that enforces decay.",
+  "content_summary": "The paper couples demonstration fidelity with a post-learning stability filter. It constrains the GMM to yield a force-through-origin conditional form, then interprets mixture-weighted slopes as human stiffness/damping. Proposition 1 characterizes CLF-QP feasibility, Proposition 2 constructs a suitable quadratic Lyapunov function, and Theorem 1 proves global asymptotic stability for the corrected modeled error system. In a one-dimensional rehabilitation-style experiment, ten teacher demonstrations train five mixture components. With no patient force, correction stays near zero in demonstrated stable regions; vector fields show it correcting remote unstable states. With a patient and with an intentionally unsuitable patient force, the correction opposes high velocity. Three-dimensional reproduction near training data is comparable or closer to demonstrations than a labeled neural baseline. Starting far from training trajectories produces poor reproduction; adding three demonstrations and retraining restores qualitative agreement. Lyapunov parameters are trial-and-error tuned in simulation.",
+  "synthesis_role": "Represents a stability-filtered learning-from-demonstration approach: learned impedance supplies behavior and a CLF projection supplies modeled state convergence. It demonstrates a concrete out-of-distribution failure and retraining response, while leaving interaction passivity and human safety open.",
+  "development_link": "Compared with constraining GMM fitting itself for stability, the post-learning correction separates regression from stability and has a closed-form minimum-norm action. Compared with energy-tank methods, it enforces state-space Lyapunov decay rather than port passivity. Compared with RL stability constraints, it avoids trial-and-error policy exploration but depends on demonstration coverage and a known control-affine error model.",
+  "evidence": [
+    {
+      "locator": "Section III-A, equations (10)-(16)",
+      "status": "learning mechanism",
+      "finding": "A constrained GMM/GMR with zero conditional intercept learns a state-dependent force field from error, velocity, and force demonstrations without direct stiffness/damping labels."
+    },
+    {
+      "locator": "Section III-B, Proposition 1",
+      "status": "feasibility result",
+      "finding": "The paper derives the condition a Lyapunov candidate must satisfy at states where the control direction has zero Lyapunov gradient so that the minimum-norm stabilization problem remains feasible."
+    },
+    {
+      "locator": "Section III-B, Proposition 2 and equations (19)-(26)",
+      "status": "Lyapunov construction",
+      "finding": "A positive-definite quadratic Lyapunov function is constructed from a chosen Hurwitz second-order reference matrix and any positive-definite Q, satisfying the feasibility criterion with decay factor alpha."
+    },
+    {
+      "locator": "Section III-B, Theorem 1 and equations (27)-(30)",
+      "status": "physical modeled-system stability guarantee",
+      "finding": "The KKT-derived piecewise minimum-norm complementary input makes the modeled corrected second-order error system globally asymptotically stable and is zero where the learned dynamics already meet the CLF condition."
+    },
+    {
+      "locator": "Section IV-A, Figures 2-5",
+      "status": "author-reported hardware demonstration",
+      "finding": "One-dimensional Franka tests show near-zero correction on demonstrated stable motions, correction of remote unstable vector-field regions, and opposing action after an unsuitable patient force produces high velocity."
+    },
+    {
+      "locator": "Section IV-B, Figure 6",
+      "status": "author-reported baseline comparison",
+      "finding": "Near the demonstration region, the constrained-GMR method reproduces three-dimensional paths qualitatively as well as or closer than a neural method requiring separately estimated impedance labels, with smaller complementary corrections."
+    },
+    {
+      "locator": "Section IV-B, Figure 7",
+      "status": "reported out-of-distribution failure",
+      "finding": "Starting away from demonstrated error-velocity states produces trajectories unlike the demonstrations; adding three new demonstrations and retraining restores qualitative reproduction."
+    }
+  ],
+  "evidence_kind": [
+    "constrained Gaussian mixture regression",
+    "control-Lyapunov feasibility proof",
+    "minimum-norm GAS correction",
+    "Franka rehabilitation-style experiment",
+    "three-dimensional reproduction experiment"
+  ],
+  "boundary_conditions": [
+    "The GAS theorem applies to the paper's exact second-order error model with known unit/control input direction and accurately evaluated learned state field.",
+    "The learned mixture slopes are interpreted as stiffness and damping but are not shown to be symmetric positive definite or physically identifiable human impedance matrices.",
+    "The correction guarantees state convergence, not port passivity, contact-force limits, comfort, or preservation of every demonstrated transient.",
+    "Quadratic Lyapunov reference matrices and alpha are chosen by trial and error in simulation and may trade reproduction fidelity against correction magnitude.",
+    "Three-dimensional experiments assume decoupled diagonal inertia, damping, and learned impedance across Cartesian axes.",
+    "The method explicitly fails to reproduce demonstrated shapes when initialized far outside the training state distribution until new demonstrations are added.",
+    "The rehabilitation terminology is task framing: participant identities/counts, patient diagnoses, ethics, clinical endpoints, repeated trials, and statistical analysis are not reported.",
+    "No actuator saturation, torque/force bound, delay, discrete-time implementation, sensor noise, or model-error robustness theorem is provided."
+  ],
+  "assumptions": [
+    "Goal position and its derivatives are known, and robot task-space error and velocity plus demonstration force are accurately measured.",
+    "The conditional GMM force-through-origin form adequately captures the human/teacher force field over relevant states.",
+    "The selected reference second-order matrix is Hurwitz and the Lyapunov equation produces an appropriate positive-definite P.",
+    "The robot realizes the commanded complementary acceleration/force without saturation or unmodeled inner-loop dynamics.",
+    "The learned nonlinear field A(s) is sufficiently smooth for the continuous-time CLF argument.",
+    "Decoupling Cartesian dimensions is acceptable for the three-dimensional reproduction tasks.",
+    "Demonstration coverage includes the states expected during deployment or can be expanded through retraining."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The uncorrected learned system has unstable vector-field regions far from demonstration data.",
+      "An unsuitable patient force creates excessive velocity and triggers an opposing complementary input.",
+      "Three-dimensional reproductions initialized away from the demonstrations deviate strongly until three additional trajectories are added and the model is retrained.",
+      "The chosen quadratic Lyapunov form and its parameters are not optimal for the data and can reduce reproduction accuracy."
+    ],
+    "inferred": [
+      "A correction that is minimum norm instantaneously can still create high force or discomfort because the optimization contains no explicit force, power, or rate constraint.",
+      "Regression error or sensing delay can make the implemented CLF derivative differ from the modeled one and weaken the GAS guarantee.",
+      "Mixture-weighted force slopes can encode nonphysical or nonsymmetric impedance even though the corrected state dynamics converge.",
+      "Independent-axis treatment misses cross-axis stiffness and damping important in coupled manipulation.",
+      "Unspecified human sampling and qualitative plots prevent claims about clinical rehabilitation efficacy or inter-person generalization."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

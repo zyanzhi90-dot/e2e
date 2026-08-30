@@ -1,0 +1,102 @@
+{
+  "source_id": "ycrjHzo2ClcJ",
+  "read_event_id": "38b38dc1510440ec91893a5ae1d94190",
+  "content_sha256": "216fc1f50f72551f9a07df4365dfe7d3485a37ec5c568f8301a808861e1b79d0",
+  "claim": "Duan et al. propose a position-based, force-feedback variable-impedance filter for tracking contact force when environment stiffness is unknown and the contact location changes along a surface. The method does not estimate or optimize a full impedance matrix: it sets the virtual stiffness to zero, keeps virtual mass fixed, and adapts an additive virtual-damping term through an accumulated sampled force error. The paper derives a scalar stability bound, 0<sigma<lambda b/(m+lambda b), after approximating the delayed error dynamics, and establishes zero steady force error for a stable step-input case. Simulations and ESTUN ER16 experiments report recovery on slope and curved surfaces, but the displayed analysis is not a full nonlinear robot/contact stability proof and does not prove exact tracking for arbitrary dynamic desired forces.",
+  "claim_locator": [
+    "Abstract, p. 54: Defines the uncertain environment as unknown geometrical and mechanical properties, describes position-based impedance control using measured contact-force feedback, and claims online impedance adjustment for dynamic desired-force tracking.",
+    "Section 2.2, equations (1)-(5), pp. 56-57: Derives the conventional linear position-based impedance filter and shows that zero steady force error ordinarily requires knowledge of environment location x_e and stiffness k_e.",
+    "Section 3.1, equations (6)-(10), p. 57: Replaces the reference position with the initial environment location and sets virtual stiffness k=0 so that unknown environment stiffness does not enter the steady-state error through a nonzero virtual spring term.",
+    "Section 3.2, equations (11)-(15), p. 57: Keeps mass m fixed, varies damping as b+Delta b(t), and defines Delta b(t)=(b/dot(hat e)(t))Phi(t), with Phi updated from the previous sampled force error at rate sigma.",
+    "Section 4, equations (16)-(30), pp. 57-58: Reduces the scalar delayed force-error dynamics to a characteristic equation, invokes a sufficiently long accumulated-error series and the approximation exp(-lambda s) approximately 1-lambda s, then applies the Routh criterion to obtain 0<sigma<lambda b/(m+lambda b).",
+    "Section 4, equations (31)-(34), p. 58: Uses a final-value calculation for a step input r(s)=1/s to conclude c(t)=f_d(t)-f_e(t) tends to zero for the stable approximated system; exact convergence for sinusoidal input is asserted afterward but not separately derived.",
+    "Section 5.1, equations (35) and Figures 5-19, pp. 59-62: Reports disturbance-free Simulink comparisons on planar, sloped, sinusoidal, and complex surfaces, including stiffness jumps and a time-varying desired force.",
+    "Section 5.2, Figures 20-26, pp. 62-64: Reports ESTUN ER16 experiments with a wrist force sensor and 5 ms communications on flat, slope, and blended rigid-curved/plastic-flat surfaces separated by a groove."
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "approximation-based analytical stability condition with author-reported simulation and hardware evidence",
+  "problem_and_setting": "The paper studies one-dimensional normal contact-force tracking implemented around a position-controlled industrial robot. The robot/end-effector and environment are represented by linear mass-spring-damper relations after contact, with the environment further simplified to a linear spring of unknown stiffness k_e at a location x_e that may vary along a slope or curved surface. A wrist force sensor measures f_e, and a position-based impedance, operationally an admittance-like force-error-to-commanded-position filter, modifies the reference sent to the robot servo. The targeted uncertainties are unknown or changing environment stiffness and geometrical variation of the contact location; the brief, strongly nonlinear collision phase is acknowledged but not modeled by the stability analysis.",
+  "method_or_mechanism": "For unknown stiffness, the method removes the virtual spring term by setting k=0, yielding m ddot(e)+b dot(e)+k_e e=-f_d after contact; m and b remain design parameters, with the text saying they are chosen using an approximation of k_e. For a time-varying environment location, the paper introduces an estimated location hat(x_e) and error hat(e), holds m fixed, and makes the damping coefficient b+Delta b(t). The adaptive term is Delta b(t)=b Phi(t)/dot(hat(e))(t), while Phi(t)=Phi(t-lambda)+sigma[f_d(t-lambda)-f_e(t-lambda)]/b. Consequently, Delta b dot(hat(e)) equals an accumulated force-error compensation term. The resulting commanded acceleration, velocity, and position are integrated discretely and passed through inverse kinematics and the position servo. Thus, the variable impedance is specifically a scalar damping adjustment combined with zero virtual stiffness; it is not adaptation of robot dynamics, a learned state-dependent stiffness matrix, or cost-optimal impedance selection.",
+  "content_summary": "The paper first shows that conventional constant position-based impedance force tracking has a steady error unless environment location and stiffness are known. It then separates the uncertainty problem into stiffness and location. Setting virtual stiffness to zero removes one source of steady-state bias for unknown k_e, while a sampled integral-like force-error state changes virtual damping to compensate dynamic location error. A transfer-function analysis of the delayed scalar contact dynamics produces a Routh stability condition after a first-order delay approximation. The final-value calculation directly covers a step input and yields zero steady force error c=f_d-f_e if the approximated system is stable. Simulations compare fixed and adaptive impedance on flat, slope, sine, and complex surfaces; fixed impedance handles planar stiffness jumps but retains bias or fails to converge on moving surfaces, while the adaptive method is reported to track both constant and time-varying force commands. Hardware tests use an ESTUN ER16 robot, Optoforce wrist sensor, 5 ms EtherCAT/UDP cycles, and a pulley end effector. Fixed impedance is tested on a flat surface, and adaptive impedance on slope and blended curved/grooved surfaces. The reported force settles near -12 N in about 15 s on the flat and slope trials; on the composite surface, the trace contains error and a large transient around the groove/stiffness change, followed by recovery by roughly 31 s.",
+  "synthesis_role": "This paper represents a pragmatic branch of VIC development focused on force regulation for position-controlled industrial robots: instead of learning a general impedance policy or identifying a complete environment model, it analytically removes virtual stiffness and adapts damping from measured force error. It demonstrates that narrowly structured impedance adaptation can compensate geometry-induced force bias online, while also exposing the gap between a task-specific scalar convergence analysis and general stability guarantees for variable impedance under contact transitions.",
+  "development_link": "Relative to early direct adaptive impedance control, this method does not adapt manipulator dynamic parameters or directly shape a torque-level closed-loop impedance; it operates as an outer position-command filter and changes only a scalar damping compensation term after setting virtual stiffness to zero. Relative to optimal impedance adaptation, it defines no interaction cost, critical-point condition, or optimization over impedance parameters; sigma is an update gain constrained by an approximate stability calculation. Its contribution is therefore not a more general adaptive-control theorem but a simpler force-error-driven mechanism for uncertain surface following, with later VIC work still needing full-robot stability, multidimensional impedance representations, contact-transition treatment, and robust implementation near singular adaptive-law denominators.",
+  "evidence": [
+    {
+      "type": "model derivation",
+      "statement": "Equations (2)-(5) derive the constant-impedance steady error and show that exact cancellation ordinarily requires x_r=x_e-f_d/k_e, which depends on unknown environment location and stiffness."
+    },
+    {
+      "type": "controller definition",
+      "statement": "Equations (9)-(14) set virtual stiffness k to zero, retain mass m, and adapt damping through Delta b=b Phi/dot(hat e), where Phi accumulates sampled desired-minus-measured force error."
+    },
+    {
+      "type": "approximation-based stability derivation",
+      "statement": "Equations (24)-(30) approximate the delayed characteristic equation using an infinite accumulated-error series and exp(-lambda s) approximately 1-lambda s, then use a Routh array to obtain 0<sigma<lambda b/(m+lambda b)."
+    },
+    {
+      "type": "limited convergence derivation",
+      "statement": "Equations (31)-(34) use the final-value theorem with step input r(s)=1/s to conclude c(t)=f_d-f_e tends to zero for the stable approximated scalar dynamics."
+    },
+    {
+      "type": "author-reported simulation",
+      "statement": "With k=0 and m=1, fixed impedance tracked 5 N on a plane despite k_e jumps from 1000 to 3000 to 5000 N/m; on a slope with k_e=5000 N/m and f_d=50 N, fixed impedance settled near 65 N whereas adaptive impedance with initial b=100 and sigma=0.5 reached the desired value after adjustment."
+    },
+    {
+      "type": "author-reported simulation",
+      "statement": "On sinusoidal and complex surfaces, the paper reports nonconvergence or bias for fixed impedance and near-zero force error for the adaptive method; a complex-surface simulation also tracks a time-varying desired force. The simulation explicitly excludes disturbances."
+    },
+    {
+      "type": "author-reported hardware experiment",
+      "statement": "An ESTUN ER16 with an Optoforce HEX-70-XE-1000N wrist sensor and 5 ms communication cycles followed 40 cm surface paths at f_d=-12 N. Flat fixed-impedance and slope adaptive trials settled in about 15 s; the composite-surface adaptive trial traversed a groove, experienced a stiffness change at about 28 s, and recovered by about 31 s."
+    }
+  ],
+  "evidence_kind": [
+    "linear scalar contact-model derivation",
+    "sampled adaptive damping law",
+    "Taylor-approximated delay stability analysis",
+    "step-input final-value convergence calculation",
+    "author-reported disturbance-free simulations",
+    "author-reported industrial-robot experiments"
+  ],
+  "boundary_conditions": [
+    "The analytical result is one-dimensional and applies after contact to a linear spring environment and second-order virtual impedance; it does not cover the strongly nonlinear collision interval that the paper explicitly identifies.",
+    "Only the virtual damping is adapted. Virtual stiffness is fixed at zero and virtual mass is fixed; the method does not learn a full stiffness/damping matrix or an arbitrary state-dependent impedance.",
+    "The controller still uses an estimated environment location and its derivatives through hat(e); adaptation compensates residual location error rather than eliminating all environment-state estimation requirements.",
+    "The text says m and b are selected using an approximation of environment stiffness even though exact k_e is not required, so performance is not parameter-free.",
+    "The stability bound follows from a sufficiently long accumulated-error series, a sufficiently fast sampling assumption, and the first-order approximation exp(-lambda s) approximately 1-lambda s; it is not a necessary-and-sufficient result for the original delayed system.",
+    "The displayed convergence calculation directly treats a step r(s), not a general time-varying desired force. Sinusoidal and series-valued desired-force tracking is supported by assertion and simulation, not by the shown final-value derivation.",
+    "No Lyapunov, passivity, input-to-state stability, or robustness proof is provided for the complete nonlinear robot, servo, inverse kinematics, sensor, sampled-data implementation, or environment interaction.",
+    "Simulation evidence uses the same simplified contact model and explicitly excludes disturbances.",
+    "The hardware study does not compare fixed and adaptive control on identical surfaces: fixed impedance is used for the flat trial, while adaptive control is used for slope and composite-surface trials.",
+    "Hardware dynamic desired-force tracking is not demonstrated; the robot experiments use a constant -12 N command, while time-varying desired force appears in simulation."
+  ],
+  "assumptions": [
+    "After contact, measured robot position tracks commanded position closely enough to take X_c=X_m.",
+    "The relevant Cartesian directions are decoupled so that a one-dimensional normal-force analysis represents the controlled interaction.",
+    "Environment contact is a positive linear stiffness relation f_e=k_e(x_e-x_c), even when k_e changes between regions.",
+    "The force sensor, inverse kinematics, position servo, and numerical integrations operate with negligible dynamics beyond those included in the scalar model.",
+    "The environment-location estimate and its velocity/acceleration terms are available for the commanded-position recursion.",
+    "The adaptive denominator dot(hat e) is nonzero or otherwise handled, although the paper does not specify a regularization or projection rule.",
+    "Sampling is sufficiently fast for the first-order delay approximation, and sigma satisfies the derived bound throughout operation.",
+    "The closed-loop poles of the approximated characteristic equation are stable so that the final-value theorem is applicable."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Changing the virtual mass online is discouraged because the authors state that it can make the system oscillate.",
+      "Fixed impedance tracks planar force through stiffness changes in the reported simulation but settles with substantial bias on a slope and fails to converge on a sinusoidal surface.",
+      "The composite-surface hardware experiment retains some force error and shows a pronounced transient while crossing the groove and stiffness transition before recovering.",
+      "The paper acknowledges that contact collision is transient and strongly nonlinear, but its proposed post-contact analysis does not model that phase.",
+      "The simulations do not include disturbances."
+    ],
+    "inferred": [
+      "Because Delta b divides by dot(hat e), the adaptive law is singular or noise-sensitive when estimated relative velocity approaches zero; no saturation, projection, positivity, or regularization mechanism is specified.",
+      "The Routh bound certifies only the Taylor-approximated scalar delay model. Stability of the original sampled nonlinear robot-contact loop, especially under actuator limits and communication delay, remains unestablished.",
+      "The step-input final-value derivation does not justify the broad statement that tracking error always converges to zero for sinusoidal or arbitrary dynamic desired force; those cases remain simulation-supported only.",
+      "Setting virtual stiffness to zero solves a steady-force-bias mechanism but prevents simultaneous prescription of a nonzero target stiffness, limiting general variable-impedance behavior.",
+      "Because hardware baselines are not tested on matched uncertain surfaces and no repeated-trial statistics are reported, the experiments establish feasibility but not a controlled quantitative superiority claim."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

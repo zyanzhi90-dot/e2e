@@ -1,0 +1,12 @@
+{
+  "paper_id": "USER-TASE-2023-3282974",
+  "source_path": "source-materials/user-supplied-softscan-2026-08-22/P04_Task_Space_Compliant_Control_and_Six-Dimensional_Force_Regulation_Toward_Automated_Robotic_Ultrasound_Imaging.pdf",
+  "title": "Task Space Compliant Control and Six-Dimensional Force Regulation Toward Automated Robotic Ultrasound Imaging",
+  "authors": ["Junchen Wang", "Chunheng Lu", "Yifei Lv", "Siqin Yang", "Mingbo Zhang", "Yu Shen"],
+  "year": 2024,
+  "venue": "IEEE Transactions on Automation Science and Engineering",
+  "doi_or_stable_url": "https://doi.org/10.1109/TASE.2023.3282974",
+  "publication_type": "peer-reviewed journal article",
+  "reading_priority": "TARGETED_GAP_FOLLOWUP",
+  "screening_reason": "User-supplied direct robotic-ultrasound study of task-space compliance and measured six-dimensional force/moment regulation; needed to test whether force/moment outputs are decision-relevant without a richer environment model."
+}

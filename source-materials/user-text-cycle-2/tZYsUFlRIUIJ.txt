@@ -1,0 +1,1349 @@
+2342 IEEE/ASME TRANSACTIONS ON MECHA TRONICS, VOL. 25, NO. 5, OCTOBER 2020
+Passivity Preservation for Variable Impedance
+Control of Compliant Robots
+Emmanouil Spyrakos-Papastavridis , Peter R. N. Childs , and Jian S. Dai , Fellow, IEEE
+Abstract—The notable performance exhibited by
+impedance controllers during robotic interaction has
+led to the widespread use of this control methodology.
+Improved position and interaction control might be
+attainable through utilisation of variable impedance control
+(VIC) techniques. Interactional performance could be
+further improved by combining structural compliance
+with VIC. However, utilization of VIC tends to induce
+energy-injecting elements, which could impact on a robotic
+system’s stability/passivity. Additionally, implementation of
+active VIC techniques on passively compliant robots has
+not been investigated (although several works consider
+VIC using variable stiffness actuators), which renders
+the existing rigid-joint robot, passivity-inducing control
+schemes inapplicable to compliant systems. To this end,
+the work presented here introduces a novel scheme, termed
+passivity-preservation control (PPC), which suppresses the
+energy injections that could be introduced into compliant
+robots, as a result of VIC. Compared to tank-based VIC
+approaches the PPC scheme is directly applicable to
+ﬂexible-joint robots, even ones with nonlinear passive
+stiffness elements, while its performance is independent
+of the tank-energy levels. Moreover, the proposed scheme
+permits stable VIC using full-state feedback, thereby
+enabling impedance modulations relating to both motor
+and link-side variables. Consequently, full-state feedback
+gains can be generated via linear quadratic regulator
+optimisation, thus enabling application of gain-scheduling
+techniques on ﬂexible-joint robots for enhanced position
+control. Passivity and stability analyses are performed for
+joint and Cartesian-space versions of the PPC scheme,
+which justify their applicability to both interaction and
+“free-motion” scenarios. The PPC scheme’s efﬁcacy,
+compared to constant gain impedance methods, in
+terms of convergence and interactional performance,
+Manuscript received May 17, 2019; revised September 3, 2019 and
+November 13, 2019; accepted December 9, 2019. Date of publication
+December 23, 2019; date of current version October 14, 2020. Rec-
+ommended by T echnical Editor H. A. Varol. (Corresponding author:
+Emmanouil Spyrakos-Papastavridis.)
+E. Spyrakos-Papastavridis is with the Centre for Robotics Research,
+Department of Engineering, King’s College London, WC2R 2LS London,
+U.K., and also with the Dyson School of Design Engineering, Imperial
+College London, South Kensington, SW7 2DB London, U.K. (e-mail:
+e.spyrakos-papastavridis@imperial.ac.uk).
+P . R. N. Childs is with the Dyson School of Design Engineering, Impe-
+rial College London, SW7 2DB London, U.K. (e-mail: p.childs@imperial.
+ac.uk).
+J. S. Dai is with the Centre for Robotics Research, Department of
+Engineering, King’s College London, WC2R 2LS London, U.K. (e-mail:
+jian.dai@kcl.ac.uk).
+This article has supplementary downloadable material available at
+http://ieeexplore.ieee.org, provided by the authors.
+Color versions of one or more of the ﬁgures in this article are available
+online at http://ieeexplore.ieee.org.
+Digital Object Identiﬁer 10.1109/TMECH.2019.2961478
+is corroborated via simulation and experimental means
+involving the Sawyer robot, which is powered by series
+elastic actuators. Theoretical and experimental results
+mathematically and practically verify VIC stability, thus
+enabling ﬂexible-joint robots to more accurately mimic
+biologically inspired behaviors.
+Index Terms—Human-robot interaction, impedance con-
+trol, manipulators.
+I. I NTRODUCTION
+T
+HE increasing necessity for operational safety, as regards
+the interaction of robotic devices with their immediate en-
+vironments, has stimulated collective research effort toward the
+resolution of the robotic interaction problem. Traditional robotic
+manipulators possessing “stiff” mechanical structures, typically
+operated in position-control mode, are deemed unsuitable for
+interaction tasks. Moreover, direct force control methods may
+exhibit insufﬁcient levels of robustness when limited knowledge
+of the desired contact forces is available, or when environmental
+parameters are continuously ﬂuctuating. Thus, the majority of
+environmental interaction control methods relies upon variants
+of impedance control, i.e., compliance control [5], stiffness
+control [6], and admittance control [6]. The impedance control
+concept was introduced to the ﬁeld via [7], as a means of
+allowing robots to establish user-deﬁned dynamical relation-
+ships between their motions and the associated external forces
+[8]. Robotics literature contains an array of works involving
+impedance controllers, including some of the most fundamental
+research outputs [7], [8], as well as additional examples of
+robustly performing impedance controllers [9], [10].
+Supplementary interaction performance enhancements can
+be acquired by means of utilizing variable impedance control
+(VIC) instead of invariant-impedance control (IIC), as the for-
+mer bears a closer resemblance to the operation of biological
+machines. Those biological machines display superior environ-
+mental adaptability in comparison to their artiﬁcial counterparts,
+as a consequence of their inherent impedance modulation mech-
+anisms, hypothesised by [4]. The same work [4] proposes a
+reinforcement learning algorithm to select appropriate values for
+an impedance-gain scheduler. Ikeura and Inooka [11] describe a
+VIC method relying upon translation of human muscle activity
+to an array of active impedance gains for a robot controller.
+Tsumugiwa et al . [12] report on a technique that facilitates
+human–robot interaction between a manipulator and human
+operator, via rapid impedance modulations. Blaya and Herr
+[13] describe a biologically inspired study involving real-time
+1083-4435 © 2019 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+SPYRAKOS-P AP AST AVRIDISet al.: P ASSIVITY PRESERVA TION FOR VARIABLE IMPEDANCE CONTROL OF COMPLIANT ROBOTS 2343
+VIC of an orthotic joint. For the purpose of permitting smooth
+adaptation to external impacts during human–robot interaction
+tasks, Y anget al. [14] propose a learning controller that gradually
+adjusts the robot’s total impedance and feedforward force sig-
+nals. Calinon et al. [15] introduce a methodology that exploits
+a task-parameterized model, which enables the generation of
+optimal active stiffness and damping gains using linear quadratic
+regulator (LQR) optimization, in accordance with the poses
+of certain environmental artefacts. Similarly, Rozo et al . [16]
+extend the latter work by encoding additional state information,
+while devising an optimal control method to generate Cartesian
+impedance gain matrices. Gribovskaya et al . [17] describe an
+algorithm that combines adaptive control and programming
+by demonstration to regulate a robot’s impedance parameters.
+Moreover, Spyrakos-Papastavridis et al . [18] and [19] demon-
+strate that a humanoid robot can switch between heightened
+tracking accuracy and compliant interaction, using VIC, for the
+purpose of improving bipedal balancing performance. Ficuciello
+et al . [20] present a framework for the merging of VIC with
+redundancy resolution methodologies.
+It is worth noting, however, that VIC is also achievable “me-
+chanically,” by means of utilizing variable stiffness actuators
+(VSAs) [21], [22], as has been demonstrated on DLR’s David
+robot [23], [24]. Braun et al . [25] describe an algorithm that
+is capable of simultaneously designing motion and impedance
+trajectories for systems actuated by VSAs, thereby exhibiting
+improved performance over their ﬁxed-gain counterparts. Com-
+pared to other compliant robot designs, VSAs display improved
+impact robustness and energy efﬁciency, extended dynamic
+capability, and enhanced task adaptability [24], albeit at the
+expense of higher dimensional requirements, in addition to
+increased design and control complexity.
+A different mechanical means of augmenting a robot’s in-
+teractional performance is the incorporation of passive elastic
+elements into its physical structure [26], [27], [28]. An estab-
+lished, compliant-joint robot design approach entails the usage
+of series elastic actuators (SEAs) [29], [30], whose inherent
+ﬂexibility renders the pertinent robotic systems compliant during
+interaction with their environments, thereby reducing the forces
+arising during the post-impact phase. However, this beneﬁcial in-
+teraction feature introduces under actuation, reduces the plant’s
+natural frequency, and induces oscillatory dynamics, thereby
+amplifying the complexity of the position regulation/tracking
+problem [31]. Moreover, SEA-based robots are incapable of reg-
+ulating their passive compliance in real-time, although their me-
+chanical designs are typically more compact than those of VSAs,
+as they comprise less actuators. An established strategy entails
+the implementation of impedance controllers onto SEA-driven
+robots to harness their respective interactional attributes [31].
+Although initial works introduced stabilizing control schemes
+for ﬂexible-joint robots [32], [33], those methods were subse-
+quently augmented [31] [34] via incorporation of motor iner-
+tia scaling terms, torque and torque derivative feedback [34],
+[35], and Cartesian impedance gains, in addition to passivity
+analyses.
+Since impedance controllers are typically used for interac-
+tion tasks, it is frequently deemed appropriate to assess their
+interaction capabilities by means of passivity analyses [35], [36],
+which rely upon external-wrench-based conditions.
+Implementation of active VIC schemes on SEA-powered
+robots is reported in [18] and [19], from which this work
+distinguishes itself, as it proposes a novel analytical controller
+for stable VIC of compliant robots. Furthermore, the passivity-
+preservation control (PPC) scheme uses full-state feedback [35],
+[37], thereby enhancing robustness and permitting systematic
+gain generation.
+In spite of the heightened interaction capabilities offered by
+VIC, this technique may endanger a system’s stability/passivity,
+as it tends to induce energy-injecting terms [1]. To this end,
+Ferraguti et al. [1] propose a tank-based approach to suppress the
+relevant energy injections and, thus, preserve stability/passivity.
+Ferraguti et al . [2] offer an extension to [1] by considering a
+time-varying admittance controller, whose passivity is analyzed
+using port-Hamiltonian representations. In contrast, Kronan-
+der and Billard [3] resolves the VIC-related energy-injection
+problem through a modiﬁed Lyapunov function, which imposes
+restrictions on the active impedance ﬂuctuations.
+The work described herein assumes the pre-existence of a con-
+tinuous variable impedance trajectory (or strategy) and proposes
+a novel control scheme to guarantee its stable replication by a
+compliant-joint robot. Thus, the proposed scheme enables im-
+plementation of gain-scheduling methods [38] on ﬂexible-joint
+robots, a topic that is brieﬂy explored in this work, by means
+of linearizing a compliant manipulator’s dynamics around two
+points and using LQR techniques to generate a set of gains that
+the system can transition between. A similar gain-tuning ap-
+proach is described in [39]. The proposed method’s contributions
+are synopsised as follows:
+1) A stable VIC scheme for ﬂexible-joint robots, considering
+time-varying active and passive stiffnesses.
+2) Utilization of link position and velocity feedback gains.
+The rest of this article is organized as follows. Section II
+provides the compliant joint model and problem statement, while
+Section III proposes the novel PPC scheme in conjunction with
+stability/passivity analyses. Section IV describes the impedance
+modulation and gain tuning techniques, Section V presents
+simulations and experimental results acquired during Sawyer’s
+execution of various interaction tasks. Finally, Section VI con-
+cludes this article.
+II. I
+MPEDANCE CONTROL OF COMPLIANT-JOINT ROBOTS
+A. Compliant Robot Model
+An n-link ﬂexible-joint robot model may be developed by
+following the approach described in [40], which results in
+M¨q +C(q, ˙q) ˙q +N˙q +K(q −θ)+ τg (q)= τex (1)
+J¨θ+D˙θ−K(q −θ)= τm (2)
+whereq ∈Rn andθ∈Rn denote the link and motor positions;
+M = M(q) ∈Rn×n, C(q, ˙q), and N ∈Rn×n represent the
+link inertia, Coriolis, and viscous damping matrices, respec-
+tively; τg(q) ∈Rn signiﬁes the gravitational torque vector,
+while τex ∈Rn and τm ∈Rn symbolize the external torque
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+2344 IEEE/ASME TRANSACTIONS ON MECHA TRONICS, VOL. 25, NO. 5, OCTOBER 2020
+and actuation torque vectors, respectively. Moreover,K ∈Rn×n
+represents the passive spring stiffness matrix, while J,D ∈
+Rn×n are the motor inertia and damping matrices, respectively.
+It is noteworthy that
+∥τ∂∥ = ∥∂τg (q)/∂q∥ =
+∂2Ug (q)/∂q2 ≤α (3)
+whereα> 0, andUg(q)= Ugq signiﬁes the gravitational poten-
+tial, and τg(q)=( ∂Ug(q)/∂q)T . The operator norm has been
+considered, i.e., ∥A∥ =m a x{∥Ax∥/∥x∥}.
+B. Problem Formulation
+A widely used regulation controller aimed at stable operation
+of compliant-joint robots is the following [32]:
+τm = KPMθE −KDM
+˙θ+τgd (4)
+wherein KPM and KDM ∈Rn×n signify the symmetric, posi-
+tive deﬁnite active stiffness and damping matrices, respectively,
+θE = θd −θ, with qd, θd ∈Rn being the referential link and
+motor positions, while τgd = τg(qd) ∈Rn encompasses the
+desired gravity compensation input signal’s components.
+Considering the system’s steady-state form, which is acquired
+by setting ˙qF = ¨qF = 0, with qF ∈R2n =[ qT θT ]T denot-
+ing the combined link and motor position vector, the overall
+stiffness matrix may then be represented as follows:
+TI ∈R2n×2n =
+[
+K −K
+−KK +KPM
+]
+. (5)
+Combining the above with (3), leads to the condition [32]
+λm (TI) ≥α (6)
+wherein λm(.) and λM(.) represent the minimum and maximum
+eigenvalue of a given matrix. If KPM remains constant
+during operation (IIC), and λm(TI) ≥α, then it is provable
+that there exists a unique stable equilibrium [32], [41] at
+q
+eq =[ qT
+d θT
+d
+00 ]T , by considering the function [32]
+V (qF, ˙qF)= ˙qT
+FMT ˙qF
+2 + qT
+e TIqe
+2
++Ugq −Ugqd
++qT
+F E
+[τgd
+0
+]
+(7)
+with qe ∈R2n = qF −qF d , qF E = qF d −qF ,
+qF d =[ qT
+d θT
+d
+]T , where the overall inertia matrix MT ∈
+R2n×2n =d i a g ( [MJ ]). Calculation of the above function’s
+time derivative, accompanied by several simpliﬁcations,
+produces
+˙V (˙qF)= −˙qT
+FΨ˙qF (8)
+where Ψ∈R2n×2n =d i a g ( [0 D+KDM ]) (neglecting N),
+thus permitting a proof of global asymptotical stability (GAS)
+when applying LaSalle’s Principle (LP). One can also establish
+the closed-loop system’s passivity during interaction(τex ̸= 0)
+by exploiting the passivity-related lemmas contained in [36],
+yielding the relationship
+˙Q = ˙qTτex −˙qT
+FΨ˙qF ≤ ˙qTτex (9)
+where Q signiﬁes a storage function. Satisfaction of the
+passivity condition is guaranteed when Ψ is positive deﬁnite.
+The active impedances may be varied in real time by modu-
+lating the proportional-derivative (PD) gains using
+τm = KPMtθE −KDMt
+˙θ+τgd (10)
+whereKPMt = KPM(t) andKDMt = KDM(t). Computation
+of (7)’s time derivative produces a modiﬁed formula w.r.t (8), as
+demonstrated through the following equation:
+˙V (˙qF,qe)= −˙qT
+FΨ˙qF + 1
+2qT
+e ˙TIqe (11)
+where ˙TI ∈R2n×2n =d i a g ( [0 ˙KPMt ]), since K is a time-
+invariant matrix. The indeterminate nature of the right-most
+stiffness-related element may destroy the closed-loop system’s
+stability for increasing K
+PMt values. Conversely, active stiff-
+ness decreases ensure stability preservation.
+C. Augmented-State Controllers
+The vast majority of state-of-the-art PD-plus-type controllers
+for ﬂexible-joint robots relies upon the exploitation of indirect
+forms of link position/velocity feedback [31], [34], [35], coupled
+with inner torque loops. This feature augments the controllers’
+dimension and enhances robustness, by accounting for the link
+(in addition to the motor) states, which are directly interact-
+ing with the environment. Even though [32] accounts solely
+for motor-side feedback, the robot considered in the relevant
+simulations [32] possesses passive stiffness values exceeding
+those of some contemporary SEA-powered robots [24], [27] by
+more than an order of magnitude.
+III. P
+ASSIVITY-PRESERVA TIONCONTROL
+A. Flexible-Joint Robot Variable Impedance Controller
+Stable VIC of ﬂexible-joint robots relies upon removal of
+the adverse stability-related effects associated with the energy-
+injecting element, which is achievable via the PPC law
+τm = KPMtθE −KDMt
+˙θ+KPJtqE −KDJt ˙q +τgd
+− 1
+2
+˙ΘPIId
+(
+qT
+e ˙TKqe + ˙qT
+F
+(
+TT
+K −TK
+)
+qe
+)
+(12)
+whereqE = qd −q, with ˙ΘPI ∈Rn×n =[ d i a g (˙θ)]+ signify-
+ing the Moore–Penrose pseudoinverse of the diagonalized motor
+velocity vector ˙θ. Moreover, I
+d =[ 1... 1n]T ·rank( ˙ΘPI)+
+∈Rn symbolizes a ‘rank-normalized’ unit vector, KPJt and
+KDJt ∈Rn×n denote time-varying, link-side PD gains, respec-
+tively, while
+TK =
+[
+K −K
+−K+KPJt K+KPMt
+]
+. (13)
+Since controller (12) considers both motor and link feedback,
+it aligns more closely with state-of-the-art schemes [31], [34],
+[35], and it essentially functions by modifying the damping
+levels associated with joints that are either experiencing stiffness
+variations or possessing K
+PJt gains.
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+SPYRAKOS-P AP AST AVRIDISet al.: P ASSIVITY PRESERVA TION FOR VARIABLE IMPEDANCE CONTROL OF COMPLIANT ROBOTS 2345
+Theorem 1: If the closed-loop system comprising (1), (2),
+and (12), satisﬁes λm(TK) >α and λm(ΞD) > 0, and TK
+is positive deﬁnite, then this ensures the existence of a GAS
+equilibrium at qeq .
+Proof 1: Proving asymptotical stability of the time-varying
+closed-loop system necessitates the application of Barbalat’s
+lemma, followed by LP . Thus, it is crucial to demonstrate the
+uniqueness of the equilibria (see Appendix A), such that V = 0
+only when q
+F E = ˙qF = 0, if the following holds:
+λm (TK) >α . (14)
+The following potential energy function is, thus, utilized [32]:
+W = 1
+2qT
+e TKqe +Ug (q)−Ug (qd)−qT
+e
+[τgd
+0
+]
+(15)
+whose unique equilibrium point is proven via the process out-
+lined in Appendix A. The total Lyapunov function is thus
+V = V (qF, ˙qF)= 1
+2 ˙qT
+FMT ˙qF +W. (16)
+Obtaining V ’s time derivative (see Appendix B), yields
+˙V = ˙V (˙qF)= −˙qT
+FΨK ˙qF (17)
+where the total damping matrix possesses the form
+ΨK ∈R2n×2n =
+[
+N 0
+KDJt D+KDMt
+]
+. (18)
+Preservation of ˙V ’s negative deﬁniteness requires thatΨK be
+positive deﬁnite, which is guaranteed when the condition
+ΞD = N− 1
+4KT
+DJt(D+KDMt)−1KDJt > 0 (19)
+is satisﬁed (see Appendix B). However, convergence is only
+ensured when lim
+t→∞
+˙V(˙qF,t)= 0, and since the system is time-
+varying (owing to VIC), the time derivative of ˙V is
+¨V = ¨V (˙qF, ¨qF)= −¨qT
+F
+(
+ΨK +ΨT
+K
+)
+˙qF −˙qT
+F ˙ΨK ˙qF.
+(20)
+Application of Barbalat’s lemma, together with an extended
+form of LP , proves GAS of the equilibria (see Appendix B).
+B. Passivity-Preservation Analysis
+The effect of external perturbations/contacts on the system’s
+performance may be assessed through a passivity analysis.
+Theorem 2: If system (1), (2), and (12) fulﬁls λm(ΞD) > 0,
+then this ensures the production of a passive system.
+Proof 2: Constructing a closed-loop system comprising (1),
+(2), and (12), while using the storage function (7) and assuming
+thatτ
+ex ̸= 0, it is demonstrable that (see Appendix B)
+˙Q = ˙qTτex −˙qT
+FΨK ˙qF ≤ ˙qTτex (21)
+whereQ denotes a storage function. Positive deﬁniteness ofΨK
+is a prerequisite for the validity of (21). Thus, the user is allowed
+to modulate the system’s impedances in real-time to achieve
+the desired interaction performance, while ensuring passivity.
+Although similar general results exist [35], (21) proves VIC
+passivity for the novel PPC scheme, containing the physically
+intuitive link position/velocity gains, while enabling considera-
+tion of nonlinear passive stiffnesses.
+C. Variable Cartesian Impedance Controller
+A Cartesian version of the previously described joint-space
+controller, leading to the creation of a variable Cartesian
+impedance control (VCIC) scheme, is shown as
+τ
+m = JT
+t (KctxE −Dct ˙x)+ KPJtqE −KDJt ˙q
++ τgd − 1
+2
+˙ΘPIId
+(
+xT
+ie ˙Kctxie +qT
+e ˙TKJqe
++ ˙qT
+F
+(
+TT
+KJ −TKJ
+)
+qe
+)
+(22)
+where TKJ =[ K
+−K+KPJt
+−K
+K ], JT
+t ∈Rn×m denotes a Jaco-
+bian matrix performing the joint-to-Cartesian space mapping,
+as per ˙x = Jt ˙θ, with m signifying the task variables. More-
+over,Kct and Dct ∈Rm×m represent time-varying Cartesian
+stiffness and damping matrices, respectively,xE = xd −x and
+xie = x−xd. It is demonstrable that the system possesses a
+unique equilibrium, by considering the function
+V = 1
+2 ˙qT
+FM˙qF + 1
+2xT
+ieKctxie + 1
+2qT
+e TKJqe
++ Ug (q)−Ug (qd)+ qT
+F E
+[τgd
+0
+]
+(23)
+which is equatable with (7) that had been proven to possess a
+unique equilibrium. Hence, for the Cartesian case
+TK = TC =
+[
+K −K
+−K+KPJt K+ JT
+t KctJt
+]
+(24)
+sinceKPMt = JT
+t KctJt (andKDMt = JT
+t DctJt). Following
+a series of calculations (see Appendix C), the resulting derivative
+of the previously presented energy function is the following:
+˙V = −˙qT
+FΨKC ˙qF (25)
+where ΨKC =[ N
+KDJt
+0
+D+JT
+t DctJt
+]. Equation (25) permits
+concluding GAS, by following the approach described in
+Appendix B.
+D. Extension to Nonlinear Stiffness and Friction Models
+For improved modelling accuracy, it is possible to utilize the
+following link-side dynamical model [together with (2)]:
+M¨q +(C+N) ˙q +K(t)(q −θ)+ τf +τg (q)= τex
+(26)
+where K(t) ∈Rn×n denotes a time-varying passive stiffness
+matrix, while τf ∈Rn signiﬁes the frictional torque vector
+comprising Stribeck, Coulomb, and static friction terms. In order
+to preserve closed-loop stability, the following adapted PPC
+scheme could be used (for joint impedance control):
+τ
+m = KPMtθE −KDMt
+˙θ+KPJtqE −KDJt ˙q +τgd
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+2346 IEEE/ASME TRANSACTIONS ON MECHA TRONICS, VOL. 25, NO. 5, OCTOBER 2020
+− 1
+2
+˙ΘPIId
+(
+qT
+e ˙TKqe+ ˙qT
+F
+(
+TT
+K−TK
+)
+qe−2˙qTτf
+)
+.
+(27)
+The effect of K(t) is suppressed by virtue of qT
+e ˙TKqe,
+whereas the frictional effects are compensated via the ˙qTτf
+term. Controller (27) is introduced for the purpose of demon-
+strating extensibility to systems possessing disparate mechanical
+properties, w.r.t the Sawyer robot.
+IV . ACTIVE IMPEDANCE GAIN GENERA TION
+A. Contact-Based Impedance Modulation
+It has been suggested that low impedances may be exploited
+for external force mitigation during interaction [5], while high
+impedance values permit enhanced tracking/regulation accuracy
+in “free motion” [5]. Thus, the VIC approach should entail
+smooth, continuous impedance ﬂuctuations determined by the
+values of the external contact wrenches, as is the paradigm for
+VIC [1], [3], [10], [12], [15]. In this manner, the robot will be
+capable of adapting its behavior in accordance with the envi-
+ronmental conditions (contacts), thereby rendering it compliant
+and safer during interaction—a feature that is precluded by IIC.
+Transitioning between the various impedance gain sets could,
+therefore, be performed by means of a ramp function, as per the
+law
+K
+Oj =
+{
+KOj−1 +
+(
+KH −KOj−1
+)(
+j ·n−1
+r
+)
+, if c1
+KOj−1 −
+(
+KOj−1 −KL
+)(
+j ·n−1
+r
+)
+, if c2
+(28)
+where c1 =( FexN <F exTh)∧(τexN <τexTh),
+c2 =( FexN ≥FexTh)∨(τexN ≥τexTh), j is the sample
+number, and nr signiﬁes the total number of ramping samples.
+Furthermore, KO ∈Rn×4n, KH ∈Rn×4n, KL ∈Rn×4n,
+Fex ∈R3, and τexw ∈R3 represent the total gain matrix,
+minimum and maximum active impedance gain matrices, and
+external force and moment vector components of the wrench
+vector, respectively. FexN = ∥Fex∥ and τexN = ∥τexw∥,
+while FexTh and τexTh symbolize external force and moment
+thresholds. Alternative gain transitioning methods are also
+available [3].
+B. LQR-Based Impedance Gain Generation
+Aside from their straightforward physical intuition and con-
+sideration of interaction port states, one of the main beneﬁts of
+control laws (12) and (22) is that they facilitate the challenging
+task of full-state feedback gain generation, which would other-
+wise involve the manual tuning of four distinct gain matrices.
+Although sophisticated model-based, ﬂexible-joint robot gain-
+tuning methods are available [42], they lead to the production
+of gain matrices tailored to control designs involving torque
+and torque derivative feedback [42]. Contrarily, LQR can be
+used for direct generation of diagonal PPC gains, given that nu-
+merous systematic LQR gain matrix diagonalization techniques
+are available. Furthermore, LQR enables minimization of both
+position and force error metrics [43], [44], and constitutes a
+formal, nonheuristic, model-based impedance-gain adaptation
+method [15], [16]. Since control laws (12) and (22) contain
+τ
+g(qd), one should set τg(q)= 0 in (1), prior to linearization
+[39], thereby yielding
+˙x =
+[
+0 I
+−M−1
+0 P0 −M−1
+0 N0
+]
+x+
+[
+0
+M−1
+0 τse
+]
+τm. (29)
+In the aforementioned equation, M0 ∈R2n×2n=diag
+([ML J]), N0 ∈R2n×2n =d i a g ( [C0 +ND ]), and P0 ∈
+R2n×2n denotes the passive elasticity matrix; ML and C0 ∈
+Rn×n signify the linearized link inertia and Coriolis matrices,
+respectively; τse ∈R2n×n symbolizes a selection matrix, and
+x =[ qT θT ˙qT ˙θT ]T. The following representation is consid-
+ered:
+˙x = Ax+Bu (30)
+y = Cx (31)
+whereC =[ I 0],u = τm; andA ∈R4n×4n andB ∈R4n×n
+denote the state transition and input matrices, respectively. The
+LQR problem is solved by minimizing the cost function
+S =
+∞∑
+k=0
+{
+xTQx+τT
+mRτm
+}
+(32)
+subject to the system’s dynamics, where Q ∈R4n×4n and R ∈
+Rn×n denote diagonal and positive deﬁnite penalty matrices.
+The latter yields a solution to the algebraic Riccati equation
+ATPu +PuA−PuBR−1BTPu +Q = 0 (33)
+wherePu ∈R4n×4n denotes the unknown matrix, whose value
+is utilized to compute the following gain matrix:
+KLQR ∈Rn×4n = R−1BTPu (34)
+thus leading to the creation of the control law
+u = −KLQRx+Gﬀyref (35)
+where Gﬀ ∈Rn×n signiﬁes a feedforward matrix and yref ∈
+Rn denotes the referential position vector.
+C. Controller Augmentation and Gain Adaptation
+To utilize diagonal gain matrices conforming to the stability
+conditions, the original controller design has been decentralized
+[39]. For each gain-set, closed-loop stability is assessed by deter-
+mining that the linearized system satisﬁesA
+eNG = λM(Acl)< 1,
+where Acl = A−BKLQR. Moreover, the generated gains
+should satisfy λm(TK) >α, which is achieved by assigning
+larger values to the Q matrix penalty terms associated with
+motor position states, as opposed to link position states, such
+thatK
+PMt becomes the dominant term inTK,a sKDMt should
+also be the dominant term in ΨK.
+Superimposition of the gravity compensation and passivity-
+preservation signals, onto (35), leads to (12) and/or (22).
+Low and high impedance designs, pertaining to the con-
+tact, and “free-motion” scenarios have been acquired by fol-
+lowing [39]’s approach. Solving the time-varying LQR prob-
+lem [45] together with [39] could enable the generation
+of contact-aware impedance gains for enhanced interaction
+performance.
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+SPYRAKOS-P AP AST AVRIDISet al.: P ASSIVITY PRESERVA TION FOR VARIABLE IMPEDANCE CONTROL OF COMPLIANT ROBOTS 2347
+V. V ARIABLE IMPEDANCE INTERACTION EXPERIMENTS
+The Cartesian-space controller described by (22) is hereafter
+referred to as VCIC1. To assess the PPC scheme’s efﬁcacy,
+in terms of interaction task execution, VCIC1 has been imple-
+mented onto the Rethink Robotics Sawyer robot.
+The experimental setup encompasses an Intel Core i7-
+6820HQ @ 2.7-GHz laptop running Robot Operating System
+(ROS) Kinetic, through Ubuntu 16.04 LTS (Xenial).
+A. Contact-Dependent Variable Cartesian Impedance
+The robot has been subjected to a series of external per-
+turbations, which trigger ramp-based transitions between the
+predeﬁned low and high impedance gain-sets, in accordance
+with user-adjusted external wrench thresholds. Two additional
+controllers are considered henceforth, namely, IIC1 and VCIC2.
+IIC1 is based on the full-state feedback control scheme proposed
+in [35], which possesses the form
+τ
+m = JT
+q (KcxE −Dc ˙x)−KTτ−KS ˙τ+JJ−1
+S τg (q)
+(36)
+whereJq = Jq(q), withq denoting a modiﬁed position variable
+[35], τ= K(θ−q), JS ∈Rn×n signiﬁes an inertia scaling
+matrix, while KT, KS ∈Rn×n represent torque and torque
+derivative gain matrices. VCIC2 is a time-varying version of
+IIC1. The VCIC1 gains corresponding to the contact and free-
+motion cases, respectively, are tuned using
+Q
+c =d i a g
+([
+35995 I3 2.33 .81 .61 .63 61 21 .31 0−8I14
+])
+Rc =d i a g
+(
+10−4 [
+81 61 21 01 43 09
+])
+Qf =d i a g
+([
+3.5 7 11 12 0 .5I3 2.33 .81 .6I246 32 1 10−8I14
+])
+Rf =d i a g
+(
+10−5 [71 0.51 3.52 37 .52 7.55 ])
+giving rise to the following values: λm(TKc)= 143.44,
+λm(ΞDc)= 0.58, λm(TKf )= 548.22, and λm(ΞDf )= 0.08.
+The c and f subscripts denote the contact and free-motion
+phases, respectively. It is assumed that ki = 1000 Nm/rad
+(K =d i a g ( [ki,...,k n ])), i.e., an order of magnitude smaller
+than the physical value, and signiﬁcantly larger than the cal-
+culated α= 101.36 value, which corresponds to the minimum
+joint stiffness ensuring a viable mechanical design for a compli-
+ant manipulator [46]. The conservativeness ofki guarantees that
+λm(TK) >α. IIC1 and VCIC2 utilize Kc,Dc values identical
+to those employed by VCIC1, albeit with differentKT,KS ma-
+trices [35]. Fig. 1 reveals that ˙Q ≤ ˙qTτex when using VCIC1,
+while the relationship ˙Q> ˙qTτex, could occasionally arise
+when performing VIC using controller VCIC2, thus potentially
+impacting on the system’s stability/passivity. Fig. 2 displays the
+associated active stiffness ﬂuctuations.
+B. Smoothing T ask: Experimental Setup
+To verify the system’s ability to maintain contact with a
+surface for a ﬁnite duration, while performing a predeﬁned
+Fig. 1. Evolution of power variables (VCIC1 vs. VCIC2).
+Fig. 2. Stiffness variations during manual disturbances (VCIC1 vs.
+VCIC2).
+Cartesian motion, the robot has been commanded to establish
+contact with a surface located at a ﬁxed distance, albeit possess-
+ing an angular offset w.r.t the Sawyer’s base and vertical axis. To
+this end, the robot is provided with a set of Cartesian reference
+positions corresponding to a predetermined path mimicking a
+human-like task and is equipped with a plastering trowel (video
+ﬁle). In order to replicate the deﬁned Cartesian path, which is
+updated via c
+td , a Sawyer-speciﬁc ROS package [47] is used to
+compute the link-position Jacobian, and hence the desired joint
+velocities
+˙q
+d = J+
+q ˙ctd = J+
+q ·δctd (37)
+where ctd ∈Rm, Jq ∈Rm×n, and δdenote the referential
+Cartesian pose vector, link-position Jacobian, and delta operator,
+respectively. Hence, the referential Cartesian position incre-
+ments are used to deﬁne linear task-space paths, corresponding
+to vertical smoothing and contact-plane motions. To suppress the
+dynamical production of desired positions, an array of incremen-
+tal set points is generated by extracting the outputs of the above
+equation at less frequent, constant time intervals, as suggested
+by relevant methodologies [48]. Therefore, the desired positions
+are computed recursively via the relationship [49]
+q
+di = qdi−1 + ˙qdiΔT (38)
+where ΔT =ti −ti −1, which enables computation of the ref-
+erential motor position terms present in the control law. Link to
+motor reference conversions are performed through
+θd = qd +K−1τgd. (39)
+In order to select nonsingular conﬁgurations for operation
+[4], [31], the robot is commanded to a predeﬁned homing
+conﬁguration (deﬁned in terms of joint angles) at which the
+wrist joint occupies a ﬁxed position away from the known
+structural singularities. This interpolation is performed using
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+2348 IEEE/ASME TRANSACTIONS ON MECHA TRONICS, VOL. 25, NO. 5, OCTOBER 2020
+Fig. 3. Desired and actual Cartesian positions (VCIC1 vs. IIC1).
+Fig. 4. Desired and actual Cartesian positions (VCIC1 vs. VCIC2).
+Fig. 5. Evolution of power variables (VCIC1 vs. IIC1).
+the “move_to_neutral” method, contained in the Intera SDK
+ROS packages. Transitioning between the two distinct wrist
+conﬁgurations requires that the robot initially comes to rest at the
+ﬁnal position of the Cartesian path segment, thereby satisfying
+the predeﬁned Cartesian error thresholds, |c
+t −ctd|≤ cthr .
+Subsequently, execution of an existing joint interpolation algo-
+rithm initiates the desired wrist conﬁguration switch. Contrarily,
+since the elbow and shoulder singularities are characterised in
+task-space [5], their avoidance necessitates operation away from
+the relevant Cartesian-space regions [5], i.e., regions that exceed
+the horizontal and vertical extremities of the task-space for a
+given contact-plane conﬁguration.
+C. Smoothing T ask: VCIC Versus IIC
+VCIC1 and VCIC2 modulate the robot’s impedances in accor-
+dance with (28). The displayed ﬁgures are divided into yellow
+(IIC) and blue (VCIC) subplots.Figs. 3 and 4 illustrate the actual
+and referential Cartesian positions measured during smoothing,
+while Figs. 5 and 6 depict the ˙Q and ˙q
+Tτex values associated
+with the relevant controllers.
+Fig. 6. Evolution of power variables (VCIC1 vs. VCIC2).
+Fig. 7. Active Cartesian stiffness modulation (VCIC1 vs. IIC1).
+Fig. 8. Active link stiffness gain modulation (VCIC1 vs. IIC1).
+Fig. 9. Active Cartesian stiffness modulation (VCIC1 vs. VCIC2).
+The latter results reveal that in contrast to VCIC1, utilization
+of VCIC2 could lead to the phenomenon ˙Q> ˙qTτex. Further-
+more, Figs. 7–10 display the ﬂuctuating stiffness and damping
+gains; Figs. 11 and 12 depict the input torques, while Figs. 13
+and 14 exhibit the link position values.
+The external wrenches (smoothed using a 70-sample moving
+average ﬁlter to avoid unnecessary impedance switches) are
+displayed in Figs. 15 and 16. The results indicate that usage of
+IIC induces larger external forces during interaction as compared
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+SPYRAKOS-P AP AST AVRIDISet al.: P ASSIVITY PRESERVA TION FOR VARIABLE IMPEDANCE CONTROL OF COMPLIANT ROBOTS 2349
+Fig. 10. Active link stiffness gain modulation (VCIC1 vs. VCIC2).
+Fig. 11. Input torque signals (VCIC1 vs. IIC1).
+Fig. 12. Input torque signals (VCIC1 vs. VCIC2).
+Fig. 13. Link position values (VCIC1 vs. IIC1).
+Fig. 14. Link position values (VCIC1 vs. VCIC2).
+Fig. 15. Wrench variables (VCIC1 vs. IIC1).
+Fig. 16. Wrench variables (VCIC1 vs. VCIC2).
+to VIC. On the other hand, VCIC2 displays lower and higher
+contact force magnitudes in comparison to IIC1 and VCIC1,
+respectively, while it is occasionally observed that ˙Q> ˙q
+Tτex
+(indicated by arrows).
+D. Practical Considerations
+Despite the signiﬁcant differences between PPC and classical
+PD-plus control, identical VIC strategies can be used with
+both methods in principal, although this depends on the noise
+levels, gain selection, and passive stiffness values. However, the
+stability analysis indicates that ˙q
+F = 0 whenqe = 0, which nat-
+urally leads to minimization of the PPC scheme’s auxiliary term
+magnitudes. For practical implementation, one should account
+for feedback noise, which may induce large input torque spikes
+at low velocities, owing to ˙Θ
+PI. Thus, impedance modulations
+could be prevented (˙kPMti = ˙tKJi = 0) and kPJt i ramped to
+zero, when ∥˙θi∥≤ n ˙θ, with n ˙θdenoting the signal noise mag-
+nitude andi indicating a matrix’sith diagonal element. Since the
+auxiliary elements are modiﬁable in real-time, the user is granted
+full control over the additive control signal. Moreover, PPC
+guarantees passivity during VIC, in contrast to classic PD-plus
+control.
+E. Simulation-Based IIC Versus VCIC Comparison
+A comparison between the IIC1 and VCIC1 schemes is
+performed through simulation of a 19 kg, three-DoF (similar
+to Sawyer’s pitch joints), SEA-powered robotic manipulator,
+whose joint stiffnesses have been set to 3000 Nm/rad.
+The simulation is performed by means of integrating the
+dynamical equations (1) and (2). For both the IIC and VCIC
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+2350 IEEE/ASME TRANSACTIONS ON MECHA TRONICS, VOL. 25, NO. 5, OCTOBER 2020
+Fig. 17. Cartesian position reference and responses (VCIC1 vs. IIC1).
+Fig. 18. Impact forces arising during contact (VCIC1 vs. IIC1).
+Fig. 19. T otal stiffness gain matrix norm (VCIC1 vs. IIC1).
+Fig. 20. Velocity vector norm (VCIC1 vs. IIC1).
+cases, the robot is instructed to move toward a desired Carte-
+sian position, via ramping functions, at which it collides with
+a surface. Fig. 17 illustrates the referential position ramp, in
+addition to the IIC1 and VCIC1 controller responses, while
+Fig. 18 displays the resulting impulse (force) values. Moreover,
+Fig. 19 exhibits the active impedance modulations and Fig. 20
+demonstrates that during both simulations, the IIC and VCIC
+preimpact velocity norm magnitudes are identical.
+Fig. 21. Evolution of λm(TK) value during VIC.
+Fig. 22. Link position evolution before and after manual perturbation.
+Fig. 23. Link velocities before and after a manual perturbation.
+F . Practical Utility of the Stability Criteria
+The Sawyer robot is initially at rest, with gains that ensure
+λm(TK) >α and λm(ΞD) > 0. Manual perturbation of the
+system triggers VIC at a gain modulation rate of 0.4 Hz (see
+Fig. 21 ) that periodically produces λm(TK) <α, leading to
+joint oscillations around the desired equilibria (see Fig. 22 ).
+A different experiment entails the usage of gains yielding
+λm(ΞD)= −2.37, which render the system unstable when
+perturbed (see Fig. 23).
+VI. C ONCLUSION
+The work described here introduces a novel control method-
+ology, namely PPC, which is designed to suppress the adverse
+effects arising during VIC. The PPC technique enables the
+implementation of stable active VIC (gain-scheduling) methods
+on under-actuated, ﬂexible-joint robots, with both linear and
+nonlinear passive stiffness elements. Since the PPC controller
+employs full-state feedback, one can utilize well-established
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+SPYRAKOS-P AP AST AVRIDISet al.: P ASSIVITY PRESERVA TION FOR VARIABLE IMPEDANCE CONTROL OF COMPLIANT ROBOTS 2351
+methods for systematic feedback gain generation, such as the
+LQR approach described herein.
+Joint and Cartesian space versions of the PPC controller are
+introduced to permit intuitive deﬁnition of interaction tasks.
+Experiments involving VCIC and IIC, using both PPC and
+non-PPC schemes, enabled a comparative analysis involving
+the distinct methodologies. Experimental and simulation data
+reveals that employing VIC leads to the reduction of contact
+force magnitudes, as compared to using IIC.
+A
+PPENDIX A
+Acquiring the steady-state form of the system comprising (1),
+(2), and(12), by setting ˙qF = ¨qF = 0, and assuming that the
+robot is operating in “free motion” (i.e., τex = 0), leads to
+TK
+[
+qd −q
+θd −θ
+]
+=
+[
+τg (q)−τgd
+0
+]
+. (40)
+Applying a contraction mapping theorem based on
+x =[ qT θT ]T and H(x)= T−1
+K τ(x)−xd, where
+τ(x)=[ τg(q)T −τT
+gd 0]T , in order to acquire the inequality
+∥H(x)−H(y)∥≤ λM
+(
+T−1
+K
+)
+α∥x−y∥ (41)
+guarantees uniqueness of (40), when λm(TK) >α. Computing
+(15)’s gradient reveals its possession of a unique minimum
+around q
+d andθd in the following manner:
+∇W = TK0
+[
+qe
+0
+]
++
+[
+τ(x)T (θT
+E)
+2
+2
+qT
+E·diag(θE )
+2
+]T
+= 0
+(42)
+with TK0 =d i a g ( [TK 0]). Attaining its Hessian yields
+∇2W = TK0 −
+⎡
+⎢⎢⎢⎣
+−τ∂ 00 θE/2
+00 θE qE/2
+0 θT
+E 00
+θT
+E/2 qT
+E/20 0
+⎤
+⎥⎥⎥⎦> 0 (43)
+which veriﬁes the latter’s positive deﬁniteness, given that α≫
+θE ,qE , thus conﬁrming uniqueness of (qE,θE).
+APPENDIX B
+The Lyapunov function’s (16) time derivative is
+˙V = ˙qT
+F
+⎛
+⎜⎜
+⎜⎜⎜
+⎜
+⎜
+⎜⎜⎜⎝
+diag
+([
+−C 0
+])
+˙q
+F +
+˙MT (q) ˙qF
+2 −τ(x)
+−TKqe −ΨK ˙qF
+−
+⎡
+⎢⎣
+0
+˙ΘPIId
+(
+qT
+e ˙TKqe + ˙qT
+F
+(
+TT
+K −TK
+)
+qe
+)
+2
+⎤
+⎥⎦
+⎞
+⎟⎟
+⎟⎟⎟
+⎟
+⎟
+⎟⎟⎟⎠
++ ˙q
+T
+FTKqe
+2 + qT
+e TK ˙qF
+2 + ˙qT
+Fτ(x)
++ qT
+e ˙TKqe
+2 (44)
+which when considering that ˙qT( ˙M−2C)˙q = 0 and eliminat-
+ing the gain-related terms yields (17), i.e., ˙V = −˙qT
+FΨK ˙qF .
+TheΨK matrix is positive deﬁnite if
+1
+2
+[
+2NK T
+DJt
+KDJt 2(D+KDMt)
+]
+> 0 (45)
+whose Schur complement yields (19). Since V and ˙qF are
+bounded, while ˙V ≤0, applying Barbalat’s lemma after differ-
+entiating ˙V , produces (20). Moreover, ml ≤∥MT(q)∥≤ mu,
+∥C∥≤ cu∥˙q∥, ∥D∥≤ du, ∥KT∥≤ ku, and ∥τg(q)∥≤ τu,
+where ml, mu, cu, du, ku, and τu denote positive constants,
+whileKT ∈R2n×2n symbolizes the stiffness matrix. Therefore,
+¨qF is bounded since
+¨qF = M−1
+T
+([
+0
+τm
+]
+−
+[
+C+N 0
+0 D
+]
+˙qF
+−KTqF −
+[
+τg (q)
+0
+])
+(46)
+which comprises bounded terms. τm is also bounded, since
+∥qd∥≤ qr , with qr signifying a positive constant. It is then
+concluded that ˙V is uniformly continuous and lim
+t→∞
+˙V(˙qF,t)=
+0. Substituting ˙qF = 0 into the closed-loop system, yields
+K(q −θ)+ τg (q)= 0 (47)
+K(θ−q)= KPMtθE +KPJtqE +τgd (48)
+implying GAS at qeq [50]. Alternatively, (46) is of the form
+˙xF = f(xF,t), where xF =[ ˙qT
+F qT
+F]T . Assuming that
+˙V = −˙qT
+FΨK ˙qF ≤Wf (˙qF) ≤0 (49)
+where Wf = −˙qT
+FΩ˙qF , with 0 < Ω< ΨK, it ought to be
+ensured that ˙V ≡0 (identically zero), as stipulated by the new
+invariance principle (NIP) [51]. Differentiating Wf yields
+˙Wf = −¨qT
+FΩT ˙qF −˙qT
+F ˙Ω˙qF (50)
+where ΩT = Ω+ΩT, which again indicates that ¨V = 0a t
+˙qF = 0, thus ˙V ≡0. The second derivative of Wf produces
+¨Wf = −¨qT
+FΩT¨qF −...qT
+FΩT ˙qF −¨qT
+F ˙ΩT ˙qF
+− ¨qT
+F ˙Ω˙qF −˙qT
+F ˙Ω¨qF −˙qT
+F ¨Ω˙qF (51)
+which is only zero at ˙qF = ¨qF = 0. Substituting these vectors
+into the closed-loop system, yields (47)–(48), which possesses
+a unique solution at the origin(qeq). Since ˙V ≡0 andf(xF,t)
+is bounded, Assumption 1 in [51] is satisﬁed, which according
+to the NIP proves GAS of this nonautonomous system. For
+uniformly locally Lipschitz continuous systems, [52, Th. 1]
+could be used instead.
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+2352 IEEE/ASME TRANSACTIONS ON MECHA TRONICS, VOL. 25, NO. 5, OCTOBER 2020
+APPENDIX C
+Assuming that Jt is operated away from singularities and
+˙qT( ˙M−2C)˙q = 0, a series of calculations produces
+˙V = −˙xTDct ˙x−˙qT
+F
+[
+N 0
+KDJt D
+]
+˙qF. (52)
+GAS can be proven by applying Barbalat’s lemma and the
+NIP . The Cartesian controller’s passivity is proven via
+˙Q = ˙qTτex −˙qT
+FΨKC ˙qF ≤ ˙qTτex (53)
+whose validity is ensured by positive deﬁniteness of ΨKC ,
+which, in turn, requires satisfaction of condition (19).
+REFERENCES
+[1] F. Ferraguti, C. Secchi, and C. Fantuzzi, “A tank-based approach to
+impedance control with variable stiffness,” inProc. IEEE Int. Conf. Robot.
+Autom., 2013, pp. 4948–4953.
+[2] F. Ferraguti et al., “An energy tank-based interactive control architecture
+for autonomous and teleoperated robotic surgery,” IEEE Trans. Robot. ,
+vol. 31, no. 5, pp. 1073–1088, Oct. 2015.
+[3] K. Kronander and A. Billard, “Stability considerations of variable
+impedance control,” IEEE Trans. Robot. , vol. 32, no. 5, pp. 1298–1305,
+Oct. 2016.
+[4] J. Buchli, F. Stulp, E. Theodorou, and S. Schaal, “Learning variable
+impedance control,” Int. J. Robot. Res., vol. 30, no. 7, pp. 820–833, 2011.
+[5] L. Zollo, B. Siciliano, A. de Luca, E. Guglielmelli, and P . Dario, “Compli-
+ance control for an anthropomorphic robot with elastic joints: Theory and
+experiments,” ASME J. Dyn. Syst., Meas. Control , vol. 127, pp. 321–328,
+2005.
+[6] B. Siciliano and O. Khatib, Springer Handbook of Robotics , 2 ed. Berlin,
+Germany: Springer Science & Business Media, 2016.
+[7] N. Hogan, “Impedance control: An approach to manipulation,” in Proc.
+Amer . Control Conf., 1984, pp. 304–313.
+[8] N. Hogan, “On the stability of manipulators performing contact tasks,”
+IEEE J. Robot. Autom. , vol. 4, no. 6, pp. 677–686, Dec. 1988.
+[9] A. Dietrich, X. Wu, K. Bussmann, C. Ott, A. Albu-Schäffer, and
+S. Stramigioli, “Passive hierarchical impedance control via energy tanks,”
+IEEE Robot. Autom. Lett. , vol. 2, no. 2, pp. 522–529, Apr. 2017.
+[10] D. Lee and K. Huang, “Passive-set-position-modulation framework
+for interactive robotic systems,” IEEE Trans. Robot. , vol. 26, no. 2,
+pp. 354–369, Apr. 2010.
+[11] R. Ikeura and H. Inooka, “V ariable impedance control of a robot for
+cooperation with a human,” in Proc. IEEE Int. Conf. Robot. Autom., 1995,
+pp. 3097–3102.
+[12] T. Tsumugiwa, R. Y okogawa, and K. Hara, “V ariable impedance control
+based on estimation of human arm stiffness for human-robot coopera-
+tive calligraphic task,” in Proc. IEEE Int. Conf. Robot. Autom. , 2002,
+pp. 644–650.
+[13] J. A. Blaya and H. Herr, “Adaptive control of a variable-impedance ankle-
+foot orthosis to assist drop-foot gait,” IEEE Trans. Neural Syst. Rehabil.
+Eng., vol. 12, no. 1, pp. 24–31, Mar. 2004.
+[14] C. Y ang, G. Ganesh, S. Haddadin, S. Parusel, A. Albu-Schäffer, and
+E. Burdet, “Human-like adaptation of force and impedance in stable and
+unstable interactions,” IEEE Trans. Robot. , vol. 27, no. 5, pp. 918–930,
+Oct. 2011.
+[15] S. Calinon, D. Bruno, and D. G. Caldwell, “A task-parameterized proba-
+bilistic model with minimal intervention control,” inProc. IEEE Int. Conf.
+Robot. Autom., 2014, pp. 3339–3344.
+[16] L. Rozo, D. Bruno, S. Calinon, and D. G. Caldwell, “Learning optimal
+controllers in human-robot cooperative transportation tasks with position
+and force constraints,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. ,
+2015, pp. 1024–1030.
+[17] E. Gribovskaya, A. Kheddar, and A. Billard, “Motion learning and adaptive
+impedance for robot control during physical interaction with humans,” in
+Proc. IEEE Int. Conf. Robot. Autom. , 2011, pp. 4326–4332.
+[18] E. Spyrakos-Papastavridis, N. Kashiri, P . R. N. Childs, and N. G.
+Tsagarakis, “Online impedance regulation techniques for compliant hu-
+manoid balancing,” Robot. Auton. Syst., vol. 104, pp. 85–98, 2018.
+[19] E. Spyrakos-Papastavridis, N. Kashiri, J. Lee, N. G. Tsagarakis, and
+D. G. Caldwell, “Online impedance parameter tuning for compliant
+biped balancing,” in Proc. IEEE-RAS Int. Conf. Humanoid Robots , 2015,
+pp. 210–216.
+[20] F. Ficuciello, L. Villani, and B. Siciliano, “V ariable impedance control of
+redundant manipulators for intuitive human-robot physical interaction,”
+IEEE Trans. Robot., vol. 31, no. 4, pp. 1–14, Aug. 2015.
+[21] A. Jafari, N. G. Tsagarakis, I. Sardellitti, and D. G. Caldwell, “A new actu-
+ator with adjustable stiffness based on a variable ratio lever mechanism,”
+IEEE/ASME Trans. Mechatronics, vol. 19, no. 1, pp. 55–63, Feb. 2014.
+[22] R. V an Ham, B. V anderborght, M. V an Damme, B. V errelst, and D. Lefeber,
+“MACCEPA, the mechanically adjustable compliance and controllable
+equilibrium position actuator: Design and implementation in a biped
+robot,” Robot. Auton. Syst., vol. 55, no. 10, pp. 761–768, 2007.
+[23] M. Grebenstein et al., “The hand of the DLR hand arm system: Designed
+for interaction,” Int. J. Robot. Res. , vol. 31, no. 13, pp. 1531–1555, 2012.
+[24] F. Petit, A. Dietrich, and A. Albu-Schäffer, “Generalizing torque con-
+trol concepts: Using well-established torque control methods on variable
+stiffness robots,” IEEE Robot. Autom. Mag. , vol. 22, no. 4, pp. 37–51,
+Dec. 2015.
+[25] D. Braun, M. Howard, and S. Vijayakumar, “Optimal variable stiffness
+control: Formulation and application to explosive movement tasks,”Auton.
+Robots, vol. 33, no. 3, pp. 237–253, 2012.
+[26] P . Qi, C. Qiu, H. Liu, J. S. Dai, L. D. Seneviratne, and K. Althoefer,
+“A novel continuum manipulator design using serially connected double-
+layer planar springs,” IEEE/ASME Trans. Mechatronics , vol. 21, no. 3,
+pp. 1281–1292, Jun. 2016.
+[27] N. G. Tsagarakis et al. , “iCub: The design and realization of an open
+humanoid platform for cognitive and neuroscience research,” Adv. Robot.,
+vol. 21, no. 10, pp. 1151–1175, 2007.
+[28] E. Rombokas, M. Malhotra, E. Theodorou, E. Todorov, and Y . Matsuoka,
+“Tendon-driven variable impedance control using reinforcement learning,”
+in Proc. Robot., Sci. Syst. , 2012.
+[29] D. Kim, J. Ahn, O. Campbell, N. Paine, and L. Sentis, “Investigations of
+a robotic testbed with viscoelastic liquid cooled actuators,” IEEE/ASME
+Trans. Mechatronics, vol. 23, no. 6, pp. 2704–2714, Dec. 2018.
+[30] G. Pratt and M. Williamson, “Series elastic actuators,” in Proc. IEEE/RSJ
+Int. Conf. Intell. Robots Syst. , 1995, pp. 399–406.
+[31] C. Ott, A. Albu-Schäffer, A. Kugi, and G. Hirzinger, “On the passivity-
+based impedance control of ﬂexible joint robots,” IEEE Trans. Robot. ,
+vol. 24, no. 2, pp. 416–429, Apr. 2008.
+[32] P . Tomei, “A simple PD controller for robots with elastic joints,” IEEE
+Trans. Autom. Control, vol. 36, no. 10, pp. 1208–1213, Oct. 1991.
+[33] L. Lanari, P . Sicard, and J. T. Wen, “A passivity/Lyapunov approach for
+the control of ﬂexible joint manipulators,” in Proc. Amer . Control Conf.,
+1993, pp. 2887–2891.
+[34] A. Albu-Schäffer, C. Ott, and G. Hirzinger, “A passivity based cartesian
+impedance controller for ﬂexible joint Robots - Part II: Full state feedback,
+impedance design and experiments,” in Proc. IEEE Int. Conf. Robot.
+Autom., 2004, pp. 2666–2672.
+[35] A. Albu-Schäffer, C. Ott, and G. Hirzinger, “A uniﬁed Passivity-based
+control framework for position, torque and impedance control of ﬂexible
+joint robots,” Int. J. Robot. Res. , vol. 26, no. 1, pp. 23–39, 2007.
+[36] A. van der Schaft, L2-Gain and Passivity Theorem Techniques in Nonlinear
+Control. Berlin, Germany: Springer-V erlag, 2000.
+[37] E. Spyrakos-Papastavridis, J. S. Dai, P . R. N. Childs, and N. G. Tsagarakis,
+“Selective-compliance-based lagrange model and multilevel noncollo-
+cated feedback control of a humanoid robot,”J. Mechanism Robot., vol. 10,
+no. 3, 2018, Art. no. 031009.
+[38] J. S. Shamma and M. Athans, “Gain scheduling: Potential hazards and
+possible remedies,” IEEE Control Syst. Mag., vol. 12, no. 3, pp. 101–107,
+Jun. 1992.
+[39] E. Spyrakos-Papastavridis, D. G. Caldwell, and N. G. Tsagarakis, “Balance
+and impedance optimization control for compliant humanoid stepping,” in
+Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. , 2016, pp. 1349–1355.
+[40] M. Spong, “Modeling and control of elastic joint robots,” IEEE J. Robot.
+Autom., vol. 3, no. 4, pp. 291–300, Dec. 1987.
+[41] A. de Luca, B. Siciliano, and L. Zollo, “PD control with on-line gravity
+compensation for robots with elastic joints: Theory and experiments,”
+Automatica, vol. 41, pp. 1809–1819, 2005.
+[42] F. Petit and A. Albu-Schäffer, “State feedback damping control for a multi
+DOF variable stiffness robot arm,” inProc. IEEE Int. Conf. Robot. Autom.,
+2011, pp. 5561–5567.
+[43] R. Johansson and M. W. Spong, “Quadratic optimization of impedance
+control,” in Proc. IEEE Int. Conf. Robot. Autom. , 1994, pp. 616–621.
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 
+
+SPYRAKOS-P AP AST AVRIDISet al.: P ASSIVITY PRESERVA TION FOR VARIABLE IMPEDANCE CONTROL OF COMPLIANT ROBOTS 2353
+[44] M. Matinfar and K. Hashtrudi-Zaad, “Optimization-based robot compli-
+ance control: Geometric and linear quadratic approaches,” Int. J. Robot.
+Res., vol. 24, no. 8, pp. 645–656, 2005.
+[45] R. Tedrake, I. R. Manchester, M. Tobenkin, and J. W. Roberts, “LQR-trees:
+Feedback motion planning via sums-of-squares veriﬁcation,”Int. J. Robot.
+Res., vol. 29, no. 8, pp. 1038–1052, 2010.
+[46] C. Ott, A. Albu-Schaffer, A. Kugi, S. Stamigioli, and G.Hirzinger, “A
+passivity based cartesian impedance controller for ﬂexible joint Robots-
+Part I: Torque feedback and gravity compensation,” in Proc. IEEE Int.
+Conf. Robot. Autom., 2004, pp. 2659–2665.
+[47] [Online]. Available: https://github.com/rupumped/sawyer_pykdl/tree/
+master, Accessed: Aug. 11, 2018.
+[48] E. Lutscher, E. C. Dean-Leon, and G. Cheng, “Hierarchical force and
+positioning task speciﬁcation for indirect Force-Controlled robots,” IEEE
+Trans. Robot., vol. 34, no. 1, pp. 280–286, Feb. 2018.
+[49] F. Flacco and A. de Luca, “Discrete-time redundancy resolution at the
+velocity level with acceleration/torque optimization properties,” Robot.
+Auton. Syst., vol. 70, pp. 191–201, 2015.
+[50] N. Munro and F. L. Lewis, Robot Manipulator Control: Theory and
+Practice, 2 ed. Boca Raton, FL, USA: CRC Press, 2004.
+[51] I. Barkana, “Defending the beauty of the invariance principle,” Int. J.
+Control, vol. 87, no. 1 , pp. 186–206, 2014.
+[52] R. Balan, “An extension of Barbashin–Krasovski–LaSalle theorem to a
+class of nonautonomous systems,” Nonlinear Dyn. Syst. Theory ,v o l .8 ,
+no. 3, pp. 255–268, 2008.
+Emmanouil Spyrakos-Papastavridis received
+the B.Sc. degree in electronic and electri-
+cal engineering from University College Lon-
+don (UCL), London, U.K., the M.Sc. degree
+in mechatronics from King’s College London
+(KCL), London, and the Ph.D. degree in hu-
+manoid robotics from Istituto Italiano di T ecnolo-
+gia (IIT), Genova, Italy .
+He was a Postdoctoral Researcher with the
+Department of Advanced Robotics, IIT , for two
+years, developing humanoid balancing algo-
+rithms. He is currently a postdoctoral research associate with the
+Department of Engineering, King’s College London, and a visiting re-
+searcher with the Dyson School of Design Engineering, Imperial College
+London, London, U.K. His research interests include ﬂexible-joint sys-
+tems, nonlinear control, humanoids, bipedal balancing, legged systems,
+optimal control, impedance control, and human-robot interaction.
+Dr. Spyrakos-Papastavridis was a ﬁnalist for the Best Interactive Paper
+Award at Humanoids 2015.
+Peter R. N. Childs received bachelor’s and
+D.Phil. degrees in mechanical engineering from
+the University of Sussex, U.K. He is the Pro-
+fessorial Lead in engineering design and the
+Founding Head of Dyson School of Design En-
+gineering, Imperial College London, London,
+U.K. He is Founder Director at Q-Bot Ltd.,
+London, U.K. Former roles include Director of
+the Rolls-Royce University T echnology Centre
+for Aero-Thermal Systems, Director of InQbate,
+and Professor at Sussex University . He has pub-
+lished more than 200 papers and several books on engineering design,
+rotating ﬂow, rural urban migration, and sports technology . He has been
+principal or co-investigator on contracts totalling £80 million. His pro-
+fessional interests include creativity tools and innovation, design, heat
+transfer and rotating ﬂow, the circular economy , and sustainable energy .
+Prof. Childs is Fellow of the Royal Academy of Engineering, Fellow of
+the Institution of Mechanical Engineers, and Fellow of American Society
+of Mechanical Engineers.
+Jian S. Dai (S’14–F’17) received the under-
+graduate and master’s degrees in mechanical
+engineering from Shanghai Jiao T ong Univer-
+sity , Shanghai, China, in 1982 and 1984, re-
+spectively , and the Ph.D. degree in advanced
+kinematics, mechanisms, and robotics from the
+University of Salford, Salford, U.K., in 1993.
+He is a Chair Professor of mechanisms and
+robotics with the Centre for Robotics Research,
+King’s College London, University of London,
+London, U.K. He has been working in the ﬁeld
+of mechanisms and robotics for the past 30 years and has authored or
+coauthored more than 500 peer-reviewed papers (more than 250 on ISI
+journals). His research interests include theoretical and computational
+kinematics, reconﬁgurable mechanisms, dexterous mechanisms and
+manipulators, end effectors, and multiﬁngered hands.
+Dr. Dai is a Fellow of the American Society of Mechanical Engineers
+(ASME) and the Institution of Mechanical Engineers. He was the re-
+cipient of the Mechanisms and Robotics Award, given annually by the
+Mechanisms and Robotics Committee of the ASME to engineers known
+for a lifelong contribution in the ﬁeld of mechanism design or theory as
+the 27th recipient since 1974. He was also a recipient of several journal
+and conference best paper awards. He is an Associate Editor for the
+ASME T ransactions:Journal of Mechanisms and Robotics , and Subject
+Editor of Mechanism and Machine Theory .
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 15:33:12 UTC from IEEE Xplore.  Restrictions apply. 

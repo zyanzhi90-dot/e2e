@@ -1,0 +1,104 @@
+{
+  "source_id": "B68ZOyQGJ80J",
+  "read_event_id": "50c707d0bad44c0998b55d16b4dfdcdc",
+  "content_sha256": "0ec5c49ddbb602baff99b2155a4179693b93741de660d5a65c4623f3dd7f7806",
+  "claim": "REVIEW-LEVEL SYNTHESIS, not primary causal evidence: Al-Shuka and colleagues review active impedance control as force/torque-based impedance or position/velocity-based admittance, then extend the taxonomy to explicit force tracking, variable impedance, and flexible-joint actuation with series elastic or variable-stiffness elements. The central technical judgment is that controller architecture, force sensing, backdrivability, inner-loop bandwidth, friction, environment stiffness, and time variation of the impedance parameters jointly determine transparency and coupled stability. Variable stiffness may improve adaptation and force tracking but arbitrary time variation can destroy passivity; energy tanks, constrained adaptive laws, or state-independent stability conditions are therefore needed. These conclusions synthesize prior work through 2018 and do not constitute a new comparative experiment or systematic meta-analysis.",
+  "claim_locator": [
+    "Abstract and Section 1, Introduction",
+    "Section 2.1-2.5, equations (1)-(14), Figures 2-6",
+    "Section 3, equations (15)-(28)",
+    "Section 4, equations (29)-(33)",
+    "Section 5, equation (34), Figures 7-9",
+    "Section 6, Conclusions"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "context_only",
+  "epistemic_status": "review-level synthesis: full text verified; this open-access Review Article is a technical narrative overview with worked equations and literature examples, not primary causal evidence and not a reproducible systematic review with study-quality appraisal",
+  "problem_and_setting": "The review asks how active impedance controllers should be structured for safe, bioinspired robot-environment and human-robot interaction when position and contact force cannot be independently regulated along the same constrained direction. It emphasizes the trade-offs among force/torque-based impedance, position/velocity-based admittance, explicit force tracking, variable impedance, and impedance control of flexible-joint robots.",
+  "method_or_mechanism": "The paper develops a common constrained-robot and target-impedance formulation, then compares realizations. Force-based impedance attempts to render port dynamics through force/torque actuation; position- or velocity-based admittance converts measured external force through an outer impedance filter into a compliant command for an inner servo. Force-tracking variants modify the reference trajectory, virtual stiffness, or both using environment estimates and force error. Variable impedance changes mass, damping, and/or stiffness online, with passivity analysis showing that positive stiffness-rate terms can inject energy. Reviewed remedies include damping coordination, energy tanks, stability-constrained adaptive laws, and state-independent gain-schedule conditions. For SEA/VSA robots, nested velocity, torque, position, and impedance loops must account for flexible transmission dynamics and passivity.",
+  "content_summary": "After presenting constrained robot dynamics, the review contrasts force- and position/velocity-based impedance and explains when each is easier to implement. It notes that the outer impedance filter alone controls force indirectly and can leave steady-state force error, particularly with unknown environment stiffness/location. It surveys reference compensation and variable-stiffness strategies for explicit force tracking. The variable-impedance section uses a Lyapunov energy function to show why arbitrary time-varying stiffness can violate passivity and reviews four response families: stiffness modulation, mass/damping modulation, energy storage, and stability-constrained adaptive schedules. The flexible-joint section reviews SEA and VSA benefits and limitations, nested control architectures, transmission nonlinearities, time delay/noise, and passivity results. The conclusion identifies stable variable impedance and VSA/flexible-joint control as unresolved research areas.",
+  "synthesis_role": "Provides a focused bridge from classical fixed-impedance architecture to stability-aware variable impedance and compliant actuation. It is especially useful for distinguishing the source of compliance from the causal control realization and for documenting why gain variation and nested flexible-joint loops cannot be treated as benign extensions.",
+  "development_link": "Relative to broad impedance surveys, this review gives more explicit attention to force-tracking error, time-varying-gain passivity, energy tanks, and SEA/VSA cascade loops. It anticipates later work that embeds stability constraints directly into variable-impedance learning or uses passivity filters and energy budgets during execution.",
+  "evidence": [
+    {
+      "locator": "Section 2.2-2.5, equations (5)-(14)",
+      "status": "review-level architecture comparison",
+      "finding": "Force-based impedance relies on force/torque actuation and robot backdrivability/friction, whereas position/velocity-based admittance relies on an inner servo and force measurement; the realizations differ in achievable stiffness/compliance, bandwidth, transparency, and stability."
+    },
+    {
+      "locator": "Section 3, equations (15)-(24)",
+      "status": "review-level analytical synthesis",
+      "finding": "Conventional position-based impedance generally leaves force-tracking error when environment stiffness/location or host dynamics are uncertain; reviewed remedies modify the desired trajectory, virtual stiffness, or both."
+    },
+    {
+      "locator": "Section 3, equations (25)-(28)",
+      "status": "literature example synthesis",
+      "finding": "Virtual stiffness can be made a function of force error, but some schemes require environment knowledge or differentiated force error, and their stability conclusions often rely on simplified linear outer-filter analysis."
+    },
+    {
+      "locator": "Section 4, equations (29)-(33)",
+      "status": "review-level stability derivation",
+      "finding": "With constant virtual mass and time-varying stiffness/damping, the storage-function derivative contains a stiffness-rate energy-injection term; arbitrary time-varying stiffness can therefore violate passivity, while damping contributes dissipation."
+    },
+    {
+      "locator": "Section 4, variable-impedance technique list",
+      "status": "method taxonomy",
+      "finding": "The review groups stability-aware VIC approaches into force-error stiffness modulation, mass/damping modulation, energy-tank augmentation, and adaptive laws or state-independent schedules that restrict admissible gains."
+    },
+    {
+      "locator": "Section 5, equation (34), Figures 7-9",
+      "status": "review-level compliant-actuation synthesis",
+      "finding": "SEAs improve shock tolerance, backdrivability, and torque sensing but reduce torque bandwidth; nested loops and flexible transmission dynamics introduce underactuation, vibration, drift, noise, delay, and passivity constraints."
+    },
+    {
+      "locator": "Section 6, Conclusions",
+      "status": "author-stated gaps",
+      "finding": "The authors call for a clearer connection between variable impedance and force tracking, further stability analysis for time-varying gains, and more work on impedance control of variable-stiffness flexible joints."
+    }
+  ],
+  "evidence_kind": [
+    "technical narrative review",
+    "controller architecture taxonomy",
+    "reviewed passivity analysis",
+    "force-tracking error synthesis",
+    "variable-impedance stability taxonomy",
+    "SEA/VSA control synthesis"
+  ],
+  "boundary_conditions": [
+    "The paper is a 2018 review article; it does not include a reproducible search/selection protocol, risk-of-bias assessment, or quantitative synthesis.",
+    "Many stability arguments are illustrated with second-order, linear, or single-axis impedance filters and do not automatically extend to nonlinear multi-DOF sampled-data contact.",
+    "Reviewed controller results use heterogeneous robots, sensing, tasks, and performance metrics, so the article does not establish comparative superiority among architectures.",
+    "Force-tracking formulas often assume a simple spring environment and known or estimable environment stiffness/location.",
+    "Passivity is a sufficient coupled-stability route under compatible port definitions and passive environments, not a complete human-safety guarantee.",
+    "SEA/VSA discussions cover several control-loop arrangements; conclusions for single elastic joints cannot be generalized without qualification to coupled nonlinear MIMO robots.",
+    "The review predates much recent learning-based variable-impedance and formal safe-learning work."
+  ],
+  "assumptions": [
+    "The target mass-spring-damper model is an adequate representation of desired interaction over the task bandwidth.",
+    "The inner force, torque, velocity, or position loop is fast and accurate enough to separate it from the outer impedance behavior when such a cascade is assumed.",
+    "Interaction force and state variables are measured or estimated with acceptable noise, delay, and differentiation error.",
+    "Environment stiffness and location can be known, estimated, or compensated when explicit force tracking requires them.",
+    "Time-varying impedance parameters are differentiable and constrained or energy-managed when stability claims rely on those properties.",
+    "The cited examples selected by the authors adequately represent architecture trade-offs despite narrative selection."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Unsuitable impedance-filter tuning can produce unstable contact or unsafe forces.",
+      "Conventional impedance filters control interaction force indirectly and can leave steady-state force error.",
+      "Force-based impedance can amplify sensor noise for stiff rendered behavior, while position-based behavior depends on inner-loop and force-measurement quality.",
+      "Arbitrary time-varying stiffness can violate passivity and overall stability.",
+      "Energy-tank VIC depends on online system state and available stored energy.",
+      "SEA/VSA systems introduce reduced torque bandwidth, nonlinear/uncertain transmission behavior, fast vibration dynamics, drift under torque-only control, and nested-loop delay/coupling problems.",
+      "The performance and stability of VSA impedance architectures had not been extensively investigated at publication."
+    ],
+    "inferred": [
+      "Architecture recommendations may not transfer across robots because backdrivability, sensor placement, structural modes, and proprietary inner loops change the realized port dynamics.",
+      "Outer-loop linear stability analysis can miss saturation, quantization, impact discontinuity, and unmodeled flexible modes.",
+      "Bioinspired variable impedance does not by itself establish human comfort or safety; it needs task- and subject-level evidence.",
+      "Energy or passivity preservation can be conservative and may reduce tracking/force performance when the energy budget is depleted.",
+      "The absence of systematic evidence selection limits confidence in claims about dominant or preferable architectures."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

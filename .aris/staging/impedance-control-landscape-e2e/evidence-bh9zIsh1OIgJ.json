@@ -1,0 +1,117 @@
+{
+  "source_id": "bh9zIsh1OIgJ",
+  "read_event_id": "45d595fd7a014ab1bfba4b3b00183417",
+  "content_sha256": "29938178c7fd61b2d5e6d2d66c3e763f622a2d5d8552823126ff8c320b0ecf31",
+  "claim": "Stable execution of a contact task can be obtained by designing the robot to exhibit a target endpoint impedance throughout free motion, impact, and constrained motion, rather than switching between motion and force control at contact. In the reported two-degree-of-freedom apparatus, nonlinear impedance control with endpoint-force feedback remained stable against a rigid barrier without a deliberately compliant force sensor and improved post-impact force performance relative to the same computation without force feedback. The paper analytically interprets negative force feedback chiefly as a reduction of apparent endpoint inertia, but its stability evidence is mechanism- and experiment-specific rather than a general robust-stability theorem for arbitrary robots, environments, sampling, or impedance adaptation.",
+  "claim_locator": "Abstract; Introduction and Contact Instability; Mechanics of Interaction; An Alternative: Impedance Control; What Force Feedback Does, Eqs. 3-9; Implementing Impedance Control, Eqs. 10-20; Eliminating Inverse Kinematics; Effect of Force Feedback; Experimental Hardware; Test Task; Experimental Results; Why Use Force Feedback; Conclusion; Figs. 1-4.",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Full-text primary analytical and experimental paper. Apparent-inertia relations follow the paper's simplified and robot-model derivations; contact stability and performance are author-reported for the described apparatus and task and were not independently reproduced.",
+  "problem_and_setting": "Robots that behave well in free motion can oscillate unstably upon contacting a workpiece, especially when a slower force loop is wrapped around a fast motion servo. Earlier force-control practice could require the contacted surface or force sensor to be compliant, which excludes rigid workpieces or sacrifices endpoint positioning accuracy. The study addresses a task containing free motion, collision with a rigid constraint, sliding constrained motion, and both contact transitions, while seeking one controller that regulates motion and interaction force without detecting contact and switching modes.",
+  "method_or_mechanism": "The paper treats the workpiece or kinematic constraint as a mechanical admittance that accepts force and determines motion, requiring the coupled robot to present the complementary impedance. The chosen target endpoint behavior is the second-order relation Fexternal = M x_ddot + B x_dot + K(x-x0), where x0 is a software-defined virtual equilibrium and M, B, and K specify apparent inertia, damping, and stiffness. Starting from an inertial robot model with controllable joint torque, measured external force, joint position, and joint velocity, the nonlinear control law uses the Jacobian and the endpoint mobility W=J I^-1 J^T to make the endpoint approximate the target impedance. It avoids inverse kinematics by commanding the virtual endpoint position directly and computing joint torques from forward kinematics and dynamics. In a simplified one-dimensional analysis, negative external-force feedback with gain G changes the apparent mass from Mactual to Mactual/(G+1); force regulation additionally depends on an assumed environment model, whereas the apparent-inertia interpretation does not. The target parameters may in principle vary with time, but this paper does not give an adaptation rule or stability proof for such variation.",
+  "content_summary": "The paper advances classical impedance control from a general interaction concept to an experimental contact-execution architecture. It argues that neither motion nor force alone captures contact mechanics: a constrained workpiece is an admittance, so the robot must be controlled as an impedance. It derives a nonlinear endpoint impedance controller for a torque-controlled inertial mechanism, with a target mass-damper-spring behavior and endpoint force feedback. The derivation identifies force feedback as changing apparent inertia and shows that conventional force-tracking conclusions require environmental stiffness and damping assumptions. The implementation uses a planar two-link, SCARA-like, low-friction, low-inertia direct-drive laboratory mechanism; joint positions are measured by potentiometers, velocities are digitally differentiated, endpoint forces by a two-axis force sensor, and torque commands are computed on a DEC LSI 11/23 at 9 ms per cycle, about 111 Hz sampling and slightly over 5 Hz effective bandwidth. The virtual endpoint travels at constant speed around a circle intersected by a rigid concrete barrier. With force feedback, the apparatus remained stable in free motion, impact, and sliding contact; its force and path histories followed the ideal target behavior within sensor-noise and apparatus limits. The barrier was treated as essentially rigid, the force-sensor stiffness was reported as 700 lbf/ft, and robot stiffness as 4.5 lbf/ft. Stability was reported across the achievable stiffness and viscosity range. Disconnecting force sensing did not destabilize this particular mechanism, but caused repeated bouncing and substantially worse force history after impact, separating stability from performance. No contact detector, guarded move, inverse kinematics, or controller-mode switch was used.",
+  "synthesis_role": "Contact-transition and implementation card showing how impedance control became a single executable strategy for free motion, collision, and sustained rigid contact. It supplies a physical interpretation of force feedback and empirical evidence that carefully designed low-impedance hardware plus endpoint impedance control can avoid the compliant-sensor requirement, while sharply distinguishing observed stability from force-performance quality.",
+  "development_link": "Relative to the foundational formulation of endpoint impedance, this paper demonstrates one nonlinear force-feedback implementation across an actual free-to-contact-to-free task and explains why feedback design should be judged by the impedance it creates. It replaces mode switching with a continuous target impedance and links contact performance to apparent inertia rather than stiffness alone. It nevertheless leaves later variable and learning impedance research with unresolved tasks: selecting M, B, and K online; certifying stability under parameter variation and sampled implementation; coping with unknown, active, or nonlinear environments; reducing dependence on robot dynamics and force sensing; and generalizing beyond an idealized two-link mechanism and one rigid-contact geometry.",
+  "evidence": [
+    {
+      "statement": "The paper identifies contact instability as the failure of a free-motion-stable robot to maintain stable behavior when mechanically coupled to a surface, and criticizes slow force feedback wrapped around fast motion servos.",
+      "support_scope": "Introduction, Contact Instability, and motion-based control discussion.",
+      "support_class": "problem analysis"
+    },
+    {
+      "statement": "A constrained workpiece is modeled causally as an admittance, so the robot must accept imposed motion and produce force as a complementary impedance.",
+      "support_scope": "Mechanics of Interaction and impedance-control alternative.",
+      "support_class": "physical interaction argument"
+    },
+    {
+      "statement": "For the simplified one-dimensional system, negative force feedback yields an apparent mass Mactual/(G+1), so its primary physical effect is reduced apparent inertia.",
+      "support_scope": "What Force Feedback Does, Eqs. 3-5.",
+      "support_class": "analytical result under simplified model"
+    },
+    {
+      "statement": "Interpreting the same loop as a force regulator requires a rigid-workpiece and linear sensor-stiffness/damping model, illustrating that force tracking depends on environment assumptions.",
+      "support_scope": "What Force Feedback Does, Eqs. 6-9.",
+      "support_class": "conditional transfer-function analysis"
+    },
+    {
+      "statement": "The target impedance is a second-order endpoint mass-damper-spring relation specified by virtual position x0 and parameters M, B, and K.",
+      "support_scope": "Implementing Impedance Control, Eq. 11.",
+      "support_class": "controller specification"
+    },
+    {
+      "statement": "The nonlinear implementation uses robot dynamics, the Jacobian, endpoint mobility, joint motion, and external-force measurements to compute actuator torques without inverse-kinematic computation.",
+      "support_scope": "Implementing Impedance Control and Eliminating Inverse Kinematics, Eqs. 10-20.",
+      "support_class": "controller derivation"
+    },
+    {
+      "statement": "The hardware was a planar two-link, low-friction, low-inertia, torque-controlled laboratory mechanism sampled at about 111 Hz with effective controller bandwidth slightly above 5 Hz.",
+      "support_scope": "Experimental Hardware.",
+      "support_class": "author-reported implementation detail"
+    },
+    {
+      "statement": "With force feedback, the apparatus reportedly remained stable throughout free motion, rigid-barrier impact, and constrained sliding, while measured path and interface force followed the target behavior within apparatus and noise limitations.",
+      "support_scope": "Experimental Results and Fig. 3.",
+      "support_class": "author-reported experiment"
+    },
+    {
+      "statement": "The rigid-contact experiment used a concrete barrier, a force sensor of measured stiffness 700 lbf/ft, and commanded robot stiffness 4.5 lbf/ft; stable interaction was reported throughout the apparatus's achievable stiffness and viscosity range.",
+      "support_scope": "Experimental Results.",
+      "support_class": "author-reported experiment"
+    },
+    {
+      "statement": "With force sensing disconnected, the same mechanism remained stable and slid along the barrier, but bounced repeatedly and exhibited much poorer force performance.",
+      "support_scope": "Why Use Force Feedback and Fig. 4.",
+      "support_class": "author-reported comparison"
+    },
+    {
+      "statement": "The same controller handled unconstrained motion, impact, and constrained motion without detecting contact, switching modes, or using guarded moves.",
+      "support_scope": "Abstract and Conclusion.",
+      "support_class": "author-reported task-level result"
+    }
+  ],
+  "evidence_kind": "Simplified analytical mechanics and transfer-function reasoning, nonlinear model-based controller derivation, and a qualitative single-apparatus comparison with and without endpoint-force feedback during a circular-path rigid-barrier task; no formal general stability theorem, statistical replication, multi-environment robustness benchmark, or adaptive-controller validation.",
+  "boundary_conditions": [
+    "The apparent-inertia result Mactual/(G+1) is derived for a simplified one-dimensional inertial mechanism with proportional negative force feedback and zero reference force during the key interpretation.",
+    "The conventional force-regulation transfer function assumes a rigid workpiece and a force sensor modeled as a linear spring and viscous damper.",
+    "The nonlinear controller derivation assumes a known inertial robot model, controllable actuator torques, joint position and velocity measurements, endpoint-force measurement, and computable Jacobian and inertia terms.",
+    "Gravity and friction are omitted from the reported apparatus model; the text says they can be included in a generalized derivation but does not experimentally validate that extension here.",
+    "The endpoint mobility or its inverse must be usable in the controller; singularity, conditioning, saturation, and workspace boundaries are not analyzed as general stability cases.",
+    "The experiment uses a specially designed planar two-degree-of-freedom, low-friction, low-inertia mechanism whose performance exceeds that of a typical commercial robot.",
+    "The test contains one circular virtual path and one flat rigid concrete barrier; it does not cover arbitrary contact geometry, friction, active environments, deformable workpieces, or multiple simultaneous contacts.",
+    "The stated contact stability is an author-reported observation over the stiffness and viscosity range achievable by this apparatus, not a theorem for arbitrary positive impedance parameters.",
+    "The force sensor was stiff relative to the commanded robot stiffness but was still part of the mechanical and feedback loop; the result does not establish sensor-independence for the force-feedback controller.",
+    "The no-force-feedback comparison shows that this hardware could remain stable without force sensing, but also that stable contact does not imply acceptable transient force performance.",
+    "Sampling was about 111 Hz with effective bandwidth slightly above 5 Hz; conclusions do not automatically extend to other delays, rates, discretizations, quantization, or filtering.",
+    "The transition result is limited to the reported impact speed and apparatus; it does not prove stability for arbitrary collision energy.",
+    "Although M, B, K, and x0 are described as time-varying or adaptable in principle, no admissible rate bounds, adaptation law, passivity condition, or stability proof for online changes is supplied.",
+    "Avoidance of inverse kinematics does not remove reliance on forward kinematics, the Jacobian, or dynamic-model calculations."
+  ],
+  "assumptions": [
+    "The Controller-supplied file faithfully represents the complete paper despite OCR loss in some equations and headings.",
+    "The recovered equations are interpreted according to their surrounding prose and standard impedance-control notation.",
+    "The reported barrier and sensor stiffnesses and controller sampling characteristics are treated as author-reported measurements.",
+    "The phrase stable execution refers to absence of observed divergent oscillation in the described trials, not certified Lyapunov, passivity, or robust stability.",
+    "The development link to adaptive and learning impedance is a synthesis of the paper's explicit permission for time-varying parameters and its unresolved need for higher-level specification, not evidence of a learned policy."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "A force loop wrapped around a motion servo can become unstable upon contact.",
+      "Prior stable force-control arrangements could require compliant workpieces or force sensors, restricting rigid-contact tasks or degrading endpoint position accuracy.",
+      "Motion control alone ignores constrained-workpiece causality, while force control alone ignores motion arising from dynamic interaction.",
+      "Inverse kinematics can be computationally difficult, multivalued, and problematic for real-time execution.",
+      "With force feedback disconnected, the apparatus bounced repeatedly after collision and the interface-force history departed substantially from the target despite remaining stable.",
+      "Measured force contained high-frequency sensor noise, and measured motion contained system noise.",
+      "The laboratory apparatus was deliberately simpler and higher performance than a commercial robot, limiting direct generalization."
+    ],
+    "inferred": [
+      "The absence of a formal passivity or robust-stability proof leaves stability under unknown environment dynamics, high collision energy, sampling delay, saturation, and model error unresolved.",
+      "Because target impedance parameters are supplied by a programmer or supervisor, the method does not determine task-optimal impedance and motivates later adaptive or learning-based selection.",
+      "Online variation of M, B, K, or x0 could inject energy and destabilize contact unless additional rate, passivity, or switching constraints are imposed.",
+      "Model-based cancellation and endpoint mobility inversion may degrade near singularities or under inaccurate inertia estimates.",
+      "The result that stiffness did not affect observed stability on this apparatus should not be generalized to all robots, environments, controllers, or discretizations.",
+      "A carefully designed mechanically low-impedance robot can provide baseline accommodation without force feedback, but force feedback remains important for reducing impact transients and improving force fidelity."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

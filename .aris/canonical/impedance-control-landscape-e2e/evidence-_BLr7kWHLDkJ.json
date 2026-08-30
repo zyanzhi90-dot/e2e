@@ -1,0 +1,83 @@
+{
+  "source_id": "_BLr7kWHLDkJ",
+  "read_event_id": "1a06565a6f5f4e88b31cca7829f9afe9",
+  "content_sha256": "e2c917c7c381c55bec0fe0d6814de7033f0acef1e8910c220775cea02decfa5a",
+  "claim": "A stable latent motion model plus learned SPD stiffness encoder can reproduce and modulate demonstrated variable-impedance skills for via-points and obstacle avoidance, with simulation and preliminary Franka co-manipulation evidence; absolute variable-impedance stability and statistically reliable HRI benefit remain unestablished.",
+  "claim_locator": [
+    "method sections",
+    "LASA simulation",
+    "virtual stiffness experiment",
+    "Franka transport experiment",
+    "conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Primary simulation, synthetic stiffness, and preliminary human–robot hardware evidence with inferred stiffness labels and limited reporting.",
+  "problem_and_setting": "Learning both motion and compliant interaction from demonstrations while adapting trajectories to via-points, new starts/goals, and static obstacles without retraining.",
+  "method_or_mechanism": "An invertible neural-network dynamical system maps motion to a latent straight-line stable flow and modulates it through via/tangent points. A stiffness encoder maps position, velocity, and force to Cholesky factors enforcing SPD stiffness; a decoder implements the interaction model and outputs control force/torque. Ground-truth stiffness is absent and targets are inferred from estimated references and a model.",
+  "content_summary": "LASA handwriting simulations test reproduction and modulation. A self-made 2-DoF mass-spring-damper dataset reports about 90% stiffness-estimation accuracy versus traditional methods, without metric/sample details in the packet. Human–Franka transport covers regular and changed human style, changed start/goal, obstacle avoidance, and zero-gravity comparison. Integrated interaction-energy values are 0.395, 0.214, and 0.151 N·s; authors call the obstacle-aware condition most relaxed, but the packet does not unambiguously map every value. Absolute stability is not studied, hyperparameters are trial-and-error, and training is slow.",
+  "synthesis_role": "Evidence for jointly learning stable motion geometry and SPD impedance mappings, and for the unresolved gap between stable motion generation and closed-loop variable-impedance stability.",
+  "development_link": "Combines invertible stable dynamical systems, constraint-preserving stiffness output, and geometry-based modulation without retraining.",
+  "evidence": [
+    {
+      "locator": "method sections",
+      "status": "author_reported_method",
+      "finding": "Latent stable flow supports via-point and circular-obstacle modulation; Cholesky output enforces SPD stiffness."
+    },
+    {
+      "locator": "LASA simulation",
+      "status": "author_reported_simulation",
+      "finding": "Demonstrated motions are reproduced and modulated through via-points and around obstacles."
+    },
+    {
+      "locator": "virtual stiffness experiment",
+      "status": "author_reported_synthetic",
+      "finding": "Approximately 90% stiffness-estimation accuracy is reported versus traditional methods, with metric/sample details absent from the packet."
+    },
+    {
+      "locator": "Franka transport experiment",
+      "status": "author_reported_limited_hri",
+      "finding": "Transport is demonstrated under changed human style, start/goal, and obstacle conditions; integrated interaction energies 0.395, 0.214, and 0.151 N·s are reported."
+    },
+    {
+      "locator": "conclusion",
+      "status": "author_reported_limitation",
+      "finding": "Absolute variable-impedance stability is not studied; hyperparameters are trial-and-error and training is comparatively slow."
+    }
+  ],
+  "evidence_kind": [
+    "stable-motion method",
+    "LASA simulation",
+    "synthetic stiffness estimation",
+    "single-platform co-manipulation demonstration"
+  ],
+  "boundary_conditions": [
+    "Ground-truth stiffness unavailable.",
+    "Circular static obstacle model.",
+    "Synthetic 2-DoF stiffness dataset.",
+    "One Franka transport setup with unreported participant count.",
+    "No statistics or uncertainty estimates.",
+    "Absolute variable-impedance stability not analyzed."
+  ],
+  "assumptions": [
+    "Estimated reference motion/model yields meaningful stiffness labels.",
+    "Latent motion stability transfers adequately through inverse mapping.",
+    "SPD stiffness is sufficient for desired interaction behavior.",
+    "Integrated interaction energy is a useful workload proxy."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Absolute variable-impedance stability is not studied.",
+      "Hyperparameters are chosen by trial and error.",
+      "Training is slower than state of art."
+    ],
+    "inferred": [
+      "Stiffness accuracy depends on inferred-label assumptions.",
+      "Human evidence is preliminary without participant/repetition/statistical details.",
+      "Energy comparison cannot establish population-level superiority.",
+      "Stable motion generation does not itself certify closed-loop interaction stability."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Controller-verified identity and full-text hash; packet ambiguity in energy-value mapping is preserved."
+}

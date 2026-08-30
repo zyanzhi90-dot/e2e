@@ -1,0 +1,104 @@
+{
+  "source_id": "Ubx3Xkv4y2kJ",
+  "read_event_id": "a8925a1f60314020922c851a1dc6664c",
+  "content_sha256": "214649cb20bdbb65714bc83a98948f1b7f60657e6a756c68390b3fb549c93ac6",
+  "claim": "Viscoelastic memory in finite-area contact changes normal force, contact area, pressure distribution, and tangential-force/normal-moment limit surfaces over time, so a scalar memoryless normal law may miss control-relevant sliding-stability changes.",
+  "claim_locator": [
+    "Quasi-linear formulation",
+    "Constant-displacement analysis",
+    "Constant-load analysis",
+    "Radius-pressure coupling",
+    "Friction limit surfaces",
+    "Discussion and conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported analytical and numerical results; scanning-control implications are bounded reader inferences.",
+  "problem_and_setting": "Time-dependent finite-area contact between a hemispherical compliant finger or foot with a rigid core and an opposing surface, under imposed displacement or controlled normal load.",
+  "method_or_mechanism": "Fung quasi-linear viscoelasticity separates nonlinear instantaneous elasticity from reduced relaxation or creep, with past displacement entering through modified superposition. A parametric pressure family is coupled to indentation and radius by two proposed closure equations; evolving pressure is integrated under Coulomb friction to obtain tangential-force and normal-moment limit surfaces.",
+  "content_summary": "Constant displacement/contact radius causes force and pressure relaxation, shrinking the limit surface and predicted stability. Constant normal load causes creep, larger indentation and contact radius, more uniform pressure, and expanded moment capacity. Equilibrium alone does not uniquely determine radius and pressure exponent, so assumed coupling is necessary. Results are theoretical/numerical using parameters from prior experiments, without a new controller experiment.",
+  "synthesis_role": "Mechanistic evidence that memory can affect finite-area wrench feasibility, not only normal force; a scalar HC replacement may remain incomplete, while online identifiability and action relevance remain unproved.",
+  "development_link": "Test whether compact relaxation/contact-area state predicts tangential or moment-capacity changes that alter impedance decisions during continuous scanning, and retain it only when held-out prediction, safety margin, or closed-loop outcomes improve.",
+  "evidence": [
+    {
+      "locator": "Quasi-linear formulation",
+      "status": "author_reported",
+      "finding": "Instantaneous elasticity is separated from relaxation or creep, and full displacement history enters through modified superposition."
+    },
+    {
+      "locator": "Constant-displacement analysis",
+      "status": "author_reported",
+      "finding": "At fixed displacement or radius, normal force and pressure magnitude relax."
+    },
+    {
+      "locator": "Constant-load analysis",
+      "status": "author_reported",
+      "finding": "At fixed normal load, creep increases indentation and radius and makes pressure more uniform."
+    },
+    {
+      "locator": "Coupling derivation",
+      "status": "author_reported",
+      "finding": "Equilibrium does not uniquely couple radius and pressure exponent, requiring one of two proposed closure equations."
+    },
+    {
+      "locator": "Limit-surface construction",
+      "status": "author_reported",
+      "finding": "Time-dependent distributed pressure determines tangential-force and normal-moment friction limits."
+    },
+    {
+      "locator": "Numerical discussion",
+      "status": "author_reported",
+      "finding": "Relaxation shrinks the limit surface under fixed displacement; creep-driven area growth expands it under fixed force."
+    },
+    {
+      "locator": "Mechanistic synthesis",
+      "status": "reader_inference",
+      "finding": "Memory and contact-area state may change the impedance action needed to preserve scanning stability."
+    }
+  ],
+  "evidence_kind": [
+    "theoretical viscoelastic mechanics",
+    "finite-area pressure model",
+    "creep and relaxation",
+    "friction limit surface",
+    "numerical illustration"
+  ],
+  "boundary_conditions": [
+    "Hemispherical thin pad with rigid core",
+    "Quasi-linear separability",
+    "Symmetric parametric pressure",
+    "Coulomb friction",
+    "Assumed closure relation",
+    "Borrowed experimental parameters",
+    "No online control or tissue-scanning test"
+  ],
+  "assumptions": [
+    "Elasticity and temporal response separate",
+    "Pressure family is adequate",
+    "Closure equation represents radius-pressure coupling",
+    "Coulomb friction holds",
+    "Symmetry holds",
+    "Limit surface proxies stability"
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Equilibrium cannot uniquely determine radius and pressure exponent",
+      "Fixed-displacement relaxation shrinks capacity",
+      "Predictions depend on assumed coupling",
+      "No new controlled robot experiment"
+    ],
+    "inferred": [
+      "Scalar HC may miss time-varying moment capacity",
+      "Detailed pressure history may be unidentifiable online",
+      "Nonsymmetry, layers, adhesion, or large deformation may break the model",
+      "Numerical trends do not prove safety benefit"
+    ]
+  },
+  "conflicts_with": [
+    "Memory affects only scalar normal force",
+    "Finite-area wrench capacity is fixed under constant load",
+    "Detailed pressure history can be adopted online without identifiability tests",
+    "Clinical scanning benefit"
+  ],
+  "verification_status": "verified"
+}

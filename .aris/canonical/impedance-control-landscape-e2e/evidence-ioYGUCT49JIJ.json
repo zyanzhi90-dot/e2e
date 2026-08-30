@@ -1,0 +1,110 @@
+{
+  "source_id": "ioYGUCT49JIJ",
+  "read_event_id": "4fa3c37275da418296aa5f04c58c0cbc",
+  "content_sha256": "8c73c3aa81aa95a0c42695c86616df0557759d4ae2296a824ed656375bb04b60",
+  "claim": "Haninger and Tomizuka extend impedance-control passivity analysis for flexible-joint robots with inner-loop torque control in two ways: robust passivity requires passivity for all multiplicative motor-model uncertainties inside a frequency-dependent magnitude bound, and a mixed passivity/small-gain condition permits high-frequency passivity violations when modeled robot and environment gains are sufficiently small. The results are conditional LTI frequency-domain guarantees, not universal safety proofs. In a one-degree-of-freedom series-elastic testbed, the authors identify uncertainty under no-load, fixed-output, and manual-excitation conditions, synthesize controller parameter bounds, and demonstrate energy extraction near 28 rad/s for a low-derivative-gain controller that satisfies nominal but not robust passivity. The experiment supports the value of uncertainty-aware design in this setup, while the paper explicitly limits generalization to identified load conditions, high-DOF robots, high-bandwidth discretization, and cases where a defensible uncertainty model cannot be obtained.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II, equations (1)-(3), Figures 2-3",
+    "Section III-A-B, equations (2)-(6), Algorithm 1",
+    "Section III-C, equations (7)-(13)",
+    "Section IV, Table I and Figures 5-6",
+    "Section V-A-B, equations (16)-(18), Figures 7-9",
+    "Section V-C-D, Figure 10",
+    "Section VI, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical and benchtop experimental evidence: robust passivity and mixed passivity/small-gain results are conditional on stable strictly proper LTI models and bounded multiplicative uncertainty; hardware validation is one 1-DOF SEA system and demonstrates a passivity violation rather than validating universal passivity or human safety",
+  "problem_and_setting": "Analytically passive impedance models can be nonpassive or unstable in practice because inner-loop torque dynamics, drivetrain backdriveability, friction, structural resonances, and model error are omitted. Classical passivity is binary and can also be excessively conservative at high frequencies where interactive robot and environment motion responses roll off. The paper seeks design metrics that expose robustness margin and rigorously relax passivity where a complementary gain condition can replace it.",
+  "method_or_mechanism": "A flexible-joint load-side impedance architecture contains desired impedance I(s), torque controller C(s), motor dynamics G(s), physical joint stiffness K, environment E(s), and uncertain effective backdriveability. Nominal load-side passivity is expressed for the rendered torque/velocity transfer. Multiplicative uncertainty G=Ghat(1+Delta) with unknown phase and bounded magnitude is inserted, and the Cayley transform converts strict passivity into a small-gain inequality. A frequencywise search finds the largest uncertainty Delta_p that preserves passivity. Separately, the frequency domain is divided into a low-frequency set where robot and environment are strictly input passive and a high-frequency set where their gain product is below one, yielding coupled input-output stability under the stated mixed theorem. These tools are applied to fixed-structure inner torque and outer impedance gains.",
+  "content_summary": "Analysis compares PD/PID torque control, nested velocity control, feedforward compensation, bandwidth-ratio heuristics, sensitivity, robust stability, and robust passivity. Higher motor or derivative damping improves robust-passivity margin; larger inertia, inner proportional gain, and rendered stiffness reduce it, while other parameters have frequency-dependent effects. A 1-DOF apparatus uses a Maxon motor, 1:132 gearbox, Bowden cables, and a 16.4 N m/rad torsional spring. Motor uncertainty is identified using motor-driven no-load and fixed-output sinusoidal tests plus manual load-side excitation. Using the first two uncertainty sets and an environment model, the authors choose a 60 rad/s passivity-relaxation frequency and derive parameter bounds. Two controllers share outer stiffness 8, outer damping 0.01, and inner proportional gain 15 but use derivative gains 0.1 and 1.5. Both meet nominal passivity; only the higher-damping case meets the identified robust condition. Manual excitation near 28 rad/s produces net energy extraction over a closed state trajectory in the low-damping case, confirming nonpassivity at the predicted frequency.",
+  "synthesis_role": "Provides an uncertainty-aware frequency-domain corrective to nominal passivity and a principled route to finite-band passivity. It is most informative for inner-loop design of flexible-joint interactive actuators and for understanding why nominal analytical passivity can fail on hardware.",
+  "development_link": "The paper connects interaction-control passivity to robust-control tools such as multiplicative uncertainty, the Cayley transform, sensitivity, and small gain. It complements earlier loop-shaping work by quantifying uncertainty margins and later gain-filter or MPC work by addressing fixed controller/model robustness rather than online time-varying impedance energy.",
+  "evidence": [
+    {
+      "locator": "Section II, Figures 2-3",
+      "status": "model formulation",
+      "finding": "A load-side impedance and inner torque loop are modeled with flexible-joint stiffness and backdriveability; load dynamics and compensation error alter torque-tracking bandwidth and phase."
+    },
+    {
+      "locator": "Section III-B, equations (3)-(6), Algorithm 1",
+      "status": "conditional analytical guarantee",
+      "finding": "The Cayley transform yields a frequency-domain inequality that guarantees passivity for every multiplicative motor uncertainty below an identified magnitude bound."
+    },
+    {
+      "locator": "Section III-C, equations (7)-(13)",
+      "status": "conditional coupled-stability guarantee",
+      "finding": "For stable square strictly proper LTI robot and environment models, low-frequency strict passivity plus high-frequency small gain establishes input-output stability and permits finite-band passivity."
+    },
+    {
+      "locator": "Section IV, Table I and Figures 5-6",
+      "status": "author analysis",
+      "finding": "Derivative or physical damping generally increases robust-passivity margin, while larger inertia, proportional torque gain, and outer stiffness reduce it; robust passivity is more restrictive than robust internal stability."
+    },
+    {
+      "locator": "Section V-A, equations (16)-(18), Figure 7",
+      "status": "author-reported system identification",
+      "finding": "Frequency responses under no-load, fixed-output, and manual excitation are inverted to estimate motor-model deviations, with manual-excitation uncertainty larger at low frequency."
+    },
+    {
+      "locator": "Section V-B, Figures 8-9",
+      "status": "author-reported controller synthesis",
+      "finding": "Identified uncertainty and a modeled load motivate a 60 rad/s relaxation frequency and bounds on fixed-structure controller gains; measured uncertainty is extrapolated above the tested range for robust-stability checking."
+    },
+    {
+      "locator": "Section V-C-D, Figure 10",
+      "status": "author-reported passivity counterexample",
+      "finding": "The low-derivative-gain controller, nominally passive but not robustly passive, yields net extracted energy over a closed trajectory during manual excitation near the predicted 28 rad/s violation."
+    },
+    {
+      "locator": "Section VI",
+      "status": "author-stated limitations",
+      "finding": "Controller synthesis depends on defensible uncertainty identification and does not readily extend to integrated high-DOF manipulators; discretization may matter for higher-bandwidth systems."
+    }
+  ],
+  "evidence_kind": [
+    "robust passivity inequality",
+    "mixed passivity and small-gain theorem",
+    "frequency-response uncertainty identification",
+    "fixed-structure controller analysis",
+    "1-DOF series-elastic hardware experiment",
+    "observed passivity violation"
+  ],
+  "boundary_conditions": [
+    "The main derivations use stable, square, strictly proper LTI single-port models; nonlinear high-DOF load dynamics are not covered by the presented guarantee.",
+    "Robust passivity covers unknown-phase multiplicative motor uncertainty only within the selected frequency-dependent magnitude bound.",
+    "Passivity relaxation also requires a model of the environment and a verified high-frequency gain-product bound; a stiff underdamped environment can make this difficult.",
+    "Passivity is a stability-oriented port property and does not itself bound impact injury, commanded motion, actuator torque, or human comfort.",
+    "Uncertainty is identified on one 1-DOF SEA setup under a small set of load and excitation conditions; intermediate loads are not directly verified.",
+    "The manually excited uncertainty estimate is noisier and excluded from the principal synthesis, while high-frequency uncertainty is extrapolated.",
+    "The observed low-damping violation demonstrates nonpassivity but finite experiments cannot validate passivity of the high-damping system.",
+    "Sampling and discretization are not part of the principal continuous/frequency-domain model."
+  ],
+  "assumptions": [
+    "The motor plant can be represented by the nominal LTI model times bounded multiplicative uncertainty over the frequencies of interest.",
+    "The identified uncertainty bound encloses end-use model deviations, including relevant backdriveability, friction, and load effects.",
+    "Robot and environment transfer functions are stable, square, and strictly proper when the mixed theorem is applied.",
+    "Environmental passivity holds in the low-frequency band and the robot-environment gain product is below one in the complementary band.",
+    "Frequency-domain gridding and the uncertainty-bound fitting procedure are sufficiently dense to represent the worst case.",
+    "Fixed-structure controller realization matches its continuous transfer function without destabilizing saturation or delay."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "A robot with a passive nominal model can be unstable or nonpassive in a high-stiffness environment because passivity is limited by model accuracy.",
+      "Overcompensating backdriveability and velocity/friction feedforward can reduce passivity robustness by injecting or exposing energy.",
+      "Bandwidth ratio above ten has no rigorous implication for passivity and counterexamples can be constructed.",
+      "Manual excitation of the nominally passive low-damping controller extracts energy near 28 rad/s, demonstrating nonpassivity.",
+      "Extreme-load uncertainty may not generalize to intermediate loads, and uncertainty identification for high-DOF systems may be infeasible.",
+      "Without a motivated analytical or empirical uncertainty form, robust-passivity synthesis cannot be used."
+    ],
+    "inferred": [
+      "Frequency gridding or extrapolation can miss a narrow resonance and overstate the robust-passivity margin.",
+      "An inaccurate environment model can invalidate the finite-band passivity relaxation even when the robot model is adequate.",
+      "The 1-DOF finding may not transfer to multi-axis coupling, configuration variation, nonlinear friction, or controller scheduling.",
+      "A design satisfying robust passivity can still deliver unsafe impact forces or undesirable commanded behavior."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

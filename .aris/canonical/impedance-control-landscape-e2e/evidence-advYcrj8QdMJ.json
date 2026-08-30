@@ -1,0 +1,97 @@
+{
+  "source_id": "advYcrj8QdMJ",
+  "read_event_id": "2a8151fe585049b0851690452cb78903",
+  "content_sha256": "5ff1c7017aa5a375d159639eedae9ff9dd19ef21d0fc1c9a624c0e509dc43726",
+  "claim": "Li et al. divide exoskeleton assistance into a robot-oriented adaptive impedance inner loop and a task-oriented LQR outer loop learned by off-policy integral reinforcement learning. The barrier-Lyapunov inner-loop proof establishes bounded signals and invariance of a prescribed error region when the initial filtered error lies inside the barrier, while the nominal outer augmented human-robot model is globally exponentially stable for an exact positive-definite Riccati solution. The paper does not provide a separate convergence theorem for its finite-data online IRL regression or passivity of human interaction. Experiments with three young male participants show decreasing sinusoidal tracking error and interaction force and one fixed-impedance comparison, but the small homogeneous sample, subject-specific tuning, lack of statistical analysis, and simplified linear human-arm model sharply limit generalization.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, double-loop architecture",
+    "Section III, equations (1)-(24), Theorem 1",
+    "Section IV-A, equations (25)-(47), Theorem 2",
+    "Section IV-B/C, equations (48)-(59), Algorithm 1",
+    "Section V, Table I and Figures 3-14",
+    "Section VI, Conclusion",
+    "Appendix B, equations (62)-(65)"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the BLF constraint proof and exact-LQR stability result are analytical under stated models, whereas IRL convergence and claimed assistance improvement rest on online least-squares behavior and three descriptive human trials without inferential statistics or passivity analysis",
+  "problem_and_setting": "An upper-limb exoskeleton should adapt to individual human dynamics, reduce interaction effort, track a task trajectory, and keep motion-error signals within human physical limits despite uncertain robot dynamics and transient perturbations. The authors separate low-level robot behavior matching from task-level impedance optimization.",
+  "method_or_mechanism": "The inner loop makes the unknown robot match a prescribed impedance model. A filtered position error and its integral enter a barrier Lyapunov function that diverges at a chosen error boundary. Adaptive bounds compensate unknown robot inertia, Coriolis, and gravity terms. The outer loop assumes a linear first-order force/tracking-error model for the human arm, augments human force with impedance-model tracking error, and poses an infinite-horizon LQR penalizing trajectory error, human force, and feedback action. Off-policy integral RL uses probing noise, finite-interval Bellman equations, and online least squares to estimate the Riccati/value matrix and update feedback gains without knowing the human-model matrices.",
+  "content_summary": "The inner controller is task-independent and receives the prescribed impedance output; the outer controller selects impedance stiffness, damping, human-force gain, and feedforward terms. Theorem 1 proves all inner-loop adaptive signals are bounded and the filtered error never reaches its barrier if initialized strictly inside. Theorem 2 proves global exponential stability for the exact, time-invariant augmented LQR closed loop when a positive-definite Riccati solution exists. The implementation estimates the value matrix from finite trajectory data, but the paper cites policy-iteration precedent rather than deriving a finite-sample/convergence guarantee for the implemented regression. A 122 Hz shoulder-elbow exoskeleton experiment uses three able-bodied males aged 24-25 on a sinusoidal joint trajectory. Plots show learning transients followed by closer tracking and reduced force. Only subject 3 receives a fixed-impedance comparison, and no repeated-task distributions or statistical tests are reported.",
+  "synthesis_role": "Provides a hybrid analytical/learning HRI design: a barrier-certified low-level envelope surrounds a task-level learned impedance optimum. It is useful for separating state-constraint invariance from policy-learning convergence and from interaction passivity.",
+  "development_link": "Compared with direct end-to-end RL, the architecture preserves an adaptive model-matching safety layer and confines learning to an LQ impedance parameterization. Compared with fixed adaptive impedance, integral RL targets subject/task-specific effort and tracking. Compared with passive HRI controllers, the analysis bounds an internal error variable but does not certify energy exchange with an arbitrary human.",
+  "evidence": [
+    {
+      "locator": "Section III, equations (1)-(24), Theorem 1",
+      "status": "physical closed-loop boundedness and constraint guarantee",
+      "finding": "Given the stated robot bounds, gains, decaying adaptation functions, and an initial filtered error inside the barrier, the inner loop keeps all analyzed signals bounded and prevents that error from reaching its prescribed boundary."
+    },
+    {
+      "locator": "Section IV-A, equations (29)-(47), Theorem 2 and Appendix B",
+      "status": "nominal optimal-control stability guarantee",
+      "finding": "For the linear augmented human-error model and an exact positive-definite ARE solution, the LQR feedback makes the origin globally exponentially stable and minimizes the stated quadratic cost."
+    },
+    {
+      "locator": "Section IV-B/C, equations (48)-(59), Algorithm 1",
+      "status": "learning mechanism",
+      "finding": "Off-policy IRL estimates the quadratic value matrix by least squares from finite-interval state and utility integrals under probing noise, then updates the impedance feedback policy; no implementation-specific finite-sample convergence theorem is stated."
+    },
+    {
+      "locator": "Section V, Table I",
+      "status": "human experiment protocol",
+      "finding": "Three able-bodied male participants aged 24-25 used a shoulder-elbow exoskeleton at 122 Hz; the prescribed task was a 0.5 sin(t) trajectory with manually specified controller and adaptation gains."
+    },
+    {
+      "locator": "Section V, Figures 4-14",
+      "status": "author-reported human hardware evidence",
+      "finding": "Plots show initially poor tracking followed by closer trajectory matching and reduced human interaction force as learning progresses for all three subjects."
+    },
+    {
+      "locator": "Section V, subject-3 comparison",
+      "status": "author-reported comparator",
+      "finding": "For subject 3 only, a fixed preselected impedance controller is described as worse than IRL adaptation in the displayed tracking and force results."
+    }
+  ],
+  "evidence_kind": [
+    "barrier-Lyapunov boundedness proof",
+    "nominal LQR exponential-stability proof",
+    "off-policy integral reinforcement learning",
+    "three-participant exoskeleton experiment"
+  ],
+  "boundary_conditions": [
+    "The barrier guarantee applies to the filtered error r and requires r(0) to lie strictly inside a bound determined by epsilon and the maximum inertia eigenvalue.",
+    "Unknown robot dynamics must satisfy finite norm bounds captured by four adaptive constants and the chosen decaying leakage/excitation functions.",
+    "The outer-loop proof assumes a fixed linear human-arm transfer relation between force and tracking error and a constant positive-definite Riccati solution.",
+    "Exact LQR stability does not automatically transfer to a time-varying approximate gain learned from noisy finite data.",
+    "The least-squares value estimate requires sufficient informative data and invertibility/rank of the regression matrix under probing noise.",
+    "The force sensor is required, human force is magnified by a selected gain, and the interaction-port energy is not constrained.",
+    "Evaluation uses one sinusoidal task and three young able-bodied men; rehabilitation patients, different movements, long-duration use, and diverse anthropometry are not tested.",
+    "No passivity, force/torque saturation, joint-limit, sensor-delay, or probing-noise safety result is reported beyond the analyzed error barrier."
+  ],
+  "assumptions": [
+    "Robot inertia is positive definite and the standard manipulator dynamics admit the norm bounds used by the adaptive inner loop.",
+    "The selected barrier variable and bound meaningfully encode the relevant human physical limitation.",
+    "Human arm behavior over the task is adequately described by unknown but constant linear gains Kd, Kp, and ke.",
+    "Positive-definite Q and R and a stabilizable/detectable augmented system yield a positive-definite ARE solution.",
+    "Probing noise supplies sufficient excitation without materially changing human behavior or compromising safety.",
+    "Online least-squares integration at 122 Hz is accurate enough to identify the value matrix and impedance feedback.",
+    "The prescribed mass and numerous manually selected gains are appropriate for each participant."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Nonoptimal initial impedance parameters produce unacceptable early tracking before the learning mechanism takes effect.",
+      "A fixed preselected impedance controller performs worse than the learned controller in the subject-3 comparison.",
+      "The constraint guarantee depends on the initial error satisfying the barrier condition."
+    ],
+    "inferred": [
+      "Rank-deficient or noisy IRL data can yield an inaccurate or non-positive-definite value estimate, breaking the link to the exact ARE stability theorem.",
+      "A human whose force dynamics are nonlinear, fatigued, voluntary, or time varying may violate the linear augmented-model assumptions.",
+      "Bounding the filtered tracking error does not bound all anatomical joint states or guarantee passive, comfortable, or injury-free interaction.",
+      "Probing noise and force amplification can increase participant effort or contact torque even if long-run quadratic cost improves.",
+      "Three descriptive subjects and a single-subject baseline do not support population-level efficacy or a causal comparison with fixed impedance."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

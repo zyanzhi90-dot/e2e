@@ -1,0 +1,122 @@
+{
+  "source_id": "HUMAN-EJMAS-2024-105348",
+  "read_event_id": "eeaefbc3b6e84f46bd5f633a15e457ad",
+  "content_sha256": "128e0380f5028ed0c4218e86fcd513b62299c98358547158a7899db4e4c07b22",
+  "claim": "In the authors' two-dimensional steady-sliding model of a rigid cylinder on an adhesive linear-standard-viscoelastic half-plane, the normal-pressure field, contact eccentricity, and slope-mediated dissipation depend jointly and non-monotonically on normalized speed, adhesive interaction scale, normal load, and relaxed-to-instantaneous modulus ratio; intermediate speeds produce opening/closing-edge asymmetry that disappears in the low- and high-speed elastic limits. This is model-specific mechanistic evidence that spatial contact state and viscoelastic memory-related regime variables can matter when defining candidate history-state and tangential-margin representations, but it does not establish the decision value of such representations in SoftScan control, a shear-friction capacity, a pressure-centroid-to-wrench mapping, or deployment safety.",
+  "claim_locator": "Abstract; model formulation and dimensionless groups; numerical results for pressure/contact eccentricity and friction versus speed, Maugis parameter, and load; discussion and conclusion",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported numerical-model result with qualitative experimental comparison; controller relevance beyond the stated adhesive viscoelastic line-contact model is an explicitly caveated inference.",
+  "problem_and_setting": "A rigid radius-R cylinder slides steadily at speed v over a smooth adhesive viscoelastic half-plane in two-dimensional line contact under prescribed dimensionless normal load. Adhesion follows a rate-independent Lennard-Jones traction-separation law, and the substrate is a small-deformation linear standard solid with one relaxation time. The paper studies how relaxed Maugis-Tabor parameter, load, normalized speed, and modulus ratio affect normal-pressure asymmetry and the friction calculated from pressure acting on the deformed surface slope.",
+  "method_or_mechanism": "The authors discretize the steady-moving viscoelastic half-plane Green-function solution with a boundary-element method, iteratively vary indentation to satisfy prescribed load, and compute friction as the integral of local normal pressure times deformed-surface slope. The mechanism is hysteretic bulk viscoelastic loss coupled to adhesive opening/closing-edge asymmetry; no interfacial tangential shear stress is present.",
+  "content_summary": "The paper reduces the steady problem to four dimensionless controls: relaxed Maugis-Tabor parameter lambda, dimensionless load W, speed V, and modulus ratio k=E0/Einf. Pressure is symmetric in the relaxed and instantaneous elastic limits and becomes asymmetric near the viscoelastic transition. At intermediate speed, trailing/opening and leading/closing adhesive tractions differ, and changing lambda can alter both the magnitude and direction of contact eccentricity. The calculated friction is bell-shaped with log speed, can acquire a substantial adhesive contribution as lambda increases, and shows non-monotonic load and speed dependence at large lambda. The large-lambda adhesive contribution approaches the paper's stated JKR-like scaling at intermediate speed, while sharp pressure spikes create numerical discrepancies. Comparison with smooth-rubber experiments is qualitative, and the authors state that rubber-friction adhesion remains unclear and is often treated semi-empirically.",
+  "synthesis_role": "Supports CHAIN-SPATIAL-SUFFICIENCY and CHAIN-HISTORY-SUFFICIENCY by showing, within a tightly specified adhesive viscoelastic line-contact model, that a scalar load alone does not determine the spatial pressure/contact state and that normalized speed relative to relaxation time changes the regime. It provides only indirect hypothesis-generating support for OBL-TANGENTIAL-MARGIN: the paper's slope-mediated normal-traction dissipation is not a tangential shear margin or wrench capacity. It does not test CHAIN-CLOSED-LOOP-ABSORPTION, the candidate empirical front/rear-patch equations, a proposed speed law, held-out continuous soft-contact shifts, or the independent scanning endpoint.",
+  "development_link": "For P-SOFTSCAN-STATE-01 v1, motivates testing whether independent front/rear or local-geometry information and a short history/speed-relaxation state improve impedance selection beyond force/load-only feedback. Any front/rear patch statistic or speed-law term remains a candidate empirical representation requiring identification and held-out closed-loop comparison; this paper neither derives nor validates those SoftScan equations. A pressure-centroid or normal-pressure asymmetry signal must not be treated as a measured tangential-force, torsional, or bending safety margin without separate evidence.",
+  "evidence": [
+    {
+      "locator": "Abstract",
+      "status": "author-reported",
+      "finding": "The solution and friction coefficient depend on relaxed Maugis-Tabor parameter, dimensionless load, normalized speed, and modulus ratio; adhesion becomes important at intermediate to large Maugis parameter, while agreement with experiment is qualitative."
+    },
+    {
+      "locator": "Model formulation: Lennard-Jones traction law, standard-linear-solid Green function, and friction integral",
+      "status": "author-reported",
+      "finding": "The interface has nominally frictionless adhesive normal contact, and the reported friction is generated by normal pressure acting over the deformed surface slope rather than by interfacial shear traction."
+    },
+    {
+      "locator": "Numerical pressure results at low, intermediate, and high speed",
+      "status": "author-reported",
+      "finding": "Pressure is symmetric in the low- and high-speed elastic limits and asymmetric at intermediate speed, with unequal trailing/opening and leading/closing tensile features and a leading compressive spike near the transition."
+    },
+    {
+      "locator": "Numerical lambda sweep at W=0.1 and k=0.1",
+      "status": "author-reported",
+      "finding": "Increasing adhesive interaction strength changes traction sharpness and the magnitude and direction of contact eccentricity, demonstrating that spatial state is regime dependent within the model."
+    },
+    {
+      "locator": "Friction curves and large-lambda/load discussion",
+      "status": "author-reported",
+      "finding": "Friction is bell-shaped versus speed, gains an adhesive contribution as lambda increases, and can depend non-monotonically on load and speed; extremely sharp pressure spikes are associated with numerical discrepancies."
+    },
+    {
+      "locator": "Discussion and conclusion",
+      "status": "author-reported",
+      "finding": "The authors report only qualitative agreement with smooth-rubber experiments, identify unresolved adhesive-friction physics, and exclude roughness, Schallamach bond-debonding, and Schallamach-wave mechanisms from the model."
+    },
+    {
+      "locator": "Reader synthesis against P-SOFTSCAN-STATE-01 v1",
+      "status": "reader inference",
+      "finding": "Because equal load need not imply equal spatial pressure/contact state across speed and adhesion regimes, independent spatial and short-history variables are plausible candidate control features; their incremental decision value must still be established in SoftScan experiments and closed-loop comparisons."
+    }
+  ],
+  "evidence_kind": [
+    "mechanistic model",
+    "boundary-element simulation",
+    "dimensionless regime analysis",
+    "qualitative experimental comparison",
+    "representation-design rationale"
+  ],
+  "boundary_conditions": [
+    "Two-dimensional cylinder/half-plane line contact, not a finite three-dimensional probe footprint.",
+    "Steady unidirectional sliding only; no transient loading, acceleration, stopping, reversal, or loading-path experiment.",
+    "Smooth nominally frictionless adhesive interface; friction is slope-mediated normal-traction dissipation, not interfacial shear traction.",
+    "Small-deformation linear standard viscoelasticity with one relaxation time.",
+    "Rate-independent Lennard-Jones adhesion with a finite cohesive length scale.",
+    "No roughness, temperature-frequency shifting, multimode relaxation spectrum, Schallamach bond-debonding, or Schallamach waves.",
+    "Numerical discrepancies occur for extremely sharp pressure spikes.",
+    "Experimental comparison is qualitative and concerns smooth rubber/glass, not ultrasound tissue contact.",
+    "No robot, impedance controller, held-out shift protocol, force/wrench safety test, or imaging endpoint is studied."
+  ],
+  "assumptions": [
+    "Rigid cylindrical indenter and viscoelastic half-plane geometry.",
+    "Linear standard-solid constitutive law characterized by relaxed and instantaneous moduli and one relaxation time.",
+    "Steady-moving Green-function representation and constant-pressure-element BEM discretization.",
+    "Prescribed normal load is enforced by iterative indentation adjustment.",
+    "Local adhesion is fully represented by the stated Lennard-Jones force-separation law.",
+    "Surface-slope integral of normal pressure is an adequate definition of friction for the modeled mechanism.",
+    "Dimensionless speed based on relaxation time and contact length adequately indexes the modeled rate regime.",
+    "Any SoftScan interpretation of front/rear patch, history, or speed features is an analogy to be tested, not an assumption established by this paper."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Only qualitative agreement is obtained with the cited smooth-rubber experiments.",
+      "Rubber-friction adhesion remains unclear and is often modeled semi-empirically.",
+      "Extremely sharp pressure spikes cause numerical discrepancies.",
+      "The finite cohesive/crack length scale prevents a complete mapping to purely energetic JKR studies, and the authors do not expect entire low-speed curves to match.",
+      "The model lacks ingredients needed for rough-surface friction and excludes Schallamach-wave and chain bond-debonding mechanisms."
+    ],
+    "inferred": [
+      "The results cannot validate the candidate SoftScan front/rear-patch contact equations or identify their minimally sufficient form.",
+      "The steady normalized-speed dependence cannot by itself validate a robot speed law under transients, reversals, tissue variability, or closed-loop impedance adaptation.",
+      "Pressure asymmetry or contact eccentricity cannot be equated with tangential force, torsional/bending wrench capacity, or a safety margin because the model contains no interfacial shear traction or measured wrench limit surface.",
+      "The paper cannot establish incremental controller decision value over simpler or model-agnostic feedback because it includes no controller comparison, held-out contact shifts, imaging endpoint, or deployment test.",
+      "Generalization from an adhesive viscoelastic cylinder/rubber setting to ultrasound probe-tissue contact is unsupported without separate empirical evidence."
+    ]
+  },
+  "conflicts_with": [
+    "Conflicts with any claim that normal load alone uniquely determines contact state across viscoelastic speed and adhesion regimes within this model.",
+    "Conflicts with treating the paper's reported friction as a Coulomb coefficient, direct shear limit, or complete tangential wrench-capacity measurement.",
+    "Conflicts with presenting the paper as validation of SoftScan controller decision value, candidate front/rear equations, a deployment speed law, or ultrasound-tissue safety."
+  ],
+  "verification_status": "verified against Controller-supplied admitted full text",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-4687fd791eea39656dc1265feba0dfcd68d68cff760b7b8ebcb142d7adc2e766.json",
+    "query_plan_sha256": "52fac0b3ecd297c16bd06af3bfa2fb3ca5b843abcb1ff18f47c60e95cc5e0d5b",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "root_cause_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "DOMINANT_SOLUTION_SEARCH",
+    "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
+    "actual_hit_query_ids": [
+      "Q0059"
+    ],
+    "design_obligation_ids": [
+      "OBL-SPATIAL-OBSERVABILITY",
+      "OBL-TANGENTIAL-MARGIN"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-SPATIAL-SUFFICIENCY",
+      "CHAIN-TANGENTIAL-SUFFICIENCY"
+    ]
+  }
+}

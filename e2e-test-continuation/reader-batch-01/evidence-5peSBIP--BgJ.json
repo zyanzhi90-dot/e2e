@@ -1,0 +1,108 @@
+{
+  "source_id": "5peSBIP--BgJ",
+  "read_event_id": "5e8a464df9fb4a4d9291c3b6764cea21",
+  "content_sha256": "496cefe4402d3d05acd20b9a8038b20f7c72d4b674059bde9cf9b73b25bbda54",
+  "claim": "REVIEW-LEVEL SYNTHESIS, not primary causal evidence: Song, Yu, and Zhang organize impedance control for robotic manipulation around the force-motion port relation, the impedance/admittance causality distinction, coupled stability, hardware- versus software-based realization, and advanced force-tracking, hybrid, robust, adaptive, variable, and learning controllers. The review argues that impedance control can span free motion, contact, and transition without explicit mode switching and can trade tracking accuracy against interaction force, but it repeatedly makes clear that this advantage depends on an appropriate impedance model, sufficient control bandwidth, reliable sensing or modeling, and coupled-stability analysis. Its comparisons and broad safety/application claims are tutorial judgments from literature through 2018, not quantitative comparative trials or a systematic evidence synthesis.",
+  "claim_locator": [
+    "Summary and Section 1, Introduction",
+    "Section 2.1-2.4 and Table I",
+    "Section 3.1-3.4, equations (1)-(33), Figures 4-10",
+    "Section 4.1-4.6, equations (34 onward), Figures 11-19",
+    "Section 5.1-5.3, Figures 20 onward",
+    "Section 6, Conclusions and Outlook"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "context_only",
+  "epistemic_status": "review-level synthesis: full text verified, but this is a tutorial/narrative review rather than primary causal evidence; the paper gives no reproducible search strategy, eligibility criteria, study-quality appraisal, or meta-analysis, and its literature horizon ends in 2018",
+  "problem_and_setting": "The paper addresses the fragmentation of impedance-control concepts, implementations, enhancements, and applications. It aims to orient readers across robotic manipulation settings ranging from free motion to constrained contact and the transition between them, including human-machine interaction, industrial contact operations, micromanipulation, teleoperation, aerial/underwater manipulation, locomotion, and grasping.",
+  "method_or_mechanism": "The review starts from mechanical impedance Z(s)=F(s)/Xdot(s) and the desired mass-damper-spring relationship between motion error and contact force. It distinguishes impedance causality (motion input, force output) from admittance causality (force input, motion output), and treats coupled stability as separate from isolated nominal stability. Implementations are divided into intrinsic hardware compliance and active software control. Software methods are further separated into position-based nested control, torque-based control, and model-based control. Subsequent sections classify force-tracking modifications, hybrid impedance, robust compensation, high-level variable impedance, low-level adaptive control, and learning-based impedance adjustment.",
+  "content_summary": "The tutorial compares position, force, hybrid position/force, and impedance control, characterizing position and force control as high- and low-impedance extremes. It presents passivity as a sufficient route to stable coupling with passive environments and reviews compliant actuators, series elasticity, variable dampers, and active software realizations. A simulated massage-robot example illustrates how a fixed impedance model can limit force escalation under assumed changes in human-back position and stiffness better than pure position control. The review then surveys force-tracking, robust, adaptive, variable, and learning variants and maps applications in rehabilitation, collaboration, expert teaching, industrial contact work, micromanipulation, teleoperation, surgery, aerial/underwater manipulation, locomotion, and grasping. Its outlook calls for systematic impedance-parameter design, robust/adaptive hardware, integration with advanced learning, and broader application testing.",
+  "synthesis_role": "Provides a broad 2019 tutorial map of classical impedance-control concepts and the pre-2019 development chain. It is useful for terminology, architectural distinctions, and recurring design risks, but not for ranking modern approaches or establishing that a controller is safe or superior in a deployment.",
+  "development_link": "The paper links Hogan-style port behavior and passivity to later position-, torque-, and model-based implementations, then to force-tracking, hybrid, robust, adaptive, variable, and learning controllers. It frames variable impedance as high-level online gain scheduling inspired by human impedance modulation and learning impedance as a specialized adaptive branch. This establishes the conceptual backdrop against which later certificate-constrained, energy-tank, model-predictive, and learning-based methods should be compared.",
+  "evidence": [
+    {
+      "locator": "Section 2.1-2.3, equations (1)-(8)",
+      "status": "review-level conceptual synthesis",
+      "finding": "Mechanical impedance is presented as the dynamic force-motion relationship at an interaction port; controller and hardware can both shape it, while impedance and admittance denote opposite causal descriptions."
+    },
+    {
+      "locator": "Section 2.4 and Table I",
+      "status": "author-synthesized qualitative comparison",
+      "finding": "Position and pure-force control are treated as extreme impedance cases, hybrid control depends on correct subspace/environment geometry, and impedance control is portrayed as a more flexible unified behavior across free, contact, and transition phases."
+    },
+    {
+      "locator": "Section 3.1",
+      "status": "review-level analytical premise",
+      "finding": "Nominal stability of the isolated manipulator does not guarantee coupled stability; a passive robot impedance is sufficient for stable coupling to passive environments under the stated linear one-port criteria."
+    },
+    {
+      "locator": "Section 3.2-3.3, Figures 5-8",
+      "status": "architecture taxonomy",
+      "finding": "Desired compliance can come from passive/variable hardware or from active software, with software realization organized into position-based, torque-based, and model-based methods whose feasibility depends on available actuation, sensing, inner-loop quality, and model knowledge."
+    },
+    {
+      "locator": "Section 3.4.2, equations (30)-(33)",
+      "status": "tutorial implementation guidance",
+      "finding": "A discrete position-based impedance filter requires a control/sample rate well above the controlled signal bandwidth; low sampling frequency can make the intended impedance unrealizable."
+    },
+    {
+      "locator": "Section 3.4.3, Figures 9-10",
+      "status": "author simulation, not human experiment",
+      "finding": "In a one-dimensional massage-robot simulation with assumed human-back stiffness/location changes, the chosen impedance controller limits contact-force growth relative to position control; no physical subject or clinical safety outcome is tested."
+    },
+    {
+      "locator": "Section 4.1-4.5, Figures 11-17",
+      "status": "review-level technique taxonomy",
+      "finding": "The paper summarizes force-reference modifications, hybrid subspace impedances, robust compensation, variable/high-level adaptation, low-level adaptive estimation or gain update, and learning-based model or impedance adjustment."
+    },
+    {
+      "locator": "Section 6, Conclusions and Outlook",
+      "status": "author-stated research gaps",
+      "finding": "The authors identify lack of systematic impedance-parameter specification, need for robust/adaptive impedance hardware, further integration with learning and AI, and broader application trials."
+    }
+  ],
+  "evidence_kind": [
+    "tutorial review-level synthesis",
+    "qualitative controller comparison",
+    "architecture and application taxonomy",
+    "passivity/coupled-stability summary",
+    "illustrative numerical simulation",
+    "research-gap synthesis"
+  ],
+  "boundary_conditions": [
+    "The review covers literature from the 1980s through 2018 and does not represent later advances in certified learning, safe exploration, contact-aware MPC, or modern foundation-model policies.",
+    "No systematic-review protocol, database/search string, inclusion/exclusion process, quality assessment, or quantitative evidence aggregation is reported.",
+    "Passivity is presented mainly through linear one-port positive-real criteria; nonlinear, sampled-data, delayed, multi-contact, and switching systems require additional analysis.",
+    "The massage example is a one-dimensional MATLAB simulation with assumed environment stiffness and position, not a robot experiment or evidence of human safety.",
+    "The comparison in Table I is qualitative and collapses many controller variants into broad categories; it does not control for hardware, bandwidth, sensing, task, or tuning.",
+    "Application examples are heterogeneous literature reports and cannot be pooled as evidence of general effectiveness.",
+    "Claims that impedance control guarantees human-robot safety are stronger than the presented evidence; a desired compliant relation alone does not certify collision forces, actuator limits, perception, or failure handling."
+  ],
+  "assumptions": [
+    "Motion and force at the interaction port are measurable or estimable with sufficient bandwidth and accuracy for the selected realization.",
+    "The chosen mass, damping, stiffness, virtual trajectory, and inner-loop dynamics together render the intended port behavior closely enough for the task.",
+    "The environment can be represented adequately by the models used for controller design and coupled-stability reasoning.",
+    "A passive-environment assumption is appropriate when invoking passivity-based coupled-stability conclusions.",
+    "Online changes in impedance parameters are scheduled in a way that does not inject destabilizing energy or violate implementation limits.",
+    "Literature examples selected by the authors are representative of the field despite the absence of a reproducible evidence-selection protocol."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "An improper impedance model can produce unsafe or unstable interaction.",
+      "Pure position control can generate excessive contact force, pure force control leaves motion uncontrolled, and hybrid position/force control depends on prior environment geometry and can show unstable switching transients.",
+      "Fundamental impedance control may not track a desired contact force in an unknown environment without reference, gain, or environment adaptation.",
+      "Model uncertainty, unmodeled dynamics, disturbances, and force-sensor noise can degrade realized impedance.",
+      "Low sampling/control frequency can make the online command generated by a position-based impedance filter ineffective.",
+      "Selecting suitable impedance parameters remains largely task-specific, test-driven, or trial-and-error."
+    ],
+    "inferred": [
+      "The broad narrative selection may overrepresent successful demonstrations and does not expose publication bias or study quality.",
+      "The unified free/contact controller claim can fail when contact causes discontinuities, saturation, delay, unmodeled structural modes, or perception-driven mode changes.",
+      "A fixed passive design can be conservative, while arbitrary variable gains can lose passivity; the review does not provide one general solution to this trade-off.",
+      "Qualitative application breadth should not be interpreted as comparative effectiveness or deployment readiness.",
+      "Safety statements require separate force, collision, workspace, actuator, supervision, and human-factors evidence."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

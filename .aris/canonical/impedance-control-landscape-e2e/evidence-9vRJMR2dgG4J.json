@@ -1,0 +1,116 @@
+{
+  "source_id": "9vRJMR2dgG4J",
+  "read_event_id": "3607e558ee3e4c0c937b8b323764b0a0",
+  "content_sha256": "476bfd6d7e547fbcdbd24a1273650aae71248778f616a4e711f9d12b50e5086e",
+  "claim": "A Hooke-plus-Gaussian-process static force model improves nonlinear predictive force/motion control and supports uncertainty-tightened pointwise force constraints on a rigid whiteboard, but the guarantees are conditional and do not establish safety for dynamic history-dependent soft contact.",
+  "claim_locator": [
+    "Hybrid model",
+    "Identification results",
+    "Path-following MPC",
+    "Assumptions 1-7 and formal results",
+    "Disturbance simulation",
+    "Model comparisons",
+    "Hardware experiment",
+    "Future work"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "author_reported_with_bounded_inference",
+  "problem_and_setting": "A KUKA lightweight robot traces a sinusoidal path on a rigid whiteboard while jointly controlling motion and contact force under uncertainty in the static output map.",
+  "method_or_mechanism": "A zero-mean squared-exponential GP residual augments Hooke physics. Eighty-five spaced points selected from 20,000 measurements train the hybrid model. Nonlinear path-following MPC uses a 150 ms horizon and 10 ms sampling; GP two-standard-deviation uncertainty tightens a nominal 0-6 N interval to 0.7-5.3 N.",
+  "content_summary": "Hybrid model RMSE is 0.41 N versus 1.06 N linear and 0.91 N Hertz. The tightening is interpreted as about 95.45% pointwise satisfaction under assumptions. In simulation it prevents contact loss under a -1.3 Nm disturbance and yields 0.25 N force RMSE versus 0.77 N for nonlinear MPC. Hardware linear control becomes unstable, nonlinear control violates the maximum constraint, and hybrid control reports about 12% lower maximum and 14% lower average error, with all calculations below 10 ms.",
+  "synthesis_role": "Closest prior for learned contact-output modeling with uncertainty-tightened constrained MPC; generic novelty for this combination is exhausted.",
+  "development_link": "A soft-contact proposal must show why static-output GP uncertainty fails under relaxation, hysteresis, heterogeneity, geometry shift, and scanning history, then add only a minimal identifiable state or distinct impedance/safety mechanism under matched data and compute budgets.",
+  "evidence": [
+    {
+      "locator": "Hybrid model and identification",
+      "status": "author_reported",
+      "finding": "Hooke physics plus a GP trained on 85 points yields 0.41 N RMSE versus 1.06 N linear and 0.91 N Hertz."
+    },
+    {
+      "locator": "MPC and chance constraints",
+      "status": "author_reported",
+      "finding": "A 150 ms horizon, 10 ms controller tightens 0-6 N to 0.7-5.3 N using two-standard-deviation GP uncertainty."
+    },
+    {
+      "locator": "Assumptions 1-7 and formal results",
+      "status": "author_reported",
+      "finding": "Recursive feasibility, convergence, and chance satisfaction require closed nonempty tightened sets and uncertainty confined to the static output map."
+    },
+    {
+      "locator": "Disturbance simulation",
+      "status": "author_reported",
+      "finding": "Untightened control loses contact during a -1.3 Nm disturbance, whereas tightening preserves simulated force bounds."
+    },
+    {
+      "locator": "Simulation comparison",
+      "status": "author_reported",
+      "finding": "Hybrid MPC reports 0.25 N force RMSE versus 0.77 N nonlinear-model MPC."
+    },
+    {
+      "locator": "Hardware comparison",
+      "status": "author_reported",
+      "finding": "Linear control is unstable, nonlinear control violates maximum force, and hybrid control reduces maximum and average error about 12% and 14%, with computation below 10 ms."
+    },
+    {
+      "locator": "Future work",
+      "status": "author_reported",
+      "finding": "Online updating, moving environments, cooperation, and transfer remain unresolved, and online learning creates a priori unknown constraints."
+    }
+  ],
+  "evidence_kind": [
+    "hybrid physics-ML model",
+    "chance-constrained MPC",
+    "conditional formal analysis",
+    "disturbance simulation",
+    "hardware experiment",
+    "runtime measurement"
+  ],
+  "boundary_conditions": [
+    "Rigid whiteboard task",
+    "Static-output uncertainty only",
+    "Pointwise Gaussian probability",
+    "Conditional formal guarantees",
+    "Simulated disturbance guarantee",
+    "No heterogeneous or clinical evaluation"
+  ],
+  "assumptions": [
+    "Stationary GP residual represents force error",
+    "Dynamics uncertainty is negligible",
+    "GP variance is calibrated",
+    "Tightened sets remain feasible",
+    "Assumptions 1-7 hold"
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Linear hardware control is unstable",
+      "Hertz control violates maximum force",
+      "Untightened simulation loses contact",
+      "Online and moving-environment adaptation are unresolved"
+    ],
+    "inferred": [
+      "Static GP lacks path-dependent memory unless history is encoded",
+      "Pointwise chance bounds do not prove trajectory, passivity, deformation, or clinical safety",
+      "Rigid-surface RMSE does not prove soft finite-area benefit",
+      "No impedance-gain optimization is established"
+    ]
+  },
+  "conflicts_with": [
+    "Novelty from physics-plus-GP chance-constrained MPC",
+    "Unconditional safety from a two-sigma pointwise bound",
+    "Claims about tissue memory, finite-area pressure, passivity, or optimal impedance"
+  ],
+  "verification_status": "verified",
+  "problem_lead_search_contexts": [
+    {
+      "phase": "problem_generation",
+      "query_plan_sha256": "a6937acfc11d3a47018b762449863c3f7136f9cc5fea0ece98b061b6e4104776",
+      "lead_id": "lead-contact-aware-optimal-impedance",
+      "lead_statement": "The scientifically relevant extension of NNBO may be not merely replacing Hunt-Crossley, but determining when a richer contact state changes the optimal impedance action enough that contact-aware predictive or learned selection is required under bounded model error.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Importance",
+      "purpose": "Search for the closest integrated solution and strongest counterevidence on whether richer contact prediction improves impedance selection once model mismatch, solver feasibility, passivity, saturation, and fallback behavior are included.",
+      "expected_close_condition": "Determine whether the proposed research question changes a practical decision under both positive and negative outcomes, and identify existing routes that already solve it or expose a remaining falsifiable boundary."
+    }
+  ]
+}

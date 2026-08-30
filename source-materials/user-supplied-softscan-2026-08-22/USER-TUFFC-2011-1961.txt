@@ -1,0 +1,795 @@
+      1418                                 IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control , vol. 57, no. 7, July 2011
+
+
+
+
+             Estimating Material Elasticity by Spherical
+               Indentation Load-Relaxation Tests on
+              Viscoelastic Samples of Finite Thickness
+                               Bo Qiang, Member, IEEE, James Greenleaf, Fellow, IEEE, Michelle Oyen,
+                                               and Xiaoming Zhang, Member, IEEE
+
+         Abstract—A two-step viscoelastic spherical indentation                         be estimated from the speed of the shear wave. Surface
+      method is proposed to compensate for 1) material relaxation                       waves, which propagate on the superficial layer of a me-
+      and 2) sample thickness. In the first step, the indenter is moved
+      at a constant speed and the reaction force is measured. In the
+                                                                                        dium, have also been studied [10], [11]. The advantage
+      second step, the indenter is held at a constant position and the                  of measuring surface waves over shear waves is that the
+      relaxation response of the material is measured. Then the re-                     surface waves can be monitored with noncontact methods,
+      laxation response is fit with a multi-exponential function which                  which is more clinically convenient.
+      corresponds to a three-branch general Maxwell model. The re-                         Ultrasound elastography uses ultrasound imaging to
+      laxation modulus is derived by correcting the finite ramp time
+      introduced in the first step. The proposed model takes into
+                                                                                        track the wave propagation [8], [9], [12], [13]. Compared
+      account the sample thickness, which is important for applica-                     with other imaging modalities such as MRI and computed
+      tions in which the sample thickness is less than ten times the                    tomography (CT), it features good portability and low-
+      indenter radius. The model is validated numerically by finite                     cost. In addition, modern ultrasound scanners can have
+      element simulations. Experiments are carried out on a 10% gel-                    much a higher frame rate (>2000 fps) [14] than MRI or
+      atin phantom and a chicken breast sample with the proposed
+      method. The results for both the gelatin phantom and the
+                                                                                        CT; therefore, waves of higher frequency and multiple fre-
+      chicken breast sample agree with the results obtained from a                      quencies can be measured.
+      surface wave method. Both the finite element simulations and                         In addition to measuring the speed of the shear wave
+      experimental results show improved elasticity estimations by                      and the surface wave, the tissue viscoelasticity can also be
+      incorporating the sample thickness into the model. The mea-                       measured by indentation tests. An indentation test mea-
+      sured shear elasticities of the 10% gelatin sample are 6.79 and
+      6.93 kPa by the proposed finite indentation method at sample
+                                                                                        sures the mechanical properties of a material by analyzing
+      thickness of 40 and 20 mm, respectively. The elasticity of the                    the relationship between the indenter displacement and
+      same sample is estimated to be 6.53 kPa by the surface wave                       the reaction force. Commonly used axisymmetric indent-
+      method. For the chicken breast sample, the shear elasticity is                    ers include flat punches [15], [16], spherical [15], [17]–[21],
+      measured to be 4.51 and 5.17 kPa by the proposed indentation                      and conical profile [22] indenters. Spherical indenters in-
+      method at sample thickness of 40 and 20 mm, respectively.
+      Its elasticity is measured by the surface wave method to be
+                                                                                        troduce the least stress under the same indenter displace-
+      4.14 kPa.                                                                         ment among the three indenter types, so they bear the
+                                                                                        least risk of damaging the tissue sample [23]. However,
+                                                                                        unlike the flat punch indenters, the displacement-force re-
+                                 I. Introduction                                        lationship is nonlinear for spherical indenters because the
+                                                                                        contact area changes with the indenter displacement.
+
+      T    issue viscoelasticity is an important biomarker for                             Time independent indentation methods [15], [17]–[19]
+           detecting the existence and severity of diseases such                        generally are valid only if the material is elastic. For most
+      as cancer [1], [2] and systemic sclerosis (SSc) [3] and for                       biological soft tissue types, the tissue viscosity can cause
+      monitoring physiological processes such as aging [4], [5].                        relaxation and the measured reaction force is smaller than
+      Various techniques have been proposed for measuring tis-                          predicted by theory. As a result, the elasticity measure-
+      sue viscoelasticity. For example, magnetic resonance elec-                        ment tends to be underestimated.
+      trography (MRE) [6], [7] and vibro-acoustography [8], [9]                            In contrast, a time-dependent indentation test monitors
+      monitor the shear wave propagation inside a tissue with                           the indentation response as a function of time to account
+      magnetic resonance imaging (MRI) and ultrasound imag-                             for the relaxation of the sample material [16], [20], [22],
+      ing, respectively. The viscoelasticity of the tissue can then                     [24]–[26]. For example, this can be done by pressing the
+                                                                                        sample with a cyclic force and the storage and loss modu-
+                                                                                        lus can be solved at the input frequency [26]. Then, the
+        Manuscript received April 18, 2011; accepted April 29, 2011. This               complex modulus can be derived. Another way to measure
+      study was supported by a research career development award to X.                  the time-dependent properties of a viscoelastic sample is
+      Zhang by Mayo Clinic.
+        B. Qiang, J. Greenleaf, and X. Zhang are with the Department of                 to measure its relaxation [16], [21], [26] or creep response
+      Physiology and Biomedical Engineering, Mayo Clinic College of Medi-               [16], [20], [26], by applying a sudden change of strain or
+      cine, Rochester, MN (e-mail: qiang.bo@mayo.edu).                                  stress, respectively. Then, the corresponding relaxation
+        M. Oyen is with the Department of Engineering, University of Cam-
+      bridge, Cambridge, UK.                                                            modulus or creep compliance can be derived by fitting
+        Digital Object Identifier 10.1109/TUFFC.2011.1961                               the time response with an appropriate model. A creep
+
+                                                                     0885–3010/$25.00 © 2011 IEEE
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      qiang et al.: estimating material elasticity by spherical indentation load-relaxation tests                                                                 1419
+
+      test requires a constant force during the entire process,
+      which is usually maintained by a feedback mechanism in
+      the indentation instrument. In this study, a customized
+      displacement-controlled indentation device is constructed
+      to perform stress relaxation tests. A common model for
+      fitting relaxation modulus or creep compliance is the gen-
+      eralized Maxwell model, which can be represented by the
+      Prony series [20]–[22], [27]. Other constitutive models such
+      as a standard solid model consisting of two springs and
+      one dashpot [16], and fractional rheological models [28]
+      are also studied in biomedical applications. In this study,                       Fig. 1. Setup of spherical indentation. P is the reaction force on the in-
+      generalized Maxwell model is used because it can be eas-                          denter, R is the radius of the indenter, d is the thickness of the sample, h
+      ily incorporated in a load-relaxation test. More details are                      is the indenter displacement, and a is the contact radius.
+      discussed in Section II.
+          For the aforementioned indentation methods, the
+      sample geometry can affect their accuracy. A common                               incorporating the sample thickness. In Sections IV and
+      assumption is that the sample has an infinite thickness                           V, a gelatin phantom and a chicken breast sample are
+      [20], [21], [25], [29]–[31]. This assumption simplifies the                       tested experimentally with a customized indentation de-
+      relationship between the indenter displacement and the                            vice. Shear elasticity measured by the proposed indenta-
+      reaction force by ignoring the boundary conditions. How-                          tion method are compared with the results obtained from
+      ever, this is only a good approximation if the radius of the                      a surface wave method. Some of the technical aspects of
+      indenter is small relative to the size of the sample. To keep                     the proposed model are discussed in Section VI, and Sec-
+      this assumption valid, researchers have applied microme-                          tion VII draws conclusions for the study.
+      ter- or even nanometer-scale indenters [23]. However, such
+      an approach increases the complexity and the cost of the
+      indentation instrument because high precision is required                                                         II. Theory
+      to control small displacements and measure small forces.
+      Another factor that must be considered is the indentation                         A. Elastic Spherical Indentation Models
+      depth, because material linearity is only maintained when
+      the indentation depth is small relative to the sample thick-                         Fig. 1 shows the setup of the spherical indentation.
+      ness. In [19], the authors suggest that indentation depth                         Note that the lateral size of the sample is assumed to be
+      should be less than 10% of the sample thickness.                                  infinite. If the thickness of the sample d, is large compared
+          The influence of the sample thickness has been thor-                          with the radius of the indenter R (d/R > 10) [19], [33],
+      oughly studied [15], [18], [19] in the time-independent in-                       [34], the following equation can be used to describe the
+      dentation methods, especially in applications such as mea-                        relationship between the reaction force P and the indenter
+      suring the elasticity of cartilage [15], [32]. Several models                     displacement h [29]:
+      have been proposed. For example, Waters proposed a
+      modified form of the Hertzian contact equation for spheri-                                                            8 Rh 3G
+      cal indenters [18]. Dimitriadis et al., approximated the ef-                                                   P =              .                           (1)
+                                                                                                                             3(1 − ν)
+      fects of sample thickness for spherical indentation by a
+      Taylor expansion [19]. Hayes et al. analytically solved the                       Eq. (1) is the classical Hertzian contact equation, in which
+      differential equations for finite sample thickness contact                        G and ν are the shear elasticity and Poisson’s ratio of the
+      problems for both flat punch and spherical indenters [15].                        sample material, respectively. Note that the reaction force
+          The objective of this paper is to study the influences                        P increases nonlinearly with the indenter displacement
+      of relaxation and sample thickness upon the elasticity es-                        h. This is because the contact radius R of the indenter
+      timation in spherical indentation. Examples of potential                          changes with the indenter displacement h. For nearly in-
+      clinical applications include measuring the mechanical                            compressible materials such as soft tissue, the range of
+      properties of cartilage or skin near bones, such as in fin-                       their Poisson’s ratio is 0.45 to 0.49, which can be approxi-
+      gers. Clinical adaptation of the proposed method is under                         mated by 0.5. Therefore, for such materials, (1) can be
+      development. In addition, using the proposed method, ex-                          further simplified to
+      cised tissue samples can be tested. The proposed method
+      can also serve as a validation tool for the wave propaga-                                                            16 Rh 3G
+      tion methods.                                                                                                 P =             .                             (2)
+                                                                                                                              3
+          This paper is structured as follows. A model that takes
+      account of the sample thickness is proposed for the spheri-                          In case an infinite model is no longer sufficient, the
+      cal indentation load-relaxation tests in Section II. In Sec-                      thickness of the sample must be considered. This especial-
+      tion III, the proposed model is validated with finite ele-                        ly seems necessary when d/R < 10 [19], [33], [34]. For such
+      ment (FE) simulations and improvements are shown by                               cases, the relationship between the reaction force P and
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      1420                                   IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control , vol. 57, no. 7, July 2011
+
+
+
+      the indenter displacement h were investigated in several
+      studies [15], [17]–[19]. In this paper, the Dimitriadis model
+      for the bonded condition [19] is used, which is listed in (3),
+      assuming an incompressible medium (ν ≈ 0.5):
+
+                    16G
+             P =            Rh 3(1 + 1.133χ + 1.283χ 2 + 0.769χ 3
+                     3
+                                                                                 (3)
+                                 4                    Rh
+                   + 0.0975χ ),             χ=           .
+                                                      d
+
+      Because the bottom of the sample is fixed to a rigid sub-
+      strate for both the FE simulations in Section III and the
+      experiments in Section IV, the bonded equation, which
+      does not allow slipping between the sample and the sub-
+      strate, is used in this study. Eq. (3) has been validated in
+      applications such as measuring the mechanical properties
+      of vinyl-alcohol gel samples [19], arteries [35], and muscle
+      fibers [36]. The Dimitriadis model is compared with some
+      other finite thickness models in Section VI.
+
+
+      B. Load-Relaxation Test on Samples of Infinite Thickness
+
+         The creep and relaxation response of a material can
+      be used for measuring its viscoelastic properties. Oyen
+      et al. proposed a creep procedure for force-controlled ex-
+      periments [20] and Mattice et al. proposed a relaxation                           Fig. 2. The indenter displacement profile and the reaction force history
+      method for displacement-controlled experiments [21].                              of a load-relaxation test. In the load (ramp) step, the indenter is pressed
+                                                                                        onto the sample at a constant speed. In this step, the reaction force also
+      Both methods are designed for viscoelastic materials. In                          increases until the indenter reaches the maximum displacement at tR.
+      this paper, we adapt the load-relaxation method proposed                          In the relaxation (hold) step, the indenter is held at a constant position
+      in [21]. The advantage of using the relaxation response is                        while the reaction force is monitored. In this stage, the reaction force
+      that the indenter displacement can be easily controlled                           decreases exponentially. hmax is the maximum indenter displacement at
+      and modified in our experimental setup, which will be                             ramp time tR and tT is the total test time.
+      discussed in Section IV-A. Fig. 2 shows the procedure for
+      performing a load-relaxation experiment.
+                                                                                        where
+         In the first step, a constant speed is prescribed to the
+      indenter. One can see that the reaction force increases                                                          Bi
+      faster as the indenter displacement increases. This is be-                                       Ci =                    ,       i = 0, 1, 2, 3.            (7)
+                                                                                                               β ih max(8 R/3)
+      cause the contact area also increases as the indenter is
+      pressed against the sample. Note that the indentation dis-
+                                                                                        βi is the ramp correction factor, which arises from the
+      placement h is a piecewise function of time t,
+                                                                                        finite ramp time of an actual experiment. For a relaxation
+                                                                                        test with a spherical indenter, there is no closed-form ana-
+                      h(t) =   {ktkt = h
+                                     R       max
+                                                          t ≤ tR
+                                                          t R < t ≤ t T,
+                                                                                 (4)    lytical solution for βi. However, from the analogy of the
+                                                                                        creep test [20], βi can be approximated by
+      where k is the indenter speed.
+                                                                                                                  1                i = 0,
+         In the second step, the indenter is held in position, and                                          β i =  τ i −t R/τ i                                  (8)
+      the stress relaxation response of the sample is monitored.                                                     (e        − 1) i > 0,
+                                                                                                                      t R
+      In this step, the reaction force can be modeled as a sum-
+      mation of exponentially decaying functions,
+                                                                                        where tR is the total ramping time. The instantaneous
+                                      3                                                 shear elasticity G of the material can be calculated by
+                  P(t) = B 0 +       ∑ B ie −t/τ ,    i
+                                                            B 0, B i, τ i ≥ 0.   (5)                                                   3
+                                     i =1                                                                          1       1
+                                                                                                                G = G(0) =
+                                                                                                                   2       2          ∑ C i.                      (9)
+                                                                                                                                      i =0
+      Then, the relaxation modulus G(t) can be expressed as
+                                                  3                                        The factor of 2 arises from the ratio between the de-
+                            G(t) = C 0 +         ∑C ie       −t /τ i
+                                                                       ,         (6)    viatory components of the stress, strain tensor, and the
+                                                                                        shear modulus [24]. By applying the Boltzmann integral
+                                                 i =1
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      qiang et al.: estimating material elasticity by spherical indentation load-relaxation tests                                                                 1421
+
+      in linear viscoelastic materials, the reaction force P(t) can
+      be related to the relaxation modulus G(t), the indenter
+      radius R, and the indenter speed k by [21], [24],
+                             t
+
+                            ∫ G(t − u)  du ( 3 h(u)3/2 )  du
+                                                 d 8 R            
+                 P(t) =
+                             0
+                                         t
+                                                                            (10)
+                            
+                             
+                                   4 Rk 3
+                                            ∫G(t − u)u 1/2 du, t ≤ t R,
+                       =                 0
+                                          tR
+                             
+                               4 Rk 3 G(t − u)u 1/2 du, t > t R.
+                                          ∫
+                                         0
+
+
+      In this paper, this integral is evaluated numerically by an
+      adaptive Lobatto quadrature algorithm [37].
+
+      C. Load-Relaxation Model With Finite Sample Thickness
+
+         The aforementioned load-relaxation model does not
+      take the thickness of the testing sample into account. To                         Fig. 3. Axisymmetric finite element model for validating the proposed
+      incorporate the sample thickness into the load-relaxation                         finite indentation method. The sample width w is 20 times the size of the
+      model, the strain function A = (8R1/2/3)h(u) in (7) and                           indenter radius R to reduce the boundary effects from the lateral dimen-
+                                                                                        sion. Sample thickness d is a variable and its effects are studied in the
+      (10) should be replaced with its counterpart in the finite
+                                                                                        current paper. The sample part is partitioned and meshed so that region
+      thickness models in (3). Let’s define                                             1, which is in contact with the indenter, is meshed more finely than the
+                                                                                        rest of the sample (region 2) to reduce the computational cost. The in-
+                       8                                                                denter is modeled as an analytical surface and the sample is meshed with
+             A(t) =         Rh 3(1 + 1.133χ + 1.283χ 2 + 0.769χ 3
+                       3                                                                3-node linear axisymmetric triangles, CAX3 in Abaqus.
+                                                                              (11)
+                                        4               Rh
+                      + 0.0975χ ),              χ=         .
+                                                        d
+                                                                                        have been conducted in Abaqus CAE (version 6.8, Simulia
+      Then (7) and (10) become                                                          Corp., Providence, RI). The indenter-sample assembly is
+                                                                                        configured as an axisymmetric model as shown in Fig. 3.
+                                                    Bi
+                                     Ci =                                     (12)      The radius of the indenter R is set to be 1 mm and its
+                                                 β iA(t R)                              moving speed is set at 0.1 mm/s. The size of the indenter
+                                    t                                                   was chosen to simplify the calculation of the dimensions
+                                                      d       
+                           P(t) =   ∫ G(t − u)  du A(u)  du.              (13)      and indenter moving speed matches the experimental val-
+                                    0                                                   ue shown in Section IV. In all simulations, the indentation
+                                                                                        depth is kept at 0.5 mm. The radius of the cylindrical
+         Note that to calculate reaction force P(t) using (13),                         sample is 20 mm, to eliminate the boundary effects from
+      the time derivative of A, dA/dt, must be numerically                              the lateral dimension of the sample [33]. In addition, the
+      evaluated. In this paper, the following center difference                         sample is assumed to have a fixed bottom boundary con-
+      approximation is used for its second-order accuracy [38]:                         dition. Its material mass density, ρ, and Poisson’s ratio, ν,
+                                                                                        are 1000 kg/m3 and 0.49, respectively. The shear elastic-
+                           dA   A(t + ∆t) − A(t − ∆t)                                   ity G of the sample material is 6.75 kPa. Other material
+                              ≈                       .                       (14)
+                           dt           2∆t                                             properties are listed in Table I.
+
+      The value of time step Δt is chosen to be 0.001 s. Numeri-
+      cal experiments show that the choice of Δt does not affect
+      the results as long as it is smaller than 0.01 s.                                       TABLE I. Material Properties Used in Finite Element
+                                                                                                                 Simulations.
+                                                                                        I        τi (s)      Ci (kPa)        G (kPa)           ν         ρ (kg/m3)
+                                                                                        0          —            6.00            6.75         0.49          1000
+                      III. Finite Element Simulation
+                                                                                        1           1           6.00
+                                                                                        2          10           1.00
+      A. FE Modeling                                                                    3          20           0.50
+                                                                                        τi and Ci are defined in (6). The instantaneous shear modulus, G, is
+        To evaluate the performance of the proposed method,                             calculated using (9). ν and ρ are the Poisson’s ratio and mass density,
+      FE simulations of the proposed load-relaxation method                             respectively.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      1422                                 IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control , vol. 57, no. 7, July 2011
+
+
+
+          The indenter is modeled as an analytical surface and
+      the sample is partitioned and meshed with the following
+      strategy. To reduce the computation time and ensure the
+      accuracy of the simulations, a 2 × 2 mm square region (re-
+      gion 1 in Fig. 3) is partitioned from the sample part and
+      it is meshed uniformly by elements smaller than the rest
+      of the sample (region 2 in Fig. 3). The rest of the sample
+      is meshed so that the size of the elements gradually in-
+      creases moving away from the indentation region. At the
+      edges where the two regions touch, the sizes of the mesh-
+      ing elements match. Both regions of the sample part are
+      meshed with 3-node linear axisymmetric triangles, CAX3
+      in Abaqus. For each simulation, a coarse mesh is used first
+      and then a finer mesh is tested. This procedure is repeated
+      until the simulation result converges.
+
+      B. Simulations With Variable Sample Thickness
+
+          A series of simulations with differing sample thicknesses
+      d = 30, 20, 10, 7, 5, and 2 mm, are conducted. Fig. 4 com-
+      pares the FE simulated results, the proposed finite model,
+      and the infinite model, at the largest (30 mm) and small-
+      est (2 mm) sample thickness. Figs. 4(a) and 4(b) show
+                                                                                        Fig. 4. (a) and (b): The finite element simulated load-relaxation curves
+      that when the sample thickness is 30 times the size of the                        (circles) compared with the proposed finite load-relaxation model
+      indenter radius, the load-relaxation curves predicted by                          (squares) and the infinite load-relaxation model (asterisks). (a) d =
+      both models are close to the FE simulated result. How-                            30 mm; (b) d = 2 mm. The indenter radius R is 1 mm. When d/R = 30
+      ever, when the d/R ratio decreases to 2, the infinite model                       (a), both models match the finite element simulation. But when d/R = 2
+      underestimates the reaction force by roughly 30% during                           (b), the infinite model underestimates the reaction force by roughly 30%
+                                                                                        during the relaxation step, whereas the proposed finite model remains
+      the relaxation step, whereas the proposed finite model is                         close to the finite element simulation. (c) and (d): Stress distribution of
+      still close to the FE simulated result. Figs. 4(c) and 4(d)                       the FE simulations for both situations at tR. The same color map is ap-
+      show the stress distribution at time tR(5 s) for d = 30 mm                        plied to (c) and (d).
+      and d = 2 mm, respectively. One can see that samples
+      with decreased thickness have elevated internal stress.
+      Fig. 5 shows the shear modulus G estimated by the two                             dictions and the real values. As shown in Table II, this
+      methods at the six different sample thicknesses. Table II                         method underestimates the sample elasticity for about
+      lists the values that are shown in Fig. 5. One can observe                        40% for the FE simulated results.
+      that when d/R is greater than 20, the relative errors for
+      both methods are less than 10%. But when d/R is between
+      5 and 10, the relative error for the infinite model is 11                                                     IV. Experiment
+      to 16%, whereas the finite model remains at around 5%.
+      The largest relative error occurs when the sample thick-                          A. Experiment Setup
+      ness is only 2 times the size of the indenter radius. In this
+      case, the error for infinite model is 68% compared with                              A customized indentation system is constructed as
+      only 17% for the proposed finite thickness method. These                          shown in Fig. 6. A stepper motor (Model M061-FD08E,
+      results show that the proposed finite thickness method                            Superior Electric Inc., Farmington, CT) drives a load cell
+      improves the accuracy of the shear elasticity estimation,                         (Model ULC-1N, Interface Inc., Scottsdale, AZ) in the
+      especially when d/R < 10. There are still some residual                           vertical direction. An R = 4 mm spherical indenter is
+      errors, especially when d/R is small. These errors could                          mounted on the bottom end of the load cell. The stepper
+      come from (8) and (11), because they are not analytical                           motor is driven by a motor driver (Model MD125, Oregon
+      solutions but approximations [19], [20]. Another possible                         Micro System Inc., Irvine, CA) and the output signal from
+      source for the error is the numerical errors associated with                      the load cell is digitized by an analog-to-digital (A/D)
+      the FE simulations.                                                               converter (Model ADS1232REF, Texas Instruments Inc.,
+          For comparison, Table II also lists the elasticity estima-                    Dallas, TX), which samples the input at 80 points/second.
+      tions predicted by (3), which is the finite elastic Dimitria-                     The motor driver and the A/D converter are connected to
+      dis model. The calculations are based on the ramp stage of                        a computer via USB connections. The system is controlled
+      the load-relaxation tests. Because this finite elastic model                      by a customized software package written in C and Mat-
+      doesn’t consider the relaxation phenomenon in a viscous                           lab (Version 2009b, Mathworks Inc., Natick, MA). The
+      medium, there are large disagreements between the pre-                            indentation depth is controlled to be about 1 mm and the
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      qiang et al.: estimating material elasticity by spherical indentation load-relaxation tests                                                                 1423
+
+                           TABLE II. Shear Elasticity G Predicted by the Proposed Finite Load-Relaxation Model, the
+                          Infinite Load-Relaxation Model, and the Finite Elastic Model as Shown in (3), Based on Finite
+                                             Element Modeling Simulated Load-Relaxation Curves.
+                                            Finite load-relaxation
+                                             (proposed method)                   Infinite load-relaxation                   Finite elastic
+                         d (mm)           G (kPa)         Error (%)             G (kPa)          Error (%)            G (kPa)         Error (%)
+                         30                  6.95             2.96                 7.10              5.19               4.23            −37.33
+                         20                  7.07             4.74                 7.30              8.15               4.17            −38.22
+                         10                  7.09             5.04                 7.57             12.15               4.09            −39.41
+                         7                   7.16             6.07                 7.86             16.44               4.04            −40.15
+                         5                   6.93             2.67                 7.53             11.56               4.94            −26.81
+                         2                   7.93            17.48                11.32             67.70               4.00            −40.74
+                         The true value of the instantaneous shear elasticity G is 6.75 kPa.
+
+
+
+
+                                                                                          Fig. 6. The experiment setup for spherical load-relaxation indentation. a:
+                                                                                          stepper motor, b: load cell, c: spherical indenter (R = 4 mm), d: sample,
+                                                                                          e: motor driver, f: analog-to-digital converter, g: computer.
+
+
+
+                                                                                          speed of the indenter movement is set at 0.1 mm/s. The
+                                                                                          indentation depth is selected so that is relatively small
+                                                                                          compared with the thickness of the sample (40 mm and
+                                                                                          20 mm). The speed of the indenter movement is discussed
+                                                                                          in detail in Section VI-F.
+
+                                                                                          B. Sample Preparation
+
+                                                                                             Two different samples are tested in this study: a 10%
+                                                                                          gelatin phantom and a chicken breast muscle sample. Gel-
+                                                                                          atin phantoms are, in general, considered to be elastic
+                                                                                          and the shear elasticity of a 10% gelatin phantom is in
+                                                                                          the 5 to 10 kPa range [10], in a similar range as normal
+                                                                                          human skin (7 to 15 kPa) [26]. The shear viscosity of gela-
+                                                                                          tin phantoms is typically less than 2 Pa⋅s [10], [39]. The
+                                                                                          chicken breast sample represents a tissue type that is more
+                                                                                          viscous than the gelatin phantoms. The viscoelasticity of
+                                                                                          bovine and porcine skeletal muscles have been measured
+      Fig. 5. (a) The shear elasticity G estimated by the proposed finite meth-
+                                                                                          by shear-wave dispersion ultrasound vibrometry (SDUV)
+      ods (square) compared with the infinite model (asterisk) and the true               [13], [40], [41]. In these studies, the estimated shear elas-
+      value (dotted line). (b) The absolute values of the relative errors (zero           ticity and viscosity are 5 to 29 kPa and 1.1 to 9.9 Pa·s,
+      represents no error).                                                               respectively.
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      1424                                 IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control , vol. 57, no. 7, July 2011
+
+
+
+         The sample thickness is adjusted by carefully cutting                          range and separation are selected so that the reflections
+      part of the sample off from the bottom. To ensure the non-                        are minimized at low frequency and the R2 value is greater
+      slipping condition that (3) requires, the bottoms of the                          than 0.90 for the linear regression between the phase delay
+      samples are glued to an aluminum substrate.                                       and the distance. The surface wave was generated by an
+         Other than the two previously mentioned phantoms,                              electromagnetic shaker (Model 203, LDS Test and Mea-
+      more material types and sample thicknesses can be tested                          surements Inc., Royston, UK), which excites the sample
+      to further validate the proposed method. However, the                             using a ball tip that is 8 mm in diameter. The duration
+      main purpose of this paper is to introduce an application                         of the excitation is 100 ms, so that most reflections from
+      using spherical indentation and the Dimitriadis model on                          the boundaries are excluded from the data collection win-
+      viscoelastic materials. A more systemic validation study                          dow. The surface wave is measured by an ultrasound sys-
+      can be carried out with samples of variable shear elasticity                      tem (SonixRP, Ultrasonix Corporation, Richmond, BC,
+      G, shear viscosity η, and thickness d.                                            Canada) using a 7.2-MHz probe (L14–5/38, Ultrasonix
+                                                                                        Corporation). The shear elasticity and viscosity are re-
+         1) 10% Gelatin Phantom: A 10% gelatin phantom (mea-                            solved by fitting the speeds of the surface wave at mul-
+      sured by volume) is fabricated using porcine skin gelatin                         tiple frequencies with a Voigt model [10], [42]. There are
+      powder (Type G2500, Sigma-Aldrich Inc., St. Louis, MO);                           other linear viscoelastic models used for describing the
+      1 g/L of scatters with mean diameter of 20 μm (Type                               wave speed dispersion, such as a Maxwell model, which
+      S3504, Sigma-Aldrich Inc.) are embedded to improve the                            consists of a spring and a dashpot connected in parallel. In
+      RF echoes of the ultrasound measurements. The size and                            [39], these two models were compared and the Voigt model
+      material of the scatterers are selected so that the scatter-                      was found to perform better, especially when attenuation
+      ers are uniformly suspended in the gelatin solution dur-                          is considered. More sophisticated models, for example, a
+      ing the curing process. 5 g/L of potassium sorbate (Type                          standard linear model [16], could be used. However, that
+      359769, Sigma-Aldrich Inc.) is added as an antibacterial                          involves fitting the wave dispersion curve with more than
+      preservative. The phantom measures 14 × 14 × 4 cm and                             two parameters. To simplify the problem, the Voigt model
+      its mass density and Poisson’s ratio are assumed to be                            is used in this study.
+      1000 kg/m3 and 0.49, respectively, because of its major                              Both the gelatin and chicken breast sample were only
+      proportion of water. For details regarding the procedure                          tested with the surface wave method at their original
+      for making the gelatin phantom, please refer to [42].                             thickness (40 mm), so that the results are less affected
+         After the gelatin phantom is measured by both the in-                          by the boundary conditions than testing after the sample
+      dentation and surface wave methods, its thickness is re-                          thickness is adjusted.
+      duced to 20 mm by cutting half of the thickness off from
+      the bottom. Then, indentation tests are carried out again.                                                       V. Results
+      Material properties are assumed to remain the same af-
+      ter the thickness is adjusted. During the experiments, the                        A. 10% Gelatin Phantom
+      bottom of the gelatin phantom is glued to an aluminum
+      substrate to satisfy the non-slipping boundary condition                             A measurement from a load-relaxation test for the 10%
+      of (3).                                                                           gelatin phantom is shown in Figs. 7(a) and 7(b) and a
+                                                                                        surface wave speed dispersion fit is shown in Fig. 8(a).
+         2) Chicken Breast Sample: A chicken breast muscle sam-                         One can see from Fig. 7(a) that the total percentage of
+      ple, measuring roughly 14 × 8 × 4 cm, was prepared. The                           relaxation for the gelatin phantom is [P(tR) – P(tT)]/P(tT)
+      same procedures as the gelatin phantom are followed to                            = 10.60%. In Fig. 8(a), a limited amount of dispersion
+      adjust its thickness and ensure the non-slipping boundary                         is observed and the estimated shear viscosity η is only
+      condition. Although the lateral shape of the sample is ir-                        0.74 Pa·s, which is expected, because gelatin is highly
+      regular, its thickness is estimated to vary within 10% in the                     elastic. As shown in Table III, the average shear elasticity
+      region of interest before and after its thickness is reduced.                     of 5 independent measurements is 6.53 kPa by the surface
+      The sample was purchased fresh from a local butcher store                         wave method; using the proposed finite load-relaxation
+      and the sample was refrigerated until experiments were con-                       method, the value was 6.79 and 6.93 kPa for sample thick-
+      ducted on the day after purchase. Mass density (1000 kg/                          nesses of 40 and 20 mm, respectively. Table III also shows
+      m3) and Poisson’s ratio (0.49) are assumed.                                       the elasticity estimation based on the finite elastic model
+                                                                                        of (3). One can see that it is within 15% relative differ-
+      C. Reference Method                                                               ence of both the load-relaxation measurements and sur-
+                                                                                        face wave measurements. This is because the gelatin is
+         Independent measurements are made by a surface                                 very elastic.
+      wave method that is discussed in detail in [42]. The speed
+      of the surface wave is measured at 100 to 350 Hz with                             B. Chicken Breast Sample
+      25 Hz separations for both of the gelatin phantom and
+      the chicken breast sample. The peak-to-peak amplitude of                             Figs. 7(c) and 7(d) shows the load-relaxation fit for the
+      the motion at the source is around 1 mm. The frequency                            chicken breast sample. The total percentage of relaxation
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      qiang et al.: estimating material elasticity by spherical indentation load-relaxation tests                                                                 1425
+
+
+
+
+      Fig. 7. (a) and (b): Relaxation fit and overall load-relaxation fit of the 10% gelatin. (c) and (d): Relaxation fit and overall load-relaxation fit of the
+      chicken breast sample. Both samples are at their original thickness (40 mm). The two solid vertical lines in (b) and (d) represent the start and stop
+      points of the indenter, respectively. All calculations are based on the proposed finite model. The measured shear elasticity G is 6.44 ± 0.19 kPa for
+      the 10% gelatin phantom and 3.88 ± 0.32 kPa for the chicken breast sample, both in mean ± standard error format.
+
+
+
+
+      is 65.38%, which is 6 times larger than that in the gelatin                       about 5 times that of the gelatin phantom (0.74 Pa·s).
+      phantom (10.60%), showing it has more shear viscosity                             Generally, muscle tissues are considered to be anisotropic
+      η and experiences more relaxation than the gelatin. The                           because muscle fibers are directional. In this study, re-
+      average shear elasticity G of 5 independent measurements                          stricted by the geometry of the chicken breast sample, the
+      using the proposed finite load-relaxation method is 4.51                          surface wave experiment is only conducted along the fiber
+      and 5.17 kPa for sample thicknesses of 40 and 20 mm,                              direction. The impact of the orientation of the muscle fi-
+      respectively. Fig. 8(b) shows a surface speed dispersion                          bers on the measurements will be discussed in the next
+      curve measured by the ultrasound system. One can see                              section. From Table III, one can also observe that the
+      that the surface wave is much more dispersive in the chick-                       elasticity estimation based on the finite elastic model (3)
+      en breast sample than in the gelatin phantom. A Voigt                             underestimates the elasticity by more than 30% because
+      model fit predicts that its shear viscosity η is 3.64 Pa·s,                       of relaxation.
+
+
+          TABLE III. Shear Elasticity G Measured by the Surface Wave Method, the Proposed Finite Load-Relaxation Model, The
+                              Infinite Load-Relaxation Model, and the Finite Elastic Model as Shown in (3).
+                                                                                                   Indentation
+                                                                              Finite load-relaxation                 Infinite
+                         Surface wave                                          (proposed method)                 load-relaxation                 Finite elastic
+      Sample         n       G (kPa)         d (mm)       hmax (mm)       n      G (kPa)        Δ%             G (kPa)         Δ%             G (kPa)          Δ%
+      Gelatin        5 6.53 ± 0.04              40       0.96 ± 0.04      5   6.79 ± 0.22        3.98        7.19 ± 0.22      10.11         6.11 ± 0.15       −6.43
+                                                20       0.96 ± 0.22      5   6.93 ± 0.42        6.13        7.34 ± 0.41      12.40         5.83 ± 0.41      −10.72
+      Chicken        5 4.14 ± 0.24              40       0.91 ± 0.11      5   4.51 ± 0.55        8.94        4.66 ± 0.56      12.56         2.58 ± 0.44      −37.68
+      breast                                    20       0.85 ± 0.21      5   5.17 ± 0.82       24.88        5.66 ± 1.06      36.71         2.75 ± 0.27      −33.57
+      G and hmax are in mean ± standard deviation format. Other parameters listed in the table are sample thickness d, number of measurements n, and
+      indentation depth hmax.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      1426                                 IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control , vol. 57, no. 7, July 2011
+
+
+
+                                                                                        proximates displacement-force relation by a Taylor expan-
+                                                                                        sion [19]. Like the Dimitriadis model, the Waters model is
+                                                                                        also an approximation. A comparison between the Waters
+                                                                                        model and the Dimitriadis model shows that the Waters
+                                                                                        model tends to perform worse than the Dimitriadis model
+                                                                                        in the load-relaxation tests, especially when d/R < 5. For
+                                                                                        example, for a FE simulated data set at d/R = 2, the
+                                                                                        Waters model produces 55.10% relative error compared
+                                                                                        with 17.48% for the Dimitriadis model, as shown in Fig.
+                                                                                        5 and Table II. The Hayes model is widely used for appli-
+                                                                                        cations like measuring the elasticity of cartilage [32] and
+                                                                                        studying the nonlinearity of indentation [43]. It takes the
+                                                                                        sample thickness d into account by multiplying (2) with a
+                                                                                        correction factor κ. The advantage of the Hayes model is
+                                                                                        that it is an analytical solution for spherical indentation
+                                                                                        [15]. However, to apply the Hayes model, the contact
+                                                                                        radius a and the correction factor κ should be calculated
+                                                                                        for each different indenter displacement h by solving a
+                                                                                        pair of second-order Fredholm integral equations. Such
+                                                                                        equations can be split into a group of linear equations by
+                                                                                        evaluating the kernel functions at equally-spaced data
+                                                                                        points inside the integration limits. The technical de-
+                                                                                        tails have been discussed in studies such as [42], [44].
+                                                                                        Although possible, this requires intensive floating-point
+                                                                                        computations and the result is subject to numerical er-
+                                                                                        rors during the evaluation of numerical integrations. A
+                                                                                        different approach to implementing the Hayes model has
+                                                                                        been discussed in [17], which substitutes the integral
+                                                                                        with a finite series and a closed-form converging solution
+                                                                                        may be obtained.
+
+                                                                                        B. Boundary Conditions
+
+                                                                                           This study focuses on investigating the influence of
+                                                                                        the sample thickness on the time-dependent indenta-
+      Fig. 8. The surface wave speed dispersion measured by ultrasound for
+                                                                                        tion tests. However, the lateral dimension of the sample
+      (a) the 10% gelatin phantom and (b) the chicken breast sample. The er-
+      ror bars represent the standard errors for the speed estimations at each          can also alter the results. To the authors’ knowledge,
+      frequency. Both samples are at their original thickness (40 mm). A non-           no rigorous models have been developed to account for
+      linear fitting method is used to derive the shear elasticity G and shear          the lateral dimension of the sample. In [33], the impact
+      viscosity η. For the 10% gelatin phantom, G = 6.14 ± 0.11 kPa, η = 0.74           of the lateral dimension was studied by FE simulations
+      ± 0.09 Pa⋅s. For the chicken breast sample, G = 4.36 ± 1.66 kPa, η =
+                                                                                        and the results suggested that the lateral dimension of
+      3.64 ± 0.50 Pa⋅s. All results are in mean ± standard error format.
+                                                                                        the sample must be at least 20 times the radius of the
+                                                                                        flat punch indenter to ignore its effects on the elasticity
+         Table III also shows that, compared with the gelatin                           measurements. In this study, the sample of the FE simu-
+      phantom, the chicken breast sample has much larger stan-                          lations has a radius 20 times the radius of the indenter.
+      dard deviations for both the surface wave and the inden-                          However, neither the gelatin phantom nor the chicken
+      tation methods. This is expected to be associated with                            breast sample is large enough to meet this criterion. Al-
+      the fact that the chicken breast sample is heterogeneous,                         though the experimental results show an agreement be-
+      anisotropic, and has an irregular shape.                                          tween the indentation tests and the surface wave experi-
+                                                                                        ments, more studies must be done to quantify the impact
+                                                                                        of the lateral size of the sample.
+                                  VI. Discussion                                           In this study, the surface wave method is used to vali-
+                                                                                        date the proposed indentation method. However, because
+      A. Choice of Elastic Model                                                        the surface wave method assumes an infinite medium, the
+                                                                                        elasticity measurements might be biased. To the authors’
+         There are other finite thickness elastic models, such as                       knowledge, currently there are no models developed to
+      the Waters [18] and Hayes [15] models, and they can also                          compensate for this bias. A series of FE simulations of
+      be incorporated into (11)–(13). The Dimitriadis model ap-                         surface wave propagation have been carried out and the
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      qiang et al.: estimating material elasticity by spherical indentation load-relaxation tests                                                                 1427
+
+      results show that for G = 10 and 4 kPa, the surface wave                          their physical meanings. Methods such as that in [27] have
+      speed increases by only 0.2% and 0.05%, respectively,                             been proposed to implement additional constraints on the
+      when the sample thickness changes from 5 to 10 cm. The                            regression to ensure that Bi are positive.
+      frequency of the excitation is 100 Hz and the peak-to-
+      peak amplitude of the source is 1 mm.                                             F. Assumption About the Constant Loading Speed
+
+      C. Orientation of Muscle Fibers                                                      In this study, the loading speed of the indenter is as-
+                                                                                        sumed to be constant during the ramp stage, and its speed
+         The direction of the muscle fibers is important when                           changes to zero instantaneously at time tR. In reality, this
+      measuring the muscle’s mechanical properties [13]. In                             cannot happen because of inertia. In the experiments, the
+      this study, the surface waves are measured along the                              speed of the indenter movement is quite small (0.1 mm/s),
+      direction of the muscle fibers in the chicken breast sam-                         so the deceleration of the indenter near tR is also small and
+      ple. Surface wave measurements across the fiber direc-                            its effect is assumed to be negligible. The indenter speed
+      tion have been tried but failed to produce consistent                             (0.1 mm/s) was selected as the optimized value through
+      results because of the limited lateral size and irregular                         a series of tests on uniform phantoms so that the system
+      shape of the chicken breast sample. Indeed, indentation                           produces the most consistent results. The acceleration at
+      with a spherical tip has mixed effects from the across-                           the beginning of the indentation test is minimized by a
+      and along-fiber moduli. However, chicken breast mus-                              significant initial offset (>1 mm) between the indenter tip
+      cles are softer [40], [41] and the fiber bundle size tends                        and the sample surface. Therefore by the time the in-
+      to be smaller than that of bovine and porcine skeletal                            denter reaches the surface of the sample, its speed can be
+      muscles. In addition, the outer membrane around the                               regarded as a constant.
+      chicken breast sample makes it more uniform. The re-
+      sults shown in Table III also suggest the consistency be-
+                                                                                                                   VII. Conclusions
+      tween the indentation method and surface wave meth-
+      od. Further studies of indentation models on anisotropic
+                                                                                           A load-relaxation spherical indentation method was
+      materials are of interest.
+                                                                                        proposed to improve estimation of elasticity of viscoelas-
+                                                                                        tic materials. Further improvement was obtained by con-
+      D. Tissue Viscosity η Measurement From the Load-
+                                                                                        sidering the sample thickness. The two-step model was
+      Relaxation Test
+                                                                                        validated by finite element simulations. The simulation
+                                                                                        results showed that with the sample thickness consid-
+         The main purpose of this study is to take into account
+                                                                                        ered, the accuracy of the shear elasticity estimation was
+      the material relaxation while performing an indentation                           improved, especially when the sample thickness was less
+      test in viscous materials such as soft biological tissues.                        than 10 times the radius of the indenter. A customized in-
+      However, a direct derivation of shear viscosity η from the                        dentation device was constructed and the proposed finite
+      load-relaxation test seems challenging. To compare the re-                        load-relaxation tests were carried out on a 10% gelatin
+      sults from the indentation test and the surface wave test,                        phantom and a chicken breast muscle sample. The results
+      one possibility is to convert both results into a complex                         from the indentation tests were compared with the results
+      modulus [45]. However, this would require accurate mea-                           from a surface wave method. The comparisons showed
+      surement of the attenuation of the propagation surface                            that the proposed method produces closer shear elastic-
+      wave, which is difficult in muscle because of the material’s                      ity measurements than the infinite load-relaxation model.
+      heterogeneity.                                                                    The results also showed that the finite elastic model can
+                                                                                        provide reasonable estimation of the elastic gelatin phan-
+      E. Solution Uniqueness in Fitting the Relaxation Curves                           tom, but cannot estimate elasticity for the viscoelastic
+                                                                                        chicken breast sample. On the other hand, the finite load-
+          The nonlinear fitting between the time and the reac-                          relaxation model can provide reasonable estimation of
+      tion force during material relaxation with (5) seems to                           elasticity of the chicken breast sample.
+      have multiple solutions and its result is dependent upon
+      the initial guesses. However, although the individual time
+      constants τi and the coefficients Bi are not consistent for                                                Acknowledgments
+      fits with different initial guesses, the shear elasticity G
+      usually remains relatively stable because G is calculated                            The authors would like to extend their thanks to R.
+      as the summation of the Ci parameters, as shown in (9).                           Kinnick for his support on hardware development and to
+      An alternative method for the nonlinear fitting is that one                       S. Mitchell for his input on FE modeling.
+      can fix the time constants τi with predefined values, turn-
+      ing (9) into a linear equation about the coefficient Bi. This                                                   References
+      way, a unique solution to (9) exists in the least-square
+                                                                                        [1]	J. F. Greenleaf, M. Fatemi, and M. Insana, “Selected methods for
+      sense. One potential problem with this method is that the                             imaging elastic properties of biological tissues,” Annu. Rev. Biomed.
+      fitted coefficients Bi maybe negative, which is contrary to                           Eng., vol. 5, pp. 57–78, 2003.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      1428                                 IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control , vol. 57, no. 7, July 2011
+
+
+      [2]	Y. Qiu, M. Sridhar, J. K. Tsou, K. K. Lindfors, and M. F. Insana,                  breast tissue viscoelasticity,” IEEE Trans. Ultrason. Ferroelectr.
+           “Ultrasonic viscoelasticity imaging of nonpalpable breast tumors:                 Freq. Control, vol. 56, pp. 715–726, Apr. 2009.
+           Preliminary results,” Acad. Radiol., vol. 15, pp. 1526–1533, Dec.            [29]	A. C. Fischer-Cripps, “Elastic contact,” in Introduction to Contact
+           2008.                                                                             Mechanics, 2nd ed., New York, NY: Springer, 2007, ch. 6, pp. 101–
+      [3] H. P. Dobrev, “In vivo study of skin mechanical properties in pa-                  114.
+           tients with systemic sclerosis,” J. Am. Acad. Dermatol., vol. 40, pp.        [30]	C. Pailler-Mattéi and H. Zahouani, “Analysis of adhesive behaviour
+           436–442, Mar. 1999.                                                               of human skin in vivo by an indentation test,” Tribol. Int., vol. 39,
+      [4]	C. Flynn and B. A. McCormack, “Simulating the wrinkling and ag-                    no. 1, pp. 12–21, 2006.
+           ing of skin with a multi-layer finite element model,” J. Biomech., vol.      [31]	C. Pailler-Mattei, S. Bec, and H. Zahouani, “In vivo measurements
+           43, pp. 442–448, Feb. 10, 2010.                                                   of the elastic mechanical properties of human skin by indentation
+      [5] I. Sack, B. Beierbach, J. Wuerfel, D. Klatt, U. Hamhaber, S. Papazo-               tests,” Med. Eng. Phys., vol. 30, pp. 599–606, Jun. 2008.
+           glou, P. Martus, and J. Braun, “The impact of aging and gender on            [32] M. M. Hyttinen, J. Toyras, T. Lapvetelainen, J. Lindblom, D. J.
+           brain viscoelasticity,” Neuroimage, vol. 46, pp. 652–657, Jul. 1, 2009.           Prockop, S. W. Li, M. Arita, J. S. Jurvelin, and H. J. Helminen,
+      [6]	L. Huwart and B. E. van Beers, “MR elastography,” Gastroenterol.                   “Inactivation of one allele of the type II collagen gene alters the
+           Clin. Biol., vol. 32, pp. 68–72, Sep. 2008.                                       collagen network in murine articular cartilage and makes cartilage
+      [7]	R. Muthupillai and R. L. Ehman, “Magnetic resonance elastogra-                     softer,” Ann. Rheum. Dis., vol. 60, pp. 262–268, Mar. 2001.
+           phy,” Nat. Med., vol. 2, pp. 601–603, May 1996.                              [33]	L. Zhai, M. L. Palmeri, R. R. Bouchard, R. W. Nightingale, and
+      [8] M. Fatemi and J. F. Greenleaf, “Vibro-acoustography: An imaging                    K. R. Nightingale, “An integrated indenter-ARFI imaging system
+           modality based on ultrasound-stimulated acoustic emission,” Proc.                 for tissue stiffness quantification,” Ultrason. Imaging, vol. 30, pp.
+           Natl. Acad. Sci. USA, vol. 96, pp. 6603–6608, Jun. 8, 1999.                       95–111, Apr. 2008.
+      [9] M. Fatemi and J. F. Greenleaf, “Ultrasound-stimulated vibro-acous-            [34]	Y. Yang, P. O. Bagnaninchi, M. Ahearne, R. K. Wang, and K. K.
+           tic spectrography,” Science, vol. 280, pp. 82–85, Apr. 3, 1998.                   Liu, “A novel optical coherence tomography-based micro-indenta-
+      [10] B. Qiang, J. Greenleaf, and X. Zhang, “Quantifying viscoelasticity                tion technique for mechanical characterization of hydrogels,” J. R.
+           of gelatin phantoms by measuring impulse response using compact                   Soc. Interface, vol. 4, pp. 1169–1173, Dec. 22, 2007.
+           optical sensors,” IEEE Trans. Ultrason. Ferroelectr. Freq. Control,          [35]	A. J. Engler, L. Richert, J. Y. Wong, C. Picart, and D. E. Discher,
+           vol. 57, pp. 1696–1700, Jul. 2010.                                                “Surface probe measurements of the elasticity of sectioned tissue,
+      [11] X. Zhang and J. F. Greenleaf, “Estimation of tissue’s elasticity with             thin gels and polyelectrolyte multilayer films: Correlations between
+           surface wave speed,” J. Acoust. Soc. Am., vol. 122, pp. 2522–2525,                substrate stiffness and cell adhesion,” Surf. Sci., vol. 570, no. 1–2,
+           Nov. 2007.                                                                        pp. 142–154, 2004.
+      [12] V. V. Kazakov and B. N. Klochkov, “Low frequency mechanical                  [36]	J. M. Goffin, P. Pittet, G. Csucs, J. W. Lussi, J. J. Meister, and B.
+           properties of the soft tissue of the human arm,” Biophysics, vol. 34,             Hinz, “Focal adhesion size controls tension-dependent recruitment of
+           pp. 742–747, 1989.                                                                alpha-smooth muscle actin to stress fibers,” J. Cell Biol., vol. 172,
+      [13]	S. Chen, M. W. Urban, C. Pislaru, R. Kinnick, Y. Zheng, A. Yao,                   pp. 259–268, Jan. 16, 2006.
+           and J. F. Greenleaf, “Shearwave dispersion ultrasound vibrometry             [37] W. Gander and W. Gautschi, “Adaptive quadrature—Revisited,”
+           (SDUV) for measuring tissue elasticity and viscosity,” IEEE Trans.                BIT Numerical Mathematics, vol. 40, pp. 84–101, 2000.
+           Ultrason. Ferroelectr. Freq. Control, vol. 56, pp. 55–62, Jan. 2009.         [38] G. Strang, Computational Science and Engineering. Wellesley, MA:
+      [14]	J. Bercoff, M. Tanter, and M. Fink, “Supersonic shear imaging: A                  Wellesley-Cambridge Press, 2007.
+           new technique for soft tissue elasticity mapping,” IEEE Trans. Ul-           [39]	S. Catheline, J. L. Gennisson, G. Delon, M. Fink, R. Sinkus, S.
+           trason. Ferroelectr. Freq. Control, vol. 51, pp. 396–409, Apr. 2004.              Abouelkaram, and J. Culioli, “Measuring of viscoelastic properties
+      [15] W. C. Hayes, L. M. Keer, G. Herrmann, and L. F. Mockros, “A                       of homogeneous soft solid using transient elastography: An inverse
+           mathematical analysis for indentation tests of articular cartilage,”              problem approach,” J. Acoust. Soc. Am., vol. 116, pp. 3734–3741,
+           J. Biomech., vol. 5, pp. 541–551, Sep. 1972.                                      Dec. 2004.
+      [16]	L. Cheng, X. Xia, W. Yu, L. E. Scriven, and W. W. Gerberich,                 [40] M. W. Urban and J. F. Greenleaf, “A Kramers-Kronig-based quality
+           “Flat-punch indentation of viscoelastic material,” J. Polym. Sci., B,             factor for shear wave propagation in soft tissue,” Phys. Med. Biol.,
+           vol. 38, pp. 10–22, Jan. 2000.                                                    vol. 54, pp. 5919–5933, Oct. 7, 2009.
+      [17] M. Sakamoto, G. Li, T. Hara, and E. Y. S. Chao, “A new method                [41] M. W. Urban, S. Chen, and J. F. Greenleaf, “Error in estimates of
+           for theoretical analysis of static indentation test,” J. Biomech., vol.           tissue material properties from shear wave dispersion ultrasound
+           29, pp. 679–685, May 1996.                                                        vibrometry,” IEEE Trans. Ultrason. Ferroelectr. Freq. Control, vol.
+      [18]	N. E. Waters, “The indentation of thin rubber sheets by cylindrical               56, pp. 748–758, Apr. 2009.
+           indentors,” Br. J. Appl. Phys., vol. 16, no. 9, p. 1387 1965.                [42] X. Zhang, B. Qiang, and J. Greenleaf, “Comparison of the surface
+      [19] E. K. Dimitriadis, F. Horkay, J. Maresca, B. Kachar, and R. S.                    wave method and the indentation method for measuring the elastic-
+           Chadwick, “Determination of elastic moduli of thin layers of soft                 ity of gelatin phantoms of different concentrations,” Ultrasonics, vol.
+           material using the atomic force microscope,” Biophys. J., vol. 82, pp.            51, pp. 157–164, Feb. 2011.
+           2798–2810, May 2002.                                                         [43] M. Zhang, Y. P. Zheng, and A. F. Mak, “Estimating the effective
+      [20] M. L. Oyen, “Spherical indentation creep following ramp loading,”                 Young’s modulus of soft tissues from indentation tests—Nonlinear
+           J. Mater. Res., vol. 20, no. 8, pp. 2094–2100, 2005.                              finite element analysis of effects of friction and large deformation,”
+      [21]	J. M. Mattice, A. G. Lau, M. L. Oyen, and R. W. Kent, “Spherical                  Med. Eng. Phys., vol. 19, pp. 512–517, Sep. 1997.
+           indentation load-relaxation of soft biological tissues,” J. Mater. Res.,     [44] K. E. Atkinson and L. F. Shampine, “Algorithm 876: Solving Fred-
+           vol. 21, no. 8, pp. 2003–2010, 2006.                                              holm integral equations of the second kind in MATLAB,” ACM
+      [22] M. Sakai, “Time-dependent viscoelastic relation between load and                  Trans. Math. Software, vol. 34, no. 4, pp. 1–20, 2008.
+           penetration for an axisymmetric indenter,” Philos. Mag. A, vol. 82,          [45] G. Boyer, H. Zahouani, A. Le Bot, and L. Laquieze, “In vivo char-
+           no. 10, pp. 1841–1849, 2002.                                                      acterization of viscoelastic properties of human skin using dynamic
+      [23]	D. M. Ebenstein and L. A. Pruitt, “Nanoindentation of biological                  micro-indentation,” Conf. Proc. IEEE Eng. Med. Biol. Soc., vol.
+           materials,” Nano Today, vol. 1, pp. 26–33, Aug. 2006.                             2007, pp. 4584–4587, 2007.
+      [24] M. L. Oyen, “Analytical techniques for indentation of viscoelastic
+           materials,” Philos. Mag., vol. 86, pp. 5625–5641, 2006.
+      [25]	L. Cheng, X. Xia, L. E. Scriven, and W. W. Gerberich, “Spherical-
+           tip indentation of viscoelastic material,” Mech. Mater., vol. 37, pp.                                Bo Qiang (M’02) is a Senior Research Technolo-
+           213–226, Jan. 2005.                                                                                  gist at Mayo Clinic, Rochester, MN. He received
+      [26] G. Boyer, L. Laquieze, A. Le Bot, S. Laquieze, and H. Zahouani,                                      his B.S. degree majoring in electrical engineering
+           “Dynamic indentation on human skin in vivo: Ageing effects,” Skin                                    from the University of Electronic Science and
+           Res. Technol., vol. 15, pp. 55–67, Feb. 2009.                                                        Technology of China, Chengdu, China, in 2002.
+      [27]	R. D. Bradshaw and L. C. Brinson, “A sign control method for fit-                                    He also received an M.S. degree from the Univer-
+           ting and interconverting material functions for linearly viscoelastic                                sity of Dayton, Dayton, OH, in 2004. He is cur-
+           solids,” Mech. Time-Depend. Mater., vol. 1, no. 1, pp. 85–108, 1997.                                 rently working on surface wave elastography. Be-
+      [28]	C. Coussot, S. Kalyanam, R. Yapp, and M. F. Insana, “Fractional                                      fore joining Mayo Clinic, he was a Biomedical
+           derivative models for ultrasonic characterization of polymer and                                     Engineer at ASL Analytical Inc., Oakdale, IA.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+      qiang et al.: estimating material elasticity by spherical indentation load-relaxation tests                                                                 1429
+
+                              James F. Greenleaf (M’73) received the B.S.               Engineering in 2006 following an appointment as Research Scientist at
+                              degree in electrical engineering from the Univer-         the University of Virginia Center for Applied Biomechanics. She is a
+                              sity of Utah, Salt Lake City, in 1964; the M.S.           member of the Materials Research Society and the ASME Bioengineer-
+                              degree in engineering science from Purdue Univer-         ing Division, a principal editor for the Journal of Materials Research, a
+                              sity, Lafayette, IN, in 1968; and the Ph.D. degree        moderator of iMechanica and a founding committee member and web-
+                              in engineering science from the Mayo Graduate             master for the new UK-based Bioengineering Society.
+                              School of Medicine, Rochester, MN, and Purdue
+                              University in 1970. He is currently Professor of
+                              Biomedical Engineering and Associate Professor
+                              of Medicine, Mayo Graduate School, and Consul-                                   Xiaoming Zhang received his B.Eng. degree in
+                              tant, Department of Physiology and Biomedical                                    ship engineering in 1983 from Huazhong Univer-
+      Engineering, and Internal Medicine, Division of Cardiovascular Diseases,                                 sity of Science and Technology (HUST), Wuhan,
+      Mayo Clinic Rochester. He has served on the IEEE Technical Committee                                     People’s Republic of China, his M.Eng. degree in
+      for the IEEE International Ultrasonics Symposium for ten years. He                                       1986, and his Ph.D. degree in 1990 from the same
+      served on the IEEE Ultrasonics, Ferroelectrics, and Frequency Control                                    university. He was an Assistant Professor at the
+      Society (UFFC-S) Subcommittee on Ultrasonics in Medicine/IEEE Mea-                                       Department of Naval Architecture and Ocean En-
+      surement Guide Editors, and on the IEEE Medical Ultrasound Commit-                                       gineering, HUST, from 1986 to 1991. He was a
+      tee. Doctor Greenleaf was President of the UFFC-S in 1992 and 1993.                                      postdoctoral fellow and an associate professor at
+      Dr. Greenleaf has 15 patents and is recipient of the 1986 J. Holmes Pio-                                 the Department of Acoustics, Harbin Engineering
+      neer Award and the 1998 William J. Fry Memorial Lecture Award from                                       University, Harbin, China, between 1991 and
+      the American Institute of Ultrasound in Medicine. He is a Fellow of               1994. He worked at the Institute of Sound and Vibration Research, Uni-
+      IEEE, the American Institute of Ultrasound in Medicine, the American              versity of Southampton, Southampton, England, as a research fellow in
+      Institute for Medical and Biological Engineering, and the Acoustical So-          1992 and 1993. He became a professor at HUST in 1995. He was a senior
+      ciety of America. Dr. Greenleaf was the Distinguished Lecturer for the            research engineer at the Institute of High-Performance Computing, Sin-
+      IEEE Ultrasonics, Ferroelectrics, and Frequency Control Society                   gapore, from 1998 to 2001. He currently is an associate professor and
+      (1990/1991) and recipient of the Rayleigh Award (2004). His special field         associate consultant at the Department of Physiology and Biomedical
+      of interest is ultrasonic biomedical science, and he has published more           engineering, Mayo Clinic College of Medicine, Rochester, MN. His main
+      than 327 articles and edited or authored five books in the field.                 research interests are in medical ultrasound, vibro-acoustics, elastogra-
+                                                                                        phy, wave propagation, instrumentation, and medical devices. He is a
+                                                                                        member of IEEE, the American Society of Mechanical Engineers, the
+                                                                                        Acoustic Society of America, and other societies
+                              Michelle L. Oyen is a Lecturer in Mechanics of
+                              Biological Materials in the Mechanics and Materi-
+                              als Division and the Engineering for the Life Sci-
+                              ences group in the Cambridge University Engi-
+                              neering Department. She holds a B.S. degree in
+                              materials science and engineering and an M.S.
+                              degree in engineering mechanics, both from Mich-
+                              igan State University, and a Ph.D. degree in bio-
+                              physical sciences and medical physics from the
+                              University of Minnesota. She joined Cambridge
+
+
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on May 15,2026 at 01:46:18 UTC from IEEE Xplore. Restrictions apply.
+

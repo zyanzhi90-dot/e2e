@@ -1,0 +1,24 @@
+{
+  "papers": [
+    {
+      "paper_id": "w6vmLz5pAjIJ",
+      "source_path": "source-materials/user-batch-cycle-2/Direct_adaptive_impedance_control_of_manipulators.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "lk5U1cKDpscJ",
+      "source_path": "source-materials/user-batch-cycle-2/Learning Variable Impedance Control.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "tZYsUFlRIUIJ",
+      "source_path": "source-materials/user-batch-cycle-2/Passivity_Preservation_for_Variable_Impedance_Control_of_Compliant_Robots.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "ycrjHzo2ClcJ",
+      "source_path": "source-materials/user-batch-cycle-2/Adaptive variable impedance control for dynamic contact force tracking in uncertain environment.pdf",
+      "media_type": "application/pdf"
+    }
+  ]
+}

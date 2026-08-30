@@ -1,0 +1,632 @@
+                 WP2                   4:00
+                                                              IMPEDANCE CONTROL: AN APPROACH TO MANIPULATION
+
+
+                                                                                     Neville Hogan
+
+                                                                   Department of Mechanical Engineering
+                                                                                   and
+                                                               Laboratory of Manufacturing and Productivity
+                                                                  Massachusetts Institute of Technology
+                                                                           Cambridge, MA 02139
+
+
+
+                                              ABSTRACT                                                In other cases the manipulator encounters
+                                                                                                constraints in its environment and the interaction
+                                                                                                forces are not negligible; however, although the
+                     Manipulation fundamentally requires a                                      manipulator is kinematically coupled to its
+                manipulator to be mechanically coupled to the                                   environment, dynamic interaction is still absent.
+                object being manipulated. A consideration of the                                Along the tangent to a pure kinematic constraint
+                physical constraints imposed by dynamic interaction                             the interaction forces are zero (F = 0) whereas
+                shows that control of a vector quantity such as                                 along the normal into the surface the motions are
+                position or force is inadequate and that control of                             zero (dX = 0) and in all directions the
+                the manipulator impedance is also necessary.                                    instantaneous mechanical work done is again
+                Techniques for control of manipulator behaviour are                             negligible (dW = F.dX = 0). In this case an
+                presented which result in a unified approach to                                 appropriate control strategy is a combination of
+                kinematically constrained motion, dynamic                                       motion control along the tangent and force control
+                interaction, target acquisition and obstacle                                    along- the normal. This control strategy is
+                avoidance.                                                                      commonly terqied "compliance" [191, more correctly
+                                                                                                called "accomodation" [33], and is the topic of a
+                                                                                                considerable body of laboratory research, although
+                                                                                                it has not yet seen widespread industrial
+                                                                                                appl icati on.
+                                           INTRODUCTION
+                                                                                                     The most general case (which includes the
+                     The work presented here is an attempt to                                   previous two as special instances) is that in which
+                define a unified approach to the control of                                     the dynamic interaction is neither zero nor
+                mechanical manipulators. This approach encompasses                              negligible (dW / 0). A large class of
+                and includes the simple positioning or transporting                             manufacturing operations fall into this category:
+                tasks typically performed by robots and/or                                      examples include drilling, reaming, routing,
+                prostheses. It also builds on this capability,                                  counterboring, grinding, bending, chipping,
+                extending it to facilitate the application of                                   fettling -- any task requiring work to be done on
+                robots and/or prostheses to tasks involving static                              the environment. Many activities of daily living
+                and dynamic interactions between the manipulator                                to be performed by an amputee using a prosthesis --
+                and its environment. It will be shown that thb                                  basically any task involving the use of-a tool --
+                approach can lead to a simplification of                                        are also in this category. If the dynamic
+                manipulator control .                                                           interaction is to be modulated, regulated or
+                                                                                                controlled, then strategies directed towards the
+                     By any reasonable definition, manipulation                                 control of a vector quantity such as position,
+                fundamentally requires mechanical interaction with                              velocity or force-will be inadequate as they are
+                the object(s) being manipulated, and a useful                                   insufficient to control the mechanical work
+                classification of manipulatory tasks is by the-                                 exchanged between the manipulator and its
+                magnitude of the mechanical work exchanged between                              envirorment.
+                the manipulator and its environment. In some cases
+                the interaction forces are negligible, the                                           A solution to this problem is to modulate and
+                instantaneous mechanical work done by the                                       control the dynamic behaviour of the manipulator in
+                manipulator is negligible, (dW = F.dX = 0) and for                              addition to commanding its position or velocity.
+                control purposes the manipulator may be treated as                              If-the environment is-regarded as a source of
+                an isolated system, with its output position or                                 "disturbances" to the manipulator, then modulating
+                velocity as the controlled variable(s). Generally,                              the "disturbance response" of the manipulator will
+                the successful applications of industrial robots to                             permit control of dynami-c- interactions £21]. One
+                date have been restricted to this case; examples                                way to vary the dynamic behaviour of a manipulator
+                are spray-painting and welding [28] .                                           would be to vary the parameters and/or structure of
+
+                                                                                          304
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+            a feedback controller L25], but this is not the                                  control is that the controller attempts to
+            only way, nor always the best way. Exploiting the                                implement a dynamic relation between manipulator
+            intrinsic properties of mechanical hardware can                                  variables such as end-point position and force
+            also provide a simple, effective and reliable way                                rather than just control these variables alone.
+            of dealing with mechanical interaction [7,8,20,34].                              This change in perspective results in a
+                                                                                             simplification of several control problems.
+                   A unified framework for considering the action
+             of both hardware and software in the control of                                      Most of our work to date [1-3,5,9-14] has
+             dynamic behaviour can be obtained by making the                                 focused on controlling the impedance of a
+             reasonable postulate that no controller can make                                manipulator as seen at i'ts "port of interaction"
+             the manipulator appear to the environment as                                    with the environment, its end effector. Following
+             anything other than a physical system. Along each                               the lead from the prior work on path control,
+             degree of freedom, instantaneous power flow between                             [18,22,29,31,32] we have investigated ways of
+             a physical system and its environment is always                                 presenting the environment with a dynamic behaviour
+             defined by the product of two conjugate variables,                              which is simple when expressed in workspace (e.g.
+             an effort (e.g. a force, a voltage) and a flow                                  Cartesian) coordinates. The lowest-order term in
+             (e.g. a velocity, a current) [24]. Seen from the                                any impedance is the static relation between output
+             environment, physical systems come in only two                                  force and input displacement, a stiffness. If, in
+              types: admittances, which accept effort (e.g                                   common with most current work on robot control, we
+              force) inputs and yield flow (e.g. motion)                                     assume actuators capable of generating commanded
+             outputs, and impedances, which accept flow (e.g.                                forces (or torques), I, sensors capable of
+             motion) inputs and yield effort (e.g. force)                                    observing actuator position (or angle), i, and a
+             outputs. The concepts of impedance and admittance                               kinematic relation between actuator position and
+              are familiar to designers of electrical systems and                            end-point position, L = L(9), it is straightforward
+              are frequently regarded as equivalent and                                      to design a feedback control law to implement in
+              interchangable representations of the same system.                             actuator coordinates a desired relation between
+             For a linear sytem this usually is true, but for a                              end-point force, L, and position, X. Defining the
+              nonlinear system it usually is not: The                                        desired equilibrium position for the end-point in
+              distinction between admittance and impedance is                                the absence of environmental forces as Xo, a
+              fundamental.                                                                   general form for the desired force-position
+                                                                                             relation is:
+                  An important consequence of dynamic                                                    F = K(Xo - X)                                  (1)
+             interaction between two physical systems such as a
+             manipulator and its environment is that one must
+             physically complement the other: Along any degree                                Compute the Jacobian, 3(e):
+             of freedom, if one is an impedance, the other must                                          dX = J () d&                                   (2)
+             be an admittance and vice versa. Now, for almost
+             all manipulatory tasks the environment at least                                  From the principal of virtual work:
+             contains inertias and kinematic constraints,                                                  t
+             physical systems which accept force inputs and                                           T a J (a) F                                       (3)
+             which determine their motion in response. However,
+             while a constrained inertial object can always be                                The required relation in actuator coordinates is:
+             pushed upon, it doesn't always move; in those                                                 t
+             cases the describing equations cannot be written in                                      T = J (9) K(Xo - L(8))
+             impedance form (motion in, force out). In                                                                                (4)
+             contrast, they can always be written in admittance                               No restriction of linearity has been placed on the
+             form (force in, motion out). When a manipulator is                               relation K(Xo - X). Note that if K(Xo - X) is
+             mechanically coupled to such an environment, to                                  chosen so as to make the end-point stiff, then this
+             ensure physical compatibility with the                                           relation will accomplish Cartesian end-point
+             environmental admittance, something has to give,                                 position control and the "inverse kinematics
+             and the manipulator should assume the behaviour of
+             an impedance.                                                                    problem" [23] has been completely eliminated. Only
+                                                                                              the forward kinematic equations for the manipulator
+                  Thus a very general strategy for controlling a                              need be computed. This may be important for those
+             manipulator is to control its motion (as in                                      manipulators for which no closed-form solution to
+             conventional robot control) and in addition give it                              the inverse kinematic problem exists. Note also
+             a "disturbance response" for deviations from that                                that in this relation the inverse Jacobian is not
+             motion which has the form of an impedance. The                                   required.
+             dynamic interaction between manipulator and                                           The next important term in the manipulator
+             environment and environment may then be modulated,
+             regulated and controlled by changing that                                        impedance is the relation between force and
+             impedance, and hence the approach described in this                              velocity. Again, given the above assumptions, it
+             paper has been termed "impedance control" [12,13].                               is straightforward to define a feedback law to
+                                                                                              implement in actuator coordinates a desired
+                         IMPLEMENTATION OF IMPEDANCE CONTROL                                  relation between end-point force and end-point
+                                                                                              velocity such as:
+                  A distinction between impedance control and
+             the more conventional approaches to manipulator                                             F   =   B(v)                                   (5)
+
+
+                                                                                       305
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+              From the manipulator kinematics:                                                 necessarily co-linear with the applied force) which
+                                                                                               is obtained by premultiplying the force vector by
+                         v = J(8) w                                     (6)                    the mobility tensor (see appendix).
+
+              The required relation in actuator coordinates is:                                      Note that the Jacobian in the above equation
+                           t                                                                   need not be square, and that the end-point mobility
+                      T * J (9) B(J(§) w)             (7)                                      is configuration dependent. As a result, redundant
+                                                                                               degrees of freedom can be used to modulate the
+              Again note that inversion of the Jacobian is not                                 end-poaint mobility. This effect can be represented
+              requi red.                                                                       by the ellipsoid corresponding to the mobility
+                                                                                               tensor. The locus of deviations of the generalised
+                   The dynamic behaviour to- be imposed on the                                 momentum from zero for which the kinetic energy is
+              manipulator should be as simple as possible, but no                              constant is an ellipsoid, the "ellipsoid of
+              simpler. The foregoing control laws for velocity-                                gyration" [30]. As shown in the appendix, the
+              and position-dependent behaviour take no account of                              eigenvalues and eigenvectors of the symmetric
+              the inertial, frictional or gravitational dynamics                               tensor W(Q) define the size, shape and orientation
+              of the manipulator. Under some circumstances this                                of the ellipsoid of gyration in end-point
+              is reasonable, but in many situations these effects                              coordinates (see figure la).
+              cannot be neglected. One approach we have taken to                                    To illustrate the modulation of the end-point
+              dealing with inertial manipulator behaviour is to                                mobility using linkage redundancy, consider a
+              "mask" the true dynamics of the manipulator and                                  planar three-link mecahnism. Assuming the links
+              impose simpler dynamics. No physically realisable                                are rods of uniform density with lengths in the
+              strategy can eliminate the inertial effects of a                                 ratio of 1 : 2 : 3 , figures lb through ld show
+              manipulator but the apparent inertia seen at the                                 the effect on the ellipsoid of gyration of changes
+              end effector can be modified, and elsewhere we have                              in linkage configuration for a fixed position of
+              presented a derivation of a feedback control law                                 the end point.
+              which makes the end-point inertia appear to be that
+              of rigid body with an inertia tensor which is                                         An alternative representation of inertial
+              invariant under translation and rotation [5,12-14).                              behaviour is via the ellipsoid of inertia [30].
+                          IMPEDANCE CONTROL WITHOUT FEEDBACK                                   Asada [4) has suggested its use as a tool for
+                                                                                               designing robot mechanisms. However, the ellipsoid
+                                                                                               of gyration is the more fundamental representation;
+                   However, feedback control is not the only way                               it is readily obtained even when the Jacobian of
+              to modulate the dynamic behaviour of a manipulator.                              the linkage is non-invertible. Also, while the
+              One alternative we have explored is to use                                       matrix Y(Q) may never have zero eigenvalues,
+              kinematic redundancies to provide a measure of                                   (assuming real links with non-zero mass) the matrix
+              control over the inertial component of the                                       W(g) may, because of the kinematics of the linkage.
+              end-point dynamics. Remember that inertial                                       Thus the end-point inertia tensor, N(f), the
+              behaviour is properly described as an admittance                                 inverse of the mobility tensor, does not exist for
+              and the fundamental form of the constitutive                                     some linkage configurations; If the inertial
+              equation for a generalised inertial system is a                                  behaviour of the tip is expressed in the
+              relation determining generalised velocity, w, (e.g
+              the velocities of the manipulator joints) as a                                   conventional (impedance) form as M(S) there exist
+              function of generalised momentum, h:                                             locations in the workspace for which the
+                                                                                               eigenvalues of the tensor M(S) become infinite. On
+                         w = Y(9) h                                     (8)                    the other hand the worst the eigenvalues of W(Q)
+                                                                                               will do is go to zero, which is easier to deal with
+              Y(Q) is the inverse of the more coumonly used                                    computationally. Again, a reminder of the fact
+              inertia tensor, and is termed the mobility tensor.                               that the difference between impedance and
+              The elements of the mobility tensor in general will                              admittance is fundamental.
+              depend on the manipulator configuration. At any                                                   SUPERPOSITION OF IMPEDANCES
+              given configuration, the general ised momenta in
+              joint coordinates and actuator coordinates are                                        One useful consequence of the assumptions
+              related by the Jacobian:                                                         underlying impedance control is that if the dynamic
+                                 t                                                             behaviour of the manipulator is dissected into a
+                         h =J (§ B                                     (9)                     set of components, these may be reassembled by
+              The mobility tensor in end-point coordinates W(§)                                simple addition even when any or all of the
+              is related to the mobility in joint coordinates                                  copmnents is nonl[fnear. This is a direct
+              Y(§) as follows:                                                                 consequence of the assumption that the environment
+                                        t                                                      is an admittance, containing at least an inertia.
+                      W(e) = J(Q) Y(§) J (Q)          (10)                                     That admittance acts to sum both forces applied to
+                                                                                               it and impedances coupled to it.
+              The physical meaning of the end-point mobility                                        When the manipulator is decoupled from its
+              tensor is that if the system is at rest (zero                                    environment the terms in the dynamic equations due
+              velocity) then a force vector applied to the                                     to the environmental admittance disappear and in
+              end-point causes an acceleration vector (not                                     principle the manipulator alone need exhibit no
+
+
+                                                                                         306
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+              inertial behaviour. In practice the uncoupled                                   relation becomes the command to the manipulator
+              manipulator still has inertia (albeit nonlinear and                             which may be updated as often as practical
+              configuration-dependent). Because of the                                        considerations (such as speed of computation)
+              inevitable inertial dynamics of the isolated                                    dictate. In this sense, impedance control is an
+              manipulator the superposition of impedances holds                               augmentation of conventional position control
+              even when the manipulator is uncoupled from its                                 Each command to the manipulator specifies a
+              envirorwment as there is always an inertial load to                             position and in addition specifies a relation
+              sum forces and impedances.                                                      determining the accelerating force to be applied to
+                                                                                              the total mechanical admittance in response to
+                   This simple observation has many important                                 deviations of the actual position from the
+              consequences. One which is imwnediately useful is                               commanded position.
+              that different controller actions aimed at
+              satisfying different task requirements may readily                                   If the position- and velocity-dependent terms
+              be superimposed. For example, suppose that a                                    in the conmnanded impedance are each assumed to to
+              desired end-point position- and velocity-dependent                              satisfy the requirements for the existence of a
+              behaviour is to be implemented on a manipulator                                 potential function (the vector force fields which
+              using a feedback control strategy as outlined above                             they define have no curl) then the manipulator
+              in equations (4) and (7). At the same time                                      behaviour is simplified. It may be thought of as
+              kinematic redundancies in the manipulator are to be                             analogous to that of a sticky marble rolling on a
+              used to modulate the end-point mobility. At any                                 continuously deformable surface. Varying the
+              given end-point position, X, (which is always                                   impedance varies the shape of the surface and the
+              determinable from the configuration, .) the                                     stickiness of the marble. Target acquisition and
+              manipulator configuration may be chosen to best                                 obstacle avoidance may now be dealt with separately
+              approximate a desired inertial behavour (for                                    as follows.
+              example, the mobility normal to a kinematic
+              constraint surface may be maximised). This                                           Successive target locations may be specified
+              configuration may then be used in the feedback law                              by means of a (time-varying) depression in the
+              which implements the position- and                                              surface. Each single command has a
+              velocity-dependent behaviour. As the equations                                  position-dependent component which specifies a
+              never require inversion of the Jacobian, they can                               potential function which is a "valley" with its
+              be applied to a manipulator with kinematic                                      botton at the target. This "valley" is depicted by
+              redundancies. Note that this approach to end point                              a map of isopotential contours in Figure 2a.
+              control in the presence of kinematic redundancies
+              is significantly different from the use of a                                         Conversely, given an observation of the
+              general ised pseudoinverse [32).                                                relative location (with respect to the end-point)
+                                                                                              of an obstacle (or any other region in the
+                                     OBSTACLE AVOIDANCE                                       workspace to be avoided) that object may be avoided
+                                                                                              by specifying a (time-varying) bump in the
+                   The additive property of impedances permits                                deformable surface. Now each single command also
+              complicated tasks to be dealt with one piece at a                               contains a position-dependent component which
+              time and all of the pieces combined by simple                                   specifies a potential field with an unstable
+              addition. We have taken advantage of this to                                    equilibrium point at the location of the object to
+              implement a real-time feedback control law which                                be avoided. The potential function is a "hill
+              drives the manipulator end-point to a target                                    centered over the obstacle (See Figure 2b)
+              location while simultaneously preventing unwanted
+              collision with unpredictably moving objects in the                                   The target-acquisition conmnand and the
+              manipulator's workspace [2,3].                                                  obstacle-avoidance command could be combined in a
+                                                                                              number of ways, but remember that the admittance
+                   Obstacle avoidance is generally regarded as a                              sums the impedances. The inevitable inertial
+              problem in position control, specifically that of                               behaviour of the end-point guarantees the
+              planning a collision-free path [17]. The approach                               superposition of the components of the
+              we have taken is not to plan a path, but to specify                             impedance-controller action independent of the
+              an impedance which produces the desired behaviour                               linearity of the components. It is always possible
+              without explicit path planning. In the following                                to command obstacle-avoidance and
+              example, recall that although the need for the                                  target-acquisition (or any other aspect of the
+              manipulator to have the behaviour of an impedance                               complete task) independently and then combine all
+              arose from considerations of the mechanical                                     commands by simply adding the impedances, in this
+              interaction between a manipulator and its                                       case the corresponding potential fields (see Figure
+              environment, cases in which the mechanical work                                 2c) [10,11). It is important to note that this
+              exchanged is negligible (e.g. free motions) may be                              combined potential field represents a sing le
+              treated as special (or degenerate) instances.                                   command to the manipulator. Of course, neither
+                   The primary difference between impedance
+                                                                                               argets nor obstacles need stay fixed in the
+                                                                                              workspace and a typical task will require multiple
+              control and the more conventional approaches is                                 impedance commands (just as locating the spot welds
+              that the controller attempts to implement a dynamic                             on an automobile requires multiple position
+              relation between manipulator variables such as                                  commands to a conventional robot controller) and by
+              end-point position and force rather than just                                   updating the impedance commands repeatedly this
+              control these variables alone. That entire
+
+
+                                                                                       307
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+               approach may be used to make a manipulator avoid                                admittance (e.g. a mass, possibly kinematically
+               "invaders", objects which may move about the                                    constrained) that relation should be an impedance,
+               workspace in an unpredictable (or merely                                        a function, possibly nonlinear, dynamic, or even
+               unpredicted) manner.                                                            discontinuous, specifying the force produced in
+                                                                                               response to a motion imposed by the environment.
+                     The use of potential functions as commands to                             Even more important, if the environment is an
+               a robot is similar to the approach used by Khatib                               admittance, the total impedance is expressible as a
+               [16] to navigate a manipulator through a                                        sum of component impedances, even when the
+               complicated environment. The distinguishing                                     components are nonlinear.
+               feature (and advantage) of impedance control is
+               that the same controller used to deal with free                                      An alternative approach to manipulator control
+               motions can also be used to deal with real                                      in the presence of significan-t dynamic interaction
+               mechanical interaction. The success of impedance                                is to change the structure and/or parameters of a
+               control as a unifying framework for dealing with                                feedback controller as the conditions imposed by
+               both kinematically constrained manipulations and                                the environment change. This would require the
+               free motions (including avoiding moving "invaders")                             controller to monitor the environment continuously,
+               has been demonstrated by performing both of these                               identify changes, and adapt its own behaviour
+               tasks in real time using a spherical coordinate                                 accordingly -- a far-from-trivial task. Changes in
+               manipulator [1,2,33. The same controll-er was used                              the structure and parameters of the environment may
+               for both tasks and the algorithm was simple enough                              take place very rapidly (consider the transition
+               to be implemented using 8-bit 2 MHz microprocessors                             from free motion to constrained motion as an object
+               (Z-80, one for each axis) for the real-time                                     comes in contact with a surface) and there may not
+               controller. One example of the obstacle-avoidance                               be sufficient time for the lengthy process of
+               behaviour achieved is shown in figure 3.                                        system identification. On the other hand, if the
+                                                                                               controller is structured so that the manipulator
+                    As an aside, note that to be of practical                                  always impresses a force on the environment in
+               value, the "repulsive" force fields used to                                     relation to its motion (that is, it behaves as an
+               implement collision avoidance must be nonlinear;                                impedance) there are no -practical situations in
+               the repulsive force must drop to zero for                                       which its behaviour is inappropriate, no practical
+               sufficiently large separations between the                                      task has been excluded, and the need to identify
+               end-effector and objects in the environment (see                                the structure of the environment has been reduced.
+               figure 2b). This is precisely the type of
+               non-invertible, nonl inear force/displacement                                        Of course, impedance control does not preclude
+               behaviour for which no inverse compliance form                                  the application of adaptive strategies, and indeed
+               exists. The concept of tuning the end-point                                     the two approaches may complement each other,
+               stiffness and damping of a manipulator has been                                 controlled impedance taking care of the transitions
+               discussed in the literature under the general                                   and allowing time for identification and adaptation
+               heading of "compliance"', "compliant motion                                     to optimise performance. Strictly speaking,
+               control", "fine motion control", or "force control"                             impedance control as outlined above is a subset of
+               [15,19,23,25,26,33]. In most of this prior work,                                parameter-adaptive control; the primary
+               the manipulator has been given the behaviour of a                               distinctions are that the parameters to be
+               compliance, (or more correctly, an admittance).                                 modulated are expressed in terms of a physically
+               The control strategy presented here is considerably                             meaningful quantity, mechanical impedance, and no
+               more general; If the end-point dynamic behaviour                                assumption is made that the implementation of the
+               is expressed as an impedance, the above                                         impedance will be through feedback control
+               obstacle-avoidance behaviour is included as a                                   strategies. An -impedance may be implemented in a
+               special case; If it were expressed as a compliance-                             number of ways, using to advantage the resources of
+               this useful behaviour would be excluded. In                                     a specific manipulator. Simple feedback control
+               addition, the superposition property of impedances,                             laws for i-mposing position- and velocity-dependent
+               coupled to an admittance would not be preserved.                                components of cartesian end-point impedance were
+                                                                                               presented above. Because care was taken to express
+                                   SUWMARY AND CONCLUSION                                      the desired behaviour as an impedance, compatible
+                                                                                               with the fundamental mechanics of manipulation,
+                    This paper has presented a unified approach to                             solving the inverse -kinematics problem proves to be
+               manipulation termed "impedance control". Because                                unnecessary. It was also shown that a possible
+               by its nature manipulation requires mechanical                                  alternative to feedback control strategies is to
+               interaction between sytems, the focus of the                                    use the intrinsic mechanics of the manipulator such
+               approach is on the characterisation and control of                              as "redundantu degrees of freedom to modulate its
+               interaction. By assuming that no control system                                 dynamic behaviour.
+               may make a phys-ical system behave like anything
+               other than a physical system- several simple but                                     An advantage of impedance control is that it
+               fundamental observations may be made: Command and                               permits a unified treatment of many aspects of
+               control of a vector such as -position or force is                               manipulator control. Real mechanical interaction
+               not enough to control dynamic interaction between                               may be treated in the same framework as free
+               systems; the controller must also command and                                   (unconstrained) motions. Impedance control has
+               control a relation between- port variables; in the                              been used to develop a feedback control law for
+               most comnon case in which the environment is an                                 avoiding unpredictably moving objects. By taking
+                                                                                               advantage of the superposition of impedances,
+
+
+                                                                                         308
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+             target acquisition and obstacle avoidance could be                               American Society of Mechanical Engineers, New York,
+             considered separately and implemented as different                               1983.
+             components of a total commanded impedance which
+             were combined by simple addition. This approach                                  4. Asada, H., "A Goemetrical Representation of
+             does not require explicit path planning and the                                  Manipulator Dynamics and its Application to Arm
+             control law was simple enough to be implemented                                  Design", pp. 1-8 in: Robotics Research and
+             using 8-bit microprocessors. Furthermore, the same                               Advanced Applications, Ed. Book, W. J., American
+             controller was capable of coping with kinematically                              Society of Mechanical Engineers, New York, 1982.
+             constrained motions.
+                                                                                              5. Cotter, S. L., "Nonlinear Feedback Control of
+                   However, the applicability of impedance                                    Manipulator Endpoint Impedance", S.M. Thesis,
+              control extends beyond the workless conditions                                  Department of Mechanical Engineering, MIT,
+             imposed by free motions or pure kinematic                                        September, 1982.
+             constraints to include the control of energetic
+             interactions. It promises to be particularly                                     6. Crandall, S. H., Karnopp, D. C., Kurtz, E.
+             useful for understanding, controlling and                                        F. Jr. and Pridmore-Brown, D. C., "Dynamics of
+             coordinating the actions of mutually interacting                                 Mechanical and Electromechanical Systems",
+             manipulators, such as the fingers of a hand, the                                 McGraw-Hill, New York, 1968.
+             hand and the arm, or two arms. Using this approach
+             each subsystem presents a simple behavior to the                                 7. Cutkosky, M. R. and Wright, P. K., "Position
+             other subsystems. As a result, prediction and                                    Sensing Wrists for Industrial Manipulators",
+             control of the combined behavior of the entire                                   Proceedings, 12th International Symposium on
+             system is simplified. The ultimate goal of this                                  Industrial Robots", Paris, France, June 1982.
+             effort is to understand the subtleties of adaptive
+             tool-using, one of the distinguishing features of                                8. Drake, S., "Using Compliance in Lieu of Sensory
+             primate behaviour. Impedance control may provide                                 Feedback for Automatic Assembly", Charles Stark
+             the basis of an understanding of tool-using                                      Draper Laboratory Report T-657, September 1977.
+             behaviour and permit its practical implementation
+             on an amputee's artificial limb or on an industrial                              9.  Hogan, N., "Mechanical Impedance Control in
+             robot.                                                                           Assistive Devices and Manipulators", Proceedings of
+                                                                                              the Joint Automatic Controls Conference Vol. 1,
+                                      ACKNOWLEDGEMENTS                                        San Francisco, August 1980.
+                  Portions of the work reported in this paper                                 10. Hogan, N., "Impedance Control of a Robotic
+             were supported by:
+             NSF Grant No. PFR 7917348                                                        Manipulator", Presented at the Winter Annual
+             NIHR Grant No. GOO 820 0048, Department of                                       Meeting of the Anerican Society of Mechanical
+             Education                                                                        Engineers, Washington, D.C., 1981.
+             The Whitaker Health Sciences Fund
+             Polaroid Corporation                                                             11. Hogan, N., "Programmable Impedance Control of
+             The John and Fannie Hertz Foundation                                             Industrial Manipulators", Proceedings of the
+             The Ralph E. Cross (1933) Fund                                                   Conference on CAD/CAM in Mechanical Engineering,
+             American Can Company                                                             M.I.T., March, 1982.
+             The TRW Foundation Faculty Fellowship
+             This support is gratefully acknowledged. Portions                                12. Hogan, N., "Impedance Control: An approach to
+             of the work were performed in the Eric P. and                                    Manipulation. Part I: Control of Mechanical
+             Evelyn E. Newnan Laboratory for Biomechanics and                                 Interaction. Part II: Control of End-Point
+             Human Rehabilitation, the Acoustics, Vibrations and                              Impedance", submitted to ASME Journal of Dynamic
+             Machine Dynamics Laboratory, and the Laboratory for                              Systems, Measurement and Control, June 1983.
+             Manufacturing and Productivity.                                                  13. Hogan, N., "Impedance Control of Industrial
+                                           REFERENCES                                         Robots", accepted for publication in Robotics and
+                                                                                              Computer Aided Manufacturing, Vol. 1, 1984.
+              1. Andrews, J. R., "Douloi Systems: Design and
+              Construction of a Manipulator and Controller for                                14. Hogan, N. and Cotter, S. L., "Cartesian
+              Research in Impedance Control", S.B. Thesis,                                    Impedance Control of a Nonlinear Manipulator", pp.
+              Department of Mechanical Engieering, MIT, May 1981.                             121-128 in: Robotics Research and Advanced
+                                                                                              Applications, Ed. Book, W. J., American Society
+              2. Andrews, J. R., "Impedance Control as a                                      of Mechanical Engineers, New York, 1982.
+              Framework for Implementing Obstacle Avoidance in a                              15. Ishida, T., "Force Control in Coordination of
+              Manipulator", S.M. Thesis, Department of                                        Manipulator Fine Motions", Fifth International
+              Mechanical Engineering, MIT, February, 1983.                                    conference on Artificial Intelligence, 1977.
+              3. Andrews, J. R. and Hogan, N., "Impedance                                     16. Khatib, 0., Le Maitre, J. F., "Dynamic
+              Control as a Framework for Implementing Obstacle                                Control of Manipulators Operating in a Complex
+              Avoidance in a Manipulator", pp. 243-251 in:
+              Control of Manufacturing Processes and Robotic                                  Environment", Third Symposium on Theory and
+              Systems, Eds. Hardt, D. E. and Book, W. J.,                                     Practice of Robots and Manipulators, Udine, Italy,
+                                                                                              pp. 267-282, 1978.
+
+
+                                                                                        309
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+               17. Lozano-Perez, T., "Automatic Planning of                                    Transactions on Man-Machine Systems, Vol.                    WS-10,
+               Manipulator Transfer Movements", IEEE Transactions                              No. 2, June 1969.
+               on Systems, Man and Cybernetics, Vol. SMC-11, No.                               32. Whitney, D. E., uThe Mathematics of
+               10, pp. 681-698, 1981.                                                          Coordinated Control of Prosthetic Arms and
+               18. Luh, J. Y. S., Walker, M. W. and Paul, R.                                   Manipulators", ASME Journal of Dynamic Systems,
+               P., "Resolved Acceleration Control of Mechanical                                Measurement, and Control, pp. 303-309, December
+               Manipulators", IEEE Transactions on Automatic                                   1972.
+               Control, vol AC-25, pp.468-474, 1980.
+                                                                                               33. Whitney, D. E., "Force Feedback Control of
+               19. Mason, M. T., "Compliance and Force Control                                 Manipulator Fine Motions", ASME Journal of Dynamic
+               for Computer Controlled Manipulators", IEEE Trans.                              Systems Measurement and Control, pp. 91-97, June
+               Sys., Man, Cybern., Vol. SMC-11, No. 6, 1981.                                   1977.
+               20.  Nevins, J.L. and Whitney, D.E.,                                            34. Whitney, D.E. and Nevins, J.L., "What is
+               "Computer-Controlled Assembly", Scienti fic                                     Remote Center Compliance and What Can It Do?",
+               American, Vol. 238, No. 2, pp. 62-74, Feb.                                      Proceedings, 9th [SIR, Washington, D.C., March,
+               1978.                                                                           1979.
+                                                                                                                              APPENDIX
+               21. Paul, F.W., Gettys, T.K. and Thomas, J.D.,
+               "Defining of Iron Castings Using a Robotic                                      Generalised Inertial Systems and the M4obility
+               Positioned Chipper", In: Robotics Research and                                   Tensor
+               Advanced Applications, Wayne J. Book, Ed.
+               A.S.M.E., New York, 1982.                                                       Any mechanical linkage is a generalised inertial
+                                                                                               system. The defining property of an inertial
+               22.  Paul, R. P., "Manipulator Cartesian Path                                   system is its ability to store kinetic energy,
+               Control",IEEE Transactions on Systems, Man, and                                 defined as the integral of (generalised) velocity
+               Cybernetics, vol. SMC-9, pp.702-711, 1979.                                      with respect to (generalised) momentum [6]. At any
+                                                                                               configuration defined by the generalised
+               23. Paul, R. P., 'Robot Manipulators:                                           coordinates the kinetic energy is a quadratic form
+               Mathematics, Programming, and Control", M.I.T.                                  in (generalised) momentum.
+               Press, Cambridge, Massachusetts, 1981.                                                              t
+                                                                                                       Ek = 1/2 h Y(9) h
+               24.  Paynter, H. M., "Analysis and Design of
+               Engineering Systems", M.I.T. Press, Cambridge,                                  From Hamilton's equations [27), the (generalised)
+               Massachusetts, 1961.                                                            velocity is the momentum gradient of the kinetic
+                                                                                               energy.
+               25. Salisbury, J. K., "Active Stiffness Control
+               of a Manipulator in Cartesian Coordinates", IEEE                                              H(h,8) = Ek(h,6)
+               Conference on Decision and Control, New Mexico,
+               1980.                                                                                         dG/dt     =    w =   V H = Y(8) h
+                                                                                                                                   h
+               26. Shimano, B. E., "Force Control", Exploratory
+               Study of Computer Integrated Assembly Systems,                                  Kinetic energy is commonly confused with kinetic
+               Binford, T. 0. et.al., Eds., Stanford Artificial                                co-energy. The two are not identical and are
+               Intelligence Laboratory Memo 285.4, June, 1977.                                 related by a Legendre transform [6].
+               27. Stiefel, E. L. and Scheifele, G., "Linear                                    *            t                   t -1                    t -1       -1
+               and Regular Celestial Mechanics", Springer-Verlag,                              Ek    =   w       h -       Ek = w Y w           -   1/2 w Y Y Y w
+               New York, 1971.
+                                                                                                *                 t -1                      t
+               28. Tanner, W. R., (Ed.) "Industrial Robots.                                    Ek    =1/2 w Y (9) w = 1/2 w 1(8) w
+               Volume 2: Applications", Society of Manufacturing
+               Engineers, Michigan, 1981.                                                      At any configuration kinetic co-energy is a
+                                                                                               quadratic form in (generalised) velocity and its
+               29. Taylor, R. H., uPlanning and Execution of                                   velocity gradient is the (generalised) momentum
+               Straight Line Manipulator Trajectories", IBM                                    [6].
+               Journal of Research and Development, vol. 23,
+               pp.424-436, 1979.                                                                       h = 1(g) w
+               30. Whitaker, E. T., "A Treatise on the                                         For a generalised inertial system, Y is a
+               Analytical Dynamics of Particles and Rigid Bodies",                             symmetric, twice-contravariant tensor. To
+               Cambridge University Press, 1904 and Dover, New                                 distinguish it from its inverse, the inertia tensor
+               York, 1944.                                                                     I, (symetric, twice-covariant) Y will be termed
+                                                                                               the mobility tensor [12]. A knowledge of the
+               31. Whitney, D.E., "Resolved Motion Rate Control                                geometric relation between coordinate frames is
+               of Manipulators and Human Prostheses", IEEE                                     sufficient to transform any tensor from one frame
+
+
+                                                                                         310
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+             to another. As the joint angles are a set ot                                     At rest, h = 0 hence H(h,9)                    = Ek = 0
+             generalised coordinates, for any configuration of                                and V H = 0. Thus:
+             the linkage of figure 1 the end-point coordinates
+             are related to the joint angles via the kinematic
+             transformations.                                                                             dh/dt * T
+                                                                                                                       t
+                         X = L(8)                                                                         dv/dt = J Y J F = W F
+             Differentiating these transformations yields the                                 As the mobility tensor is symnmetric it may be
+             relation between velocities (at any given                                        diagonalised by rotating the coordinate axes to
+             configuration).                                                                  coincide with its eigenvectors. A force applied in
+                                                                                              the direction of an eigenvector (when the system is
+                         dX/dt = v = 3(9) w                                                   at rest) results in an acceleration in the same
+                                                                                              direction equal to the applied force multiplied by
+             J(6) in these equations is the                                                   the corresponding eigenvalue. The eigenvalues
+             configuration-dependent Jacobian. As the                                         represent the inverse of the apparent mass or
+             coordinate transformation does not store, dissipate                              inertia seen by the applied force or torque.
+             or generate energy, incremental changes in energy
+             are the same in all coordinate frames. This yields                               Because the kinetic energy is a quadratic form in
+             the relation between forces in each coordinate                                   momentum, it may be represented graphically by an
+             frame.                                                                           ellipsoid (see figure 1), the ellipsoid of gyration
+                              t        t        t                                             [30). This may be thought of as the set of all
+                     dEp     Td = F dX = F J() dB                                             momenta which produce the same kinetic energy (an
+                                                                                              isokinetic contour in momentum space). The lengths
+             At any given configuration                                                       of the principle axes of the ellipsoid of gyration
+                                                                                              are inversely proportional to the square roots of
+                                  t                                                           the eigenvalues, proportional to the square roots
+                         T       J (9) F                                                      of the associated apparent mass or inertia. The
+                                                                                              long direction of the ellipsoid of figure 1 is the
+             The same approach yields the relation between the                                direction of the greatest apparent inertia.
+             momenta in each coordinate frame.
+                                                                                              In the general case when the system is not at rest
+                                       t                 t       t                            the relation between applied force and resulting
+                         dEk = dh w =               dp v = dp J(O) w                          motion is (in general) nonlinear and must be
+                                                                                              written in terms of a complete set of state
+             At any given configuration                                                       equations for the inertial system. A convenient
+                                                                                              set of state variables are the Hamiltonian states,
+                                   t                                                          general ised position (e.g. Q) and generalised
+                         h = 3         ) p                                                    momentum (h). The state and output equations are
+                                                                                              in the form of a generalised admittance [12) as
+             These relations may be used to express the mobility                              follows.
+             in end-point coordinates.
+                                                                 t                            State equations:
+                         v =          w =J Y h               JY J p                                                       t                    t
+                                                                                              dh/dt = -v [1/2 h Y(9) h] + J (6) F
+             Denoting the end-point mobility by W(Q)
+                                                                                                                      t
+                                               t                                              dg/dt =         V [1/2 h Y(G) hi           = Y(8) h
+                         W(Q) = 3Y 3                                                                           b
+                         v = W(9) p                                                           Output equations (position and velocity):
+             The physical meaning of the mobility tensor is that                                         X = L(i)
+             if the system is at rest an applied force will
+             produce an acceleration equal to the force vector                                            v   = J(9)Y(9) h
+             premultiplied by the mobility tensor. At rest,
+             dQ/dt = 0 and hence:
+                         dv/dt    =    J dw/dt
+                        dw/dt     =    Y dh/dt
+             From the generalised Hamiltonian [27):
+                        dh/dt = T          -       V H
+                                                   2
+
+
+                                                                                       311
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+                                              P2
+
+
+
+
+                                                                                                  (b)                            (c}                           (d)
+
+
+                        Figure 1: A schematic representation of the influence of kinematic redundancies on the
+                   mobility (inverse effective mass) of the end-point of a planar linkage. The ellipsoid of gyration
+                   associated with the mobility tensor is shown in (a). The eigenvalues of the mobility tensor are
+                   inversely proportional to the effective mass in the direction of the corresponding eigenvectors and
+                   the square root of their ratio determines the ratio of the major and minor axes of the ellipsoid,
+                   which are co-linear with the eigenvectors. For a planar, three-member linkage with links of uniform
+                   density and cross section and lengths in the ratio 1 : 2: 3 the effect on the ellipsoid of
+                   gyration of changing the linkage configuration for a fixed position of the end-point is shown in
+                   (b),(c) and (d).
+
+
+
+
+               POTENTIALP
+
+
+
+
+                ENERGY
+
+
+                                                     x                          (C)
+
+                 ENERGY                                                                              VIEW             /                                              :
+
+
+
+
+                        Figure 2: Graphical representation of the use of impedance control for real-time collision
+                   avoidance. Each figure represents a position-dependent component of a single impedance counand (one
+                   of a time-sequence). An isopotential contour map of the component used for target acquisition
+                   independent of obstacles is shown in (a). The component used for obstacle avoidance independent of
+                   target is shown in (b). Because of the additive property of impedances, simultaneous target
+                   acquisition and obstacle avoidance may be achieved by simply superimposing these two components as
+                   in (c).
+
+
+                                                                                        312
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+                                     0
+
+
+                                    1o1
+                                         X Position ow
+
+
+
+
+                                                                                                                                       Invoader
+
+
+
+
+                                                                          I4cn ipulI ctCW.7N
+
+
+
+
+                        Figure 3: Avoidance of an unpredictably moving "invader" by an a spherical-coordinate
+                  manipulator controlled by 8-bit, 2MHz microprocessors. Successive positions of the manipulator
+                  end-effector and the invader in the vertical plane at 100 millisecond intervals are shown. All of
+                  the behaviour shown here is the robot's response to a single impedance comnand from the supervising
+                  comiputer, a PDP 11/44.
+
+
+
+
+                                                                                       313
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:09:35 UTC from IEEE Xplore. Restrictions apply.
+

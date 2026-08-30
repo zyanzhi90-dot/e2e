@@ -1,0 +1,113 @@
+{
+  "run_id": "impedance-control-landscape-e2e",
+  "reviewer": "coverage_reviewer",
+  "verdict_id": "coverage-verdict-3895d35b789247df89456be76fd33ef6",
+  "decision": "CONTINUE",
+  "reasons": [
+    "当前 13 张 Evidence Card 各自覆盖基础定义、接触执行与过渡、实现鲁棒性、柔性关节、迭代学习、变阻抗稳定性、阻抗结构化强化学习和能量结构学习，主体证据并非简单重复。",
+    "Field Map 对固定阻抗到学习型阻抗的主要矛盾、假设、失败边界和证书—实现落差已有较强支撑，也正确限制了 teleoperation/haptics、legged/whole-body 等旁支。",
+    "但当前演进链仍缺少会改变顶层 taxonomy 和问题生成依据的直接证据：经典在线自适应阻抗、显式最优阻抗选择、早期直接学习变阻抗以及在线能量管理/无源性保持。现有 M3、M5、M6、M7 无法在没有这些 primary evidence 的情况下可靠代表这些机制。",
+    "尤其是 Field Map 已在 Unresolved Contradictions 中比较 energy tank，却没有 energy-tank/passivity-preservation primary Evidence Card；这一比较目前主要依赖其他论文的二手讨论，尚不足以作为 decision-grade taxonomy 判断。",
+    "因此当前材料适合作为高质量候选骨架，但尚不应正式判定 CANDIDATE_SUFFICIENT。所需补充是范围内、少量、定向的，不需要扩展为泛机器人交互控制综述。"
+  ],
+  "gaps": [
+    {
+      "gap_id": "G1_ADAPTIVE_OPTIMAL_IMPEDANCE",
+      "what_is_missing": "缺少经典在线自适应阻抗和显式最优阻抗选择的 primary Evidence Card。当前 M3 主要是实现鲁棒性，M5 是重复任务 betterment，M6 是变增益证书或特定复合学习控制，均不能替代根据交互误差、环境估计或优化目标在线选择阻抗的独立发展路线。",
+      "why_material": "该缺口会影响 B1_IMPEDANCE_SELECTION、B3_REALIZATION_ROBUSTNESS、M3、M5 和 M6 的边界，可能要求新增或重组 adaptive/optimal impedance family，并改变从经典阻抗到学习型阻抗的因果演进顺序。",
+      "evidence_in_corpus": [
+        {
+          "paper_id": "w6vmLz5pAjIJ",
+          "title": "Direct adaptive impedance control of robot manipulators",
+          "year": 1993,
+          "citation_count": 155
+        },
+        {
+          "paper_id": "d1A3Ar8wid4J",
+          "title": "Impedance adaptation for optimal robot–environment interaction",
+          "year": 2014,
+          "citation_count": 99
+        },
+        {
+          "paper_id": "ycrjHzo2ClcJ",
+          "title": "Adaptive variable impedance control for dynamic contact force tracking in uncertain environment",
+          "year": 2018,
+          "citation_count": 463
+        }
+      ],
+      "required_followup": "从上述候选中至少读取一篇经典 direct-adaptive 工作和一篇明确以 optimal interaction 或 dynamic force tracking 为目标的工作；区分其学习对象、环境假设、稳定性依据、阻抗选择机制和相对于 robust realization、betterment learning 的独立贡献。",
+      "queries": [
+        {
+          "query": "\"Direct adaptive impedance control of robot manipulators\"",
+          "purpose": "建立经典在线自适应阻抗的机制与历史位置",
+          "exact_title": true
+        },
+        {
+          "query": "\"Impedance adaptation for optimal robot-environment interaction\"",
+          "purpose": "核验显式最优阻抗选择是否构成独立方法阶段",
+          "exact_title": true
+        }
+      ]
+    },
+    {
+      "gap_id": "G2_EARLY_LEARNING_VARIABLE_IMPEDANCE",
+      "what_is_missing": "从 1998 年重复任务 feedforward impedance learning 到 2019–2020 年 impedance-structured RL 之间缺少早期直接学习变阻抗策略的 primary evidence。",
+      "why_material": "当前 M7 的机制主要由后期 RL action-space 工作支撑，无法说明学习对象如何从重复输入或预设目标阻抗转向直接优化时变阻抗参数，也使 2011 年前后的关键演进断层被 review-level 二手概括替代。",
+      "evidence_in_corpus": [
+        {
+          "paper_id": "lk5U1cKDpscJ",
+          "title": "Learning variable impedance control",
+          "year": 2011,
+          "citation_count": 482
+        },
+        {
+          "paper_id": "_Li1FYysbT8J",
+          "title": "Variable impedance control a reinforcement learning approach",
+          "year": 2011,
+          "citation_count": 109
+        }
+      ],
+      "required_followup": "优先读取高引用的 2011 年 primary work，明确其优化或强化学习机制、所学习的阻抗变量、稳定性处理、任务假设及其与 M5 和后期 M7 的关系；若证据支持，应重写 M5→M7 的发展过渡。",
+      "queries": [
+        {
+          "query": "\"Learning variable impedance control\"",
+          "purpose": "补齐早期直接学习变阻抗的关键发展节点",
+          "exact_title": true
+        }
+      ]
+    },
+    {
+      "gap_id": "G3_ONLINE_PASSIVITY_PRESERVATION",
+      "what_is_missing": "缺少在线 energy tank、energy bounding 或其他无源性保持机制的 primary Evidence Card，尽管 Field Map 已把它们作为 M6 的重要替代路线和 unresolved contradiction 的一方。",
+      "why_material": "离线增益速率约束、在线能量管理、controller-specific adaptive proof 和 certificate-by-construction representation 是科学机制不同的四条安全路线。缺少在线能量管理的直接证据会使 M6 taxonomy、保守性比较和 L1/L4 问题线索失衡。",
+      "evidence_in_corpus": [
+        {
+          "paper_id": "tZYsUFlRIUIJ",
+          "title": "Passivity preservation for variable impedance control of compliant robots",
+          "year": 2019,
+          "citation_count": 78
+        },
+        {
+          "paper_id": "vql7SZH2jUQJ",
+          "title": "Adaptive energy-bounding approach for robustly stable interaction control of impedance-controlled industrial robot with uncertain environments",
+          "year": 2013,
+          "citation_count": 44
+        }
+      ],
+      "required_followup": "至少读取一篇直接提出在线 passivity preservation 或 energy management 的 primary work，核验端口定义、能量预算、行为修改条件、保守性、环境假设和硬件证据；据此决定 M6 是否拆分为 offline certification 与 online energy management。",
+      "queries": [
+        {
+          "query": "\"Passivity preservation for variable impedance control of compliant robots\"",
+          "purpose": "为在线能量管理/无源性保持路线建立直接证据",
+          "exact_title": true
+        }
+      ]
+    }
+  ],
+  "reviewer_run_id": "coverage-review-83111c10f96d4934a8c3e51a0db6b14c",
+  "review_request_id": "d715305709b94cf3bdbb145d5ea45a1e",
+  "reviewed_artifact_sha256": "acc24e4df19c5a404ba528140a978cfa26d283249cf74437778392f2e6260d82",
+  "reviewed_artifact_hashes": {
+    "idea-stage\\ACTIVE_FIELD_MAP.md": "acc24e4df19c5a404ba528140a978cfa26d283249cf74437778392f2e6260d82"
+  }
+}

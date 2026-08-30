@@ -1,0 +1,81 @@
+{
+  "source_id": "q3JkVkVjN94J",
+  "read_event_id": "84fc2cc8c66f410aa96954098454691a",
+  "content_sha256": "94323bf41e835bdabd98056933b06d7a5b264b869b77c4a4eac23368430515fa",
+  "claim": "Simulation-pretrained neural feedforward compensation combined with variable-impedance feedback improves force tracking over tested constant-impedance and velocity-adaptive baselines across several unknown-terrain tasks, subject to a simplified contact model, Lipschitz bounds, observable regression state, and narrow HRI evidence.",
+  "claim_locator": [
+    "stability/convergence analysis",
+    "machining experiments",
+    "peeling experiments",
+    "HRI experiments",
+    "conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Primary analytical, simulation-to-real, robot-task, and limited HRI evidence; broad safety and universal transfer remain unsupported.",
+  "problem_and_setting": "Force tracking on unknown terrains across static machining, quasistatic peeling, and dynamic physical-interaction tasks.",
+  "method_or_mechanism": "A neural feedforward policy is pretrained by deep reinforcement learning on randomized simulated terrains and combined with variable-impedance feedback. Stability, zero-error, and sim-to-real conditions are derived using a simplified dynamic contact couch model and a Lipschitz-continuity condition. Observable system states must be included in the regression vector to avoid over/underfitting.",
+  "content_summary": "On flat stiffness switches the controller shows short overshoot; on slopes feedforward removes adaptive hysteresis; curved-terrain mean force-error ratio stays below 5%. Peeling success averages 15.6% constant impedance, 57.8% adaptive, and 73.3% DRL; at 5 N, DRL peel-thickness standard deviations are lower for apple, potato, and cucumber. In handshake, combing, and five swabbing tests, DRL reduces force error 55.4% on average and human-effort metric is no greater than adaptive control. HRI lacks cohort/randomization/adverse-event reporting and excludes constant impedance.",
+  "synthesis_role": "Direct evidence for learned feedforward plus variable-impedance force control and conditional sim-to-real reasoning across heterogeneous contact regimes.",
+  "development_link": "Advances reactive impedance adaptation with a learned predictive term, while making model validity, state observability, and transfer coverage explicit obligations.",
+  "evidence": [
+    {
+      "locator": "theoretical analysis",
+      "status": "author_reported_analysis",
+      "finding": "A simplified couch model and Lipschitz condition yield sufficient stability, zero-error, and transfer conditions; omitting observable states causes over/underfitting."
+    },
+    {
+      "locator": "machining experiments",
+      "status": "author_reported_hardware",
+      "finding": "DRL handles stiffness switches with short overshoot, removes adaptive hysteresis on slopes, and keeps curved-terrain mean force-error ratio below 5%."
+    },
+    {
+      "locator": "peeling experiments",
+      "status": "author_reported_hardware",
+      "finding": "Average success is 15.6% constant, 57.8% adaptive, and 73.3% DRL; at 5 N, DRL peel-thickness SDs are 0.058/0.033/0.033 mm versus adaptive 0.106/0.092/0.177 mm."
+    },
+    {
+      "locator": "HRI experiments",
+      "status": "author_reported_limited_hri",
+      "finding": "Across handshake, combing, and five swabbing tests, DRL reduces force error 55.4% on average versus adaptive and measured human effort is no greater; constant impedance is omitted."
+    }
+  ],
+  "evidence_kind": [
+    "conditional stability/convergence analysis",
+    "sim-to-real learning",
+    "robot machining experiment",
+    "produce-peeling experiment",
+    "limited physical HRI experiment"
+  ],
+  "boundary_conditions": [
+    "Simplified contact couch model and required Lipschitz bounds.",
+    "Regression vector includes observable states.",
+    "Simulation randomization covers transfer conditions.",
+    "Peeling uses three tests per lateral-side/force condition.",
+    "HRI lacks reported cohort, randomization, blinding, and adverse events.",
+    "Constant-impedance HRI comparator is excluded.",
+    "Universal grasping and bipedal use remain future work."
+  ],
+  "assumptions": [
+    "Simplified contact dynamics represent tested interactions.",
+    "Required Lipschitz bounds hold.",
+    "Observable regression state is available.",
+    "Randomized simulation covers real operating conditions.",
+    "Reported human-effort metric reflects participant workload."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Regression vectors without observable states cause overfitting or underfitting.",
+      "Constant-impedance HRI was omitted due authors' injury concern.",
+      "Flat stiffness switches produce transient overshoot."
+    ],
+    "inferred": [
+      "General safety and universal sim-to-real transfer are unsupported.",
+      "HRI population validity is weak because participant/protocol details are absent.",
+      "Excluding one comparator limits HRI comparative inference.",
+      "Theory fails if simplified-model, Lipschitz, observability, or coverage assumptions fail."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Controller-verified full-text identity and hash; author results and reader inference are separated."
+}

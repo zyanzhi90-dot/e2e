@@ -1,0 +1,104 @@
+{
+  "source_id": "sXrm1sT8KVIJ",
+  "read_event_id": "99a5ddde12a0499b9d66ee9557bdf123",
+  "content_sha256": "5f91bd4d3b0ceba6d15c2d80ee45358278b73d1e866a00215fffa816e19809a8",
+  "claim": "Bednarczyk, Omran, and Bayle derive passivity filters for variable impedance control that either screen a prescribed diagonal stiffness/damping transition or reshape its scalar switching variables so derived storage-function inequalities remain satisfied. A first filter follows a known conservative condition; a second introduces a time-varying filtered-error matrix and a new storage function to admit faster, less conservative stiffness changes. Conditional passivity is analytical for the continuous, diagonal, constant-virtual-mass model and implemented profile constraints. A one-dimensional simulation supports reduced conservatism of the second condition, and a KUKA iiwa needle-insertion demonstration shows the filter limiting the rate of a stiffness increase while penetrating a layered silicone phantom. The paper does not test human interaction, broad task performance, uncertainty robustness, or comprehensive safety, and its practical filter is itself a conservative approximation to a derivative-dependent condition.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II-A-C, equations (1)-(14)",
+    "Section III-A, equations (15)-(19)",
+    "Section III-B, Lemma 1 and equations (20)-(36)",
+    "Section IV-A, Figures 1-3",
+    "Section IV-B, Figures 4-5",
+    "Section V, Conclusions and Perspectives",
+    "Appendix A"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical, simulation, and hardware-demonstration evidence: passivity follows for the explicitly modeled diagonal impedance and filter inequalities; reduced conservatism is illustrated in one scalar simulation, and experimental support is a single robot-phantom needle task without statistical comparison",
+  "problem_and_setting": "Time-varying impedance can improve dexterity and adapt interaction to task or human state, but increasing stiffness may inject energy and destroy passivity. Existing conditions can determine offline whether a prescribed profile is passive but do not necessarily repair it, while energy tanks act online and depend on measured state and tank tuning. The paper seeks a profile-level filter usable offline or online that tracks a desired transition while enforcing passivity.",
+  "method_or_mechanism": "After computed-torque linearization, the desired Cartesian error behavior uses constant diagonal virtual mass M and time-varying diagonal damping D(t) and stiffness K(t). Each parameter moves from an initial to final value through a diagonal switching matrix Gamma with scalar gamma_i in [0,1]. The first filter combines a low-pass tracking term beta(gamma_bar-gamma) with an upper bound on gamma_dot derived from the established storage function V2. To reduce conservatism, the paper replaces the constant filtered-error coefficient with a bounded time-dependent diagonal matrix B, derives storage V3, then sets B=D and defines V4. The resulting conditions involve D_dot, D_ddot, and K_dot. Because the direct bound would require differentiating a discontinuous min-switch output, a more conservative implementable rate limit h3 is substituted, yielding gamma_dot=min(h2,h3,beta(gamma_bar-gamma)).",
+  "content_summary": "The analysis begins with the standard variable mass-damper-spring error model and shows why the conventional kinetic-plus-stiffness storage cannot certify increasing stiffness. A filtered tracking-error storage gives two known matrix inequalities and a first scalar passivity filter. A generalized filtered error and Schur-complement argument lead to a second family of inequalities and a practical second filter. In a scalar simulation with mass 10 kg, stiffness 2 to 22 N/m, damping ratio 0.1, sinusoidal reference, and beta=10, the V4-based switching profile reaches its desired value faster than the V2-based profile while the corresponding storage derivative remains nonpositive. Hardware validation uses a KUKA iiwa 14 with an ATI Mini40 sensor and a 16G needle entering a four-layer silicone phantom. Translational stiffness is scheduled by material, virtual inertial terms are 5 kg, damping ratio is 1, beta=50, and control runs at 500 Hz. At skin puncture around 9.35 s, the filter constrains the change from 1000 to 3500 N/m.",
+  "synthesis_role": "Provides a deterministic profile-shaping alternative to energy tanks and complementary-force MPC. It is useful when a desired gain transition is known in advance or generated online and can be restricted to the paper's diagonal interpolation form, but its guarantee does not cover arbitrary matrix-valued adaptation or implementation uncertainty.",
+  "development_link": "The paper builds directly on Kronander and Billard's variable-impedance passivity inequalities, converting them into an explicit repair filter, and develops a less conservative storage function. Later PMPIC work compares against this filter and seeks to preserve the original stiffness profile by adding an optimized complementary force instead of changing gains.",
+  "evidence": [
+    {
+      "locator": "Section II-B-C, equations (2)-(14)",
+      "status": "analytical premise",
+      "finding": "For constant diagonal mass and time-varying diagonal damping/stiffness, a filtered-error storage function yields sufficient passivity inequalities; increasing stiffness is the relevant energy-injection case."
+    },
+    {
+      "locator": "Section III-A, equations (15)-(19)",
+      "status": "conditional controller derivation",
+      "finding": "A scalar interpolation of each diagonal impedance term is rate-limited by the sufficient condition and combined with low-pass reference tracking to form the first passivity filter."
+    },
+    {
+      "locator": "Section III-B, Lemma 1 and equations (20)-(30)",
+      "status": "conditional analytical development",
+      "finding": "A time-dependent diagonal filtered-error matrix yields a new positive storage construction and sufficient inequalities involving the derivatives of damping and stiffness."
+    },
+    {
+      "locator": "Section III-B, equations (31)-(36)",
+      "status": "implementable filter construction",
+      "finding": "The exact condition contains gamma_ddot; the practical filter substitutes a more conservative rate bound h3 and takes the minimum of passivity and tracking limits."
+    },
+    {
+      "locator": "Section IV-A, Figures 1-3",
+      "status": "author-reported scalar simulation",
+      "finding": "The V4-based filter follows the desired switching profile faster than the V2-based filter in one configured mass-spring-damper example while its selected storage derivative stays nonpositive."
+    },
+    {
+      "locator": "Section IV-B, Figures 4-5",
+      "status": "author-reported hardware demonstration",
+      "finding": "During layered-phantom needle insertion, the KUKA iiwa implementation at 500 Hz constrains the switching-variable rate when stiffness rises from 1000 to 3500 N/m at skin puncture."
+    },
+    {
+      "locator": "Section V",
+      "status": "author-stated future limitation",
+      "finding": "The authors seek less conservative conditions and identify unusual transitions, such as increasing stiffness while decreasing damping, as requiring further investigation."
+    }
+  ],
+  "evidence_kind": [
+    "sufficient passivity inequalities",
+    "profile-rate passivity filter",
+    "storage-function comparison",
+    "one-dimensional simulation",
+    "KUKA iiwa hardware demonstration",
+    "layered silicone phantom interaction"
+  ],
+  "boundary_conditions": [
+    "Virtual mass is constant; mass variation is outside the derivation.",
+    "Mass, damping, stiffness, and switching matrices are chosen diagonal so the analysis decouples by Cartesian coordinate.",
+    "The principal construction assumes stiffness increases and damping does not decrease; singular or opposing parameter changes require separate numerical handling.",
+    "Passivity is with respect to the filtered error r and external force under computed-torque linearization, not a direct guarantee of bounded contact force or human injury prevention.",
+    "The practical V4 filter uses a deliberately conservative replacement for a condition involving the second derivative of the switching variable.",
+    "The experimental result is one needle and one layered silicone phantom on one robot, with no human subjects, comparator trials, uncertainty analysis, or statistical outcomes.",
+    "The derivation is continuous-time; a 500 Hz implementation is reported without a sampled-data passivity proof.",
+    "Model error, torque saturation, friction-compensation error, sensor noise, delay, and coupled rotational adaptation are not part of the guarantee."
+  ],
+  "assumptions": [
+    "Computed-torque control realizes the stated Cartesian impedance model closely enough for the derived storage inequalities to apply.",
+    "Desired and initial/final impedance matrices are symmetric positive definite and diagonal, with bounded positive damping.",
+    "Each switching variable remains in [0,1], is sufficiently differentiable where required, and follows the implemented min-based differential equation.",
+    "The filtered-error coefficient or matrix remains positive and bounded so bounded r implies bounded position and velocity error.",
+    "The selected filter rate beta and gain profiles are feasible at the implementation sample rate.",
+    "The environment is passive when passivity is used to infer coupled stability."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Arbitrary time variation, especially increasing stiffness, can destroy passivity of otherwise passive fixed impedance control.",
+      "The earlier V2 condition can be conservative and delay tracking of the desired switching profile.",
+      "The direct V4-derived filter is impractical because it requires differentiating a potentially discontinuous min-switch output.",
+      "The implementable filter therefore adopts a more conservative bound.",
+      "Increasing stiffness while decreasing damping can create singular or more restrictive cases and is left for further investigation."
+    ],
+    "inferred": [
+      "Rapid or coupled full-matrix impedance adaptations may not be representable by independent scalar switching variables.",
+      "Numerical differentiation, sensor noise, discretization, and rate saturation can violate the continuous inequalities at hardware level.",
+      "A filter can preserve passivity by slowing a clinically or task-critical stiffness change so much that task performance degrades.",
+      "The phantom demonstration shows implementability but cannot establish safety or effectiveness in real tissue or physical human-robot interaction."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

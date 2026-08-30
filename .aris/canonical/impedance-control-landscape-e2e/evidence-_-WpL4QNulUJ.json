@@ -1,0 +1,112 @@
+{
+  "source_id": "_-WpL4QNulUJ",
+  "read_event_id": "0373254638264783a91cc0a5e9392513",
+  "content_sha256": "b781172e237a9f6d6e482cc0619b92bb46906da71963c5e6580c47e26bd15565",
+  "claim": "A velocity-level discrete Pressure Field Contact approximation preserves area-dependent net wrench behavior at useful computational cost, but it has no deformation or material-memory state and cannot represent buckling, folding, or general soft-body dynamics.",
+  "claim_locator": [
+    "Velocity-level formulation",
+    "Coin validation",
+    "Pancake flip",
+    "Scalability",
+    "Spatula slip",
+    "Limitations"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "author_reported_with_bounded_inference",
+  "problem_and_setting": "Efficient discrete-time simulation of distributed hydroelastic contact for rigid-body robotics using velocity-level time steppers while retaining finite-area force and moment effects.",
+  "method_or_mechanism": "Each polygonal face becomes a compliant point constraint based on pressure rate and normal relative velocity; an implicit time update integrates it with velocity-level solvers. Polygonal surfaces reduce constraint count, but no volumetric deformation or history state is retained.",
+  "content_summary": "Coin slide-spin stays within 1.3% of the analytical terminal ratio and shows first-order timestep and second-order moment-grid convergence. In a JACO pancake-flip task, polygonal tessellation uses 4.05 times fewer faces and solves 4.09 times faster, succeeding at all tested grids; physical controller transfer is author-reported. Tested geometry cost is linear and solver exponent about 1.3 over 230-1500 constraints. Area-dependent torque enables controlled spatula slip. Limits include linear tetrahedra, approximate moment integration, no deformation state, no buckling/folding, and thin/deep-contact equilibrium failures.",
+  "synthesis_role": "Runtime and finite-area-wrench baseline for PFC, plus direct negative evidence against treating hydroelastic PFC as a stateful soft-tissue constitutive model.",
+  "development_link": "Real-time PFC is not novel by itself. Add only minimal identifiable relaxation, hysteresis, heterogeneity, or evolving-contact state that changes decisions, and benchmark compute and failure regimes against this stateless baseline.",
+  "evidence": [
+    {
+      "locator": "Formulation",
+      "status": "author_reported",
+      "finding": "Polygonal faces become compliant velocity-level constraints derived from pressure rate and normal relative velocity."
+    },
+    {
+      "locator": "Coin validation",
+      "status": "author_reported",
+      "finding": "The solver is 0.01-0.5% from its discrete reference and within 1.3% of the analytical result, with first-order timestep and second-order moment-grid convergence."
+    },
+    {
+      "locator": "Pancake flip",
+      "status": "author_reported",
+      "finding": "Polygonal tessellation averages 4.05 times fewer faces and 4.09 times faster solution, with task success at all tested grids and author-reported hardware transfer."
+    },
+    {
+      "locator": "Scalability",
+      "status": "author_reported",
+      "finding": "Geometry cost is linear in faces and solver best-fit exponent about 1.3 for the tested 230-1500 constraint workload."
+    },
+    {
+      "locator": "Spatula slip",
+      "status": "author_reported",
+      "finding": "Distributed contact resolves area-dependent torque supporting controlled secure and loose grasp modes."
+    },
+    {
+      "locator": "Limitations",
+      "status": "author_reported",
+      "finding": "Implementation is limited to linear tetrahedra; moments are approximate; there is no deformation state; buckling/folding and some thin/deep contacts cannot be represented."
+    }
+  ],
+  "evidence_kind": [
+    "discrete contact formulation",
+    "analytical validation",
+    "convergence study",
+    "robot simulation",
+    "hardware transfer report",
+    "scalability study"
+  ],
+  "boundary_conditions": [
+    "Not a bulk soft-body solver",
+    "Linear tetrahedra",
+    "Approximate moments",
+    "Task-specific single-thread scaling",
+    "Thin/deep contact failures",
+    "No material memory",
+    "No tissue or optimal-impedance validation"
+  ],
+  "assumptions": [
+    "One face constraint represents local contact",
+    "Pressure rate and velocity are sufficient",
+    "Linear pressure fields are adequate",
+    "Equilibrium surface exists",
+    "Finite-area wrench is the relevant detail"
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Linear tetrahedra only",
+      "Moment quadrature is approximate",
+      "No deformation state or buckling/folding",
+      "Thin/deep contacts may lack equilibrium",
+      "Large timesteps worsen failure"
+    ],
+    "inferred": [
+      "Pressure-rate updating is not viscoelastic memory",
+      "Pancake transfer does not validate tissue",
+      "Efficient PFC is not a novel impedance contribution",
+      "Added material state must justify compute and identification cost"
+    ]
+  },
+  "conflicts_with": [
+    "Novelty from real-time velocity-level PFC",
+    "PFC as bulk deformation or material memory",
+    "Point contact captures all area-dependent torque",
+    "Claims about tissue validity, optimal impedance, passivity, or clinical safety"
+  ],
+  "verification_status": "verified",
+  "problem_lead_search_contexts": [
+    {
+      "phase": "problem_generation",
+      "query_plan_sha256": "a6937acfc11d3a47018b762449863c3f7136f9cc5fea0ece98b061b6e4104776",
+      "lead_id": "lead-minimal-contact-representation",
+      "lead_statement": "The valuable question is to identify the minimal contact representation that changes and improves optimal impedance decisions in continuous soft sliding, rather than presupposing that an HC-pressure-field hybrid is the correct method.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Precision",
+      "purpose": "Compare pressure-field, elastic-foundation, and other finite-area contact representations against the proposed HC-consistent distributed model, emphasizing which measured wrench components and geometries are actually needed rather than assuming a more complex model is better.",
+      "expected_close_condition": "Define the minimum contact representation and negative controls needed to distinguish scalar HC, distributed foundation, pressure-field, and unnecessary high-fidelity alternatives in the target task."
+    }
+  ]
+}

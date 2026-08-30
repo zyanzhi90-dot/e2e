@@ -1,0 +1,787 @@
+{
+  "schema_version": 2,
+  "reuse_baseline": {
+    "candidate_count": 171,
+    "accepted_evidence_card_count": 82,
+    "policy": "Use the accepted Field Map and RCA only as historical discovery context. Historical phase-scoped method Evidence remains non-current until explicitly re-adopted after this RMC/Capability/Obligation context is accepted. Search for algorithm-independent Solution Principles and live contradictory evidence; do not restore the retired A/B/C routes."
+  },
+  "search_strategy": {
+    "priority_order": [
+      "RECENT_AUTHORITATIVE_REVIEWS",
+      "HIGH_CITATION_BACKBONE",
+      "RECENT_ELITE_FRONTIER",
+      "TARGETED_GAP_FOLLOWUP"
+    ],
+    "discovery_sources": [
+      "Google Scholar",
+      "Crossref",
+      "OpenAlex",
+      "arXiv"
+    ],
+    "time_range": {
+      "year_from": 1960,
+      "year_to": 2026
+    },
+    "screening_requirement": "TITLE_ABSTRACT_FOR_ALL_RETRIEVED_CANDIDATES",
+    "saturation_criteria": [
+      "Every Required Mechanism Change is searched independently through first principles, representation transformations, same-field mechanisms, and cross-domain structural isomorphisms.",
+      "At least two substantively competing algorithm-independent Solution Principles, including the simpler-representation or feedback-absorption possibility, remain live until discriminating predictions and tests are specified.",
+      "Search does not close on the first feasible realization; closure requires explicit comparison of changed relation, state, or information structure, activation conditions, fatal assumptions, and transfer boundaries.",
+      "Each RMC, Capability, Design Obligation, and primary RCA causal chain is consumed by at least one executable query and either supported by a candidate principle or closed with an explicit no-principle finding.",
+      "A targeted follow-up adds no new structurally distinct principle and no retrieved contradiction changes the proposed minimal informative or killer tests."
+    ]
+  },
+  "coverage_gaps": [],
+  "method_design_context": {
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "root_cause_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 1,
+    "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+    "causal_chain_ids": [
+      "CHAIN-SPATIAL-SUFFICIENCY",
+      "CHAIN-TANGENTIAL-SUFFICIENCY",
+      "CHAIN-HISTORY-SUFFICIENCY",
+      "CHAIN-CLOSED-LOOP-ABSORPTION"
+    ],
+    "required_mechanism_changes": [
+      {
+        "mechanism_change_id": "RMC-SPATIAL-DECISION-QUOTIENT",
+        "causal_chain_ids": [
+          "CHAIN-SPATIAL-SUFFICIENCY"
+        ],
+        "failed_relation_state_or_information_structure": "The instantaneous scalar normal-contact state is a many-to-one map from finite-area geometry and pressure configurations, so states with different future wrench and constraint consequences are aliased before impedance actions are ranked.",
+        "required_mechanism_change": "Replace the raw scalar snapshot with the coarsest observable spatial quotient that separates contact configurations only when their conditional future wrench, constraint margin, or impedance-action consequences differ.",
+        "root_cause_resolution_rationale": "A decision-sufficient spatial quotient directly removes the action-relevant part of finite-area aliasing without presuming that full fields, a particular sensor, or a particular contact model are necessary.",
+        "capability_ids": [
+          "CAP-SPATIAL-DECISION-SUFFICIENCY",
+          "CAP-MATCHED-MINIMALITY",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "obligation_ids": [
+          "OBL-SPATIAL-ANTI-ALIAS",
+          "OBL-MATCHED-DECISION-VALUE",
+          "OBL-OBSERVABLE-MINIMALITY",
+          "OBL-ATOMIC-DISCRIMINATION"
+        ],
+        "acceptance_conditions": [
+          "Conditioned on the simple state, the retained statistic predicts held-out future wrench or constraint consequences beyond calibration uncertainty.",
+          "Removing it changes rendered impedance beyond implementation resolution and improves at least one prespecified held-out endpoint beyond its equivalence margin under matched resources, or it is rejected as unnecessary."
+        ]
+      },
+      {
+        "mechanism_change_id": "RMC-TANGENTIAL-LIMIT-COORDINATE",
+        "causal_chain_ids": [
+          "CHAIN-TANGENTIAL-SUFFICIENCY"
+        ],
+        "failed_relation_state_or_information_structure": "A normal-only state does not encode where the distributed contact wrench lies relative to direction-dependent slip and moment-capacity boundaries.",
+        "required_mechanism_change": "Transform available contact information into the minimum observable coordinate of remaining tangential and moment authority that can change a safe impedance ranking before a limit event.",
+        "root_cause_resolution_rationale": "A capacity-relative coordinate targets the causal intermediate state—misestimated slip or moment margin—without committing to six-axis wrench input, a Coulomb cone, or any specific optimizer.",
+        "capability_ids": [
+          "CAP-WRENCH-MARGIN-STATE",
+          "CAP-MATCHED-MINIMALITY",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "obligation_ids": [
+          "OBL-WRENCH-LIMIT-STATE",
+          "OBL-MATCHED-DECISION-VALUE",
+          "OBL-OBSERVABLE-MINIMALITY",
+          "OBL-ATOMIC-DISCRIMINATION"
+        ],
+        "acceptance_conditions": [
+          "The coordinate anticipates independently measured slip, contact loss, or moment-limit approach after conditioning on normal force, pose, speed, and randomized friction conditions.",
+          "Its inclusion changes impedance before—not only after—a limit event and improves a held-out safety or task endpoint without material loss elsewhere, or it is rejected as redundant."
+        ]
+      },
+      {
+        "mechanism_change_id": "RMC-HISTORY-PREDICTIVE-STATE",
+        "causal_chain_ids": [
+          "CHAIN-HISTORY-SUFFICIENCY"
+        ],
+        "failed_relation_state_or_information_structure": "Instantaneous indentation, rate, and wrench are non-Markov when distinct load histories yield different future force, area, recovery, or capacity, while unconstrained detailed constitutive state can be nonidentifiable.",
+        "required_mechanism_change": "Replace unbounded raw history or memoryless snapshots with the lowest-dimensional stable predictive state that makes future action-relevant contact consequences conditionally history-independent over the decision horizon.",
+        "root_cause_resolution_rationale": "Predictive-state sufficiency resolves temporal aliasing at the information-structure level while making identifiability and the possibility of a zero-dimensional memory state explicit.",
+        "capability_ids": [
+          "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+          "CAP-MATCHED-MINIMALITY",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "obligation_ids": [
+          "OBL-HISTORY-MARKOVIZATION",
+          "OBL-MATCHED-DECISION-VALUE",
+          "OBL-OBSERVABLE-MINIMALITY",
+          "OBL-ATOMIC-DISCRIMINATION"
+        ],
+        "acceptance_conditions": [
+          "The state is reproducibly estimable at online latency and predicts held-out future wrench or area beyond instantaneous variables across dwell, reversal, speed, and recovery shifts.",
+          "Each retained state dimension survives leave-one-state-out decision and outcome tests; a static uncertainty-aware representation remains an admissible winner."
+        ]
+      },
+      {
+        "mechanism_change_id": "RMC-CLOSED-LOOP-RELEVANCE-GATE",
+        "causal_chain_ids": [
+          "CHAIN-CLOSED-LOOP-ABSORPTION"
+        ],
+        "failed_relation_state_or_information_structure": "Representation choice is currently justified by prediction fidelity even when feedback sensitivity, robust margins, authority, and latency prevent the residual mismatch from changing constrained impedance actions or outcomes.",
+        "required_mechanism_change": "Gate representation complexity by closed-loop decision relevance: expose the boundary at which unabsorbed mismatch changes feasible action ranking, and default to the simplest equivalent representation on the absorbed side.",
+        "root_cause_resolution_rationale": "This turns closed-loop absorption from a nuisance into an explicit null principle and regime boundary, preventing prediction-only gains from being misclassified as control value.",
+        "capability_ids": [
+          "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+          "CAP-MATCHED-MINIMALITY",
+          "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+        ],
+        "obligation_ids": [
+          "OBL-ABSORPTION-BOUNDARY",
+          "OBL-MATCHED-DECISION-VALUE",
+          "OBL-INDEPENDENT-ENDPOINTS",
+          "OBL-ATOMIC-DISCRIMINATION"
+        ],
+        "acceptance_conditions": [
+          "Prespecified bandwidth, latency, disturbance-observability, authority, speed, and constraint-distance strata exhibit either action/outcome equivalence or repeatable non-equivalence in the predicted direction.",
+          "Prediction improvement alone cannot retain complexity, and equivalent simple control is recorded as a positive informative result."
+        ]
+      }
+    ],
+    "required_capabilities": [
+      {
+        "capability_id": "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT"
+        ],
+        "required_capability": "Construct and test observable spatial statistics as conditional sufficient statistics for future wrench, constraint, and impedance-action consequences rather than as richer geometry for its own sake.",
+        "acceptance_conditions": [
+          "Residual predictive value and action value are both evaluated on held-out geometry or specimen shifts."
+        ]
+      },
+      {
+        "capability_id": "CAP-WRENCH-MARGIN-STATE",
+        "mechanism_change_ids": [
+          "RMC-TANGENTIAL-LIMIT-COORDINATE"
+        ],
+        "required_capability": "Estimate remaining direction-dependent tangential and moment capacity early enough to alter impedance before a limit event.",
+        "acceptance_conditions": [
+          "The state is calibrated against independent slip or capacity observations and is not merely a post-event alarm."
+        ]
+      },
+      {
+        "capability_id": "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "mechanism_change_ids": [
+          "RMC-HISTORY-PREDICTIVE-STATE"
+        ],
+        "required_capability": "Compress loading history into a stable low-dimensional predictive state with explicit zero-state and over-parameterized alternatives.",
+        "acceptance_conditions": [
+          "State order is selected by held-out predictive and decision sufficiency plus observability, not by in-sample fit."
+        ]
+      },
+      {
+        "capability_id": "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "mechanism_change_ids": [
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "required_capability": "Quantify when mismatch survives feedback and robust margins strongly enough to change feasible impedance ranking and outcomes.",
+        "acceptance_conditions": [
+          "The boundary is tested across prespecified sensitivity, delay, authority, and constraint-distance strata."
+        ]
+      },
+      {
+        "capability_id": "CAP-MATCHED-MINIMALITY",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT",
+          "RMC-TANGENTIAL-LIMIT-COORDINATE",
+          "RMC-HISTORY-PREDICTIVE-STATE",
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "required_capability": "Compare nested representations under equal data, compute, latency, objective, controller authority, safety margin, and tuning budgets, retaining only components with incremental decision and outcome value.",
+        "acceptance_conditions": [
+          "Every retained component survives leave-one-component-out and matched equivalence tests."
+        ]
+      },
+      {
+        "capability_id": "CAP-ONLINE-OBSERVABILITY",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT",
+          "RMC-TANGENTIAL-LIMIT-COORDINATE",
+          "RMC-HISTORY-PREDICTIVE-STATE"
+        ],
+        "required_capability": "Demonstrate calibration, reproducibility, estimator bandwidth, and latency for each nontrivial state used online.",
+        "acceptance_conditions": [
+          "A state that is informative only offline cannot support an online principle claim and is reported separately."
+        ]
+      },
+      {
+        "capability_id": "CAP-INDEPENDENT-OUTCOME-VALIDITY",
+        "mechanism_change_ids": [
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "required_capability": "Judge closed-loop value on prespecified safety and task endpoints that are not inputs to representation estimation.",
+        "acceptance_conditions": [
+          "At least one independent task-quality endpoint and separate wrench, slip, contact, and implementation outcomes are reported with equivalence margins."
+        ]
+      }
+    ],
+    "design_obligations": [
+      {
+        "obligation_id": "OBL-SPATIAL-ANTI-ALIAS",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT"
+        ],
+        "capability_ids": [
+          "CAP-SPATIAL-DECISION-SUFFICIENCY",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "design_obligation": "Operationalize finite-area state through independently calibrated statistics and demonstrate conditional anti-aliasing before testing control benefit.",
+        "acceptance_conditions": [
+          "Matched scalar states with differing geometry must show a reproducible conditional consequence difference, or the spatial RMC is falsified in that regime."
+        ]
+      },
+      {
+        "obligation_id": "OBL-WRENCH-LIMIT-STATE",
+        "mechanism_change_ids": [
+          "RMC-TANGENTIAL-LIMIT-COORDINATE"
+        ],
+        "capability_ids": [
+          "CAP-WRENCH-MARGIN-STATE",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "design_obligation": "Represent proximity to direction-dependent slip and moment capacity while randomizing or measuring friction and coupling-medium drift.",
+        "acceptance_conditions": [
+          "Incremental value persists after conditioning on normal variables and measured friction proxies."
+        ]
+      },
+      {
+        "obligation_id": "OBL-HISTORY-MARKOVIZATION",
+        "mechanism_change_ids": [
+          "RMC-HISTORY-PREDICTIVE-STATE"
+        ],
+        "capability_ids": [
+          "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "design_obligation": "Test whether a finite predictive state Markovizes action-relevant dynamics over the control horizon without relying on nonidentifiable constitutive parameters.",
+        "acceptance_conditions": [
+          "Conditional history dependence vanishes within declared uncertainty at the selected order and reappears under state removal, or the history state is rejected."
+        ]
+      },
+      {
+        "obligation_id": "OBL-ABSORPTION-BOUNDARY",
+        "mechanism_change_ids": [
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "capability_ids": [
+          "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+          "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+        ],
+        "design_obligation": "Map the sensitivity and constraint regime where representation error is absorbed versus decision-relevant, including estimator latency and fallback timing.",
+        "acceptance_conditions": [
+          "Simple and rich representations cross the prespecified action and outcome equivalence boundaries in the predicted strata, or the boundary hypothesis is revised."
+        ]
+      },
+      {
+        "obligation_id": "OBL-MATCHED-DECISION-VALUE",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT",
+          "RMC-TANGENTIAL-LIMIT-COORDINATE",
+          "RMC-HISTORY-PREDICTIVE-STATE",
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "capability_ids": [
+          "CAP-MATCHED-MINIMALITY"
+        ],
+        "design_obligation": "Separate prediction gain from action and outcome gain under matched resources and a common objective, safety envelope, and tuning protocol.",
+        "acceptance_conditions": [
+          "An added component is retained only when action change exceeds implementation resolution and a held-out primary endpoint exceeds its justified equivalence margin with no material loss elsewhere."
+        ]
+      },
+      {
+        "obligation_id": "OBL-OBSERVABLE-MINIMALITY",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT",
+          "RMC-TANGENTIAL-LIMIT-COORDINATE",
+          "RMC-HISTORY-PREDICTIVE-STATE"
+        ],
+        "capability_ids": [
+          "CAP-MATCHED-MINIMALITY",
+          "CAP-ONLINE-OBSERVABILITY"
+        ],
+        "design_obligation": "Use nested additions, component removal, and state-order reduction to identify the smallest online-observable representation for each regime.",
+        "acceptance_conditions": [
+          "Removing any retained component destroys the decision-value result; adding any rejected component fails to exceed equivalence margins."
+        ]
+      },
+      {
+        "obligation_id": "OBL-INDEPENDENT-ENDPOINTS",
+        "mechanism_change_ids": [
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "capability_ids": [
+          "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+        ],
+        "design_obligation": "Prespecify independent scanning quality, wrench safety, slip/contact stability, and implementation endpoints with sensor-grounded equivalence margins.",
+        "acceptance_conditions": [
+          "No endpoint used to establish benefit is also used to estimate the representation, and unsuccessful trials are included."
+        ]
+      },
+      {
+        "obligation_id": "OBL-ATOMIC-DISCRIMINATION",
+        "mechanism_change_ids": [
+          "RMC-SPATIAL-DECISION-QUOTIENT",
+          "RMC-TANGENTIAL-LIMIT-COORDINATE",
+          "RMC-HISTORY-PREDICTIVE-STATE",
+          "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+        ],
+        "capability_ids": [
+          "CAP-MATCHED-MINIMALITY"
+        ],
+        "design_obligation": "Reduce competing principles to an atomic execution set whose tests each have explicit targets, terminal outcomes, and the smallest cost consistent with discriminating power.",
+        "acceptance_conditions": [
+          "Every fatal assumption and discriminating prediction is hit by at least one informative test, with redundant tests removed before human approval."
+        ]
+      }
+    ]
+  },
+  "queries": [
+    {
+      "plan_item_id": "spatial-first-principles",
+      "query": "conditional sufficient statistic decision theory control state aggregation future cost action equivalence",
+      "purpose": "Derive principled criteria for when a compressed spatial state is sufficient for decisions rather than merely predictive.",
+      "search_dimension": "FIRST_PRINCIPLES",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-SPATIAL-ANTI-ALIAS",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1960,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a formal sufficiency or equivalence criterion that yields a falsifiable spatial principle and its minimal test."
+    },
+    {
+      "plan_item_id": "spatial-representation-transformation",
+      "query": "quotient state representation invariance contact geometry pressure distribution control sufficient representation",
+      "purpose": "Find transformations that quotient nuisance geometry while retaining action-relevant spatial differences.",
+      "search_dimension": "REPRESENTATION_TRANSFORMATION",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-SPATIAL-ANTI-ALIAS",
+        "OBL-OBSERVABLE-MINIMALITY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 1980,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Recover at least one algorithm-independent invariant, quotient, or sufficient-coordinate principle with observable target-domain variables."
+    },
+    {
+      "plan_item_id": "spatial-same-field",
+      "query": "robotic soft contact finite area contact patch geometry pressure distribution impedance control observability",
+      "purpose": "Locate same-field mechanisms that remove finite-area aliasing and evidence delimiting when scalar contact remains sufficient.",
+      "search_dimension": "SAME_FIELD_MECHANISM",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-SPATIAL-ANTI-ALIAS",
+        "OBL-OBSERVABLE-MINIMALITY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a same-field mechanism and a strong scalar comparator with explicit spatial activation and failure conditions."
+    },
+    {
+      "plan_item_id": "spatial-cross-domain",
+      "query": "state abstraction bisimulation causal representation control observation aliasing minimal sufficient state",
+      "purpose": "Transfer structurally isomorphic anti-aliasing mechanisms from state abstraction and causal control representation.",
+      "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "mechanism_change_ids": [
+        "RMC-SPATIAL-DECISION-QUOTIENT"
+      ],
+      "capability_ids": [
+        "CAP-SPATIAL-DECISION-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-SPATIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1990,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a structural mapping from aliased observations to action-equivalent state partitions, with explicit disanalogies for physical contact."
+    },
+    {
+      "plan_item_id": "tangential-first-principles",
+      "query": "contact wrench cone limit surface friction remaining control authority distance constraint first principles",
+      "purpose": "Derive capacity-relative coordinates from contact mechanics and constrained decision geometry.",
+      "search_dimension": "FIRST_PRINCIPLES",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-WRENCH-LIMIT-STATE",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1960,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a principle for representing proximity to wrench feasibility independent of a particular friction model or optimizer."
+    },
+    {
+      "plan_item_id": "tangential-representation-transformation",
+      "query": "constraint slack dual variable risk coordinate friction cone wrench limit surface representation transformation control",
+      "purpose": "Search transformations from raw tangential measurements to minimal margin, slack, or risk coordinates.",
+      "search_dimension": "REPRESENTATION_TRANSFORMATION",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-WRENCH-LIMIT-STATE",
+        "OBL-OBSERVABLE-MINIMALITY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 1980,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a measurement-to-margin transformation whose assumptions and identifiability can be tested before slip."
+    },
+    {
+      "plan_item_id": "tangential-same-field",
+      "query": "robot incipient slip detection tactile wrench moment friction limit surface impedance manipulation",
+      "purpose": "Find same-field mechanisms that anticipate slip or moment limits and determine whether normal proxies already suffice.",
+      "search_dimension": "SAME_FIELD_MECHANISM",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-WRENCH-LIMIT-STATE",
+        "OBL-OBSERVABLE-MINIMALITY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a pre-event same-field capacity mechanism and a credible no-added-wrench comparator."
+    },
+    {
+      "plan_item_id": "tangential-cross-domain",
+      "query": "remaining control authority envelope protection constraint margin structural isomorphism control systems",
+      "purpose": "Transfer envelope-protection and remaining-control-authority principles to contact wrench capacity.",
+      "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "mechanism_change_ids": [
+        "RMC-TANGENTIAL-LIMIT-COORDINATE"
+      ],
+      "capability_ids": [
+        "CAP-WRENCH-MARGIN-STATE",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-TANGENTIAL-SUFFICIENCY"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1970,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a structurally mapped capacity-margin principle and state its transfer boundaries under uncertain friction."
+    },
+    {
+      "plan_item_id": "history-first-principles",
+      "query": "predictive sufficient state non Markov observation history conditional independence control theory",
+      "purpose": "Derive when and how finite state can replace raw history for action-relevant prediction.",
+      "search_dimension": "FIRST_PRINCIPLES",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-HISTORY-MARKOVIZATION",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1960,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a predictive-state sufficiency principle with a zero-memory null and finite-horizon falsifier."
+    },
+    {
+      "plan_item_id": "history-representation-transformation",
+      "query": "memory kernel internal variable balanced truncation Koopman predictive state low order viscoelastic control",
+      "purpose": "Find transformations that compress temporal memory into stable observable state without over-identifying constitutive parameters.",
+      "search_dimension": "REPRESENTATION_TRANSFORMATION",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-HISTORY-MARKOVIZATION",
+        "OBL-OBSERVABLE-MINIMALITY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ],
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 1970,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify at least one order-reduction or predictive-state transformation with online observability and failure tests."
+    },
+    {
+      "plan_item_id": "history-same-field",
+      "query": "robot soft tissue contact low order viscoelastic state relaxation creep hysteresis force impedance control",
+      "purpose": "Find same-field temporal-state mechanisms and strong memoryless or uncertainty-aware contradictory comparators.",
+      "search_dimension": "SAME_FIELD_MECHANISM",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-ONLINE-OBSERVABILITY"
+      ],
+      "obligation_ids": [
+        "OBL-HISTORY-MARKOVIZATION",
+        "OBL-OBSERVABLE-MINIMALITY"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ],
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a low-order online temporal mechanism and a matched regime in which memory remains unnecessary."
+    },
+    {
+      "plan_item_id": "history-cross-domain",
+      "query": "predictive state representation partially observable control minimal history state system identification",
+      "purpose": "Transfer predictive-state and observable-operator mechanisms from partially observed dynamical systems.",
+      "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "mechanism_change_ids": [
+        "RMC-HISTORY-PREDICTIVE-STATE"
+      ],
+      "capability_ids": [
+        "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-HISTORY-SUFFICIENCY"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1980,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a structural mapping from non-Markov observations to finite predictive state, with contact-specific disanalogies and transfer conditions."
+    },
+    {
+      "plan_item_id": "absorption-first-principles",
+      "query": "feedback sensitivity value of model information control action equivalence robust margins closed loop",
+      "purpose": "Derive a first-principles boundary for when model or state mismatch survives feedback to alter decisions.",
+      "search_dimension": "FIRST_PRINCIPLES",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "obligation_ids": [
+        "OBL-ABSORPTION-BOUNDARY",
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-INDEPENDENT-ENDPOINTS",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1960,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify a sensitivity- or value-of-information principle that makes simple-representation equivalence a positive result."
+    },
+    {
+      "plan_item_id": "absorption-representation-transformation",
+      "query": "decision focused representation action value sufficient statistic selective sensing control information bottleneck",
+      "purpose": "Find transformations that retain only information capable of changing feasible action ranking or primary outcomes.",
+      "search_dimension": "REPRESENTATION_TRANSFORMATION",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-MATCHED-MINIMALITY"
+      ],
+      "obligation_ids": [
+        "OBL-ABSORPTION-BOUNDARY",
+        "OBL-MATCHED-DECISION-VALUE"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ],
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 1990,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find an algorithm-independent decision-focused compression or gating principle and its non-equivalence test."
+    },
+    {
+      "plan_item_id": "absorption-same-field",
+      "query": "robust impedance control model uncertainty feedback bandwidth delay action equivalence contact representation",
+      "purpose": "Find same-field evidence for feedback absorption, uncertainty envelopes, and the regimes where richer contact information changes impedance.",
+      "search_dimension": "SAME_FIELD_MECHANISM",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "obligation_ids": [
+        "OBL-ABSORPTION-BOUNDARY",
+        "OBL-INDEPENDENT-ENDPOINTS"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ],
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2000,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Identify both a robust simple mechanism and a richer-information counterexample with explicit bandwidth, delay, and constraint conditions."
+    },
+    {
+      "plan_item_id": "absorption-cross-domain",
+      "query": "value of information control selective observation active sensing decision equivalence resource rational",
+      "purpose": "Transfer value-of-information and selective-observation mechanisms from resource-rational decision systems.",
+      "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "mechanism_change_ids": [
+        "RMC-CLOSED-LOOP-RELEVANCE-GATE"
+      ],
+      "capability_ids": [
+        "CAP-FEEDBACK-RELEVANCE-BOUNDARY",
+        "CAP-MATCHED-MINIMALITY",
+        "CAP-INDEPENDENT-OUTCOME-VALIDITY"
+      ],
+      "obligation_ids": [
+        "OBL-MATCHED-DECISION-VALUE",
+        "OBL-INDEPENDENT-ENDPOINTS",
+        "OBL-ATOMIC-DISCRIMINATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CLOSED-LOOP-ABSORPTION"
+      ],
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 1960,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a transferable value-of-information principle with explicit sensing-cost, latency, and closed-loop disanalogies."
+    }
+  ]
+}

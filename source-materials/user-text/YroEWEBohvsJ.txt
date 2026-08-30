@@ -1,0 +1,706 @@
+      452                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+
+                                          Learning Impedance Control
+                                           for Robotic Manipulators
+                                                          Chien-Chern Cheah and Danwei Wang
+
+
+         Abstract—Learning control is a concept for controlling dynamic                 control. However, due to parametric uncertainties, it is difficult
+      systems in an iterative manner. It arises from the recognition                    to derive the full description of the dynamics. Furthermore,
+      that robotic manipulators are usually used to perform repetitive                  because of the nonlinearity of the dynamics, the identification
+      tasks. Most researches on the iterative learning control of robots
+      have been focused on the problem of free motion control and                       and estimation techniques [7], [26], [30] could not be easily
+      hybrid position/force control where the learning controllers are                  deployed.
+      designed to track the desired motion and force trajectories. The                     Recently, there have been many studies in the topic of
+      iterative learning impedance control of robotic manipulators,                     learning control for controlling of robotic systems in an
+      however, has been studied recently. In this paper, an iterative                   iterative manner. In this paper, learning controllers are referred
+      learning impedance control problem for robotic manipulators is
+      formulated and solved. A target impedance is specified and a                      to the class of control systems that generate a control action
+      learning controller is designed such that the system follows the                  in an iterative manner to execute a prescribed action which
+      desired response specified by the target model as the actions are                 is defined in [4], [31]. A recent survey by Arimoto can be
+      repeated. A design method for analyzing the convergence of the                    found in [31]. This control concept arises from the recognition
+      learning impedance system is developed. A sufficient condition for
+                                                                                        that robotic manipulators are usually employed to perform
+      guaranteeing the convergence of the system is also derived. The
+      proposed learning impedance control scheme is implemented on                      repetitive tasks [4], [15]. Learning control schemes are easy
+      an industrial selective compliance assembly robot arm (SCARA)                     to implement and do not require exact knowledge of the
+      robot, SEIKO TT3000. Experimental results verify the theory and                   dynamic model. Several learning motion control laws [2], [4],
+      confirm the effectiveness of the learning impedance controller.                   [6], [15], [18], [24], [32], and learning Hybrid Position/Force
+         Index Terms—Convergence analysis, impedance control, itera-                    control laws [1], [9], [12], [22], [37] have been developed
+      tive learning algorithm, robot force control.                                     for iterative learning control of robotic manipulators. The
+                                                                                        feedforward control inputs are learned such that the system
+                                  I. INTRODUCTION                                       tracks the desired motion and force trajectories as the actions
+                                                                                        are repeated. The iterative learning impedance control for
+
+      M       OST of today’s industrial manipulators are used for
+              tasks such as materials transfer, spray-painting, and
+      spot welding, of which operations can be adequately handled
+                                                                                        robotic manipulators has been developed recently with some
+                                                                                        analytical and experimental results [10], [34], [35].
+                                                                                           The concept of active control of a manipulator’s interac-
+      by simple position control strategies. To expand the feasible                     tive behavior is formally treated as an aspect of impedance
+      applications of robots, it is necessary to control not only                       control [19]. Hogan [19] stresses the necessity of control
+      the motion but also the forces of interacting between the                         of the manipulator impedance based on the assertion that
+      manipulator and the environment. Assembly, polishing, and                         it is not sufficient to control position and force variables
+      deburring are typical examples of such tasks. Several control                     alone. Impedance control does not attempt to track motion
+      laws have been developed for simultaneous control of both                         and force trajectories but rather to regulate the mechanical
+      motion and force [31], [38] of robotic manipulators. Despite                      impedance [19] specified by a target model. Impedance control
+      the diversity of approaches, it is possible to classify most of                   provides a unified approach to all aspects of manipulation [19].
+      the design procedures as based on two major approaches:                           Both free motion and contact tasks can be controlled using a
+         1) impedance control [19];                                                     single control algorithm. It is unnecessary to switch between
+         2) hybrid position/force control [29].                                         control modes as task conditions change. The nature of the
+         A number of researchers have proposed different implemen-                      trajectory learning formulation has prohibited the research into
+      tation of hybrid position/force control and impedance control.                    the impedance control problem because in impedance control,
+      When the structures and parameters of the robot dynamics                          a target impedance is specified rather than the trajectory. There
+      model are known precisely, many model-based control theories                      exists, however, another nonclassical approach of neural-
+      and design methods, e.g., [19], [28], [36], [39] can be used to                   network learning impedance control methods [5], [14], [17],
+      design nonlinear controllers for simultaneous motion and force                    [20], [21], [33]. However, unlike iterative learning approach
+                                                                                        [31], it is difficult to provide a theoretical framework for
+        Manuscript received September 9, 1996; revised December 5, 1997. This
+      paper was recommended for publication by Associate Editor J. De Schutter          analyzing the learning system, guaranteeing its convergence
+      and Editor A. J. Koivo upon evaluation of the reviewers’ comments.                and guiding its applications using such formulations.
+        The authors are with the School of Electrical and Electronic Engineering,          In this paper, an iterative learning impedance control prob-
+      Nanyang Technological University, Singapore 639798, Republic of Singapore
+      (email: edwwang@ntu.edu.sg).                                                      lem for robotic manipulators is formulated and solved. In
+        Publisher Item Identifier S 1042-296X(98)02916-4.                               contrast to most of the iterative learning controller designs
+                                                                   1042–296X/98$10.00  1998 IEEE
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                          453
+
+
+
+      in the literature, our approach allows the performance of the                     mapping between         and        is one-to-one by applying
+      learning system to be specified by a reference model (or target                   the implicit function theorem [27]. The equation of motion
+      impedance) in addition to the reference trajectory. A target                      can therefore be expressed in the task space as [25]
+      impedance [19] is specified and the feedforward control input
+      is learned such that the system follows the desired response                                                                                                 (4)
+      specified by the target model as the actions are repeated. A                      where
+      design method for analyzing the convergence of the learning
+      impedance control system is developed. A sufficient condition
+      for guaranteeing the convergence of the learning impedance
+      control system is also derived. In the experiment, an in-
+      dustrial selective compliance assembly robot arm (SCARA)
+      robot, SEIKO TT3000, is used to verify the theory and
+      to evaluate the feasibility and performance of the proposed
+      learning impedance controller. A single learning controller was
+                                                                                        Clearly, in the case where the task space is the joint space,
+      implemented without the need to switch the learning controller
+                                                                                        we have
+      from non contact to and from contact tasks as needed in
+      most of the learning controllers in the literature. Experimental                                                                                             (5)
+      results showed that the proposed learning impedance controller
+      reduced the impedance error dramatically as the operations are                    and hence                 . It is important to note that       is
+      repeated.                                                                         a symmetric and positive definite matrix [30]. We consider
+         The remainder of this paper is organized as follows.                           the stiffness relation between         and         at the contact
+      Section II formulates the robot dynamic equations and control                     point be dominated by
+      problem. Section III presents the learning impedance control                                                                                                 (6)
+      for robotic manipulators, Section IV presents the application
+      of the proposed controller to an industrial robot, and Section V                  where                   is a symmetric and positive definite
+      concludes this paper. A preliminary version of the work in                        stiffness matrix that describes the environment stiffness. The
+      this paper was also presented in [10].                                            vector                can be seen as representing the location
+                                                                                        to which the contact point         would return in the absence
+      II. ROBOT DYNAMIC EQUATION AND PROBLEM FORMULATION                                of contact force. Note that in this paper, we assume that the
+         The equation of motion for the constrained robotic manipu-                     environment stiffness       and the static position          are
+      lator with degrees of freedom, considering the contact force                      unknown. The specifications of the impedance control problem
+      and the constraints, is given in the joint space as follows [25]:                 are given in terms of a reference motion trajectory and a
+                                                                                        desired dynamic relationship between the position error and
+                                                                                (1)     the interaction force. Impedance control does not attempt to
+                                                                                        track motion and force trajectories but rather to control motion
+      where               denotes the joint angles of the manipulator
+                                                                                        and force by developing a relationship between interaction
+      at the th operation,                   is the robot inertia matrix
+                                                                                        forces and manipulator position [19], that is, the mechanical
+      which is symmetric and positive definite for all                 ,
+                                                                                        impedance. The target impedance [19] is specified as
+                       contains the centrifugal Coriolis and gravita-
+      tional forces,                is the interaction forces/moments
+      associated with the constraints,               denotes the control                                                                                           (7)
+      inputs and              is the operation interval.
+         It is well known that when the robot’s end-effector contacts                   where        ,    , and            are positive definite matrices
+      the environment, a task space coordinate system defined with                      which specify the desired dynamic relationship between the
+      reference to the environment is convenient for the study of                       reference position error and the interaction force and
+      contact motion [25]. Let                 be the task space vector                     ,              ,             are the reference acceleration,
+      defined by [25]                                                                   velocity, and position, respectively. For learning impedance
+                                                                                        control design, we assume that         ,     , and       are cho-
+                                                                                (2)
+                                                                                        sen such that            ,                    , and
+      where                      is generally a nonlinear transforma-                                   are symmetric matrices. For instances, when all
+      tion describing the relation between the joint and task space.                    the matrices are diagonal matrices, the multiplication of the
+      Then, the derivatives of         are given as                                     diagonal matrices will also be diagonal and symmetric.
+                                                                                           The objective of Learning Impedance Control design is to
+                                                                                        develop an iterative learning law such that the system response
+                                                                                (3)     satisfies the behavior of the specified target impedance (7) for
+                                                                                        all             as the actions are repeated [10], [11]. That is,
+      where                           is the Jacobian matrix. It is                     as
+      assumed that the robotic manipulator is operating in a finite
+      workspace such that       is nonsingular and therefore the                                                                                                   (8)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      454                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+      where                                                                             feedforward learning control input, and                   is an
+                                                                                        intermediate state variable. In this control law, a dynamic
+                                                                                        compensator          is introduced and a learning control input
+                                                                                (9)             is added and updated according to an iterative rule, so
+                                                                                        that the system response is identical to the behavior of the
+      is defined as the impedance error.                                                target impedance specified by (7) as the action is repeated.
+         Remark 1: In the conventional iterative learning control                       This iterative learning control law is proposed as
+      formulation, the controller is designed to track a desired
+      trajectory      as the action is repeated. In general [31]                                                                                                 (14)
+
+                                                   as                          (10)     where
+
+      where          is the motion and/or force trajectory. In our                                                                                               (15)
+      learning approach, the control objective can be specified by a                    is an intermediate reference model error and                              and
+      target impedance (or reference model) as seen from (8) and (9).                      are positive constants. The dynamic compensator                          is
+      Furthermore, since the desired motion and force trajectories                      introduced as
+      cannot be derived from the reference model (7) because
+      and         are unknown, the conventional trajectory learning
+      control cannot be applied directly for learning the desired                                                                                                (16)
+      model explicitly from the desired trajectories.
+                                                                                        where                ,            ,              are the feedback
+         Remark 2: From (9), the reference trajectory error
+                                                                                        gains to be defined and is a positive constant to be chosen.
+              can be written in -domain or Laplace domain as
+                                                                                        Without the introduction of            described by (16) in the
+                                                                                        control laws (13) and (14), the resulting learning system is a
+                                                                               (11)     PI-type learning system [2]. The uniform boundedness result
+                                                                                        of the tracking errors of the PI-type learning system can be
+      Therefore, in the special case of free motion or non contact                      analyzed as in [2], [3] using the passivity concept. Since
+      task where the contact force is zero, the reference trajectory                    the feedback system described by (16) is strictly passive, the
+      error also converges to zero in addition to the convergence of                    stability of the interconnected system with the feedback control
+      the reference model error         because                                         laws (13) and (16) can also be studied using passivity theorem
+                                                                                        [16]. Another useful theorem for studying the stability of this
+                                                                               (12)     interconnected system is the application of small gain theorem
+      Hence, the learning impedance control scheme can be applied                       [16].
+      to both contact and noncontact tasks. Using the learning                             From (15), differentiate         with respect to time, we have
+      impedance approach, a unified learning controller can be                                                                                                   (17)
+      developed for both contact and non contact tasks without the
+      need to switch the learning controllers from non contact to and                   Substitute (15) and (16) into the above equation to eliminate
+      from contact tasks for learning control of robotic manipulator.                         result in
+      This is important since the current iterative learning control
+      designs provide methods to control robots during contact and
+      free motion separately. From a practical point of view, most
+      tasks involve a transition from free motion to contact motion                                                                                              (18)
+      and every contact task ends with a transition from contact to                     where , , and           in (16) are chosen as
+      free motion. Therefore, when these different control schemes                            ,                                   , and                .
+      are applied to the robots, the learning algorithms are needed                     Therefore, by choosing the compensator gains , , and
+      to switch from one control to another and therefore the overall                   appropriately, the system response converges to that specified
+      control is discontinuous in nature.                                               by the target impedance (7) if       and       converge to zero
+                                                                                        for all           . Alternatively, from (11), we have
+                     III. LEARNING IMPEDANCE CONTROL
+                                                                                                                                                                 (19)
+         In this section, we present the learning impedance controller
+      for robotic manipulators. We suppose that a feedback control                      The learning impedance control problem can be restated as
+      law [25] has been designed for stability of the closed-loop                       that of designing a learning controller so that
+      system as
+                                                                                                                                   as                            (20)
+                                                                                        where        is the inverse Laplace transformation of
+                                                                               (13)     and is defined as the indirect target impedance error. From
+                                                                                        (18) and (19), we have
+      where           ,            ,                                are feedback
+      and compensator gains to be chosen,                                   is a                                                                                 (21)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                          455
+
+
+
+      Since (21) is stable and strictly proper linear system with                       model is given by
+      the input          and output         , from the theory of linear
+      system [16], if          converges to zero for all             , the
+      indirect target impedance error              converges to zero for                                                                                         (26)
+      all              .
+         To guarantee the convergence of the learning impedance                         Then, from the definition of            in the theorem, we have
+      control system, the controller gains        ,    ,   , , , and
+           have to be chosen carefully. This is made precise in the                                                                                              (27)
+      following Theorem:
+         Theorem: Consider the learning control systems given by                        for chosen to be zero. Hence, for a system that is sufficiently
+      (4), (6), (13), (14), and (16) with the target impedance specified                damped so that            , we have         . If system is lightly
+      by (7). Let the feedback gains and compensator gains         ,     ,              damped such that,                 , we have             and hence
+          ,    ,    , and      be chosen as                                             the maximum value of decreases with decreasing damping
+                                                                                        factor. From (23), we can deduce that a higher controller gain
+                                                                                        is needed for a desired system response with light damping.
+                                                                               (22)     This is because for such a system, a high overshoot arises and
+                                                                                        hence a higher controller gain is required to suppress it.
+      where is a positive constant and         and                 are constants
+                                                                                           Similarly, in the presence of contact force, the desired model
+      chosen to satisfy the following conditions:
+                                                                                        can be expressed by
+
+
+                                                                                                                                                                 (28)
+
+                                                                                        Therefore, in the case of very stiff environment, the target
+                                                                                        impedance is a lightly damped system which required a higher
+                                                                                        controller gain to guarantee the convergence of the learning
+                                                                                        impedance system.
+                                                                               (23)
+                                                                                           Remark 6: In paper [34] and [35] by Wang and Cheah,
+                                                                                        another impedance learning control scheme is developed to
+      where                                                            ,                tackle the same problem. In comparison, the impedance learn-
+                       ,                           ,                ,                   ing controller in [34] and [35] uses the impedance error
+                                                            ,                           directly in the iterative learning law for updating        . While
+                      ,      denotes the norm bound for           and                   in the approach developed in this paper, the impedance error
+                are constants to be defined. Then, a sequence of                               is incorporated in an indirectly manner. In particular,
+      control inputs will be generated such that the desired response                          does not appear directly in the set of controller equations
+      specified by the target impedance (7) is reached. That is                         (13)–(16) and the target impedance for learning is realized in
+                                                                                        (18). Furthermore, a discrete time scheme corresponding to
+                                                                                        the approach in [34] and [35] has been developed in [8].
+                                                                               (24)
+
+      for all             as          .                                                                             IV. EXPERIMENT
+           Proof: Refer to the Appendix.                                                   In a practical robot system, many disturbances are present.
+         Remark 3: Equation (23) states the sufficient conditions                       Although the robustness analysis of the learning control system
+      for the convergence of the target impedance error. Note that                      to certain practical issues has been developed [2], [18], [31],
+      several terms in (23) of the Theorem are inversely proportional                   implementing the proposed learning schemes in real time
+      to    and . Hence, increasing ,          decreases these terms.                   experiments allows the investigation of the robustness and
+      Therefore,     can be chosen such that , , and           0.                       the feasibility of the actual implementations. In this section,
+         Remark 4: Notice that the iterative learning impedance                         the proposed learning impedance controller is applied to an
+      scheme described by (14), (15), and (16) does not require the                     industrial robot and experimental results are presented.
+      measurement or estimation of the force derivative as in [23]
+      or the acceleration as in [1], [9], and [13].                                     A. Experimental Setup
+         Remark 5: Suppose that                           ,
+                                                                                           The robot used in this experiment is the industrial robot
+                 are defined using the coefficient matrices of the
+                                                                                        SEIKO TT3000 as shown in Fig. 1. This robot is the SCARA
+      desired model in (7) and are chosen as diagonal such that
+                                                                                        type manipulator with three degrees of freedom as illustrated
+                                                                               (25)     in the schematic diagram of Fig. 2. The first joint is a prismatic
+                                                                                        joint, the second and third joints are revolute joints.
+      where is the damping factor and        is the undamped natural                       The dynamics model of the robotic arm [25] can be de-
+      frequency. For illustration purpose, if          0, the desired                   scribed by (4) as explained in Section II. The parameters of
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      456                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+
+      Fig. 1. The experimental setup.
+
+
+
+
+                                                                                        Fig. 3. Block diagram of the experimental system.
+
+
+
+
+                                                                                                                                                                 (30)
+
+                                                                                        and      ,    , and      are the masses of link one, two, and
+                                                                                        three, respectively, in kilograms,     and      are the length of
+      Fig. 2. A SCARA robot.
+                                                                                        link two and three, respectively, in meters, and is the constant
+                                                                                        acceleration due to gravity in meter per second.
+      the SCARA robot can be detailed as                                                   The hierarchical structure of the robot control system is
+                                                                                        shown in Fig. 3. At the top of the system hierarchy is the
+                                                                                        robot supervisory Computer using a PC 486 and at the lower
+                                                                                        level are the multiprocessors using a VME bus-based system.
+                                                                                        The lower level system is used for real time data collection
+                                                                                        and control. This VME bus-based system consists of the host
+                                                                               (29)
+                                                                                        computer MVME 147 and the target computer MVME104.
+                                                                                        The MVME 147 is a MC68030 based system with 4 MB
+      where                                                                             DRAM and a 25 MHz system clock and MVME104 is a
+                                                                                        MC68010 based system with 512 kB of RAM and a 10
+                                                                                        MHz system clock. The MVME104 is also responsible for
+                                                                                        input/output operations using four channels for the encoder
+                                                                                        inputs and four channels for the digital to analog converters.
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                          457
+
+
+
+      Three encoders are employed for position measurement of
+      each joint and a differentiator is used to estimate the velocity
+      from the position measurements. The pulses per revolution for
+      encoder two and three are 600 and 800, respectively. For the
+      prismatic joint, one pulse equals 0.010 44 mm. To measure the
+      contact force, a force sensor made by Lord is mounted on the
+      end-effector of the robot.
+                                                                                        Fig. 4. End-effector path.
+      B. Experimental Results
+         To effectively verify the proposed learning impedance con-
+      trol law, the end-effector was set to follow a path which                            The impedance learning control law which described by
+      involved free motion tracking, transition from free motion to                     (13), (14), and (16) were applied to the robotic system with
+      contact motion, contact motion on the constraint plane with                       the controller gains set as
+      compliance, transition from contact motion to free motion, and
+      finally free motion tracking again as illustrated in Fig. 4. Here,
+      the joint space is chosen as the task space since the contact
+      task in this experiment can be conveniently described by the                                                                                               (35)
+      joint axis 1 (or axis) as shown in Figs. 2 and 4. Therefore
+                                                                                        For joint two and three,        4,      1 were chosen and
+                                                                                           was calculated as                  . For the independent
+                                                                               (31)     joint one,      1,     1.5 were chosen and was calculated
+                                                                                        as                    . The compensator gains     ,   , and
+      Mathematically, the task can be specified by the reference                            were calculated based on (22). The impedance error was
+      model (7) as                                                                      calculated as
+
+
+                                                                                                                                                                 (36)
+                                                                               (32)     and the experimental results of the impedance errors, the
+      where the reference trajectories                                                  trajectory errors               and the contact force          are
+      are described by the following equations as given in (33),                        shown in Figs. 5–11. In the first trial, i.e.,           0,
+      shown at the bottom of the page. Here,             is specified                   was also set to zero for all                      and hence the
+      in meters,          and          are specified in radians. The                    controller is a feedback law with no learning control. As the
+      sampling frequency       was 244 Hz and the period       of the                   operation repeated, the impedance errors decreased as shown
+      whole operation was 3600/ s. In this experiment, a steel ball                     in Figs. 5–7. From Figs. 8–10, the results also showed that
+      is attached to the force sensor and hence the frictional force                    the trajectory tracking errors decreased when the impedance
+      along the constraint plane is negligible. In another words                        errors decreased. It should be noted that in Fig. 8, the reference
+                                                                                        trajectory error for joint one converged to a steady state value
+                                                                                        described by (11) in the presence of contact force. Notice
+                                                                               (34)     also that the impedance errors converged even though the
+                                                                                        contact points were changing at every iteration as shown by
+
+
+
+
+                                                                                                                   for
+
+                                                                                                                   for
+
+                                                                                                                   for
+
+                                                                                                             for
+
+                                                                                                             for
+
+                                                                                                             for
+                                                                                                                                                                 (33)
+                                                                                                             for
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      458                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+
+      Fig. 5. The impedance error of joint one.
+
+
+      the contact force in Fig. 11. The experimental results illustrate                 degrees of freedom. Experimental results verified the proposed
+      the validity of the theory presented in Section III and show                      theory and illustrated the robustness of the learning controller.
+      that the learning impedance controller reduces the impedance                      A single learning controller was implemented without the need
+      error tremendously. These results also illustrate the superiority                 to switch the learning controller from non contact to and
+      of learning control as compared to no learning control on the                     from contact task as needed in most of the iterative learning
+      first trial.                                                                      controllers in the literature. The development of this learning
+                                                                                        impedance control law should lead to further research and
+                                  V. CONCLUSION                                         applications in learning control and force control for robot
+         An iterative learning impedance control problem is for-                        applications.
+      mulated and solved for robotic manipulators. In contrast to
+      most of the iterative learning controller designs in the liter-                                                    APPENDIX
+      ature, whereby a reference trajectory is given and a learning                          Proof of Theorem: For clarity of the proof, the depen-
+      algorithm is designed to make the trajectory tracking error                       dence of the system parameters on time is implied unless
+      converges to zero as the action is repeated, our approach allows                  otherwise specified. Equation (7) can be rewritten as
+      the performance of the learning system to be specified by a
+      target impedance in addition to the reference trajectory. Given                                                                                            (37)
+      a target impedance, the learning controller is able to learn                      where                 ,                , and                                 .
+      and eventually drives the closed loop dynamics to follow the                      From (6) and (37), we have a desired state                                and
+      response of the target impedance as the actions are repeated. A                   a desired force    as
+      design method for analyzing the convergence of the learning
+      impedance system is developed. A sufficient condition is also                                                                                              (38)
+      derived to guarantee the convergence of the learning controller.
+                                                                                        where
+         The proposed learning impedance controller was applied
+      to control of an industrial robot SEIKO TT3000 with three                                                                                                  (39)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                          459
+
+
+
+
+      Fig. 6. The impedance error of joint two.
+
+
+      Similarly, from (16), we can define a desired intermediate state                  Theorem [16]. Alternatively, the stability of the system can
+      value    corresponding to the desired state       as                              be analyzed using Small Gain Theorem [16]. Therefore, the
+                                                                                        boundedness of the velocity variable is ensured and          ,
+                                                                                                 are local Lipschitz continuous [2]. Substituting (15)
+                                                                               (40)     and (41) into (42), we have
+      where , , and          are chosen as in (22) of the theorem. The
+      desired state              exists but is unknown since       is an
+      unknown desired force because        and     are unknown. Here,                                                                                            (43)
+      the definitions of the desired state and force are for analysis
+                                                                                        Therefore, the desired control input                corresponding to the
+      and are not used in the control law in actual implementation.
+                                                                                        desired state    is described by
+      From (18), the desired value of        and      corresponding to
+      the desired model is given by        0 and        0, respectively.                                                                                         (44)
+      Now, with the feedback gains        ,      also chosen as in the
+      theorem, we have the feedback control law in (13) given by                        where we note that
+                                                                               (41)     and hence
+
+      From (4) and (6), the dynamic model can be written as                                                                                                      (45)
+                                                                               (42)     and
+      where                                 ( )
+      ( )       (        ). The interconnection of the passive robotic
+      system [3] with a strictly passive feedback system (16) does
+      not disturb the stability of the system as a result of the Passivity                                                                                       (46)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      460                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+
+      Fig. 7. The impedance error of joint three.
+
+
+      Subtracting (43) from (44), we have the error dynamic equa-                       which implies that
+      tion given by
+                                                                               (47)                                                                                (52)
+      where                              ,
+                                                                                        where                                            ,
+                                                               . Similarly, from
+                                                                                                                     , and
+      (16) and (40), we have
+                                                                                                           . Let us define an index function                  as
+
+                                                                               (48)                                                                                (53)
+
+      where                       ,                ,              , and                 for all               . We assume that a            exists at              such
+                          . Furthermore, from (6) and (39), we have                     that
+                                                                               (49)
+                                                                                                                                                                   (54)
+      Therefore, substitute (49) into (48) results in
+                                                                                        where                          , for all                . For example, if
+                                                                               (50)                , we have
+
+      where                                                  ,                                                                                                     (55)
+                           . From (46), (47), and (50), we have
+                                                                                        From (14) and (15), we have
+                                                                               (51)                                                                                (56)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                          461
+
+
+
+
+      Fig. 8. The reference trajectory error of joint one.
+
+
+
+      Define                           , we have, from (53) and (56), that              (46) and (59), we have
+
+                                                                                                                                                                 (60)
+
+                                                                               (57)     where                               ,                  . Note
+                                                                                        that    ,     ,    , and can be chosen such that            ,
+      For simplicity of the following presentation, the dependence                               , and               are nonzero. Let
+      of the functions on their arguments is implied. Substitute (52)                   and substituting (60) into the second term of (58), we have
+      into the above equation, and integrating by parts, we have
+
+
+
+
+                                                                               (58)
+
+      where                           . Integrating (50) gives
+
+
+                                                                               (59)
+
+      where                                                 . Therefore, from                                                                                    (61)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      462                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+
+      Fig. 9. The reference trajectory error of joint two.
+
+      Similarly, substituting (59) and (60) into the last term of (58),                 From (64) and (65), by integrating by parts, we note that
+      we have
+
+
+                                                                                                                                                                 (66)
+
+
+
+
+                                                                                                                                                                 (67)
+
+                                                                               (62)
+      where
+                                                                               (63)
+      Adding (61) and (62) with each corresponding terms and
+      substitute back into (58), we have
+
+                                                                               (64)
+
+      where
+                                                                                                                                                                 (68)
+
+                                                                                        since     ,   , and        are symmetric matrices. Note the
+                                                                                        fact of the following inequality:
+
+
+                                                                                                                                                                 (69)
+
+                                                                                        where               is a constant to be defined. Therefore,
+                                                                                        by partitioning the term                   in (65) into
+                                                                               (65)                                       , substituting the inequality
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                          463
+
+
+
+
+      Fig. 10.   The reference trajectory error of joint three.
+
+
+      (69) and (66)–(68) into it, we arrive at
+
+
+                                                                                                                                                                 (71)
+
+                                                                               (70)     Now, let us rewrite the second to fourth terms of (70) as
+
+
+      where
+
+
+
+                                                                                        which is nonpositive if       is chosen such that
+                                                                                                       ; where     denotes the norm bounds for      ,
+                                                                                                       , and                   . Now, since the first
+                                                                                        to fourth terms of (70) are nonpositive, therefore         is
+                                                                                        negative semi-definite if                     is nonnegative.
+                                                                                        From (63) and (71), we have (72), shown at the bottom of
+
+
+
+
+                                                                                                                                                                 (72)
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      464                                                                      IEEE TRANSACTIONS ON ROBOTICS AND AUTOMATION, VOL. 14, NO. 3, JUNE 1998
+
+
+
+
+      Fig. 11.   The contact force.
+
+
+      the previous page, where                                                          condition (23) of the Theorem, where                      ,
+                                                                                        then                        0 and hence             0. This
+                                                                                        implies that        converges to a nonnegative constant be-
+                                                                                        cause        is bounded. Therefore              as        .
+                                                                                        Furthermore,            for all          because
+                                                                                                                                                                 (73)
+                                                                                        This implies that             0 for all          because
+                                                                                        0 for all                . From (9) and (18), we have
+
+
+                                                                                                                                                                 (74)
+                                                                                        Therefore, the impedance error              converges to zero such that
+
+
+                                                                                                                                                                 (75)
+                                                                                        as            for all               .
+         and     are the Lipschitz constants of the functions
+      and         , respectively,    ,     , and       are the norm                                                    REFERENCES
+      bounds for       ,     , and    , respectively,
+      and                             . Using Sylvester’s criterion,                     [1] M. Aicardi, G. Cannata, and G. Gasalino, “Hybrid learning control for
+                                                                                             constrained manipulators,” Adv. Robot., vol. 6, no. 1, pp. 69–94, 1992.
+      taking determinant of the matrix in (72) and its successive                        [2] S. Arimoto, “Learning control theory for robot motion,” Int. J. Adapt.
+      principle minors, we can show that if      is chosen to satisfy                        Contr. Signal Process., vol. 4, pp. 543–564, 1990.
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+      CHEAH AND WANG: LEARNING IMPEDANCE CONTROL FOR ROBOTIC MANIPULATORS                                                                                             465
+
+
+
+       [3]        , “Passivity and learnability for mechanical systems—A learning       [29] M. H. Raibert and J. J. Craig, “Hybrid position/force control of manip-
+           control theory for skill refinement,” IEICE Trans. Fundamentals, vol.             ulators,” ASME J. Dyn. Syst., Meas., Contr., vol. 102, p. 126, 1981.
+           E75-A, no. 5, pp. 552–560, May 1992.                                         [30] J. J. E. Slotine and W. Li, “Adaptive strategies in constrained manipu-
+       [4] S. Arimoto, S. Kawamura, and F. Miyazaki, “Bettering operation of                 lators,” in Proc. IEEE Int. Conf. Robot. Automat., 1987, pp. 595–602.
+           robots by learning,” J. Robot. Syst., vol. 1, no. 2, pp. 440–447, 1984.      [31] M. W. Spong, F. L. Lewis, and C. T. Abdallah, Robot Control:
+       [5] H. Asada, “Teaching and learning of compliance using neural networks:             Dynamics, Motion Planning, and Analysis. New York: IEEE Press,
+           Representation and generation of nonlinear compliance,” in Proc. IEEE             1993.
+           Conf. Robot. Automat., Cincinnati, OH, 1990, pp. 1237–1244.                  [32] T. Sugie and T. Ono, “An iterative learning control law for dynamical
+       [6] P. Bondi, G. Casalino, and L. Gambardella, “On the iterative learning             systems,” Automatica, vol. 27, no. 4, pp. 729–732, 1991.
+           control theory for robotic manipulators,” IEEE J. Robot. Automat., vol.      [33] S. T. Venkatamaran, S. Gulati, and N. Toomarian, “Parameter learning
+           4, pp. 14–22, Feb. 1988.                                                          and compliance control of robot manipulators,” in Proc. Conf. Decision
+       [7] R. Carelli and R. Kelly, “An adaptive impedance/force controller for              Contr., 1992, pp. 3475–3480.
+           robot manipulators,” IEEE Trans. Automat. Contr., vol. 36, pp. 967–972,      [34] D. Wang and C. C. Cheah, “A robust learning control scheme for
+           Aug. 1991.                                                                        manipulators with target impedance at end-effectors,” Robotics and
+       [8] C. C. Cheah and D. Wang, “Discrete-time model reference learning                  Manufacturing: Recent Trends in Research and Applications. ASME
+           control: Theory and experiment,” Dynam. Contr., vol. 8, pp. 145–162,              Press, 1996, vol. 6, pp. 851–856.
+           1998.                                                                        [35]        , “An iterative learning control scheme for impedance control of
+       [9]        , “Learning control for a class of nonlinear differential-algebraic        robotic manipulators,” Int. J. Robot. Res., 1998.
+           systems with application to constrained robots,” in J. Robot. Syst., vol.    [36] D. Wang and N. H. McClamroch, “Position/force control design for
+           13, no. 3, pp. 141–151, 1996.                                                     constrained mechanical systems: Lyapunov’s direct method,” IEEE
+      [10]        , “Learning impedance control for robotic manipulator,” in Proc.           Trans. Robot. Automat., vol. 9, pp. 308–313, 1993.
+           IEEE Int. Conf. Robot. Automat., Nagoya, Japan, 1995, pp. 2150–2155.         [37] D. Wang, Y. C. Soh, and C. C. Cheah, “Robust motion and force control
+      [11]        , “A model reaching learning control scheme for a class of                 of constrained manipulators by learning,” Automatica, vol. 31, no. 2,
+           nonlinear systems,” in Proc. Amer. Contr. Conf., Baltimore, MD, 1994,             pp. 257–262, 1995.
+           pp. 882–886.                                                                 [38] D. E. Whitney, “Historical perspective and state of the art in robot force
+      [12] C. C. Cheah, D. Wang, and Y. C. Soh, “Convergence and robustness of               control,” Int. J. Robot. Res., vol. 6, no. 1, pp. 3–14, 1987.
+           a discrete-time learning control scheme for constrained manipulators,”       [39] T. Yoshikawa, T. Sugie, and M. Tanaka, “Dynamic hybrid position/force
+           J. Robot. Syst., vol. 11, no. 3, pp. 223–238, 1994.                               control of robot manipulators: Controller design and experiment,” IEEE
+      [13]        , “Learning control of constrained robots,” in Proc. IEEE Int.             J. Robot. Automat., vol. 4, pp. 699–705, 1988.
+           Symp. Intell. Contr., Scotland, U.K., 1992, pp. 91–96.
+      [14] M. Cohen and T. Flash, “Learning impedance parameters for robot
+           control using an associative search network,” IEEE Trans. Robot.
+           Automat., vol. 7, pp. 382–390, 1991.
+      [15] J. J. Craig, “Adaptive control of manipulators through repeated trials,”
+           in Proc. Amer. Contr. Conf., San Diego, CA, 1984, pp. 1566–1573.
+      [16] C. A. Desoer and M. Vidyasagar, Feedback Systems: Input–Output                                         Chien-Chern Cheah was born in Singapore. He
+           Properties. New York: Academic, 1975.                                                                  received the B.E. degree in electrical engineering
+      [17] V. Gullapalli, R. A. Grupen, and A. G. Barto, “Learning reactive                                       from the National University of Singapore in 1990,
+           admittance control,” in Proc. IEEE Conf. Robot. Automat., Nice, France,                                the M.E. and D.Phil. degrees in electrical engineer-
+           1992, pp. 1475–1480.                                                                                   ing, both from Nanyang Technological University,
+      [18] G. Heinzinger, D. Fenwick, B. Paden, and F. Miyazaki, “Stability of                                    Singapore, in 1993 and 1996, respectively.
+           learning control with disturbances and uncertain initial conditions,”                                     He worked as a Design Engineer for Singapore
+           IEEE Trans. Automat. Contr., vol. 137, pp. 110–114, Jan. 1992.                                         Technologies in 1990. From 1991 to 1996, he was
+      [19] N. Hogan, “Impedance control: An approach to manipulation: Part I,
+                                                                                                                  a Teaching Assistant in the Nanyang Technological
+           part II, part III,” ASME J. Dynam. Syst., Meas., Contr., vol. 107, 1985.
+                                                                                                                  University. Presently, he is a Research Fellow in the
+      [20] S. Jung and T. Hsia, “On neural network application to robust impedance
+                                                                                                                  Department of Robotics, Ritsumeikan University,
+           control of robot manipulators,” in IEEE Int. Conf. Robot. Automat.,
+                                                                                        Japan. His research interests include robotics, control theory, machine vision,
+           Nagoya, Japan, 1995, pp. 869–874.
+      [21] D. Katic and M. Vukobratovic, “Learning impedance control of manip-          and machine intelligence.
+           ulation robots by feedforward connectionist structures,” in Proc. IEEE
+           Conf. Robot. Automat., 1994, pp. 45–50.
+      [22] S. Kawamura, F. Miyazaki, and S. Arimoto, “Applications of learning
+           methods for dynamic controls of robotic manipulators,” in Proc. 24th
+           IEEE CDC, Fort Lauderdale, FL, 1985, pp. 1381–1386.
+      [23]        , “Hybrid position/force control of manipulators based on learning
+           method,” in Proc. Int. Conf. Adv. Robot., Tokyo, Japan, 1985, pp.                                        Danwei Wang received the B.E. degree from the
+           235–242.                                                                                                 South China University of Technology in 1982, and
+      [24] T. Y. Kuc, J. S. Lee, and K. Nam, “An iterative learning control theory                                  the M.S.E. and Ph.D. degrees from the University
+           for a class of nonlinear dynamic systems,” Automatica, vol. 28, no. 6,                                   of Michigan, Ann Arbor, in 1985 and 1989, respec-
+           pp. 1215–1221, 1992.                                                                                     tively.
+      [25] F. L. Lewis, C. T. Abdallah, and D. M. Dawson, Control of Robot                                             Since 1989, he has been with the School of Elec-
+           Manipulators. New York: Macmillan, 1993.                                                                 trical and Electronic Engineering, Nanyang Tech-
+      [26] W. Li and J. J. E. Slotine, “A unified approach to compliant motion                                      nological University (NTU), Singapore. Currently,
+           control,” in Proc. Amer. Contr. Conf., 1989, pp. 1944–1949.                                              he is a Senior Lecturer and Deputy Director of
+      [27] J. Marsden, Elementary Classical Analysis. San Francisco, CA: Free-                                      the Robotics Research Center, NTU. His research
+           man, 1974.                                                                                               interests include robotics, control theory, and appli-
+      [28] N. H. McClamroch and D. Wang, “Feedback stabilization and tracking           cations. He publishes in the areas of manipulator/mobile robot dynamics, path
+           of constrained robots,” IEEE Trans. Automat. Contr., vol. 33, pp.            planning, robust control, iterative learning control and adaptive control of such
+           419–426, 1988.                                                               systems, and position/force control systems.
+
+
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:14:47 UTC from IEEE Xplore. Restrictions apply.
+

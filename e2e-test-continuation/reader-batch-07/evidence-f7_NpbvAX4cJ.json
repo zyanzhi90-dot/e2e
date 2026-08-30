@@ -1,0 +1,108 @@
+{
+  "source_id": "f7_NpbvAX4cJ",
+  "read_event_id": "22397b36d6194afca71d941874c9cd49",
+  "content_sha256": "0890411f669f8009a6673d4673fb33f08eb0f4792d5f18fec9c3afada67dbe48",
+  "claim": "He and Dong develop adaptive fuzzy-neural impedance controllers for a robot with unknown Cartesian dynamics and prescribed output or full-state constraints. Contact force is filtered through a user-selected target impedance to generate a desired trajectory, fuzzy neural networks approximate inertia, Coriolis, and gravity terms online, tan-type barrier Lyapunov functions penalize approach to tracking-error bounds, and a robust sign term dominates residual approximation error. Under bounded initial conditions, positive gain choices, compatible initial constraint sets, and bounded fuzzy approximation on the operating domain, the authors derive bounded closed-loop signals and convergence of tracking errors to tunable neighborhoods while preserving the constructed error constraints. Four simulations of a three-degree-of-freedom robot in free space and against a rigid wall illustrate the controller. The work contains no hardware or human evidence, no passivity analysis, and its term impedance learning refers primarily to online dynamics approximation and force-conditioned desired-trajectory generation, not reinforcement learning of impedance gains.",
+  "claim_locator": [
+    "Abstract",
+    "Section I, Introduction and contributions",
+    "Section II-A, system and target impedance equations (1)-(4)",
+    "Section II-B, fuzzy neural approximation",
+    "Section II-C, barrier and Nussbaum preliminaries",
+    "Section III-A, Theorem 1",
+    "Section III-B, Theorem 2",
+    "Section IV, Cases 1-4 and Figures 2-6",
+    "Section V, Conclusion",
+    "Appendices A-C"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the barrier-Lyapunov boundedness and constraint claims are analytical and conditional on prescribed bounds, bounded initial states, compact-domain fuzzy approximation, residual-dominating robust gains, and other gain conditions; all empirical support is simulation-only and does not establish physical interaction passivity or safety",
+  "problem_and_setting": "The paper considers a rigid n-link robot whose Cartesian inertia, Coriolis, and gravity dynamics are treated as unknown, whose position and velocity must remain within prescribed operating regions, and whose end effector alternates between free motion and contact with an uncertain environment. The target behavior is a user-specified mass-damper-stiffness relation between commanded motion, actual motion, and measured environmental force.",
+  "method_or_mechanism": "Measured contact force enters a second-order target-impedance filter to generate a desired trajectory. Backstepping errors are regulated by either an output-constraint controller or a full-state-constraint controller. Separate fuzzy neural networks approximate the unknown Cartesian inertia, Coriolis, and gravity functions, with leakage-type adaptive weight updates. Tan-type barrier Lyapunov terms grow without bound as the prescribed error limits are approached. The full-state design adds a barrier term for the second backstepping error and uses a Nussbaum-type construction in its boundedness argument. A discontinuous robust sign term is chosen to dominate aggregate fuzzy approximation residuals.",
+  "content_summary": "Two theorems address output constraints and combined position/velocity-related error constraints. For bounded initial conditions and appropriate positive gains, the paper bounds Lyapunov functions by exponentially decaying terms plus constants and concludes that target impedance is achieved up to a small tracking neighborhood. Constraint preservation is tied to the barrier functions and feasible initial errors. Validation uses a modeled three-DOF manipulator in four numerical cases: output constraint in free space, full-state constraints in free space, output constraint during wall contact, and full-state constraints during wall contact. The reference is a circular path and the wall is at a fixed Cartesian coordinate. Plots show errors staying inside selected bounds; contact introduces small tracking/control oscillations, and the controller returns the states toward their sets. No physical system, contact-material variation, measurement noise, actuator saturation, or comparison with alternative constrained controllers is tested.",
+  "synthesis_role": "Provides conditional analytical evidence for combining neural approximation with barrier functions in impedance tracking under prescribed constraints. It is relevant to constraint-aware adaptive impedance control, but should not be grouped with data-driven impedance-policy learning or treated as hardware-validated interaction safety.",
+  "development_link": "Relative to unconstrained adaptive neural impedance control, the paper adds tan-type barrier Lyapunov functions for output and backstepping-state errors. Relative to reinforcement-learning approaches, the fuzzy network identifies unknown robot dynamics online under a Lyapunov-designed update law; it does not optimize stiffness from task returns. Relative to passivity-based interaction control, the proof regulates internal tracking and approximation errors but does not bound energy exchange with the environment.",
+  "evidence": [
+    {
+      "locator": "Section II-A, equations (1)-(4)",
+      "status": "problem and impedance formulation",
+      "finding": "Unknown Cartesian robot dynamics interact through measured environmental force, and a user-defined mass-damping-stiffness model filters commanded motion and contact force into the desired impedance trajectory."
+    },
+    {
+      "locator": "Section II-B, equations (5)-(7)",
+      "status": "approximation mechanism",
+      "finding": "Fuzzy neural basis functions approximate continuous unknown dynamics on an implicit compact domain with bounded, but not necessarily known to the controller, residual errors."
+    },
+    {
+      "locator": "Section III-A, equations (23)-(39) and Theorem 1",
+      "status": "conditional output-constraint guarantee",
+      "finding": "With bounded initial conditions, positive gains, leakage updates, and a robust term exceeding residual approximation errors, the output-error barrier remains bounded and tracking converges to a stated compact neighborhood."
+    },
+    {
+      "locator": "Section III-B, equations (40)-(55) and Theorem 2",
+      "status": "conditional full-state-constraint guarantee",
+      "finding": "A second barrier and Nussbaum-based argument bound both backstepping errors and the neural weights, preserving the constructed constraint sets under the theorem's initial-condition and gain assumptions."
+    },
+    {
+      "locator": "Section IV, Cases 1-2 and Figures 3-4",
+      "status": "author-reported free-space simulation",
+      "finding": "For a three-DOF model following a circular reference, output-only and full-state designs keep plotted errors inside prescribed limits and drive them near zero."
+    },
+    {
+      "locator": "Section IV, Cases 3-4 and Figures 5-6",
+      "status": "author-reported contact simulation",
+      "finding": "Against a fixed wall, the simulated end effector slides along the constraint while error bounds are maintained; small contact-induced oscillations appear in tracking and control signals."
+    },
+    {
+      "locator": "Section V, Conclusion",
+      "status": "evidence-scope qualification",
+      "finding": "The claimed performance is supported by four simulation cases only; the paper reports no physical-robot or human-interaction study."
+    }
+  ],
+  "evidence_kind": [
+    "barrier Lyapunov analysis",
+    "conditional ultimate boundedness",
+    "fuzzy neural dynamics approximation",
+    "Nussbaum-function boundedness argument",
+    "free-space simulations",
+    "rigid-wall contact simulations",
+    "constraint-trace plots"
+  ],
+  "boundary_conditions": [
+    "The constraints enforced directly by the barrier construction are tracking/backstepping error bounds; actual position and velocity safety follows only when reference and virtual-control signals are themselves compatible with the physical state limits.",
+    "Initial errors must lie strictly inside the prescribed barrier sets; the method does not recover from an initially violated constraint.",
+    "Fuzzy approximation assumes continuous unknown functions on a compact operating domain with bounded residual error.",
+    "The robust sign gain must dominate the aggregate approximation residual, even though the paper emphasizes that residual bounds need not be known; conservative implementation can therefore introduce chattering.",
+    "Theorems establish boundedness and convergence to a neighborhood, not exact asymptotic tracking in the presence of leakage and approximation error.",
+    "No actuator saturation, rate limit, sampling delay, measurement noise, force-sensor error, singular kinematics, or switching-impact model is included.",
+    "No passivity or environment-port energy condition is proved, so constraint preservation does not by itself certify stable contact with arbitrary environments.",
+    "All four cases use one simulated three-degree-of-freedom robot, a circular reference, and a fixed rigid wall; no hardware or baseline statistics are provided."
+  ],
+  "assumptions": [
+    "The Cartesian inertia is symmetric positive definite and the inertia/Coriolis matrices satisfy the standard skew-symmetry property.",
+    "Commanded trajectories are bounded and twice differentiable, and the force-dependent target-impedance filter produces a feasible bounded desired trajectory.",
+    "Contact force is measured and immediately available to the controller.",
+    "The initial tracking and backstepping errors satisfy the strict prescribed constraint inequalities.",
+    "Unknown robot dynamics are continuous and approximable by the selected fuzzy basis functions over the closed-loop compact domain.",
+    "Control gains satisfy the theorem inequalities and the robust sign gain is sufficiently large relative to residual approximation errors.",
+    "The Nussbaum-based integral term remains bounded as required by the full-state proof."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Contact with the wall causes small oscillations in tracking and control signals because the environment changes abruptly and the controller acts to return states to the constrained sets.",
+      "A large initial position mismatch produces a relatively large initial error, although it remains within the selected bounds in simulation.",
+      "Model-based controllers are not realizable when Cartesian inertia, Coriolis, and gravity terms are unknown, motivating fuzzy approximation.",
+      "Without the added barrier design, the preceding output-constraint controller does not address all state constraints."
+    ],
+    "inferred": [
+      "If the desired trajectory approaches the physical workspace boundary, bounded tracking error alone may not prevent actual-state constraint violation.",
+      "The discontinuous sign term can cause chattering, excite unmodeled dynamics, or violate actuator limits when gains are conservatively selected.",
+      "Barrier terms can demand very large control near a constraint boundary; because saturation is absent from the model, real actuators may be unable to enforce the theoretical set invariance.",
+      "Compact-domain fuzzy approximation and boundedness arguments may fail after an unmodeled impact or disturbance moves the robot outside the approximated region.",
+      "Simulation against a fixed wall does not establish robust or passive interaction with dynamic, active, delayed, or human environments."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

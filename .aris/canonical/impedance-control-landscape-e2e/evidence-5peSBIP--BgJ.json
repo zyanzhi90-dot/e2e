@@ -1,0 +1,88 @@
+{
+  "source_id": "5peSBIP--BgJ",
+  "read_event_id": "5e8a464df9fb4a4d9291c3b6764cea21",
+  "content_sha256": "496cefe4402d3d05acd20b9a8038b20f7c72d4b674059bde9cf9b73b25bbda54",
+  "claim": "Review-level synthesis: this 2019 tutorial survey provides decision-grade evidence for field-map terminology, conceptual taxonomy, architecture lineage and gap synthesis. It organizes impedance control around force–motion ports, impedance/admittance causality, isolated versus coupled stability, hardware versus software compliance, and position-, torque- and model-based realizations, while classifying force-tracking, hybrid, robust, adaptive, variable and learning controllers. It is not primary causal or quantitative evidence and does not establish method superiority or deployment safety.",
+  "claim_locator": "Definitions; stability and implementation architectures; controller taxonomy and Table I; massage simulation; conclusion.",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "review-level synthesis suitable only for field taxonomy, terminology, architecture lineage and gap identification",
+  "problem_and_setting": "Organizing robot dynamic interaction across free motion, transition and contact under uncertain environments, finite bandwidth, modeling error, noise and sampling limits.",
+  "method_or_mechanism": "Uses Z=F/Xdot and port causality; separates isolated and coupled stability; contrasts hardware/software compliance and position-, torque- and model-based implementations; groups later robust, adaptive, variable and learning methods. Passivity is a sufficient route for passive-environment coupling chiefly in linear one-port positive-real settings.",
+  "content_summary": "The survey synthesizes concepts through 2018. Unified free/contact behavior depends on suitable impedance, bandwidth, sensing, modeling and coupled-stability analysis. Table I is qualitative. A one-dimensional MATLAB massage example is illustrative, not human or clinical evidence. Application breadth is heterogeneous. Future needs include systematic parameter design, robust/adaptive hardware, learning integration and broader trials.",
+  "synthesis_role": "Historical and conceptual scaffold for the Active Field Map; not a basis for ranking methods or deployment readiness.",
+  "development_link": "Links classical port/passivity theory to robust, adaptive, variable and learning impedance, marking unresolved design and validation gaps.",
+  "evidence": [
+    {
+      "locator": "Port definitions",
+      "status": "review synthesis",
+      "finding": "Frames interaction through Z=F/Xdot and distinguishes impedance from admittance causality."
+    },
+    {
+      "locator": "Stability discussion",
+      "status": "review synthesis",
+      "finding": "Separates isolated from coupled stability and presents passivity as sufficient under passive linear one-port assumptions."
+    },
+    {
+      "locator": "Architecture sections",
+      "status": "review synthesis",
+      "finding": "Organizes hardware/software compliance and position-, torque- and model-based realization."
+    },
+    {
+      "locator": "Taxonomy and Table I",
+      "status": "qualitative synthesis",
+      "finding": "Classifies controller families without meta-analytic comparison."
+    },
+    {
+      "locator": "Massage simulation",
+      "status": "simulation illustration",
+      "finding": "One-dimensional assumed human-back changes provide no human-subject or clinical evidence."
+    },
+    {
+      "locator": "Sampling discussion",
+      "status": "engineering condition",
+      "finding": "Position filtering requires sampling well above signal bandwidth; model, environment, noise and sampling errors can undermine behavior."
+    },
+    {
+      "locator": "Conclusion",
+      "status": "gap synthesis",
+      "finding": "Identifies parameter design, hardware robustness, learning integration and broader trials as gaps."
+    }
+  ],
+  "evidence_kind": [
+    "tutorial review",
+    "narrative taxonomy",
+    "historical synthesis",
+    "simulation illustration",
+    "gap synthesis"
+  ],
+  "boundary_conditions": [
+    "Coverage ends in 2018.",
+    "Passivity treatment is chiefly passive-environment linear one-port.",
+    "Table I cannot rank methods quantitatively.",
+    "Massage is not a human experiment.",
+    "No reproducible systematic-review protocol or quality appraisal exists.",
+    "Decision-grade applies only to field-map concepts and lineage."
+  ],
+  "assumptions": [
+    "The interaction port meaningfully represents the task.",
+    "Models, sensing, bandwidth and sampling are adequate.",
+    "Passive-environment assumptions hold where invoked.",
+    "Cited literature is representative despite narrative selection."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Inappropriate models, unknown environments, error, noise and low sampling can undermine control.",
+      "Systematic parameter design and validation remain unresolved."
+    ],
+    "inferred": [
+      "Completeness and selection bias cannot be assessed.",
+      "Heterogeneous applications cannot support causal superiority.",
+      "Simulation cannot establish human safety.",
+      "Conditional passivity is not universal safety.",
+      "The cutoff limits modern relevance."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified against Controller-supplied admitted full text"
+}

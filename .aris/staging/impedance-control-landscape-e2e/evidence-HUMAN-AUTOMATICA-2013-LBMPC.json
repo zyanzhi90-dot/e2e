@@ -1,0 +1,91 @@
+{
+  "source_id": "HUMAN-AUTOMATICA-2013-LBMPC",
+  "read_event_id": "6d90f42881cd4a4780eba4f3c88562c2",
+  "content_sha256": "08ddaa1c8d09845b54ae3e8a9ddaf6cf085045a6bcee4694ec07359136baf5bc",
+  "claim": "Learning-Based Model Predictive Control can separate a learned performance model from a conservative nominal safety model: the learned model evaluates performance for a shared candidate control sequence, while robust tube and terminal invariant-set constraints based on a known bounded mismatch set enforce recursive feasibility and constraint satisfaction. The deterministic safety result is conditional on the stated uncertainty bound, invariant-set construction, stabilizability, initial feasibility, and constraints, and is distinct from the statistical conditions needed for learned-control convergence. For P-SOFTSCAN-STATE-01, this is indirect design evidence for placing a robust feasibility shield around a learned or state-rich impedance selector; it does not certify SoftScan contact safety, clinical operation, passivity, or the decision value of richer contact state.",
+  "claim_locator": "Goal and central two-model construction; safety construction and Theorem 1; learning/convergence discussion; evidence/applications; transfer limits for SoftScan (Controller-supplied admitted full-text dossier; page numbers were not supplied and are not fabricated)",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "mixed_conditional_theorem_reported_evidence_and_explicit_transfer_inference",
+  "problem_and_setting": "The paper considers constrained learning control for a discrete-time nonlinear system represented by known linear dynamics plus unknown residual dynamics. State and input sets are compact convex polytopes, all states are measured in the main development, and the residual g(x,u) is assumed bounded by a known polytope W over the admissible state-input domain. The bound problem P-SOFTSCAN-STATE-01 instead concerns decision value and minimal sufficiency of nested soft-contact information for impedance selection under held-out continuous shifts, with safety and an independent scanning endpoint. The paper contains no soft contact, impedance-control action, ultrasound endpoint, or latency-calibrated robot-contact evaluation.",
+  "method_or_mechanism": "LBMPC uses two prediction models with the same candidate control sequence. A nominal model with additive disturbance d in W supports robust safety constraints; a time-varying learned oracle augments a separate performance model used in the objective. With a gain K such that A+BK is Schur, propagated disturbance sets define tube widths, nominal state and input constraints are tightened, and the terminal nominal state is constrained to a disturbance-invariant admissible set. Theorem 1 gives robust recursive feasibility and constraint satisfaction when its premises hold and the optimization is initially feasible. The learned oracle may be parametric or nonparametric; the paper develops a regularized local linear Nadaraya-Watson-type estimator. Probabilistic convergence of the LBMPC control action to ideal MPC requires excitation or sample coverage, estimator consistency, and optimization regularity or uniqueness conditions. That convergence is not part of the deterministic safety theorem.",
+  "content_summary": "The method deliberately prevents the learned dynamics from relaxing the safety envelope because a poor learned model can produce arbitrarily bad learning control; bounding safety by worst-case learned-model error would also be more conservative than using the nominal mismatch set W. The paper reports or discusses HVAC and quadrotor applications and presents a Moore-Greitzer compressor simulation. In that simulation LBMPC converged faster than linear MPC and similarly to nonlinear MPC, but computation was approximately 0.9 seconds per step versus 0.3 seconds for linear MPC and 0.4 seconds for nonlinear MPC. No experiment tests soft-contact constraints, impedance action, solver deadlines in a robot-contact loop, measured delay, contact loss or slip, force or wrench safety, ultrasound image quality, or sampled-data passivity or energy tanks.",
+  "synthesis_role": "Indirect method evidence for OBL-SAFE-ABSORPTION-BOUNDARY and secondary evidence for OBL-NESTED-DECISION-VALUE and CHAIN-CLOSED-LOOP-ABSORPTION. It supplies a rigorous architectural reason to keep a learned or state-rich performance selector inside a separately verified robust constraint envelope, so performance adaptation does not become the sole safety mechanism. It does not show that added contact information has incremental decision value, identify a minimally sufficient contact representation, or establish that a tube-MPC constraint shield absorbs the same uncertainties as impedance passivity or an energy tank.",
+  "development_link": "For SoftScan method development, formulate force or wrench, actuator, contact-loss, and slip boundaries as explicit state or input constraints; estimate and conservatively validate a bounded mismatch set across material, geometry, and history shifts; construct and verify tightened tubes and a terminal invariant set; and specify initial-feasibility checks, solver deadlines, measured-delay handling, and a certified fallback. Use any state-rich learned model only for performance optimization unless separately proven safe. Compare nested representations under the same robust shield and include a simpler baseline so the result can disconfirm the need for richer state. The residual delta is substantial: the project must establish a contact-relevant uncertainty set and dynamics, real-time recursive feasibility with delays, compatibility with sampled-data impedance/passivity or energy accounting, and an independent ultrasound endpoint. None of those SoftScan-specific properties is proven by this paper.",
+  "evidence": [
+    {
+      "locator": "Central insight: nominal safety model and learned performance model (Controller-supplied dossier; page number unavailable)",
+      "status": "author_reported_method",
+      "finding": "The same candidate input sequence is predicted through both models; the learned model determines objective performance while the nominal model with disturbance in W determines robust constraints. The architecture intentionally prevents the learned model from defining or relaxing the sole safety envelope."
+    },
+    {
+      "locator": "Safety construction and Theorem 1 (Controller-supplied dossier; page number unavailable)",
+      "status": "author_reported_conditional_theorem",
+      "finding": "Given a Schur ancillary feedback, propagated disturbance tubes, an admissible disturbance-invariant terminal set, the stated tightened constraints, and initial feasibility, receding-horizon control provides robust recursive feasibility and robust constraint satisfaction. This is a deterministic conditional result, not an empirical SoftScan or clinical safety claim."
+    },
+    {
+      "locator": "Learning and convergence development (Controller-supplied dossier; page number unavailable)",
+      "status": "author_reported_statistical_result",
+      "finding": "Convergence of the LBMPC control action toward ideal MPC with the true dynamics depends on excitation or finite-sample coverage, oracle consistency, and optimization regularity or uniqueness-type assumptions. These probabilistic learning conditions are separate from the robust constraint theorem."
+    },
+    {
+      "locator": "Moore-Greitzer compressor example (Controller-supplied dossier; page number unavailable)",
+      "status": "author_reported_simulation",
+      "finding": "LBMPC converged faster than linear MPC and similarly to nonlinear MPC, while reported computation was about 0.9 seconds per step, compared with about 0.3 seconds for linear MPC and 0.4 seconds for nonlinear MPC. This demonstrates a performance-computation tradeoff in simulation, not real-time contact-control feasibility."
+    },
+    {
+      "locator": "Evidence/applications discussion: HVAC and quadrotor (Controller-supplied dossier; page number unavailable)",
+      "status": "author_reported_or_cited_application_evidence",
+      "finding": "The dossier reports HVAC energy savings and quadrotor improvements in step response and ground-effect handling, with robust constraints preventing crashes when an EKF was deliberately destabilized or mislearned. These applications support the two-model safety architecture only in their own settings and do not evaluate soft contact or ultrasound."
+    },
+    {
+      "locator": "Transfer limits for SoftScan (reader synthesis from the Controller-supplied dossier)",
+      "status": "reader_inference",
+      "finding": "A defensible transfer is an architectural requirement for a separate robust feasibility and invariant-set shield around a learned or state-rich selector. Direct certification of impedance-controlled contact would additionally require validated contact constraints and mismatch bounds, delay and deadline treatment, fallback behavior, and compatibility with passivity or energy accounting."
+    }
+  ],
+  "evidence_kind": [
+    "conditional_deterministic_theorem",
+    "statistical_convergence_result",
+    "control_architecture",
+    "simulation",
+    "reported_or_cited_application_evidence",
+    "transfer_boundary"
+  ],
+  "boundary_conditions": [
+    "The residual dynamics must lie in the known conservative polytope W over all admissible state-input pairs; safety is not supplied for unmodeled mismatch outside W.",
+    "The linear pair must be stabilizable enough to choose K with A+BK Schur, and the required disturbance-invariant terminal set and tightened tubes must be computable and satisfy the constraints.",
+    "Robust recursive feasibility and constraint satisfaction require the MPC problem to be initially feasible.",
+    "The main development assumes full-state measurement and no measurement noise; bounded noise can be incorporated only by enlarging the disturbance description with the stated noise set.",
+    "Stability or input-to-state stability conclusions require additional terminal, cost, model-class, and compactness assumptions beyond Theorem 1's constraint result.",
+    "Learning convergence requires sufficient excitation or sample coverage, estimator consistency, and optimization regularity or uniqueness-type conditions; safe deployment that freezes adaptation or prohibits exploration may not supply those conditions.",
+    "The paper does not establish computation within a SoftScan control deadline, resilience to missed deadlines, measured-delay robustness, or fallback safety.",
+    "Robust tube constraint satisfaction and passivity or energy-tank safety address different uncertainty and interconnection assumptions and are not interchangeable."
+  ],
+  "assumptions": [
+    "State and input constraints are representable as compact convex polytopes.",
+    "All relevant states are measured in the principal formulation, or bounded estimation and measurement errors are conservatively included in the disturbance set.",
+    "The set W accurately and conservatively bounds the unknown residual dynamics throughout the constrained domain.",
+    "A stabilizing ancillary feedback and suitable maximal output-admissible disturbance-invariant terminal set exist and can be computed.",
+    "The online optimization is solved as required from an initially feasible state and applies the shared candidate input consistently to both prediction models.",
+    "The statistical oracle and sampling process meet the consistency, smoothing, excitation, and regularity premises invoked for learning convergence.",
+    "Any SoftScan transfer can encode clinically relevant force, wrench, slip, contact-loss, and actuator boundaries as explicit constraints in a validated contact-relevant state model; this is a reader transfer assumption, not a paper result."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The paper motivates decoupling because poor learned dynamics can make learning control arbitrarily bad if the learned model is allowed to determine safety.",
+      "Using a worst-case learned-model error set W plus P for safety would be more conservative than using the bounded nominal error W.",
+      "The Moore-Greitzer simulation reports higher computation time for LBMPC, about 0.9 seconds per step, than for linear MPC at about 0.3 seconds and nonlinear MPC at about 0.4 seconds.",
+      "Learning-control convergence depends on excitation or sample coverage and regularity conditions, which may be unavailable when exploration is restricted."
+    ],
+    "inferred": [
+      "If W is nonconservative for a material, geometry, or history shift, the deterministic theorem does not establish constraint satisfaction for that shift.",
+      "If initial feasibility fails, the invariant terminal construction is invalid for the deployed state, or an online solve misses its deadline without a verified fallback, the cited theorem does not by itself supply SoftScan safety.",
+      "The paper cannot establish nested contact-state decision value or representation minimality because it does not compare contact-state representations or impedance decisions.",
+      "The paper cannot establish clinical, force or wrench, contact-loss or slip, or ultrasound endpoint performance because no soft-contact or ultrasound study is performed.",
+      "The two-model robust shield does not replace sampled-data passivity or energy-tank analysis because its constraint and uncertainty assumptions differ."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified against Controller-supplied admitted full text"
+}

@@ -1,0 +1,95 @@
+{
+  "source_id": "MeRUvAZGn0QJ",
+  "read_event_id": "c9835d428748420da36c61d5c326bbd9",
+  "content_sha256": "73eb3cd2ae74b43fe92fda00ebb0e93d0cba051e493f460a57030a80ff6d86ff",
+  "claim": "Sharifi et al. combine adaptive robot-dynamics compensation with online learning of a human's feedforward force, stiffness, and damping, enabling variable-impedance interaction without using a force sensor in the control loop. A Lyapunov analysis establishes uniform ultimate boundedness under bounded model error and bounded, slowly varying human-impedance terms; it does not establish parameter convergence, passivity, or asymptotic tracking. Quanser planar-robot experiments against springs and with a human operator report millimeter-scale tracking and sub-newton force-estimation error, but gains are trial-and-error tuned, human evidence appears to involve one operator, and sharp triangular-path corners visibly produce transient estimation and robust-gain jumps.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, robot and human interaction models",
+    "Section III, controller and adaptation laws",
+    "Section IV, stability analysis and theorem",
+    "Section V-A, physical-environment experiment",
+    "Section V-B, human-interaction experiments",
+    "Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the UUB result is an analytical model-conditional guarantee and the spring/human demonstrations are directly reported; parameter-identification, passivity, population-level human benefit, and force-safety claims are not established",
+  "problem_and_setting": "A rehabilitation or collaborative robot should adapt its impedance to a changing human while avoiding the expense and control dependence of a force sensor. The setting is a nonlinear robot with structured parametric uncertainty, unstructured bounded uncertainty, and a human interaction force approximated by feedforward, stiffness, and damping components.",
+  "method_or_mechanism": "The control input combines desired impedance feedback, adaptive compensation of linearly parameterized robot dynamics, estimated human feedforward/stiffness/damping terms, and a smooth tanh robust term. Gradient/leakage adaptation updates robot parameters and human impedance estimates from tracking error, while a further adaptive gain bounds unstructured uncertainty. A composite Lyapunov function includes tracking and parameter errors. Bounding time-varying human parameters and residual dynamics yields negativity outside a calculable compact set, giving uniform ultimate boundedness rather than exact identification.",
+  "content_summary": "The article presents a force-sensor-free adaptive interaction controller. Its human model is a linear impedance plus feedforward force, learned simultaneously with robot dynamic parameters; a tanh term replaces a discontinuous robust action to limit chattering. The analysis shows all estimation and tracking errors enter and remain in a compact set whose size depends on uncertainty bounds, human-parameter variation, the tanh approximation, leakage, and gains. A 1 kHz Quanser planar setup first tracks a circle against a four-spring environment, reporting under 2 mm steady tracking and an estimated stiffness near 65 N/m; a comparison with a prior approach is roughly fivefold better in plotted steady deviation. A human-guided circle and triangle then show under roughly 2.5 mm and 5 mm errors and under 1 N reported force-estimation error, but the triangular corners cause larger transients and the human protocol lacks cohort and statistical detail.",
+  "synthesis_role": "Provides an adaptive variable-impedance design in which human mechanical behavior is estimated online without force feedback. It illustrates the distinction between UUB tracking under bounded variation and stronger claims of true human-parameter learning or passive/safe interaction.",
+  "development_link": "Relative to fixed human-impedance models, the controller updates stiffness, damping, and feedforward assistance online. Relative to black-box reinforcement learning, the learned quantities are physically interpretable and embedded in a Lyapunov analysis. Relative to force-feedback impedance control, sensing burden is reduced, but model dependence and uncertainty-bound tuning increase.",
+  "evidence": [
+    {
+      "locator": "Section II, human interaction-force equation",
+      "status": "model formulation",
+      "finding": "Human force is decomposed into bounded feedforward, stiffness-times-position-error, and damping-times-velocity-error terms, forming the quantities estimated without force feedback."
+    },
+    {
+      "locator": "Section III, control and adaptation equations",
+      "status": "controller mechanism",
+      "finding": "Structured robot parameters, human impedance terms, and a robust uncertainty gain are adapted online; a tanh term is used to reduce the chattering associated with a discontinuous robust controller."
+    },
+    {
+      "locator": "Section IV, stability theorem",
+      "status": "analytical guarantee",
+      "finding": "Under bounded uncertainties and bounded human parameters and derivatives, the composite Lyapunov derivative is negative outside a compact set, proving uniform ultimate boundedness rather than asymptotic parameter convergence."
+    },
+    {
+      "locator": "Section V-A, circular spring experiment",
+      "status": "author-reported hardware experiment",
+      "finding": "On a planar Quanser robot interacting with four springs, steady circular tracking is reported below 2 mm and the learned stiffness/feedforward terms approximate the physical load; a plotted prior method has substantially larger deviation."
+    },
+    {
+      "locator": "Section V-B, human circular experiment",
+      "status": "author-reported human hardware demonstration",
+      "finding": "With a human operator following a circle, the controller reports tracking below about 2.5 mm and force-estimation error below about 1 N, with the sensor used for evaluation rather than feedback."
+    },
+    {
+      "locator": "Section V-B, triangular experiment",
+      "status": "author-reported stress-case demonstration",
+      "finding": "At sharp triangular corners, tracking peaks remain below about 5 mm but feedforward estimates jump and the robust gain oscillates, revealing sensitivity to abrupt intended-motion changes."
+    }
+  ],
+  "evidence_kind": [
+    "uniform ultimate boundedness proof",
+    "online parameter adaptation",
+    "planar robot spring-contact experiment",
+    "single-operator human interaction demonstrations"
+  ],
+  "boundary_conditions": [
+    "The analytical result is UUB; it does not imply zero tracking error or convergence of learned human stiffness, damping, feedforward force, or robot parameters.",
+    "Human force must be adequately represented by a linear impedance plus bounded feedforward term with bounded time derivatives.",
+    "Unstructured model error is assumed bounded by a form handled by the adaptive robust gain.",
+    "The tanh boundary parameter trades approximation error against sharp/high-frequency control behavior and contributes to the ultimate bound.",
+    "Controller gains are selected by trial and error, and adaptation gains trade tracking tightness against compliant feel.",
+    "Evidence is limited to a planar robot, one spring setup, and apparently one human operator; no repeated-subject statistics are reported.",
+    "No interaction passivity, energy bound, actuator saturation, force limit, delay robustness, or collision-safety result is provided."
+  ],
+  "assumptions": [
+    "Robot dynamics retain the standard positive-definite/skew-symmetry properties and their structured part is linearly parameterizable.",
+    "Position and velocity errors and the dynamic regressor are measured or reconstructed accurately enough for adaptation.",
+    "Actual human stiffness, damping, feedforward force, and their rates remain bounded.",
+    "The residual nonlinear uncertainty admits the assumed finite bound and the robust adaptive gain can grow sufficiently to dominate it.",
+    "The selected desired impedance and all adaptation/leakage gains are positive definite.",
+    "The force sensor used for validation is sufficiently accurate to assess the force estimate even though it is not used in control."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Sharp corners in the triangular task cause transient tracking peaks, sudden feedforward-estimate changes, and robust-gain oscillation.",
+      "Controller and adaptation gains were selected through trial and error.",
+      "The smooth robust term introduces a design trade-off governed by its boundary parameter.",
+      "Higher-order or fractional human models and teleoperation are left for future work."
+    ],
+    "inferred": [
+      "Fast or nonlinear human behavior outside the spring-damper-plus-feedforward model can be absorbed into the robust term rather than correctly learned.",
+      "Without persistent excitation, small tracking error can coexist with incorrect human-impedance estimates.",
+      "Noise and derivative estimation may drive parameter drift or robust-gain inflation despite leakage.",
+      "UUB and a smooth robust term do not prevent nonpassive energy injection or excessive contact force.",
+      "A single apparent operator and no statistical testing preclude population-level conclusions about HRI assistance."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

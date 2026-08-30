@@ -1,0 +1,432 @@
+{
+  "run_id": "impedance-control-landscape-e2e",
+  "papers": [
+    {
+      "paper_id": "HVvmYj1jhCIJ",
+      "read_event_id": "cc391045ad45465995ab92970a0ef369",
+      "content_sha256": "86a02756ecf06b2949c6b02c8cc24de9f02b830937ceece3ff5fdd37aca6ec49",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Variation_and_Learning_Strategies_in_HumanRobot_Interaction.pdf",
+      "source_sha256": "86a02756ecf06b2949c6b02c8cc24de9f02b830937ceece3ff5fdd37aca6ec49"
+    },
+    {
+      "paper_id": "5peSBIP--BgJ",
+      "read_event_id": "5e8a464df9fb4a4d9291c3b6764cea21",
+      "content_sha256": "496cefe4402d3d05acd20b9a8038b20f7c72d4b674059bde9cf9b73b25bbda54",
+      "source_path": "source-materials\\user-batch-v2\\A Tutorial Survey and Comparison of Impedance Control on Robotic Manipulation.pdf",
+      "source_sha256": "496cefe4402d3d05acd20b9a8038b20f7c72d4b674059bde9cf9b73b25bbda54"
+    },
+    {
+      "paper_id": "B68ZOyQGJ80J",
+      "read_event_id": "50c707d0bad44c0998b55d16b4dfdcdc",
+      "content_sha256": "0ec5c49ddbb602baff99b2155a4179693b93741de660d5a65c4623f3dd7f7806",
+      "source_path": "source-materials\\user-batch-v2\\Applied Bionics and Biomechanics - 2018 - Al-Shuka - Active Impedance Control of Bioinspired Motion Robotic Manipulators .pdf",
+      "source_sha256": "0ec5c49ddbb602baff99b2155a4179693b93741de660d5a65c4623f3dd7f7806"
+    },
+    {
+      "paper_id": "9PorOFP0XSIJ",
+      "read_event_id": "6842b8cbe0e34a4fa4b3fc46e95bc6c1",
+      "content_sha256": "82d97efa48c02d5370572b909768ea5d7c3d63ffbfc3bf6d725bc5b2d3b5628c",
+      "source_path": "source-materials\\user-batch-v2\\Variable impedance models including fuzzy fractional order for control of human–robot interaction a systematic review.pdf",
+      "source_sha256": "82d97efa48c02d5370572b909768ea5d7c3d63ffbfc3bf6d725bc5b2d3b5628c"
+    },
+    {
+      "paper_id": "y051Shzv2A8J",
+      "read_event_id": "b005d6a8b5864f769aae319bac7e2a40",
+      "content_sha256": "5f50df59171b73bd4767028eb0e0403557903702a294b563973b9d7293e0aa2a",
+      "source_path": "source-materials\\user-batch-v2\\Impedance and Interaction Control.pdf",
+      "source_sha256": "5f50df59171b73bd4767028eb0e0403557903702a294b563973b9d7293e0aa2a"
+    },
+    {
+      "paper_id": "50unDADdPGEJ",
+      "read_event_id": "db04e4a2ccce405a9f6c2870093a7ed8",
+      "content_sha256": "a08b5c73726ad1a38f2c4a541e0a263dd20e10a5a3e2529239d0ad8bdb12c826",
+      "source_path": "source-materials\\user-batch-v2\\Complementary_Stability_and_Loop_Shaping_for_Improved_HumanRobot_Interaction.pdf",
+      "source_sha256": "a08b5c73726ad1a38f2c4a541e0a263dd20e10a5a3e2529239d0ad8bdb12c826"
+    },
+    {
+      "paper_id": "X3fLqXpiIBoJ",
+      "read_event_id": "14a9725c20954d1fb49a7d6be99e1722",
+      "content_sha256": "9eb4b4954ecbca35da058d19a26d91d862f86d172e7ba897c0bb3891dea39920",
+      "source_path": "source-materials\\user-batch-v2\\Passive_Interaction_Control_With_Dynamical_Systems.pdf",
+      "source_sha256": "9eb4b4954ecbca35da058d19a26d91d862f86d172e7ba897c0bb3891dea39920"
+    },
+    {
+      "paper_id": "lLfdIFGp-oYJ",
+      "read_event_id": "ae01d4a84def4c26a8320f84ee9be690",
+      "content_sha256": "40cda55e7c21233807e88f7bfd1b85f453b7f8dff9eb7d717b336fa291fcc8a4",
+      "source_path": "source-materials\\user-batch-v2\\Passive_Model-Predictive_Impedance_Control_for_Safe_Physical_HumanRobot_Interaction.pdf",
+      "source_sha256": "40cda55e7c21233807e88f7bfd1b85f453b7f8dff9eb7d717b336fa291fcc8a4"
+    },
+    {
+      "paper_id": "sXrm1sT8KVIJ",
+      "read_event_id": "99a5ddde12a0499b9d66ee9557bdf123",
+      "content_sha256": "5f91bd4d3b0ceba6d15c2d80ee45358278b73d1e866a00215fffa816e19809a8",
+      "source_path": "source-materials\\user-batch-v2\\Passivity_Filter_for_Variable_Impedance_Control.pdf",
+      "source_sha256": "5f91bd4d3b0ceba6d15c2d80ee45358278b73d1e866a00215fffa816e19809a8"
+    },
+    {
+      "paper_id": "ioYGUCT49JIJ",
+      "read_event_id": "4fa3c37275da418296aa5f04c58c0cbc",
+      "content_sha256": "8c73c3aa81aa95a0c42695c86616df0557759d4ae2296a824ed656375bb04b60",
+      "source_path": "source-materials\\user-batch-v2\\Robust_Passivity_and_Passivity_Relaxation_for_Impedance_Control_of_Flexible-Joint_Robots_with_Inner-Loop_Torque_Control.pdf",
+      "source_sha256": "8c73c3aa81aa95a0c42695c86616df0557759d4ae2296a824ed656375bb04b60"
+    },
+    {
+      "paper_id": "d7xxRHNdSMAJ",
+      "read_event_id": "e54c91563db243f08c2fdee73c532444",
+      "content_sha256": "abe1ee0a2111d1f9a3c6067e9fe3ff18f23333ce1104f05217fbf55d3e52ca2c",
+      "source_path": "source-materials\\user-batch-v2\\Variable_Impedance_Control_of_Redundant_Manipulators_for_Intuitive_HumanRobot_Physical_Interaction.pdf",
+      "source_sha256": "abe1ee0a2111d1f9a3c6067e9fe3ff18f23333ce1104f05217fbf55d3e52ca2c"
+    },
+    {
+      "paper_id": "03NKTnfzQ6sJ",
+      "read_event_id": "934b96dc449343959440bd1975c631a0",
+      "content_sha256": "a5d4495f90a5c52987848d307350bd3fe589b80c1444488b6e7a1f0df74814d7",
+      "source_path": "source-materials\\user-batch-v2\\A_Novel_Robust_Adaptive_Impedance_Control_Scheme_for_Contact_Force_Tracking_With_Unknown_Environment.pdf",
+      "source_sha256": "a5d4495f90a5c52987848d307350bd3fe589b80c1444488b6e7a1f0df74814d7"
+    },
+    {
+      "paper_id": "B5eAiFMsuvgJ",
+      "read_event_id": "127127775e0c43f5a8ffe932cb5e9e07",
+      "content_sha256": "31cb5ca9e0a5ce8ee400ce7a89c1aff0434f5bf3539ee0fb1a4581d73729f64c",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Optimization_for_Uncertain_Contact_Interactions_Through_Risk_Sensitive_Optimal_Control.pdf",
+      "source_sha256": "31cb5ca9e0a5ce8ee400ce7a89c1aff0434f5bf3539ee0fb1a4581d73729f64c"
+    },
+    {
+      "paper_id": "m1A_ZYZ-UQwJ",
+      "read_event_id": "5ff546210cb746048808cde7c060e095",
+      "content_sha256": "bcebdd2cccc8966c47e20588c708c24078c8eb237ff3a77765911002b830c772",
+      "source_path": "source-materials\\user-batch-v2\\Force_tracking_impedance_control_of_robot_manipulators_under_unknown_environment.pdf",
+      "source_sha256": "bcebdd2cccc8966c47e20588c708c24078c8eb237ff3a77765911002b830c772"
+    },
+    {
+      "paper_id": "JSUpYYWBjK0J",
+      "read_event_id": "a8ba65b166af4152ab7fdc3ddff50c17",
+      "content_sha256": "f6301c54950128042691e43a1d1e532e0ec61be8475a3731cf7524768b4a4f15",
+      "source_path": "source-materials\\user-batch-v2\\Dynamic_Adaptive_Hybrid_Impedance_Control_for_Dynamic_Contact_Force_Tracking_in_Uncertain_Environments.pdf",
+      "source_sha256": "f6301c54950128042691e43a1d1e532e0ec61be8475a3731cf7524768b4a4f15"
+    },
+    {
+      "paper_id": "vql7SZH2jUQJ",
+      "read_event_id": "7228314e39aa4eedb9838ec9b6276369",
+      "content_sha256": "72617e98e3474c54a32f6f71f8c4bc471af8464c85fc6a5895d49ceecb6fefda",
+      "source_path": "source-materials\\user-batch-v2\\Adaptive_Energy-Bounding_Approach_for_Robustly_Stable_Interaction_Control_of_Impedance-Controlled_Industrial_Robot_With_Uncertain_Environments.pdf",
+      "source_sha256": "72617e98e3474c54a32f6f71f8c4bc471af8464c85fc6a5895d49ceecb6fefda"
+    },
+    {
+      "paper_id": "grfxImawk1MJ",
+      "read_event_id": "39e41cc972bd44679392e73fe5073916",
+      "content_sha256": "85ef8da4d6fd9a1f67fd2af0afa32d0dcfa585546908c60533c7d236bf12a8be",
+      "source_path": "source-materials\\user-batch-v2\\UDE-Based_Variable_Impedance_Control_of_Uncertain_Robot_Systems.pdf",
+      "source_sha256": "85ef8da4d6fd9a1f67fd2af0afa32d0dcfa585546908c60533c7d236bf12a8be"
+    },
+    {
+      "paper_id": "GkLovpurDJwJ",
+      "read_event_id": "44e90e266fd24befa91615934b11d53c",
+      "content_sha256": "fb205ecf3d6bda309dcdb708b49f736d6e5283b18de999e6a8b9398c75efff00",
+      "source_path": "source-materials\\user-batch-v2\\Unified_Motion_Force_Impedance_Control_for_Manipulators_in_Unknown_Contact_Environments_Based_on_Robust_Model-Reaching_Approach.pdf",
+      "source_sha256": "fb205ecf3d6bda309dcdb708b49f736d6e5283b18de999e6a8b9398c75efff00"
+    },
+    {
+      "paper_id": "5WHAHKnl3fYJ",
+      "read_event_id": "939498bf84d841dc8b561e1271b413dc",
+      "content_sha256": "da5a79ede8701777f68dc7f504c8daed3ec2b17d2bb0ed20ae7c69f2e1a28c65",
+      "source_path": "source-materials\\user-batch-v2\\Model-based variable impedance learning control for robotic manipulation.pdf",
+      "source_sha256": "da5a79ede8701777f68dc7f504c8daed3ec2b17d2bb0ed20ae7c69f2e1a28c65"
+    },
+    {
+      "paper_id": "_Li1FYysbT8J",
+      "read_event_id": "d65b553e469d47c78765aa4db7b20e31",
+      "content_sha256": "8fc536b4d97b68ec0150bef32055375f6255cfb4dfede46af3f2570565f40b10",
+      "source_path": "source-materials\\user-batch-v2\\Variable Impedance Control - A Reinforcement Learning Approach.pdf",
+      "source_sha256": "8fc536b4d97b68ec0150bef32055375f6255cfb4dfede46af3f2570565f40b10"
+    },
+    {
+      "paper_id": "W_DvVyMz0QAJ",
+      "read_event_id": "2d7d9bf03251466aa6e310a0c88d174c",
+      "content_sha256": "3065887a09e2ac25bd90e75973a3433df4ed07255aa44e67c71bd292b38def56",
+      "source_path": "source-materials\\user-batch-v2\\Minimally_Model-Based_Trajectory_Tracking_and_Variable_Impedance_Control_of_Flexible-Joint_Robots.pdf",
+      "source_sha256": "3065887a09e2ac25bd90e75973a3433df4ed07255aa44e67c71bd292b38def56"
+    },
+    {
+      "paper_id": "eenWQDjapxgJ",
+      "read_event_id": "e27e9f5f5ecf46c5a5905e2aa54f1cc4",
+      "content_sha256": "b60e2359e42455c0f3f22fd7cca3624e8e7ad62eb68f3f0bd2384cac757f69f2",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Learning_for_Human-Guided_Robots_in_Contact_With_Unknown_Environments.pdf",
+      "source_sha256": "b60e2359e42455c0f3f22fd7cca3624e8e7ad62eb68f3f0bd2384cac757f69f2"
+    },
+    {
+      "paper_id": "tS1rA372YsUJ",
+      "read_event_id": "86b05ada633f4bff82fba4453b9664a1",
+      "content_sha256": "546c49b7e9b3a00a1bee4aee0aaa898e27910140f23a32f79e92bce3d40ac108",
+      "source_path": "source-materials\\user-batch-v2\\Optimized_Impedance_Adaptation_of_Robot_Manipulator_Interacting_With_Unknown_Environment.pdf",
+      "source_sha256": "546c49b7e9b3a00a1bee4aee0aaa898e27910140f23a32f79e92bce3d40ac108"
+    },
+    {
+      "paper_id": "MeRUvAZGn0QJ",
+      "read_event_id": "c9835d428748420da36c61d5c326bbd9",
+      "content_sha256": "73eb3cd2ae74b43fe92fda00ebb0e93d0cba051e493f460a57030a80ff6d86ff",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Learning-Based_Adaptive_Control_for_HumanRobot_Interaction.pdf",
+      "source_sha256": "73eb3cd2ae74b43fe92fda00ebb0e93d0cba051e493f460a57030a80ff6d86ff"
+    },
+    {
+      "paper_id": "vpcxx3P9RKAJ",
+      "read_event_id": "ba7e280308bf4ea282d381a013d439bd",
+      "content_sha256": "2529dd650eddbbe2379b187fb4cc74f8abd8bc0047b845bdb5105a3f45c1a43a",
+      "source_path": "source-materials\\user-batch-v2\\Model-Based Reinforcement Learning Variable Impedance Control for Human-Robot Collaboration.pdf",
+      "source_sha256": "2529dd650eddbbe2379b187fb4cc74f8abd8bc0047b845bdb5105a3f45c1a43a"
+    },
+    {
+      "paper_id": "zs_SrlrWveIJ",
+      "read_event_id": "0d1f7af1ce9045dbb36cee93a849b28a",
+      "content_sha256": "180e818b56a8b7f582585daf14ea769cb8fea3dd16a4f75f0fecee042738dc1e",
+      "source_path": "source-materials\\user-batch-v2\\Optimal_Impedance_Force-Tracking_Control_Design_With_Impact_Formulation_for_Interaction_Tasks.pdf",
+      "source_sha256": "180e818b56a8b7f582585daf14ea769cb8fea3dd16a4f75f0fecee042738dc1e"
+    },
+    {
+      "paper_id": "j4KJ1EdUyYAJ",
+      "read_event_id": "4e7a14c69bca4d3c8a56e62e055c94f8",
+      "content_sha256": "e035395c37a873f6a22e46d9355cf296047c00178ba47d9224464e6d5cbcbac7",
+      "source_path": "source-materials\\user-batch-v2\\Neural-Network-Based_Optimal_Impedance_Control_for_Robots_in_Physical_Interaction_With_Soft_Environments.pdf",
+      "source_sha256": "e035395c37a873f6a22e46d9355cf296047c00178ba47d9224464e6d5cbcbac7"
+    },
+    {
+      "paper_id": "advYcrj8QdMJ",
+      "read_event_id": "2a8151fe585049b0851690452cb78903",
+      "content_sha256": "5ff1c7017aa5a375d159639eedae9ff9dd19ef21d0fc1c9a624c0e509dc43726",
+      "source_path": "source-materials\\user-batch-v2\\Adaptive_Impedance_Control_of_HumanRobot_Cooperation_Using_Reinforcement_Learning.pdf",
+      "source_sha256": "5ff1c7017aa5a375d159639eedae9ff9dd19ef21d0fc1c9a624c0e509dc43726"
+    },
+    {
+      "paper_id": "msQI3P227yEJ",
+      "read_event_id": "a8190e0748904a418e7b816ec807cbee",
+      "content_sha256": "ba618cf2f83ab44a7a13acc4b6c4a731d3b0804e77fdf79795dcd66f29abbcbb",
+      "source_path": "source-materials\\user-batch-v2\\An_Optimal_Variable_Impedance_Control_With_Consideration_of_the_Stability.pdf",
+      "source_sha256": "ba618cf2f83ab44a7a13acc4b6c4a731d3b0804e77fdf79795dcd66f29abbcbb"
+    },
+    {
+      "paper_id": "ekyHPViUuoYJ",
+      "read_event_id": "d557d1f18a3a4cd8a11b51d1e2abf1e7",
+      "content_sha256": "5bd946805ced6c76accb82249a9558c8331012e79a4973ca7a24c81a5eba2441",
+      "source_path": "source-materials\\user-batch-v2\\Reinforcement_Learning_on_Variable_Impedance_Controller_for_High-Precision_Robotic_Assembly.pdf",
+      "source_sha256": "5bd946805ced6c76accb82249a9558c8331012e79a4973ca7a24c81a5eba2441"
+    },
+    {
+      "paper_id": "COAQ-sK9a0gJ",
+      "read_event_id": "d3ec649f2b65478180f04f2a419aa52e",
+      "content_sha256": "dc70a70164a00ac02b7003fc0803275966bc87f2539571bf2182c728cd09b205",
+      "source_path": "source-materials\\user-batch-v2\\Force-Based_Learning_of_Variable_Impedance_Skills_for_Robotic_Manipulation.pdf",
+      "source_sha256": "dc70a70164a00ac02b7003fc0803275966bc87f2539571bf2182c728cd09b205"
+    },
+    {
+      "paper_id": "sXzu51TTSB0J",
+      "read_event_id": "30fd273064ae4229885f4a0a6bdca8d8",
+      "content_sha256": "729eb6924ee3077eefc5d1cd26b49a26e6493e811062b80b60edcd08ba85b0b2",
+      "source_path": "source-materials\\user-batch-v2\\Variable_Impedance_Skill_Learning_for_Contact-Rich_Manipulation.pdf",
+      "source_sha256": "729eb6924ee3077eefc5d1cd26b49a26e6493e811062b80b60edcd08ba85b0b2"
+    },
+    {
+      "paper_id": "VnY2KfSKIPgJ",
+      "read_event_id": "6b226d138c0e4f16b7c3cc358a90bf70",
+      "content_sha256": "8908f4eb309e09c87aeb5ab2ad5d98f053367c5d2d77658375bba326b07c103c",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Learning_for_Robotic_Contact_Tasks_Using_Natural_Actor-Critic_Algorithm.pdf",
+      "source_sha256": "8908f4eb309e09c87aeb5ab2ad5d98f053367c5d2d77658375bba326b07c103c"
+    },
+    {
+      "paper_id": "ur6FQs3aZv0J",
+      "read_event_id": "c5e4fd052e634f67a1daad7e7e63c933",
+      "content_sha256": "791ba852c3e18ef18ded150c3b6366ed32bee91389b8118ddd562a29aac18369",
+      "source_path": "source-materials\\user-batch-v2\\Event-Triggered_Adaptive_Neural_Impedance_Control_of_Robotic_Systems.pdf",
+      "source_sha256": "791ba852c3e18ef18ded150c3b6366ed32bee91389b8118ddd562a29aac18369"
+    },
+    {
+      "paper_id": "f7_NpbvAX4cJ",
+      "read_event_id": "22397b36d6194afca71d941874c9cd49",
+      "content_sha256": "0890411f669f8009a6673d4673fb33f08eb0f4792d5f18fec9c3afada67dbe48",
+      "source_path": "source-materials\\user-batch-v2\\Adaptive_Fuzzy_Neural_Network_Control_for_a_Constrained_Robot_Using_Impedance_Learning.pdf",
+      "source_sha256": "0890411f669f8009a6673d4673fb33f08eb0f4792d5f18fec9c3afada67dbe48"
+    },
+    {
+      "paper_id": "jF_ZhPcGGroJ",
+      "read_event_id": "5cef46a0b34e4c9394639dd0a82aaac5",
+      "content_sha256": "a80ca772b0147926579fc4368c7b443c1f003dc7fa9847892cc00bc116f0a437",
+      "source_path": "source-materials\\user-batch-v2\\Adaptive_Neural_Impedance_Control_of_a_Robotic_Manipulator_With_Input_Saturation.pdf",
+      "source_sha256": "a80ca772b0147926579fc4368c7b443c1f003dc7fa9847892cc00bc116f0a437"
+    },
+    {
+      "paper_id": "yWRyC18EraoJ",
+      "read_event_id": "38342ff08f724e8a85b43c2bd0058790",
+      "content_sha256": "12f6d0b4f11154920d602359fa526ded1e2aa50b636933652e94d1107bd37499",
+      "source_path": "source-materials\\user-batch-v2\\Development_of_a_Safety-_and_Energy-Aware_Impedance_Controller_for_Collaborative_Robots.pdf",
+      "source_sha256": "12f6d0b4f11154920d602359fa526ded1e2aa50b636933652e94d1107bd37499"
+    },
+    {
+      "paper_id": "4S498O8MV4AJ",
+      "read_event_id": "5d84da1f11f04187bd5f6b5991eecdcd",
+      "content_sha256": "a8d97714f79e65ab4a0373d55767959b411e084f891f6f436b58eb3fd62ace29",
+      "source_path": "source-materials\\user-batch-v2\\Evolution_Strategies_Learning_With_Variable_Impedance_Control_for_Grasping_Under_Uncertainty.pdf",
+      "source_sha256": "a8d97714f79e65ab4a0373d55767959b411e084f891f6f436b58eb3fd62ace29"
+    },
+    {
+      "paper_id": "mWLHYOo4c4wJ",
+      "read_event_id": "55dbc37c421f4e349d8c1a496ae4812c",
+      "content_sha256": "d15eba5aeebc05c3395d8c4badb63200f631c08fd010ce083e5c4f0c66fd0ef5",
+      "source_path": "source-materials\\user-batch-v2\\A_DMPs-Based_Framework_for_Robot_Learning_and_Generalization_of_Humanlike_Variable_Impedance_Skills.pdf",
+      "source_sha256": "d15eba5aeebc05c3395d8c4badb63200f631c08fd010ce083e5c4f0c66fd0ef5"
+    },
+    {
+      "paper_id": "NxOKyaExNYMJ",
+      "read_event_id": "b8e2e11325e74579bb748555c8c16f09",
+      "content_sha256": "4892a562b5886bf8b3d3165b3d7df2066edfa8dbfaa737207241b4cc3f32be0b",
+      "source_path": "source-materials\\user-batch-v2\\Motion_learning_and_adaptive_impedance_for_robot_control_during_physical_interaction_with_humans.pdf",
+      "source_sha256": "4892a562b5886bf8b3d3165b3d7df2066edfa8dbfaa737207241b4cc3f32be0b"
+    },
+    {
+      "paper_id": "w4w_nVaBi-4J",
+      "read_event_id": "af6169bb51a14fc49580e928d604ee0c",
+      "content_sha256": "590c39c181f4c5a0741dc4815e39022689a56c7b82aecc3e6aac452cafdf4942",
+      "source_path": "source-materials\\user-batch-v2\\Model-Based_ActorCritic_Learning_of_Robotic_Impedance_Control_in_Complex_Interactive_Environment.pdf",
+      "source_sha256": "590c39c181f4c5a0741dc4815e39022689a56c7b82aecc3e6aac452cafdf4942"
+    },
+    {
+      "paper_id": "q3JkVkVjN94J",
+      "read_event_id": "84fc2cc8c66f410aa96954098454691a",
+      "content_sha256": "94323bf41e835bdabd98056933b06d7a5b264b869b77c4a4eac23368430515fa",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Learning-Based_Adaptive_Force_Tracking_for_Robot_on_Unknown_Terrains.pdf",
+      "source_sha256": "94323bf41e835bdabd98056933b06d7a5b264b869b77c4a4eac23368430515fa"
+    },
+    {
+      "paper_id": "iVgeAxXqokQJ",
+      "read_event_id": "0f2fde9fb1234db28a478547a090bee4",
+      "content_sha256": "7d70f9e2af6433a26ad1c2104facf07497f11101ee6d5dfec238d1b714c65d62",
+      "source_path": "source-materials\\user-batch-v2\\Repetitive_Impedance_Learning-Based_Physically_HumanRobot_Interactive_Control.pdf",
+      "source_sha256": "7d70f9e2af6433a26ad1c2104facf07497f11101ee6d5dfec238d1b714c65d62"
+    },
+    {
+      "paper_id": "_BLr7kWHLDkJ",
+      "read_event_id": "1a06565a6f5f4e88b31cca7829f9afe9",
+      "content_sha256": "e2c917c7c381c55bec0fe0d6814de7033f0acef1e8910c220775cea02decfa5a",
+      "source_path": "source-materials\\user-batch-v2\\A neural network based framework for variable impedance skills learning from demonstrations.pdf",
+      "source_sha256": "e2c917c7c381c55bec0fe0d6814de7033f0acef1e8910c220775cea02decfa5a"
+    },
+    {
+      "paper_id": "xlNjdqnC2fMJ",
+      "read_event_id": "b28d494dba984c3ea218fb797c602b09",
+      "content_sha256": "e71e6b1fb8696a4c2ea1370bc2d935de0c6cdcd10d2c9a51e3fc3afef4b71d4b",
+      "source_path": "source-materials\\user-batch-v2\\Model_Predictive_Variable_Impedance_Control_of_Manipulators_for_Adaptive_Precision-Compliance_Tradeoff.pdf",
+      "source_sha256": "e71e6b1fb8696a4c2ea1370bc2d935de0c6cdcd10d2c9a51e3fc3afef4b71d4b"
+    },
+    {
+      "paper_id": "1z4gQqRfAwkJ",
+      "read_event_id": "0df021c60d3e4f91aff959bb8f7f42a2",
+      "content_sha256": "ecd855c5b03ffa3307f5cfcf2aa3e23a0495417c20b26fa387545e05e9db6e56",
+      "source_path": "source-materials\\user-batch-v2\\Perturbation-Based_Stiffness_Inference_in_Variable_Impedance_Control.pdf",
+      "source_sha256": "ecd855c5b03ffa3307f5cfcf2aa3e23a0495417c20b26fa387545e05e9db6e56"
+    },
+    {
+      "paper_id": "Qm5BKnMez5cJ",
+      "read_event_id": "4a40a8872eee45c89e86f047a997511a",
+      "content_sha256": "a6f9487adb16c099cb5e8056b3ef4e2177c4e601d2cb5ae15f189531f1c65059",
+      "source_path": "source-materials\\user-batch-v2\\A_Variable_Impedance_Scheme_Based_on_Power-Shaping_Signals_and_Partial_Knowledge_of_Link-Side_Dynamics_for_Flexible-Joint_Robot_Interaction_and_Tracking_Control.pdf",
+      "source_sha256": "a6f9487adb16c099cb5e8056b3ef4e2177c4e601d2cb5ae15f189531f1c65059"
+    },
+    {
+      "paper_id": "VewJDUrPRiAJ",
+      "read_event_id": "e9debe9167d341b7a624092cb2eee7d5",
+      "content_sha256": "48c6c6dad872091fc519cca47796856050980704f2d488536b258a64a63a3cd9",
+      "source_path": "source-materials\\user-batch-v2\\Reinforcement_Learning_of_Impedance_Policies_for_Peg-in-Hole_Tasks_Role_of_Asymmetric_Matrices.pdf",
+      "source_sha256": "48c6c6dad872091fc519cca47796856050980704f2d488536b258a64a63a3cd9"
+    },
+    {
+      "paper_id": "pO9mjm67fekJ",
+      "read_event_id": "a4957f83871a42078610e8247ceb5191",
+      "content_sha256": "72d6e3d0dc8dcad78d1ef7db68b795c5f77e5e019cb176185819de0da562246e",
+      "source_path": "source-materials\\user-batch-v2\\Deflection-Domain_Passivity_Control_of_Variable_Stiffnesses_Based_on_Potential_Energy_Reference.pdf",
+      "source_sha256": "72d6e3d0dc8dcad78d1ef7db68b795c5f77e5e019cb176185819de0da562246e"
+    },
+    {
+      "paper_id": "kexwZicrUfAJ",
+      "read_event_id": "4401eb5d9b564ac395797c067f1fb8e3",
+      "content_sha256": "e3a6b2ab0dccf3b4e7f4ee251f3dae9ebe215fb13b2a422cde240f9d5bb04958",
+      "source_path": "source-materials\\user-batch-v2\\Diffusion-Based Impedance Learning for Contact-Rich Manipulation Tasks.pdf",
+      "source_sha256": "e3a6b2ab0dccf3b4e7f4ee251f3dae9ebe215fb13b2a422cde240f9d5bb04958"
+    },
+    {
+      "paper_id": "gFUzDeNXl9cJ",
+      "read_event_id": "0ffdee8d94ab4f38bc6c87258712b18e",
+      "content_sha256": "4198c472453ba4b5513aabc6d5649ee02ba070f9c8e0b1a6c9a709a9f54e91dd",
+      "source_path": "source-materials\\user-batch-v2\\Adaptive_Fuzzy_Neural_Network_Command_Filtered_Impedance_Control_of_Constrained_Robotic_Manipulators_With_Disturbance_Observer.pdf",
+      "source_sha256": "4198c472453ba4b5513aabc6d5649ee02ba070f9c8e0b1a6c9a709a9f54e91dd"
+    },
+    {
+      "paper_id": "nZ1L1Vl7KvEJ",
+      "read_event_id": "e8fc7523abf049dd9f49fbf71bc1fc78",
+      "content_sha256": "180bd41b01ed134eda7f6e8defe1ee2d18371f9a9b5667cc3133875f9453227f",
+      "source_path": "source-materials\\user-batch-v2\\Robot_Impedance_Iterative_Learning_with_Sparse_Online_Gaussian_Process(1).pdf",
+      "source_sha256": "180bd41b01ed134eda7f6e8defe1ee2d18371f9a9b5667cc3133875f9453227f"
+    },
+    {
+      "paper_id": "JKrA-rLcvHkJ",
+      "read_event_id": "8ef5599198404f8d9eee650f2039dd6b",
+      "content_sha256": "1c76095ca6c05e1cba7b8a57dd2877b1913d5d1d2b9a6f197c536dd6d9d138f9",
+      "source_path": "source-materials\\user-batch-v2\\Passivity-Based_Skill_Motion_Learning_in_Stiffness-Adaptive_Unified_Force-Impedance_Control.pdf",
+      "source_sha256": "1c76095ca6c05e1cba7b8a57dd2877b1913d5d1d2b9a6f197c536dd6d9d138f9"
+    },
+    {
+      "paper_id": "Rw7RRyHn644J",
+      "read_event_id": "e325aa89e7fe4727a97f67088efca07d",
+      "content_sha256": "77bbf18425789537e86be70d08953a8f8cf3028c1ba11ff8da97f221a65337a6",
+      "source_path": "source-materials\\user-batch-v2\\Human-Inspired_Adaptive_Optimal_Control_Framework_for_Robot-Environment_Interaction.pdf",
+      "source_sha256": "77bbf18425789537e86be70d08953a8f8cf3028c1ba11ff8da97f221a65337a6"
+    },
+    {
+      "paper_id": "U1Trzk-2GRIJ",
+      "read_event_id": "efa1d6634d8444e3b8bedb4ec83d4cef",
+      "content_sha256": "af52294fca6b7807391f292389967d78163aa143d9a92955925a7a0549024967",
+      "source_path": "source-materials\\user-batch-v2\\Constrained_Variable_Impedance_Control_using_Quadratic_Programming.pdf",
+      "source_sha256": "af52294fca6b7807391f292389967d78163aa143d9a92955925a7a0549024967"
+    },
+    {
+      "paper_id": "3kL0MPf4EmMJ",
+      "read_event_id": "dbde55b85e9d453eb1fbdf5ee8e33d80",
+      "content_sha256": "11c86befaf291e79e7dfb9b591f743daa847e32b7a18acf5f1159d392447a5bc",
+      "source_path": "source-materials\\user-batch-v2\\Intention-driven adaptive impedance control of human-robot collaboration for open space tasks.pdf",
+      "source_sha256": "11c86befaf291e79e7dfb9b591f743daa847e32b7a18acf5f1159d392447a5bc"
+    },
+    {
+      "paper_id": "ctEq_owme9kJ",
+      "read_event_id": "e427d5051cc34aa98ee759c8e0a27c36",
+      "content_sha256": "32960300e2d61d669865cf35865e1930c89670dd66b55f38e22427650740bf4b",
+      "source_path": "source-materials\\user-batch-v2\\Model-Based_Predictive_Impedance_Variation_for_Obstacle_Avoidance_in_Safe_HumanRobot_Collaboration.pdf",
+      "source_sha256": "32960300e2d61d669865cf35865e1930c89670dd66b55f38e22427650740bf4b"
+    },
+    {
+      "paper_id": "lkDBxoBPKI8J",
+      "read_event_id": "5484bbec35164090afb90758ba004f69",
+      "content_sha256": "96ce8a16f69f28a66bc6471ca2ac4b3c8c236ce3b2b95a37ac802213447b100a",
+      "source_path": "source-materials\\user-batch-v2\\Impedance_Primitive-Augmented_Hierarchical_Reinforcement_Learning_for_Sequential_Tasks.pdf",
+      "source_sha256": "96ce8a16f69f28a66bc6471ca2ac4b3c8c236ce3b2b95a37ac802213447b100a"
+    },
+    {
+      "paper_id": "4tr9C5LNwYwJ",
+      "read_event_id": "f53af883ae534cc882aeacfb1448d429",
+      "content_sha256": "43e25c35ac5f584e29004003c09f8870ae4ad7e9e9b7fb073e85dadcc7e42701",
+      "source_path": "source-materials\\user-batch-v2\\Learning-Based_Predictive_Impedance_Control_Towards_Safe_Predefined-Time_Physical_Robotic_Interaction.pdf",
+      "source_sha256": "43e25c35ac5f584e29004003c09f8870ae4ad7e9e9b7fb073e85dadcc7e42701"
+    },
+    {
+      "paper_id": "NeHbiasbAqAJ",
+      "read_event_id": "5c0cd0ceff294f5384e4f1deba2ab44f",
+      "content_sha256": "e527d217e488e5b90cecf70430ed8f3f12252cb6b851e84e2bc321484c082854",
+      "source_path": "source-materials\\user-batch-v2\\Learning_Compliant_Stiffness_by_Impedance_Control-Aware_Task_Segmentation_and_Multi-Objective_Bayesian_Optimization_with_Priors.pdf",
+      "source_sha256": "e527d217e488e5b90cecf70430ed8f3f12252cb6b851e84e2bc321484c082854"
+    },
+    {
+      "paper_id": "NmJOT6QG-tUJ",
+      "read_event_id": "182270e6f3ab4dedb2ba864c7e028e20",
+      "content_sha256": "6b5750d2aba273fe67a8aa1d4c010c265101135fdb693f217b1bee44539d4c4b",
+      "source_path": "source-materials\\user-batch-v2\\End-to-End Learning of Hybrid Inverse Dynamics Models for Precise and Compliant Impedance Control.pdf",
+      "source_sha256": "6b5750d2aba273fe67a8aa1d4c010c265101135fdb693f217b1bee44539d4c4b"
+    }
+  ]
+}

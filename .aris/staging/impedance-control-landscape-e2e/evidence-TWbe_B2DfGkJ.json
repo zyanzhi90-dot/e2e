@@ -1,0 +1,108 @@
+{
+  "source_id": "TWbe_B2DfGkJ",
+  "read_event_id": "392b7c1eae0745609c37ab7d0af232b4",
+  "content_sha256": "69010924692ad1e5d7972e54b4fc4dd240d4096ae77b5daed3a1cd87c502e5cb",
+  "claim": "Pan et al. propose a force-controlled variable-impedance controller whose stiffness and damping are adjusted online by smooth functions of measured tracking error, filtered contact torque, and joint velocity, while a composite estimator identifies constant robot dynamic parameters from instantaneous and stored filtered torque-regression data. Under the paper's Euler–Lagrange model, known linear parameterization, interval excitation, gain conditions, and bounded references, Theorem 1 gives exponential convergence of parameter and tracking errors in free motion and passivity for the specified contact-torque-to-filtered-tracking-error closed-loop mapping. The method therefore avoids requiring a complete impedance profile to be fixed and certified beforehand, but it does not guarantee arbitrary learned gain schedules or interaction with arbitrary nonpassive environments.",
+  "claim_locator": [
+    "Abstract",
+    "Section I, Introduction",
+    "Section II, equation (1), Properties 1–3, and Definitions 1–2",
+    "Section III.A, equations (3)–(10)",
+    "Section III.B, equations (11)–(23) and Theorem 1",
+    "Section III.C, analysis of the three modes",
+    "Section IV, Experimental Studies",
+    "Section V, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the estimator and closed-loop claims are theorem-supported only for the specified controller and assumptions; task performance and safety observations are author-reported experiments and do not establish guarantees for arbitrary learning strategies or environments",
+  "problem_and_setting": "The paper addresses physical human–robot–environment interaction with a rigid n-DoF robot whose numerical inertial, Coriolis, friction, and gravity parameters are unknown. It seeks online transitions among robot-dominant, collaboration, and human-dominant behavior while retaining accurate free-motion tracking, low contact effort, dynamic stability, and a passivity property without precomputing a full variable-impedance trajectory.",
+  "method_or_mechanism": "Robot dynamics are assumed exactly linearly parameterizable by a known regressor Φ and an unknown constant vector W. Contact torque is low-pass filtered. A smooth stiffness weight ωs, driven by a weighted norm of filtered contact torque and tracking error, scales the reference velocity q̇r=(1−ωs)(q̇d+Λe): ωs=0 gives robot-dominant tracking stiffness, intermediate values give collaboration, and ωs=1 removes stiffness for human-dominant compliance. A damping weight ωd is bounded between positive limits and varies with filtered contact torque and joint velocity. The torque law combines ωdKc es with regressor compensation ΦrᵀŴ. Composite learning filters torque and regressor signals to avoid acceleration measurement, builds a finite-window data matrix Θ and integral vector ϕ, and updates Ŵ using both an instantaneous torque-prediction error and a stored generalized prediction error. Once interval excitation occurs, Θ and ϕ at the exciting time are retained, enabling exponential parameter convergence without persistent excitation.",
+  "content_summary": "The learned quantity is the robot's constant dynamic parameter vector W, not an optimal impedance profile, environment model, trajectory, or reinforcement-learning policy. Variable impedance is generated directly online by prescribed smooth weighting functions. Theorem 1 states that under interval excitation, parameter error W̃ and tracking error e converge exponentially to zero when contact torque is zero; for bounded contact torque, the proof establishes bounded closed-loop signals. It also states passivity between contact torque τe and the filtered tracking error es under the paper's sign convention and gain conditions. This differs from offline certification of a known gain schedule: mode and gain changes respond to current interaction signals, and the stability analysis includes those weighting functions and the derivative of the weighted reference. Hardware experiments on a seven-DoF Franka Emika Panda compare CL-VIC with a composite-learning constant-impedance controller over five tasks: free-motion pickup, human guidance, polishing-like contact on soft and hard surfaces, and tripod-handle operation. The authors report comparable free-motion tracking, smooth mode transitions, lower contact effort with greater compliance, parameter-estimate convergence before interaction tasks, and a ten-subject human-guidance safety test.",
+  "synthesis_role": "Extends the development of variable impedance control from fixed or prelearned profiles requiring separate certification toward a jointly adaptive control-and-identification architecture whose restricted online gain-generation law is analyzed for stability and passivity. It narrows the model-uncertainty gap through finite-data composite learning, while retaining strong structural, excitation, sensing, and environment-passivity assumptions.",
+  "development_link": "Relative to Kronander-style offline validation, CL-VIC does not require the future stiffness/damping profile to exist in advance: impedance changes online through a designed multi-mode map, and its derivative enters the closed-loop reference dynamics. This is not a universal replacement for profile certification, because the guarantee applies only to this controller, weighting construction, estimator, and interval-excited linearly parameterized rigid-robot model. It also differs from impedance learning by demonstration, iterative optimization, or RL: composite learning here primarily estimates robot dynamics so the commanded impedance can be realized accurately.",
+  "evidence": [
+    {
+      "locator": "Section II, Property 3 and Definitions 1–2",
+      "status": "model and excitation conditions",
+      "finding": "The robot dynamics must admit a known linear regressor with an unknown constant parameter vector; interval excitation requires one finite window whose regressor Gramian is uniformly positive definite and is explicitly weaker than persistent excitation."
+    },
+    {
+      "locator": "Section III.A, equations (3)–(10)",
+      "status": "derived control mechanism",
+      "finding": "Smooth weights based on tracking/contact signals and velocity continuously vary the reference stiffness and damping across three modes, while regressor compensation uses the current parameter estimate."
+    },
+    {
+      "locator": "Section III.B, equations (11)–(17)",
+      "status": "derived estimator",
+      "finding": "Filtered torque/regressor data remove the need for acceleration measurement; the update combines instantaneous prediction error with an integral stored-data prediction error and freezes the informative window after interval excitation."
+    },
+    {
+      "locator": "Section III.B, Theorem 1 and equations (18)–(23)",
+      "status": "theorem-supported",
+      "finding": "Under interval excitation and suitable gains, W̃ and e converge exponentially when τe=0; the proof also gives boundedness for bounded τe and states passivity from τe to es."
+    },
+    {
+      "locator": "Section III.C",
+      "status": "analytical mode interpretation",
+      "finding": "After parameter convergence, robot-dominant mode realizes precise constant-impedance-like tracking, collaboration mode varies impedance with contact/tracking signals, and human-dominant mode has zero stiffness while retaining damping."
+    },
+    {
+      "locator": "Section IV",
+      "status": "author-reported experiment",
+      "finding": "Panda experiments across S1–S5 compare CL-VIC with CL-CIC and report similar free-motion tracking, increased compliant tracking error but reduced contact torque in contact tasks, and smooth transitions among modes."
+    },
+    {
+      "locator": "Section IV, Figure 9",
+      "status": "author-reported human-subject test",
+      "finding": "Ten subjects performed the human-dominant interaction test; the paper reports an average peak contact-torque norm of 11.01 N·m and no apparent increase with peak joint velocity in the tested setup."
+    }
+  ],
+  "evidence_kind": [
+    "model formulation",
+    "finite-excitation definition",
+    "derived variable-impedance control law",
+    "composite parameter estimator",
+    "Lyapunov theorem",
+    "author-reported robot experiments",
+    "author-reported small human-subject safety test"
+  ],
+  "boundary_conditions": [
+    "The guarantee is specific to the proposed force-controlled CL-VIC law and its smooth weights; it does not cover arbitrary online, demonstrated, optimized, iterative, or reinforcement-learned impedance profiles.",
+    "Exact parameter convergence requires interval excitation: the filtered regression data must produce a positive-definite finite-window Gramian. Without that event, the proof only shows bounded estimator quantities, not exact identification.",
+    "The robot must satisfy the stated rigid Euler–Lagrange properties and exact linear-in-parameters structure with a known regressor and constant W; unknown nonlinear residual dynamics, changing payload parameters, and unmodeled actuator dynamics are not covered.",
+    "The exponential tracking statement applies when τe=0. During contact, the theorem's nominal result is boundedness/robustness and passivity of the τe-to-es mapping, not convergence to the desired trajectory.",
+    "Passivity is stated for contact torque τe and filtered tracking error es under the paper's sign convention; it is not a blanket passivity result for every physical port or for an active environment.",
+    "The proof's passivity step treats a model-error cross term as exponentially vanishing after interval excitation; the guarantee should therefore be read with the estimator-convergence and gain assumptions, not as independent of learning transients.",
+    "Contact torque, joint position, and joint velocity must be measurable or reliably available; filtering constants, thresholds, weights, gains, and excitation-window length are designer selected.",
+    "Experimental comparisons use one Panda platform and one constant-impedance composite-learning baseline; there is no direct comparison with offline-profile certification, tanks, RL, or other VIC algorithms.",
+    "The method is not validated on flexible-joint or underactuated robots; the authors identify that extension as future work."
+  ],
+  "assumptions": [
+    "M(q) is symmetric positive definite, Ṁ−2C is skew-symmetric, and all modeled robot forces share a constant linear parameterization.",
+    "Desired position, velocity, and acceleration are bounded.",
+    "The damping weight remains bounded below by α1>0, and Kc, Γ, Λ and learning gains satisfy the positivity and Lyapunov inequalities used in Theorem 1.",
+    "One interval of sufficiently rich filtered regressor data occurs and can be stored accurately.",
+    "Interaction safety from passivity additionally relies on connection to a passive environment and compatible port/sign conventions.",
+    "Low-pass filtering and contact-torque sensing are accurate enough for the regression and mode weights."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Earlier variable-impedance methods based on experimentally determined stable regions require many trials and transfer only to similar environments.",
+      "Energy-tank approaches require task-specific energy bounds, which the paper identifies as impractical in some complex settings.",
+      "Force-controlled impedance can have poor free-motion tracking when model uncertainty prevents realization of the target impedance.",
+      "The proposed method requires interval excitation for exact parameter estimation, although this is weaker than persistent excitation.",
+      "The contact modes deliberately produce larger tracking error to keep contact torque small.",
+      "Flexible-joint underactuation is not handled and is left for future adaptation."
+    ],
+    "inferred": [
+      "The claim of not depending on dynamic-model information means not requiring known numerical parameters; the controller still depends on a correct known regressor and linear parameterization.",
+      "A finite-window excitation condition may fail in slow, low-dimensional, or weakly excited tasks, leaving residual model error and weakening exact target-impedance realization.",
+      "Mode-transition thresholds and filtering can create task-dependent sensitivity or delay, but systematic robustness margins for noise, latency, and threshold choice are not established.",
+      "The experiments demonstrate selected task behavior rather than universal safety across collision severity, human behavior, or nonpassive environments.",
+      "Because the impedance map is hand-designed rather than learned for task optimality, the method addresses stable adaptive realization more directly than autonomous discovery of optimal impedance."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

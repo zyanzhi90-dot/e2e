@@ -1,0 +1,126 @@
+{
+  "source_id": "HUMAN-IJRR-2011-PSR",
+  "read_event_id": "f2ad1c2bcb4e4116882c86cf88e972a8",
+  "content_sha256": "13347a1992fc9eda34f5bdbb4828b45026596cdd6d728c16788962e984d14b52",
+  "claim": "A PSR can Markovize observable action-observation history for prediction by replacing raw history with predictions of a core set of observable tests: when Q predicts every test after every history, Q(h) is a sufficient statistic for future test outcomes. A TPSR provides a compact transformed predictive state under rank and sampling assumptions. The paper also shows that such learned state can support approximate point-based planning and closed-loop decisions in its matched simulated vision-navigation domain, but it does not establish observable-state minimality without the stated structural assumptions or decision value for contact mechanics, impedance control, or soft-tissue interaction.",
+  "claim_locator": [
+    "Sec. II: definitions of tests and histories; predictions are conditioned on observed history and interventions on future actions.",
+    "Sec. II: Q(h) is sufficient for a test when predictions from Q compute that test after every history; a core set predicts all tests.",
+    "Sec. II/III: TPSR is a low-dimensional subspace or similarity transform of observable prediction structure; consistency is asymptotic and conditional on assumptions and rank conditions.",
+    "Sec. IV: learned predictive state is used for approximate point-based planning in a simulated partially observable vision-navigation task.",
+    "Sec. IV.D/Fig. 2: reported actions-to-goal comparison over 100 random starts.",
+    "Conclusion: representational, learning, and simulated closed-loop planning claims."
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "The PSR sufficiency and TPSR consistency statements are author-reported theoretical or methodological claims. Navigation outcomes are author-reported simulation results. Transfer to method-design obligations is a bounded synthesis, not an author claim.",
+  "problem_and_setting": "Learning a compact predictive model of a partially observable stochastic dynamical system from action-observation trajectories and using the learned state for planning. Evaluation uses a simulated nonlinear, non-Gaussian mobile-robot domain in which observations are images and true position is hidden.",
+  "method_or_mechanism": "Represent state as conditional predictions of observable action-observation tests given executed history. Select a core set whose predictions determine all tests, then learn a transformed low-dimensional representation of this observable prediction structure using spectral/subspace identification. Characteristic and indicative features can replace explicit enumeration of tests and histories, KDE handles continuous observations, and approximate point-based planning operates in the learned state.",
+  "content_summary": "The paper motivates predictive rather than latent-state representations, defines tests, histories, sufficient predictive statistics, and core tests, and presents a statistically consistent spectral TPSR learner under structural and sampling assumptions. In simulation, it learns from 10,000 trajectories of seven action-observation pairs and uses 8,000 training histories or belief points for planning. The embedding qualitatively captures environmental topology. Over 100 starts, the authors report about 22.8 mean actions for the learned policy versus 291.5 for random and 12.8 for an optimistic A* comparator, while explicitly warning that the A* comparison is unfair.",
+  "synthesis_role": "Provides a formal candidate mechanism for history Markovization and observable predictive state, plus matched-domain evidence that a learned predictive state can retain decision-relevant information. It is boundary-setting rather than validating evidence for impedance or contact control.",
+  "development_link": "OBL-HISTORY-MARKOVIZATION: use a predictive sufficient statistic Q(h) in place of raw action-observation history when core-test closure is justified. OBL-OBSERVABLE-MINIMALITY: motivate observable predictive coordinates and low-rank compression, while requiring an explicit rank/core-feature audit and avoiding claims of unconditional or unique minimality. OBL-MATCHED-DECISION-VALUE: evaluate the learned representation through planning performance in the same observation, action, and dynamics regime used for learning, with comparator assumptions disclosed; new contact-control validation remains necessary.",
+  "evidence": [
+    {
+      "locator": "Sec. II",
+      "status": "author_reported_definition_and_sufficiency_claim",
+      "finding": "PSR state consists of predictions of observable tests. Test predictions are conditional on the executed history and interventions on test actions. If predictions of Q compute every test prediction after every history, Q(h) is a sufficient statistic, and a core set predicts all tests."
+    },
+    {
+      "locator": "Sec. II/III",
+      "status": "author_reported_method_and_theoretical_result",
+      "finding": "TPSR works in a low-dimensional subspace or similarity transform of observable prediction structure. Its consistency result is asymptotic and depends on assumptions, rank conditions, and sampled trajectories; features may stand in for enumerated tests and histories."
+    },
+    {
+      "locator": "Sec. IV",
+      "status": "author_reported_experimental_design",
+      "finding": "Evaluation is limited to a simulated nonlinear, non-Gaussian, partially observable vision-navigation domain. Training uses 10,000 short trajectories of seven action-observation pairs, and planning uses 8,000 training histories or belief points. The robot observes images rather than true position."
+    },
+    {
+      "locator": "Sec. IV.D/Fig. 2",
+      "status": "author_reported_quantitative_simulation_result",
+      "finding": "Across 100 random starts, mean actions are reported as approximately 22.8 for the learned policy, 291.5 for random behavior, and 12.8 for optimistic A*. The authors state that comparison with A* is unfair because A* assumes true position, deterministic dynamics, instantaneous rotations, and unlimited training data."
+    },
+    {
+      "locator": "Conclusion",
+      "status": "author_reported_scope",
+      "finding": "The authors claim consistent TPSR subspace identification, feature and KDE extensions, planning in learned state, and successful closed-loop planning in the simulated vision task. The supplied content presents no contact-mechanics, impedance-control, or soft-tissue validation."
+    }
+  ],
+  "evidence_kind": [
+    "formal representation and sufficiency argument",
+    "asymptotic consistency claim",
+    "method description",
+    "simulation experiment",
+    "author-reported quantitative outcome",
+    "author-reported comparator limitation"
+  ],
+  "boundary_conditions": [
+    "Predictive sufficiency requires a core set Q whose predictions determine every relevant test after every history.",
+    "Compact TPSR structure depends on low-rank observable prediction structure and associated rank conditions.",
+    "Consistency is asymptotic and conditional on assumptions and adequate sampled trajectories; it is not an unconditional finite-sample guarantee.",
+    "Characteristic and indicative features substitute for explicit test and history enumeration and must preserve the required predictive structure.",
+    "Continuous-observation handling uses KDE and inherits approximation and estimation limitations.",
+    "Planning is approximate and point-based.",
+    "Empirical evidence comes from one simulated vision-navigation domain using short training trajectories.",
+    "The optimistic A* baseline is not assumption-matched to the learned policy.",
+    "There is no validation in contact mechanics, impedance control, physical human-robot interaction, or soft-tissue dynamics."
+  ],
+  "assumptions": [
+    "Observable action-observation histories contain predictive information expressible through a finite or effectively low-dimensional core-test state.",
+    "The relevant system-dynamics or observable-prediction matrix satisfies the rank conditions needed for spectral identification.",
+    "Sampled trajectories adequately cover the histories, actions, observations, and features needed for estimation.",
+    "Interventional test-action semantics are available when defining future-test predictions.",
+    "Feature maps and KDE approximations preserve enough prediction structure for the task.",
+    "The planner's learned model is sufficiently accurate in the evaluated simulation for approximate belief or predictive-state planning."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The authors state generally that inaccurate models typically yield useless plans.",
+      "The authors explicitly characterize the learned-policy versus optimistic-A* comparison as unfair because the comparator receives stronger state, dynamics, rotation, and data assumptions.",
+      "The reported result does not match the optimistic A* action count, although the assumptions are not comparable."
+    ],
+    "inferred": [
+      "The evidence does not demonstrate that the learned coordinates are uniquely minimal or physically interpretable; it supports compact predictive sufficiency only under the core-set and rank assumptions.",
+      "The short-trajectory simulated study does not establish robustness to long physical contact histories, distribution shift, sensing artifacts, or model mismatch.",
+      "Decision value cannot be transferred from simulated vision navigation to impedance control, contact mechanics, or soft-tissue interaction without matched-domain learning and closed-loop validation.",
+      "No safety, stability, force-regulation, passivity, or tissue-interaction conclusion is supported."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified_only_against_controller_supplied_content_packet",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-08227b0b3e214f9379ed10d6209e21b9558874f772a312236ff046f7819bb923.json",
+    "query_plan_sha256": "fdcca071ac9d0164d78542433f687fc161904141ddb3d8f6f09c74e05278dd34",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "root_cause_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "actual_hit_query_ids": [
+      "Q0072",
+      "Q0073",
+      "Q0075"
+    ],
+    "mechanism_change_ids": [
+      "RMC-HISTORY-PREDICTIVE-STATE"
+    ],
+    "capability_ids": [
+      "CAP-HISTORY-PREDICTIVE-SUFFICIENCY",
+      "CAP-MATCHED-MINIMALITY",
+      "CAP-ONLINE-OBSERVABILITY"
+    ],
+    "obligation_ids": [
+      "OBL-ATOMIC-DISCRIMINATION",
+      "OBL-HISTORY-MARKOVIZATION",
+      "OBL-MATCHED-DECISION-VALUE",
+      "OBL-OBSERVABLE-MINIMALITY"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-HISTORY-SUFFICIENCY"
+    ],
+    "search_dimensions": [
+      "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "FIRST_PRINCIPLES",
+      "REPRESENTATION_TRANSFORMATION"
+    ]
+  }
+}

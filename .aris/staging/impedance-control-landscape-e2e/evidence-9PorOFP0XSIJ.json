@@ -1,0 +1,86 @@
+{
+  "source_id": "9PorOFP0XSIJ",
+  "read_event_id": "6842b8cbe0e34a4fa4b3fc46e95bc6c1",
+  "content_sha256": "82d97efa48c02d5370572b909768ea5d7c3d63ffbfc3bf6d725bc5b2d3b5628c",
+  "claim": "This review is decision-grade only for field taxonomy, emerging variable-impedance method branches and coverage gaps. It reports that linear unknown-coefficient interaction models remain prevalent and that many learning approaches optimize parameters of a linear impedance law rather than learn a nonlinear interaction-port law. Its heterogeneous narrative literature cannot support pooled performance, safety or method-superiority conclusions.",
+  "claim_locator": "Model taxonomy; linear/nonlinear/fuzzy/fractional/learning comparison; applications; review-method reporting.",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "review-level narrative heterogeneous synthesis",
+  "problem_and_setting": "Surveying variable impedance/admittance for HRI/HRC across simulations, low-DOF systems, exoskeletons, haptics, polishing, teleoperation and pHRI.",
+  "method_or_mechanism": "Organizes linear versus nonlinear models and catalogs fractional calculus, type-I/II fuzzy systems, sliding mode, neural networks, RL, MPC and iterative learning. Many learning methods tune parameters within linear impedance; nonlinear/fuzzy/fractional variants add expressiveness with computation, tuning, data and interpretability burdens.",
+  "content_summary": "The 247 references mix reviews, theory, simulations, generic control, non-HRI and pHRI; some are not direct port-impedance evidence. No common benchmark or meta-analysis exists. References include 2025 without a search cutoff. Reported percentage improvements are not comparable or poolable. Safety is typically an intended benefit without synthesized collision, force-limit, clinical or standards outcomes.",
+  "synthesis_role": "Field taxonomy, emerging-method catalog and coverage-gap evidence only.",
+  "development_link": "Separates classical linear parameter adaptation from nonlinear port modeling, fuzzy/fractional methods and learning optimization, highlighting benchmark, high-DOF and safety-synthesis gaps.",
+  "evidence": [
+    {
+      "locator": "Model taxonomy",
+      "status": "review synthesis",
+      "finding": "Linear unknown-coefficient models remain prevalent for simplicity and interpretability."
+    },
+    {
+      "locator": "Learning methods",
+      "status": "review synthesis",
+      "finding": "Many NN/RL/MPC/iterative methods tune parameters of assumed linear impedance rather than learn nonlinear port laws."
+    },
+    {
+      "locator": "Linear/nonlinear comparison",
+      "status": "review synthesis",
+      "finding": "Nonlinear/fuzzy/fractional approaches add capacity but computation, tuning, data and interpretability burdens."
+    },
+    {
+      "locator": "Application catalog",
+      "status": "review synthesis",
+      "finding": "Evidence is concentrated in simulation and low-DOF settings, with sparse high-DOF industrial coverage."
+    },
+    {
+      "locator": "Safety claims",
+      "status": "review synthesis",
+      "finding": "No synthesized collision injury, force-limit, clinical or standards outcomes support broad safety claims."
+    },
+    {
+      "locator": "Review methods",
+      "status": "reader inference",
+      "finding": "No databases, search strings/dates, PRISMA flow, eligibility, deduplication, extraction or quality appraisal are documented."
+    },
+    {
+      "locator": "Cross-study results",
+      "status": "reader inference",
+      "finding": "Heterogeneous tasks and outcomes prevent pooling percentages or ranking methods."
+    }
+  ],
+  "evidence_kind": [
+    "narrative review",
+    "method taxonomy",
+    "heterogeneous catalog",
+    "coverage-gap inference"
+  ],
+  "boundary_conditions": [
+    "Use only for taxonomy and gaps.",
+    "Not primary experimental evidence.",
+    "Do not infer pooled effectiveness or safety.",
+    "Prevalence may reflect undocumented selection.",
+    "Simulation/low-DOF evidence does not establish high-DOF performance."
+  ],
+  "assumptions": [
+    "The admitted full text is complete.",
+    "Labels follow the article even when examples indirectly concern port impedance.",
+    "Absent documented procedures are not proof no informal search occurred."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Linear models miss nonlinear human behavior and hysteresis.",
+      "Nonlinear/fuzzy/fractional approaches increase complexity.",
+      "High-DOF industrial coverage is limited."
+    ],
+    "inferred": [
+      "The review is not reproducibly systematic.",
+      "Selection/publication bias cannot be evaluated.",
+      "Percent improvements are non-poolable.",
+      "General safety or superiority is unsupported.",
+      "Generic/non-HRI examples blur field boundaries."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified against admitted full text"
+}

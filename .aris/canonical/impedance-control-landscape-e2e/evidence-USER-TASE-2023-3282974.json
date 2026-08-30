@@ -1,0 +1,101 @@
+{
+  "source_id": "USER-TASE-2023-3282974",
+  "read_event_id": "6972b3201de04901851925c3ff36cd0b",
+  "content_sha256": "7e6d13258e4b0da5f7f55e1746f2d5723279820f27c08ab40bb66f34dfefcf9e",
+  "claim": "A contact-model-agnostic task-space framework achieves accurate 6-DoF compliant motion and 6-D wrench regulation on position-controlled arms; practical admittance improves coupled stability while ideal time-varying impedance can lose passivity and oscillate under constraint, and human ultrasound demonstrations remain qualitative.",
+  "claim_locator": [
+    "Controller formulation",
+    "Passivity and coupled-stability analysis",
+    "Trajectory experiments",
+    "3 N phantom force tests",
+    "6-D phantom wrench tests",
+    "Human-volunteer demonstrations"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "author_reported_with_bounded_inference",
+  "problem_and_setting": "General compliant motion and multidimensional contact-wrench regulation for position-controlled robot arms in constrained scanning interactions, without an explicit tissue constitutive model.",
+  "method_or_mechanism": "Ideal, practical, and hybrid task-space admittance controllers are derived. The ideal controller favors free-space tracking; the practical controller uses measured feedback and instantaneous rendered impedance for better constrained stability at some tracking cost; the hybrid combines the behaviors. Gravity and inertia compensation are included.",
+  "content_summary": "Mean compliant-trajectory error is below 0.30 mm. Five-trial phantom tests at 3 N report mean relative force error below 0.5% and maximum below 3% after convergence, with and without lateral scan motion. Five-trial 6-D tests at 3 N and 0.2 Nm report mean errors below 0.5% force and 0.8% moment, maxima below 2.2%. Analysis and an operator-constraint experiment show ideal time-varying impedance can oscillate, while practical feedback improves stability. Human kidney, spine, and carotid 3-D ultrasound demonstrations are qualitative.",
+  "synthesis_role": "Strong contact-model-agnostic baseline and direct evidence that variable gains must be judged through rendered passivity and coupled stability, not nominal impedance alone.",
+  "development_link": "A richer contact model must show incremental failure-inclusive benefit beyond nominal force accuracy: transient overshoot, safety limits, stability under time-varying gains, heterogeneity and relaxation, held-out anatomy, finite-area wrench, or quantitative image outcomes.",
+  "evidence": [
+    {
+      "locator": "Controller formulation",
+      "status": "author_reported",
+      "finding": "Ideal, practical, and hybrid task-space admittance control provides 6-DoF compliant motion and 6-D wrench regulation on position-controlled arms."
+    },
+    {
+      "locator": "Passivity and coupled-stability analysis",
+      "status": "author_reported",
+      "finding": "Ideal time-varying impedance can fail passivity and coupled stability; practical feedback improves constrained stability at a free-space tracking cost."
+    },
+    {
+      "locator": "Constrained-operator experiment",
+      "status": "author_reported",
+      "finding": "The ideal controller oscillates when an operator constrains the robot."
+    },
+    {
+      "locator": "Trajectory experiments",
+      "status": "author_reported",
+      "finding": "Mean compliant-trajectory error is below 0.30 mm."
+    },
+    {
+      "locator": "3 N phantom tests",
+      "status": "author_reported",
+      "finding": "Across five trials with and without lateral scanning, mean relative force error is below 0.5% and maximum post-convergence error below 3%."
+    },
+    {
+      "locator": "6-D phantom tests",
+      "status": "author_reported",
+      "finding": "Across five trials at 3 N and 0.2 Nm, mean relative errors are below 0.5% for force and 0.8% for moment, with maxima below 2.2%."
+    },
+    {
+      "locator": "Human-volunteer demonstrations",
+      "status": "author_reported",
+      "finding": "Kidney, spine, and carotid 3-D ultrasound are demonstrated but only qualitatively because prior non-rigid target geometry is unavailable."
+    }
+  ],
+  "evidence_kind": [
+    "controller formulation",
+    "passivity analysis",
+    "phantom trajectory experiment",
+    "phantom wrench regulation",
+    "qualitative human demonstration"
+  ],
+  "boundary_conditions": [
+    "Quantitative accuracy is phantom-based",
+    "Maximum errors are post-convergence",
+    "Human results are qualitative",
+    "No explicit tissue constitutive model",
+    "Practical stability trades against free-space accuracy",
+    "Commanded time-varying impedance need not be passively rendered"
+  ],
+  "assumptions": [
+    "Measured task-space feedback suffices without tissue identification",
+    "Gravity and inertia compensation are adequate",
+    "Rendered impedance is meaningful for stability assessment",
+    "Phantom trials inform accuracy but not in-vivo generalization"
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Ideal time-varying impedance can lose passivity and stability",
+      "Ideal control oscillates under constraint",
+      "Practical control trades free-space accuracy for stability",
+      "Human results lack quantitative geometry validation"
+    ],
+    "inferred": [
+      "Post-convergence force error does not bound impact, pressure, deformation, or dose",
+      "Explicit contact identification is not shown necessary for nominal tracking",
+      "No quantitative in-vivo clinical benefit is established",
+      "Richer models are unjustified unless they improve transient safety, stability, image quality, or held-out heterogeneity"
+    ]
+  },
+  "conflicts_with": [
+    "Explicit tissue modeling is required for sub-percent mean phantom force regulation",
+    "Nominal tracking accuracy proves passivity or coupled stability",
+    "Quantitative in-vivo image improvement",
+    "Safety under impact, heterogeneity, or relaxation"
+  ],
+  "verification_status": "verified"
+}

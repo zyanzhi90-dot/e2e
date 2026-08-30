@@ -1,0 +1,989 @@
+        282                                                                                    IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+
+               A Solution to the Accuracy/Robustness Dilemma
+                            in Impedance Control
+                               Sang Hoon Kang, Maolin Jin, Member, IEEE, and Pyung Hun Chang, Member, IEEE
+
+
+           Abstract—It has been reported that, in impedance control, there                   most common implementation of impedance control [3], [10]–
+        exists a dilemma between impedance accuracy and robustness                           [12], can enhance robustness against modeling error by using
+        against modeling error. As a solution to this dilemma, an accu-                      an inner position control loop [10]–[12]. However, because of
+        rate and robust impedance control technique is developed based
+        on internal model control structure and time-delay estimation: the                   the modeling error, the inner loop dynamics, which is supposed
+        former injects desired impedance and corrects modeling error, the                    to be hidden, is excited [10]. Thus, the inner loop dynamics
+        latter estimates and compensates the nonlinear dynamics of robot                     hinders accurate realization of desired impedance dynamics.
+        manipulators. Owing to the simple structure, the proposed control                       As a tradeoff between accuracy and robustness,
+        is designed without requiring entire model computation or com-                       instantaneous-model-based impedance control (IM-IC) was
+        plex algorithms. In 2-DOF SCARA-type robot experiments, the
+        accuracy and robustness of the proposed control are confirmed                        proposed [10]. It also uses an inner position control loop for ro-
+        through comparisons with other competent controllers including                       bustness. The difference is that the desired impedance model is
+        impedance control with disturbance observer.                                         replaced with an instantaneous model for accuracy. However, in
+          Index Terms—Force control, impedance control, internal model                       this case as well, accurate realization of the desired impedance
+        control (IMC), time-delay control.                                                   is hindered by the inner loop dynamics, unless the inner loop
+                                                                                             dynamics is identical to the desired impedance dynamics [10].
+                                     I. INTRODUCTION                                            Many research works have been carried out with the aim of
+              OR MORE than two decades since it was first reported,                          attaining robustness of impedance control. Notable approaches
+        F     impedance control has been noted and recognized as a
+        promising unified approach to robot manipulation [1], [2]. Ow-
+                                                                                             include variable structure control [13], adaptive control [14],
+                                                                                             and iterative learning control [15]. Although these approaches
+        ing to its capability to deal with all parts of a task—free motion,                  succeeded in enhancing robustness, they either use a robot dy-
+        constrained motion, and the transition between them—without                          namics model on real-time basis—the parameters of which are
+        switching between different modes of control at the moment of                        difficult to obtain and the evaluation of which is computation-
+        contact and requiring precise knowledge of environment stiff-                        ally demanding—or involve complex algorithms, which are not
+        ness [3], impedance control has been applied to many robotic                         simple to put into practice. Therefore, in addition to accuracy
+        tasks: rehabilitation [4], teleoperation [5], [6], pushing [7], pros-                and robustness, simplicity of the control law (minimal use of a
+        thesis [8], and functional MRI (fMRI) [9], etc.                                      dynamic model and a minimum number of gains) is preferable.
+           Recently, however, it was revealed in [10] that it is difficult                      With these considerations in mind and in response to the given
+        to enhance robustness against modeling error without losing                          dilemma, an impedance control method was developed based
+        the accuracy at which the desired impedance is attained. This                        on internal model control (IMC) [16] and time-delay estimation
+        is known as the “accuracy/robustness dilemma in impedance                            (TDE) [17].
+        control” [10].                                                                          IMC is a well-known, practical robust control method pro-
+           The original method, suggested by Hogan [1], compensates                          posed by Economou and Morari [16]. It has been applied to
+        robot dynamics by using a dynamic model [10]. In this sense, it                      various chemical processes [18], as well as to position control
+        is called dynamics-based impedance control (DB-IC) [10] and                          of manipulators, as an extension to mechanical systems in com-
+        is sensitive to modeling error. Moreover DB-IC uses no addi-                         bination with a computed torque method [19]. IMC was chosen
+        tional gains for correcting the modeling error. In contrast with                     to inject desired impedance dynamics while correcting mod-
+        DB-IC, position-based impedance control (PB-IC), one of the                          eling error by using its perfect control performance. Although
+                                                                                             IMC also requires a robot dynamics model, it is easy to design
+                                                                                             the IMC loop, owing to its straightforward design strategy [16].
+           Manuscript received August 25, 2008. First published March 4, 2009; current
+        version published June 17, 2009. This work was supported in part by the Agency          In order to exempt the use of a robot dynamics model, TDE
+        for Defense Development and in part by the Unmanned Technology Research              [17], [20]–[22] was incorporated to estimate and compensate the
+        Center (UTRC), Korea Advanced Institute of Science and Technology. Recom-            dynamics with minimum information of the plant: the recent
+        mended by Technical Editor K. Ohnishi.
+           S. H. Kang and P. H. Chang are with the Robotics and Control Lab-                 past acceleration and input force. Neither the entire dynamic
+        oratory, Department of Mechanical Engineering, Korea Advanced Institute              model nor parameters are necessary; furthermore, one does not
+        of Science and Technology (KAIST), Daejeon 305-701, Korea (e-mail:                   need to compute them at all. Consequently, TDE is simple and
+        shkang@mecha.kaist.ac.kr).
+           M. Jin was with the Mechanical Engineering Research Institute, KAIST,             computationally efficient.
+        Daejeon, Korea. He is now with the Research Institute of Industrial Science and         The disturbance observer (DOB) [23]–[25], which is noted for
+        Technology, Pohang, Korea (e-mail: mulim@rist.re.kr).                                its robustness and accuracy as well as its simplicity and compu-
+           Color versions of one or more of the figures in this paper are available online
+        at http://ieeexplore.ieee.org.                                                       tational efficiency, appears to be based on a similar concept with
+           Digital Object Identifier 10.1109/TMECH.2008.2005524                              TDE. A control law based on this approach is successfully used
+                                                                          1083-4435/$25.00 © 2009 IEEE
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+       KANG et al.: SOLUTION TO THE ACCURACY/ROBUSTNESS DILEMMA IN IMPEDANCE CONTROL                                                                                283
+
+
+
+       for various robot control applications including impedance con-                   forces; J(θ) ∈ Rn×n denotes the Jacobian; and τ u ∈ Rn de-
+       trol [23]–[25]. Since the similarity between TDE and DOB has                      notes the input torque.
+       been noted, it is worthwhile to clarify the differences between                      The other form [26] is easily obtained from (4) with the static
+       the impedance control with DOB and the proposed control and                       relation τ u = JT Fu , where Fu ∈ Rn denotes the Cartesian
+       compare the performance of the two controllers by experiments.                    space input force
+          Thus, this paper strives to make a threefold contribution: to
+                                                                                                           Fu = Mx (θ)ẍ + Nx (θ, θ̇) + Fe                          (5)
+       propose a robust and accurate impedance control as a solution
+       to the “accuracy/robustness dilemma in impedance control”; to                     where Mx = J−T Mθ J−1 and Nx = J−T [Nθ − Mθ J−1 J̇θ̇].
+       show the simplicity of the proposed control law; and to demon-
+       strate the improved robustness and accuracy of proposed con-                      C. Dynamics-Based Impedance Control
+       trol, in comparison with that of DB-IC, PB-IC, IM-IC, and the
+                                                                                            Based on (4), the following DB-IC law is derived to achieve
+       impedance control with DOB through experiments.
+                                                                                         the desired impedance dynamics of (1):
+          This paper is structured as follows. Section II briefly in-
+       troduces DB-IC, PB-IC, IM-IC, and the “accuracy/robustness                          τ u = M̂θ (θ)J−1 (θ)(ud − J̇θ̇) + N̂θ (θ, θ̇) + JT (θ)Fe (6)
+       dilemma in impedance control.” In Section III, we propose an
+                                                                                         with
+       impedance control scheme and analyze its properties. Section IV
+       presents a comparison between the proposed approach, the DB-                           ud = ẍd + M−1
+                                                                                                          d [Bd (ẋd − ẋ) + Kd (xd − x) − Fe ]                     (7)
+       IC, the PB-IC, and the IM-IC through 2-DOF experiments.
+                                                                                         where M̂θ (θ) ∈ Rn×n and N̂θ (θ, θ̇) ∈ Rn denote estimates of
+       In Section V, differences between the proposed control and
+                                                                                         Mθ and Nθ , respectively; and ud ∈ Rn denotes the new control
+       the impedance control with DOB are clarified, and the perfor-
+                                                                                         input. In the Laplace domain, ud can be written as follows:
+       mance of the two is compared by 2-DOF experiments. Finally, in
+       Section VI, we summarize the results and draw conclusions.                            ud = M−1            −1      −1
+                                                                                                   d Zd (s)xd − Md Fe − Md (sBd + Kd )x.                            (8)
+                      II. ACCURACY/ROBUSTNESS DILEMMA                                    Clearly, the DB-IC in (6) uses dynamics-based compensation.
+                            IN IMPEDANCE CONTROL                                         Thus, robustness of the DB-IC entirely relies on the estimated
+                                                                                         values, M̂θ and N̂θ .
+         In this section, the dilemma [10] is presented with a brief
+       description of DB-IC, PB-IC, and IM-IC.
+                                                                                         D. Position-Based Impedance Control
+       A. Desired Impedance
+                                                                                            From [10]–[12], one may summarize PB-IC as follows. The
+          The goal of impedance control [11], [12] is to achieve desired                 desired impedance model modifies the desired trajectory by
+       impedance between the end-effector position and interaction                       using the measured interaction force. The modified trajectory
+       force as follows:                                                                 is then imposed as a command of the inner position control
+                                                                                         loop [10]–[12]. The position command of the inner loop is the
+               Md (ẍd − ẍ) + Bd (ẋd − ẋ) + Kd (xd − x) = Fe                   (1)
+                                                                                         solution to the desired impedance model:
+       where x, ẋ, ẍ ∈ Rn denote the Cartesian space position, ve-
+       locity, and acceleration, respectively; xd , ẋd , ẍd ∈ Rn denote                    Md (ẍd − ẍr ) + Bd (ẋd − ẋr ) + Kd (xd − xr ) = Fe                 (9)
+       the Cartesian desired trajectory and its time derivatives, respec-                where xr , ẋr , ẍr ∈ Rn denote the inner loop position command
+       tively; Fe ∈ Rn denotes the interaction force on the environ-                     and its time derivatives, respectively. In the Laplace domain, the
+       ment exerted by the robot; and Md , Bd , Kd ∈ Rn×n denote the                     inner loop command is computed as follows:
+       mass, damping, and stiffness of the desired impedance, respec-
+       tively. In the Laplace domain, desired impedance dynamics (1)                                 xr = Z−1        −1            −1
+                                                                                                           d (s)Md [Md Zd (s)xd − Md Fe ]
+       can be written as [12]                                                                            = xd − Z−1
+                                                                                                                 d (s)Fe .                                        (10)
+                                Fe = Zd (s) (xd − x)                              (2)    If the inner position control loop guarantees perfect tracking
+       with                                                                              performance (x = xr ), then from (9), desired impedance is at-
+                                                                                         tained perfectly [12]. Note that that if Fe is zero, xr becomes xd .
+                            Zd (s) = s2 Md + sBd + Kd                             (3)    Thus, in free space, small deviation between xr and x implies
+       where Zd (s) ∈ Rn×n denotes desired relation between x and Fe .                   small position tracking error [12].
+                                                                                            Any position control law can be used for the inner loop. In
+       B. Robot Dynamics                                                                 this study, an experimentally verified method presented in [11]
+         For the Cartesian space control, usually two forms of robot                     is selected. It also uses the same dynamics compensation of (6).
+       dynamics are considered: one form [10] is                                         The difference is that ud is replaced with up
+          τ u = Mθ (θ)J−1 (θ)(ẍ − J̇θ̇) + Nθ (θ, θ̇) + JT (θ)Fe                  (4)                  up = ẍr + Kv (ẋr − ẋ) + Kp (xr − x)                     (11)
+       where θ, θ̇ ∈ Rn denote the joint position and velocity, respec-                  where Kp , Kv ∈ Rn×n denote the gains of the decoupled pro-
+       tively; Mθ (θ) ∈ Rn×n denotes the inertia matrix; Nθ (θ, θ̇) ∈                    portional and derivative (PD) controller, which can be designed
+       Rn denote the centrifugal, Coriolis, gravitational, and friction                  independently of the desired impedance parameters.
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+        284                                                                                  IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+        E. Accuracy/Robustness Dilemma in Impedance Control
+           Originally, for simplicity, the dilemma was analyzed by using
+        a linear 1-DOF robot [10]. In this study, considering a real robot
+        system, the same dilemma is analyzed by using a nonlinear
+        multi-DOF robot.
+           The robot dynamics (4) can be rewritten as follows:
+        τ u = M̂θ J−1 (ẍ − J̇θ̇) + N̂θ + JT Fe
+                        +(Mθ − M̂θ )J−1 (ẍ − J̇θ̇) + (Nθ − N̂θ ).               (12)
+        Applying DB-IC in (6) to the robot dynamics (12) leads to
+         M̂θ J−1 (u − ẍ) = (Mθ − M̂θ )J−1 (ẍ − J̇θ̇) + (Nθ − N̂θ ).
+                                                                  (13)
+                                                                                          Fig. 1. Block diagram of the DB-IC and PB-IC. (a) DB-IC: desired dynamics
+        Note that (13) representing a relationship common to both DB-                     is disturbed by dynamics estimation error η. (b) PB-IC: dynamics estimation
+        IC and PB-IC, u represents either ud or up .                                      error η excites inner loop dynamics C −1 (s).
+           Now, multiplying (M̂θ J−1 )−1 on both sides of (13) and
+        terming the right-hand side as dynamics estimation error,
+                                                                                          Accurate realization of desired impedance is disturbed by η
+        η (t) ∈ Rn , we have the following definition:
+                                                                                          stemming from modeling error. Moreover, except for the param-
+                          −1                                                              eters to achieve the desired impedance, there are no adjustable
+           η (t) = JM̂θ [(Mθ − M̂θ )J−1 (ẍ − J̇θ̇) + (Nθ − N̂θ )].
+                  ∆
+                                                                                          parameters to reduce the effect of η. Thus, DB-IC is vulnera-
+                                                                       (14)
+                                                                                          ble and sensitive to the modeling error. Especially when small
+        From (14), η, in the form of acceleration, is a difference between
+                                                                                          stiffness and large mass are desired, the sensitivity is high [10].
+        real and estimated dynamics. From (13) and (14), it follows that
+                                                                                             2) Accuracy and Robustness of the PB-IC: Similar to (17),
+                                    η (t) = u(t) − ẍ(t)                         (15)     up in (11) can be divided into two parts as follows:
+        which will be used later. Note that, from (14) and (15), η can be                                        up = vp − (sKv + Kp )x                             (22)
+        regarded as uncompensated coupled dynamics, which couples
+        motions of several axes. From (15), it may be interpreted that u                  where vp ∈ Rn is defined as
+        and x have a linear second-order dynamics subject to dynam-                                                          ∆
+                                                                                                                         vp = C(s)xr                                (23)
+        ics estimation error η stemming from modeling error, and is
+        expressed as follows:                                                             with C(s) = s2 I + sKv + Kp . Clearly, the first part represents
+                                                                                          the reference input and the second feedback input. Substituting
+                                       u = s2 x + η.                             (16)
+                                                                                          (22) into (16)—u of (16) for PB-IC is up —and solving for x,
+          1) Accuracy and Robustness of the DB-IC: The new control                        we have
+        input ud in (8) is arranged into two parts as follows:
+                                                                                                                    x = C−1 (s)(vp − η).                            (24)
+                            ud = vd − M−1
+                                       d (sBd + Kd )x                            (17)
+                                                                                            The relations (10) and (24), are illustrated in Fig. 1(b). By
+        where vd ∈ Rn is defined as                                                       substituting (23) into (24) and solving for xr − x, we have
+
+                            vd = M−1
+                                ∆               −1
+                                  d Zd (s)xd − Md Fe .                           (18)                       xr − x = C−1 (s)η
+
+        Note that vd represents the combination of the reference input                                                = (s2 I + sKv + Kp )−1 η.                     (25)
+        and interaction force, and the other part stands for the position
+                                                                                          Comparison of (21) and (25) displays that C−1 (s) contains free
+        feedback input. Substituting (17) into (16)—u of (16) for DB-IC
+                                                                                          gains Kp and Kv , and that increasing them attenuates the effect
+        is ud —and solving for x, we have
+                                                                                          of η. Thus, PB-IC has better robustness compared with that of
+                                x = Z−1
+                                     d (s)Md (vd − η)                            (19)     DB-IC. However, it is clear from Fig. 1(b) that the dynamics
+                                                                                          C−1 (s), which is meant to be canceled by C(s), is excited by η
+        which is illustrated in Fig. 1(a). From (10) and (18), vd can be                  and hinders accurate realization of the desired impedance. Thus,
+        rewritten as follows:                                                             the inaccuracy is related to the inner loop dynamics C−1 (s). In
+                                    vd = M−1                                              the worst case, the robot loses contact and oscillates [10].
+                                          d Zd (s)xr .                           (20)
+                                                                                             3) Accuracy/Robustness Dilemma in Impedance Control:
+                                                                                          Although DB-IC can realize desired impedance accurately with
+           Substituting (20) into (19) and solving for xr − x, we have                    precise modeling, it is sensitive to the modeling error. PB-IC en-
+                                                                                          hances robustness against the modeling error. However, PB-IC
+                   xr − x = Z−1
+                             d (s)Md η                                                    realizes desired impedance inaccurately, and this inaccuracy is
+                               = (s2 I + sM−1      −1    −1
+                                           d Bd + Md Kd ) η.                     (21)     related to its inherent inner loop dynamics, which is, in general,
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+       KANG et al.: SOLUTION TO THE ACCURACY/ROBUSTNESS DILEMMA IN IMPEDANCE CONTROL                                                                                285
+
+
+
+                                                                                         perfect control property is promising to resolving the dilemma,
+                                                                                         the selection of the internal model requires a robot dynamics
+                                                                                         model on real-time basis, sharing the same difficulty with the
+                                                                                         other control laws mentioned in Section I and necessitating an
+                                                                                         effective scheme such as the TDE.
+
+                                                                                         B. Time-Delay Estimation
+       Fig. 2. Block diagram of the IMC, where Q denotes the IMC controller, P
+                                                                                            TDE is a model-independent simple dynamics estimation
+       signifies the plant, and P̃ denotes the internal model.
+                                                                                         technique [17]. The dynamics of (5) can be divided into two
+                                                                                         terms, the known term and the unknown and uncertain nonlin-
+       different from the desired impedance dynamics. Thus, there is                     ear terms represented by H(θ, x, ẋ, ẍ) ∈ Rn as follows:
+       a dilemma between accuracy and robustness [10].
+          4) Instantaneous-Model-Based Impedance Control: As a                                                Fu = M̄x ẍ + H(θ, x, ẋ, ẍ)                       (30)
+       tradeoff between robustness and accuracy, IM-IC has been pro-                     where M̄x       ∈ Rn×n   denotes a matrix representing the
+       posed. Instead of the desired impedance model in (9), IM-IC                                                                   ∆
+                                                                                         known part of Mx , and H(θ, x, ẋ, ẍ) = [Mx (θ) − M̄x ]ẍ +
+       uses an instantaneous impedance model [10] as follows:                            Nx (θ, θ̇) + Fe . Assume that H(θ, x, ẋ, ẍ) be continuous or
+          Md (ẍd − ẍim ) + Bd (ẋd − ẋim ) + Kd (xd − xim ) = Fe                      at least piecewise continuous, and let H(t) denote H(θ, x, ẋ, ẍ)
+                                                                      (26)               at time t. Then, for a sufficiently small time delay L, Ĥ(t) , the
+       where xim , ẋim , ẍim ∈ Rn denote the inner loop position com-                  time-delayed estimate of H(t) can be obtained as below [17]
+       mand and its time derivatives, respectively. The next step veloc-
+                                                                                          Ĥ(t) = H(t−L ) = Fu (t−L ) − M̄x ẍ(t−L ) .       (31)
+       ity command is predicted as follows [10]:
+                                 t+L                                          Normally, L is set to be the sampling period in digital implemen-
+                                                   −1
+       ẋim (t+L ) = ẋim (t) +         {ẍd(t) + Md [Bd (ẋd(t) − ẋim ( λ) ) tation. TDE does not require a dynamic model or its parameters
+                                  t                                            except for M̄x . It only needs the recent past information of
+                      + Kd (xd(t) − xim ( λ) ) − Fe ]}dλ                       acceleration and input force.
+                                                                                  Similar to the definition of the dynamics estimation error in
+           ẋim (t) = ẋ(t) , xim (t) = x(t) .                         (27)
+                                                                               (14), TDE error, η T (t) ∈ Rn , is defined as follows:
+          Similarly, xim (t+L ) is computed by double integration [10].
+                                                                                                 η T (t) = M̄−1
+                                                                                                         ∆
+       If ẍim (t+L ) is needed, then it can be computed as below [10]                                        x [H(t) − Ĥ(t) ].             (32)
+
+       ẍim (t+L ) = ẍd + M−1                                                           From (32), similar to η, TDE error η T , in the form of acceler-
+                            d [Bd (ẋd − ẋim (t+L ) )
+                                                                                         ation, can also be considered as a difference between real and
+                                        +Kd (xd − xim (t+L ) ) − Fe ].          (28)     estimated dynamics. That η T too is a dynamics estimation error
+                                                                                         will be shown in (43).
+       The instantaneous model ensures that the desired impedance
+                                                                                            TDE is applied to the proposed control to remove the need of
+       dynamics is maintained in the actual position of the robot, in-
+                                                                                         an entire robot dynamics model.
+       stead of the predicted position in (10). However, in this case as
+       well, accurate realization of desired impedance is hindered by
+                                                                                         C. Derivation of the Proposed Impedance Control Law
+       the inner loop dynamics [10].
+                                                                                            1) IMC Structure for Impedance Control: Comparison of
+                       III. PROPOSED IMPEDANCE CONTROL                                   the structure of DB-IC in Fig. 1(a) with that of IMC in Fig. 2
+                                                                                         shows that DB-IC is an IMC applicable form: the feedforward
+       A. Internal Model Control
+                                                                                         controller M−1                       −1
+                                                                                                       d Zd and the plant Zd Md , with η acting as an
+         IMC, proposed by Economou and Morari [16], is shown in                          input disturbance to the plant. The only difference is that the
+       Fig. 2. The closed-loop dynamics due to IMC is given as                           interaction force Fe is separated from η for impedance control.
+                                                                                         Thus, the perfect control property of IMC should be able to im-
+         y = P Q[1+Q(P − P̃ )]−1 yd +(1− P̃ Q)[1+Q(P − P̃ )]−1 P d.
+                                                                                         prove the robustness against modeling error and the impedance
+                                                                     (29)
+                                                                                         accuracy regardless of environment stiffness—this is the key
+        From (29), one can easily derive the so-called perfect control
+                                                                                         concept of this paper.
+       property: assuming that Q = P̃ −1 and the closed-loop system is
+                                                                                            By following the standard IMC design procedure, a parallel
+       stable, then perfect control (y = yd ) can be achieved. Note that
+                                                                                         internal model loop is added to the closed loop in Fig. 1(a). The
+       the condition Q = P̃ −1 only restricts the relation between the
+                                                                                         internal model P̃ is simply selected as follows:
+       IMC controller and internal model, not the plant. In addition,
+       the design is straightforward: the internal model is set to be the                                            P̃ = Z−1
+                                                                                                                           d (s)Md .                              (33)
+       same as the plant model, and the IMC controller is the inverse
+                                                                                              P̃ is invertible; therefore, the IMC controller Q is determined
+       of the internal model [16].
+                                                                                         as
+          In short, IMC has the following properties: perfect control
+       performance and a straightforward design strategy. While the                                                   Q = M−1
+                                                                                                                           d Zd (s)                               (34)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+        286                                                                                  IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+                                                                                          IMC structure. In this sense, the proposed IMC structure is a
+                                                                                          perfect solution to the dilemma. In addition, the design is ac-
+                                                                                          complished in a straightforward manner. Further, this structure
+                                                                                          requires only the desired impedance parameters.
+                                                                                             However, because of the required computation of the entire
+                                                                                          robot dynamics, the simplicity factor needs to be improved.
+                                                                                             2) Model-Independent Dynamics Compensation: For sim-
+                                                                                          plicity, the complex-model-based compensation (6) is replaced
+                                                                                          with TDE. From (30) and (31), the following dynamics com-
+                                                                                          pensation is obtained [17]:
+                                                                                                
+                                                                                                    Fu (t) = M̄x unew (t) + Fu (t−L ) − M̄x ẍ(t−L )
+                                                                                                                                                     (41)
+                                                                                                    τ u (t) = JT Fu (t) .
+                                                                                            Subtraction of (30) from (41), and a simple mathematical
+                                                                                          manipulation, yields
+                                                                                                  unew (t) − ẍ(t) = M̄−1
+                                                                                                                       x [H(t) − Ĥ(t) ] = η T (t) .                (42)
+                                                                                             From (42), it follows that
+        Fig. 3. Block diagrams of the proposed control. (a) Proposed IMC structure
+        for impedance control: instead of introducing any other dynamics (such as C(s)                             η T (t) = unew (t) − ẍ(t) .                     (43)
+        of PB-IC), this structure can compensate dynamics estimation error η by using
+        parallel internal model, which is the same as desired impedance model. (b)        By comparing (43) with (15), it can be found that unew and η T
+        Expanded block diagram of the proposed control.                                   are matched with u and η, respectively. Again, we can confirm
+                                                                                          that TDE error η T is also a dynamics estimation error, which
+                                                                                          couples motions of several axes. In the Laplace domain, (43)
+        which is already given in Fig. 1(a). Adding IMC feedback, we                      becomes
+        can achieve the proposed control as illustrated in Fig. 3(a). The
+        input to Q is changed from xd to xδ , and thus, vd is replaced                                                unew = s2 x + η T .                           (44)
+        with vnew
+                                                                                          In comparison with (16), the only difference is that η is replaced
+                          vnew = M−1            −1
+                                  d Zd (s)xδ − Md Fe .                           (35)     by η T , which can be corrected by the proposed IMC structure.
+                                                                                             3) Proposed Impedance Control: From (35), (36), and (41),
+                                                                                          the proposed control law is obtained as follows:
+           Accordingly, ud in (17) is replaced with unew                                        
+                                                                                                   Fu (t) = M̄x unew (t) + Fu (t−L ) − M̄x ẍ(t−L )
+                                                                                                                                                        (45)
+                        unew = vnew − M−1
+                                       d (sBd + Kd )x.                           (36)              τ u (t) = JT Fu (t)
+
+           From Fig. 3(a), one can directly deduce the following rela-                    where
+        tionships:
+                                                                                                     unew (t) = vnew (t) − M−1
+                                                                                                                            d (Bd ẋ(t) + Kd x(t) )                 (46)
+                        x = Z−1
+                             d (s)Md (vnew − η)                                  (37)     with
+                x − xm = −Z−1
+                           d (s)Md η                                             (38)         vnew (t) = ẍδ (t) + M−1
+                                                                                                                    d (Bd ẋδ (t) + Kd xδ (t) − Fe(t) )             (47)
+                   vnew = M−1                          −1
+                           d Zd (s)[xd − (x − xm )] − Md Fe                               and
+                           = vd +                   η                       .    (39)
+                                                                                                        xδ (t) = xd(t) − x(t−L ) + xm (t−L ) .                  (48)
+                                     correcting dynamics estimation error
+                                                                                          An expanded block diagram of the closed-loop system due to
+        From (38), the additional IMC feedback term x − xm is a func-                     the proposed control is shown in Fig. 3(b).1
+        tion of η only. Thus, as shown in (39), the additional IMC
+        feedback is a dynamics estimation error correction term. Sub-                     D. Discussion of the Proposed Impedance Control Law
+        stituting (20) and (39) into (37), and solving for xr − x, we
+        have                                                                                1) Accuracy and Robustness: Substituting (47) and (48) into
+                                                                                          (46) and subtracting (7) gives the control input of the proposed
+                                       xr − x = 0n                               (40)
+                                                                                             1 The feedback time delay L is explicitly included in IMC feedback con-
+        where 0n ∈ Rn denotes a zero vector. Desired impedance is per-
+                                                                                          sidering discrete-time domain implementation. See x (t −L ) and x m (t −L ) in
+        fectly realized regardless of dynamics estimation error. There-                   (48), and the dotted block in Fig. 3(b). Feedback time delay is unavoidable for
+        fore, accuracy and robustness are achieved with the proposed                      discrete-time domain implementation.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+       KANG et al.: SOLUTION TO THE ACCURACY/ROBUSTNESS DILEMMA IN IMPEDANCE CONTROL                                                                                287
+
+
+
+       control as follows:
+                    unew (t) = ud(t) − {(ẍ(t−L ) − ẍm (t−L ) )
+                                 + M−1
+                                    d [Bd (ẋ(t−L ) − ẋm (t−L ) )
+
+                                 + Kd (x(t−L ) − xm (t−L ) )]}.                 (49)
+          In the Laplace domain, (49) becomes
+                    unew = ud − M−1
+                                 d Zd (s)e
+                                          −L s
+                                               (x − xm ).                       (50)
+          Similar to the derivation of (38), in this case, x − xm becomes
+                            x − xm = −Z−1
+                                       d (s)Md η T .                            (51)
+         The only difference between (38) and (51) is that η is replaced                 Fig. 4. Magnitude plot of transfer functions of the DB-IC, the PB-IC, and the
+       with η T . In the time domain, from (50) and (51), unew can be                    proposed control between xr i − xi and dynamics estimation error: proposed
+       written as                                                                        control most effectively reduces the effect of dynamics estimation error.
+                           unew (t) = ud(t) + η T (t−L ) .          (52)
+                                                                                         method entirely relies on the magnitude of transfer functions
+       Substituting (8), (50), and (51) into (44), and solving for xr − x,               between xr i − xi and dynamics estimation error (ηi or ηT i ).
+       we have                                                                           The magnitude plot of transfer functions is shown in Fig. 4.
+       xr − x = Z−1
+                 d (s)Md (1 − e
+                               −L s
+                                    )η T                                                 For this plot, the following parameters are used: L = 1 ms,
+                                                                                         Mdi = 20 kg, Bdi = 900 N·s/m, Kdi = 400 N/m, Kpi = 2500,
+                 = (s2 I + sM−1      −1    −1
+                             d Bd + Md Kd ) (1 − e
+                                                  −L s
+                                                       )η T . (53)
+                                                                                         and Kv i = 90. These values are used for experiments in Sec-
+          Comparison of (53) with both (21) and (25) reveals that the                    tion IV. Proposed control shows smallest magnitude in a wide
+       dynamics estimation error (in this case, TDE error η T (t) ) is                   range of frequency: from 0 to 167 Hz. Therefore, accurate re-
+       corrected by a step-delayed term η T (t−L ) without introducing                   alization of desired impedance and good position tracking per-
+       any other impedance such as C(s) of the PB-IC. Further, if the                    formance are expected. From this comparison, clearly, one can
+       IMC feedback has no time delay, x becomes identical to xr , i.e.,                 see that the term e−L s is related to the robustness against η, and
+       desired impedance dynamics can be perfectly realized.                             that, due to e−L s , η can be effectively corrected.
+          From the control theory point of view, the proposed control                       2) Simplicity: The IMC loop requires no other gains except
+       is a 2-DOF control, which has a noteworthy feature that the                       the desired impedance parameters, and can be designed in a
+       command input response and the closed-loop characteristics can                    straightforward manner. The TDE needs one gain, M̄x , and only
+       be designed independently [27], [28]. If η T = 0n , then the IMC                  the information of one-step-delayed acceleration and input force
+       feedback becomes zero, and the command input response hence                       instead of computation of complex nonlinear dynamics such as
+       coincides with the desired response (i.e., x = xr ) regardless of                 Coriolis and centrifugal force, gravity, and friction force, thus
+       e−L s . If η T = 0n , the IMC feedback term is nonzero but is                    providing a simple approach. Overall, the proposed control fully
+       forced to converge to zero through the feedback loop with e−L s .                 shares the advantages of both IMC and TDE.
+       This explains why the proposed control can enhance robustness
+       and accuracy without conflict. The following comparison can                       E. Practical Considerations
+       give us more clear view on this point.                                              1) Removal of Internal Model Computation: The proposed
+          For a quantitative comparison of DB-IC, PB-IC, and proposed                    control law needs xm , a solution to the following differential
+       control, we assume that: 1) Md , Bd , Kd , Kp , and Kv are diag-                  equation:
+       onal matrices and 2) each element of η and η T have the same
+                                                                                               ẍm (t) + M−1 Bd ẋm (t) + Kd xm (t) = vnew (t) .                  (57)
+       magnitude, i.e., |ηi | = |ηT i |, where ηi , ηT i ∈ R denote the ith                               d
+
+       element of η and η T , respectively. With these assumptions, the                  To calculate xm , one has to solve the previous differential equa-
+       ith row equation of (21), (25), and (53) can be written as follows:               tion in real time. This might degrade the simplicity of the pro-
+                                                                                       posed control. Thus, improvement is needed here.
+                                               1
+                 xr i − xi =               −1            −1         ηi (54)                 One typical method is equating xm with xδ [29]. However,
+                                (s2 + sMdi    Bdi + Mdi     Kdi )
+                                                                                       it cannot be applied to our case, because xm and xδ are differ-
+                                          1                                              ent due to Fe . Thus, we developed a new modification, which
+                 xr i − xi =                            ηi             (55)
+                                (s2 + sKv i + Kpi )                                      removes the computation of xm , and at the same time, is appli-
+                                                                                         cable to impedance control. Substituting (48) into (47) yields
+       and
+                                                      
+                                 (1 − e−L s )                                              vnew (t) = ẍd(t) + M−1
+                                                                                                                d  Bd ẋd(t) + Kd xd(t) − Fe(t)
+             xr i − xi =          −1          −1         ηT i                   (56)
+                         (s2 + sMdi  Bdi + Mdi   Kdi )                                                  − ẍ(t−L ) − M−1 Bd ẋ(t−L ) + Kd x(t−L )
+                                                                                                                      d
+       where xr i and xi denote the ith element of xr and x, respec-
+                                                                                                        + ẍm (t−L ) +M−1
+                                                                                                                       d  Bd ẋm (t−L ) +Kd xm (t−L )                .
+       tively. Equation (54) is that of DB-IC, (55) is that of PB-IC, and
+       (56) is that of proposed control. Thus, |xr i − xi | of each control                                                                                       (58)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+        288                                                                                  IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+          The last three terms in the bracket are identical to the delayed                that the accumulated error hinders precise compensation of the
+        value of the left-hand side terms in (57). Thus, we can replace                   TDE error.
+        (47) and (48) with the following modified relations:                                 To attenuate the accumulation of quantization error, (59) is
+                                                                                          modified as
+              vnew (t) = ẍd(t) + M−1
+                                   d  Bd ẋd(t) + Kd xd(t) − Fe(t)
+                                                                                             vnew (t) = ẍd(t) + M−1
+                                                                                                                  d (Bd ẋd(t) + Kd xd(t) − Fe(t) )
+                            − ẍ(t−L ) + M−1
+                                          d  Bd ẋ(t−L ) + Kd x(t−L )
+                                                                                                          + Γ{−[ẍ(t−L ) + M−1
+                                                                                                                            d (Bd ẋ(t−L ) + Kd x(t−L ) )]
+                            + vnew (t−L )                                        (59)
+                                                                                                          + vnew ( t−L ) }                                             (64)
+        with
+                                                                                          where Γ ∈ Rn×n denotes a diagonal forgetting factor [31] ma-
+            vnew (0) = ẍd(0) + M−1
+                                 d   Bd ẋd(0) + Kd xd(0) − Fe(0) .
+                                                                                          trix whose diagonal elements γii (i = 1, 2, . . . , n) lie between
+                                                                   (60)
+                                                                                          zero and one: 0 < γii < 1. Similar to (63), (64) can be rewritten
+        Therefore, vnew no longer requires xm . Consequently, the pro-
+                                                                                          as
+        posed control does not need xm .
+           2) Attenuation of Sensor Resolution Effect: Position and                       vnew (k ) = ẍd(k ) + M−1
+                                                                                                                 d  Bd ẋd(k ) + Kd xd(k ) − Fe(k )
+        force sensors have their own resolution [30]. Thus, the mea-                                        k −1
+        sured position and force have quantization errors due to sensor                                                    
+                                                                                                        +          Γk −i       ẍd(i) −ẍ(i) +M−1
+                                                                                                                                               d  Bd ẋd(i) − ẋ(i)
+        resolution as follows:
+                                                                                                            i=0
+                                         x̂ = x + x∆                                                                                                 k −1
+                                                                                                        +Kd xd(i) − x(i) − Fe(i)                  −          Γk −i ẍ∆ (i)
+                                       F̂e = Fe + Fe∆                            (61)
+                                                                                                                                                      i=0
+        where ˆ• denotes the measured value of • and •∆ denotes the                                     +M−1         Bd ẋ∆ (i) + Kd x∆ (i) + Fe∆ (i)            .      (65)
+                                                                                                          d
+        quantization error. Magnitude of the quantization error lies be-
+        tween zero and half of the resolution [30]. The velocity ẋ ˆ and                    It is ensured that old data, which are not representative of
+                      ˆ 2 also have quantization error inherited from that
+        acceleration ẍ                                                                   the current system, are discarded by exponentially decreasing
+        of the position sensor                                                            weight Γk −i [31]. Thus, the accumulation of quantization error
+                                                                                          is attenuated. Robustness may be degraded as Γ reduces the IMC
+                                     ˆ (t) = ẋn (t) + ẋ∆ (t)
+                                     ẋ                                                   feedback terms in (64); thus, careful tuning of Γ is required.
+                                     ˆ (t) = ẍn (t) + ẍ∆ (t)
+                                     ẍ                                          (62)        3) Use of a Low-Pass Filter: Generally, TDE-based controls
+                                                                                          use a first-order digital low-pass filter Gf (z) in the TDE loop
+                        ∆                                                  ∆
+        where      ẍn = (x(t) − 2x(t−L ) + x(t−2L ) )L−2 ,           ẋn = (x(t) −       for discrete-time domain implementation [17], [21], [32]. Thus,
+                                 ∆                                          ∆             with Gf (z), the output of TDE Ĥ becomes
+        x(t−L ) )L−1 , ẋ∆ = (x∆ (t) − x∆ (t−L ) )L−1 , and ẍ∆ = (x∆ (t)
+        − 2x∆ (t−L ) + x∆ (t−2L ) )L−2 . ẋn and ẍn become more                             Ĥ(k ) = Gf (z)H(k −1) = Gf (z)(Fu (k −1) − M̄x ẍ(k −1) ).
+        accurate as L decreases. Conversely, ẋ∆ , ẍ∆ become large as                                                                                 (66)
+        L decreases. Thus, we can assume that ẋn ∼    = ẋ, ẍn ∼
+                                                                 = ẍ. Note               Moreover, it was proved in [32] that the use of a low-pass filter
+        that we consider only small time delay L, which is identical to                   has the same effect as lowering M̄x .
+        the sampling time (order of milliseconds). In the discrete-time
+        domain, with consideration of the quantization error, (59) can                                             IV. EXPERIMENTAL STUDIES
+        be written as follows:
+                                                                                          A. Experimental Setup
+        vnew (k ) = ẍd(k ) + M−1
+                               d  Bd ẋd(k ) + Kd xd(k ) − Fe(k )
+                                                                                             The robot used in the experiment is a 2-DOF SCARA-type
+                          k −1                                                            robot, as shown in Fig. 5(a). The lengths of the two links are
+                                 
+                      +              ẍd(i) − ẍ(i) + M−1
+                                                       d  Bd ẋd(i) − ẋ(i)               l1 = 0.35 m and l2 = 0.294 m, respectively; their masses are
+                          i=0                                                             m1 = 11.17 kg and m2 = 6.82 kg; the distance from the joint
+                                                                                         axis to the center of mass for each link is L1 = 0.30 m and
+                      +Kd xd(i) − x(i) − Fe(i)
+                                                                                          L2 = 0.18 m, respectively; the moment of inertia about the joint
+                          k −1
+                                                                                          axis is I1 = 1.0 kg · m2 and I2 = 0.224 kg · m2 , respectively.
+                      −          ẍ∆ (i) +M−1
+                                           d  Bd ẋ∆ (i) +Kd x∆ (i) +Fe∆ (i) .            At joint 1, a brushless dc (BLDC) motor with a stall torque of
+                          i=0
+                                                                                          2.39 N·m is used to transmit power through a harmonic drive
+                                                                                 (63)     with a gear reduction ratio of 100:1, while at joint 2, a BLDC
+                                                                                          motor having a stall torque of 0.92 N·m is used with a gear
+        The last line of (63) represents the accumulated quantization
+                                                                                          reduction ratio of 80:1. Each joint has a resolver attached at its
+        error. By comparing (63) with (59), it can be seen that the addi-
+                                                                                          shaft for sensing the angular displacement with a resolution of
+        tional IMC feedback accumulates quantization error. It implies
+                                                                                          4096 pulses/revolution. An ATI Gamma SI-130-10 force sensor,
+                                                                                          having 130 N range and 0.1 N resolution, is attached at the
+           2 Backward Euler differentiation is used.                                      end-effector. For the environment, an Al plate with a stiffness of
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+       KANG et al.: SOLUTION TO THE ACCURACY/ROBUSTNESS DILEMMA IN IMPEDANCE CONTROL                                                                                289
+
+
+
+                                                                                                                        TABLE I
+                                                                                                      RESPONSE OF EACH CONTROL WITHOUT A PAYLOAD
+
+
+
+
+                                                                                           load and 2) with a 3.11-kg payload, corresponding to nearly half
+                                                                                           of the second link mass, at the end-effector side.
+       Fig. 5. SCARA-type robot under impedance control. (a) SCARA-type robot
+       system. (b) Schematic diagram of the experimental setup.
+                                                                                           C. Desired Impedance and Gains
+                                                                                              Desired impedance parameters are designed as follows:
+                                                                                           Md = diag(20, 20)kg, Bd = diag(900, 900)N·s/m, Kd =
+                                                                                           diag(400, 400)N/m. An overdamped impedance dynamics, a
+                                                                                           damping ratio of 5, is selected. Besides the target dynamics, the
+                                                                                           following gains are used for each controller:
+                                                                                              1) for PB-IC: Kv = diag(90, 90), Kp = diag(2500, 2500);
+                                                                                              2) for IM-IC: Kv = diag(150, 150), Kp = diag(5625,
+                                                                                                 5625);
+                                                                                              3) for the proposed control: M̄x = J−T M̄θ J−1 , M̄θ =
+                                                                                                 diag(0.03, 0.0051), Γ = diag(0.9, 0.83).
+                                                                                              For PB-IC and IM-IC, these gains were tuned to minimize
+                                                                                           the inner loop tracking error through extensive experiments.
+                                                                                              The form of M̄x is obtained from the relation: Mx =
+                                                                                           J−T Mθ J−1 [22]. The M̄θ , known part of Mθ , is a diagonal
+                                                                                           constant matrix. Note that the Jacobian, the kinematic relation,
+                                                                                           is easy to obtain, compared with the difficulty of obtaining dy-
+                                                                                           namics, i.e., Coriolis force, centrifugal force, gravity, and fric-
+                                                                                           tion force. Different values of the forgetting factor are selected
+                                                                                           for each axis. Only the y-axis motion is constrained by the Al
+                                                                                           plate. Thus, large attenuation (small forgetting factor) of the y-
+                                                                                           axis quantization error was required for smooth execution of the
+                                                                                           task. In contrast, the x-axis motion is free motion; thus, small
+       Fig. 6. Position response of each control without a payload. (a) x-axis de-         attenuation (a large forgetting factor) was sufficient.
+       sired trajectory. (b) y-axis desired trajectory. (c) DB-IC. (d) IM-IC. (e) PB-IC.
+       (f) Proposed control.
+                                                                                           D. Experimental Results
+                                                                                              1) Without Payload: The x–y position response is shown in
+       about 150 000 N/m is used. The implementation of the controller                     Fig. 6. In free space, the proposed controller shows the small-
+       was made in QNX, a real-time operating system environment,                          est position deviation, whereas DB-IC presents the largest (see
+       with a sampling frequency of 1 kHz.                                                 Table I). Note that PB-IC shows remarkably improved position
+                                                                                           tracking performance compared with that of DB-IC.
+                                                                                              Strictly speaking, the task cannot be executed with DB-IC or
+       B. Task                                                                             IM-IC. The position deviation in free space is too large. Thus,
+          To demonstrate the performance of different control methods,                     DB-IC and IM-IC are excluded from further comparison.
+       we considered a simple task that involves contact with the Al                          The y-axis force response is shown in Fig. 7. The proposed
+       plate. The trajectory, illustrated in Figs. 5(b) and 6(a) and 6(b),                 control shows a small impact force (57.6 N) compared with that
+       is designed as follows: from 0 to 6 s, a y-axis 0.1-m straight line                 (70.2 N) of PB-IC. The proposed control also shows the smallest
+       trajectory, in the form of a fifth-order polynomial, toward the                     amplitude of force fluctuation (see Table I) while moving along
+       Al plate is given; then from 6 to 15 s, an x-axis 0.15-m straight                   a section of the plate from 6 to 15 s. In contrast, the robot under
+       line trajectory, in the form of a fifth-order polynomial, is given;                 PB-IC loses contact with wall six times, and shows large force
+       finally, from 15 to 21 s, the end point of the second trajectory is                 fluctuation.
+       designated with zero velocity and acceleration.                                        To verify the accuracy, the impedance error σ (t) ∈ Rn , de-
+          In order to verify the robustness against modeling error, the                    fined in (67), is considered. The velocity and acceleration are
+       same task is performed with two conditions: 1) without a pay-                       calculated from a sophisticated offline numerical differentiation
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+        290                                                                                    IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+
+                                                                                             Fig. 9. Acceleration responses without a payload. Dashed line indicates the
+                                                                                             contact time. x-axis acceleration causes y-axis acceleration due to the dynamic
+                                                                                             coupling effect.
+
+
+                                                                                             These relationships clearly show that how each σ is determined
+                                                                                             for given dynamics estimation error η (or η T ). Of course, (54)–
+                                                                                             (56) show in essence the same fact, yet these are more immediate
+                                                                                             and direct. The proposed control could achieve the smallest
+        Fig. 7. y-axis force response of each control without a payload. Dashed line
+        indicates the contact time. (a) DB-IC. (b) IM-IC. (c) PB-IC. (d) Proposed control.
+                                                                                             impedance error due to (1 − e−L s ), which greatly reduces the
+                                                                                             effect of η, whereas DB-IC showed the largest error because
+                                                                                             η is transmitted to σ with no such an attenuation mechanism.
+                                                                                             Note that PB-IC has some attenuation due to Zd (s)C−1 (s), but
+                                                                                             it is not so effective as (1 − e−L s ). In the case of the proposed
+                                                                                             control, if the feedback time delay L goes to zero, η will be
+                                                                                             perfectly removed.
+                                                                                                 In addition, the aforementioned relationships also explain
+                                                                                             why there are differences in free space position errors due to the
+                                                                                             three control methods. One can express the free-space closed-
+                                                                                             loop error dynamics due to each control method as follows:
+                                                                                              Zd (s)(xd − x) = Md η                  for DB-IC                        (71)
+                                                                                                                                −1
+        Fig. 8.   Impedance error of each control without a payload.                          Zd (s)(xd − x) = Zd (s)C (s)η
+                                                                                                                  = Md [s2 I + M−1             −1
+                                                                                                                                d (sBd + Kd )]C (s)η
+        [33] of position response.
+                                                                                                                     for PB-IC                                        (72)
+                                                                                              Zd (s)(xd − x) = Md (1 − e−L s )η T
+              ∆
+        σ (t) = Md (ẍd(t) − ẍ(t) ) + Bd (ẋd(t) − ẋ(t) )                                                                                    for proposed control.
+                                            +Kd (xd(t) − x(t) ) − Fe(t) . (67)                                                                                        (73)
+
+        If σ (t) = [σx σy ]T is a zero vector, then (67) becomes the                         Therefore, of the three, the tracking error due to the proposed
+        desired impedance dynamics in (1). The x- and y-axis absolute                        method is the smallest and that due to DB-IC the largest.
+        values of impedance error, |σx | and |σy |, are shown in Fig. 8. It                     Further, the force fluctuation while moving along a section of
+        is clear that the proposed control yields the smallest impedance                     plate (from 6 to 15 s) can also be explained with aforementioned
+        error throughout the task. Therefore, the proposed control can                       analysis. The fluctuation comes from dynamic coupling [21],
+        accurately realize desired impedance.                                                [22], [26]: coupling of dynamics of two axes. Specifically, from
+           At this point, it appears relevant to make a final analysis                       (67)–(70), η couples motions of the two axes. An examination of
+        on the difference of impedance error, position error, and force                      acceleration responses in Fig. 9 confirms that, from 6 to 15 s, the
+        fluctuation due to each control method mentioned earlier. It is                      fluctuation of x-axis acceleration induces y-axis acceleration.
+        easy to derive the relationships as follows:                                         It implies that y-axis force fluctuation is induced by x-axis
+                                                                                             acceleration through dynamic coupling. Thus, the fluctuation
+                  σ = Md η             for DB-IC                                    (68)     strongly relies on the compensation performance of η.
+                                  −1                                                            In addition, in the case of PB-IC, from (69), η excites in-
+                  σ = Zd (s)C (s)η
+                                                                                             ner loop dynamics C−1 (s), which is different from desired
+                    = Md [s2 I + M−1             −1
+                                  d (sBd + Kd )]C (s)η                                       impedance dynamics. Therefore, amplitude of force fluctuation
+                                                                                             (and amplitude of acceleration fluctuation) due to the proposed
+                          for PB-IC                                                 (69)
+                                                                                             control is the smallest and that due to PB-IC the largest. In
+                  σ = Md (1 − e−L s )η T             for proposed control.          (70)     the case of the proposed control, it was found that the small
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+       KANG et al.: SOLUTION TO THE ACCURACY/ROBUSTNESS DILEMMA IN IMPEDANCE CONTROL                                                                                291
+
+
+
+
+                                                                                            Fig. 12.   Impedance error of each control with a 3.11-kg payload.
+
+
+
+                                                                                            cessed with a first-order low-pass filter GH (s), becomes F̂dis ,
+       Fig. 10. Position response of each control with a 3.11-kg payload. Dotted line       the output of DOB, as follows:
+       indicates the wall. (a) DB-IC. (b) IM-IC. (c) PB-IC. (d) Proposed control.
+                                                                                                                F̂dis = GH (s)(Fu − Mn n ẍ).                     (75)
+                                                                                              The impedance control with DOB has the following form
+                                                                                            [23]:
+                                                                                                                Fu = Mn n (M−1   ref
+                                                                                                                            v n F ) + F̂dis                       (76)
+                                                                                            where Mv n = Md and F = Md ẍd + Bd (ẋd − ẋ) +
+                                                                                                                                    ref
+
+                                                                                            Kd (xd − x) − Fe . Since DOB was implemented in the
+                                                                                            discrete-time domain [23]–[25], the control law in fact is
+                                                                                            Fu (k ) = Mn n (M−1
+                                                                                                             v n F(k ) )+GH Z (z) Fu (k −1) − Mn n ẍ(k −1)
+                                                                                                                  ref
+                                                                                                                                                         
+                                                                                                                                          DOB output F̂ d i s
+                                                                                                                                                      (77)
+                                                                                            where GH Z (z) denotes the first-order digital low-pass filter.
+                                                                                            Thus, from (66) and (77), one can immediately confirm that the
+                                                                                            structure of DOB and that of TDE is equivalent. However,
+                                                                                            the impedance control with DOB has no mechanism to re-
+                                                                                            duce the effect of uncompensated uncertainties (Fdis − F̂dis ).
+                                                                                            In contrast, the proposed control has IMC feedback loop, which
+       Fig. 11. Force response of each control with a 3.11-kg payload. Dashed line
+                                                                                            corrects the effect of uncompensated dynamics estimation error
+       indicates the contact time. (a) DB-IC. (b) IM-IC. (c) PB-IC. (d) Proposed control.   η T (η T = M̄−1x (H − Ĥ)).
+
+
+       force fluctuation is dominated by the torque ripple of joint mo-                     B. Experimental Comparison of Performance
+       tor/driver [21]. This will be discussed in Section V-B.                                 The experimental setup, trajectory, and desired impedance
+          2) With Payload: We performed the same task with an addi-                         parameters are the same as those in Section IV. A payload was
+       tional 3.11-kg payload at the end-effector side. The x–y position                    not attached to the robot. The gains of the proposed control are
+       response, y-axis force response, and impedance error are shown                       the same as those tuned in Section IV.
+       in Figs. 10–12, respectively. In this case as well, position devia-                     The gains of the impedance control with DOB were tuned
+       tion, force fluctuation, and impedance error due to the proposed                     by following the guideline in [23]–[25]. Originally, the form
+       control are the smallest, thereby demonstrating its accuracy and                     of Mn n was a diagonal matrix, which is defined at the initial
+       robustness against the modeling error.                                               configuration of the robot [23]. However, it was reported in [23]
+                                                                                            that with a diagonal Mn n , closed-loop dynamics is sensitive
+             V. COMPARISON WITH THE DISTURBANCE OBSERVER                                    to the variation of Mx , and if the variation is large, then the
+       A. Comparison of Structure                                                           closed-loop dynamics becomes unstable [23]. This experiment
+                                                                                            belongs to such a case: the final value of each element of Mx is
+          The DOB evaluates the effect of all the uncertainties, the                        more than two times larger than the initial values in Mx . Thus,
+       estimate of which is denoted by Fdis ∈ Rn , as follows:                              a more accurate Mn n , J−T [diag(I1 , I2 )]J−1 , was used. I1 and
+                                  Fdis = Fu − Mn n ẍ                              (74)     I2 , given in Section IV. A, denote the nominal inertia of each
+                                                                                            joint. Note that this form is the same as the form of M̄x .
+       where Mn n ∈ Rn×n denotes the Cartesian space standard mass                             The cutoff frequency of GH Z (z) was then set to be 100 rad/s.
+       matrix [23]. In the continuous-time domain, Fdis , after pro-                        When the cutoff frequency was increased over 100 rad/s, there
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+        292                                                                                  IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+                                      TABLE II                                                In addition, the difference between the proposed control and
+                         SUMMARY OF RESPONSE OF EACH CONTROL
+                                                                                           the impedance control with DOB is clarified and experimental
+                                                                                           comparisons are made. It turns out that the proposed control has
+                                                                                           an additional IMC feedback loop, which makes improvement to
+                                                                                           this extent over that of the impedance control with DOB.
+                                                                                              Therefore, we believe that the proposed control is a simple
+                                                                                           yet effective solution to the “accuracy/robustness dilemma in
+                                                                                           impedance control.”
+
+                                                                                                                           APPENDIX
+                                                                                              Here, the closed-loop stability will be analyzed when the
+                                                                                           proposed control is used. Meaning of stability condition related
+                                                                                           to the convergence is then discussed.
+                                                                                              The analysis is similar to the proof of [21]. The control input
+                                                                                           (52) becomes
+
+                                                                                                               unew (t) = ud(t) + Γη T (t−L ) .                     (78)
+
+                                                                                           By substituting (78) into (42), the closed-loop dynamics due to
+        Fig. 13. PSD of F e due to each control during the constrained motion (from        the proposed control becomes
+        6 to 15 s). Note that, before computing PSD, the mean value (dc part) of F e due
+        to each control is subtracted from F e . Due to the torque ripple of the BLDC
+        motor/driver system, at 3.7 Hz, the largest peak occurs. Below 3.7 Hz, PSD
+                                                                                           (ẍd(t) − ẍ(t) ) + M−1
+                                                                                                                d [Bd (ẋd(t) − ẋ(t) )
+        of F e due to the proposed control is about 30% of that due to the impedance
+        control with DOB.
+                                                                                               +Kd (xd(t) − x(t) ) − Fe(t) ] = (η T (t) − Γη T (t−L ) ).            (79)
+
+                                                                                           If η T (t) is bounded, then the closed-loop dynamics (79) is
+        were no further improvements of performance; instead, loud                         bounded, and consequently, the overall system is stable. There-
+        noise accompanied at the robot joints.                                             fore, the boundedness of η T (t) is addressed in detail.
+           From the responses summarized in Table II, one can see                             Stability Theorem: Consider an n-DOF robot under the pro-
+        that, due to the IMC loop, the performance of the proposed                         posed control. Assume that the desired trajectory, its time deriva-
+        control is superior to that of the impedance control with DOB.                     tives, and the external force are in Ln∞ space (xd , ẋd , ẍd ∈ Ln∞ ,
+        However, the relatively small difference between amplitudes                        and Fe ∈ Ln∞ ). The closed-loop system under the proposed con-
+        of force fluctuation due to the two controllers may call for                       trol is then Ln∞ -stable when the following stability condition is
+        some explanations. A careful examination of the power spectral                     satisfied.
+        density (PSD) of Fe (see Fig. 13) during the constrained motion                       Stability condition
+                                                                                                                  
+        (from 6 to 15 s) reveals that the frequency of torque ripple of                                                                          −1
+                                                                                                I − M−1 x(t) M̄x   < (Γ + Ii2 + Γi2 )               (80)
+        the joint BLDC motor/driver system [21] and the frequency of                                                   i2 ∞
+        the largest peak are almost the same (about 3.7 Hz). Thus, it can
+                                                                                           where •i2 denotes induced 2-norm of a matrix • and •∞
+        be concluded that force fluctuation due to the two controllers
+                                                                                           denotes Ln∞ -norm of •(t) [34].
+        is dominated by the effect of torque ripple. Note that, below
+                                                                                             Proof of Theorem: Equation (79) can be written as
+        3.7 Hz, the PSD of Fe of the proposed control is about 30% of
+        that of the impedance control with DOB.                                                            (η T (t) − Γη T (t−L ) ) = ud(t) − ẍ(t) .               (81)
+
+                                                                                              Multiplying Mx(t) on both sides of (81) and substituting (5)
+                                    VI. CONCLUSION
+                                                                                           into it leads to
+           In this paper, as a solution to the “accuracy/robustness
+        dilemma in impedance control,” both accurate and robust                            Mx(t) (η T (t) − Γη T (t−L ) ) = Mx(t) ud(t)
+        impedance control using an IMC structure and TDE was pro-                                                              +(Nx(t) + Fe(t) − Fu (t) ).          (82)
+        posed. The suggested approach has a simple structure, which is
+        straightforward to design and easy to implement without entire                       Meanwhile, from (31) and (5), we obtain
+        robot model computation or complex algorithms. The proposed
+                                                                                            H(t−L ) = −M̄x ẍ(t−L ) + Fu (t−L )
+        control is accurate and robust owing to dynamics estimation er-
+        ror correction using the IMC structure and efficient estimation                               = (Mx(t−L ) − M̄x )ẍ(t−L ) +Nx(t−L ) +Fe(t−L ). (83)
+        of nonlinear dynamics using TDE.
+           The accuracy and robustness of the proposed controller are                        Substitution of (78) and (83) into (45) yields
+        verified with a 2-DOF SCARA-type robot and a stiff Al wall.                         Fu (t) = M̄x ud(t) + M̄x Γη T (t−L )
+        Even with a 3.11-kg payload, the proposed controller shows
+        accurate and robust performance throughout the task.                                          +(Mx(t−L ) − M̄x )ẍ(t−L ) +Nx(t−L ) +Fe(t−L ) . (84)
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+       KANG et al.: SOLUTION TO THE ACCURACY/ROBUSTNESS DILEMMA IN IMPEDANCE CONTROL                                                                                 293
+
+
+
+          Eliminating Fu (t) in (82) and (84) leads to                                   to estimate robot inertia Mx accurately, as the DOFs of a robot
+                                                                                         increases. When the M̄x differs from the actual inertia Mx , the
+        Mx (t ) (η T (t ) −Γη T (t −L ) ) = (Mx (t ) − M̄x )ud (t ) − M̄x Γη T (t −L )
+                                                                                         stable range of M̄x is determined by the forgetting factor matrix
+                                          − (Mx (t −L ) − M̄x )ẍ(t −L ) + Nx (t )       Γ. The right-hand side of (80) is inversely proportional toΓi2 ;
+                                                                                         and if the IMC feedback is not used (i.e., Γ = 0n ), the stable
+                                          −Nx (t −L ) +Fe (t ) −Fe (t −L ) .      (85)
+                                                                                         region of M̄x is the largest. It is noteworthy that enhancing the
+         Since ẍ(t−L ) = ud(t−L ) − (η T (t−L ) − Γη T (t−2L ) )                from    robustness (use of a large forgetting factor) involves decreas-
+       (81), (85) becomes                                                                ing the stable region, which comes from the conflicting nature
+                                                                                         between stability and robustness in feedback control.
+       Mx(t) (η T (t) −Γη T (t−L ) )
+           = (Mx(t) − M̄x )(η T (t−L ) −Γη T (t−2L ) ) − M̄x Γη T (t−L )                                                REFERENCES
+              + (Mx(t) − M̄x )(ud(t) − ud(t−L ) ) + (Mx(t) − Mx(t−L ) )                   [1] N. Hogan, “Impedance control: An approach to manipulation,” Trans.
+                                                                                              ASME, J. Dyn., Syst. Meas., Control, vol. 107, pp. 1–24, Mar. 1985.
+              × ẍ(t−L ) +Nx(t) −Nx(t−L ) +Fe(t) −Fe(t−L ).                       (86)    [2] N. Hogan, “Stable execution of contact tasks using impedance control,”
+                                                                                              in Proc. IEEE ICRA, Raleigh, NC, Mar. 1987, vol. 4, pp. 1047–1054.
+          From (86), the TDE error η T ( t ) becomes                                      [3] T. Yoshikawa, “Force control of robot manipulators,” in Proc. IEEE ICRA,
+                                                                                              San Francisco, CA, Apr. 2000, pp. 220–226.
+       η T (t) = (I − M−1
+                       x(t) M̄x )[(Γ + I)η T (t−L ) − Γη T (t−2L ) ]
+                                                                                          [4] L. Masia, H. I. Krebs, P. Cappa, and N. Hogan, “Design and character-
+                                                                                              ization of hand module for whole-arm rehabilitation following stroke,”
+                                                                                              IEEE/ASME Trans. Mechatronics, vol. 12, no. 4, pp. 399–407, Aug. 2007.
+                               +ξ 1(t−L ) + (I − M−1
+                                                  x(t) M̄x ) ξ 2(t−L )            (87)    [5] M. A. Al-Mouhamed, O. Toker, and A. Iqbal, “A multithreaded distributed
+                                                                                              telerobotic framework,” IEEE/ASME Trans. Mechatronics, vol. 11, no. 5,
+       where                                                                                  pp. 558–566, Oct. 2006.
+                                                                                          [6] I. G. Polushin, P. X. Liu, and C.-H. Lung, “A force-reflection algorithm
+            ξ 1(t−L ) = M−1
+                         x(t) [(Mx(t) − Mx(t−L ) )ẍ(t−L )                                    for improved transparency in bilateral teleoperation with communication
+                                                                                              delay,” IEEE/ASME Trans. Mechatronics, vol. 12, no. 3, pp. 361–374,
+                         + Nx(t) − Nx(t−L ) + Fe(t) − Fe(t−L ) ]                  (88)        Jun. 2007.
+                                                                                          [7] K. Harada, S. Kajita, F. Kanehiro, K. Fujiwara, K. Kaneko, K. Yokoi, and
+            ξ 2(t−L ) = (ud(t) − ud(t−L ) )                                       (89)        H. Hirukawa, “Real-time planning of humanoid robot’s gait for force-
+                                                                                              controlled manipulation,” IEEE/ASME Trans. Mechatronics, vol. 12,
+       which are bounded for a sufficiently small L [21]. Taking the                          no. 1, pp. 53–62, Feb. 2007.
+       norms of both sides of (87), we can then derive the following                      [8] L. Zollo, S. Roccella, E. Guglielmelli, M. C. Carrozza, and P. Dario,
+                                                                                              “Biomechatronic design and control of an anthropomorphic artificial hand
+       inequality, where •T ∞ denotes truncated Ln∞ -norm of •(t)                           for prosthetic and robotic applications,” IEEE/ASME Trans. Mechatron-
+       [34]:                                                                                  ics, vol. 12, no. 4, pp. 418–429, Aug. 2007.
+                                                                                      [9] N. Yu, C. Hollnagel, A. Blickenstorfer, S. S. Kollias, and R. Riener, “Com-
+       η T (t)     ≤   µ Γ   + I    η T (t−L )    + µ Γi2                             parison of MRI-compatible mechatronic systems with hydrodynamic and
+                 T∞                  i2              T∞
+                                                                                        pneumatic actuation,” IEEE/ASME Trans. Mechatronics, vol. 13, no. 3,
+                 η T (t−2L )      +  ξ 1(t−L )  + µ ξ 2(t−L )     (90)                  pp. 268–277, Jun. 2008.
+                               T∞                  ∞                ∞
+                                                                                     [10] T. Valency and M. Zacksenhouse, “Accuracy/robustness dilemma in
+                  ∆                                                                       impedance control,” Trans. ASME, J. Dyn., Syst. Meas., Control, vol. 125,
+       where µ = I − M−1      x(t) M̄x i2  .                                              pp. 310–319, Sep. 2003.
+                                         ∞
+          Since •(t) T ∞ ≥ •(t−L ) T ∞ [34], we get                                  [11] S. Chiaverini, B. Siciliano, and L. Villani, “A survey of robot interaction
+                                                                                              control schemes with experimental comparison,” IEEE/ASME Trans.
+                                                                  
+       η T (t)     ≤ µ Γ + Ii2 η T (t) T ∞ + µ Γi2 η T (t) T ∞
+                                                                                              Mechatronics, vol. 4, no. 3, pp. 273–285, Sep. 1999.
+                 T∞                                                                      [12] D. A. Lawrence, “Impedance control stability properties in common im-
+                                                                                          plementations,” in Proc. IEEE ICRA, Philadelphia, PA, Apr. 24–29, 1998,
+                                   + ξ 1(t−L ) ∞ + µ ξ 2(t−L ) ∞ . (91)                   vol. 2, pp. 1185–1190.
+                                                                                         [13] S. P. Chan and H. P. Chen, “Robust implementation of generalized
+          Rearranging (91) leads to                                                           impedance control for robot manipulators,” Adv. Robot., vol. 15, pp. 641–
+                                                                                            661, 2001.
+       [1 −µ (Γ + Ii2 + Γi2 )] η T (t) T ∞                                         [14] M.-C. Chien and A.-C. Huang, “Adaptive impedance control of robot
+                                                                                          manipulators based on function approximation technique,” Robotica,
+                            ≤ ξ 1(t−L ) ∞ + µ ξ 2(t−L ) ∞ . (92)                          vol. 22, pp. 395–403, 2004.
+                                                                                         [15] C.-C. Cheah and D. Wang, “Learning impedance control for robot manip-
+          The sufficient condition for this inequality to have an upper                       ulators,” IEEE Trans. Robot. Autom., vol. 14, no. 3, pp. 452–465, Jun.
+       bound is shown as                                                                      1998.
+                                                                                     [16] C. G. Economou and M. Morari, “Internal model control. 1. A unifying
+                                                          −1
+           I − M−1 x(t) M̄ x   < (Γ + Ii2 + Γi2 ) . (93)                              review and some new results,” Ind. Eng. Chem. Process Des. Dev., vol. 21,
+                                i2 ∞                                                          no. 2, pp. 308–323, Jul. 1982.
+                                                                                       [17] K. Youcef-Toumi and S.-T. Wu, “Input/output linearization using time
+       If (93) holds, η T (t) ∞ has an upper bound, because no terms                        delay control,” Trans. ASME, J. Dyn., Syst. Meas., Control, vol. 114,
+       of (93) are related toT , which is a symbol of a truncated norm.                      pp. 10–19, 1992.
+                     
+       The fact that η T (t) ∞ has an upper bound means that the TDE                   [18] K. H. Chan, J. Bao, and W. J. Whiten, “A new approach to control of MIMO
+                                                                                              processes with static nonlinearities using an extended IMC framework,”
+       error is bounded. Therefore, the closed-loop dynamics due to                           Comput. Chem. Eng., vol. 30, pp. 329–342, Dec. 2005.
+       the proposed control is Ln∞ -stable, if we set the control gains to               [19] Q. Li, A. N. Poo, and C. M. Lim, “Internal model structure in the control
+                                                                                              of robot manipulators,” Mechatronics, vol. 6, pp. 571–590, Aug. 1996.
+       satisfy (93).                                                                    [20] P. H. Chang, J. W. Lee, and S. H. Park, “Time delay observer: A robust
+          The proposed control is stable if M̄x = Mx , since it makes                         observer for nonlinear plants,” Trans. ASME, J. Dyn., Syst. Meas., Control,
+       the left-hand side of (80) zero. In reality, however, it is difficult                  vol. 119, pp. 521–527, Sep. 1997.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+        294                                                                                     IEEE/ASME TRANSACTIONS ON MECHATRONICS, VOL. 14, NO. 3, JUNE 2009
+
+
+
+        [21] P. H. Chang, D. S. Kim, and K. C. Park, “Robust force/position control                                       Maolin Jin (S’06–M’08) received the B.S. degree in
+             of a robot manipulator using time-delay control,” Control Eng. Pract.,                                       materials science and mechanical engineering from
+             vol. 3, pp. 1255–1264, 1995.                                                                                 Yanbian University of Science and Technology, Jilin,
+        [22] P. H. Chang, B. S. Park, and K. C. Park, “An experimental study on im-                                       China, in 1999, and the M.S. and Ph.D. degrees in
+             proving hybrid position/force control of a robot using time delay control,”                                  mechanical engineering from Korea Advanced Insti-
+             Mechatronics, vol. 6, pp. 915–931, 1996.                                                                     tute of Science and Technology (KAIST), Daejeon,
+        [23] T. Murakami, N. Oda, Y. Miyasaka, and K. Ohnishi, “A motion control                                          Korea, in 2004 and 2008, respectively.
+             strategy based on equivalent mass matrix in multidegree-of-freedom ma-                                          He is currently a Postdoctoral Researcher with the
+             nipulator,” IEEE Trans. Ind. Electron., vol. 42, no. 2, pp. 123–130, Apr.                                    Mechanical Engineering Research Institute, KAIST.
+             1995.                                                                                                        His current research interests include robust control
+        [24] K. Ohnishi, M. Shibata, and T. Murakami, “Motion control for advanced                                        of nonlinear plants, time-delay control, robot motion
+             mechatronics,” IEEE/ASME Trans. Mechatronics, vol. 1, no. 1, pp. 56–67,          control, and fire-fighting robots.
+             Mar. 1996.                                                                          Dr. Jin is a member of the Institute of Control, Robotics and Systems
+        [25] H. Kobayashi, S. Katsura, and K. Ohnishi, “An analysis of parameter              (ICROS), Korea.
+             variations of disturbance observer for motion control,” IEEE Trans. Ind.
+             Electron., vol. 54, no. 6, pp. 3413–3421, Dec. 2007.
+        [26] O. Khatib, “A unified approach for motion and force control of robot
+             manipulators: The operational space formulation,” IEEE Trans. Robot.
+             Autom., vol. RA-3, no. 1, pp. 43–53, Feb. 1987.
+        [27] T. Umeno and Y. Hori, “Robust speed control of DC servomotors using
+             modern two degrees-of-freedom controller design,” IEEE Trans. Ind.
+             Electron., vol. 38, no. 5, pp. 363–368, Oct. 1991.                                                          Pyung Hun Chang (S’86–M’89) was born in Pusan,
+        [28] R.-E. Precup, S. Preitl, I. J. Rudas, M. L. Tomescu, and J. K. Tar, “De-                                    Korea, in 1951. He received the B.S. and M.S. de-
+             sign and experiments for a class of fuzzy controlled servo systems,”                                        grees from Seoul National University (SNU), Seoul,
+             IEEE/ASME Trans. Mechatronics, vol. 13, no. 1, pp. 22–35, Feb. 2008.                                        Korea, in 1974 and 1977, respectively, and the Ph.D.
+        [29] M. R. Mataušek, D. M. Miljković, and B. I. Jeftenić, “Nonlinear multi-                                   degree from Massachusetts Institute of Technol-
+             input-multi-output neural network control of DC motor drive with field                                      ogy (MIT), Cambridge, in 1987, all in mechanical
+             weakening,” IEEE Trans. Ind. Electron., vol. 45, no. 1, pp. 185–187, Feb.                                   engineering.
+             1998.                                                                                                           From 1984 to 1987, he was involved in a research
+        [30] N. Diolaiti, G. Niemeyer, F. Barbagli, and J. K. Salisbury, Jr., “Stability of                              project in the field of robotics as a Research Assistant
+             haptic rendering: Discretization, quantization, time delay, and Coulomb                                     at the Artificial Intelligence Laboratory, MIT. Since
+             effects,” IEEE Trans. Robot., vol. 22, no. 2, pp. 256–268, Apr. 2006.                                       1987, he has been on the faculty of the Department of
+        [31] S. Dasgupta and Y. F. Huang, “Asymptotically convergent modified recur-          Mechanical Engineering, Korea Advanced Institute of Science and Technology
+             sive least-squares with data-dependent updating and forgetting factor for        (KAIST), Daejeon, Korea, where he is currently a Professor. His current re-
+             systems with bounded noise,” IEEE Trans. Inf. Theory, vol. IT-33, no. 3,         search interests include robust impedance control of nonlinear plants as applied
+             pp. 383–392, May 1987.                                                           to robot manipulators and human impedance measuring, dynamic control of
+        [32] M. Jin, S. H. Kang, and P. H. Chang, “Robust compliant motion control of         redundant manipulators, and target-oriented design approach to rehabilitation
+             robot with nonlinear friction using time-delay estimation,” IEEE Trans.          robots and safety.
+             Ind. Electron., vol. 55, no. 1, pp. 258–269, Jan. 2008.                              Prof. Chang is a member of the American Society of Mechanical Engi-
+        [33] A. Savitzky and M. J. E. Golay, “Smoothing and differentiation of data           neers (ASME), The Korean Society of Mechanical Engineers (KSME), and the
+             by simplified least squares procedures,” Anal. Chem., vol. 36, pp. 1627–         Korean Society for Precision Engineering (KSPE).
+             1639, Jul. 1964.
+        [34] H. K. Khalil, Nonlinear Systems, 2nd ed. Englewood Cliffs, NJ:
+             Prentice-Hall, 1996.
+
+
+
+
+                                   Sang Hoon Kang was born in Seoul, Korea, in
+                                   1978. He received the B.S. and M.S. degrees in me-
+                                   chanical engineering in 2000 and 2002, respectively,
+                                   from Korea Advanced Institute of Science and Tech-
+                                   nology (KAIST), Daejeon, Korea, where he is cur-
+                                   rently working toward the Ph.D. degree in mechanical
+                                   engineering.
+                                      He is currently with the Robotics and Control Lab-
+                                   oratory, KAIST, where he was a Research Assistant
+                                   from 2001 to 2008, and was involved in three research
+                                   projects in the field of robotics. His current research
+        interests include robust impedance control of nonlinear plants as applied to
+        robot manipulators and human arm impedance measuring, design and control
+        of assistive robots and rehabilitation robots, and robust control of nonlinear
+        systems, including robots.
+           Mr. Kang is a Student Member of The Korean Society of Mechanical Engi-
+        neers (KSME).
+
+
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:15:22 UTC from IEEE Xplore. Restrictions apply.
+

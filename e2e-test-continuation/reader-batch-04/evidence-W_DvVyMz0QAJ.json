@@ -1,0 +1,113 @@
+{
+  "source_id": "W_DvVyMz0QAJ",
+  "read_event_id": "2d7d9bf03251466aa6e310a0c88d174c",
+  "content_sha256": "3065887a09e2ac25bd90e75973a3433df4ed07255aa44e67c71bd292b38def56",
+  "claim": "Spyrakos-Papastavridis and Dai propose power-shaping trajectory-tracking controllers for flexible-joint robots that cancel the energy terms introduced by time-varying active stiffness and, in the full-state variants, time-varying link and motor feedback gains. Their Lyapunov analyses claim global asymptotic stability in free motion and passivity at the external interaction port under positive-definiteness and gain conditions. The minimally model-based motor-side scheme uses the gravitational torque model, while the experimentally used full-state scheme additionally relies on link-state estimation, desired motor-position conversion, linearized dynamics, and LQR-derived gains. Simulations and Baxter experiments show stable sinusoidal tracking with scheduled gains and contact-triggered impedance reduction. The hardware evidence is qualitative and does not directly validate every theorem condition or the minimally model-based variant; the power-shaping terms depend on velocity pseudoinverses, derivatives of scheduled gains, accurate gravity/state information, and feasible unsaturated torque realization.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II-A-C, equations (1)-(4)",
+    "Section III-A, equations (5)-(23), Theorem 1",
+    "Section III-B-C, equations (24)-(28), Theorems 2-3",
+    "Section IV-A, equations (29)-(38), Theorem 4",
+    "Section IV-B-D, equations (39)-(50), Theorems 5-6",
+    "Section V-A-B, equations (51)-(53), Figures 2-12",
+    "Section V-C-D, equations (54)-(55), Figures 13-20",
+    "Section VI, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical, simulation, and robot evidence: global asymptotic stability and passivity are analytically claimed for the stated flexible-joint model and gain conditions; Baxter demonstrations support feasibility of the full-state implementation but are qualitative, unreplicated, and do not establish robustness to modeling, differentiation, saturation, or all admissible gain schedules",
+  "problem_and_setting": "Active variable impedance can improve interaction but inject energy, while flexible-joint robots are underactuated and many stable tracking controllers require detailed inertia, Coriolis, damping, stiffness, and high-order reference models. The paper seeks free-motion trajectory tracking and interaction passivity for flexible-joint robots while allowing real-time modulation of motor-side and link-side stiffness and damping.",
+  "method_or_mechanism": "The proposed minimally model-based tracking controller applies motor PD feedback plus a power-shaping signal constructed from motor velocity, link velocity, gravity torque, reference velocity, and scheduled stiffness. The signal algebraically cancels gravity/tracking and gain-derivative terms in the storage-function derivative, leaving negative damping power. The variable-impedance version adds the half quadratic stiffness-rate term. Full-state variants add link position and velocity feedback, define a desired motor reference from desired link motion, and use Lyapunov matrices whose positive definiteness is checked through a Schur-complement condition. Linearized LQR supplies systematic gain sets, which are then decentralized for implementation.",
+  "content_summary": "For the motor-side MMTC and MMTVIC laws, Theorems 1-2 claim global asymptotic stability with no external torque, and Theorem 3 claims passivity with external interaction. Full-state FSTC/FSTVIC Theorems 4-6 extend those results when the composite stiffness and damping matrices meet positive-definiteness conditions. A three-DOF flexible-joint sagittal arm simulation tracks 1 Hz sinusoidal references. Hardware uses a seven-DOF Rethink Baxter with series-elastic joints, torque sensing, reconstructed link positions, numerical velocity differentiation, and a roughly 1-3 ms loop. Sinusoidal tracking remains bounded under predetermined variable gains. In a separate demonstration, contact on Baxter's left arm triggers ramped reduction of the right arm's motor/link stiffness and damping; the user also applies forces to the right arm to gauge compliance. Figures show the commanded gain changes, wrenches, torques, and velocities but provide no task-success distribution or quantitative comparison.",
+  "synthesis_role": "Provides a rare analytical treatment of active variable impedance for flexible-joint robots, including both free-motion stability and interaction passivity. It is especially useful for identifying the energy-injection cancellation mechanism and the gap between a minimal analytical controller and a more model/state-dependent hardware implementation.",
+  "development_link": "The work adapts passivity/Lyapunov flexible-joint control and variable-impedance energy management into a power-shaping formulation that avoids explicit energy tanks or gain-rate constraints. It complements tank and passivity-filter approaches but requires direct cancellation signals and positive-definite full-state gain constructions.",
+  "evidence": [
+    {
+      "locator": "Section II-A-C, equations (1)-(4)",
+      "status": "problem and failure derivation",
+      "finding": "For the flexible-joint storage function, time-varying active stiffness adds a quadratic gain-rate term with indefinite sign, motivating explicit power shaping."
+    },
+    {
+      "locator": "Section III-A, equations (5)-(23), Theorem 1",
+      "status": "conditional free-motion stability guarantee",
+      "finding": "The motor-side controller cancels gravity and tracking terms so the Lyapunov derivative is negative semidefinite; the authors use an invariance argument and stiffness/gravity condition to claim global asymptotic tracking stability."
+    },
+    {
+      "locator": "Section III-B-C, equations (24)-(28), Theorems 2-3",
+      "status": "conditional variable-impedance stability and passivity guarantee",
+      "finding": "Adding the scheduled-stiffness derivative to the power-shaping signal cancels VIC energy injection, yielding the same dissipative derivative and an external-port passivity inequality when damping is positive definite."
+    },
+    {
+      "locator": "Section IV-A-C, equations (29)-(42), Theorems 4-6",
+      "status": "conditional full-state analytical guarantee",
+      "finding": "Full-state link/motor feedback variants are claimed globally asymptotically stable and passive when the composite stiffness and damping matrices satisfy the Schur-complement and positive-definiteness conditions."
+    },
+    {
+      "locator": "Section IV-D, equations (43)-(50)",
+      "status": "gain-generation method",
+      "finding": "A linearized flexible-joint model and algebraic Riccati equation generate LQR motor/link position and velocity gains, which must then be checked against the nonlinear stability conditions."
+    },
+    {
+      "locator": "Section V-A-B, Figures 3 and 7-12",
+      "status": "author-reported simulation and hardware tracking",
+      "finding": "A simulated three-DOF flexible-joint arm and Baxter hardware track sinusoidal references with constant and predetermined variable gains without the plotted instability feared from uncorrected VIC."
+    },
+    {
+      "locator": "Section V-C, equation (54), Figures 13-20",
+      "status": "author-reported interaction demonstration",
+      "finding": "A left-arm force threshold ramps the right arm between high and low LQR-derived impedance sets; plotted gains decrease during contact and increase afterward while torques and velocities remain finite."
+    },
+    {
+      "locator": "Section V-D, equation (55)",
+      "status": "author-stated feasibility argument",
+      "finding": "The authors argue encoder resolution bounds the velocity pseudoinverse and propose stiffness-rate modification to avoid infeasible torque when the power-shaping command approaches saturation."
+    }
+  ],
+  "evidence_kind": [
+    "Lyapunov global-asymptotic-stability analysis",
+    "external-port passivity analysis",
+    "power-shaping energy cancellation",
+    "Schur-complement gain condition",
+    "LQR gain generation",
+    "flexible-joint robot simulation",
+    "Baxter trajectory-tracking experiment",
+    "Baxter impedance-switching demonstration"
+  ],
+  "boundary_conditions": [
+    "The theorems use the stated flexible-joint model with symmetric positive-definite inertia/passive stiffness and bounded smooth robot terms; unmodeled backlash, hysteresis, friction, delays, and SEA nonlinearities are not included.",
+    "Free-motion global asymptotic stability assumes zero external torque, while the interaction result is passivity rather than asymptotic tracking under arbitrary contact.",
+    "The motor-side minimal controller requires the gravitational torque vector and reference/motor/link velocities; the power-shaping term uses a pseudoinverse tied to measured velocity.",
+    "The full-state controller used on Baxter is less model-minimal: desired motor references use inertia, Coriolis, damping, passive stiffness, and gravity terms, and LQR gains use a linearized model.",
+    "Positive definiteness of the composite stiffness/damping matrices and the gravity-versus-stiffness inequality must hold throughout scheduling.",
+    "Gain derivatives must be available and the calculated power-shaping torque must be realizable; the main proof does not include hard saturation, quantization, or numerical differentiation noise.",
+    "The Baxter experiment reconstructs link position from motor position and torque and obtains velocity by numerical differentiation, which can add noise and delay.",
+    "Hardware results are plotted demonstrations without repetitions, error statistics, passivity-observer measurements, baseline comparison, or systematic perturbation testing."
+  ],
+  "assumptions": [
+    "The gravitational torque model and the motor/link state estimates are sufficiently accurate for cancellation.",
+    "Desired trajectories and scheduled gains are bounded and differentiable to the degree required by the controller.",
+    "The velocity pseudoinverse and encoder-resolution handling prevent singular or unbounded power-shaping commands near zero velocity.",
+    "Controller gains preserve the required positive definiteness of storage and dissipation matrices.",
+    "The control loop is fast enough that digital delay and discrete-time effects do not invalidate the continuous-time analysis.",
+    "External interaction enters through the modeled collocated port used in the passivity inequality."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Uncompensated active stiffness variation creates an indefinite energy-injection term and can jeopardize stability or passivity.",
+      "Flexible-joint compliance produces underactuation that exacerbates position tracking.",
+      "The power-shaping control signal can approach actuator feasibility limits, motivating the saturation-avoidance discussion and gain-rate modification.",
+      "The hardware control period fluctuates between roughly 1 and 3 ms.",
+      "The high and low LQR gains are optimal only at their linearization points."
+    ],
+    "inferred": [
+      "Noise in differentiated link states or scheduled-gain derivatives can produce large or chattering power-shaping torques, especially near zero velocity.",
+      "Gravity/model mismatch prevents exact energy cancellation and can erode the claimed passivity margin.",
+      "Torque saturation or rate limits can break the algebraic cancellation central to the continuous-time proof before the proposed corrective stiffness rate takes effect.",
+      "Because hardware uses the full-state rather than the minimal controller, the experiments do not empirically substantiate the strongest minimal-model implementation claim.",
+      "Qualitative single-platform traces cannot establish global convergence or passivity for all initial conditions, gain trajectories, contacts, and flexible-joint mechanisms."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

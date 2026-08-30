@@ -1,0 +1,120 @@
+{
+  "source_id": "lk5U1cKDpscJ",
+  "read_event_id": "9a0200ef8a03430db30751563d994b28",
+  "content_sha256": "619d2a36f69d6302a2be85d8608f3d667b3f36f5c15537e42a24ee839087e5cc",
+  "claim": "Buchli, Stulp, Theodorou, and Schaal provide an early model-free reinforcement-learning formulation that uses PI² to optimize a DMP reference trajectory and a time-varying joint-space PD gain schedule in one parameterized policy. Each joint contributes separate DMP dimensions for motion and proportional gain; damping is not independently learned but tied to the square root of proportional gain through a fixed multiplier. Rollout costs reward task completion and penalize gain magnitude, acceleration, or task error, so learning tends to keep gains low except near phases requiring accuracy or contact force. Simulated 3-, 6-, and 7-DOF tasks and one real 3-DOF light-switch task support feasibility and scaling to a 14-dimensional policy, but the paper proves neither stability nor passivity of the learned variable-impedance closed loop and relies on manually bounded gains and exploration for practical safety.",
+  "claim_locator": [
+    "Actual read version: Buchli, Stulp, Theodorou, and Schaal, 16 November 2011 IJRR preprint, Learning Variable Impedance Control",
+    "Abstract",
+    "Section 1, Introduction",
+    "Section 2, Variable impedance control, equations (1)–(2)",
+    "Section 3, PI² derivation, equations (3)–(17) and Table 1",
+    "Section 4, Variable Impedance Control with PI², equations (18)–(22)",
+    "Section 5.1, via-point experiments, equations (23)–(25)",
+    "Section 5.2.1, real and simulated Phantom light-switch experiment",
+    "Section 5.2.2, simulated CBi door-opening experiment",
+    "Section 5.2.3, manipulation-experiment discussion",
+    "Section 6, Related work",
+    "Section 7, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: PI² mechanics and policy representation are derived and stated in the full text; performance and scalability are author-reported empirical results, while safety, stability, and robustness claims lack a closed-loop theorem in this paper",
+  "problem_and_setting": "The problem is to select when a torque-controlled robot should be compliant and when it should stiffen during finite-horizon motion and contact tasks, without requiring robot or environment models. The learned policy may adjust both desired joint trajectories and time-varying feedback gains so that task-specific accuracy/contact objectives are met with minimal gain use.",
+  "method_or_mechanism": "PI² is derived from path-integral stochastic optimal control for control-affine continuous dynamics with Gaussian exploration and the matching condition λR⁻¹=Σε. For robot learning, the required path integral is approximated by repeated noisy policy rollouts; trajectories with lower generalized cost receive exponentially larger weights, and weighted exploration perturbations update policy parameters. A DMP with basis functions represents each joint reference trajectory. A second basis-function dynamical equation represents each joint's proportional-gain schedule KP,i(t). The joint torque is −KP,i(qi−qd,i)−ξi√KP,i(q̇i−q̇d,i)+Tff,i, so KD,i is coupled to KP,i rather than learned independently. Motion and gain parameters are optimized dimension-wise even though task cost couples robot degrees of freedom. Gains are clipped to prescribed positive minima and maxima, and exploration noise decays over updates.",
+  "content_summary": "The learned objects are the DMP reference-trajectory parameters and time-indexed joint proportional-gain parameters; this is gain scheduling rather than direct learning of a full Cartesian mechanical-impedance tensor or a reactive state-dependent feedback policy. Generic PI² minimizes a finite-horizon terminal-plus-running cost with arbitrary state cost and quadratic control cost. The task implementations use simpler rollout costs: via-point studies penalize summed proportional gains, end-effector acceleration, and timed joint/task-space error; switch flipping uses a binary success terminal cost plus gain penalty; door opening uses remaining door angle plus gain penalty. PI² does not require explicit robot/environment dynamics for parameter updates, but uses trials from a common start state and user-selected policy, cost, exploration, gain bounds, and rollout counts. Three simulations cover a 3-DOF Phantom joint-via-point task, a 6-DOF KUKA task-space via-point, and a 7-DOF CBi door-opening task; a real Phantom learns switch flipping from a kinesthetically taught initial trajectory. The authors report that gains rise around accuracy/contact phases and fall elsewhere, with task success reached within tens of updates and at most a few hundred rollouts.",
+  "synthesis_role": "Historically demonstrates that reinforcement learning can jointly tune motion and variable feedback impedance on high-dimensional robots using a structured, sample-based policy, shifting VIC from hand-designed or model-derived gain schedules toward task-cost-driven discovery. It also establishes the enduring trade-off: structure makes real-robot learning feasible, but exploration safety, general stability, representation limits, and local optimality remain unresolved.",
+  "development_link": "Relative to fixed and adaptive impedance controllers, the target gain schedule is learned from task performance rather than prescribed or adjusted only to cancel robot uncertainty. Relative to later VICES-style neural policies, this method uses phase/time-structured DMPs, diagonal joint PD gains, fixed damping-to-stiffness coupling, and repeated finite-horizon rollouts rather than a general state-feedback network jointly outputting Cartesian pose and six-axis impedance. Relative to later certified VIC, no energy tank, rate certificate, passivity filter, or stability-constrained parameterization is integrated into learning.",
+  "evidence": [
+    {
+      "locator": "Section 1, Figure 1 and lines describing a 2n-dimensional DMP",
+      "status": "policy formulation",
+      "finding": "For an n-joint robot, reference trajectory and gain schedule are represented as separate DMP dimensions and PI² updates both from rollout cost."
+    },
+    {
+      "locator": "Section 3, equations (3)–(13) and Table 1",
+      "status": "algorithmic derivation",
+      "finding": "PI² converts a restricted stochastic optimal-control problem into cost-weighted sampling updates, with lower-cost rollouts receiving higher probability and no tuned algorithmic parameter beyond exploration magnitude in the authors' formulation."
+    },
+    {
+      "locator": "Section 4, equations (18)–(22)",
+      "status": "derived VIC mechanism",
+      "finding": "The controller learns time-varying proportional gains through basis functions, while derivative gain is ξi√KP,i and the rigid-body dynamics drop out of the PI² parameter update."
+    },
+    {
+      "locator": "Section 5.1 and footnote 3",
+      "status": "experimental safety constraint",
+      "finding": "During learning, gains are manually bounded to avoid negative gains, high-gain oscillation/instability, low-gain tracking loss, and joint-limit encounters."
+    },
+    {
+      "locator": "Sections 5.1.1–5.1.3",
+      "status": "author-reported simulation",
+      "finding": "Four rollouts per update over 100 updates solve 6-dimensional Phantom and 12-dimensional KUKA via-point policies; the paper reports small timed-target error and gain peaks concentrated near required accuracy."
+    },
+    {
+      "locator": "Section 5.2.1",
+      "status": "author-reported real-robot experiment",
+      "finding": "A real 3-DOF Phantom starts from a kinesthetically demonstrated switch trajectory and low gains; four new plus four elite reused rollouts update the gain policy from user-provided binary success and gain cost, with success reported after learning."
+    },
+    {
+      "locator": "Sections 5.2.2–5.2.3",
+      "status": "author-reported simulation",
+      "finding": "A simulated 7-DOF CBi jointly learns seven joint trajectories and gain schedules in a 14-dimensional problem; after 100 updates it opens the door while the sum of gains is reported 25% below the unsuccessful low-gain initialization."
+    },
+    {
+      "locator": "Section 7, Conclusion",
+      "status": "author-stated limitation",
+      "finding": "The paper explicitly states trajectory-based PI² finds only locally optimal solutions and that globally exploring high-dimensional state-action space is infeasible."
+    }
+  ],
+  "evidence_kind": [
+    "path-integral optimal-control derivation",
+    "model-free rollout policy improvement",
+    "structured DMP and gain-schedule parameterization",
+    "author-reported simulation",
+    "author-reported single-platform real-robot experiment",
+    "no stability/passivity theorem"
+  ],
+  "boundary_conditions": [
+    "The path-integral derivation assumes control-affine stochastic dynamics, Gaussian noise, quadratic command cost, and the noise/control-cost matching condition λR⁻¹=Σε; the practical parameter-learning algorithm inherits this restricted theoretical foundation.",
+    "The learned impedance is represented by diagonal joint-space PD gains with damping tied to √KP through a fixed multiplier. It is not a learned full coupled stiffness/damping/inertia matrix.",
+    "Gain schedules are phase/time dependent through DMP basis functions and are not general state-dependent reactions to unforeseen contact conditions.",
+    "The model-free claim concerns policy updates: implementation still assumes torque control, joint sensing, a chosen PD/feedforward structure, DMP initialization, task costs, basis functions, gain limits, and rollout resets.",
+    "PI² produces local policy improvement, not a globally optimal impedance law.",
+    "Practical safety is handled by preset gain bounds, minimum gains, decaying exploration, and elite rollout reuse; no theorem guarantees stability, passivity, collision safety, or safe exploration.",
+    "The paper links low gains to safer interaction but provides no systematic impact, injury, passivity, or adversarial-contact evaluation.",
+    "Only the switch task is run on physical hardware, on a lightweight 3-DOF Phantom with binary human feedback; the 6-DOF KUKA and 7-DOF CBi manipulation results are simulated.",
+    "All reported tasks are finite-horizon and repeatedly reset. Transfer to new initial states, task geometries, environment parameters, or continuous online adaptation is not evaluated.",
+    "Task behavior depends strongly on designer-chosen terminal/running costs and relative weights; no automatic cost specification is provided."
+  ],
+  "assumptions": [
+    "Repeated rollouts can begin from the same or sufficiently similar initial state and task setup.",
+    "Exploration perturbations and gain bounds are safe and physically feasible for the robot and environment.",
+    "The DMP basis set has enough capacity to represent useful reference trajectories and gain schedules.",
+    "Positive proportional gains and the fixed square-root damping rule yield an implementable PD controller throughout training.",
+    "The feedforward term and low-level torque loop are adequate for executing sampled policies.",
+    "Rollout cost reliably measures task success, trajectory error, acceleration, and gain preference; binary human feedback is accurate in the real switch task.",
+    "A small number of noisy and elite-reused rollouts provides a representative enough sample for cost-weighted updates.",
+    "The geometric-stiffness term neglected in mapping task-space to joint-space impedance is small in the stated interpretation."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "High gains can cause oscillations and instability, while gains that are too low can cause poor tracking and joint-limit encounters; bounds are therefore imposed manually.",
+      "During late manipulation learning, gains are sometimes reduced too much and the robot temporarily fails to flip the switch or open the door.",
+      "The learned solution is only locally optimal.",
+      "The controller realizes only a restricted form of impedance through joint PD gains; more general parameterizations would increase learning dimensionality.",
+      "The real and simulated switch tasks show different learning behavior because binary success cost is discontinuous and real tracking/sensing imperfections alter that discontinuity.",
+      "Global exploration of the high-dimensional state-action space is infeasible."
+    ],
+    "inferred": [
+      "Because no closed-loop stability or passivity analysis covers the changing gains, DMP trajectory, robot dynamics, and contact environment together, successful bounded-gain trials should not be generalized as a stability guarantee.",
+      "The fixed relationship KD=ξ√KP prevents independent optimization of damping and can exclude task-optimal or stability-critical damping schedules.",
+      "Time-indexed policies may fail when contact timing, object pose, or disturbance onset shifts relative to the learned phase.",
+      "Hundreds of physical rollouts with exploratory contact can remain expensive or risky despite the paper's favorable scaling compared with earlier RL.",
+      "Penalizing gain magnitude is only a proxy for compliance, energy, wear, and safety; it does not directly optimize interaction force or certify those properties.",
+      "Empirical success on one real lightweight robot does not establish sim-to-real transfer or scalability of physical learning to the KUKA or humanoid tasks."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

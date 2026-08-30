@@ -1,0 +1,85 @@
+{
+  "source_id": "0n2WntIcZ5MJ",
+  "read_event_id": "67a914fdb61d4fd3a347f996bf5046bc",
+  "content_sha256": "b48188f2ea3594430544f9daa57708787f6728bda1b0de7ec9b2417aa9116d18",
+  "claim": "Pressure Field Contact (PFC) is a fast approximate distributed-contact model for nominally rigid objects: immutable virtual pressure fields define a contact surface and integrated static, dissipative, and frictional tractions yield a continuous net wrench. It captures load-dependent area, force, moment, and stiffness trends, but is not a constitutive model of deformable tissue or bulk viscoelastic memory.",
+  "claim_locator": [
+    "Abstract",
+    "Section III",
+    "Equation (1)",
+    "Section VIII-A and Figure 6",
+    "Section IX",
+    "Appendix equations (9)-(16)"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "The formulation, FEM comparison, and stated omissions are author-reported; implications for tissue memory and optimal impedance are bounded reader inferences.",
+  "problem_and_setting": "The paper targets fast, differentiable, physically plausible contact-wrench prediction for learning, optimization, and simulation with arbitrarily shaped, coarsely meshed, nominally rigid objects.",
+  "method_or_mechanism": "Each body has a virtual scalar pressure field that is zero at its boundary and increases with depth. Equality of overlapping fields defines the contact surface. Integrating conservative static pressure, rate-dependent normal traction, and frictional shear traction over this surface produces one net wrench per body pair.",
+  "content_summary": "PFC generalizes elastic-foundation and hydrostatic ideas. It gives continuous wrenches for non-convex bodies and coarse meshes and is simpler than elasticity calculations. In a finite-strain FEM comparison it matched conforming contact but underestimated normal force by 23% in the most point-like case. It omits anisotropy, Poisson effects, and shear deformation and targets physical plausibility rather than high-fidelity deformation prediction.",
+  "synthesis_role": "Mechanism and boundary anchor for testing finite-area continuous-wrench representations, and negative evidence against treating PFC itself as a validated soft-tissue constitutive or memory model.",
+  "development_link": "PFC supplies finite-area geometry, continuous wrench, conservative static energy, dissipation, and friction that could augment scalar Hunt-Crossley contact. It does not establish tissue relaxation, hysteresis, patient-specific identification, optimal impedance selection, safety, or robotic-ultrasound performance.",
+  "evidence": [
+    {
+      "locator": "Abstract",
+      "status": "author_reported",
+      "finding": "PFC predicts a contact surface and integrated net wrench from virtual static pressure, rate-dependent pressure, and friction."
+    },
+    {
+      "locator": "Section III and Equation (1)",
+      "status": "author_reported",
+      "finding": "The object-fixed scalar pressure is virtual, need not satisfy mechanical equilibrium, and its static component has an associated potential energy."
+    },
+    {
+      "locator": "Section VIII-A and Figure 6",
+      "status": "author_reported",
+      "finding": "PFC matched FEM for conforming contact but underestimated normal force by 23% in the most point-like condition."
+    },
+    {
+      "locator": "Section IX",
+      "status": "author_reported",
+      "finding": "PFC omits anisotropy, Poisson effects, and shear effects and is intended for physical plausibility rather than highly accurate deformation prediction."
+    },
+    {
+      "locator": "Appendix equations (9)-(16)",
+      "status": "author_reported",
+      "finding": "The paper derives the static potential-energy relation and continuity of force with discrete contact geometry."
+    }
+  ],
+  "evidence_kind": [
+    "contact-model formulation",
+    "finite-element comparison",
+    "analytical energy and continuity result",
+    "author-stated limitations"
+  ],
+  "boundary_conditions": [
+    "Bodies are nominally rigid.",
+    "The virtual field is prescribed rather than an identified physical stress field.",
+    "Agreement is strongest for conforming contact and degrades for point-like contact.",
+    "No living-tissue, continuous-ultrasound, or optimal-impedance validation is reported."
+  ],
+  "assumptions": [
+    "An immutable scalar field adequately approximates contact geometry and load response.",
+    "One integrated wrench per pair suffices.",
+    "Omitted anisotropy, Poisson coupling, and shear deformation are tolerable.",
+    "Feedback and speed can compensate for some fidelity loss."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "PFC omits anisotropy, Poisson effects, and shear effects.",
+      "It underestimated force by 23% in the most point-like FEM comparison.",
+      "It is not intended for highly accurate contact-deformation prediction."
+    ],
+    "inferred": [
+      "PFC alone cannot represent stress relaxation, hysteresis, or loading-history memory.",
+      "Rate-dependent traction is not evidence of general viscoelastic memory.",
+      "The paper does not show that PFC changes optimal impedance decisions or task safety outcomes."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that PFC is already a validated deformable-tissue constitutive model.",
+    "Any claim that its virtual pressure is a mechanically equilibrated physical pressure.",
+    "Any claim that PFC alone solves tissue memory, optimal impedance, or safety-constrained ultrasound control."
+  ],
+  "verification_status": "verified"
+}

@@ -1,0 +1,90 @@
+{
+  "source_id": "USER-TUFFC-2011-1961",
+  "read_event_id": "bd7b6509ef0042febaa3951fd0fbaa7d",
+  "content_sha256": "0a93afd935bdceddb2530041554ff56bcf211ebb6d694d20147f6348201b9ac2",
+  "claim": "Finite-thickness spherical load-relaxation analysis can recover reasonable viscoelastic elasticity where purely elastic models fail, but anisotropy and nonunique or unstable multi-exponential parameter fitting limit direct use of a full generalized-Maxwell state online.",
+  "claim_locator": [
+    "Abstract",
+    "Sections I-II and Figures 1-2/equations (1)-(13)",
+    "Section III",
+    "Sections IV-V",
+    "Sections VI-C-VI-F",
+    "Section VII"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Formulation, validation, experiments, and fitting limitations are author-reported; online-control implications are bounded inferences.",
+  "problem_and_setting": "Estimating soft-material elasticity when finite ramp duration, force relaxation, and finite sample thickness invalidate instantaneous infinite-half-space elastic indentation assumptions.",
+  "method_or_mechanism": "A constant-speed spherical indentation ramp is followed by a position hold. Multi-exponential relaxation maps to a three-branch generalized Maxwell model, with finite-ramp and finite-thickness corrections under near-incompressible, bonded, small-indentation conditions.",
+  "content_summary": "Finite-element validation and gelatin/chicken-breast experiments show thickness correction matters below roughly ten indenter radii and finite load-relaxation estimates outperform elastic models on chicken breast. Anisotropy and viscosity remain difficult; nonlinear fitting is initialization-sensitive and nonunique, while fixing time constants can yield nonphysical coefficients.",
+  "synthesis_role": "Evidence for measurable contact memory and finite-thickness effects, coupled with a warning that full relaxation parameters may not be identifiable enough for online control.",
+  "development_link": "Test a complexity ladder from calibrated memoryless contact to low-order relaxation state, and require extra state to change impedance actions or held-out force/deformation/safety outcomes under ordinary scanning excitation.",
+  "evidence": [
+    {
+      "locator": "Abstract and Section II",
+      "status": "author_reported",
+      "finding": "The ramp-hold test models multi-exponential relaxation as a three-branch generalized Maxwell response with ramp/thickness corrections."
+    },
+    {
+      "locator": "Section III",
+      "status": "author_reported",
+      "finding": "Finite-element analysis validates the formulation under its constitutive and geometric assumptions."
+    },
+    {
+      "locator": "Sections IV-V",
+      "status": "author_reported",
+      "finding": "Gelatin and chicken-breast estimates agree reasonably with surface-wave comparisons; elastic models fail on viscoelastic chicken breast."
+    },
+    {
+      "locator": "Section VI",
+      "status": "author_reported",
+      "finding": "Thickness effects matter below about ten radii; anisotropy and viscosity estimation remain unresolved."
+    },
+    {
+      "locator": "Sections VI-E-VI-F",
+      "status": "author_reported",
+      "finding": "Multi-exponential fitting is nonunique and initialization-sensitive; fixed time constants can produce negative coefficients."
+    }
+  ],
+  "evidence_kind": [
+    "viscoelastic indentation derivation",
+    "generalized Maxwell model",
+    "finite-thickness correction",
+    "finite-element validation",
+    "gelatin and chicken-breast experiments",
+    "identifiability limitation"
+  ],
+  "boundary_conditions": [
+    "Near incompressibility and bonded substrate.",
+    "Small indentation and constant 0.1 mm/s ramp.",
+    "Spherical indentation rather than sliding.",
+    "Three relaxation branches.",
+    "No broad in-vivo tissue diversity or anisotropy."
+  ],
+  "assumptions": [
+    "Linear viscoelastic superposition applies.",
+    "Multi-exponential relaxation is adequate.",
+    "Ramp-hold excitation identifies aggregate elasticity.",
+    "Material properties remain stable during a test."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Elastic models fail on viscoelastic chicken breast.",
+      "Ignoring finite thickness biases estimates.",
+      "Anisotropy and direct viscosity estimation are unresolved.",
+      "Multi-exponential fitting can be nonunique or nonphysical."
+    ],
+    "inferred": [
+      "A memoryless law can miss history-dependent force when relaxation overlaps the task timescale.",
+      "The full Maxwell parameter vector may be unsuitable online.",
+      "Ramp-hold observability may not transfer to uninterrupted sliding."
+    ]
+  },
+  "conflicts_with": [
+    "Any purely elastic treatment of relaxing tissue.",
+    "Any infinite-half-space assumption for modest thickness.",
+    "Any direct adoption of a full generalized-Maxwell vector without identifiability tests.",
+    "Any claim that this material test proves improved scanning control."
+  ],
+  "verification_status": "verified"
+}

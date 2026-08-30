@@ -1,0 +1,109 @@
+{
+  "source_id": "X3fLqXpiIBoJ",
+  "read_event_id": "14a9725c20954d1fb49a7d6be99e1722",
+  "content_sha256": "9eb4b4954ecbca35da058d19a26d91d862f86d172e7ba897c0bb3891dea39920",
+  "claim": "Kronander and Billard propose Passive Interaction Control with Dynamical Systems (PICDS), which closes the feedback loop around a state-dependent motion field, aligns a damping eigenvector with its desired velocity, and uses selective dissipation plus a finite virtual energy tank to render nonconservative motion fields while preserving passivity at the external-force/robot-velocity port. The analytical guarantee holds under the stated rigid-body, model-access, task-field, decomposition, and tank-coupling assumptions. In a robotic plate-in-rack task with deliberately misplaced attractors, five trials per controller in each of three perturbation settings show more consistent approach geometry, successful placement, and lower post-impact force than an open-loop-integrated trajectory tracked by low-gain impedance control. This is primary theory and a small task-specific robot experiment, not proof of general manipulation success or human safety; the paper explicitly says passivity is necessary but insufficient for safe human interaction and that tank depletion can degrade the commanded task behavior.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II, equation (1) and task assumptions",
+    "Section III-A, equations (2)-(3)",
+    "Section III-B, Definition 1 and Proposition 1",
+    "Section III-C, equations (9)-(18) and Theorem 1",
+    "Section III-D-E, equations (19)-(24)",
+    "Section IV, Figures 4-6",
+    "Section V, Discussion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical and experimental evidence: the passivity proofs are conditional on the paper's continuous rigid-body and energy-tank construction, while empirical advantages are author-reported from 30 controller executions in one plate-in-rack setup without inferential statistics or human participants",
+  "problem_and_setting": "Autonomous dynamical-system task models are commonly integrated open loop and then tracked by a position or impedance controller. That arrangement prevents the task field from responding directly to physical displacement of the robot and generally loses passivity when the reference velocity is nonzero. The paper seeks a controller that evaluates a stable time-independent task field at the measured robot state, moves along that field, dissipates perturbation energy orthogonal to it, and remains passive during uncertain contact.",
+  "method_or_mechanism": "For a continuous task field f(xi), the controller constructs D(xi)=Q Lambda Q^T with the first basis vector aligned with f and nonnegative damping eigenvalues. In a conservative field f=-grad(Vf), gravity compensation, damping, and the drive term lambda1 f yield a passive velocity-error controller with kinetic plus scaled potential storage. A general field is decomposed into conservative and residual components. A virtual energy state stores selected damping work and gates the residual drive so that nonconservative task power is released only from available stored energy; Theorem 1 establishes passivity from external generalized force to robot velocity for the specified coupling functions and initial bounded tank state. Conservative components can come from the original dynamics of a locally modulated DS or from the gradient of a known Lyapunov function. Perpendicular damping tunes directional compliance, while lambda1 f behaves locally like a nonlinear stiffness around the attractor.",
+  "content_summary": "The paper contrasts open-loop integration of a learned motion field with continuous state feedback into that field. It first derives state-varying selective damping, then a passive controller for gradient fields and an energy-tank extension for nonconservative fields. It explains decompositions available for LMDS, SEDS, and ELM-style stable fields and relates the controller to classical impedance: physical inertia cannot be reshaped without force sensing, orthogonal damping is explicit, and the drive field is stiffness-like only locally or where such behavior is encoded in the DS. A plate is inserted into a dish rack while the learned field's attractor is offset behind the real slot in three ways. For each offset, five runs use PICDS and five use an integrated reference with conventional impedance control. With deliberately low gains and no inverse dynamics, PICDS follows the curved approach more faithfully, places the plate consistently in the reported runs, and reduces post-impact contact force relative to the comparator.",
+  "synthesis_role": "Provides an early energy-tank and task-field branch of passive interaction control. It is especially relevant when a learned autonomous motion field should remain reactive to physical perturbations rather than being converted into a time-indexed reference, while illustrating that an energy certificate can coexist with substantial task-dependent performance and safety limitations.",
+  "development_link": "The work extends passive velocity-field control by using directional dissipation and by making impedance tuning more explicit. It anticipates later passivity filters and model-predictive passivity constraints: all intervene on an otherwise performance-driven behavior to regulate net energy. Unlike gain-profile filters, PICDS acts directly on a state-dependent desired velocity field, and unlike later MPC methods it uses explicit coupling functions and a scalar tank rather than finite-horizon optimization.",
+  "evidence": [
+    {
+      "locator": "Section II",
+      "status": "analytical setup",
+      "finding": "The task field must be known and evaluable, continuous, and have a single stable equilibrium; the plant is represented by rigid-body dynamics, and passivity is defined at the external-force/velocity port."
+    },
+    {
+      "locator": "Section III-A, equations (2)-(3)",
+      "status": "controller mechanism",
+      "finding": "A positive-semidefinite damping matrix whose first eigenvector follows the desired field selectively dissipates energy perpendicular to task motion and remains passive even when its orientation varies with state."
+    },
+    {
+      "locator": "Section III-B, Proposition 1",
+      "status": "conditional analytical guarantee",
+      "finding": "For a conservative task field, gravity cancellation plus velocity-error feedback is passive using kinetic energy and the field potential as storage."
+    },
+    {
+      "locator": "Section III-C, Theorem 1, equations (9)-(18)",
+      "status": "conditional analytical guarantee",
+      "finding": "For a conservative/residual decomposition, a bounded virtual storage state and specified gating functions preserve passivity while permitting stored dissipative energy to drive the residual field."
+    },
+    {
+      "locator": "Section III-E, equations (22)-(24)",
+      "status": "author interpretation",
+      "finding": "The controller cannot alter physical inertia; it exposes directional damping, and lambda1 f has a local stiffness interpretation near the attractor but need not define a symmetric stiffness around arbitrary points."
+    },
+    {
+      "locator": "Section IV-A",
+      "status": "author-reported protocol",
+      "finding": "Three attractor-offset conditions are tested with five executions per controller; PICDS uses initial tank energy 10, lambda1=20, and lambda2=lambda3=200, while the comparison tracks an integrated reference with K=100I and no inertia shaping."
+    },
+    {
+      "locator": "Section IV-B, Figures 5-6",
+      "status": "author-reported robot experiment",
+      "finding": "PICDS preserves the curved approach and reportedly places the plate correctly in all tested offsets; the comparator shortcuts the path, produces problematic final configurations, and has higher post-impact force."
+    },
+    {
+      "locator": "Section V",
+      "status": "author-stated limitations",
+      "finding": "The authors state that passivity is not sufficient for human safety and that finite tank energy can be depleted, forcing fallback to the conservative field and reducing task performance."
+    }
+  ],
+  "evidence_kind": [
+    "conditional nonlinear passivity proof",
+    "state-varying directional damping",
+    "virtual energy tank",
+    "learned dynamical-system controller",
+    "small comparative robot experiment",
+    "contact-force trajectory comparison"
+  ],
+  "boundary_conditions": [
+    "The guarantee concerns passivity from external generalized force to robot velocity, not collision-force bounds, injury risk, workspace safety, actuator saturation, or task success.",
+    "The task field is assumed continuously evaluable with one stable equilibrium; discontinuities, multiple attractors, hybrid contact modes, and time-varying task fields are not analyzed.",
+    "Rigid-body structure and gravity cancellation are used in the proof; model error, delay, sampling, saturation, torque limits, and unmodeled flexible dynamics are not included.",
+    "For nonconservative fields, execution depends on a usable conservative/residual decomposition and finite tank energy; depletion suppresses residual task dynamics.",
+    "The damping basis is ill-defined when the desired field is very small and is handled by retaining the previous basis below a chosen threshold.",
+    "The controller cannot shape physical inertia in the presented formulation and does not provide a globally symmetric, independently specified stiffness around every point.",
+    "The empirical comparison uses one learned plate-in-rack task, three artificial target offsets, five runs per controller per offset, low gains, and no inferential statistics.",
+    "No human-subject experiment is reported, so claims about intuitive or safe human collaboration remain prospective."
+  ],
+  "assumptions": [
+    "The robot satisfies the standard rigid-body skew-symmetry properties used by the storage-function proof and gravity is canceled sufficiently accurately.",
+    "The task field and, where needed, its potential or known Lyapunov function are available online.",
+    "Damping eigenvalues are nonnegative and the state-dependent basis remains well behaved away from the near-zero-field threshold.",
+    "The energy-tank coupling functions obey the stated inequalities and the initial tank state satisfies the stated positive upper-bound condition.",
+    "The contacted environment is passive when coupled-stability conclusions are invoked.",
+    "Selected gains and initial tank energy are adequate for friction, task duration, and expected disturbances."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Passivity is necessary but not sufficient for safe human interaction; an unsafe task field or aggressive velocity-feedback gains can still make PICDS dangerous.",
+      "Strong perturbations can sharply redirect a power-conserving controller; PICDS uses dissipation to avoid this but wastes energy.",
+      "A finite virtual store can be depleted, forcing fallback to the conservative component and degrading task performance.",
+      "The starting energy and tank upper bound are task-critical, especially if no meaningful conservative component can be extracted.",
+      "Both tested controllers track the nominal motion poorly because low gains and no inverse-dynamics compensation were intentionally used."
+    ],
+    "inferred": [
+      "A decomposition that is mathematically valid for passivity may still produce an undesirable conservative fallback path during contact.",
+      "The favorable plate-placement result may depend on the specific geometry and learned curved approach and may not generalize to other contacts or DS representations.",
+      "Force-estimation error visible before contact and absence of statistical testing limit quantitative comparison of contact force.",
+      "Sampling, torque saturation, and unmodeled dynamics could invalidate the continuous-time energy accounting in an implementation."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

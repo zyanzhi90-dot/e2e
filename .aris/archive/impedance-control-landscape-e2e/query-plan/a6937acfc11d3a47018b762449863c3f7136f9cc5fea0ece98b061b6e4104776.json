@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "coverage_gaps": [],
+  "queries": [
+    {
+      "query": "robotic ultrasound scanning finite area sliding soft contact model force torque impedance control",
+      "purpose": "Attempt to falsify the claim that the scalar normal Hunt-Crossley environment representation is insufficient for force- and trajectory-relevant sliding ultrasound contact by locating direct models and experiments that already close the finite-area, tangential-force, and contact-moment gap.",
+      "expected_close_condition": "Identify direct robotic-ultrasound evidence showing whether finite-area geometry, sliding resistance, or contact moment materially changes force regulation or scanning behavior, or conclude that the claimed phenomenon lacks decision-grade support.",
+      "lead_id": "lead-softscan-contact-representation",
+      "lead_statement": "For continuous robotic ultrasound scanning, extending NNBO beyond a scalar normal Hunt-Crossley environment may be necessary because finite-area sliding, changing surface geometry, tangential resistance, and contact moment can alter the impedance decision and its safety/performance boundary.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Reality"
+    },
+    {
+      "query": "AuSoScan automatic scoliosis assessment ultrasound scanning soft contact control contact model",
+      "purpose": "Verify the strongest application-specific prior for finite-area sliding soft contact, including exactly what contact model, measured outputs, controller, and experimental boundaries it already provides.",
+      "expected_close_condition": "Resolve whether AuSoScan or its closest follow-ons already answer the proposed contact-representation problem in the intended scanning scope and isolate any residual unresolved delta.",
+      "lead_id": "lead-softscan-contact-representation",
+      "lead_statement": "For continuous robotic ultrasound scanning, extending NNBO beyond a scalar normal Hunt-Crossley environment may be necessary because finite-area sliding, changing surface geometry, tangential resistance, and contact moment can alter the impedance decision and its safety/performance boundary.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Unresolvedness"
+    },
+    {
+      "query": "Smooth Path Planning Dynamic Contact Force Regulation Robotic Ultrasound Scanning",
+      "purpose": "Check the closest ultrasound force-regulation route for evidence that geometry/deformation-aware desired-force adaptation or path planning already removes the need for a richer environment model in optimal impedance selection.",
+      "expected_close_condition": "Determine the overlap and residual delta between geometry/deformation-aware ultrasound force regulation and the proposed environment-model-dependent optimal impedance question.",
+      "lead_id": "lead-softscan-contact-representation",
+      "lead_statement": "For continuous robotic ultrasound scanning, extending NNBO beyond a scalar normal Hunt-Crossley environment may be necessary because finite-area sliding, changing surface geometry, tangential resistance, and contact moment can alter the impedance decision and its safety/performance boundary.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Unresolvedness"
+    },
+    {
+      "query": "Real-Time Deformable-Contact-Aware Model Predictive Control Force-Modulated Manipulation",
+      "purpose": "Test whether a deformable-contact-aware predictive controller is already a dominant closest-prior answer and whether its mechanism, assumptions, and outputs subsume the proposed richer-contact optimal-impedance problem.",
+      "expected_close_condition": "Obtain decision-grade closest-prior evidence on model state, contact outputs, online feasibility, robustness to model error, and what remains unresolved for impedance selection in sliding soft contact.",
+      "lead_id": "lead-contact-aware-optimal-impedance",
+      "lead_statement": "The scientifically relevant extension of NNBO may be not merely replacing Hunt-Crossley, but determining when a richer contact state changes the optimal impedance action enough that contact-aware predictive or learned selection is required under bounded model error.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Unresolvedness"
+    },
+    {
+      "query": "viscoelastic model based force control soft tissue interaction physiological motion compensation relaxation creep robotic contact",
+      "purpose": "Attempt to disconfirm the adequacy of memoryless Hunt-Crossley contact by locating direct soft-tissue force-control evidence for relaxation, creep, hysteresis, or frequency dependence and the control consequences of including or omitting memory.",
+      "expected_close_condition": "Establish whether history-dependent viscoelasticity causes a measurable, decision-relevant control failure in the target regime and define the rate/hold conditions under which Hunt-Crossley remains sufficient.",
+      "lead_id": "lead-soft-contact-memory-boundary",
+      "lead_statement": "Hunt-Crossley may be an inadequate environment model for optimal impedance when soft contact exhibits decision-relevant relaxation, creep, hysteresis, or rate history that cannot be represented by current penetration and penetration rate alone.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Reality"
+    },
+    {
+      "query": "soft tissue indentation load relaxation Prony series QLV robot force control online identification",
+      "purpose": "Find the strongest counterexample or supporting evidence for a compact history-dependent contact representation that is identifiable and usable online, rather than assuming QLV or Prony structure is automatically necessary or feasible.",
+      "expected_close_condition": "Identify a feasible discriminating protocol and the simplest model class that separates Hunt-Crossley from history-dependent alternatives on held-out rates and hold segments.",
+      "lead_id": "lead-soft-contact-memory-boundary",
+      "lead_statement": "Hunt-Crossley may be an inadequate environment model for optimal impedance when soft contact exhibits decision-relevant relaxation, creep, hysteresis, or rate history that cannot be represented by current penetration and penetration rate alone.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Answerability"
+    },
+    {
+      "query": "pressure field contact model net contact force moment friction elastic foundation real time robot control",
+      "purpose": "Compare pressure-field, elastic-foundation, and other finite-area contact representations against the proposed HC-consistent distributed model, emphasizing which measured wrench components and geometries are actually needed rather than assuming a more complex model is better.",
+      "expected_close_condition": "Define the minimum contact representation and negative controls needed to distinguish scalar HC, distributed foundation, pressure-field, and unnecessary high-fidelity alternatives in the target task.",
+      "lead_id": "lead-minimal-contact-representation",
+      "lead_statement": "The valuable question is to identify the minimal contact representation that changes and improves optimal impedance decisions in continuous soft sliding, rather than presupposing that an HC-pressure-field hybrid is the correct method.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Precision"
+    },
+    {
+      "query": "safe optimal impedance control contact model mismatch finite area friction force moment passivity MPC learning",
+      "purpose": "Search for the closest integrated solution and strongest counterevidence on whether richer contact prediction improves impedance selection once model mismatch, solver feasibility, passivity, saturation, and fallback behavior are included.",
+      "expected_close_condition": "Determine whether the proposed research question changes a practical decision under both positive and negative outcomes, and identify existing routes that already solve it or expose a remaining falsifiable boundary.",
+      "lead_id": "lead-contact-aware-optimal-impedance",
+      "lead_statement": "The scientifically relevant extension of NNBO may be not merely replacing Hunt-Crossley, but determining when a richer contact state changes the optimal impedance action enough that contact-aware predictive or learned selection is required under bounded model error.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Importance"
+    }
+  ]
+}

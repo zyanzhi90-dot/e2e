@@ -1,0 +1,68 @@
+{
+  "coverage_gaps": [
+    "foundational formulation and early implementation of robotic impedance control",
+    "causal transitions among method generations rather than a fixed taxonomy",
+    "stability, passivity, contact transition, and environment-uncertainty bottlenecks",
+    "variable, adaptive, robust, and optimization-based impedance mechanisms",
+    "learning-based impedance control, its evidence limits, and post-learning directions",
+    "negative results, failure conditions, and unresolved problems"
+  ],
+  "queries": [
+    {
+      "query": "robot impedance control historical development review",
+      "purpose": "discover reviews and field-level terminology for the development trace"
+    },
+    {
+      "query": "Hogan impedance control approach to manipulation",
+      "purpose": "recover the foundational formulation and original problem framing"
+    },
+    {
+      "query": "robot impedance control implementation interaction stability passivity",
+      "purpose": "map early implementation and stability mechanisms"
+    },
+    {
+      "query": "robot impedance control contact transition environment uncertainty stability",
+      "purpose": "identify persistent physical-interaction bottlenecks and failure conditions"
+    },
+    {
+      "query": "variable impedance control robotics review",
+      "purpose": "trace the transition from fixed to task- or state-dependent impedance"
+    },
+    {
+      "query": "adaptive impedance control robot unknown environment",
+      "purpose": "identify online adaptation mechanisms and assumptions about environment uncertainty"
+    },
+    {
+      "query": "robust impedance control robot interaction uncertainty",
+      "purpose": "identify robustness-based responses to model and disturbance uncertainty"
+    },
+    {
+      "query": "optimal impedance control robot interaction",
+      "purpose": "identify optimization-based impedance selection and its objective assumptions"
+    },
+    {
+      "query": "learning impedance control robotics survey",
+      "purpose": "map the learning-based transition and candidate subfamilies"
+    },
+    {
+      "query": "learning variable impedance control robot manipulation",
+      "purpose": "identify demonstrations, imitation, and data-driven impedance-profile learning"
+    },
+    {
+      "query": "reinforcement learning impedance control robot contact",
+      "purpose": "identify policy-learning approaches and safety or stability limitations"
+    },
+    {
+      "query": "neural impedance control stability safety robotics",
+      "purpose": "find stability-constrained and safety-aware learned impedance mechanisms"
+    },
+    {
+      "query": "data driven impedance control uncertainty generalization robotics",
+      "purpose": "probe learning-era generalization, uncertainty, and distribution-shift bottlenecks"
+    },
+    {
+      "query": "robot impedance control future directions beyond learning",
+      "purpose": "discover literature-supported developments and unresolved directions after current learning-based work"
+    }
+  ]
+}

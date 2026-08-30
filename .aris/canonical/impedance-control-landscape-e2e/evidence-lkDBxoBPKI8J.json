@@ -1,0 +1,87 @@
+{
+  "source_id": "lkDBxoBPKI8J",
+  "read_event_id": "5484bbec35164090afb90758ba004f69",
+  "content_sha256": "96ce8a16f69f28a66bc6471ca2ac4b3c8c236ce3b2b95a37ac802213447b100a",
+  "claim": "IMP-HRL augments hierarchical reinforcement learning with variable-stiffness impedance primitives and coupled position–stiffness affordances, improving contact-rich sequential manipulation performance and reducing interaction forces in the reported simulation evaluations, especially for Wipe, while enabling limited zero-shot real-world transfer; these results do not establish formal stability, passivity, or general safety.",
+  "claim_locator": "Method; interaction-force evaluation; compositionality evaluation; Table II; discussion and conclusion.",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "task-specific author-reported empirical evidence with bounded reader inference",
+  "problem_and_setting": "Sequential contact manipulation where a hierarchical policy selects reusable behavior primitives while balancing compliance, interaction force and success, evaluated on Lift, Door, Wipe and Cleanup in simulation and zero-shot physical deployment for three tasks.",
+  "method_or_mechanism": "IMP-HRL adds a variable-stiffness impedance primitive to a predefined behavior-primitive library. The expanded action space lets the agent modify stiffness and an adaptive controller adjusts it during execution. Affordance coupling jointly models position and stiffness during training. Scaling factors beta and gamma remain predefined from demonstration or iterative tuning.",
+  "content_summary": "MAPLE simulation success was 100±0% Lift, 100±0% Door, 42±11.7% Wipe and 91±5.8% Cleanup; IMP-HRL reported 100±0%, 100±0%, 86±6.2% and 87±6.1%. Physical success over 20 runs per tested task was 90% Lift, 70% Wipe and 80% Cleanup; Door was not tested. MAPLE was not deployed physically due to author-stated rigidity hazards. Interaction-force plots aggregate 500 simulation runs but average force only over successful trials; compositionality uses 30 successful runs. Different affordances and rewards limit comparison fairness. The limited physical sample, absent physical baseline and no formal stability or safety analysis bound sim-to-real and safety claims.",
+  "synthesis_role": "Primary evidence for learning-based variable impedance in hierarchical RL, and a counterexample to equating lower successful-trial force with demonstrated safety.",
+  "development_link": "Makes stiffness an explicit action dimension in primitive-based HRL and links predefined impedance structure with learned sequencing.",
+  "evidence": [
+    {
+      "locator": "Table II simulation",
+      "status": "author_reported",
+      "finding": "MAPLE success was 100±0, 100±0, 42±11.7 and 91±5.8%; IMP-HRL was 100±0, 100±0, 86±6.2 and 87±6.1% on Lift, Door, Wipe and Cleanup."
+    },
+    {
+      "locator": "Table II real world",
+      "status": "author_reported",
+      "finding": "Over 20 runs per tested task IMP-HRL achieved 90% Lift, 70% Wipe and 80% Cleanup; Door was untested."
+    },
+    {
+      "locator": "Interaction-force evaluation",
+      "status": "author_reported",
+      "finding": "Force plots use 500 simulation runs and average only successful trials."
+    },
+    {
+      "locator": "Compositionality evaluation",
+      "status": "author_reported",
+      "finding": "Compositionality uses 30 successful runs."
+    },
+    {
+      "locator": "Baseline discussion",
+      "status": "author_reported",
+      "finding": "MAPLE had no physical baseline because its rigidity was considered hazardous in the setup; different rewards and affordances limit direct comparison."
+    },
+    {
+      "locator": "Limitations",
+      "status": "author_reported",
+      "finding": "Affordance coupling can slow precision-task learning and beta/gamma require demonstration or iterative tuning."
+    }
+  ],
+  "evidence_kind": [
+    "simulation comparison",
+    "real-world deployment",
+    "conditional interaction-force evaluation",
+    "compositionality evaluation"
+  ],
+  "boundary_conditions": [
+    "Only four tasks and a predefined primitive library were evaluated.",
+    "Physical evaluation used 20 runs per tested task, omitted Door and lacked a physical baseline.",
+    "Force averages exclude failures.",
+    "MAPLE comparison is confounded by different rewards and affordances.",
+    "Cleanup success was slightly below MAPLE.",
+    "No formal stability, passivity or safety guarantee was established."
+  ],
+  "assumptions": [
+    "Predefined primitives span the selected tasks.",
+    "Simulation-trained affordances transfer sufficiently.",
+    "Tuned beta and gamma are appropriate.",
+    "Successful-trial force is informative despite selection conditioning."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Affordance coupling can reduce precision-task learning efficiency.",
+      "Compliance conflicts with grasp-alignment stiffness.",
+      "Beta and gamma require demonstration or time-consuming tuning.",
+      "Cleanup success was below MAPLE."
+    ],
+    "inferred": [
+      "Success-conditioned force may underrepresent failed-run exposure.",
+      "No physical baseline supports real-world superiority.",
+      "Twenty runs per task weakly support broad transfer.",
+      "Lower force does not imply passivity or safety."
+    ]
+  },
+  "conflicts_with": [
+    "Uniform superiority over MAPLE.",
+    "Demonstrated physical superiority over MAPLE.",
+    "General safety inferred from lower successful-trial force."
+  ],
+  "verification_status": "verified against Controller-supplied admitted full-text extraction"
+}

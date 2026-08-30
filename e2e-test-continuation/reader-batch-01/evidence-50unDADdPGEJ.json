@@ -1,0 +1,113 @@
+{
+  "source_id": "50unDADdPGEJ",
+  "read_event_id": "db04e4a2ccce405a9f6c2870093a7ed8",
+  "content_sha256": "a08b5c73726ad1a38f2c4a541e0a263dd20e10a5a3e2529239d0ad8bdb12c826",
+  "claim": "Buerger and Hogan propose a computational loop-shaping procedure for interaction controllers that separates robot-port performance from coupled stability, searches controller pole/zero/gain space, and constrains the search either by passivity or by a less conservative complementary-stability condition. Complementary stability models the expected human-arm environment as a bounded set and converts stable coupling with every member of that set into a robust-stability test using the small-gain theorem and structured singular value. On one screw-driven single-DOF rehabilitation-robot module, the selected low-frequency lag force-feedback controller reduced Coulomb friction from 10-20 N to below 0.5 N and apparent inertia from 6 kg to 1.2 kg while passing the reported spring, hard-block, and human-arm tests more robustly than tested natural-admittance alternatives. The evidence supports the design idea and this actuator case, but not general multi-DOF human-robot safety: the environment set, linear robot model, controller family, single module, bandwidth limits, and non-statistical human testing sharply bound the conclusion.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II.A-C, equations (1)-(3), Figures 1-3",
+    "Section III, equations (4)-(8), Figures 4-8",
+    "Section IV, equations (9)-(11), Figures 9-13",
+    "Section V, Figures 14-15 and Tables I-II",
+    "Section VI, Conclusions",
+    "Appendix, equations (A-1)-(A-4) and Table III"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical and robot-hardware evidence: the port-model design logic and bounded-environment robust-stability formulation are directly documented, and large impedance reductions are measured on one single-DOF module; no statistical human study, clinical outcome, multi-DOF validation, or universal interaction-safety certificate is provided",
+  "problem_and_setting": "High-force human-interactive robots require low and tunable endpoint impedance together with high force capacity. Force feedback can suppress friction and inertia but threatens coupled stability. Classical servo loop-shaping tools do not transfer directly because robot-port performance depends on robot impedance alone, whereas stability depends on the robot-environment port-function product, and controller dynamics are embedded nonlinearly in robot impedance. The concrete platform is one screw-driven linear module intended for rehabilitation robotics.",
+  "method_or_mechanism": "The method defines a frequency-domain cost from deviation between actual and target robot-port impedance and separately imposes a coupled-stability constraint. For a chosen controller structure, a computational grid searches pole, zero, and gain; at each pole-zero combination it finds the largest admissible gain and displays a design surface. First, positive-real port impedance enforces passivity. Then complementary stability replaces the all-passive-environments requirement with a set of expected environments represented by a nominal port function plus bounded uncertainty. For human arms, a second-order mass-spring-damper model with bounded real parameter deviations is used. The robot is inverted to admittance form and structured singular value/small-gain analysis tests robust stability across that environment set. This permits selected nonpassive controllers when their destabilizing environments lie outside the modeled set.",
+  "content_summary": "The paper first explains why interaction design differs structurally from ordinary servo design. It then applies computational loop shaping to a linear single-resonance model of a screw-driven robot with handle force-sensor dynamics. Under passivity, the search finds low-frequency lag/PI force compensation superior to proportional control for friction rejection. Complementary stability uses bounded human-arm inertia, damping, and stiffness from prior literature and identifies both lag and high-frequency lead regions with lower impedance cost than the passive design; the implemented high-frequency lead design was precluded by force-measurement bandwidth. A 1 kHz lag controller was tested against springs, a hard block, and vigorous human-arm grasp. Model predictions were conservative, possibly because unmodeled Coulomb friction dissipated energy. The controller was compared with natural admittance control and gave the better reported stability-performance combination on this platform. The conclusion identifies extension to multi-DOF/configuration-dependent systems as unresolved.",
+  "synthesis_role": "Represents an early explicit relaxation of universal passivity: controller design uses a bounded task/environment class to gain performance while retaining robust coupled stability for that class. It is a conceptual predecessor to environment-aware robust interaction design and constrained optimization of impedance policies.",
+  "development_link": "Compared with proportional force feedback and passive natural admittance, the method shapes feedback frequency response and searches the stability-performance surface. Compared with passivity, complementary stability is less conservative but only as trustworthy as the bounded environment model. Compared with later energy-tank or certificate-constrained variable impedance, it is an offline linear frequency-domain design for a fixed controller on a single-DOF actuator.",
+  "evidence": [
+    {
+      "locator": "Section II.A-C, equations (1)-(3)",
+      "status": "analytical problem formulation",
+      "finding": "Robot-port behavior determines interaction performance, while the robot-environment port-function product determines coupled stability; controller transfer functions do not enter these quantities as simple multiplicative loop-shaping factors."
+    },
+    {
+      "locator": "Section III, equations (4)-(8), Figures 4-8",
+      "status": "computational design method",
+      "finding": "A frequency-weighted impedance-error cost and passivity constraint are evaluated over pole-zero-gain grids; for the modeled module, low-frequency lag/PI compensation reduces impedance more effectively than proportional feedback while remaining passive."
+    },
+    {
+      "locator": "Section IV, Definition and equations (9)-(11)",
+      "status": "robust-stability formulation",
+      "finding": "Complementary stability requires robust stability for all environments in a bounded set; a second-order human-arm model with bounded mass, damping, and stiffness is tested using small-gain/structured-singular-value analysis."
+    },
+    {
+      "locator": "Section IV, Figures 12-13",
+      "status": "model-based design comparison",
+      "finding": "Relaxing passivity to the bounded human-environment set lowers the best plotted normalized impedance cost from 0.72 to 0.50 and identifies nonpassive lag and lead controller regions predicted stable for the modeled set."
+    },
+    {
+      "locator": "Section V, implementation protocol",
+      "status": "author-reported hardware protocol",
+      "finding": "The selected lag controller ran at 1 kHz on one screw-driven single-DOF robot module; contact and impact tests used six springs, a hard plastic block, and vigorous human-arm grasp, while high-frequency lead compensation could not be implemented because of force-measurement bandwidth."
+    },
+    {
+      "locator": "Section V, Figure 15",
+      "status": "author-reported hardware measurement",
+      "finding": "The implemented lag compensator reduced measured Coulomb friction from 10-20 N to below 0.5 N and apparent inertia from 6 kg to 1.2 kg, below the 3 kg passive limit stated for the model."
+    },
+    {
+      "locator": "Section V, Tables I-II",
+      "status": "author-reported stability/performance comparison",
+      "finding": "Within the tested spring, block, and arm conditions, the lag controller was more robust than the tested natural-admittance alternatives at comparable low-impedance performance; complete numeric table cells are poorly recovered from the supplied PDF text layer, so only the paper's stated comparison is retained."
+    },
+    {
+      "locator": "Section VI, Conclusions",
+      "status": "author-stated limitations",
+      "finding": "The authors report a primitive optimization search and single-DOF application; extending the method to multi-DOF, configuration-dependent actuator or endpoint dynamics is nontrivial and left for further work."
+    }
+  ],
+  "evidence_kind": [
+    "interaction-control theory",
+    "computational controller search",
+    "bounded-environment robust-stability analysis",
+    "single-DOF robot hardware experiment",
+    "spring/block/human-arm stability tests",
+    "natural-admittance comparison"
+  ],
+  "boundary_conditions": [
+    "The analytical and experimental system is linearized and single-DOF with one dominant structural resonance and handle force-transducer dynamics.",
+    "Complementary stability guarantees coupling only with the explicitly modeled bounded environment set; an environment outside its mass, damping, stiffness, or structural assumptions may destabilize the nonpassive controller.",
+    "The human arm is represented as a second-order passive-like mechanical environment from prior literature; voluntary activation, reflex delay, multi-joint configuration changes, nonlinearity, and active devices are not comprehensively modeled.",
+    "The reported human-arm test is a vigorous grasp test without a stated cohort, protocol statistics, or adverse-event analysis; it is not clinical or population-level evidence.",
+    "The high-frequency lead controller identified in analysis was not implemented because force-sensor bandwidth was inadequate.",
+    "The robot model omits substantial Coulomb friction; the authors infer this may explain conservative stability predictions, but unmodeled dissipation cannot be assumed under all operating conditions.",
+    "Controller search is restricted to a chosen low-order pole-zero-gain family and frequency-domain cost; global optimality over controller structures is not established.",
+    "The natural-admittance comparison uses one platform and tested parameter sets rather than a general controlled benchmark.",
+    "No collision-force, tissue-load, fault, actuator-saturation, or multi-contact safety constraint is certified."
+  ],
+  "assumptions": [
+    "The linear robot/force-sensor model contains the dominant instability-producing dynamics over the design band.",
+    "The impedance-magnitude cost over the selected log-spaced frequencies is a meaningful proxy for perceived or task-relevant low-impedance performance.",
+    "The bounded second-order environment set contains every human arm/environment the controller will encounter in its intended use.",
+    "Structured-singular-value calculations and the sampled frequency grid detect the relevant robust-stability boundary.",
+    "The implemented 1 kHz controller, sensing, and actuator reproduce the model closely enough that offline stability predictions remain informative.",
+    "The spring, block, and grasp tests are sufficiently exciting to expose unstable interaction for the tested conditions.",
+    "Measured friction and apparent inertia from slow force-position and initial-condition tests generalize to the relevant task amplitudes and velocities."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Proportional endpoint force feedback that reduces apparent inertia too aggressively becomes nonpassive and vulnerable to contact instability.",
+      "Classical servo loop-shaping does not map transparently to interaction control because stability and performance depend on different port-function quantities.",
+      "The high-frequency lead controller could not be implemented on the hardware because of force-measurement bandwidth.",
+      "Natural admittance can drift in stiffness rendering because it feeds back velocity rather than position.",
+      "Nonpassive natural-admittance settings were less robust in the reported tests; settings matching lag-controller stability retained high inertia/damping and poorer performance.",
+      "The method had only been applied to single-DOF systems, and multi-DOF/configuration-dependent extension was unresolved."
+    ],
+    "inferred": [
+      "If the environment uncertainty set is misspecified, complementary stability can authorize a nonpassive controller that is unstable with a plausible unmodeled person, tool, fixture, or contact geometry.",
+      "Coarse parameter/frequency grids can miss narrow instability regions or better controller structures.",
+      "Unmodeled Coulomb friction can mask instability during testing and may change with temperature, wear, lubrication, velocity, or load.",
+      "A pass/fail grasp test with an unspecified human sample cannot establish robustness across anthropometry, pathology, activation, or involuntary reflexes.",
+      "The large impedance reductions on one actuator do not directly imply safe or transparent behavior after integration into a multi-axis robot.",
+      "Robust coupled stability is not equivalent to task safety, comfort, clinical benefit, collision safety, or fault tolerance."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

@@ -1,0 +1,96 @@
+{
+  "source_id": "tZYsUFlRIUIJ",
+  "read_event_id": "7b409c97308941f2a757b52f002b8742",
+  "content_sha256": "4adc4c65a3cf415478bafa45b6e5ef3a6820ba50f6154cd1e2681227d1786a20",
+  "claim": "For the paper's flexible-joint/series-elastic robot model, the proposed passivity-preservation controller (PPC) enables execution of a pre-existing continuous variable-impedance trajectory by adding a motor-torque term whose instantaneous power cancels the otherwise indefinite energy terms caused by time-varying stiffness and full-state feedback. The resulting global-asymptotic-stability and interaction-passivity claims are conditional: the aggregate stiffness must dominate the gravity-potential curvature, a Schur-complement damping condition must be positive definite, and the model, feedback, smoothness, and Cartesian nonsingularity assumptions used in the derivation must hold. Sawyer experiments and a three-DoF simulation support the method for the tested gain schedules and contacts, but they do not establish model-free, delay-robust, or arbitrary-policy passivity.",
+  "claim_locator": [
+    "Abstract and Section I, pp. 2342-2344: States that active VIC can inject energy, positions PPC as a full-state flexible-joint alternative to tank-based schemes, and explicitly assumes that a continuous variable-impedance trajectory or strategy already exists.",
+    "Section II-B, equations (7)-(11), p. 2344: Shows that ordinary time-varying PD-plus impedance introduces the indefinite term (1/2) q_e^T dot(T_I) q_e in the storage derivative; decreasing active stiffness is benign in this calculation, whereas increasing stiffness can destroy the fixed-gain stability argument.",
+    "Section III-A, equations (12)-(20), Theorem 1, pp. 2344-2345: Defines the joint-space PPC auxiliary torque and states global asymptotic stability under lambda_min(T_K)>alpha, T_K positive definite, and lambda_min(Xi_D)>0, with Xi_D given by the Schur-complement damping inequality in equation (19).",
+    "Section III-B, equation (21), Theorem 2, p. 2345: Establishes the storage inequality dot(Q)<=dot(q)^T tau_ex, hence passivity from external link torque to link velocity, when the total damping matrix is positive definite through the stated Xi_D condition.",
+    "Section III-C-D, equations (22)-(27), pp. 2345-2346; Appendix C, equations (52)-(53), p. 2352: Extends PPC to Cartesian impedance and to modeled time-varying passive stiffness/friction; the Cartesian proof assumes operation away from Jacobian singularities and preserves the same external-torque/link-velocity supply inequality.",
+    "Section V-A-C, Figures 1-16, pp. 2347-2349: Reports Sawyer experiments comparing PPC-based VCIC1, fixed-impedance IIC1, and non-PPC variable VCIC2 during manual perturbations and a surface-smoothing task.",
+    "Section V-D-F, Figures 17-23, pp. 2349-2350: Reports implementation precautions near zero motor velocity, a 19 kg three-DoF SEA collision simulation, and hardware tests in which violating either stiffness or damping criteria produced oscillation or instability."
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "conditional theorem-supported result with author-reported simulation and hardware validation",
+  "problem_and_setting": "The paper addresses active variable impedance control on underactuated compliant-joint robots, especially series-elastic-actuated manipulators whose link and motor coordinates are separated by passive elasticity. A standard time-varying PD-plus controller changes the active motor- and link-side stiffness/damping gains online. In the natural kinetic-plus-potential storage function, gain variation creates an indefinite stiffness-rate term, so a controller that is stable and passive at fixed gains need not remain so during VIC. The modeled interaction input is an external torque applied on the link side, and the measured power output is link velocity.",
+  "method_or_mechanism": "PPC augments motor- and link-side full-state feedback with an auxiliary motor torque formed from the time derivative of the aggregate stiffness matrix, the configuration error, the velocity-coupling/asymmetry term created by link feedback, and a Moore-Penrose pseudoinverse of the diagonalized motor-velocity vector with rank normalization. Its motor-side work algebraically removes the gain-dependent power terms from the Lyapunov/storage derivative, leaving dot(V)=-dot(q_F)^T Xi_K dot(q_F). Positive definiteness of Xi_K is enforced through Xi_D=N-(1/4)K_DJ^T(D+K_DM)^(-1)K_DJ>0. This is an online counter-power/damping modification: it does not store and ration energy as an energy tank does, and it does not merely reject gain profiles through an offline stiffness-rate certificate. The desired continuous gain schedule is retained, subject to the PPC correction and feasibility conditions. Joint- and Cartesian-space forms are developed; contact-wrench thresholds ramp between low and high gains, and an LQR construction supplies diagonal full-state gains at selected operating points.",
+  "content_summary": "The paper first derives the energy-injection term caused by varying the active stiffness of a compliant-joint robot. It then introduces PPC, whose auxiliary torque cancels this term and related noncollocated full-state-feedback power terms. Theorem 1 gives a conditional global asymptotic stability result for free motion, and Theorem 2 gives conditional passivity at the interaction port. A Cartesian version and an extension containing modeled passive-stiffness variation and friction compensation are also presented. The implementation uses contact-triggered ramps between LQR-derived low- and high-impedance gains. On a Sawyer robot, the PPC-based variable Cartesian controller maintained the claimed storage-power inequality in the reported trials, whereas a variable version of a conventional controller could violate it. In a plastering-trowel smoothing task, variable impedance reduced the reported contact-force magnitudes relative to fixed impedance. A separate simulation held pre-impact velocity equal and reported lower impact force with VIC. Deliberate violation of the paper's stiffness and damping criteria on hardware produced oscillation and instability, respectively. These results validate the proposed structured controller and tested schedules, not arbitrary learned or discontinuous VIC laws.",
+  "synthesis_role": "This paper marks a transition from offline restrictions on admissible time-varying impedance and energy-tank gating toward an explicit online power-cancellation controller for actively scheduled impedance on compliant/flexible-joint robots. It makes the stability bottleneck concrete: a variable gain profile is not sufficient by itself; its implementation must account for energy injected through the robot's elastic, motor-side, and link-side dynamics.",
+  "development_link": "Relative to fixed impedance, PPC permits continuous online gain scheduling while retaining a passivity proof for a flexible-joint plant. Relative to stiffness-rate certificates, it compensates the instantaneous gain-dependent power rather than only constraining a precomputed profile. Relative to energy tanks, it does not depend on an initialized energy budget or tank depletion, but instead requires full-state feedback, gain derivatives, and an adequately accurate dynamic/elastic model. It therefore advances implementable VIC for series-elastic robots while leaving later adaptive or learning-based VIC with the unresolved task of generating useful gain schedules without violating these structural and sensing assumptions.",
+  "evidence": [
+    {
+      "type": "derivation",
+      "statement": "For the ordinary time-varying controller, equation (11) adds (1/2)q_e^T dot(T_I)q_e to the storage derivative, which has indeterminate sign when active stiffness increases."
+    },
+    {
+      "type": "theorem",
+      "statement": "Theorem 1 states that the closed loop of equations (1), (2), and (12) has a globally asymptotically stable equilibrium when lambda_min(T_K)>alpha, T_K is positive definite, and lambda_min(Xi_D)>0; the proof uses a unique potential minimum, Barbalat's lemma, and an invariance argument for the time-varying system."
+    },
+    {
+      "type": "theorem",
+      "statement": "Theorem 2 derives dot(Q)=dot(q)^T tau_ex-dot(q_F)^T Xi_K dot(q_F)<=dot(q)^T tau_ex, establishing passivity for the external-link-torque/link-velocity port when Xi_K is positive definite through the Xi_D condition."
+    },
+    {
+      "type": "author-reported hardware experiment",
+      "statement": "In contact-triggered Sawyer trials, the PPC-based VCIC1 satisfied the reported storage-power inequality, while the non-PPC VCIC2 occasionally exhibited dot(Q)>dot(q)^T tau_ex."
+    },
+    {
+      "type": "author-reported hardware experiment",
+      "statement": "During the tilted-surface smoothing task with a plastering trowel, IIC1 produced larger external forces than the variable-impedance controllers; VCIC2 forces were reported lower than IIC1 but higher than PPC-based VCIC1."
+    },
+    {
+      "type": "author-reported simulation",
+      "statement": "For a simulated 19 kg three-DoF SEA manipulator with 3000 N m/rad joint stiffness and identical pre-impact velocity, VIC was reported to reduce contact-force magnitude relative to fixed impedance."
+    },
+    {
+      "type": "author-reported criterion stress test",
+      "statement": "At a 0.4 Hz gain-modulation rate, allowing lambda_min(T_K)<alpha produced joint oscillations around the desired equilibria; a separate gain choice giving lambda_min(Xi_D)=-2.37 became unstable after perturbation."
+    }
+  ],
+  "evidence_kind": [
+    "Lyapunov/storage-function derivation",
+    "conditional global-asymptotic-stability theorem",
+    "conditional input-output passivity theorem",
+    "author-reported Sawyer hardware experiments",
+    "author-reported compliant-manipulator simulation"
+  ],
+  "boundary_conditions": [
+    "The result is for the paper's n-link flexible-joint model with distinct link and motor coordinates, passive joint elasticity, modeled inertia/Coriolis/gravity/damping, motor actuation, and external torque acting at the link side; it is not a generic certificate for every compliant mechanism.",
+    "The variable-impedance trajectory is assumed to be continuous and available before PPC is applied. PPC preserves its passivity by controller augmentation; it does not learn or optimize that trajectory online.",
+    "Free-motion global asymptotic stability requires lambda_min(T_K)>alpha, positive-definite T_K, and lambda_min(Xi_D)>0. Here alpha bounds gravity-potential curvature and Xi_D is the paper's Schur-complement damping expression.",
+    "The interaction guarantee is passivity with supply rate dot(q)^T tau_ex. It is not a guarantee of bounded peak contact force, collision safety, task success, or optimal impedance.",
+    "The Cartesian derivation assumes the Jacobian operates away from singularities and uses the standard manipulator skew-symmetry property; singular configurations are explicitly avoided in the experiments.",
+    "The proof additionally uses bounded inertia and model terms, bounded reference position, bounded controller input, and regularity sufficient for Barbalat/invariance arguments.",
+    "The nonlinear/passive-stiffness and friction extension cancels modeled terms; the paper does not establish robustness margins for inaccurate stiffness, friction, gravity, or velocity models.",
+    "The motor-velocity pseudoinverse can amplify noise near zero velocity. The proposed implementation workaround suspends impedance modulation and ramps the link-side stiffness feedback toward zero below a noise-dependent threshold, so exact unrestricted modulation is not retained in that regime.",
+    "Hardware evidence is limited to a Sawyer series-elastic robot, manual perturbations, contact-triggered gain ramps, and one surface-smoothing path; the simulation uses a specific three-DoF SEA model."
+  ],
+  "assumptions": [
+    "Motor and link positions and velocities required by full-state feedback are available with sufficient bandwidth and accuracy.",
+    "Active stiffness and damping matrices and their time derivatives are available, sufficiently smooth, and implemented without destabilizing delay or discretization effects.",
+    "The aggregate stiffness has a unique equilibrium-producing potential and exceeds the stated gravity-curvature bound.",
+    "The total damping matrix satisfies the Schur-complement positive-definiteness condition throughout gain scheduling.",
+    "Manipulator dynamics retain the standard inertia/Coriolis energy identity, and the boundedness/regularity conditions invoked in the appendices hold.",
+    "For the Cartesian controller, the task Jacobian remains nonsingular over the executed motion.",
+    "Any nonlinear passive stiffness and friction terms included in the extended cancellation law are known closely enough for the algebraic power cancellation to apply."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Uncompensated active stiffness increases introduce an indefinite energy term and can destroy the fixed-gain stability/passivity argument.",
+      "The non-PPC variable Cartesian controller VCIC2 occasionally violated the reported passivity power inequality in manual-disturbance and smoothing experiments.",
+      "The PPC motor-velocity pseudoinverse may generate large input-torque spikes near zero velocity when feedback noise is present; the authors recommend halting gain variation and reducing the relevant link gain in that region.",
+      "When the stiffness criterion lambda_min(T_K)>alpha was violated during a 0.4 Hz hardware gain schedule, the robot oscillated around the desired equilibrium; when the damping criterion was violated with lambda_min(Xi_D)=-2.37, perturbation produced instability."
+    ],
+    "inferred": [
+      "Because cancellation uses gain derivatives, motor velocity, and modeled stiffness/friction terms, unmodeled dynamics, quantization, delay, or derivative-estimation errors can leave residual injected power; the paper does not quantify a robustness margin for these effects.",
+      "The auxiliary signal acts as a state- and gain-rate-dependent damping/power correction, so aggressive schedules may alter transient performance or require large motor torques even if the mathematical passivity condition is met.",
+      "The certificate does not automatically extend to discontinuous learned policies, hybrid contact switches, actuator saturation, multiple simultaneous contacts, or singular Cartesian mappings.",
+      "Passivity of the specified port does not by itself guarantee low impact force or safety against all environments; the observed force reductions are task- and controller-setting-specific."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

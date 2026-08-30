@@ -1,0 +1,106 @@
+{
+  "source_id": "j4KJ1EdUyYAJ",
+  "read_event_id": "4e7a14c69bca4d3c8a56e62e055c94f8",
+  "content_sha256": "e035395c37a873f6a22e46d9355cf296047c00178ba47d9224464e6d5cbcbac7",
+  "claim": "Kong et al. formulate position-based impedance selection for soft contact as nonlinear optimal control using a Hunt-Crossley environment model identified by exponentially weighted recursive least squares. A single critic network approximates the HJB value function and its weight error is shown uniformly ultimately bounded under persistent excitation and bounded approximation error. A cited robust-control construction can make the matched-uncertainty system globally asymptotically stable only when its optimal auxiliary-control conditions are met; the paper does not establish that approximate critic convergence alone is a general physical stability or passivity certificate. Simulation and Franka contact tests on silicone foam and sponge report lower quadratic costs than uncertainty-unaware and Kelvin-Voigt baselines, with the largest reported reduction about 30%, but evidence is task-specific, depends on prior environment identification and tuned weights, and contains no repeated-trial statistics or contact-safety limits.",
+  "claim_locator": [
+    "Abstract",
+    "Section II-A, equations (1)-(9)",
+    "Section II-B, equations (10)-(16), Theorem 1",
+    "Section II-C/D, equations (17)-(22)",
+    "Section III-A/B, equations (23)-(30)",
+    "Section III-C, equations (31)-(48)",
+    "Section III-D, equations (49)-(52), Algorithm 1",
+    "Section IV, Figures 2-3 and Table II",
+    "Section V, Figures 4-9 and Tables III-VI",
+    "Section VI, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the nonlinear model, critic update, UUB bound, and experiment settings are directly reported; robust physical stability is conditional on a separate matched-uncertainty optimal-control theorem, while empirical cost improvements are single-platform author-reported comparisons without statistical uncertainty or passivity/safety analysis",
+  "problem_and_setting": "A robot must balance position accuracy against low interaction force while pressing into a soft, viscoelastic environment. Linear Kelvin-Voigt models may misrepresent recovery and penetration-dependent damping, so the paper seeks a nonlinear environment model and an online learned impedance relation that explicitly accounts for bounded modeling and force-measurement uncertainty.",
+  "method_or_mechanism": "Contact force is represented by a Hunt-Crossley stiffness-plus-penetration-dependent damping law. A logarithmic linearization, valid for small normalized damping and uncertainty terms, permits online EWRLS identification of stiffness, damping, and exponent after an excitation trajectory. Position error, command-generator state, and contact force form an augmented nonlinear system. For matched uncertainty, an auxiliary nominal system and a modified infinite-horizon cost add an uncertainty-bound penalty. A single critic neural network estimates the value function and produces the approximate optimal force relation. Persistent excitation yields UUB of critic-weight error. The learned nonlinear force-position relation is converted into a reference position by a Newton downhill iteration for an assumed accurate inner position loop.",
+  "content_summary": "The paper distinguishes soft contact from conventional linear-environment impedance design. It identifies a Hunt-Crossley model from measured force, position, and velocity, then learns an HJB solution that trades quadratic position error against force and an uncertainty-bound term. The analytical learning result bounds critic-weight error; a preceding robust-control theorem supplies conditional global asymptotic stability for an exact optimal auxiliary solution satisfying a norm inequality. Simulation uses a one-dimensional ideal position loop, explicit sinusoidal uncertainty, exploration noise, and two cost-weight settings. Hardware tests use a seven-DoF Franka, a depth-derived equilibrium position, a force sensor, silicone foam, and sponge. Hunt-Crossley force estimation outperforms Kelvin-Voigt estimation, while reported convergent/total costs improve modestly on silicone foam and by up to 29.65% on the more viscoelastic sponge. No trial count, dispersion, hypothesis test, or force-limit analysis is reported.",
+  "synthesis_role": "Represents a nonlinear-environment, critic-based optimal impedance branch that explicitly models soft-material viscoelasticity. It shows why environment representation matters for learned impedance, while illustrating that weight-learning convergence, robust-control conditions, and physical interaction safety are different claims.",
+  "development_link": "Compared with linear Kelvin-Voigt optimal impedance, the Hunt-Crossley exponent captures penetration-dependent viscoelastic response. Compared with actor-critic schemes, the single critic reduces approximation and computational structure. Compared with passivity filters or constrained MPC, the design relies on matched-uncertainty optimal-control assumptions and does not directly constrain interaction energy, force, or reference-position rate.",
+  "evidence": [
+    {
+      "locator": "Section II-A, equations (1)-(9)",
+      "status": "environment identification mechanism",
+      "finding": "Hunt-Crossley parameters are estimated by EWRLS after logarithmic linearization, which requires the normalized velocity and uncertainty contribution to remain much smaller than one."
+    },
+    {
+      "locator": "Section II-B, Theorem 1",
+      "status": "conditional robust-control guarantee",
+      "finding": "A cited auxiliary-system theorem gives global asymptotic stability for the uncertain nonlinear system if an exact optimal auxiliary solution exists and satisfies the stated auxiliary-input norm inequality; it is not itself a theorem about the approximate neural policy."
+    },
+    {
+      "locator": "Section III-C, equations (31)-(48)",
+      "status": "algorithmic convergence guarantee",
+      "finding": "With bounded critic approximation residual and persistent excitation of the normalized regressor, the critic-weight estimation error is uniformly ultimately bounded by a residual- and excitation-dependent radius."
+    },
+    {
+      "locator": "Section III-D, equations (49)-(52), Algorithm 1",
+      "status": "impedance implementation",
+      "finding": "The learned force policy is interpreted as a nonlinear impedance relation and a Newton downhill solver generates the reference position for a presumed accurate position loop."
+    },
+    {
+      "locator": "Section IV, Figures 2-3 and Table II",
+      "status": "author-reported simulation",
+      "finding": "In the specified one-dimensional uncertain soft-contact simulation, the modified uncertainty-aware cost gives lower convergent and total costs than the compared uncertainty-unaware optimal controller."
+    },
+    {
+      "locator": "Section V-A, Figure 5 and Tables III-IV",
+      "status": "author-reported model comparison",
+      "finding": "For silicone foam and sponge, the identified Hunt-Crossley model follows measured force more closely than a Kelvin-Voigt model, particularly during viscoelastic recovery."
+    },
+    {
+      "locator": "Section V-B, Figures 6-9 and Tables V-VI",
+      "status": "author-reported hardware comparison",
+      "finding": "Franka experiments report lower quadratic costs than two baselines, with reductions of 1.42%-8.82% on silicone foam and 3.05%-29.65% on sponge depending on cost weight and comparator."
+    }
+  ],
+  "evidence_kind": [
+    "Hunt-Crossley parameter identification",
+    "conditional robust optimal-control theorem",
+    "critic-weight UUB analysis",
+    "one-dimensional simulation",
+    "Franka soft-material contact experiments"
+  ],
+  "boundary_conditions": [
+    "The Hunt-Crossley log-linear identification assumes positive penetration/force and a small normalized damping-plus-uncertainty term; end-effector speed is explicitly limited to support this approximation.",
+    "The uncertainty is treated as matched in the augmented dynamics and requires a known bounding function in the modified cost.",
+    "The robust global-stability theorem requires an exact optimal auxiliary solution satisfying an additional inequality; the implemented critic is approximate and only its weight error is proved UUB.",
+    "Persistent excitation is introduced through exploration noise, which is not analyzed for safe physical contact.",
+    "The position-based realization assumes the inner controller is accurate enough that actual position converges to the Newton-solved reference.",
+    "Environment dynamics are identified before optimal interaction; abrupt or time-varying parameters and operation without prior identification are explicitly future work.",
+    "Experiments regulate one Cartesian direction on two soft objects and report deterministic cost traces/tables without repetitions or statistical uncertainty.",
+    "No interaction passivity, force constraint, penetration constraint, actuator saturation, delay, or solver-failure guarantee is provided."
+  ],
+  "assumptions": [
+    "The soft environment is adequately represented by a Hunt-Crossley law with fixed stiffness, damping, exponent, and equilibrium position during a trial.",
+    "Depth sensing provides an adequate equilibrium surface position and force/kinematic signals support stable EWRLS identification.",
+    "Model uncertainty is bounded by the selected function and lies in the input-matched subspace.",
+    "An admissible unique optimal policy and differentiable value function exist for the nonlinear infinite-horizon problem.",
+    "The critic basis approximates the optimal value function on a compact operating set with bounded residual and gradient.",
+    "The normalized regressor remains persistently exciting and the Newton downhill procedure converges to an appropriate reference-position root.",
+    "Chosen Q/R weights, critic initialization, learning rate, exploration noise, and speed limits are suitable for each material."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The Kelvin-Voigt model deviates substantially from measured force during soft-material recovery and degrades interaction cost at larger penetration.",
+      "Online neural adaptation causes reference and actual-position oscillations that decay as the parameters converge.",
+      "The choice of cost weights is refined by trial and error.",
+      "Operation without prior environment identification and with time-varying or abruptly changing parameters is left for future work."
+    ],
+    "inferred": [
+      "Insufficient persistent excitation can leave critic weights poorly identified, while aggressive excitation can itself create undesirable soft-contact forces.",
+      "A biased Hunt-Crossley fit or surface-position estimate can make both the learned force law and Newton-generated reference incorrect.",
+      "UUB critic weights do not imply UUB tracking, correct impedance parameters, passivity, or bounded contact force for the implemented approximate policy.",
+      "The Newton solver can select a poor root or fail near singular/low-penetration regions without safeguards described in the paper.",
+      "Single-run cost reductions on two materials do not establish broad robustness across biological tissues, geometries, rates, or aging materials."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

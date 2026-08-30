@@ -1,0 +1,551 @@
+       IEEE ROBOTICS AND AUTOMATION LETTERS, VOL. 7, NO. 4, OCTOBER 2022                                                                                            11593
+
+
+
+
+                        Velocity Level Approximation of Pressure
+                                  Field Contact Patches
+                                 Joseph Masterjohn , Damrong Guoy, John Shepherd, and Alejandro Castro
+
+
+          Abstract—Pressure Field Contact (PFC) was recently introduced
+       as a method for detailed modeling of contact interface regions
+       at rates much faster than elasticity-theory models, while at the
+       same time predicting essential trends and capturing rich contact
+       behavior. The PFC model was designed to work in conjunction with
+       error-controlled integration at the acceleration level. Therefore
+       a vast majority of existing multibody codes using solvers at the
+       velocity level cannot incorporate PFC in its original form. In this
+       work we introduce a discrete in time approximation of PFC making
+       it suitable for use with existing velocity-level time steppers and
+       enabling execution at real-time rates. We evaluate the accuracy
+       and performance gains of our approach and demonstrate its effec-
+       tiveness in simulating relevant manipulation tasks. The method is
+                                                                                         Fig. 1. Left: Contact geometry modeling the highly compliant Soft-bubble
+       available in open source as part of Drake’s Hydroelastic Contact
+                                                                                         gripper [1] holding a spatula. Right: One of the fingers is hidden to better show
+       model.                                                                            the simulated contact patch. With a coarse discretization, the model is able
+                                                                                         to predict patch shape, size, and contact pressure (shown as colored contours)
+          Index Terms—Contact              modeling,       dynamics,      grasping,
+                                                                                         along with net forces and moments. Our polygonal tessellation of the contact
+       simulation and animation.                                                         surface combined with our velocity-level time stepping approximation enables
+                                                                                         this simulation to run at real-time rates.
+
+                                   I. INTRODUCTION
+                                                                                         are fast, they are non-smooth, and extensions to arbitrary geom-
+             HERE is a need for smooth, rich, artifact-free models of
+       T     contact between arbitrary geometries as encountered in
+       modern robotics applications such as grasping and manipula-
+                                                                                         etry often involve non-physical heuristics [6], [7] that heavily
+                                                                                         influence the correctness and accuracy of simulation results [8].
+                                                                                            The Elastic Foundation Model [9] (EFM) computes rich
+       tion, assistive and rehabilitative robotics, prosthetics, and un-                 contact patches providing an alternative to point contact that
+       structured environments. Most often these applications involve                    can solve many of its issues. However, current implementa-
+       compliant surfaces such as padded grippers, deformable manip-                     tions [10] need highly refined meshes and can even miss con-
+       uland objects or soft surfaces for safe human-robot interaction.                  tact interactions if coarse meshes are used. The work in [11]
+       Moreover, with the emerging field of soft robotics, designers                     introduces pressure field contact; a modern rendition of EFM
+       have begun to incorporate significant compliance in their robot                   designed to work with coarse meshes at a computational cost
+       designs; consider for instance the Soft-bubble gripper [1] in                     suitable for real-time simulation. While previous work focuses
+       Fig. 1 for which the accurate prediction of contact patches is                    on smooth geometric queries and continuous penalty forces, see
+       critical for meaningful sim-to-real transfer. Still, the rigid-body               for instance [12], [13], [14], the work in [11] is different in that
+       approximation of contact is at the core of many simulation                        it introduces a new contact model rather than algorithms for
+       engines enabling them to run at interactive rates.                                an already existing model. An implementation of pressure field
+          Point contact is a useful and popular approximation of non-                    contact is available in open source as part of Drake’s [15] Hy-
+       conforming contact (e.g. contact between a sphere and a half-                     droelastic Contact model. The implementation in Drake includes
+       space), but it does not extend well to conforming surfaces nor                    support for primitive geometries such as spheres and boxes,
+       non-convex shapes. Localized compliance can be incorporated                       convex meshes, rigid objects and both triangular and polygonal
+       using spring-dampers [2], Hertz theory [3] and volumetric mod-                    tessellations, see Section III for details. The hydroelastic contact
+       els [4], [5]. However, while point contact modeling approaches                    model provides rich information such as contact patch shape and
+                                                                                         pressure distribution, see Fig. 1 for an example.
+          Manuscript received 22 February 2022; accepted 12 August 2022. Date of            The hydroelastic contact model is originally formulated at
+       publication 2 September 2022; date of current version 12 September 2022. This     the acceleration level in [11] resulting in a system of ODEs
+       letter was recommended for publication by Associate Editor Y. Narang and
+       Editor H. Liu upon evaluation of the reviewers’ comments. (Corresponding          advanced forward in time using error-controlled integration
+       author: Joseph Masterjohn.)                                                       (in particular [11] uses RADAU [16]). While error-controlled
+          The authors are with the Toyota Research Institute, Los Altos, CA 94022        integration guarantees the accuracy of the solutions, it comes
+       USA (e-mail: joe.masterjohn@tri.global; damrong.guoy@tri.global; john.
+       shepherd@tri.global; alejandro.castro@tri.global).                                with the additional cost of needing to compute error estimates
+          Digital Object Identifier 10.1109/LRA.2022.3203845                             and taking smaller time steps during stick/slip transitions.
+                                2377-3766 © 2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+                                              See https://www.ieee.org/publications/rights/index.html for more information.
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+        11594                                                                                IEEE ROBOTICS AND AUTOMATION LETTERS, VOL. 7, NO. 4, OCTOBER 2022
+
+
+
+           In contrast, popular simulation engines such as ODE [17],                      where k > 0 is the point contact stiffness and d > 0 is a coeffi-
+        Dart [18], Vortex [19], MuJoCo [20] and Drake [15] provide                        cient of linear dissipation, and x+ = max(x, 0) is the positive
+        formulations at the velocity-level. In this approach, time is                     part operator. Since we take the positive part, the force is always
+        advanced at discrete intervals of fixed size; contact impulses                    repulsive. This model can be cast as the equivalent complemen-
+        and the resulting velocities are found by solving a challenging                   tarity condition [23]
+        Nonlinear Complementarity Problem (NCP), or some approxi-
+        mation of an NCP.                                                                                    0 ≤ φ + d c vn + c fn ⊥ fn ≥ 0,                         (2)
+           Our main contribution with this work is a discrete in time                     where c = k −1 is the compliance and 0 ≤ a ⊥ b ≥ 0 denotes
+        approximation of the hydroelastic contact model that enables                      complementarity, i.e. a ≥ 0, b ≥ 0 and a b = 0. Using the first
+        its use within existing simulation engines formulated at the                      order approximation φ = φ0 + δt vn where φ0 is the signed
+        velocity-level. We derive an algebraic expression for the rate of                 distance function at the previous time step and δt is step size,
+        change of the pressure field in terms of local quantities and use it              (2) becomes a linear complementarity condition between the
+        to write an implicit in time approximation of the pressure field at               velocities of the system and the contact forces. We use the naught
+        the centroids of mesh elements. Finally, we cast the problem in                   subscript to denote quantities evaluated at the previous time step
+        terms of an equivalent set of compliant point contact forces that                 while no subscript is used for quantities evaluated at the next time
+        can be incorporated into existing velocity-level formulations.                    step.
+           This work also introduces a novel polygonal representation of
+        the contact surfaces introduced in [11]. We strive to enable sim-                               0 ≤ φ0 + (δt + d c)vn + c fn ⊥ fn ≥ 0.                       (3)
+        ulation of contact rich patches, eliminate artifacts introduced by                  The tangential component f t ∈ R2 of the contact forces is
+        point contact, and capture area dependent phenomena otherwise                     modeled according to Coulomb’s law of dry friction, which can
+        missed by point contact while still performing at real-time rates.                be compactly written as
+        This is achieved with a complete implementation in Drake [15].
+                                                                                                                     f t = arg min v t · f                           (4)
+                                                                                                                            f ≤μfn
+            II. MULTIBODY DYNAMICS WITH FRICTIONAL CONTACT
+           Here we closely follow the notation in our previous work [21],                 where μ > 0 is the coefficient of friction. (4) describes the
+        [22] for consistency. However, we point out that velocity-level                   maximum dissipation principle, which states that friction forces
+        engines with the capability to model compliant point contact                      maximize the rate of energy dissipation. In other words, friction
+        can incorporate the approximations introduced in this work to                     forces oppose the sliding velocity direction. Moreover, (4) states
+        model compliant contact patches using the hydroelastic contact                    that contact forces f c are constrained to belong to the friction
+        model. For stability, our approximations are implicit in time.                    cone F = {[xt , xn ] ∈ R3 | xt  ≤ μxn }.
+           The state of our system is described by the generalized posi-                     The optimality conditions for (4) are [24], [25]
+        tions q ∈ Rnq and the generalized velocities v ∈ Rnv , where                                             μfn v t + λf t = 0
+        nq and nv denote the number of generalized positions and
+        velocities, respectively. Time derivatives of the configurations                                         0 ≤ λ ⊥ μfn − f t  ≥ 0                            (5)
+        are related to the generalized velocities by q̇ = N(q)v, with                     where λ is the multiplier needed to enforce Coulomb’s law
+        N(q) ∈ Rnq ×nv the kinematic map.                                                 condition f t  ≤ μfn . Notice that in the form we wrote (5),
+                                                                                          multiplier λ has units of velocity and it is zero during stiction
+        A. Contact Kinematics                                                             and takes the value λ = v t  during sliding. Finally, the total
+           Given a configuration q of the system, we assume our geom-                     contact force f c ∈ R3 expressed in the contact frame C is given
+        etry engine reports a set C(q) of nc potential contacts between                   by f c = [f t fn ].
+        pairs of bodies. The i-th contact pair in C(q) is characterized by
+        its location, a contact normal n̂i , and the signed distance φi ∈ R,              C. Discrete Time Stepping
+        defined negative for overlapping bodies. The relative velocity
+                                                                                             We discretize time into intervals of fixed size δt and seek
+        between the pair of bodies at the contact point is denoted with
+                                                                                          to advance the state of the system from time tn to the next
+        v c,i ∈ R3 . The normal and tangential components of v c,i are
+                                                                                          step at tn+1 = tn + δt. To simplify notation, we use the naught
+        given by vn,i = n̂i · v c,i and v t,i = v c,i − vn,i n̂i respectively,
+                                                                                          subscript to denote quantities evaluated at the previous time step
+        so that v c,i = [v t,i vn,i ]. We form vector vc ∈ R3nc (bold, no
+                                                                                          tn while no additional subscript is used for quantities at the next
+        italics) by stacking the velocities v c,i . Contact velocities are
+                                                                                          time step tn+1 . The full contact problem consists of the balance
+        related to generalized velocities by vc = J(q)v, where J is the
+                                                                                          of momentum discretized in time together with the full set of
+        contact Jacobian.
+                                                                                          contact constraints, where the unknowns are the next time step
+                                                                                          generalized velocities v ∈ Rnv , forces f ∈ R3nc and multipliers
+        B. Contact Modeling                                                               λ ∈ Rnc
+          A popular point contact model of compliance introduces a
+                                                                                                      M0 (v − v0 ) = δt k0 + δt JT0 f ,                              (6)
+        spring/damper at each contact point to model the normal force
+        fn as                                                                                         0 ≤ φ0,i + (δt + di ci ) vn,i + ci fn,i
+                                  fn = (−kφ − d vn )+ ,                            (1)                      ⊥ fn,i ≥ 0,                     i ∈ C(q0 )               (7)
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+       MASTERJOHN et al.: VELOCITY LEVEL APPROXIMATION OF PRESSURE FIELD CONTACT PATCHES                                                                             11595
+
+
+
+
+                   μi fn,i v t,i + λi ft,i = 0,             i ∈ C(q0 )            (8)
+                   0 ≤ λi ⊥ μi fn,i − ft,i  ≥ 0,           i ∈ C(q0 )           (9)
+                   q = q0 + δtN0 v,                                             (10)
+
+       where M0 ∈ Rnv ×nv is the mass matrix and k0 ∈ Rnv models
+       external forces such as gravity, gyroscopic terms and other
+       smooth generalized forces such as those arising from springs
+       and dampers.
+          We note that typically these velocity-level formulations are
+       written in terms of impulses δtf . The full problem (6)–(10)
+       constitutes a nonlinear complementarity problem (NCP). Many
+       variants of this formulation exist in the literature. [26] introduces
+       both primal and dual formulations of the problem, [27] uses                       Fig. 2. Two overlapping compliant bodies with pressure fields pA and pB ,
+       barrier functions along a lagged dissipative potential to include                 with profiles along the normal direction sketched in dashed lines. The contact
+       friction, [24] uses a polyhedral approximation of the friction                    surface S ∩ is modeled as the surface of equal pressure. We consider the motion
+                                                                                         of the surface along the normal direction n̂, taking into account directional
+       cone to write a linear complementarity problem (LCP).                             gradients gA = −dpA /dn = −∇pA · n̂ and gB = dpB /dn = ∇pB · n̂.
+          In the next section we describe an approximation that allows
+       one to incorporate the hydroelastic contact model into velocity-
+       level NCP formulations of this type. The approach is general
+       in that it can be incorporated into any velocity-level solver that
+       supports the modeling of compliant point contact.
+
+          III. OVERVIEW OF THE HYDROELASTIC CONTACT MODEL
+          The hydroelastic contact model [11] combines two ideas:
+       elastic foundation and hydrostatic pressure. Thus the model
+       introduces an object-centric virtual or elastic pressure field pe to              Fig. 3. Steps to compute a contact polygon for compliant-compliant contact. a)
+       mimic the hydrostatic pressure field of a fluid. In practice, Drake               Two overlapping tetrahedra. b) Their equilibrium plane is clipped by the bottom
+                                                                                         tetrahedron into a square. c) The top tetrahedron clips the plane further into the
+       generates a pressure field for primitive shapes that is maximum                   final polygon, in this example, an octagon. d) Contact polygon with linearly
+       at the medial axis, zero at the boundary, and linearly interpolated               interpolated equilibrium pressure.
+       in between. In Drake, users specify how stiff a compliant object
+       is through the hydroelastic modulus Eh [28], the value of the
+       pressure field at the medial axis. How to generate pressure fields                surface on which La equals Lb defines an equilibrium plane
+       for arbitrary non-convex geometries is currently a topic of active                Pab . The contact surface is the intersection Pab ∩ τa ∩ τb , a
+       research.                                                                         convex polygon with at most eight vertices, Fig. 3. Recall that
+          Unlike Finite Element models, the hydroelastic contact model                   undeformed bodies are allowed to overlap, see Fig. 2. Therefore
+       is stateless and the deformed configuration of a body is approx-                  intersecting tetrahedra from two bodies as depicted in Fig. 3 is
+       imated. Given two overlapping (undeformed) objects A and B                        commonplace within the overlap region of Fig. 2.
+       with pressure fields pA and pB , respectively, the contact surface                   While a rigid object can be approximated as a compliant
+       S ∩ is modeled as the surface of equal pressure, see Fig. 2. Total                hydroelastic object with a very large modulus of elasticity, this
+       forces and moments on these bodies are the result of the integral                 approach can lead to numerical issues. Therefore, in Drake, we
+       of the equilibrium pressure field pe = pA = pB on the contact                     represent a rigid object solely with a surface mesh of triangles
+       surface S ∩ .                                                                     that tessellates its boundary. In this case, the contact surface
+                                                                                         corresponds to the surface of the rigid object clipped by the
+       A. Contact Surface Computation                                                    volume of the compliant object and the contact pressure pe is
+                                                                                         the linear interpolation of the compliant pressure field onto the
+          We represent the geometry of a compliant body with a tetra-                    contact surface.
+       hedral volume mesh. Each vertex of this mesh stores a single                         For further details the interested reader should refer to [11]
+       scalar pressure value resulting in a piece-wise linear pressure                   and to the open source implementation in Drake with implemen-
+       field pe which can be used to interpolate pressure values at any                  tation details highly documented for production software.
+       point inside the volume.
+          The contact surface between two compliant bodies A and B
+                                                                                         B. Triangulated Vs. Polygonal Contact Surfaces
+       consists of a number of polygons. We denote with La : R3 → R
+       and Lb : R3 → R the linear interpolation of the respective pres-                     In [11] an n sided polygon is divided into a fan of n triangles
+       sure fields within two tetrahedra τa ∈ A and τb ∈ B having                        that share a vertex at the polygon’s centroid, left in Fig. 4. This
+       a non-empty intersection. Intersecting tetrahedra can be found                    ensures that only zero area triangles are added/removed to the
+       efficiently with a judicious choice of data structures [11]. The                  contact surface as objects move so that topological changes do
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+        11596                                                                                IEEE ROBOTICS AND AUTOMATION LETTERS, VOL. 7, NO. 4, OCTOBER 2022
+
+
+
+                                                                                           approximate the pressure as
+                                                                                                                               
+                                                                                                                            dpc
+                                                                                                             pc = pc,0 + δt       ,                                 (13)
+                                                                                                                             dt +
+                                                                                           where pc,0 is the hydroelastic pressure at the previous time
+                                                                                           step. Since pressure is zero at the boundary of each object and
+                                                                                           zero outside, we must take the positive part in (13) to properly
+                                                                                           represent this functional form when bodies break contact.
+                                                                                              We will show next that the time rate of the pressure at the
+                                                                                           surface can be approximated as
+                                                                                                                         dpc
+        Fig. 4. Triangular tessellation (left) as required in [11] and the proposed                                          = −g vn ,                              (14)
+        polygonal approximation (right). The pressure field is linear on the polygon                                      dt
+        as shown by the contour lines and the color shading. The white rectangle outline   where g is an effective pressure gradient, with units of Pa/m
+        is a visual cue for the spanning plane of the contact polygon relative to the
+        compliant tetrahedron drawn in orange outline.                                     and vn is the normal relative velocity at the centroid. Using this
+                                                                                           approximation in (12) and (13), we can write
+                                                                                                                       fn,e = (−kφ)+ ,                              (15)
+        not introduce discontinuities in the contact forces, as required
+        for error-controlled integration.                                                  with
+           As we’ll see in Section IV, each face in the contact surface
+        corresponds to one contact constraint in (7). Therefore to arrive                                               k = g A0 ,
+        to a smaller contact problem, we seek to minimize the number                                                          pc,0
+                                                                                                                       φ0 = −      ,
+        of contact constraints and consequently the number of discrete                                                         g
+        faces. We then propose to replace the fan of triangles by the
+                                                                                                                        φ = φ0 + δt vn .                            (16)
+        original polygon, right in Fig. 4.
+           The polygonal representation leads to a significant reduction                   where we froze geometric quantities at the previous time step.
+        in the number of face elements representing the surface, a factor                  This is common practice in many discrete time stepping strate-
+        of seven in Fig. 4. Even though much coarser, the polygonal                        gies in the literature, see for instance [29], [30]. Dissipation in
+        representation still provides rich contact information and al-                     (15) is incorporated as in (1) to obtain an equivalent point contact
+        lows to capture complex area-dependent phenomena. This is                          model.
+        demonstrated with test cases of practical relevance in Section V.                     Using this surrogate signed distance φ0 and stiffness k we
+        Finally, the equilibrium pressure field is linear since it results                 introduce the contribution of the i-th face of the contact surface
+        from the intersection of the linear pressure fields of overlapping                 as a compliant point contact constraint in (7). Note that the
+        tetrahedra.                                                                        resulting scheme is implicit in the next time step velocities
+                                                                                           through (7), making the scheme robust to the choice of time-step
+                                                                                           size even for stiff materials.
+                        IV. POINT CONTACT APPROXIMATION
+                                                                                              Since these quantities are a function of polygon area and
+           The key idea introduced in this work is to approximate the                      effective pressure gradient, the approximation converges to the
+        force contribution from each of the polygons described in Sec-                     original continuous model in the limit to zero time step. Notice
+        tion III-B using a first order expansion in time that resembles                    this would not be true for a simple model where spring-dampers
+        the point contact model in (7). The elastic force contribution f e                 are located at the polygons’ centroids.
+        from a polygon with area A is the integral of the pressure field
+                                                                                         A. Pressure Time Rate
+                    fe =      pe (x) n̂ dA = n̂     pe (x) dA        (11)                     At a given point on the contact surface in Fig. 2 we analyze
+                                A                         A
+                                                                                           the relative motion of bodies A and B in the direction normal
+        where the second equality results from the fact that faces are                     to the surface. We define a coordinate x in the normal direction
+        planar. Moreover, since the pressure field is linear (Fig. 4), this                such that x = 0 at the surface and it increases in the direction
+        integral can be computed exactly as                                                along the normal.
+                                                                                              Along this normal direction, in the neighborhood to the con-
+                                        f e = fn,e n̂,                                     tact point, we approximate pressure fields pA (x) and pB (x) as
+                                                                                           linear functions of the coordinate x
+                                      fn,e = A pc                                 (12)
+                                                                                                             pA (x) = −gA (x − xA (t)) + bA ,                       (17)
+        where pc = pe (xc ) is the pressure evaluated at the centroid xc
+                                                                                                             pB (x) = gB (x − xB (t)) + bB ,                        (18)
+        of the polygonal face.
+           To obtain an approximation consistent with the discrete                         where gA = −∇pA · n̂ and gB = ∇pB · n̂ are the slopes along
+        framework (6)–(10), we use a first order Taylor expansion to                       the normal, xA (t) and xB (t) are points rigidly affixed to A
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+       MASTERJOHN et al.: VELOCITY LEVEL APPROXIMATION OF PRESSURE FIELD CONTACT PATCHES                                                                          11597
+
+
+
+       and B, respectively, and bA and bB are simply the pressure
+       values at xA (t) and xB (t), respectively. This is a reasonable
+       approximation given that the pressure fields are piecewise linear
+       functions within each compliant volume.
+         The equilibrium pressure at the surface, x = 0, is found by
+       equating the hydroelastic pressures
+                    pe = gA xA (t) + bA = −gB xB (t) + bB .                     (19)
+          We take the time derivative of (19) to find the rate of change
+       of the pressure, as we need it in (13) at each polygon centroid
+                           dpe
+                               = gA vA (t) = −gB vB (t),                        (20)
+                            dt                                                           Fig. 5. Numerically computed ε∗num vs. initial ε0 (circles). Values are within
+                                                                                         0.01–0.5% of the numerical reference ε∗disc = 0.64426 (dash-dotted line) and
+       where vA (t) and vB (t) are the respective velocities of each body                within 1.3% of the theoretical value ε∗ = 0.653 (dashed line).
+       along the normal. These velocities are relative to the contact
+       surface since coordinate x is defined relative to the surface,
+       located at all times at x = 0. Since the pressure fields are fixed                We use SAP in Section V-B for our scalability studies since it
+       in the body frames, ḃA = ḃB = 0. In terms of these velocities,                  uses supernodal sparse algebra and TAMSI everywhere else.
+       the normal velocity vn is given by
+                                                                                         A. Sliding and Spinning Disk
+                                     vn = vB − vA                               (21)
+                                                                                            To assess the accuracy of our method’s ability to capture the
+         Combining (20) and (21) we can write velocities vA (t) and                      highly non-linear coupling between net force and torque, we
+       vB (t) in terms of the normal velocity vn as                                      study the sliding and spinning of a disk on a flat surface with a
+                                        gB                                               known analytical solution [31].
+                             vA = −            vn ,                                         Based on the dimensions of a U.S. quarter dollar coin, we
+                                     gA + gB
+                                        gA                                               simulate a disk of radius R = 1.213 cm, thickness t = 1.75 mm,
+                             vB =              vn .            (22)                      mass m = 5.67 g, friction coefficient between coin and flat sur-
+                                     gA + gB
+                                                                                         face μ = 0.2, and hydroelastic modulus Eh = 1.0 GPa lying flat
+          The final expression for the rate of change of the pressure                    on a horizontal plane set into motion with initial values of trans-
+       at the interface is obtained using the relative velocities from                   lational velocity v and angular velocity ω. The analytical result
+                                                                                                                                                          v
+       (22) into (20). After some minimal algebraic manipulation, the                    for this example establishes a dimensionless parameter ε = ωR
+                                                                                                                                               ∗
+       result is                                                                         that, regardless of initial conditions, converges to ε ≈ 0.653 as
+                              dpe    −gA gB                                              the coin comes to rest. We set initial angular and translational
+                                  =          vn .                  (23)                  velocities to span initial values ε0 in the range [0.1; 10].
+                               dt   gA + gB
+                                                                                            A fan of 152 triangles discretizes the circular geometry
+          Typically the pressure gradients and the normal direction
+                                                                                         of the coin. To estimate the error introduced by the discrete
+       align along the same line and therefore both gA and gB are
+                                                                                         geometry, we first simulate our model using error controlled
+       positive. In this case dp/dt < 0 for vn > 0 and the pressure
+                                                                                         integration to a tight accuracy of 10−2 %. That is, the continuous
+       decreases as the bodies move away from each other, as expected.
+                                                                                         hydroelastic contact model is used to obtain a reference solution
+       However, special care must be taken when gA < 0 or gB < 0.
+                                                                                         with negligible error in the time domain, not the velocity-level
+       Since the discrete approximation of point contact requires k > 0,
+                                                                                         approximation introduced in this work. We find the numerical
+       we simply ignore polygons where the conditions gA > 0 and
+                                                                                         solution with discrete geometry converges to ε∗disc = 0.64426, at
+       gB > 0 are not satisfied. We find that this is not a major problem
+                                                                                         only 1.3% error from ε∗ .
+       in practice since this situation corresponds to corner cases of the
+                                                                                            We now use our velocity-level discrete solver with a fixed time
+       hydroelastic contact model for which pushing into the object
+                                                                                         step of δt = 10−3 s to compute numerical approximations ε∗num
+       leads to a decrease of the contact forces instead of an increase
+                                                                                         from various initial conditions. Theory [31] predicts a constant
+       as expected.
+                                                                                         ε∗ regardless of the initial conditions. The numerical results
+                                                                                         confirm this prediction within 0.01–0.5% of ε∗disc and within
+                           V. RESULTS AND DISCUSSION                                     1.3% of ε∗ , see Fig. 5. Variations in these results are caused by
+          We present a series of simulation cases to assess the robust-                  numerical sensitivity to the zero-over-zero limit in ε = v/(ωR)
+       ness, accuracy, and performance of our method. The time step                      as the disk comes to rest.
+       for each simulation is chosen such that it can properly resolve                      Finally, we perform a convergence study to verify the conver-
+       the dynamics of each specific problem. It is a trade off between                  gence of our method. For a coin with perimeter P , we define
+       accuracy and speed.                                                               the grid size as δx = P/Nθ where Nθ is the number of triangles
+          In Drake we have two velocity level solvers; TAMSI [21] and                    along the circumference of the coin. For the mesh refinement
+       SAP [22]. SAP uses a convex approximation of contact excellent                    study in Fig. 6 we use Nθ = 4, 8, 16, 32 and 64. For the reference
+       for problems dominated by stiction or sliding at low velocities.                  solutions used in Fig. 6 we use a time step size and grid size an
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+        11598                                                                                 IEEE ROBOTICS AND AUTOMATION LETTERS, VOL. 7, NO. 4, OCTOBER 2022
+
+
+
+
+        Fig. 6. Convergence study with time step size (left, δx = 1.2 mm) and with
+        grid size (right, δt = 1.0 ms). Dashed references lines are shown for first order
+        on the left and for second order on the right.
+
+
+        order of magnitude smaller than the smallest size shown in the
+                                                                                            Fig. 7.   The scoop process of the pancake flip task. See associated video.
+        figures. For each timestep δt we define the relative error of the
+        computed trajectory xδt (t) vs the reference trajector x(t) as:
+                                                
+                       εδt = ||x(t)δt − x(t)||2 ||x(t)||2
+        and likewise for εδx . Our solver TAMSI [21] is first order
+        accurate in time, which is verified with the time step convergence
+        study in Fig. 6. Even though we show that a single point at
+        the centroid of each polygon integrates pressure exactly, Fig. 6
+        shows a quadratic convergence with grid size. This is due to the
+        fact that moments are proportional to both pressure and position,
+        and therefore are not integrated exactly but with a truncation
+        error quadratic on the grid size. If case this is not clear, the
+        integration of moments is being accounted for by the term JT0 f
+        in (6), which effectively accumulates the contributions from each                   Fig. 8. Mean wall-clock per time step vs. mean number of constraints per time
+        polygon onto the corresponding body.                                                step, for geometry and SAP solver.
+
+
+        B. Pancake Flip
+           In this scenario, a Kinova JACO arm (6 DOF) is outfitted
+        with a highly compliant Soft-bubble gripper [1]. The arm is
+        anchored to a table which has a stand holding a spatula, a
+        cylindrical stove top, and a pancake, modeled as a flat ellipsoid,
+        on top. The Soft-bubble gripper and the pancake are modeled as
+        compliant objects with hydroelastic modulus Eh = 105 Pa and
+        Eh = 104 Pa, respectively. Even though pancakes fold in reality,
+        synthetic silicone pancakes were used in the real experimental
+        setup, and therefore hydroelastic contact proved to be a useuful
+        approximation. All remaining objects are modeled as rigid.
+           The controller process tracks a prescribed sequence of Carte-
+        sian end-effector keyframe poses. We use force feedback to
+        gauge successful grasps and to know when the spatula makes
+                                                                                            Fig. 9. Number of faces generated as a function of time. Important events
+        contact with the stove top.                                                         during the task are highlighted.
+           The robot is commanded to grab the spatula from the stand
+        and subsequently scoop, raise, and flip the pancake over on the
+        stove, see Fig. 7 and the accompanying supplemental video.                             To assess scalability and task success at different grid sizes,
+           Fig. 9 shows the number of faces throughout the simulation                       we performed a grid refinement study using Drake’s SAP
+        using both triangular and polygonal tessellations. On average,                      solver [22]. We used a system with 24 2.2 GHz Intel Xeon cores
+        the number of faces is 4.05 times smaller when using the polyg-                     (E5-2650 v4) and 128 GB of RAM, running Linux. However
+        onal tessellation. Still, the model is able to resolve the net torque               we run in a single thread. We use the steady clock from the
+        on the spatula needed to achieve a secure grasp. Moreover, with                     STL std::chrono library to measure wall-clock time. All
+        the resulting reduction in the number of contact constraints, our                   grids use polygonal tessellations. Our coarsest grids result in 230
+        solver performs 4.09 times faster. The computation of polygonal                     contacts per time step on average and we progressively refine
+        tessellations is only about 10% faster than the corresponding                       grids by a factor of two, resulting in about 1500 constraints per
+        triangular tessellations.                                                           time step on average, see the accompanying video. Fig. 8 shows
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+       MASTERJOHN et al.: VELOCITY LEVEL APPROXIMATION OF PRESSURE FIELD CONTACT PATCHES                                                                          11599
+
+
+
+                                                                                             r Acceleration data structures and linear tetrahedra are key
+                                                                                               for a performant implementation of the hydroelastic con-
+                                                                                               tact model [11] for simulations at real time rates. Thus far,
+                                                                                               this limits the implementation to linear elements. Higher
+                                                                                               order elements or alternative representations are an inter-
+                                                                                               esting research direction.
+                                                                                             r We show in Section IV that a single quadrature point
+                                                                                               located at the centroid of a polygon integrates the linear
+       Fig. 10.   Commanded grasp force (left) and spatula pitch (right).                      pressure field exactly. Conversely, moments are not inte-
+                                                                                               grated exactly. However, our method achieves second order
+                                                                                               accuracy with grid size as demonstrated with the grid study
+       wall-clock time for the geometric queries and for the solver as                         in Section V-A.
+       a function of the average number of constraints per time-step.                        r The hydroelastic contact model is a modeling approxima-
+          We observe that the cost of the geometric queries is lin-                            tion which does not introduce deformation state. Therefore
+       ear with the number of constraints (faces), demonstrating the                           the model cannot resolve large deformations phenomena
+       effectiveness of OBBs as acceleration data structures in our                            such as buckling or folding.
+       implementation. For fully dense problems, we expect the solver                        r Thin objects can be problematic. For instance, an equilib-
+       to have O(n3 ) complexity, where n denotes the number of                                rium surface could not exit if a compliant thin box is pushed
+       variables. For sparse problems, the complexity is O(d3 ), where                         deep enough into a compliant half space. For this to happen
+       d is the size of the largest clique in a chordal completion of the                      the thin box needs to first get into such a configuration,
+       linear system matrix. A best fit exponent is about ∼ 1.3 in Fig. 8,                     which is possible especially for large time steps. Alterna-
+       demonstrating the effectiveness of the supernodal algebra, even                         tives to address this problem are an interesting research
+       though this case is not very sparse.                                                    direction.
+          For our coarsest set of grids, the spatula resembles a box rather
+       than the original cylinder shape and the gripper uses a similarly
+       coarse grid. Still, the robot completed the task successfully at all                                          VII. CONCLUSION
+       grid refinement levels. This demonstrates that the completion of                     We presented a discrete in time approximation of the hy-
+       this task in simulation is rather insensitive to mesh resolution.                 droelastic contact model to enable simulation of contact rich
+          Finally, our colleagues at TRI prototyped controllers in sim-                  patches using velocity-level discrete solvers for simulation at
+       ulation that transferred seamlessly to the real robotic system, as                real-time rates. The approach is general enough in that it can
+       shown in the accompanying video.                                                  be incorporated into any velocity level solver that can handle
+                                                                                         compliant point contact.
+       C. Spatula Slip Control                                                              We demonstrated the highly predictive nature of this model
+          We now demonstrate the effectiveness of our method to cap-                     in a test case with strong coupling between net force and torque,
+       ture area-dependent phenomena such as the net torque required                     matching known analytical results to within 1.3% without pa-
+       to successfully grasp an object. We simulate the aforementioned                   rameter tuning beyond choosing a mesh that can reasonably
+       Soft-bubble gripper [1] anchored to the world holding a spatula                   represent the geometry and choosing a time step that can re-
+       by the handle horizontally. The grasp force is commanded to vary                  solve the temporal dynamics of the problem. Even though the
+       between 1 N and 16 N with square wave having a 6 s period and                     polygonal tessellations are coarser than the original triangular
+       a 75% duty cycle, left on Fig. 10. This controller results in a                   tessellations from [11], we demonstrated the effectiveness of the
+       periodic transition from a secure grasp with stiction to a loose                  approach to predict area-dependent phenomena such as the net
+       grasp where the spatula is allowed to rotate within the grasp in                  torque required for the successful completion of a manipulation
+       a controlled manner, see Fig. 1 and the accompanying video.                       task.
+          Fig. 1 (left) shows a closeup of the contact geometry used                        Our novel surface representation in terms of polygonal faces
+       for this model. Notice that while well resolved, we use a rather                  leads to a drastic reduction in the number of contact constraints,
+       coarse tessellation of the compliant bubble surfaces of the grip-                 a significantly smaller contact problem at each time step, and
+       per. The polygonal tessellation provides a rich representation of                 consequently a substantial speedup enabling simulation at inter-
+       the contact patch exhibited by an elongated shape induced by                      active rates.
+       the geometry of the handle, Fig. 1 (right).                                          We present both time step size and grid size studies in order to
+          This level of grasp control is achieved by properly resolving                  assess the expected rate of convergence of our approximations.
+       contact patch area changes; this degree of control would be                       In particular, our method converges quadratically with grid size.
+       very difficult, if not impossible, to emulate using point contact                 The order of convergence with time step size depends on the
+       approaches.                                                                       particulars of the velocity level formulation, first order for our
+                                                                                         TAMSI [21] solver.
+                                                                                            Finally, we include a mesh refinement study on the simulation
+                                   VI. LIMITATIONS
+                                                                                         of a real robotic task that involves grasping. The study reveals
+         All models are approximations of reality. We would like to                      that the success of the task is not very sensitive to mesh reso-
+       explicitly state the limitations of our approach:                                 lution, even when using very coarse grids. Moreover, the study
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+        11600                                                                                  IEEE ROBOTICS AND AUTOMATION LETTERS, VOL. 7, NO. 4, OCTOBER 2022
+
+
+
+        allowed us to assess the scalability of the contact queries and                      [14] M. Geilinger, D. Hahn, J. Zehnder, M. Bächer, B. Thomaszewski, and
+        our SAP solver [22] with the number of constraints.                                       S. Coros, “ADD: Analytically differentiable dynamics for multi-body
+                                                                                                  systems with frictional contact,” ACM Trans. Graph., vol. 39, no. 6,
+           The hydroelastic contact model and the discrete approxima-                             pp. 1–15, Dec. 2020.
+        tion presented in this work are made available in the open-source                    [15] R. Tedrake and the Drake Development Team, “Drake: Model-based
+        robotics toolbox Drake [15]. The new model has been used                                  design and verification for robotics,” 2019, [Online]. Available: https:
+                                                                                                  //drake.mit.edu
+        extensively for work conducted at the Toyota Research Institute                      [16] E. Hairer and G. Wanner, Solving Ordinary Differential Equations II: Stiff
+        on prototyping and validating controllers for dexterous manip-                            and Differential - Algebraic Problems, ser Springer Series in Computa-
+        ulation of complex geometries [32].                                                       tional Mathematics. Berlin, Germany: Springer, 2013.
+                                                                                             [17] R. Smith, “Open dynamics engine,” [Online]. Available: http://www.ode.
+                                                                                                  org
+                                   ACKNOWLEDGMENT                                            [18] J. Lee et al., “DART: Dynamic animation and robotics toolkit,” J. Open
+                                                                                                  Source Softw., vol. 3, no. 22, 2018, Art. no. 500.
+           We thank the reviewers for their feedback, Sean Curtis for                        [19] CM Labs Simulations, “Theory guide: Vortex software’s multi-
+        his invaluable support on geometry and Drake implementation                               body dynamics engine,” [Online]. Available: https://www.cm-labs.com/
+                                                                                                  vortexstudiodocumentation
+        details, Michael Sherman for his insight and helpful discussions,                    [20] E. Todorov, T. Erez, and Y. Tassa, “MuJoCo: A physics engine for model-
+        and Naveen Kuppuswamy for the Sim-to-Real pancake demo                                    based control,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst., 2012,
+        setup.                                                                                    pp. 5026–5033, doi: 10.1109/IROS.2012.6386109.
+                                                                                             [21] A. M. Castro, A. Qu, N. Kuppuswamy, A. Alspach, and M. Sherman, “A
+                                           REFERENCES                                             transition-aware method for the simulation of compliant contact with regu-
+                                                                                                  larized friction,” IEEE Robot. Automat. Lett., vol. 5, no. 2, pp. 1859–1866,
+         [1] N. Kuppuswamy, A. Alspach, A. Uttamchandani, S. Creasey, T. Ikeda,                   Feb. 2020.
+             and R. Tedrake, “Soft-bubble grippers for robust and perceptive ma-             [22] A. Castro, F. Permenter, and X. Han, “An unconstrained convex formu-
+             nipulation,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst., 2020,                lation of compliant contact,” 2021. [Online]. Available: https://arxiv.org/
+             pp. 9917–9924.                                                                       abs/2110.10107
+         [2] E. Catto, “Soft constraints: Reinventing the spring,” in Proc. Game Devel-      [23] C. Lacoursiere and M. Linde, “Spook: A variational time-stepping scheme
+             oper Conf., 2011, pp. 31–34.                                                         for rigid multibody systems subject to dry frictional contacts,” UMINF
+         [3] L. Luo and M. Nahon, “A compliant contact model including interference               report, vol. 11, 2011.
+             geometry for polyhedral objects,” J. Comput. nonlinear Dyn., vol. 1,            [24] D. E. Stewart, “Rigid-body dynamics with friction and impact,” SIAM Rev.,
+             pp. 150–159. 2006.                                                                   vol. 42, no. 1, pp. 3–39, 2000.
+         [4] Y. Gonthier, “Contact dynamics modelling for robotic task simulation,”          [25] A. Tasora and M. Anitescu, “A matrix-free cone complementarity ap-
+             Ph.D. dissertations, Univ. Waterloo, 2007.                                           proach for solving large-scale, nonsmooth, rigid body dynamics,” Com-
+         [5] N. Wakisaka and T. Sugihara, “Loosely-constrained volumetric contact                 put. Methods Appl. Mechanics Eng., vol. 200, no. 5–8, pp. 439–453,
+             force computation for rigid body simulation,” in Proc. IEEE/RSJ Int. Conf.           2011.
+             Intell. Robots Syst., 2017, pp. 6428–6433.                                      [26] M. Macklin, K. Erleben, M. Müller, N. Chentanez, S. Jeschke, and T.-Y.
+         [6] E. Coumans, “SIGGRAPH 2015 course,” 2015, [Online]. Available: https:                Kim, “Primal/dual descent methods for dynamics,” in Computer Graphics
+             //pybullet.org/wordpress/index.php/forum-2                                           Forum, vol. 39, no. 8. New York, NY, USA: Wiley, 2020, pp. 89–100.
+         [7] A. Moravanszky, P. Terdiman, and A. Kirmse, “Fast contact reduction             [27] M. Li et al., “Incremental potential contact: Intersection-and inversion-
+             for dynamics simulation,” Game Program. Gems, vol. 4, pp. 253–263,                   free, large-deformation dynamics,” ACM Trans. Graph., vol. 39, pp. 49–1,
+             2004.                                                                                2020.
+         [8] K. Erleben, “Methodology for assessing mesh-based contact point meth-           [28] Drake Development Team, Hydroelastic contact user guide, [Online].
+             ods,” ACM Trans. Graph., vol. 37, no. 3, pp. 1–30, 2018.                             Available:      https://drake.mit.edu/doxygen_cxx/group__hydroelastic__
+         [9] K. L. Johnson, Contact Mechanics. New York, NY, USA: Cambridge Univ.                 user__guide.html
+             Press, 1987.                                                                    [29] D. E. Stewart and J. C. Trinkle, “An implicit time-stepping scheme for
+        [10] M. A. Sherman, A. Seth, and S. L. Delp, “Simbody: Multibody dynamics                 rigid body dynamics with inelastic collisions and coulomb friction,” Int.
+             for biomedical research,” Procedia IUTAM, vol. 2, pp. 241–261, 2011.                 J. Numer. Methods Eng., vol. 39, no. 15, pp. 2673–2691, 1996.
+        [11] R. Elandt, E. Drumwright, M. Sherman, and A. Ruina, “A pressure field           [30] M. Anitescu and F. A. Potra, “Formulating dynamic multi-rigid-body con-
+             model for fast, robust approximation of net contact force and moment                 tact problems with friction as solvable linear complementarity problems,”
+             between nominally rigid objects,” in Proc. IEEE/RSJ Int. Conf. Intell.               Nonlinear Dyn., vol. 14, no. 3, pp. 231–247, 1997.
+             Robots Syst., 2019, pp. 8238–8245.                                              [31] Z. Farkas, G. Bartels, T. Unger, and D. E. Wolf, “Frictional coupling
+        [12] M. Macklin, K. Erleben, M. Müller, N. Chentanez, S. Jeschke, and Z.                  between sliding and spinning motion,” Phys. Rev. Lett., vol. 90, no. 24,
+             Corse, “Local optimization for robust signed distance field collision,” Proc.        2003, Art. no. 248302.
+             ACM Comput. Graph. Interactive Techn., vol. 3, no. 1, pp. 1–17, Apr. 2020.      [32] R. Tedrake, “Drake: Model-based design in the age of robotics and machine
+        [13] M. Tang, D. Manocha, M. A. Otaduy, and R. Tong, “Continuous penalty                  learning,” 2021. [Online]. Available: https://medium.com/toyotaresearch/
+             forces,” ACM Trans. Graph., vol. 31, no. 4, pp. 1–9, Jul. 2012.                      robotics/home
+
+
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 22,2026 at 05:16:07 UTC from IEEE Xplore. Restrictions apply.
+

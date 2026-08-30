@@ -1,0 +1,1284 @@
+           The International Journal of
+              Robotics Research
+                                                            http://ijr.sagepub.com
+
+
+
+A Unified Passivity-based Control Framework for Position, Torque and Impedance Control of Flexible
+                                         Joint Robots
+                                Alin Albu-Schäffer, Christian Ott and Gerd Hirzinger
+                            The International Journal of Robotics Research 2007; 26; 23
+                                         DOI: 10.1177/0278364907073776
+
+                                   The online version of this article can be found at:
+                                  http://ijr.sagepub.com/cgi/content/abstract/26/1/23
+
+
+                                                                       Published by:
+
+                                                       http://www.sagepublications.com
+
+                                                                        On behalf of:
+
+
+                                                                   Multimedia Archives
+
+
+
+           Additional services and information for The International Journal of Robotics Research can be found at:
+
+                                              Email Alerts: http://ijr.sagepub.com/cgi/alerts
+
+                                         Subscriptions: http://ijr.sagepub.com/subscriptions
+
+                                     Reprints: http://www.sagepub.com/journalsReprints.nav
+
+                                Permissions: http://www.sagepub.com/journalsPermissions.nav
+
+
+
+
+                                       Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                  © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+Alin Albu-Schäffer
+Christian Ott
+                                                                                             A Unified Passivity-
+Gerd Hirzinger                                                                               based Control
+Institute of Robotics and Mechatronics
+German Aerospace Center (DLR), Germany                                                       Framework for
+Alin.Albu-Schaeffer@dlr.de
+Christian.Ott@dlr.de                                                                         Position, Torque
+Gerd.Hirzinger@dlr.de
+                                                                                             and Impedance
+                                                                                             Control of
+                                                                                             Flexible Joint
+                                                                                             Robots
+
+
+Abstract                                                                                     1. Introduction
+                                                                                             The currently growing research interest in application fields
+This paper describes a general passivity-based framework for the
+                                                                                             such as service robotics, health care, space robotics, or force
+control of flexible joint robots. Recent results on torque, position,
+                                                                                             feedback systems has led to an increasing demand for light
+as well as impedance control of flexible joint robots are summa-
+                                                                                             robot arms with a load to weight ratio comparable to that
+rized, and the relations between the individual contributions are
+                                                                                             of human arms. These manipulators should be able to per-
+highlighted. It is shown that an inner torque feedback loop can be
+                                                                                             form compliant manipulation in contact with an unknown
+incorporated into a passivity-based analysis by interpreting torque
+                                                                                             environment and guarantee the safety of humans interacting
+feedback in terms of shaping of the motor inertia. This result, which
+                                                                                             with them. A major problem specific to the implementation
+implicitly was already included in earlier work on torque and posi-
+                                                                                             of lightweight robot concepts is the inherent flexibility in-
+tion control, can also be used for the design of impedance controllers.
+                                                                                             troduced into the robot joints. Consequently, the success in
+For impedance control, furthermore, potential energy shaping is of
+                                                                                             the above mentioned robotics fields is strongly dependent on
+special interest. It is shown how, based only on the motor angles,
+a potential function can be designed which simultaneously incorpo-
+                                                                                             the design and implementation of adequate control strategies
+rates gravity compensation and a desired Cartesian stiffness relation
+                                                                                             which can:
+for the link angles. All the presented controllers were experimentally                              • compensate for the weakly damped elasticity in the
+evaluated on DLR lightweight robots and their performance and                                         robot joints in order to achieve high performance mo-
+robustness shown with respect to uncertain model parameters. Ex-                                      tion control,
+perimental results with position controllers as well as an impact
+experiment are presented briefly, and an overview of several appli-                                 • provide the desired Cartesian compliant behavior of the
+cations is given in which the controllers have been applied.                                          manipulator,
+KEY WORDS—flexible joint robots, torque feedback,                                                   • enable robust and fast manipulation in contact with un-
+passivity-based control, impedance control, active vibration                                          known passive environments,
+damping
+                                                                                                    • provide safety and dependability in interaction with
+                                                                                                      humans.
+The International Journal of Robotics Research                                                  It is commonly recognized that these control goals require
+Vol. 26, No. 1, January 2007, pp. 23-39
+                                                                                             sensing capabilities that exceed the classical position mea-
+DOI: 10.1177/0278364907073776
+©2007 SAGE Publications                                                                      surement of industrial robots. The solution chosen in the case
+Figures appear in color online: http://ijr.sagepub.com                                       of the DLR lightweight robots (Figure 1) was to provide the
+
+                                                                                                                                                          23
+                                               Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                          © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+24   THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+
+
+Fig. 1. The third generation of DLR lightweight robots, LWRIII. Left: teaching a peg in hole application at the Automatica
+robotic fair. Right: LWRIII with the DLR hand holding an egg. A schematic representation of one flexible joint is added.
+
+
+
+
+joints with torque sensors in addition to motor position sen-                          stability also for the tracking case (Spong 1987; Brogliato
+sors (Hirzinger et al. 2001). The joint torque sensors play an                         et al. 1995; Lin and Goldenberg 1995; De Luca and Lucibello
+essential role both for active vibration damping during free                           1998; Lozano et al. 2000; Ott et al. 2002). These controllers,
+motion and for compliance and safe interaction control. Ad-                            however, require as a state vector the link side positions up
+ditionally, a 6 dof force–torque sensor was mounted on the                             to their third derivative and/or a very accurate robot model.
+robot wrist. The position control problem for flexible joint                           For the DLR robots these approaches resulted in only mod-
+robots has been treated extensively in the robot control lit-                          erate performance and robustness. The situation with back-
+erature (Spong 1987; Tomei 1991; Brogliato et al. 1995; De                             stepping-based controllers is similar to that of decoupling-
+Luca 2000; Lin and Goldenberg 1995). However, the prob-                                based approaches. On the other hand, singular perturbation-
+lem of compliant motion control for interaction with unknown                           based controllers are easy to implement, but their performance
+environments and with humans has been addressed only re-                               is theoretically and practically limited to the case of relatively
+cently during consideration of robot flexibility (Goldsmith                            high joint stiffness. In order to cope with parameter uncer-
+et al. 1999; Zollo et al. 2005; Ott et al. 2004; Albu-Schäffer                         tainty, adaptive extensions have been proposed for most con-
+et al. 2004b). The relevance of the topics becomes clear when                          troller types (Spong 1989; Nicosia and Tomei 1992; Lin and
+looking at the latest hardware developments, where elasticity                          Goldenberg 1995; Spong 1995, Brogliato et al. 1995; Zhu
+is deliberately introduced into the joints in order to increase                        and De Schutter 1999; Yim 2001; Ott et al. 2002), but even
+the interaction performance and safety of robots (Morita et al.                        those methods are usually sensitive to unmodeled dynamics.
+1999; Zinn et al. 2004; Bicchi et al. 2003).                                           For the DLR lightweight robots, we preferred the passivity-
+    Due to the fact that the model structure is more complex                           based approach described below, because it is based only on
+than for rigid robots, there was still a gap between theoretical                       the available motor position and joint torque signals, as well
+solutions (which often require very accurate models and the                            as their first-order derivatives, and provides a high degree
+measurement or estimation of high order derivatives of the                             of robustness to unmodeled robot dynamics and in the con-
+joint position) and the practical solutions commonly chosen                            tact with unknown environments. The developed framework
+for dealing with joint elasticity, which are not always based                          is both theoretically sound and practically feasible, as demon-
+on firm theoretical background. Of course, the control liter-                          strated by the various applications realized so far using these
+ature for flexible joint robots contains various different pos-                        controllers. The work most closely related to this paper can
+sible approaches, especially to the position control problem.                          be traced back to Takegaki and Arimoto (1981) for the rigid
+The best performance is theoretically given by decoupling-                             robot case and contains, among others (Tomei 1991; Kelly
+based approaches, which provide a partially or even fully                              1997; Kelly and Santibanez 1998; Ortega et al. 1995; Lozano
+linearized closed loop system and ensure global asymptotic                             et al. 2000; Zollo et al. 2005). The main contributions of the
+
+
+
+
+                                      Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                 © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                                 Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots                          25
+
+
+present work are the embedding of torque feedback into the                                                The vector τ f ∈ Rn consists of the friction torques. The
+passivity-based control approach, leading to a full state feed-                                       analysis in this paper focuses on the effects of joint flexibility
+back controller1 , as well as the online gravity compensation                                         and therefore τ f will be neglected in the following. In practice
+approach which removes any lower bound restrictions on the                                            it is of course important to add also a friction compensation
+position feedback gains. Together with the physical interpre-                                         part to the controller in order to reduce the remaining friction
+tation of the torque feedback as inertia scaling, this makes it                                       to a minimum (torque feedback already reduces the friction
+possible to extend the concept from position control to joint                                         effect considerably, as will become clear in Section 3.2). For
+and Cartesian impedance control.                                                                      the DLR robots, we use a model-based friction compensation
+    In this paper we first describe the robot model and give an                                       (Albu-Schaffer 2001) and/or a motor disturbance observer.
+overview of the controller structures for the DLR robots in                                           The state vector (θθ , θ̇θ , τ , τ̇τ ) used for control throughout the
+Section 2, present the position controllers and sketch the pas-                                       paper contains the motor positions θ and the joint torques τ ,
+sivity based theoretical framework on which the controllers                                           both directly measured by sensors, as well as their first deriva-
+are based in Section 3, and go into some detail with the Carte-                                       tives θ̇θ and τ̇τ , which are computed numerically. Of course, in
+sian impedance controller in Section 4. Finally we provide                                            the absence of a torque sensor, the link side position q and
+experimental data in Section 5 in order to exemplify the con-                                         its derivative q̇q can be used instead2 , leading to the state vec-
+troller performance of both position and impedance control,                                           tor (θθ , θ̇θ , q , q̇q ) which is linearly related to the previous one
+and shortly describe some typical applications in Section 6.                                          trough (3).
+
+                                                                                                      2.2. Framework Overview
+2. Problem Statement and Framework Overview
+                                                                                                      The purpose of this paper is to introduce a novel control design
+2.1. Flexible Joint Model                                                                             and analysis framework, which allows the realization of var-
+                                                                                                      ious control structures known from the rigid robot case (such
+In order to include the effects of joint elasticity, a one dof joint
+                                                                                                      as position, force, impedance control) in the presence of sig-
+can be modelled by two inertias b and m which correspond to
+                                                                                                      nificant elasticity in the joints. The viability and robustness of
+the rotor and to the link respectively, and which are intercon-
+                                                                                                      the methods for a large range of applications is thereby a major
+nected by a spring-damper system with spring and damping
+                                                                                                      requirement. The framework is constructed from a passivity
+constants k and d (Figure 1). Therefore each joint becomes
+                                                                                                      control perspective, by giving a simple and intuitive physical
+a fourth-order system with the state given by, for example,
+                                                                                                      interpretation in terms of energy shaping to the feedback of
+the position and velocity of both rotor and link. In this way,
+                                                                                                      the different state vector components.
+for the entire robot, the following model structure based on
+Spong (1987) is assumed:                                                                                     • A physical interpretation of the joint torque feedback
+                                                                                                               loop is given as the shaping of the motor inertia.
+     M (qq )q̈q + C (qq , q̇q )q̇q + g (qq )        = τ + D K −1τ̇τ + τ ext (1)
+                                                                                                             • The feedback of the motor position can be regarded as
+                 B θ̈θ + τ + D K −1τ̇τ              = τm −τf                (2)                                shaping of potential energy.
+                                          τ         = K (θθ − q )           (3)
+                                                                                                      These interpretations enable a new view of a linear state feed-
+The vectors q ∈ R and θ ∈ R contain the link and motor
+                           n                   n                                                      back controller with gravity compensation as introduced in
+side positions, respectively. The first equation contains, on                                         Section 3.1 and enables a generalization in several directions.
+the left-hand side, the well known rigid body dynamics with                                           First, it allows the extension to variable control gains, as de-
+M (qq ) ∈ Rn×n , C (qq , q̇q )q̇q , and g (qq ) ∈ Rn being the inertia ma-                            scribed in Section 3.4, in order to increase control perfor-
+trix, the centripetal and Coriolis vector, and the gravity vector.                                    mance. Moreover, it allows the implementation of impedance
+In contrast to the rigid case, on the right-hand side one has                                         control in Cartesian coordinates (Section 4), by changing only
+the torque from the spring-damper system, denoted also by τ a                                         the nature of the desired (shaped) potential energy through the
+later on in the paper τ a = τ +D       DK −1τ̇τ = K (θθ −qq )+D D (θ̇θ −q̇q ).                        motor position feedback and expressing it in Cartesian coor-
+The vector τ ∈ R represents the spring torques as defined by
+                   n                                                                                  dinates, as done in the rigid robot case. The torque loop can
+(3) and τ ext ∈ Rn are the external torques acting on the robot.                                      be independently designed in this case (as well as in the joint
+K = diag(ki ) ∈ Rn×n is the diagonal, positive definite joint                                         impedance control case) for maximal performance in terms
+stiffness matrix, and D = diag(di ) ∈ Rn×n is the diagonal pos-                                       of reducing motor inertia and friction. For all proposed con-
+itive semi-definite joint damping matrix. The spring-damper                                           trollers, a Lyapunov stability analysis can be done easily using
+torque is related to the motor torque τ m ∈ Rn through another                                        storage functions from the passivity representation as candi-
+second-order equation (2), involving the diagonal, positive                                           date Lyapunov functions. In order to preserve passivity, the
+definite motor inertia matrix B = diag(bi ) ∈ Rn×n .                                                  2. However, an accurate value of the torque is crucial for controller perfor-
+                                                                                                      mance and its estimation through (3) can be unsatisfactory in the presence of
+1. In the references cited above, only motor position feedback is considered.                         small offsets or other calibration errors of the position sensors.
+
+
+
+
+                                                        Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                                   © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+26     THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+potential energy is shaped based only on motor position. Spe-                                      3.2. Joint Torque Control: Shaping the Actuator Kinetic
+cial effort is therefore needed in order to exactly satisfy the                                    Energy
+control specifications expressed in terms of the link position
+                                                                                                   In order simplify the analysis and to be able to generalize the
+(such as desired tip position or Cartesian elasticity). This is
+                                                                                                   joint level approach also to Cartesian coordinates, the idea of
+reflected in the more involved computations needed for im-
+                                                                                                   interpreting the joint torque feedback as the shaping of the
+plementation of the Cartesian controller from Section 4. The
+                                                                                                   motor inertia plays a central role (Ott et al. 2004). It enables
+main idea is to define an auxiliary position variable which is
+                                                                                                   one to use directly the torque feedback within the passiv-
+a function of θ only (in order to preserve passivity), but is
+                                                                                                   ity framework and conceptually divides the controller design
+statically equivalent to the link side position q . After under-
+                                                                                                   into two steps, one related to torque feedback and the other to
+standing this idea, the reader may skip at first reading the rest
+                                                                                                   position feedback. However, in contrast to singular perturba-
+of the section containing the technical details and the passivity
+                                                                                                   tion approaches, the analysis does not require the two loops
+analysis and continue with the experimental part.
+                                                                                                   to have different time scales, which would require very high
+                                                                                                   bandwidth for the torque controller in order to achieve good
+                                                                                                   overall performance.
+3. Joint Level Torque and Position Control                                                             Consider a torque feedback of the form
+In the following we summarize the approaches adopted for                                                             = B B −1     I − B B −1  τ + D K −1τ̇τ ).
+                                                                                                            τm             θ u + (I       θ )(τ                             (6)
+DLR robots for joint level torque and position control and
+give the unifying, passivity-based view of the problem, which                                      Herein u ∈ Rn is an intermediate control input and B θ is
+allows further generalization to Cartesian impedance control.                                      a diagonal, positive definite matrix, such that bθ i < bi . The
+                                                                                                   torque controller leads together with (2) to
+3.1. Passivity-based Joint Position Control                                                                                   B θ θ̈θ + τ + D K −1τ̇τ    = u                (7)
+The starting point in the control development was a joint state                                    Comparing (2) with (7) it is clear that the effect of the torque
+feedback controller for regulation tasks given by                                                  controller is that of reducing the motor inertia to B θ for the
+                                                                                                   new subsystem with input u .4
+            τm     =      −K
+                           K P θ̃θ − K Dθ̇θ                                                           In order to be able to effectively damp the torque dynamics,
+                           K T (gg (qq d ) − τ ) − K S τ̇τ + g (qq d )
+                          +K                                                            (4)        (6) can be replaced by a more general version of the torque
+                                                                                                   controller:
+with K P , K D , K T , and K S being positive definite diagonal
+matrices and with a gravity compensation g (qq d ) based on the                                                           τm       = B B −1
+                                                                                                                                         θ u + τ + D K τ̇
+                                                                                                                                                         −1
+                                                                                                                                                            τ               (8)
+                                                                                                                                            −1          −1
+desired position q d . The error θ̃θ = θ − θ d is computed using                                                                     −BB B θ (ττ + D s K τ̇τ )
+a desired value
+                                                                                                   whereD D s is an independent diagonal gain matrix for the torque
+                                           −1
+                        θ d = q d + K g (qq d ),                                        (5)        derivative feedback. This is basically a PD torque controller,
+                                                                                                   written in a form which reflects the given physical interpreta-
+This constitutes an extension of the PD controller from Tomei                                      tion. In this case, the new motor dynamics is given by
+(1991) to a full state feedback. Within this section, free motion
+                                                                                                                             B θ θ̈θ + τ + D s K −1τ̇τ   = u                (9)
+of the robot is assumed, i.e., τ ext = 0 . Under some conditions
+related to the minimal eigenvalues of K P and K D (see Sec-                                        Usual values for the ratio B B −1     for the DLR lightweight
+                                                                                                                                      θ
+tion 3.3 and Appendix B), the controller together with the                                         robots are between 4 and 6 for a compliant behaviour, while
+motor side dynamics (2) can be shown to provide a passive                                          lower values are chosen, e.g., for position control, when high
+subsystem, which in turn leads to passivity of the entire closed                                   stiffness is desired. This ratio (and thus the achievable band-
+loop system3 (Albu-Schäffer et al. 2001; Albu-Schäffer 2002),                                      width of the torque controller) is determined mainly by the
+as sketched in Figure 2. In Albu-Schäffer (2002) it was ex-                                        noise level of the torque sensors5 . Notice that the motor fric-
+emplified that by adequately designing the controller gains                                        tion is also reduced by the torque feedback, the term τ f from
+K P , K D , K T , and K S , the structure can be used to imple-                                    (2) would appear in this equation scaled down by B θ B −1 .
+ment a torque, position or impedance controller on joint level
+(see also Section 3.3). The controller is reformulated and an-                                     4. The controller also scales down by the factor B θ B −1 any perturbation
+alyzed in the next section in order to allow generalization to                                     torque acting on motor side (e.g., the friction torque).
+                                                                                                   5. Notice, however, that for the flexible joint case, the torque represents a
+the Cartesian case.                                                                                state of the system and is therefore quite smooth, such that a simple first-
+                                                                                                   order low pass filter with cut-off frequency 250 Hz can be used for the DLR
+3. Passivity is given in this case with respect to the input–output pair {ττ a , q̇q }.            robots.
+
+
+
+
+                                                  Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                             © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                    Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots                                    27
+
+
+
+
+Fig. 2. Representation of the position controlled robot as a connection of passive blocks. The spring torque τ is measured by
+a torque sensor and the motor position θ by an encoder. The derivatives are obtained by numerical differentiation.
+
+
+
+
+3.3. Motor Position-based Feedback: Shaping the Potential                                with w = (θθ , q ) and with UP (ww ) = U (ww ) + Us (θθ ) being the
+Energy                                                                                   sum of the potential energies of the robot and of the controller.
+                                                                                         The derivative of V (w    w ) along the system trajectories in the
+                                                                                                               w , ẇ
+First notice that for the control at joint level, a controller of
+                                                                                         case of the controller (8) is given (see Appendix A)
+the form
+               u = −K
+                    K θ θ̃θ − D θ θ̇θ + g (qq d )                                                                                T
+                                                                             (10)                         w) =
+                                                                                                     V̇1 (ẇ               −θ̇θ D θ θ̇θ − (θ̇θ − q̇q )T D (θ̇θ − q̇q ) +
+                                                                                                                             T
+with θ̃θ = θ − θ d and K θ , D θ being positive definite gain                                                                  D − D s )(θ̇θ − q̇q ).
+                                                                                                                          θ̇θ (D                                           (12)
+matrices, is passive with respect to the input–output pair
+ u, θ̇θ }. Taking into consideration the passivity of all other
+{u                                                                                       Since the linearization of the system around a desired equi-
+subsystems, this enables the conclusion of passivity for the                             librium point w d is controllable, a linear full state feedback
+entire closed loop system. Actually, the controller (6), (10)                            controller (with gains that can be chosen to arbitrarily as-
+can be shown to be equivalent to the formulation (4), with                               sign eigenvalues for the linearized plant around the desired
+K P = B B −1   θ K θ , K D = B B θ D θ , K T = B B θ − I , and
+                                   −1                −1
+                                                                                         configuration, at least in principle) is indeed often used in
+K S = (B   B B θ − I )D
+               −1            −1
+                        DK . For the torque controller (8) one                           practice in order to increase the local performance of stan-
+has in turn K S = (B        θ D s − D )K
+                        B B −1         K −1 . Based on these pas-                        dard (PD) controllers for robots with joint flexibility (Lückel
+sivity properties, asymptotic stability can be shown for the                             et al. 1993; Stelter 2001). For constant control gains, the anal-
+regulation case if some minimal bounds on K θ (and also D θ                              ysis done above legitimates this choice also from the point of
+for controller (6)) are satisfied, as described in Appendix A.                           view of global asymptotic stabilization. However, in order to
+   The controller provides a shaping of the potential energy                             further increase performance, the gains of the controller are
+based only on the motor position θ , such that q d becomes                               sometimes chosen based on gain scheduling, using the actual
+the only equilibrium point of the potential function. This idea                          motor configuration θ as a scheduling variable. The design of
+will be extended to the Cartesian impedance control case in                              the gains then tries to satisfy the following criteria:
+Section 4.
+                                                                                                • Minimizing the response time for a given robot config-
+3.4. Design of Variable Control Gains                                                             uration
+
+As shown in Appendix A, the Lyapunov function for the po-                                       • Provide the desired (well damped) transient behavior
+sition controller is given by
+                  1 T                    T                                                      • Limit the control gains to certain (experimentally deter-
+   w , ẇ
+V (w   w)    =      (q̇q M (qq )q̇q + θ̇θ B θ θ̇θ )                (11)                           mined) bounds K i min < K i < K i max , which are influ-
+                  2
+                                                        wd )
+                                                   ∂UP (w                                         enced by the signal-noise level, unmodeled dynamics,
+                  +UP (w w ) − UP (w  wd ) −                  w − w d ),
+                                                             (w                                   actuator saturation, friction uncertainty, etc.
+                                                     ∂ww
+
+
+
+                                           Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                      © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+28     THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+The stability analysis can easily be extended in order to pro-                                      along the desired motion, the feed-forward command u ff can
+vide a theoretically sound framework also for the case of vari-                                     be computed as
+able gains. For this, first notice that the matrices D θ and D s
+enter only V̇ (w  w , ẇ
+                      w ) and not V (w
+                                     w , ẇ
+                                         w ). Consequently the anal-                                                               u ff = B θ θ̈θ d + τ a d .                 (18)
+ysis is valid without modifications if these gains are dependent
+on the motor side position, i.e., D θ (θθ ), and D s (θθ ). Moreover,                               The feedforward command includes through θ̈θ d the deriva-
+notice that B θ can be chosen state dependent, as B θ (θθ ), if the                                 tives of q d up to fourth order, which therefore have to be
+controller contains an additional term Ḃ     B θ (θθ )θ̇θ . This term can                          provided as smooth functions of time. In this case, (14) is
+be seen in analogy to the centripetal and Coriolis vector in                                        replaced by
+(1). It is needed in order to cancel in V̇ (w      w , ẇ w ) the term re-
+lated to the variation of the virtual motor side inertia B θ (θθ ).                                                         u =            K θ θ̃θ − D θ (θθ )θ̃θ˙ + u ff ,
+                                                                                                                                          −K                                  (19)
+Finally, also a configuration dependent gain K θ can be cho-
+sen if K θ (θθ )θθ is integrable6 . This, however, is difficult to be                               with θ̃θ˙ = θ̇θ − θ̇θ d . Only local stability results along the tra-
+satisfied for gains resulting from a general linear design. In                                      jectory can be shown for such a controller. This is, however,
+conclusion, a possible design procedure is to define a con-                                         practically sufficient for trajectory tracking with high gains
+troller of the form                                                                                 K θ and initial tracking error close to zero. For global track-
+                                                                                                    ing convergence, a controller has to include also the higher
+     τm      = B B −1
+                   θ (θ   u + τ + D K −1τ̇τ
+                       θ )u                                            (13)                         derivatives of q , as mentioned in Section 1.
+                      −1
+                                                                    
+               −B                           K −1τ̇τ ) + Ḃ
+                 B B θ (θθ ) (ττ + D s (θθ )K           B θ (θθ )θ̇θ
+       u     =       K θ θ̃θ − D θ (θθ )θ̇θ + g (qq d )
+                    −K                                                                 (14)         4. Impedance Control
+
+where only K θ is constant and all the other gains are                                              While the structure presented so far can be effectively used for
+state dependent, resulting from a classical linear design.                                          position control, it has two major drawbacks when used for
+Then the Lyapunov function as well as its derivative re-                                            impedance control. First, as mentioned in Appendix A, some
+main unchanged, except for the replacement of K θ , B θ , D s                                       minimal values for K θ (or K P ) have to be ensured in order to
+by K θ (θθ ), B θ (θθ ), D s (θθ ).                                                                 prove the asymptotic stability. This is related to the fact that the
+   Alternatively, K θ θ̃θ can be replaced in (14) by the derivative                                 gravity compensation is done based on the desired position.
+of any potential function Us θ (θθ ) which leads to an unique                                       For impedance control, however, the desired stiffness may be
+equilibrium at θ d :                                                                                arbitrarily close to zero, making gravity compensation based
+                                                                                                    on desired position not meaningful. Second, the desired stiff-
+                                ∂Us θ (θθ )                                                         ness relation can be satisfied only locally by controllers of the
+               u     =      −               − D θ (θθ )θ̇θ + g (qq d )                 (15)
+                                  ∂θθ                                                               type given by (10), due to additional variation of the gravity
+                                                                                                    term and, in the Cartesian version, of the Jacobian. In order
+3.5. Tracking Performance                                                                           to see this more clearly, consider the equilibrium equations7
+
+In De Luca (2000) it was mentioned that a simple motor side                                                                      K (θθ − q )           = g (qq ) − τ ext
+PD controller can be used together with appropriate feed-                                                                K (θθ − q ) + K θ θ̃θ         = 0
+forward terms also for trajectory tracking. The position con-
+troller developed above can be applied in exactly the same                                          of the robot with the controller (10). By eliminating θ , one
+way, having the advantage of additionally providing an im-                                          obtains
+proved disturbance rejection performance due to the torque
+feedback.                                                                                                                            K + K θ )−1K θ (qq − θ d )
+                                                                                                                τ ext = g (qq ) + K (K
+    Using (1) with τ ext = 0, and (3), the desired motor position
+θ d can be obtained from the relations                                                              The output stiffness K q which results for this controller is thus
+
+                 K θ d + D θ̇θ d = K q d + D q̇q d + τ a d ,                                                             ∂ττ ext   ∂gg (qq )
+                                                                                       (16)                   Kq =               =                K + K θ )−1K θ ,
+                                                                                                                                             + K (K                           (20)
+                                                                                                                          ∂qq        ∂qq
+           τ a d = M (qq d )q̈q d + C (qq d , q̇q d )q̇q d + g (qq d )                 (17)
+                                                                                                    and is hence position dependent. In the next subsection an
+Since D and K are diagonal matrices, θ d can be computed                                            approach is presented, which overcomes the mentioned short-
+for each joint separately and can be implemented online as                                          comings. The main idea is to design the outer loop by intro-
+linear filtering after computing τ a d . From (6), (7) evaluated                                    ducing a new control variable q̄q , which is a function of the
+6. Then Us is given by this integral, which defines a potential for the vector                      7. Obtained for a constant τ ext from (1), (2), (3), (7), (10) by setting all
+                               s (θθ ) = K (θ
+field K θ (θθ )θθ such that ∂U∂θθ         θ θ )θθ .                                                 derivatives to zero.
+
+
+
+
+                                                   Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                              © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                          Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots                                 29
+
+
+collocated (motor) position θ only, but is equal to the noncol-                                usual solution adopted in Tomei (1991), Albu-Achäffer et al.
+located position q (link side) in every static configuration. An                               (2001), Zollo et al. (2005), Ott et al. (2004), Albu-Schäffer
+iterative computation method based on the contraction map-                                     et al. (2004b) in order to ensure the passivity in {q̇q , −ττ a } is
+ping theorem is used to calculate this variable. The outer loop                                to chose u as a function of θ and its derivative only. Then
+controller designed in this way can be shown to be passive,                                    the controller is passive with respect to {θ̇θ , −uu} and is further
+while exactly fulfilling all the steady state requirements for                                 connected to the passive motor side dynamics, thus satisfying
+the system. These include not only the desired equilibrium                                     the desired property9 . The basic idea for the solution proposed
+position, but also the exact stiffness relationship between the                                in this paper uses the fact that, under some mild conditions,
+end-effector position and the external force. The approach can                                 there is a one to one mapping θ 0 = h (qq 0 ) at equilibrium points
+be interpreted as a shaping of the potential energy of the robot.                              (in our case through (24)) between θ 0 and q 0 :
+
+4.1. The Cartesian Case: Implementing Exact Desired                                                               θ0          = h (qq 0 ) = q 0 + K −1l (qq 0 ),              (25)
+Stiffness                                                                                               with l (qq 0 )        = −JJ (qq 0 )T K x x̃x (qq 0 ) + g (qq 0 ) .    (26)
+In this section, the more general case of Cartesian impedance                                      The proposed solution consists in replacing q in (21) with
+control is treated. In contrary to position or force control in                                its static equivalent q̄q (θθ ) = h −1 (θθ ), which is based only on the
+which the control goal is to follow a given setpoint (for po-                                  motor position. One obtainins the following controller, which
+sition or force respectively), the goal of impedance control is                                is statically equivalent to (21):
+to achieve a closed loop behavior which resembles a given
+impedance behavior (Hogan 1985). The analysis treats a de-                                                                   K x x̃x (q̄q ) + D x J (q̄q )θ̇θ ) + g (q̄q )
+                                                                                                            u = −JJ (q̄q )T (K                                                (27)
+sired impedance which is characterized by a desired stiffness
+                                                                                                    x̃x (q̄q ) = f (q̄q ) − x d .                                             (28)
+and damping behavior, while link side inertia shaping is not
+treated. This type of impedance control is sometimes also re-
+                                                                                               Since q̄q (θθ 0 ) = q 0 holds at rest, it follows that the equilibrium
+ferred to as compliance control. The joint level impedance
+                                                                                               (23),(24) and thus the desired static relation F ext = K x x̃x (qq 0 )
+controller can be easily derived from it. In analogy to rigid
+                                                                                               is still valid for this new controller. This basic idea was intro-
+robot impedance control (Hogan 1985), a first choice for the
+                                                                                               duced in Ott et al (2004) and Albu-Schäffer et al. (2004) for
+outer loop controller would be:
+                                                                                               the case of gravity compensation only and was generalized in
+            u = −JJ (qq )T (K
+                            K x x̃x (qq ) + D x ẋx (qq )) + g (qq ) ,             (21)        Albu-Schäffer (2004a) in order to provide an exact link side
+                                                                                               Cartesian stiffness. The closed loop dynamics of the system
+     x̃x (qq ) = f (qq ) − x d .                                                   (22)
+                                                                                               results from (1), (7), and (27):
+Herein, x d is the constant desired end-effector pose and
+                                                                                                               M (qq )q̈q + C (qq , q̇q )q̇q + g (qq )        = τ a + τ ext   (29)
+x (qq ) = f (qq ) is the end-effector pose computed by the direct
+kinematics map f . J (qq ) = ∂ff∂qq(qq ) is the manipulator Jacobian.                              B θ θ̈θ − l (q̄q ) + J (q̄q )T D x J (q̄q )θ̇θ + τ a       = 0             (30)
+K x and D x are positive definite matrices for the desired stiff-
+ness and damping. The equilibrium conditions are then given                                    REMARK 1. While in general the inverse function h−1 can-
+by8                                                                                            not be computed analytically, for a given θ it is possible to
+                                                                                               approximate the value q̄q = h−1 (θθ ) with arbitrary accuracy by
+              K (θθ 0 − q 0 ) = g (qq 0 ) − J (qq 0 )T F ext                       (23)        iteration in the case that the mapping T (qq ) := θ −K
+                                                                                                                                                    K −1l (qq ) is a
+              K (θθ 0 − q 0 ) + J (qq 0 )T K x x̃x (qq 0 ) = g (qq 0 ),            (24)                                         T  q
+                                                                                               contraction. The mapping (q ) has then a unique fixed-point
+                                                                                               q ∗ = T (qq ∗ ) = q̄q . The iteration
+where the relation τ ext = J (qq 0 )T F ext between the external
+joint torque and the external force F ext acting from the envi-                                                                    q̂q n+1     = T (q̂q n )                   (31)
+ronment on the robot end-effector was used. Obviously, this
+leads to the desired stiffness relation F ext = K x x̃x in any equi-                           converges thus for every starting point10 to this fixed-
+librium position as long as J (qq 0 ) has full column rank.                                    point, as follows from the contraction mapping theorem (see
+    It is well known that the system (1) is passive with respect                               Vidyasagar 1978):
+to the input–output pair {ττ a +ττ ext , q̇q }. This can be shown with
+the storage function Sq = 21 q̇q T M (qq )q̇q +Vg (qq ), where Vg (qq ) is                                                     lim q̂q n = q ∗ = q̄q .                        (32)
+                                                                                                                              n→∞
+a potential function for g (qq ). In order to ensure the passivity of
+the complete system, we are now looking for a control law for                                  9. In order to have an overview of the causality of the various blocks as well as
+u which determines (7) to be passive in {q̇q , −ττ a }. Obviously,                             on the signs of the involved input–output pairs, a first short look at Figure 3,
+(21) does not satisfy the required passivity condition. The                                    displaying the final controller structure, might be useful.
+                                                                                               10. E.g., one can choose q̂q 0 = θ or alternatively q̂q 0 equal to the result of the
+8. θ 0 and q 0 stand for the equilibrium values of θ and q .                                   iteration during the previous control cycle.
+
+
+
+
+                                                 Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                            © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+30     THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+In order for T (qq ) to be a contraction, it is sufficient to show                                in q . It can be solved numerically in order to obtain q̄q (θθ ) if a
+that there exists an α ∈ R satisfying:                                                            condition of the type (33) is satisfied, with
+                      
+            ∂ll (qq )             1                                                                                     l 1 (qq 0 )   =      K q d q̃q 0 + g (qq 0 ) .
+                                                                                                                                                −K                                         (37)
+                      
+            ∂qq  ≤ α < ||K      K −1 ||
+                                              ∀qq ∈ Rn .       (33)
+                                                                                                  The resulting controller, namely
+This implies the following inequality:
+                                                                                                                  K q d (q̄q (θθ ) − q d ) − D θ θ̇θ + g (q̄q (θθ )),
+                                                                                                             u = −K                                                                        (38)
+     ||ll (qq 1 ) − l (qq 2 )|| ≤ α||qq 1 − q 2 ||,    ∀qq 1 , q 2 ∈ R     n
+                                                                                     (34)
+                                                                                                  is an extension of (10), where online gravity compensation
+                                                                                                  was used instead of a compensation based on the desired po-
+As a consequence of (34) it follows that
+                                                                                                  sition and which now exactly implements the desires stiffness
+       ||T
+         T 1 (qq 1 ) − T 1 (qq 2 )||   ≤     ||KK −1 ||||ll (qq 1 ) − l (qq 2 )||                 matrix K q d .
+                                       <     ||qq 1 − q 2 ||
+                                                                                                  4.3. Passivity Analysis of the Cartesian Impedance
+The condition (33) can always be fulfilled for a sufficiently                                     Controller
+small ||K K x ||. A physical interpretation can be given as follows:                              The passivity of (30) with respect to {q̇q , −ττ a } can be shown
+ignoring gravity, the condition states that the desired Cartesian                                 using the following storage function:
+stiffness, transformed to joint space (Chen and Kao 2000) may
+not exceed the joint stiffness. This is intuitive, since the overall                                                     1 T            1
+                                                                                                      Sθ         =         θ̇θ B θ θ̇θ + (θθ − q )T K (θθ − q ) − Vl¯(θθ ),                (39)
+stiffness results from the serial interconnection of the joint                                                           2              2
+stiffness and the controller stiffness and is therefore lower than
+any of the two. On the other hand, in the absence of external                                     where Vl¯(θθ ) is the potential function for l̄l (θθ ) = l (q̄q (θθ )). It
+forces, the condition states that the joint stiffness should be                                   should be mentioned that the potential function for l (q̄q (θθ ))
+                                                                                                                                                                     ∂V (θθ )
+high enough to sustain the robot in the gravity field if the                                      with θ as an argument is required in (39), satisfying ∂θl¯θ =
+motor is fixed, which is rather self-evident. In the following                                    l̄l (θθ )T = l (q̄q (θθ ))T . A potential function Vl (q̄q ) in q̄q , (with
+it is therefore assumed that q̄q is known exactly. In practice,
+                                                                                                     ∂Vl (q̄q )
+                                                                                                       ∂ q̄q
+                                                                                                                = l (q̄q )T ) can easily be found:
+good results are obtained by the first or second iteration step.
+                                                                                                                                  1 T
+In particular notice that by a first-order approximation with                                                        Vl (q̄q ) = − x̃x (q̄q )K
+                                                                                                                                             K x x̃x (q̄q ) + Vg (q̄q ) .                  (40)
+q̂q 0 = q d one would obtain the second version of the controller                                                                 2
+from Zollo et al. (2005).                                                                         In Albu-Schäffer et al. (2004a) it has been shown that the
+REMARK 2. From the remark above it follows that in order                                          required potential function Vl¯(θθ ) is related to Vl (q̄q ) through
+to preserve the passivity (and hence the robustness) of the                                                                           1
+presented control approach, the physical joint stiffness is an                                                                                        K −1l (q̄q (θθ )).
+                                                                                                           Vl¯(θθ ) = Vl (q̄q (θθ )) + l T (q̄q (θθ ))K                                    (41)
+                                                                                                                                      2
+upper bound for the achievable closed loop stiffness. There-
+fore, this controller is not well suited to systems which are                                     For robots with rotational joints, Vg (q̄q ) is upper bounded.
+designed to be very compliant, such as the series elastic ac-                                     By substituting (41) and (40) into (39), it follows that
+tuators (Pratt and Williamson 1995) for which an increase of                                      Sθ is bounded from below since all other terms are posi-
+the total stiffness has to be accomplished by control. However,                                   tive (quadratic). Thus Sθ represents an appropriate storage
+the method is a good choice for lightweight robotic structures                                    function.
+with cable-driven actuators or harmonic drive gears.                                                 The time derivative of (39) along the solutions of (30) is:
+                                                                                                                                T
+                                                                                                           Ṡθ       =                    D x J (q̄q )θ̇θ − (θ̇θ − q̇q )T D (θ̇θ − q̇q )
+                                                                                                                           −θ̇θ J T (q̄q )D
+4.2. Comparison with the Joint Impedance Control Version
+                                                                                                                           −q̇q τ a .
+                                                                                                                               T
+
+For the joint impedance control case, the desired equilibrium
+equations (23), (24) reduce to                                                                    The last term represents the exchanged power of the subsys-
+                                                                                                  tem and the other terms are negative definite dissipation terms.
+                      K (θθ 0 − q 0 ) = g (qq 0 ) − τ ext                            (35)         This shows that the subsystem is indeed passive with respect
+                      K (θθ 0 − q 0 ) + K q d q̃q 0 = g (qq 0 ),                     (36)         to {q̇q , −ττ a }. If the robot is contacting an environment which
+                                                                                                  is also passive (with respect to {q̇q , −ττ ext }), then the passiv-
+where K q d is the desired link side joint stiffness11 and q̃q 0 =                                ity of the entire system is given as a parallel and feedback
+q −qq d . The second relation provides again an implicit equation                                 interconnection of passive subsystems (Figure 3).
+                                                                                                     As already mentioned, the results of the passivity analy-
+11. The desired Cartesian stiffness K x is now replaced by K q d .                                sis have important implications for the robot interaction with
+
+
+
+                                                 Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                            © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots                        31
+
+
+
+
+Fig. 3. Representation of the Cartesian impedance controller as parallel and feedback interconnection of passive systems.
+
+
+
+
+the environment. Without going into details it should be men-                        desired Cartesian force F d can be achieved not only by using
+tioned that the storage functions from the passivity analysis                        impedance control and commanding an appropriate desired
+can be used also as a Lyapunov function for the proof of                             point beyond the contact surface (Hogan 1985), but also by
+asymptotic stability in the case of free motion (Albu-Schäffer                       setting the desired Cartesian stiffness to zero in the given di-
+et al. 2004a) for a non-redundant manipulator. For redundant                         rection, commanding a desired torque τ d = J T (q̄q )F  F d and
+manipulators such as the DLR lightweight robots all the pas-                         adding it to u in (27). Then the local torque controller is used
+sivity properties are valid, while only convergence of the tip                       to compensate for disturbances such as friction instead of a
+position is ensured by the Cartesian controller, the null-space                      Cartesian force controller.
+position can be arbitrary at rest. In order to ensure asymptotic                        Based on the torque interface, well known methods used
+convergence in the sense of Lyapunov to a certain joint con-                         to deal with singularities and redundancy can be adapted
+figuration, an additional null-space stiffness has to be added                       from the rigid case, e.g., from Khatib (1995). A redundancy
+(Albu-Schäffer et al. 2003).                                                         treatment within the singular perturbation framework was de-
+   A last comment on the type of resulting convergence prop-                         scribed in Albu-Schäffer et al. (2003).
+erties should be made. While for the joint impedance control
+case global convergence results can be obtained, only local
+statements can be made for the Cartesian case. One reason is                         5. Experimental Evaluation
+the fact that the contraction condition (33) is satisfied glob-
+ally for l 1 if the joint stiffness is higher than the (bounded)                     First, some experimental results regarding the position con-
+Hessian of the gravity potential energy, while it can be satis-                      trol are given for a rest to rest movement of joint 2 of the
+fied only locally for l . A second reason is more fundamental                        LWR III, with a rectangular velocity profile. Figure 4 shows
+and is related to the robot kinematics properties. Even in the                       a comparison between the controller defined by (19), (8) and
+non-redundant, nonsingular case, the Cartesian coordinates                           two PD controllers, which are obtained by setting B θ = B ,
+describe the configuration of the robot only locally (Burdick                        i.e., setting the feedback gains K T and K S for the torque
+1995). A cuspidal robot (Wenger 1998) can generally con-                             and the torque derivative to zero and using only the posi-
+verge to the same Cartesian pose but it may reach it with                            tion and velocity feedback. The higher order derivatives of
+(e.g., two) different joint configurations even without passing                      the desired trajectory in (18) have to be omitted due to the
+a singularity during such a reconfiguration.                                         discontinuity of the desired velocity signal. In order to have
+                                                                                     a direct correspondence to the PD controllers, all gains will
+4.4. Cartesian Force Command, Redundancy and                                         be also listed in the equivalent notations of (4), i.e., using
+Singularity Treatment                                                                 K P , K D , K T , K S ) instead of (B
+                                                                                     (K                                   B θ , D s , K θ , D θ ), see also Sec-
+                                                                                     tion 3.3 for the correspondence. The parameters of the joint are
+The way in which a Cartesian force can be implemented within                         b2 = 3.933 kgm2 , k2 = 21900 N/m, d2 = 9.62 Nm s/rad
+this framework (e.g., for Cartesian hybrid force-position con-                       and in the considered arm configuration the diagonal term of
+trol) should be mentioned here for sake of completeness. A                           the mass matrix is m22 = 7.45 kgm2 . The control gains used
+
+
+
+                                       Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                  © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+32   THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+
+
+                                                           100
+                                                                                           gravity torque                                                                             50                        gravity torque
+                                                                                           full state feedback                                                                                                  full state feedback
+                                                            50                             PD control                                                                                                           PD control
+
+
+
+
+                                                                                                                                                     torque [Nm]
+                           torque [Nm]
+
+
+
+
+                                                                                                                                                                                       0
+
+                                                             0
+
+                                                                                                                                                                                    −50
+                                                          −50
+
+
+                                                          −100                                                                                                                      −100
+                                                                 3   3.5        4               4.5                5                                                                       3   3.5      4           4.5               5
+
+
+
+
+                                                           0.6                                                                                                                       0.6
+                                                                                           commanded                                                                                                            commanded
+                                                           0.5                             full state feedback                                                                       0.5                        full state feedback
+                                                                                                                                                           motor velocity [rad/s]                               PD control
+                                 motor velocity [rad/s]
+
+
+
+
+                                                                                           PD control
+                                                           0.4                                                                                                                       0.4
+
+                                                           0.3                                                                                                                       0.3
+
+                                                           0.2                                                                                                                       0.2
+
+                                                           0.1                                                                                                                       0.1
+
+                                                             0                                                                                                                         0
+
+                                                          −0.1                                                                                                                      −0.1
+                                                                 3   3.5        4               4.5                5                                                                       3   3.5      4           4.5               5
+
+
+
+
+                                                          0.01                                                                                                                 0.015
+                                                                                           full state feedback                                                                                                  full state feedback
+                                                                                           PD control                                                                                                           PD control
+                                                                                                                                                                                    0.01
+                                                                                                                               link position error [rad]
+     link position error [rad]
+
+
+
+
+                                                     0.005
+
+                                                                                                                                                                               0.005
+                                                             0
+                                                                                                                                                                                       0
+
+                                       −0.005
+                                                                                                                                                                 −0.005
+
+
+                                                     −0.01                                                                                                                     −0.01
+                                                                 3   3.5       4                4.5                5                                                                       3   3.5      4           4.5               5
+                                                                            time [s]                                                                                                                 time [s]
+
+                                                                               a)                                                                                                                      b)
+
+
+
+Fig. 4. PD versus state feedback control. Left (a): the gains of the PD controller are identical to the position and velocity
+feedback gains of the state feedback controller. The PD controlled robot exhibits oscillations. Right (b): The gains of the PD
+controller are reduced, such that both controllers have the same link side stiffness. The PD controller has higher position
+errors and still some oscillations on the torque signal.
+
+
+
+
+                                                                                Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                                                           © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                       Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots                      33
+
+Table 1. Gains for the Position Controllers
+                                KT                                  KS                         KP                          KD                     Kθ      Dθ
+      State feedback                      2.0                      0.01                      12000                       811.0                    4000   270.3
+     PD from Fig. 4(a)                    0.0                      0.0                       12000                       811.0                   12000   811.0
+     PD from Fig. 4(b)                    0.0                      0.0                        4000                       270.3                    4000   270.3
+
+
+
+
+in the experiments are listed in Table 1. The gains K P and K D                             desired value of 4000 N/m. The remaining difference lies in
+of the PD controller in Figure 4(a) are the same as for the state                           the range of known stiction effects for this robot.
+feedback controller. The position error is in this case similar,
+but the PD controlled moves with unacceptable oscillations,
+as it can be observed on the torque signal. In Figure 4(b), the
+                                                                                            6. Applications
+position feedback for the PD controller is decreased in order
+                                                                                            In this section, some applications based on the presented con-
+to achieve the same link side stiffness, given by (20), as for
+                                                                                            trollers are shortly presented.
+the state feedback controller. It can be easily verified, that in
+this case both controllers have the same values for K θ and
+D θ . The response times of the state feedback controller and                               Piston Insertion
+of the PD controller from Figure 4(b) are similar, but for the                              Teaching by demonstration is a typical application for
+PD controller the position error is considerably larger and the                             impedance controllers. A practical demonstration was given
+oscillations are still present on the torque signal at the end of                           with the task of teaching and automatic insertion of a pis-
+the trajectory.                                                                             ton into a motor block. Teaching is realized by guiding the
+    Figure 5 compares a state feedback controller with fixed                                robot with the human hand (Figure 8). It was initially known
+gains with a variable gain controller on the first axis. During                             that the axes of the holes in the motor block were vertically
+this experiment, the second axis was moved from 90.0 deg                                    oriented. In the teaching phase, high stiffness components
+to 0.0 deg, causing a continuous decrease of the link inertia                               for the orientations were commanded (150 Nm/rad), while
+for the first axis from 10.277 kgm2 to 0.1 kgm2 . Although the                              the translational stiffness was set to zero. This allowed only
+fixed gain controller proves to work surprisingly well, one                                 translational movements to be demonstrated by the human
+can achieve higher bandwidth for low inertia by varying the                                 operator. In the second phase, the taught trajectory has been
+gains, as described in Section 3.4. In this way, the maximal                                automatically reproduced by the robot. In this phase, high val-
+available motor torque is better exploited.                                                 ues were assigned for the translational stiffness (3000 N/m),
+    A typical impact experiment with the 7-dof DLR-                                         while the stiffness for the rotations was low (60 Nm/rad). This
+lightweight robot II is described next, in order to illustrate                              enabled the robot to compensate for the remaining position
+the performance of the Cartesian impedance controller. For                                  errors. For two pistons, the total time for the assembly was
+the experiment a diagonal form of the Cartesian stiffness ma-                               6 s. In this experiment, the assembly was executed automati-
+trix K x , with the values of Table 2, was chosen. In the ex-                               cally four times faster than by the human operator holding the
+periment a desired trajectory zd (t) along the vertical z-axis of                           robot as an input device in the teaching phase (24 s), while
+the end-effector frame was commanded such that the robot                                    the free-hand execution of the task by a human requires about
+hit a wooden surface. During this impact, the Cartesian con-                                4 s (Extension 1). The insertion task has previously been im-
+tact force was measured by a 6-dof force-torque sensor12 . The                              plemented by using an industrial robot and a compliant force-
+measurement of the external forces was done here only for                                   torque sensor. Despite a well tuned Cartesian force controller,
+the evaluation, but is not needed for implementation of the                                 the insertion process had to be performed much slower, be-
+controller. Furthermore, the end-effector coordinate z(qq ) was                             cause of the well known control problems which occur in the
+computed from the link side angles q = θ +K    K −1τ . The result-                          case of hard contacts with conventional robots. Thus, the ad-
+ing motion z(qq ) and the contact force Fz of the end-effector in                           vantage of a compliant manipulator with stiffness control in
+z-direction are shown in Figure 6. In order to evaluate the re-                             assembly tasks is obvious.
+                                              Fz
+sulting impedance relationship, the ratio zd −z(qq)
+                                                    was computed
+                                  13
+as an estimation of the stiffness . This estimation is of course
+                                                                                            Wiping the Table
+only valid in the steady state. The result is shown in Figure 7.
+At the steady state the estimated stiffness nearly reaches the                              Here the demand for compliant behaviour of the robot arises
+12. A JR3-sensor was used, with a first- order analog filter at 500 Hz and no
+                                                                                            from reasons of safety for humans interacting with it, while
+additional digital filtering.                                                               the contact with the environment (table) was quite soft due
+13. Beginning at time 0.5s, when the robot movement started.                                to the cloth and hence not as challenging as in the case of
+
+
+
+                                              Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                         © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+34                                             THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+
+
+                                             40
+                                                                                                                                                                                    variable gain
+                  torque [Nm]
+
+
+
+
+                                             20                                                                                                                                     fix gain J=10kgm2
+                                              0
+
+                                        −20
+
+                                        −40
+                                                   0          5                           10                              15                               20                  25                        30
+
+                                             0.4
+                                                                                                                                                                                    desired trajectory
+            speed [rad/s]
+
+
+
+
+                                             0.2                                                                                                                                    variable gain
+                                                                                                                                                                                                     2
+                                              0                                                                                                                                     fix gain J=10kgm
+
+                                    −0.2
+
+                                    −0.4
+                                                   0          5                           10                              15                               20                  25                        30
+
+                                             0.5
+            position [rad]
+
+
+
+
+                                              0                                                                                                                                      desired trajectory
+                                                                                                                                                                                     variable gain
+                                                                                                                                                                                                         2
+                                                                                                                                                                                     fix gain J=10kgm
+                                    −0.5
+                                                   0          5                           10                              15                               20                  25                        30
+
+                                             0.1
+position error [rad]
+
+
+
+
+                                                                                                                                                                                    variable gain
+                                    0.05                                                                                                                                                            2
+                                                                                                                                                                                    fix gain J=10kgm
+                                              0
+
+                            −0.05
+
+                                    −0.1
+                                                   0          5                           10                              15                               20                  25                        30
+
+                                             15
+                       inertia m 22 [kgm ]
+             2
+
+
+
+
+                                             10
+
+                                              5
+
+                                              0
+                                                   0          5                           10                               15                              20                  25                        30
+                                                                                                                        time [s]
+
+Fig. 5. Fixed gain and variable gain controller for joint 1 of LWRII. The link inertia corresponding to the first joint is
+continuously decreased from 10.277 kgm2 to 0.1 kgm2 due to the simultaneous movement of joint 2. The variable gain
+controller has faster response time for low inertia.
+
+
+
+
+Table 2. Chosen Values for the Diagonal Cartesian Stiffness Matrix
+         x                   y                  z                 roll                                                                                                 pitch         yaw
+                                                       4000       4000                           4000                                300                                300          300
+                                                       Nm         Nm                              Nm
+                                                       rad        rad                             rad
+                                                       N           N                                N                                Nm                                 Nm           Nm
+                                                       m           m                                m                                rad                                rad          rad
+
+
+
+
+                                                                         Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                                                    © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                                      Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots             35
+
+
+                                                 360
+                                                                                                                                  commanded Position
+                                                                                                                                  measured Position
+                                                 340
+
+
+                       zd, z [mm]                320
+
+
+                                                 300
+
+
+                                                 280
+                                                    0              0.05                    0.1                 0.15                      0.2                    0.25
+                                                                                                         time [s]
+
+                                                  50
+
+                                                   0
+
+                                                 −50
+                    Force [N]
+
+
+
+
+                                                −100
+
+                                                −150
+
+                                                −200
+
+                                                −250
+                                                    0              0.05                    0.1                 0.15                      0.2                    0.25
+                                                                                                         time [s]
+
+
+Fig. 6. The upper plot shows the desired and measured end-effector motion in the z-direction during the impact experiment.
+In the lower plot the contact force in the z-direction is displayed.
+
+
+
+
+                                                9000
+
+                                                8000
+
+                                                7000
+                    Estimated Stiffness [N/m]
+
+
+
+
+                                                6000
+
+                                                5000
+
+                                                4000
+
+                                                3000
+
+                                                2000
+
+                                                1000
+
+                                                   0
+
+                                                   0               0.05                    0.1                 0.15                      0.2                    0.25
+                                                                                                         time [s]
+
+
+Fig. 7. Stiffness estimation during the impact experiment.
+
+
+
+
+                                                             Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                                        © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+36   THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+
+
+Fig. 8. Teaching phase for the automatic piston insertion
+using the lightweight robot II.                                                        Fig. 9. Table wiping with null space movement.
+
+
+
+
+piston insertion. The whole task was split into similar guid-
+ing and impedance control phases as in the piston insertion
+application. Figure 9 and Extension 2 show a demonstration
+at the Hannover fair in which the robot’s elbow is deflected
+within its null space. Using the Cartesian controller, the robot
+continues wiping the table and applying a constant force in
+the vertical direction while for the redundant null space mo-
+tion the robot has zero stiffness. For these experiments the
+Cartesian stiffness matrix was chosen as a diagonal matrix
+K x = diag[kt , kt , 0, kr , kr , kr ] with kt = 2000 N/m for the
+translational part and kr = 100 Nm/rad for the rotational part.
+The stiffness value corresponding to the vertical motion was
+set to zero, and a constant vertical force of −10 N was added
+to the Cartesian command instead in order to keep contact
+with the table.
+
+
+Opening a Door                                                                         Fig. 10. DLR lightweight robot II while opening a door.
+
+In another service robotics application we used the Cartesian
+impedance control of the DLR lightweight robot II in order
+to open a door. Here the arm was used in combination with a
+mobile platform and the DLR hand II, Figure 10, Extension 3.                           along a circularly shaped path with respect to a platform fixed
+    In this application, first, the door handle was manipulated                        frame. Additionally, the rotational stiffness was set to zero
+by a sequence of impedance controlled movements in order                               such that the end-effector orientation automatically adjusted.
+to open the door. During these motions the measurements of
+the joint torques provided an estimate of the contact force and                        7. Conclusions
+thus of the current contact state.
+   When the mobile platform finally moved through the door                             In this paper, a unified, passivity-based perspective was given
+hinge, the door was kept at a distance by impedance control                            to the problem of position, torque and impedance control of
+of the arm. Therefore, instead of using the stiffness term from                        flexible joint robots, at both joint and Cartesian level. These
+Section 4.1, in this stage the desired impedance was based                             methods are especially relevant for lightweight, compliant
+on an appropriate potential function, which has its minimum                            robots designed for service applications or for human–robot
+
+
+
+                                      Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                 © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                       Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots                            37
+
+
+interaction. A physical interpretation was given for the torque                             where the first term is compensating for the left side of (45) at
+                                                                                                                                          T
+controller and an energy shaping method was designed, which                                 the desired position, while Us (θ̃θ ) = 21 θ̃θ K θ θ̃θ is the potential
+is based only on motor position (collocated controller), but                                of the joint controller “spring” and is zero for θ = θ d . By
+which satisfies the static requirements formulated in terms of                                                             w ) = U (w
+                                                                                            using the further notation UP (w              w ) + Us (θθ ) with w =
+the robot end-effector. It is worth noting that the proposed en-                             θ  q
+                                                                                            (θ , ), the equilibrium equations of the controlled robot can
+ergy shaping method can be generalized to a broader class of                                be written in the simple form
+underactuated Euler–Lagrange systems (Albu-Schäffer et al.
+2005), namely to systems that can be stabilized by shaping                                                                w ) ∂UP (w
+                                                                                                                     ∂UP (w        wd )
+                                                                                                                             −          = 0.                          (48)
+the potential energy only. An important advantage of these                                                              w
+                                                                                                                       ∂w       ∂ww
+passivity-based controllers is the robustness with respect to                               Now consider finally the function
+uncertainties of the robot or load parameters, as well as to con-
+                                                                                                                                                      wd )
+                                                                                                                                                 ∂UP (w
+tact situations with unknown but passive environments. These                                                   w ) − UP (w
+                                                                                                     w ) = UP (w
+                                                                                                 VP (w                   wd ) −                             w − wd)
+                                                                                                                                                           (w         (49)
+properties were validated during numerous applications with                                                                                        ∂ww
+the DLR lightweight robots, the newest one involving a hu-                                  and notice that with this function, the stationary points of the
+manoid upper body system (Extension 4), as well as crash test                               system satisfy simply
+experiments for safety validation (Extension 5).
+                                                                                                                                     w)
+                                                                                                                                ∂VP (w
+                                                                                                                                        = 0.                          (50)
+                                                                                                                                   w
+                                                                                                                                  ∂w
+Appendix A
+                                                                                                                             w d ) = 0 holds and also that the
+                                                                                            It is directly verified that VP (w
+The well known stability analysis for PD control and gravity                                point w = w d is an extremal point of VP (w w ) due to ∂VP∂ww(ww d ) = 0
+compensation of flexible joint robots (Tomei 1991) directly                                 and therefore satisfies the system equilibrium equations. If the
+applies also to the case of the controller given by (6), (10). The                          Hessian of VP (w  w ), given by
+analysis is given in a new, more general form, which allows                                                                                          
+                                                                                                         ∂ 2 VP (w
+                                                                                                                 w)       K + Kθ        −KK
+a direct generalization to a wider class of Euler–Lagrange                                                           =                                           (51)
+                                                                                                              w2
+                                                                                                             ∂w             −KK       K + ∂gg∂q(qqq )
+systems with less control inputs than states. It was shown
+in Section 3.2 that the effect of the torque controller is to                               is positive definite, then w d is the only equilibrium point.
+reduce the motor inertia and that the dynamics of the torque                                This can always be satisfied for high enough gains K θ if the
+controlled robot can be written as                                                          lower-right sub-matrix is positive definite, implying that the
+                                                                                            robot is stiff enough to sustain its own weight in the gravity
+    M (qq )q̈q + C (qq , q̇q )q̇q + g (qq ) = τ + D K −1τ̇τ + τ ext             (42)        field. Then, by adding the pseudo14 kinetic energy Tθ (w       w) =
+                                                                                                                                                       w , ẇ
+                                                                                                                  T
+                                  −1
+              B θ θ̈θ + τ + D K τ̇τ = u .                                       (43)        1
+                                                                                            2
+                                                                                              (q
+                                                                                               q̇ T
+                                                                                                    M  q
+                                                                                                      (q )q
+                                                                                                          q̇ + θ
+                                                                                                               θ̇   B θ θ
+                                                                                                                        θ̇ ), one obtains a candidate Lyapunov
+                                                                                            function
+By using the relation (5), the controller can be written as
+                                                                                                                    V (w   w ) = T (w
+                                                                                                                       w , ẇ           w ) + VP (w
+                                                                                                                                    w , ẇ        w ),                (52)
+                  K θ θ̃θ − D θ θ̇θ + K (θθ d − q d ).
+             u = −K                                                             (44)
+                                                                                            which is clearly positive definite and radially unbounded.
+Therefore the system is equivalent to a flexible joint robot                                Since, after some direct calculations one obtains
+having the inertia B θ and controlled with a PD controller with                                                                  T
+                                                                                                                 w ) = −θ̇θ D θ θ̇θ − (θ̇θ − q̇q )T D (θ̇θ − q̇q ),
+                                                                                                             V̇ (ẇ                                                   (53)
+gravity compensation. The equilibrium equations correspond-
+ing to (42), (43) for τ ext = 0 are related to the minima of the                            which is always negative definite in ẇ w , asymptotic stability
+potential energy U (θθ , q ) = 21 (θθ − q )T K (θθ − q ) + Vg (qq ):                        can be shown using LaSalle’s invariance principle.
+                                                                                               If one considers the controller (8) and hence the controlled
+                         ∂U (θθ , q )
+                                      =u                                        (45)        motor dynamics (9) instead of (43) the same Lyapunov func-
+                             ∂θθ                                                            tion (52) has time derivative given by
+                         ∂U (θθ , q )
+                                      = 0.                                      (46)                                                 T
+                           ∂qq                                                                                    w ) = −θ̇θ D θ θ̇θ − (θ̇θ − q̇q )T D (θ̇θ − q̇q )
+                                                                                                             V̇1 (ẇ
+                                                                                                                                     T
+First, notice that the desired motor position θ d correspond-                                                                + θ̇θ (D
+                                                                                                                                    D − D s )(θ̇θ − q̇q ).            (54)
+ing to a desired link side position q d has to satisfy (46), i.e.,
+∂U (θθ d ,qq d )
+     ∂qq
+                 = 0 . This equation can be directly solved for θ d , lead-                 This time derivative is negative definite if the following con-
+ing to (5). Second, notice that the static part of the controller                           dition is fulfilled
+(44) can be written as                                                                                                        1
+                                                                                                                    D>           D − D s )T D θ (D
+                                                                                                                                (D               D − D s ).           (55)
+                                                                                                                              4
+                       ∂U (θθ d , q d ) ∂Us (θ̃θ )
+                u=                     +           ,                            (47)        14. B θ is used instead of B .
+                            ∂θθ          ∂θθ
+
+
+
+                                              Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                         © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+38   THE INTERNATIONAL JOURNAL OF ROBOTICS RESEARCH / January 2007
+
+
+                                                                                            joint robots—Part II: Full state feedback, impedance de-
+REMARK 3. Notice that the control law (47) and the poten-                                   sign and experiments. IEEE International Conference on
+tial function (49) can be extended to a more general class of                               Robotics and Automation, pp. 2666–2673.
+underactuated systems, for which there exists a one to one                               Albu-Schäffer, A., Ott, C., and Hirzinger, G. (2005). Con-
+relation between the directly actuated configuration variables                              structive energy shaping based impedance control for a
+θ and the indirectly actuated configurations q .                                            class of underactuated Euler-Lagrange systems. IEEE In-
+                                                                                            ternational Conference on Robotics and Automation, pp.
+                                                                                            1399–1405.
+Appendix B: Index to Multimedia Extensions                                               Bicchi, A., Tonietti, G., Bavaro, M., and Piccigallo, M. (2003).
+                                                                                            Variable stiffness actuators for fast and safe motion control.
+                                                                                            IEEE International Symposium on Robotics Research.
+The multimedia extension page is found at http://www.
+                                                                                         Brogliato, B., Ortega, R., and Lozano, R. (1995). Global track-
+ijrr.org.
+                                                                                            ing controllers for flexible-joint manipulators: a compara-
+Table of Multimedia Extensions                                                              tive study. Automatica 31(7): 941–956.
+ Extension     Type    Description                                                       Burdick, J. (1995). A classification of 3R regional manipula-
+                                                                                            tor singularities and geometries. Mechanism and Machine
+      1           Video       Cartesian impedance control is
+                                                                                            Theory 30(1): 71–89.
+                              used for teaching and execu-
+                                                                                         Chen, S. and Kao, I. (2000). Simulation of conservative con-
+                              tion of piston insertion. For com-
+                                                                                            gruence transformation conservative properties in the joint
+                              parison, the human execution is
+                                                                                            and Cartesian spaces. IEEE International Conference on
+                              shown.
+                                                                                            Robotics and Automation, pp. 1283–1288.
+      2           Video       Table wiping with simultaneous
+                                                                                         Goldsmith, P. B., Francis, B.A., and Goldenberg,A.A. (1999).
+                              null-space movement and force
+                                                                                            Stability of hybrid position/force control applied to ma-
+                              control in vertical direction.
+                                                                                            nipulators with flexible joints. International Journal of
+      3           Video       Door opening using impedance
+                                                                                            Robotics and Automation 14(4): 146–159.
+                              control.
+                                                                                         Hirzinger, G., Albu-Schäffer, A., Hähnle, M., Schaefer, I., and
+      4           Video       Position control of the new hu-
+                                                                                            Sporer, N. (2001). On a new generation of torque con-
+                              manoid system Justin.
+                                                                                            trolled light-weight robots. IEEE International Conference
+      5           Video       Crash test experiments for safety
+                                                                                            on Robotics and Automation, pp. 3356–3363.
+                              validation1
+                                                                                         Hogan, N. (1985). Impedance control: An approach to ma-
+ 1 These experiments were done together with Sami Haddadin. A
+                                                                                            nipulation, Part I—Theory, Part II—Implementation, Part
+ paper describing the experiments is currently in preparation.                              III—Applications. ASME Journal of Dynamic Systems,
+                                                                                            Measurement and Control 107: 1–24.
+                                                                                         Kelly, R. (1997). PD control with desired gravity compensa-
+                                                                                            tion of robotic manipulators: A review. International Jour-
+References                                                                                  nal of Robotics Research 16(5): 660–672.
+                                                                                         Kelly, R. and Santibanez, V. (1998). Global regulation of elas-
+Albu-Schäffer, A. (2002). Regelung von Robotern mit elastis-                                tic joint robots based on energy shaping. IEEE Transac-
+   chen Gelenken am Beispiel der DLR-Leichtbauarme. PhD                                     tions on Automatic Control 43(10): 1451–1456.
+   thesis, Technical University Munich, April.                                           Khatib, O. (1995). Inertial properties in robotic manipula-
+Albu-Schäffer, A. and Hirzinger, G. (2001). A globally stable                               tion: An object level framework. International Journal of
+   state-feedback controller for flexible joint robots. Journal                             Robotics Research 14(1): 19–36.
+   of Advanced Robotics, (Special Issue: Selected Papers from                            Lin, T. and Goldenberg, A. A. (1995). Robust adaptive control
+   IROS 2000) 15(8): 799–814.                                                               of flexible joint robots with joint torque feedback. IEEE
+Albu-Schäffer, A., Ott, C., Frese, U., and Hirzinger, G. (2003).                            International Conference on Robotics and Automation, pp.
+   Cartesian impedance control of redundant robots: Recent                                  1229–1234.
+   results with the dlr-light-weight-arms. IEEE International                            Lozano, R., Brogliato, B., Egeland, O., and Maschke, B.
+   Conference on Robotics and Automation, pp. 3704–3709.                                    (2000). Dissipative Systems Design and Control. Comu-
+Albu-Schäffer, A., Ott, C. and Hirzinger, G. (2004a). Pas-                                  nication and Control Engineering. Springer.
+   sivity based cartesian impedance control for flexible joint                           De Luca, A. (2000). Feedforward/feedback laws for the con-
+   manipulators. 6th IFAC Symposium on Nonlinear Control                                    trol of flexible robots. IEEE International Conference on
+   Systems, Vol. 2, pp. 1175–1180.                                                          Robotics and Automation, pp. 233–240.
+Albu-Schäffer, A., Ott, C., and Hirzinger, G. (2004b). A pas-                            De Luca, A. and Lucibello, P. (1998). A general algo-
+   sivity based cartesian impedance controller for flexible                                 rithm for dynamic feedback linearization of robots with
+
+
+
+                                         Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                    © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+                                                                 Albu-Schäffer, Ott, and Hirzinger / Control of Flexible Joint Robots             39
+
+
+   elastic joints. IEEE International Conference on Robotics                             lators: Comments on two papers. Automatica 31(4): 585–
+   and Automation, pp. 504–510.                                                          590.
+Lückel, J., Moritz, W., Neumann, R., Schütte, H., and Wittler,                        Stelter, J. (2001). Verbesserung des Positionsverhaltens und
+   G. (1993). Development of a modular mechatronic robot                                 der Bahntreue eines Industrieroboters durch Einsatz von
+   system. 2nd Conference on Mechatronics and Robotics.                                  Beschleunigungssensoren. PhD thesis, Fakultät für Infor-
+Morita, T., Iwata, H., and Sugano, S. (1999). Development of                             matik der University Karlsruhe.
+   human symbiotic robot: Wendy. IEEE International Con-                              Takegaki, M. and Arimoto, S. (1981). A new feedback method
+   ference on Robotics and Automation, pp. 3183–3188.                                    for dynamic control of manipulators. ASME Journal on Dy-
+Nicosia, S. and Tomei, P. (1992). A method to design adap-                               namic Systems, Measurement and Control 102: 119–125.
+   tive controllers for flexible joint robots. IEEE International                     Tomei, P. (1991). A simple PD controller for robots with elas-
+   Conference on Robotics and Automation, pp. 701–706.                                   tic joints. IEEE Transactions on Automatic Control 36(10):
+Ortega, R., Kelly, R., and Loria, A. (1995). A class of out-                             1208–1213.
+   put feedback globally stabilizing controllers for flexible                         Vidyasagar, M. (1978). Nonlinear Systems Analysis. Prentice-
+   joint robots. IEEE International Journal of Robotics and                              Hall.
+   Automation 11(5): 766–770.                                                         Wenger, P. (1998). Classification of 3R positioning manipu-
+Ott, C., Albu-Schäffer, A., and Hirzinger, G. (2002). Compari-                           lators. ASME Journal of Mechanical Design 120(2): 327–
+   son of adaptive and nonadaptive tracking control laws for a                           332.
+   flexible joint manipulator. IEEE International Conference                          Yim, W. (2001). Adaptive control of a flexible joint manipu-
+   on Intelligent Robotic Systems, pp. 2018–2024.                                        lator. IEEE International Conference on Robotics and Au-
+Ott, C., Albu-Schäffer, A., and Hirzinger, G. (2004). A passiv-                          tomation, pp. 3441–3446.
+   ity based cartesian impedance controller for flexible joint                        Zhu, W. and De Schutter, J. (1999). Adaptive control of mixed
+   robots—Part I: Torque feedback and gravity compensation.                              rigid/flexible joint robot manipulators based on virtual de-
+   IEEE International Conference on Robotics and Automa-                                 composition. IEEE Transactions on Robotics and Automa-
+   tion, pp. 2659–2665.                                                                  tion 15(2): 310–317.
+Pratt, G. A. and Williamson, M. (1995). Series elastics actu-                         Zinn, M., Khatib, O., and Roth, B. (2004). A new actuation
+   ators. Proceedings of IEEE/RSJ International Conference                               approach for human friendly robot design. International
+   on Intelligent Robots and Systems, pp. 399–406.                                       Journal of Robotics Research 23: 279–398.
+Spong, M. (1987). Modeling and control of elastic joint                               Zollo, L., Siciliano, B., De Luca, A., Guglielmelli, E., and
+   robots. ASME Journal of Dynamic Systems, Measurement,                                 Dario, P. (2005). Compliance control for an anthropomor-
+   and Control 109: 310–319.                                                             phic robot with elastic joints: Theory and experiments.
+Spong, M. (1989). Adaptive control of flexible joint manipu-                             ASME Journal of Dynamic Systems, Measurements and
+   lators. Systems and Control Letters 13: 15–21.                                        Control 127(3): 321–328.
+Spong, M. (1995). Adaptive control of flexible joint manipu-
+
+
+
+
+                                        Downloaded from http://ijr.sagepub.com at DLR-Deutsches Zentrum fLuft-u on January 18, 2007
+                                   © 2007 Multimedia Archives. All rights reserved. Not for commercial use or unauthorized distribution.
+

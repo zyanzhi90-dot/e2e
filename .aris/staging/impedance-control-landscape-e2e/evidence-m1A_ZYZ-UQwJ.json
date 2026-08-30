@@ -1,0 +1,110 @@
+{
+  "source_id": "m1A_ZYZ-UQwJ",
+  "read_event_id": "5ff546210cb746048808cde7c060e095",
+  "content_sha256": "bcebdd2cccc8966c47e20588c708c24078c8eb237ff3a77765911002b830c772",
+  "claim": "Jung, Hsia, and Bonitz present a two-phase force-tracking impedance controller for unknown surface location and stiffness: an overestimated contact position ensures approach, zero desired stiffness in the force-controlled direction yields a stable mass-damper contact relation, a delayed force-error adaptation adjusts an environment-velocity compensation, and an inner robust position controller uses prior samples to suppress robot-model uncertainty. A scalar spring-contact analysis gives an upper bound on the adaptive rate and step-input force convergence under fast-sampling approximations. Three-link simulations and PUMA 560 tests on flat and curved rigid surfaces support force tracking under model and environment uncertainty, but hardware contact exhibits roughly 60% initial overshoot and about 2 s settling. The result is conditional on a single force direction, square nonsingular Jacobian, spring environment, sufficiently fast sampling, bounded delayed-model error, and gain selection inside an environment-dependent bound; it is not a passivity proof or evidence for arbitrary dynamic environments.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II, equations (1)-(7), Figure 1",
+    "Section III, equations (8)-(12)",
+    "Section IV, equations (13)-(17)",
+    "Section V, equations (18)-(34)",
+    "Section VI, equations (35)-(48)",
+    "Section VII-A-D, Figures 2-13",
+    "Section VIII, Figures 14-17",
+    "Section IX, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical, simulation, and robot evidence: the adaptive-rate stability and force-convergence claims follow from a scalar linear spring model and delay approximation; physical support is two PUMA surface runs with descriptive traces, substantial initial overshoot, and no statistical replication",
+  "problem_and_setting": "Impedance force control is degraded by uncertain robot dynamics and by unknown environment position and stiffness. The paper seeks a simple controller that directly commands desired force, guarantees contact despite conservative geometry information, adapts to surface shape and stiffness, and remains implementable on an industrial position-controlled manipulator.",
+  "method_or_mechanism": "A Cartesian impedance law is embedded around a robust position loop. In free space, a desired force term drives the robot toward an estimated environment position; that estimate is intentionally placed inside the surface so contact occurs. After contact, desired stiffness is set to zero only in the force-controlled direction, leaving a target mass-damper relation. An additive term representing environment velocity is updated each sample from delayed force error. The resulting scalar force-error dynamics produce an adaptive-gain upper bound through a Routh-Hurwitz calculation and step-input convergence through the final-value theorem. The inner position controller estimates robot dynamics and disturbances using previous torque, position, velocity, and acceleration samples, with a discrete first-order error argument used for boundedness.",
+  "content_summary": "The paper first shows that conventional impedance tracking depends on accurate robot and environment models. It separates free-space approach and contact and then adds force-error adaptation for curved or moving surfaces. Simulation uses the first three links of a PUMA 560 with a 10 kg tool and joint friction uncertainty. Tests include abruptly changing stiffness on a flat wall, a sinusoidal wall, a flat wall with triangular crack, and a burr/deburring case. Adaptive gains at or above the derived bound oscillate; gains inside the bound improve tracking, with larger permissible gains converging faster but becoming more oscillatory. Hardware uses a PUMA 560 and JR3 wrist sensor at 200 Hz, moving 25 cm over a flat hard surface and a stiff curved galvanized-steel sheet in 15 s. Both surfaces have unknown location and stiffness. The reported response has about 60% initial impact overshoot, settles in about 2 s, and then tracks the commanded force closely in the plotted runs.",
+  "synthesis_role": "Provides the canonical traditional adaptive impedance force-tracking framework later papers use as a baseline. Its main contribution is simple unknown-geometry compensation with an explicit adaptive-rate bound, while its large contact overshoot and restricted environment model motivate later PD, dynamic-rate, and energy-bounded extensions.",
+  "development_link": "The method combines earlier robust sampled position control with an outer zero-stiffness adaptive impedance law. The 2019 DAHI paper dynamically schedules this update rate to trade impact overshoot against steady tracking, and the 2025 NAIPC paper adds PD and adaptive feedforward compensation specifically to reduce the transition overshoot visible here.",
+  "evidence": [
+    {
+      "locator": "Section II, equations (1)-(7)",
+      "status": "controller/model setup",
+      "finding": "A Cartesian impedance around a nominal robot model cannot realize its target relation exactly when robot dynamics and environment properties are uncertain."
+    },
+    {
+      "locator": "Section III, equations (8)-(12)",
+      "status": "controller formulation",
+      "finding": "The controller switches from a force-driven free-space approach to a contact mass-damper relation with zero stiffness in one force direction, which is asymptotically stable in the stated scalar model."
+    },
+    {
+      "locator": "Section IV, equations (13)-(17)",
+      "status": "adaptive mechanism",
+      "finding": "An environment-velocity compensation is updated from delayed force error; overestimating penetration ensures contact, but larger position overestimate increases initial overshoot."
+    },
+    {
+      "locator": "Section V, equations (18)-(34)",
+      "status": "conditional stability and convergence analysis",
+      "finding": "A Routh-Hurwitz calculation under fast-sampling delay approximation bounds the adaptive update rate, and a step-input final-value calculation concludes force-error convergence."
+    },
+    {
+      "locator": "Section VI, equations (35)-(48)",
+      "status": "robust inner-loop argument",
+      "finding": "Prior-sample robot information estimates dynamic uncertainty; bounded-input bounded-output behavior follows if the resulting discrete error root lies inside the unit circle and estimation error remains bounded."
+    },
+    {
+      "locator": "Section VII, Figures 2-13",
+      "status": "author-reported simulation evidence",
+      "finding": "Across changing stiffness, sinusoidal geometry, a triangular crack, and a burr, adaptation improves force tracking; gains at or outside the analytical bound oscillate, while an interior gain produces the best reported compromise."
+    },
+    {
+      "locator": "Section VIII, Figures 14-17",
+      "status": "author-reported robot experiment",
+      "finding": "A 200 Hz PUMA 560 tracks force while traversing flat and curved rigid surfaces with unknown location/stiffness, but initial contact overshoots approximately 60% and settles in approximately 2 s."
+    },
+    {
+      "locator": "Section IX",
+      "status": "author-stated implementation requirement",
+      "finding": "When environment position is unknown, estimating or adapting its velocity profile is necessary for good force tracking, and gains must be selected within the derived convergence region."
+    }
+  ],
+  "evidence_kind": [
+    "scalar adaptive-rate stability bound",
+    "step-input convergence analysis",
+    "delayed robust position compensation",
+    "three-link manipulator simulations",
+    "PUMA 560 surface-contact experiments",
+    "descriptive force-tracking traces"
+  ],
+  "boundary_conditions": [
+    "The Cartesian derivation assumes a square invertible Jacobian, excluding singular, redundant, and many general task-space configurations without modification.",
+    "Force is analyzed in one independent direction with a linear spring environment; dynamic mass/damping, frictional contact, separation, slip, and multi-contact are not covered.",
+    "The contact-phase result sets desired stiffness to zero in the force direction and does not generalize directly to nonzero variable stiffness objectives.",
+    "The adaptive stability bound depends on actual environment and impedance parameters even though environment stiffness is described as unknown; practical tuning therefore uses approximation and experimentation.",
+    "Delay is represented through a first-order Taylor approximation under sufficiently fast sampling, and the robust position argument assumes delayed estimation error remains bounded.",
+    "The theorem is stability/convergence of the reduced force-error model, not passivity or robustness to arbitrary passive/active environments, saturation, quantization, or sensor filtering.",
+    "Hardware validation covers one PUMA 560, two surfaces, one traverse profile, and descriptive traces with no comparator, repetition count, uncertainty interval, or statistical analysis.",
+    "The approximately 60% initial impact overshoot remains material for fragile workpieces or human contact despite subsequent force convergence."
+  ],
+  "assumptions": [
+    "The environment can be conservatively located inside the surface so approach always results in contact.",
+    "The normal contact law and target impedance adequately describe the force-direction behavior.",
+    "The sample period is small enough for the delay approximation and prior-sample dynamic compensation to be valid.",
+    "Adaptive gain is chosen strictly within the actual stability bound and initial adaptive state is zero as assumed.",
+    "Robot uncertainty and delayed-estimation errors are bounded, and the inner position loop remains stable.",
+    "Measured force error faithfully represents contact behavior and can be used without destabilizing filtering or delay."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Without adapting the environment-velocity term, force tracking on a triangular crack shows notable geometry-dependent error.",
+      "Larger conservative penetration estimates shorten contact time but increase initial force overshoot.",
+      "Adaptive gains at or above the derived upper bound produce oscillatory tracking; larger interior gains converge faster but oscillate more.",
+      "Hardware contact produces approximately 60% initial overshoot and takes about 2 s to settle.",
+      "Accurate force tracking requires more environment-profile information or online adaptation when the surface moves or curves."
+    ],
+    "inferred": [
+      "The environment-dependent gain bound can be violated when actual stiffness changes beyond the value used for tuning.",
+      "Sample delay, force filtering, actuator saturation, or a nonspring contact can invalidate the reduced transfer-function analysis.",
+      "The free/contact phase transition can chatter or impact harder under noisy contact detection because no hybrid switching robustness is analyzed.",
+      "The strong post-settling traces do not establish repeatability or safety in faster, more compliant, or human-interaction tasks."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

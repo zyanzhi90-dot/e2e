@@ -1,0 +1,90 @@
+{
+  "source_id": "ZDySGaNsMn8J",
+  "read_event_id": "e1d636708a284cac83ae95fe6b08ed7c",
+  "content_sha256": "7731007398733dded9b108fdc846ec076f0231f833d0d9dc904f208c62ac4b91",
+  "claim": "A local deformable-contact model with pressure distribution and sliding friction can be embedded in constrained real-time MPC and improve force/motion tracking on soft surfaces, but the experiments leave impedance predefined and therefore do not establish the value of online task-adaptive impedance selection.",
+  "claim_locator": [
+    "Abstract",
+    "Sections II-III and Figure 2/equations (1)-(6)",
+    "Section IV and equation (10)",
+    "Sections V-VII and Figures 8-18",
+    "Section VII limitations",
+    "Section VIII"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "The model, constrained MPC, experiments, and limitations are author-reported; implications for minimal representation and adaptive impedance are bounded reader inferences.",
+  "problem_and_setting": "Real-time force-modulated manipulation on deformable surfaces where simple spring-damper contact can mismatch distributed deformation, elasticity, pressure, friction, robot dynamics, and constraints.",
+  "method_or_mechanism": "A spherical-tip Hertzian local deformation and pressure-distribution model with sliding friction is coupled to whole-body dynamics and solved using ADMM/DDP MPC with state, control, and contact constraints. Material properties are estimated beforehand; impedance is predefined.",
+  "content_summary": "KUKA-EcoFlex experiments with force/torque ground truth cover static and moving surfaces and report improved force/motion tracking with force control. The model is local, restricted to a moderate force range, omits adhesion and rolling, and does not cover global deformation or lubricated/high-deformation friction. Online property estimation, richer contact, 3-D surfaces, and adaptive impedance remain future work.",
+  "synthesis_role": "Direct closest-prior route for deformable-contact-aware constrained control that weakens novelty claims based only on inserting a richer contact law into MPC.",
+  "development_link": "A new route must compare predefined and adaptive impedance while holding the contact-aware optimizer and constraints fixed, and test whether extra memory or finite-area state changes actions and held-out outcomes.",
+  "evidence": [
+    {
+      "locator": "Sections II-III",
+      "status": "author_reported",
+      "finding": "The paper derives local Hertz-based deformation/pressure and sliding-friction contact, arguing simple spring-damper models mismatch deformation and elasticity."
+    },
+    {
+      "locator": "Section IV and equation (10)",
+      "status": "author_reported",
+      "finding": "The contact model is embedded with whole-body dynamics in ADMM/DDP MPC with explicit state, control, and contact constraints."
+    },
+    {
+      "locator": "Sections V-VII and Figures 8-18",
+      "status": "author_reported",
+      "finding": "KUKA-EcoFlex experiments report improved force and motion tracking under static and moving-surface conditions."
+    },
+    {
+      "locator": "Section VII limitations",
+      "status": "author_reported",
+      "finding": "The model is only locally valid; large bodies may require FEM, and high-deformation/lubricated friction needs extra modeled or learned factors."
+    },
+    {
+      "locator": "Sections VII-VIII",
+      "status": "author_reported",
+      "finding": "Material properties are pre-estimated and impedance predefined; richer contact, online estimation, 3-D surfaces, and adaptive impedance remain open."
+    }
+  ],
+  "evidence_kind": [
+    "deformable-contact derivation",
+    "pressure-distribution model",
+    "sliding friction",
+    "constrained MPC",
+    "real-time robot experiment",
+    "limitation analysis"
+  ],
+  "boundary_conditions": [
+    "Local spherical-tip contact and moderate deformation only.",
+    "Properties are pre-estimated.",
+    "Adhesion and rolling are neglected.",
+    "High deformation, lubrication, and global body mechanics are excluded.",
+    "Impedance is predefined."
+  ],
+  "assumptions": [
+    "Local Hertzian contact is adequate in the tested range.",
+    "Sliding friction dominates tangential interaction.",
+    "Pre-estimated properties remain accurate.",
+    "ADMM/DDP is fast enough for real time.",
+    "Predefined impedance is suitable across tested conditions."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Simple spring-damper models mismatch the targeted contact mechanics.",
+      "Dynamic-surface tracking is worse than static.",
+      "The local model fails for large/global deformation and needs extensions for high-deformation or lubricated friction."
+    ],
+    "inferred": [
+      "Model mismatch grows outside calibrated geometry, force, and friction regimes.",
+      "A richer model is not justified if it does not change actions or outcomes.",
+      "Nominal tracking gains do not establish safety under severe mismatch or contact transitions."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that deformable-contact-aware constrained MPC is unexplored.",
+    "Any blanket claim that a scalar spring-damper model is always adequate.",
+    "Any claim that Hertzian contact alone solves complex soft scanning.",
+    "Any claim that this paper demonstrates optimal adaptive impedance."
+  ],
+  "verification_status": "verified"
+}

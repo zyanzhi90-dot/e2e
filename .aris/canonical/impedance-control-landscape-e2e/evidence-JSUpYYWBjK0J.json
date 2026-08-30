@@ -1,0 +1,109 @@
+{
+  "source_id": "JSUpYYWBjK0J",
+  "read_event_id": "a8ba65b166af4152ab7fdc3ddff50c17",
+  "content_sha256": "f6301c54950128042691e43a1d1e532e0ec61be8475a3731cf7524768b4a4f15",
+  "claim": "Cao, Chen, He, and Zhao propose dynamic adaptive hybrid impedance control (DAHI), which schedules the force-error adaptation rate from the magnitude and derivative of current force error. Reciprocal and exponential schedules keep the update rate small during initial contact to suppress overshoot and increase it after convergence to improve dynamic force tracking. A one-dimensional spring-environment analysis, using an infinite-history approximation and first-order delay expansion, yields the sufficient range 0<sigma<bT/(m+bT) and a step-input convergence claim. Simulations and three qualitative experiments on a two-DOF manipulator interacting with a thin steel strip under fixed stiff, fixed elastic, and moving elastic support report HI-like contact transients and AHI-like steady tracking, especially for the exponential schedule. The result assumes ideal position tracking, scalar spring contact, selected sampling conditions, and conservative parameter limits; it does not prove passivity or robustness to general environment dynamics, and no repeated trials or quantitative inferential comparison are reported.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II-A-C, equations (1)-(14), Figures 1-4",
+    "Section II-D, equations (15)-(28), Figure 5",
+    "Section III-A, equation (29), Figure 6",
+    "Section III-B-C, equations (30)-(46), Figure 7",
+    "Section IV, equations (47)-(48), Figures 8-11",
+    "Section V, Figures 12-19",
+    "Section VI, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical, simulation, and hardware evidence: the scheduler and approximate scalar stability boundary are explicit, while claimed overshoot/tracking advantages rely on qualitative plots from one two-DOF platform and three related steel-strip configurations without replication or statistics",
+  "problem_and_setting": "Hybrid impedance control suppresses contact overshoot but leaves dynamic force error when environment stiffness or geometry varies. Adaptive hybrid impedance improves steady tracking by accumulating force error, but a large fixed update rate lowers damping and produces impact oscillation. The paper targets industrial polishing-like tasks where an easily deformed workpiece changes support and geometry during motion.",
+  "method_or_mechanism": "A selection matrix assigns position control to one Cartesian direction and impedance force control to the orthogonal direction. Desired stiffness in the force direction is set to zero. Traditional AHI updates an accumulated compensation from delayed force error using a fixed rate sigma. DAHI replaces that constant with either a reciprocal or exponential function of absolute force error, absolute force-error derivative, tuning weights alpha/beta, and a positive limit term. Large transient error therefore produces a small rate; as error and its derivative shrink, the rate rises. Routh-Hurwitz analysis of the scalar spring-contact closed loop, after approximating an infinite delayed sum and e^{-Ts} by 1-Ts, gives the update-rate bound. A discrete implementation computes force-error difference, schedules sigma, integrates the impedance relation, and sends position commands every 4 ms.",
+  "content_summary": "Analytical comparisons show HI has zero step error but nonzero ramp/sinusoidal dynamic error, whereas AHI reduces dynamic error as sigma grows but also decreases transient damping. DAHI is designed to switch continuously between these behaviors. Simulations use a position loop with mass/model error, Coulomb and viscous friction, a stiffness varying around 4000 N/m, 4 ms sampling, and a 30 N target. Plane, slope, and sine-surface cases compare HI, AHI at sigma 0.01 and 0.05, and both DAHI schedules. DAHI suppresses initial oscillation and later raises sigma; exponential DAHI most closely tracks the high-rate AHI. Hardware uses a laboratory two-DOF industrial manipulator, three-axis force sensor, EtherCAT/soft PLC, 4 ms loop, zero stiffness, 3 N target, and sigma capped at 0.007. A 1 mm steel strip is configured with fixed stiff support, fixed elastic support, or a moving elastic support. Plots show DAHI, particularly exponential mode, suppressing contact overshoot like HI and following dynamic force variation like AHI.",
+  "synthesis_role": "Provides an explicit scheduler for the central adaptive-impedance tradeoff between contact-transition damping and steady dynamic-force accuracy. It is a heuristic/approximate-stability extension of traditional adaptive hybrid impedance, not an energy-certified variable-impedance method.",
+  "development_link": "The paper directly builds on Jung et al.'s force-error adaptation and hybrid impedance implementations, treating HI as sigma=0 and AHI as fixed positive sigma. It anticipates later overshoot-oriented adaptive compensators but changes only the adaptation rate rather than adding an independently initialized feedforward state.",
+  "evidence": [
+    {
+      "locator": "Section II-B-C, equations (4)-(14)",
+      "status": "baseline formulation",
+      "finding": "Hybrid impedance combines position and force-direction impedance through a selection matrix; fixed-rate AHI accumulates delayed force error to improve tracking in unknown time-varying stiffness."
+    },
+    {
+      "locator": "Section II-D, equations (15)-(28)",
+      "status": "model-based tradeoff analysis",
+      "finding": "Larger fixed adaptation rate reduces ramp and sinusoidal steady/dynamic error but lowers the contact transient damping ratio and increases overshoot."
+    },
+    {
+      "locator": "Section III-A, equation (29)",
+      "status": "controller mechanism",
+      "finding": "Reciprocal and exponential schedules compute sigma from current force-error magnitude and derivative, giving a small transition rate and a larger steady-tracking rate."
+    },
+    {
+      "locator": "Section III-B, equations (30)-(46)",
+      "status": "conditional approximate stability analysis",
+      "finding": "Under scalar spring contact, long-history and fast-sampling approximations, Routh-Hurwitz gives 0<sigma<bT/(m+bT), and a step-input final-value argument concludes force convergence."
+    },
+    {
+      "locator": "Section III-C, Figure 7",
+      "status": "implementation description",
+      "finding": "The 4 ms discrete loop differences measured force error, schedules sigma, computes adaptive compensation, double-integrates the impedance equation, and sends a position command."
+    },
+    {
+      "locator": "Section IV, Figures 8-11",
+      "status": "author-reported comparative simulation",
+      "finding": "Across plane, slope, and sine cases, DAHI suppresses initial overshoot relative to fixed-rate AHI and improves steady tracking relative to HI; exponential mode follows the high-rate AHI more closely than reciprocal mode."
+    },
+    {
+      "locator": "Section V, Figures 12-19",
+      "status": "author-reported hardware experiments",
+      "finding": "On fixed stiff, fixed elastic, and moving elastic steel-strip supports, exponential DAHI shows the strongest qualitative combination of contact-overshoot suppression and dynamic force tracking among the displayed methods."
+    },
+    {
+      "locator": "Section VI",
+      "status": "author-stated limitations",
+      "finding": "The authors attribute nonideal experimental behavior to ADC resolution, controller bandwidth, filter design, model uncertainty, and external disturbances and call for parameter optimization and six-axis validation."
+    }
+  ],
+  "evidence_kind": [
+    "adaptive-rate hybrid impedance",
+    "Routh-Hurwitz update-rate bound",
+    "step-input convergence argument",
+    "uncertain-environment simulation",
+    "two-DOF robot polishing experiment",
+    "qualitative controller comparison"
+  ],
+  "boundary_conditions": [
+    "Analysis is one-dimensional in the force direction and models the environment as a linear spring; workpiece mass, damping, nonlinear deformation, separation, frictional contact, and coupled directions are excluded.",
+    "The robot position loop is simplified to unit gain and assumed to suppress inertia, friction, Coriolis, and other robot dynamics despite the industrial implementation.",
+    "The stability bound uses an infinite delayed-sum representation and first-order e^{-Ts} approximation, requiring sufficiently large history and sufficiently fast sampling.",
+    "The selected Ulimit is made conservative in practice because of uncertainty, explicitly trading force accuracy for stability margin.",
+    "No passivity result is given for time-varying sigma, and no proof includes signal filters, quantization, force-derivative noise, saturation, or communication delay.",
+    "Reciprocal and exponential gains alpha/beta are empirically chosen; the paper states their influence and optimization need further study.",
+    "Experimental evidence uses one two-DOF laboratory manipulator, one thin steel strip, related support configurations, and qualitative traces with no repeats, variance, or statistical comparisons.",
+    "The 3 N low-speed polishing-like task does not establish generality to high-force machining, six-axis coupling, tissue contact, or physical human-robot interaction."
+  ],
+  "assumptions": [
+    "The commanded Cartesian position is accurately realized by the industrial position servo.",
+    "Force-error magnitude and derivative reliably indicate whether the system is in contact transition or steady dynamic tracking.",
+    "The scheduled sigma remains strictly inside the actual stability range after discretization and implementation uncertainty.",
+    "The scalar spring environment and zero force-direction stiffness approximate the supported steel-strip experiments.",
+    "The sampling period and history length justify the delay and summation approximations.",
+    "The force sensor and numerical differentiation/filtering preserve enough phase margin for the intended scheduler behavior."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "HI increasingly fails to track dynamic force as surface geometry becomes more complex.",
+      "Fixed-rate AHI produces larger contact oscillation as sigma increases, despite smaller steady tracking error.",
+      "Reciprocal DAHI performs worse on the simulated sine surface than on plane or slope cases.",
+      "Elastic support produces a second oscillation at the start of polishing; exponential DAHI and HI suppress it fastest in the shown traces.",
+      "ADC resolution, bandwidth, filtering, model uncertainty, and disturbances limit the experimental result, and parameter optimization remains future work."
+    ],
+    "inferred": [
+      "Force-derivative noise or phase lag can schedule sigma in the wrong direction and provoke rather than suppress oscillation.",
+      "The approximate scalar bound may not protect a coupled, resonant, or delayed environment even when the numerical cap is respected.",
+      "A small sigma during large error can delay force establishment or lose contact in tasks requiring rapid force buildup.",
+      "Qualitative agreement among three related steel-strip tests does not establish repeatability or broad industrial robustness."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

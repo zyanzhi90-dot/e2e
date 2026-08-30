@@ -1,0 +1,28 @@
+{
+  "source_id": "NxOKyaExNYMJ",
+  "read_event_id": "b8e2e11325e74579bb748555c8c16f09",
+  "content_sha256": "4892a562b5886bf8b3d3165b3d7df2066edfa8dbfaa737207241b4cc3f32be0b",
+  "claim": "Demonstration-learned task dynamics combined with within-trial adaptive stiffness and inertia can improve simulated cooperative beam-lifting under modeled partner changes, but the evidence is limited to a planar robot dyad and provides no real-human, physical-robot, formal-stability, or safety validation.",
+  "claim_locator": ["Abstract", "Sec. II", "Figs. 4–8", "Secs. IV–V"],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Primary physical-simulation proof of concept with qualitative plot-level comparisons; real interaction, formal stability, safety, and broad generalization remain unverified.",
+  "problem_and_setting": "A robot follower must anticipate and adapt to a partner during shared-load manipulation using haptic/proprioceptive feedback. Evaluation uses two simulated planar nonredundant 2-DoF robots jointly lifting a beam; the leader substitutes for a human.",
+  "method_or_mechanism": "Demonstrations provide state, force, velocity, and feedforward commands. Locally learned task dynamics predict desired kinematics and feedforward control from perceived state. Operational-space impedance adapts desired stiffness and inertia online using gradient-style laws driven by force, position, and velocity tracking errors, compensating mismatch not captured during demonstration.",
+  "content_summary": "The learned follower synchronizes with changes in leader velocity plans. Under deliberately mismatched initial stiffness 35 N/m and inertia 0 rather than training values 10 N/m and 0.7, fixed parameters yield velocity overestimation and stopping oscillations, while adaptation improves reproduction. When the leader changes target higher, lower, or to stop, the follower reaccelerates, decelerates, or reverses. Plot-level comparison against damping-only control shows lower partner forces and beam tilt. The learned model is explicitly local and should yield to damping outside demonstrated regions.",
+  "synthesis_role": "Simulation-level mechanism evidence for combining learned haptic task prediction with within-trial adaptive impedance, and for the unresolved stability/generalization boundary introduced by a human partner.",
+  "development_link": "Moves beyond fixed-impedance replay by learning a force-conditioned task model and adapting impedance during execution rather than only across trials.",
+  "evidence": [
+    {"locator": "Figs. 4–5", "status": "author_reported_simulation", "finding": "The learned follower adapts velocity and synchronizes with leader motion plans using haptic/proprioceptive state."},
+    {"locator": "Fig. 6", "status": "author_reported_simulation", "finding": "With mismatched initial impedance, no adaptation causes velocity overestimation and stopping oscillations; stiffness/inertia adaptation improves reproduction."},
+    {"locator": "Fig. 7", "status": "author_reported_simulation", "finding": "The follower reaccelerates, decelerates, or reverses when the leader changes the target higher, lower, or to stop."},
+    {"locator": "Fig. 8", "status": "author_reported_qualitative", "finding": "Compared with damping-only control, plots show lower leader-applied/perceived forces and less beam tilt; no statistics are reported."},
+    {"locator": "Secs. IV–V", "status": "author_reported_limitation", "finding": "The learned model is local and irrelevant far from demonstrated data; formal stability cannot be proved without assumptions on human behavior, and physical higher-dimensional evaluation is future work."}
+  ],
+  "evidence_kind": ["full-text method description", "two-robot physical simulation", "within-trial adaptation study", "qualitative comparator plots"],
+  "boundary_conditions": ["Simulated planar nonredundant 2-DoF dyad.", "Leader substitutes for a human.", "Shared-beam lifting task.", "Local learned model valid near demonstration data.", "No physical WAM or real-human experiment.", "No statistical analysis or formal stability proof."],
+  "assumptions": ["Demonstrated force-state relations remain locally predictive during execution.", "Gradient adaptation laws and empirical parameters are appropriate for modeled partner changes.", "Security/force-bound mechanisms, not detailed in the packet, are adequate for the simulated setting.", "Human behavior can be represented by the simulated leader for mechanism testing."],
+  "reported_or_inferred_failures": {"reported": ["Mismatched fixed impedance causes overestimated velocity and stopping oscillations.", "The learned model becomes irrelevant far from demonstrated data; damping is recommended there.", "Formal stability cannot be proved without assumptions on human behavior."], "inferred": ["Results do not establish efficacy with real humans or physical robots.", "Comparator superiority is not statistically quantified.", "Formal safety, higher-dimensional scalability, and generalization beyond the demonstrated region are unresolved."]},
+  "conflicts_with": [],
+  "verification_status": "Controller-verified full-text packet and content identity; claims are limited to supplied simulation evidence."
+}

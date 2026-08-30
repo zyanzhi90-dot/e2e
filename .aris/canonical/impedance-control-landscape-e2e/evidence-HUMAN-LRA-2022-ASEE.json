@@ -1,0 +1,133 @@
+{
+  "source_id": "HUMAN-LRA-2022-ASEE",
+  "read_event_id": "35fb2ba335d84d57a921bbc52291e3be",
+  "content_sha256": "99cda617a2c4fe4b04bdf448c9613ea60ff964b95dc6aeb7c272840926388794",
+  "claim": "In the authors' robotic-ultrasound system, four probe-mounted time-of-flight sensors provided an independent observation of nearby body-surface orientation that supported real-time probe self-normal-positioning without preoperative surface information, with improved flat-surface angular accuracy after sensor calibration but substantially region-dependent errors on complex mannequin topography. The study also measured ultrasound image CNR as an endpoint not used by the surface-normal estimator. This supports the feasibility of separating local geometry observation from an independent imaging outcome, but it does not establish observability of finite contact area or pressure, a minimally sufficient contact representation, impedance-selection value, or statistically demonstrated equivalence of robotic and manual image quality.",
+  "claim_locator": "System design and calibration; surface-normal and force-control methods; flat-surface and mannequin experiments; volunteer lung-ultrasound CNR comparison; limitations and future work",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported prototype and experimental evidence with a reader-qualified statistical interpretation of the image endpoint; implications for P-SOFTSCAN-STATE-01 v1 are explicitly limited to hypothesis and evaluation design.",
+  "problem_and_setting": "A robotic curvilinear ultrasound probe mounted on a Franka Panda must align to the local body-surface normal in real time without preoperative surface information. Four ring-mounted time-of-flight laser range sensors observe nearby surface outside the probe housing; a separate normal-force loop uses robot joint-torque-estimated force, while the operator teleoperates tangential translation and axial rotation. Evaluation covers calibrated sensor distance, flat and upper-torso-mannequin normal tracking, a breathing lung-ultrasound phantom, and volunteer image acquisition at eight targets.",
+  "method_or_mechanism": "Opposite-pair distance differences from four moving-average-filtered VL53L0X sensors drive empirical PD angular-velocity commands for the two probe tilt axes, capped at 0.1 rad/s and updated at up to 30 Hz. Lookup-table calibration compensates distance error over 50-200 mm. A distinct two-stage normal-translation controller performs landing and then tracks desired normal force using a joint-torque-based force estimate. Surface-normal ground truth is obtained by motion capture. Pleural-line image quality is assessed afterward using CNR from a manually defined fixed 10-by-10-pixel ROI; image CNR is not an input to the surface-normal estimator.",
+  "content_summary": "Calibration reduced reported mean distance error from 11.03 plus-or-minus 1.61 mm to 3.19 plus-or-minus 1.97 mm. On a flat surface, the minimum normal error with compensation was 4.17 plus-or-minus 2.24 degrees versus 12.51 plus-or-minus 2.69 degrees without compensation, with response time about 3.67 plus-or-minus 0.84 s. Mannequin performance was less accurate and strongly region dependent: overall error was 14.67 plus-or-minus 8.46 degrees, including 28.76 plus-or-minus 8.84 degrees anteriorly, 17.80 plus-or-minus 8.46 degrees anterior-laterally, and 8.52 plus-or-minus 3.85 degrees laterally. Under simulated breathing, force error was mostly within plus-or-minus 1 N, with mean 0.07 plus-or-minus 0.49 N. Robotic and freehand volunteer scans produced overlapping reported CNR summaries, and conventional t-tests returned p values of 0.21, 0.28, and 0.53. The authors interpreted these nonsignificant results as equivalent image quality, but the study did not report a predeclared equivalence or noninferiority margin and repeated images and targets may be clustered.",
+  "synthesis_role": "Supports OBL-SPATIAL-OBSERVABILITY and CHAIN-SPATIAL-SUFFICIENCY only in the specific sense that independent nearby-surface geometry can be sensed online and used for orientation control. It also supports OBL-INDEPENDENT-ENDPOINT by pairing sensor-based alignment with an image-quality outcome not used by the estimator. It does not show that the finite probe-tissue contact patch, contact area, pressure distribution, or local deformation is observed, and therefore does not establish the minimal sufficient contact representation. The large topography-dependent error is evidence that sensing outside the probe footprint can leave important geometry unobserved.",
+  "development_link": "For P-SOFTSCAN-STATE-01 v1, the paper motivates retaining a strict separation among nearby surface-normal geometry, finite contact-patch state, normal-force feedback, and the independent imaging endpoint. A SoftScan evaluation can use a leakage-resistant held-out image endpoint to test decision value, but must not treat a surface-normal sensor as an independent contact-area measurement. Representation ablations should test whether contact-patch variables add value beyond external geometry and force-only baselines under held-out material and geometry shifts, with a predeclared equivalence or noninferiority margin if equivalence is claimed.",
+  "evidence": [
+    {
+      "locator": "System design and sensing architecture",
+      "status": "author-reported",
+      "finding": "Four ring-mounted time-of-flight sensors observe nearby surface outside the probe and use opposite-pair distance differences to control two tilt axes; this is local surface-orientation sensing rather than contact-area or pressure sensing."
+    },
+    {
+      "locator": "Sensor calibration experiment over 50-200 mm",
+      "status": "author-reported",
+      "finding": "Lookup-table compensation reduced mean distance error from 11.03 plus-or-minus 1.61 mm to 3.19 plus-or-minus 1.97 mm, with reported p equal to 9.72e-8."
+    },
+    {
+      "locator": "Flat-surface normal-tracking experiment",
+      "status": "author-reported",
+      "finding": "Minimum normal error was 4.17 plus-or-minus 2.24 degrees with compensation versus 12.51 plus-or-minus 2.69 degrees without compensation, and response time was approximately 3.67 plus-or-minus 0.84 s."
+    },
+    {
+      "locator": "Upper-torso mannequin normal-tracking experiment",
+      "status": "author-reported",
+      "finding": "Overall normal error was 14.67 plus-or-minus 8.46 degrees and varied markedly by region, reaching 28.76 plus-or-minus 8.84 degrees anteriorly and falling to 8.52 plus-or-minus 3.85 degrees laterally."
+    },
+    {
+      "locator": "Simulated-respiration force-tracking experiment",
+      "status": "author-reported",
+      "finding": "Force error was mostly within plus-or-minus 1 N and had reported mean 0.07 plus-or-minus 0.49 N under simulated breathing."
+    },
+    {
+      "locator": "Volunteer pleural-line CNR comparison",
+      "status": "author-reported",
+      "finding": "Manual mean CNR values for the three volunteers were 3.01 plus-or-minus 1.01, 3.00 plus-or-minus 1.31, and 3.17 plus-or-minus 1.17; robotic values were 2.78 plus-or-minus 0.90, 2.81 plus-or-minus 0.97, and 3.06 plus-or-minus 1.07, with reported t-test p values 0.21, 0.28, and 0.53."
+    },
+    {
+      "locator": "Image-quality method and reader synthesis",
+      "status": "reader inference",
+      "finding": "Because CNR was not used by the surface-normal estimator, it is an example of an independent downstream endpoint; however, manual ROI definition and repeated images nested within targets require leakage-resistant held-out evaluation and clustering-aware analysis."
+    },
+    {
+      "locator": "Reader assessment of the authors' equivalence interpretation",
+      "status": "reader inference",
+      "finding": "Failure to reject a difference in conventional t-tests does not by itself demonstrate equivalence or noninferiority without a predeclared margin and suitable repeated-measures analysis."
+    }
+  ],
+  "evidence_kind": [
+    "robotic-ultrasound prototype",
+    "active surface-geometry sensing",
+    "calibration experiment",
+    "normal-orientation tracking experiment",
+    "normal-force tracking experiment",
+    "volunteer image-quality endpoint",
+    "statistical interpretation caveat"
+  ],
+  "boundary_conditions": [
+    "Four VL53L0X time-of-flight sensors are mounted in a ring and sense surface outside the probe rather than the finite probe-tissue contact patch.",
+    "Sensors cannot observe surface within the approximately 35 mm probe-case radius.",
+    "Automated motion covers two tilt axes and normal translation; tangential translation and axial rotation remain operator controlled.",
+    "Angular commands are empirically tuned PD outputs capped at 0.1 rad/s and updated at up to 30 Hz.",
+    "Normal force is estimated from robot joint torque rather than an independent contact-area or distributed-pressure sensor.",
+    "Normal-tracking ground truth is provided by motion capture in controlled experiments.",
+    "Evaluation uses flat surfaces, an upper-torso mannequin, a breathing phantom, and three volunteers, not human patients or a clinical environment.",
+    "The volunteer image study uses eight targets and ten images per target for robotic and freehand scans, creating potential within-target and within-volunteer dependence.",
+    "Pleural-line CNR uses a manually defined fixed 10-by-10-pixel ROI and is not part of the online estimator or controller.",
+    "No held-out material/geometry shift, nested representation ablation, decision-equivalence margin, or safety-certification protocol is reported."
+  ],
+  "assumptions": [
+    "Opposite time-of-flight distance differences provide an adequate empirical error signal for local surface-normal alignment within the sensor geometry.",
+    "Lookup-table compensation learned over 50-200 mm remains applicable during the reported tracking experiments.",
+    "Moving-average filtering and empirical PD gains provide sufficient real-time behavior for the evaluated motion regimes.",
+    "Joint-torque-derived normal force is adequate for the separate landing and force-tracking controller.",
+    "Motion-capture normal serves as the relevant geometric ground truth.",
+    "The manually selected CNR ROI adequately represents pleural-line visibility for the reported image comparison.",
+    "Any use of A-SEE as evidence for SoftScan contact-state design is limited to external geometry sensing and endpoint separation; it does not assume equivalence between nearby surface geometry and finite contact-patch state."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Ambient light can affect the laser range sensors.",
+      "The sensors cannot observe the surface within the probe-case radius of approximately 35 mm, contributing to poor accuracy on complex anterior topography.",
+      "The current sensor layout may miss limbs or other geometries outside its effective field of view.",
+      "Mannequin normal error was markedly worse anteriorly than laterally.",
+      "The experiments did not include human patients or a clinical environment and were limited to upper-body simulation and three volunteers.",
+      "Controller gains were selected empirically, and miniaturization, sensor-angle changes, human studies, and image-informed orientation were left for future work."
+    ],
+    "inferred": [
+      "The system does not establish finite contact-area, pressure-distribution, deformation, tangential-force/moment, or slip-capacity observability because none of those quantities is independently measured.",
+      "The reported nonsignificant CNR differences do not establish image-quality equivalence or noninferiority without a predeclared margin and an analysis appropriate for clustered repeated measurements.",
+      "Manual ROI selection and target structure could introduce leakage or optimistic assessment unless ROI rules and held-out units are fixed independently of model or controller development.",
+      "The work cannot establish the minimally sufficient contact representation or the incremental decision value of contact-patch variables because it contains no nested representation ablation or comparison against force-only and model-agnostic baselines.",
+      "The empirical orientation and force controllers do not validate impedance selection under held-out continuous material and geometry shifts.",
+      "The study does not provide a safety certificate or evidence for tangential wrench margins, viscoelastic history state, or deployment robustness."
+    ]
+  },
+  "conflicts_with": [
+    "Conflicts with treating nearby surface-normal measurements as direct observations of finite probe-tissue contact area, pressure, or deformation.",
+    "Conflicts with claiming that a nonsignificant difference test alone proves robotic and manual image-quality equivalence.",
+    "Conflicts with presenting A-SEE as evidence that external geometry plus normal force is a minimally sufficient contact representation for impedance selection.",
+    "Conflicts with treating the study as validation under held-out soft-contact shifts or as evidence of tangential safety margins or clinical deployment safety."
+  ],
+  "verification_status": "verified against Controller-supplied admitted full text",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-4687fd791eea39656dc1265feba0dfcd68d68cff760b7b8ebcb142d7adc2e766.json",
+    "query_plan_sha256": "52fac0b3ecd297c16bd06af3bfa2fb3ca5b843abcb1ff18f47c60e95cc5e0d5b",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "root_cause_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "DOMINANT_SOLUTION_SEARCH",
+    "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
+    "actual_hit_query_ids": [
+      "Q0063"
+    ],
+    "design_obligation_ids": [
+      "OBL-INDEPENDENT-ENDPOINT"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-CLOSED-LOOP-ABSORPTION",
+      "CHAIN-HISTORY-SUFFICIENCY",
+      "CHAIN-SPATIAL-SUFFICIENCY",
+      "CHAIN-TANGENTIAL-SUFFICIENCY"
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "source_id": "Qm5BKnMez5cJ",
+  "read_event_id": "4a40a8872eee45c89e86f047a997511a",
+  "content_sha256": "a6f9487adb16c099cb5e8056b3ef4e2177c4e601d2cb5ae15f189531f1c65059",
+  "claim": "The authors report that UMVIC enables globally asymptotically stable tracking and arbitrary-rate impedance-gain modulation for flexible- or viscoelastic-joint robots using gravitational torque and motor-side dynamics while avoiding link inertia/Coriolis models and link acceleration/jerk feedback; task-specific Baxter experiments support stable tracking and interaction, including greater high-speed robustness than a prior link-jerk-dependent VIC controller.",
+  "claim_locator": [
+    "Full-text packet: method and stability description",
+    "Full-text packet: Baxter tracking, button-pressing, and horizontal-bar brushing experiments",
+    "Full-text packet: reported limitations and future work"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported theoretical and experimental evidence; global asymptotic stability and arbitrary-rate gain modulation remain conditional on the theorem assumptions, while empirical support is limited to the reported Baxter tasks and predetermined trajectories.",
+  "problem_and_setting": "Variable-impedance interaction and trajectory tracking for flexible- or viscoelastic-joint robots under partial knowledge of link-side dynamics, with evaluation on a Baxter robot performing free-space tracking and contact tasks.",
+  "method_or_mechanism": "UMVIC uses a Lyapunov/power-shaping construction. It requires gravitational torque and motor-side dynamics but omits link inertia and Coriolis terms and does not require link acceleration or jerk feedback. The highest required feedback-related term is the third derivative of motor position. The construction permits arbitrary-rate modulation of impedance gains and accommodates nonlinear passive stiffness.",
+  "content_summary": "The paper presents a power-shaping variable-impedance controller for flexible-joint robot tracking and interaction with reduced dependence on link-side dynamics. The authors claim global asymptotic tracking stability and stability-guaranteed arbitrary-rate impedance modulation under their theorem assumptions. Baxter experiments examine tracking, button pressing, and horizontal-bar brushing at low and high speeds using identical predetermined trajectories. In the high-speed bar-contact comparison, UMVIC is reported to remain unaffected by the speed increase, whereas a prior stable VIC controller requiring link-jerk feedback exhibits torque spikes and saturation, including one spike above a wrist-joint torque limit. The authors report stable execution of practical tasks and improved interaction through VIC, while acknowledging model dependence, parameter-estimation challenges, missing integral link-position action, and the absence of an impedance-gain selection policy.",
+  "synthesis_role": "Provides a partial-model, stability-oriented variable-impedance approach and comparative evidence that avoiding link-jerk feedback may improve practical high-speed contact behavior.",
+  "development_link": "Develops power-shaping variable impedance control toward implementations requiring less link-side dynamic knowledge and lower-order link-side sensing, while leaving adaptive gain selection, stronger tracking augmentation, and robustness to uncertain or time-varying motor/joint dynamics unresolved.",
+  "evidence": [
+    {
+      "locator": "Full-text packet: UMVIC model requirements and derivative order",
+      "status": "author_reported",
+      "finding": "UMVIC requires gravitational torque and motor-side dynamics, omits link inertia/Coriolis and link acceleration/jerk feedback, and requires at most the third derivative of motor position."
+    },
+    {
+      "locator": "Full-text packet: Lyapunov/power-shaping stability construction",
+      "status": "author_reported_conditional",
+      "finding": "The authors claim global asymptotic tracking stability and stability-guaranteed arbitrary-rate impedance-gain modulation, including nonlinear passive stiffness, subject to the theorem assumptions."
+    },
+    {
+      "locator": "Full-text packet: Baxter experimental program",
+      "status": "author_reported_empirical",
+      "finding": "Tracking, button pressing, and low- and high-speed horizontal-bar brushing were executed using the same predetermined trajectories; the authors report stable practical-task execution and improved interaction with VIC."
+    },
+    {
+      "locator": "Full-text packet: high-speed horizontal-bar contact comparison",
+      "status": "author_reported_comparative",
+      "finding": "UMVIC is reported to be unaffected by increased speed, while the prior stable VIC controller requiring link-jerk feedback produces torque spikes and saturation, with one spike exceeding a wrist-joint torque limit."
+    },
+    {
+      "locator": "Full-text packet: limitations and future work",
+      "status": "author_reported_limitation",
+      "finding": "The method is not model-free; accurate motor modeling may be difficult under nonlinear or time-varying stiffness, damping, friction, and backlash; tracking gains may require precise stiffness/damping estimates; integral link-position action remains future work; and the method does not determine how impedance gains should be selected."
+    }
+  ],
+  "evidence_kind": [
+    "theoretical_stability_analysis",
+    "controller_design",
+    "robot_experiment",
+    "comparative_experiment",
+    "author_reported_limitations"
+  ],
+  "boundary_conditions": [
+    "Global asymptotic stability and arbitrary-rate impedance modulation are conditional on the paper's theorem assumptions.",
+    "Experimental evidence is task-specific to Baxter tracking, button pressing, and horizontal-bar brushing with predetermined trajectories.",
+    "The high-speed robustness comparison is author-reported and does not establish general safety or superiority across robots, contacts, trajectories, or environments.",
+    "The controller still depends on gravitational torque and an accurate motor-side model.",
+    "Nonlinear passive stiffness is covered only insofar as it satisfies the construction's passivity and theorem conditions.",
+    "The method supplies no policy for choosing or adapting impedance gains."
+  ],
+  "assumptions": [
+    "The gravitational torque needed by the controller is available with sufficient accuracy.",
+    "Motor-side dynamics and the required motor-position derivatives can be modeled or estimated adequately.",
+    "The plant satisfies the structural, regularity, and passivity conditions of the Lyapunov/power-shaping theorem.",
+    "Actuator and sensing behavior remain compatible with the stability analysis despite practical saturation, friction, backlash, and uncertainty.",
+    "Experimental comparisons use the stated identical predetermined trajectories and appropriate controller implementations."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The method is not model-free.",
+      "Accurate motor modeling may be difficult when stiffness, damping, friction, or backlash are nonlinear or time-varying.",
+      "Improved tracking can require precise stiffness and damping estimates.",
+      "Integral link-position action is absent and deferred to future work.",
+      "The method does not determine how impedance gains should be selected.",
+      "In high-speed bar contact, the prior link-jerk-dependent VIC controller produced input-torque spikes and saturation, including one spike exceeding a wrist-joint torque limit."
+    ],
+    "inferred": [
+      "Performance and theoretical guarantees may degrade when motor-side modeling errors, derivative-estimation errors, unmodeled joint effects, or actuator saturation violate the theorem assumptions.",
+      "The fixed, predetermined experimental trajectories do not establish robustness to online trajectory changes, broader contact geometries, or untested disturbance regimes.",
+      "Because impedance-gain selection is external to the method, stable modulation alone does not ensure task-optimal or safe gain choices."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Verified only against the Controller-supplied full-text packet; no independent source lookup was performed. Claims of novelty, safety implications, and comparative superiority are author-reported."
+}

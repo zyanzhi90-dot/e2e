@@ -1,0 +1,1018 @@
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                          1
+
+
+
+
+          On the Passivity Based Impedance Control of
+                      Flexible Joint Robots
+                                Christian Ott, Alin Albu-Schäffer, Andreas Kugi, and Gerd Hirzinger
+
+
+
+
+   Abstract— In this work a novel type of impedance controllers                    controller (formulated in the relevant coordinates). In [10] it
+for flexible joint robots is proposed. As a target impedance a                     was proven that a motor position based PD-controller leads to
+desired stiffness and damping are considered without inertia                       a stable closed-loop system also in case of a robot with flexible
+shaping. For this problem two controllers of different complexity
+are proposed. Both have a cascaded structure with an inner                         joints. Furthermore, in [11] a stability analysis of a hybrid
+torque feedback loop and an outer impedance controller. For                        position/force controller for a flexible joint robot without
+the torque feedback, a physical interpretation as a scaling of the                 gravitational effects was presented. However, it has been
+motor inertia is given, which allows to incorporate the torque                     shown that in practice often only quite limited performance
+feedback into a passivity based analysis. The outer impedance                      can be achieved with a restriction to purely motor position
+control law is then designed differently for the two controllers.
+In the first approach the stiffness and damping terms and the                      (and velocity) based feedback controllers (without additional
+gravity compensation term are designed separately. This outer                      non-collocated feedback) for the case of a flexible joint robot.
+control loop uses only the motor position and velocity, but no non-                In some works a controller structure based on a feedback of the
+collocated feedback of the joint torques or link side positions. In                joint torques as well as the link side positions was considered
+combination with the physical interpretation of torque feedback,                   and it was shown that this leads to an increase of performance
+this allows us to give a proof of the asymptotic stability of the
+closed-loop system based on the passivity properties of the system.                (see, e.g., [12]). This has also already been verified experimen-
+The second control law is a refinement of this approach, in which                  tally with the DLR lightweight robots [13]. From a theoretical
+the gravity compensation and the stiffness implementation are                      point of view this approach usually is justified (for sufficiently
+designed in a combined way. Thereby, a desired static stiffness                    high joint stiffness values) by an approximate analysis based
+relationship is obtained exactly. Additionally, some extensions of                 on the singular perturbation theory. The feedback of the joint
+the controller to visco-elastic joints and to Cartesian impedance
+control are given. Finally, some experiments with the DLR                          torques is therein considered as the control action of a fast
+lightweight robots verify the developed controllers and show the                   inner control loop which receives its setpoint values from an
+efficiency of the proposed control approach.                                       outer impedance controller. Furthermore, an integral manifold
+   Index Terms— Impedance Control, Compliance Control, Flex-                       approach for designing force and impedance controllers for
+ible Joint Robots, Passivity Based Control.                                        flexible joint robots was presented in [14].
+                                                                                   In [15], [16] a controller with a complete static state feedback
+                           I. I NTRODUCTION                                        (position and torque as well as their first derivatives) was in-
+                                                                                   troduced, for which (analogously to [10]) asymptotic stability
+   Impedance control certainly is one of the core techniques                       was shown based on the passivity properties of the controller.
+in the design of modern robot systems, especially for the                          In contrast to the classical PD-controller the motor inertia and
+growing field of service robotics. The basic control objective                     the joint stiffness are included in the same passive block as
+of impedance control as formulated in the seminal work of                          the state feedback controller such that an effective damping of
+Hogan [1] is the achievement of a desired dynamical relation                       the joint oscillations could be achieved.
+between external forces and robot movement.                                        In the present paper a physical interpretation of the torque
+The classical approach to impedance control concentrates on                        feedback is given, which allows to include the inner loop
+robotic systems in which the joint elasticity is neglected. Con-                   torque controller into a passivity based analysis of the com-
+sequently, a straightforward application of these techniques to                    plete closed-loop system. It is important to notice that the
+a flexible joint robot usually will not lead to a satisfactory                     controller being presented is itself not passive due to the
+performance1. In fact the importance of joint elasticity for the                   feedback of the joint torque, but it will be shown that the
+design of position and tracking controllers has widely been                        controlled motor dynamics in combination with the torque
+discussed in the literature [2], [3], [4], [5], [6], [7], [8], [9].                feedback are passive. Together with the passive (link side)
+In this paper an impedance control law is proposed which                           rigid body dynamics the closed-loop system can therefore be
+is designed for flexible joint robots. The desired impedance                       represented as a feedback interconnection of passive subsys-
+is assumed to be a mass-spring-damper system. Furthermore,                         tems.
+only the achievement of stiffness and damping is considered                        Furthermore, in [10], [15] a gravity compensation term based
+herein, while the inertial behavior is left unchanged. In case of                  on the desired configuration was used. In case of an impedance
+a robot with rigid joints, such a stiffness and damping behavior                   controller this is not appropriate due to the possibly large
+could in principle be implemented quite easily with a PD-like                      deviations from the desired configuration which may occur
+  1 In terms of damping out the oscillations due to the flexibility in the joint   here in case of a low desired stiffness. In this work a gravity
+as well as absolute positioning accuracy.                                          compensation term will be designed which is based on the
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                          2
+
+
+
+measurement of the motor position and is better suited for            rotor inertia B of the motor2. The elasticity of the transmission
+the use in connection with impedance control. The problem             between the rotor and the following link3 of the robot is
+of gravity compensation for flexible joint robots in case of          modeled in form of a linear spring with stiffness K.
+impedance control was also addressed in some recent papers            The goal of the impedance controller is to achieve a desired
+[17], [18]. However, in contrast to our approach the gravity          dynamical behavior with respect to an external force Fext
+compensation term in [17], [18] led to additional lower bounds        acting on the link side. In the following it is assumed that
+on the admissible desired stiffness.                                  this dynamical behavior is given by a differential equation
+Since the controller uses an inner torque feedback loop, a            of second order representing a mass-spring-damper system
+measurement of the joint torques is needed for the imple-             with mass M , desired stiffness Kθ , and desired damping Dθ .
+mentation. This can be achieved either directly by a joint            For a robot with rigid joints this behavior could be realized
+torque sensor or indirectly by an additional measurement of           by a simple PD-controller with proportional and derivative
+the link side position. The DLR lightweight robots [19], [20]         controller gains set to Kc = Kθ and Dc = Dθ , respectively.
+(Fig. 1) are equipped with joint torque sensors in order to           For a robot with elastic joints instead, no control law can
+enable fine manipulation and to enhance the performance when          force the (fourth order) closed-loop behavior exactly into such
+the robot is in interaction with the environment. Therefore,          a second order impedance, since for every joint four state
+they are ideally suited for the implementation of the presented       variables (motor angle θ, link side angle q, as well as their
+controllers.                                                          first derivatives) are present. If one uses a motor position based
+This paper is organized as follows: In Section II the design          PD-controller in case of a robot with elastic joints, as shown
+idea is described based on a simplified one-dimensional model.        in Fig. 2 for the one-dimensional case, then the resulting
+The generalization of the design idea to the complete model           dynamics will clearly be influenced also by the joint elasticity
+of a flexible joint robot is then presented in Section III.           and the motor inertia. Intuitively speaking, the deviation from
+Some details on the gravity model are given in Section IV.            the desired behavior will be less significant when the rotor
+In Section V an impedance controller based on a separate              inertia B becomes smaller and the joint stiffness K becomes
+design of stiffness implementation and gravity compensation           larger.
+is presented. Based on the line of argumentation of the gravity       At this point it should be mentioned that the joint stiffness
+compensation design an improved controller, which realizes            values of a typical flexible joint robot are indeed quite large4
+the desired stiffness relation exactly, is presented in Section VI.   but cannot be considered as infinite and thus elasticity is not
+For the sake of simplicity the complete controller design and         negligible. By a negative feedback of the joint torque τ the
+analysis is treated in joint coordinates. The solution, however,      apparent inertia (of the rotor) can now be scaled down such
+is constructed in such a way that the extension to the Cartesian      that the closed-loop system reacts to external forces Fext
+impedance control problem is rather straightforward. Section          as if the rotor inertia were smaller. The desired dynamical
+VII is devoted to some further extensions of the controller,          behavior can then be approximated the better, the smaller the
+namely the case of visco-elastic joints and the generalization to     apparent rotor inertia is. This approach will be put in concrete
+Cartesian impedance control. Finally, Section VIII and Section        terms in the following section for the model of a flexible
+IX contain experimental results and conclusions.                      joint robot. Furthermore, a method for compensating the static
+                                                                      influence of the spring K will also be presented. Notice that
+                            II. D ESIGN I DEA                                                                              M
+                                                                                       Kc           B
+   In this section the basic idea of the proposed controller                                                   K                  Fext
+design method is described. It is motivated by some simple
+considerations for a one-dimensional model.
+Consider at first the model of a single flexible joint as it                                                    τ
+                                                                                       Dc
+is sketched in Fig. 1 for the second joint of the DLR-
+Lightweight-Robot-III. The motor torque τm acts here on the                                 θ
+                                                                                                                    q
+
+                                                                      Fig. 2. Motor position based PD-control of a single joint. Using torque
+                                                                      feedback the effective motor inertia is scaled down (dashed line).
+
+                                                                      the design approach presented in this paper thus does not allow
+                                                                      to implement a general second order impedance with arbitrary
+                   B             M                                    inertia, but refers to impedance relations with unchanged link
+          τm               K           Fext
+                                                                      side inertia. Its robustness properties due to the passivity based
+                                                                         2 The current controlled motors are modeled as ideal torque sources since
+                                                                      the dynamics of the electrical drives are negligible.
+                                                                         3 In Fig. 1 represented in a simplified form with a constant inertia M .
+                                                                         4 For the lower joints of the DLR lightweight robots these values lie in the
+Fig. 1.   Sketch of the model for a flexible joint robot.             range 10.000 − 15.000 Nm/rad.
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                            3
+
+
+
+design make the controller suitable especially for autonomous                IV. P ROPERTIES OF THE G RAVITY P OTENTIAL
+manipulation tasks in contact with unknown environments.                The gravity term g(q) corresponds to the differential of
+However, for application fields like teleoperation or haptics        the gravity potential Vg (q), i.e. g(q) = (∂Vg (q)/∂q)T . It is
+the restriction to an unchanged link side inertia may be more        well known that the Hessian H(q) := ∂ 2 Vg (q)/∂q 2 of the
+troublesome of course.                                               gravity potential has an upper bound if the robot has only
+                                                                     rotational joints5 [21]. In case that the manipulator instead has
+     III. T HE E FFECTS OF T ORQUE F EEDBACK ON THE
+                                                                     also prismatic joints, it is useful to consider a subset Qp of the
+                   F LEXIBLE J OINT M ODEL
+                                                                     configuration space Rn in which all the prismatic joints are
+   In this work the so-called reduced flexible joint robot model     bounded by their respective workspace boundaries6. In this
+is assumed as proposed by Spong [2]:                                 subset Qp the existence of an upper bound of the gravity
+   M (q)q̈ + C(q, q̇)q̇ + g(q) = K(θ − q) + τ ext , (1)              Hessian is guaranteed. From a physical point of view this
+                                                                     bound is a-priori not well defined since it clearly depends on
+             B θ̈ + K(θ − q) = τ m .                (2)
+                                                                     the chosen physical units for the translational and rotational
+Herein q ∈ Rn represents the vector of the n link side joint         coordinates. In order to overcome this problem particular
+angles and θ ∈ Rn the vector of the corresponding motor              matrix and vector norms are defined in the following by a
+angles. The joint torques τ ∈ Rn are determined by the linear        scaling with the joint stiffness matrix.
+relationship τ = K(θ −q), in which K ∈ Rn×n is a diagonal               Remark 1: The design of the gravity compensation in Sec-
+matrix containing the individual joint stiffness values Ki as        tion V-B does not involve the complete dynamics of the
+diagonal elements, i.e. K = diag(Ki ). The diagonal matrix           manipulator, but refers rather to the static case. Therefore,
+B ∈ Rn×n consists of the rotor inertias Bi . Furthermore,            in this case the stiffness matrix is the appropriate choice for
+M (q) ∈ Rn×n is the (link side) inertia matrix and C(q, q̇)q̇        defining a metric rather than the inertia matrix.
+represents the centrifugal and Coriolis-terms of the model. The      Let R ∈ Rn×n be the square root of the joint stiffness matrix7
+vector of gravity torques g(q) ∈ Rn is given by the differential     K, i.e. K = RT R. Then a vector norm || · ||K : Rn → R+
+of a potential function Vg (q), i.e. g(q) = (∂Vg (q)/∂q)T .          for a vector v ∈ Rn can be defined via the Euclidean vector
+The motor torques τ m ∈ Rn are considered as the control             norm || · ||2 as
+inputs. Finally, the external torques which act on the robot are                                                     1/2
+summarized in the vector τ ext ∈ Rn .                                             ||v||K := ||Rv||2 = v T Kv               .
+At this point also two well known properties of the robot            The matrix R, respectively K, is used herein as a normaliza-
+model shall be mentioned which will be utilized in the               tion of the chosen physical units. Corresponding to this vector
+following sections:                                                  norm the matrix norm || · ||K : Rn×n → R+ for a matrix
+   Property 1: The inertia matrix is symmetric and positive
+                                                                     A ∈ Rn×n is defined in the following via the spectral norm8
+definite:
+                                                                     || · ||i2 . In this section we are interested in the Hessian of the
+              M (q) = M (q)T > 0 ∀q ∈ Rn .
+                                                                     gravity potential. Consequently, it is reasonable to consider the
+                                                                     quadratic form v T Av for a matrix A. For the vector norm
+   Property 2: The matrix Ṁ (q) − 2C(q, q̇) fulfills the con-       || · ||K as defined above the following inequality holds
+dition:
+                                                                                   |v T Av| ≤ ||R−T AR−1 ||i2 ||v||2K .
+          T                                           n
+        q̇ (Ṁ (q) − 2C(q, q̇))q̇ = 0      ∀q, q̇ ∈ R .
+                                                                     This motivates the choice
+
+As already described intuitively in the last section, the apparent                       ||A||K      :=     ||R−T AR−1 ||i2
+motor inertia can be reduced from B to B θ by feeding back
+                                                                     for the definition of the matrix norm || · ||K .
+the joint torque τ = K(θ−q). This is realized by the feedback
+                                                                       Remark 2: Notice that the term R−T AR−1 corresponds to
+law
+                                                                     the coordinate transformation of a covariant tensor A of rank
+              τm   = BB −1            −1
+                        θ u + (I − BB θ )τ ,                  (3)    two when R is the Jacobian of the coordinate transformation.
+                                                                     A linear transformation (i.e. a mixed tensor), instead, would
+where u serves as a new control input. The resulting system
+                                                                     be transformed as RAR−1 .
+dynamics are given by
+                                                                     Applied to the joint stiffness matrix K this norm clearly gives
+   M (q)q̈ + C(q, q̇)q̇ + g(q) = K(θ − q) + τ ext , (4)              ||K||K = 1. Based on this definition of the matrix norm, one
+               B θ θ̈ + K(θ − q) = u .                        (5)    further assumption on the gravity potential is formulated next.
+                                                                     This assumption will be useful for the design of the gravity
+These equations of motion will be the basis for the design           compensation.
+of two joint level impedance control laws. The design in
+Section V treats the gravity compensation and the stiffness             5 In this case the gravity potential can be written as the sum of trigonometric
+
+implementation separately, and is a consequent realization of        terms of the joint angles.
+                                                                        6 For a robot with rotational joints only one has Qp = Rn instead.
+the design idea described in Section II. But beforehand, some           7 Since K is a diagonal matrix, the matrix R is given by R = diag( K ).
+                                                                                                                                                √
+                                                                                                                                                    i
+properties of the gravity potential are exposed in the next             8 The spectral norm is the matrix norm induced by the Euclidean vector
+section.                                                             norm, and thus in our case corresponds to the largest eigenvalue.
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                    4
+
+
+                                                ∂ 2 Vg (q)
+  Assumption 1: The Hessian H(q) :=                ∂q 2    of the gravity   A. Implementation of the Compliance Behavior
+potential Vg (q) satisfies the condition                                      According to the design philosophy outlined in Section III
+                                                                            the control input uimp is simply chosen as a joint space PD-
+         αg := sup ||H(q)||K < ||K||K = 1 .                          (6)
+                 ∀q∈Qp                                                      controller for the motor angles
+Notice that this assumption is not restrictive at all. Intuitively
+speaking it states nothing else than the fact that the ma-                               uimp = −K c (θ − θd ) − Dθ θ̇ ,                   (9)
+nipulator should be designed properly, in the sense that the                where the controller gain matrix K c and the virtual equilib-
+joint stiffness is sufficiently high such that, for a fixed motor           rium position on the motor side θd are given by
+position, it can prevent the manipulator from falling down
+under the load of its own weight.                                                            Kc    = (K −1
+                                                                                                        θ −K
+                                                                                                             −1 −1
+                                                                                                               ) ,                        (10)
+It should also be mentioned that the quantity αg is dimen-                                    θd   = qd + K      −1
+                                                                                                                      g(q d ) .           (11)
+sionless, since it is defined via the norm || · ||K . Notice also
+that the existence of this bound αg < 1 implies the following               Equation (10) makes allowance for the fact that the controller
+property for the gravity potential which will be useful in the              gain matrix K c acts in series interconnection with the joint
+stability analysis in Section V-E.                                          spring K (see Fig. 2). The particular form of K c in (10)
+   Property 3: Let αg (as defined in (6)) be an upper bound                 ensures that in the gravity-free steady state (θ 0 , q 0 ) the
+for the Hessian of the gravity potential Vg (q) with respect to             demanded stiffness relation τ ext = K θ (q 0 − q d ) is satisfied
+the K-norm. Then the inequality                                             exactly.
+                                                                            For the analysis in Section V-D it is required that not only
+        |Vg (q 1 ) − Vg (q 2 ) + g(q 1 )T (q 2 − q 1 )| ≤                   K θ but also the controller gain matrix K c is positive definite.
+                                      1                                     Therefore, the following assumption is made which implies
+                                        αg ||q 2 − q 1 ||2K
+                                      2                                     that the controller can implement no joint level stiffness larger
+holds for all q 1 , q 2 ∈ Qp .                                              than K.
+A proof of this statement can be found in [22].                                Assumption 2: The desired stiffness matrix K θ is assumed
+                                                                            to be symmetric and positive definite, and satisfies the condi-
+                                                                                              −1 −1
+                                                                            tion K −1
+                                                                                                 
+                                                                                     θ −K             > 0.
+  V. S EPARATE D ESIGN OF C OMPLIANCE AND G RAVITY                          So far, the controller (3), (9) leads to the following closed-loop
+                    C OMPENSATION                                           equations
+   In this section a joint level impedance controller for the
+                                                                                   M (q)q̈ + C(q, q̇)q̇ + g(q) = τ + τ ext ,              (12)
+model (4)-(5) is proposed. Let the desired impedance at the
+(constant) virtual equilibrium point q d be specified by a                           B θ θ̈ + D θ θ̇ + K c (θ − θ d ) + τ = ug .          (13)
+symmetric and positive definite joint stiffness matrix K θ , and
+a positive definite joint damping matrix D θ . Therefore, the               B. Gravity Compensation
+target dynamics of the impedance controller can be written as
+                                                                               In [10] it has been shown that for a motor position based
+a mass-spring-damper system of the form
+                                                                            PD-controller a feedforward term of the gravity torques in
+ M (q)q̈ + (C(q, q̇) + Dθ )q̇ + K θ (q − q d ) = τ ext ,             (7)    the desired steady state q d can be used in order to achieve
+                                                                            asymptotic stability. This indeed leads for a position controller
+in which the link side inertia of the robot is the same as in (1).          usually to good performance because the deviations from the
+Consequently, also the corresponding centrifugal and Coriolis-              desired position can be kept small. For an impedance con-
+terms are present in the target dynamics.                                   troller, however, this is not the case. Here a pure feedforward
+   Remark 3: Note that the flexible joint robot model is a                  action for the gravity compensation does not give satisfactory
+4n-dimensional underactuated system in which every joint is                 results because large deviations from the virtual equilibrium
+represented by four state variables (θi , θ̇i , qi , q̇i ), i = 1...n.      position may occur in the case of a small desired stiffness K θ .
+Therefore, the desired target dynamics (7) of order 2n can                  The problem of constructing an online gravity compensation
+never be achieved exactly by any controller.                                term for a flexible joint robot based solely on the motor
+Our design approach for approximating this impedance rela-                  position was first treated in [17]. The solution in [17], however,
+tion follows the ideas described in Section II. The inner loop              still leads to lower bounds on K θ , limiting the generality of the
+torque feedback reduces the effect of the motor inertia on the              impedance controller. In contrast to this the solution presented
+closed-loop dynamics as described in Section III. In addition               herein does not require such additional constraints [23], [24].
+we must eliminate the effects of gravity and implement the                  In the following a compensation for the static effects of
+compliance according to the desired stiffness and damping                   the gravity term g(q) is constructed. This compensation is
+matrices K θ and D θ .                                                      solely based on the motor position and can compensate for
+The input variable u is thus split up into one term uimp , which            the link side gravity torques in a quasi-stationary fashion.
+actually implements the stiffness and damping, and another                  Consider first the set Ω := {(q, θ) | K(θ − q) = g(q)} of
+term ug , which acts as a gravity compensation                              stationary points (for τ ext = 0) for which the torque due to
+                                                                            the joint elasticity counterbalances the link side gravity torque.
+                      u = uimp + ug .                                (8)    The goal of the gravity compensation is now to construct
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                         5
+
+
+
+a compensation term ḡ(θ) such that in Ω the equilibrium                        While in general the inverse function h−1  g (θ) cannot be com-
+condition                                                                       puted directly in practice, it is thus possible to approximate
+                                                                                it with arbitrary accuracy by iteration. From a practical point
+                 ḡ(θ) = g(q)      ∀(q, θ) ∈ Ω                           (14)   of view one or two iteration steps lead to quite satisfactory
+holds. This means that the gravity compensation term coun-                      results in this approximation. Notice also that by a first order
+terbalances the link side gravity torque in all stationary points.              approximation with q̂ 0 = q d one obtains the online gravity
+The equation                                                                    compensation term of [17].
+                                                                                In the following analysis it is therefore assumed that the
+                     K(θ − q) = g(q) ,                                   (15)   inverse function h−1g (θ) is known exactly, although it can only
+                                                                                be approximated in practice.
+which describes the set Ω, motivates the definition of a func-
+                                                                                Another remark about the range in which Proposition 1 holds
+tion q̄(θ) which can be understood as a quasi-static estimate of
+                                                                                is important. The assumption Qp = Rn , which holds for
+the link side position. Notice, therefore, that (15) can obviously
+                                                                                instance when the robot has only rotational joints, was needed
+be solved uniquely for the motor position θ. Let us denote this
+                                                                                to ensure that T g (q) is a global contraction. If instead Qp ⊂
+solution by
+                                                                                Rn , then one must additionally ensure that the points q̂ i of the
+                  hg (q) := q + K −1 g(q) .                              (16)   iteration (19) stay in an area in which ||H(q)||K < ||K||K =
+                                                                                1 holds. While this is not a critical issue from a practical point
+Furthermore, by the use of the contraction mapping theorem                      of view, it is difficult to be proven in general.
+(see Proposition 1 below for more details on this) it can be                    Since ḡ(θ) is the motor torque needed (statically) to prevent
+shown that the inverse function to hg (q) exists. Then                          the robot from falling down under the action of its own weight,
+                       q̄(θ) := h−1                                             one can see that ḡ(θ) must be connected with a potential
+                                 g (θ) ,                                 (17)
+                                                                                function Vḡ (θ) which is related to the potential energy (gravity
+which is the solution of (15) for q, can be used for the                        plus joint stiffness) of the robot. This potential function will
+construction of a gravity compensation term of the form                         be of interest for the passivity and stability analysis in the
+                                                                                next section. A detailed derivation of Vḡ (θ) is given in the
+                   ug = ḡ(θ) := g(q̄(θ)) .                              (18)
+                                                                                appendix. Therein it is shown that Vḡ (θ) can be written as
+It is important to notice that, while (14) clearly holds only                                                1
+in Ω, the function q̄(θ) by construction fulfills the equation                      Vḡ (θ)    = Vg (q̄(θ)) + g(q̄(θ))T K −1 g(q̄(θ))
+                                                                                                             2
+K(θ − q̄(θ)) = g(q̄(θ)) for any θ and independently of q.                                                    1
+Finally, the question about the existence of the function q̄(θ)                                = Vg (q̄(θ)) + (q̄(θ) − θ)T K(q̄(θ) − θ).
+                                                                                                             2
+is answered by the following proposition.
+   Proposition 1: If (6) from Assumption 1 holds globally                       C. Controller Formulation
+(i.e. for Qp = Rn ), the inverse function h−1g (θ) = q̄(θ) of
+hg (q) = q + K −1 g(q) : Rn → Rn exists globally. Moreover,                       The complete control law with gravity compensation is
+the iteration                                                                   summarized as, cf. (3),(8),(9),(18)
+
+                        q̂ n+1    =    T g (q̂ n )                       (19)                 τm   =   BB −1            −1
+                                                                                                          θ u + (I − BB θ )τ ,                 (20)
+                                                                                               u   =   −K c (θ − θ d ) − D θ θ̇ + ḡ(θ) .      (21)
+with T g (q) := θ − K −1 g(q) converges for every fixed θ and
+for every starting point q̂ 0 to q̄(θ).                                         This leads to the closed-loop system
+     Proof: The proposition can be proven by showing first
+                                                                                       M (q)q̈ + C(q, q̇)q̇ + g(q) = τ + τ ext ,               (22)
+that the mapping T g (q) : Rn → Rn is a global contraction
+(see [25]) for the vector norm || · ||K . Since the vector space                       B θ θ̈ + D θ θ̇ + K c (θ − θ d ) + τ = ḡ(θ) .          (23)
+Rn together with the norm || · ||K is a Banach space one must
+only show that there exists a ρ < 1, such that T g (q) satisfies                D. Passivity
+the condition                                                                     For the passivity analysis it is assumed that there exists a
+||T g (q 2 ) − T g (q 1 )||K ≤ ρ||q 2 − q 1 ||K      ∀q 1 , q 2 ∈ Rn .          real β > 0, such that
+
+As shown in [22] this is ensured by (6) from Assumption 1.                                         |Vg (q)|   < β       ∀q ∈ Rn                (24)
+By the contraction mapping theorem (also called Banach fixed
+                                                                                holds. This is for instance satisfied for all robots with rotational
+point theorem) one can therefore conclude that the mapping
+                                                                                joints only (i.e. without prismatic joints). Then also the gravity
+T g (q) has a unique fixed point q ∗ = T g (q ∗ ) and that the                  torque vector g(q) is globally bounded. Furthermore, (24) also
+iteration of (19) converges to this fixed point:
+                                                                                implies the boundedness of Vḡ (θ) and ḡ(θ). Notice that the
+                         lim q̂ n = q ∗ .                                       requirement of a bounded gravity potential is only needed
+                        n→∞
+                                                                                for the passivity analysis, while the proof of the asymptotic
+By comparing T g (q) with hg (q) one can easily see that (for                   stability in Section V-E will also be valid for a general
+each particular value of θ) this fixed point q ∗ corresponds to                 potential.
+q̄(θ).                                                                          According to [26], [27], a sufficient condition for a system
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                        6
+
+
+
+(with input u and output y) to be passive is given by the                      E. Stability Analysis
+existence of a continuous storage function S which is bounded
+                                                                                  Next it will be shown that the closed-loop system is asymp-
+from below and for which the derivative with respect to
+                                                                               totically stable for the case of free motion (i.e. τ ext = 0).
+time along the solutions of the system satisfies the inequality
+Ṡ ≤ y T u.                                                                       1) Determination of the steady state: For τ ext = 0, the
+In the following it will be shown that the system (22)-(23),                   steady state conditions of the system (22)-(23) are given by
+as outlined in Figure 3, consists of two passive subsystems
+                                                                                                       K(θ 0 − q 0 ) = g(q 0 ) ,             (28)
+in feedback interconnection. Notice that in connection with
+impedance control it is often assumed that also the environ-                            K(θ0 − q 0 ) + K c (θ 0 − θd ) = ḡ(θ 0 ) .          (29)
+ment of the robot can be described by a passive mapping (q̇ →
+                                                                               From (14) it follows that
+−τ ext ). The passivity of (22), as a mapping (τ + τ ext ) → q̇,
+                                                                                                      K c (θ0 − θd ) =      0                (30)
+                                                   q̇
+                                   (22)                                        must be satisfied in the steady state. Due to Assumption 2 the
+                                                                               matrix K c is positive definite and hence the steady state is
+                                                                               given by:
+                         −τ
+                                     (5)
+                                                                                                   θ0     =    θd ,
+                        θ̇
+                                                                                                   q0     =    h−1
+                                                                                                                g (θ 0 ) = q d ,
+                                    (21)      −u
+                                                                                                   q̇ 0   =    θ̇0 = 0 .
+                                                  (23)
+                                                                                 2) Lyapunov-Function: Consider the sum of the storage
+                  −τ ext                                                       functions of the subsystems as a Lyapunov function candidate
+                              Environment
+                                                                                        V (q, q̇, θ, θ̇) = Sq (q, q̇) + Sθ (q, θ, θ̇) .      (31)
+Fig. 3.   System representation as an interconnection of passive subsystems.
+                                                                               First, it is shown that this function is positive definite. Notice
+                                                                               that, due to (63) from the Appendix, V (q 0 , 0, θ0 , 0) = 0
+is well known due to physical reasons and can be shown with                    holds.
+the storage function                                                           By extracting the kinetic part of V (q, q̇, θ, θ̇)
+                              1 T                                                                              1 T           1 T
+               Sq (q, q̇) =     q̇ M (q)q̇ + Vg (q)                    (25)               Vkin (q, q̇, θ̇) =     q̇ M (q)q̇ + θ̇ B θ θ̇
+                              2                                                                                2             2
+for which (due to Property 2) the derivative along the solutions
+                                                                               one can see that V (q, q̇, θ, θ̇) is positive definite with respect
+of (22) is given by
+                                                                               to q̇ and θ̇ because the inertia matrices are positive definite
+                    Ṡq (q, q̇) = q̇ T (τ + τ ext ) .                  (26)    (Property 1). In order to show that V (q, q̇, θ, θ̇) is positive
+                                                                               definite with respect to the complete state, it is then sufficient
+In a similar way the passivity of (23), as a mapping q̇ → −τ ,                 to show that the potential part
+can be shown with the storage function
+                                                                                      Vpot (q, θ) = V (q, q̇, θ, θ̇) − Vkin (q, q̇, θ̇)      (32)
+                        1 T          1
+    Sθ (q, θ, θ̇)     =   θ̇ B θ θ̇ + (θ − q)T K(θ − q)
+                        2            2                                         is positive definite with respect to q and θ.
+                           1         T                                         Consider first only the part of the potential energy due to K.
+                        + (θ − θ d ) K c (θ − θ d ) − Vḡ (θ) .
+                           2                                                   In order to simplify the notation, in the remaining part of this
+                                                                               section the function q̄(θ) is written as q̄.
+The derivative of Sθ (q, θ, θ̇) along the solutions of (23) is
+then given by                                                                                     1
+                                                                                 Vk (q, θ) =        (θ − q)T K(θ − q)                     (33)
+                                     T                                                            2
+               Ṡθ (q, θ, θ̇) = −θ̇ D θ θ̇ − q̇ T τ .                  (27)                       1
+                                                                                             =      (θ − q̄ + q̄ − q)T K(θ − q̄ + q̄ − q)
+                                                                                                  2
+The passivity of the closed-loop system follows directly from                                     1                     1
+                                                                                             =      g(q̄)T K −1 g(q̄) + (q̄ − q)T K(q̄ − q)
+(26) and (27) and the fact that the feedback interconnection of                                   2                     2
+passive systems is again passive. It should also be mentioned                                     +(q̄ − q)T g(q̄)
+that these passivity properties are still valid if the PD-controller
+in (21) is replaced by any other passive (with respect to θ̇ →                 Herein the relationship K(θ − q̄) = g(q̄) was used which
+−u) controller. This structure of a feedback interconnection                   follows directly from the definition of q̄(θ) in (17). In order
+of passive subsystems, as depicted in Fig. 3, brings along very                to simplify the notation, the deviation of the motor angle from
+advantageous robustness properties for the closed-loop system.                 its steady state value will be denoted by θ̃ = (θ − θd ) in the
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                      7
+
+
+
+following. The potential energy can then be written (with (63)      the controller approximates the desired impedance behavior
+from the Appendix) as follows                                       from (7). Therefore, a small simulation of the seven-degrees-
+                              1 T                                   of-freedom DLR-Lightweight-Robot-II ([19], see also Fig. 6 in
+  Vpot (q, θ) = Vk (q, θ) + θ̃ K c θ̃ + Vg (q) − Vḡ (θ)            Section VIII) will be shown. In this simulation the closed-loop
+                              2
+                              1 T                                   response for a step-wise excitation using an external torque of
+              = Vk (q, θ) + θ̃ K c θ̃ + Vg (q) − Vg (q̄)            10 Nm at joint 2 is evaluated. The simulation was performed
+                              2
+                     1     T
+                                                                    with different values for B θ in order to demonstrate the role
+                   − g(q̄) K −1 g(q̄) .                             of the torque feedback in the controller. The desired stiffness
+                     2
+Due to Property 3 the following inequality holds                    and damping matrices are set to diagonal matrices with an
+                                                                    overall stiffness of 1000 Nm/rad and the desired damping is
+                         1                         1 T              set to Dθ = diag{100, 100, 100, 100, 1, 1, 1} corresponding to
+    Vpot (q, θ) ≥          (q̄ − q)T K(q̄ − q) + θ̃ K c θ̃
+                         2                         2                the different effective inertia for the lower and upper joints.
+                         −|Vg (q) − Vg (q̄) + (q̄ − q)T g(q̄)|      In the following only the motion of joint 2, onto which the
+                         1                         1 T              external force is exerted, will be analyzed in detail. In Figure
+                    ≥      (1 − αg )||q̄ − q||2K + θ̃ K c θ̃ .
+                         2                         2                4 the link side joint angle of this axis is shown. First, the dash-
+The right hand side of the last inequality is nonnegative for       dotted line shows the step response of the desired impedance
+all (q, θ) ∈ Qp , since by Assumption 1 the bound αg satisfies      (7). Secondly, the dotted line shows the control action for the
+the inequality condition αg < 1. Therefore, one can conclude        controller without any torque feedback, i.e. with B θ set to
+that the considered candidate Lyapunov function is positive         B. One can see some higher frequency oscillations and also a
+definite in Qp .                                                    rather huge overshoot. Next, the same step response is shown
+   3) Derivative of the Lyapunov-Function: The change of            with B θ = B/3 (solid line) and with B θ = B/10 (dashed
+V (q, q̇, θ, θ̇) along the solutions of the system (22)-(23) (for   line). The former corresponds to a moderate torque feedback
+τ ext = 0) is given by                                              while the latter is in the range of the highest gains which
+                                                     T              could be implemented for this robot in practice considering
+ V̇ (q, q̇, θ, θ̇) = Ṡq (q, q̇) + Ṡθ (q, θ, θ̇) = −θ̇ Dθ θ̇ .     the noise of the torque sensor. One can see that for higher
+Due to the fact that the matrix D θ is positive definite, it can    torque feedback gains the desired dynamics is approximated
+be concluded that the equilibrium point is stable. Furthermore,     better. In order to have a closer look at the oscillation damping
+asymptotic stability can be shown by the use of the invariance      performance, Figure 5 shows the simulated joint torque. One
+principle of LaSalle [25]. According to this theorem the system     can see that the torque oscillations, observed for the case of
+state will converge to the largest positively invariant set for     B θ = B (dotted line), are already damped out quite effectively
+which θ̇ = 0 holds. From the system equations it follows that       by the lower gain B θ = B/3 (solid line) and cannot be
+there does not exist any trajectory for which θ̇ = 0 holds for      observed any more for the higher gain B θ = B/10 (dashed
+all times t > 0 except for the restriction to the equilibrium       line).
+point. Therefore, the following proposition can be concluded.
+   Proposition 2: Under the Assumptions 1 and 2 the system                         0.012
+(22)-(23) is asymptotically stable for the case of free motion
+(i.e. for τ ext = 0). Moreover, if Assumption 1 holds globally                         0.01
+(i.e. for Qp = Rn ), then the system is even globally asymp-                       0.008
+                                                                            q2 [rad]
+
+
+
+
+totically stable.
+                                                                                   0.006
+F. Controller Discussion                                                           0.004
+   The passivity analysis in Section V-D shows that the closed-
+                                                                                   0.002
+loop system can be seen as a feedback interconnection of
+passive subsystems. In many applications the environment                                 0
+can also be treated as a passive system with respect to the                               0     0.2        0.4        0.6        0.8
+input q̇ and the output −τ ext . Therefore, one can conclude                                            time [s]
+very advantageous robustness properties of the whole system.        Fig. 4. Simulated joint angle for a step wise excitation of 10Nm (dash-dotted
+Stability is for instance also guaranteed for arbitrary errors in   line: desired impedance, dotted line: Bθ = B, solid line: Bθ = B/3, dashed
+the dynamical parameters of the inertia matrices M (q) and          line: Bθ = B/10).
+B as long as these matrices remain positive definite and B
+remains a diagonal matrix.                                          The solution presented so far, however, has one disadvantage.
+Concerning the formulation of the gravity compensation term         The stiffness and damping term uimp and the gravity com-
+it should be mentioned that, in contrast to any related previous    pensation term ug were designed separately. While the term
+works, no lower bounds are imposed on the positive definite         uimp guarantees the correct stiffness relation (statically) for
+matrix K θ for stability reasons, meaning that the desired          the gravity-free case, the term ug was designed for the case
+stiffness K θ can be chosen arbitrarily close to zero.              of free motion, i.e. for τ ext = 0. In the above analysis is was
+At this point it is illustrative to evaluate up to which extent     shown that these two terms can indeed be combined without
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                         8
+
+
+
+                                                                            function l(q) plays now the same role as the gravity function
+                   15                                                       g(q) previously. Notice that the equation (37) can also be
+                                                                            written as K(θ0 − q 0 ) = l(q 0 ) and by defining the function
+
+                                                                                              hl (q) := q + K −1 l(q) ,
+        τ2 [N m]
+
+                   10                                                                                                                          (39)
+
+                                                                            the static motor side position θ 0 can be expressed as θ0 =
+                    5                                                       hl (q 0 ). At this point it is assumed that the inverse function
+                                                                            of hl (q) exists and it will be denoted by
+
+                    0                                                                             q̄ l (θ) := h−1
+                                                                                                               l (θ) .                         (40)
+                     0          0.2       0.4           0.6    0.8
+                                        time [s]                            A sufficient condition for the existence of this inverse function
+                                                                            as well as an iterative computation procedure will be given
+Fig. 5. Simulated joint torque for a step wise excitation of 10Nm (dotted   later in Proposition 3. By means of q̄ l (θ) a control law
+line: Bθ = B, solid line: Bθ = B/3, dashed line: Bθ = B/10).
+                                                                            combining the gravity compensation with a statically exact
+                                                                            stiffness design can be designed in the form
+jeopardizing the passivity and stability of the system. But it                      u =       l(q̄ l (θ)) − D θ θ̇                             (41)
+is not guaranteed any more that the desired static relation
+τ ext = K θ (q 0 − q d ) holds exactly for all τ ext 6= 0. In fact, a                    =    g(q̄ l (θ)) − K θ (q̄ l (θ) − q d ) − D θ θ̇ .
+small steady state error can also be observed for the simulation
+                                                                            The function l(q), as defined in (38), is the differential of the
+shown in Figure 4.
+                                                                            potential function
+Therefore, a different impedance controller will be formulated
+in the next section which removes this drawback.                                                    1
+                                                                                   Vl (q) = Vg (q) − (q − q d )T K θ (q − q d ) ,              (42)
+                                                                                                    2
+ VI. C OMBINED D ESIGN OF C OMPLIANCE AND G RAVITY
+                                                                            i.e. l(q) = (∂Vl (q)/∂q)T . Instead of the Assumptions 1, 2
+                   C OMPENSATION
+                                                                            the following assumption is needed now.
+                                                                                                                         2
+   In this section, the design idea for the gravity compensation               Assumption 3: The Hessian H l (q) = ∂ ∂q    Vl (q)
+                                                                                                                              2   of the poten-
+from Section V-B is generalized by simultaneously taking                    tial function Vl (q) satisfies the condition
+account of the desired stiffness. This will result in an improved
+impedance control law which implements the desired static                            αl := sup ||H l (q)||K < ||K||K = 1 .                     (43)
+stiffness relation exactly.                                                                  ∀q∈Qp
+                                                                            Notice that this assumption implicitly contains an upper bound
+                                                                            on the desired stiffness K θ , similar to Assumption 2 for the
+A. Controller Design                                                        previous controller. This is not surprising since, again, the
+  Consider the case that a constant torque τ ext acts on the                controller basically implements a stiffness which is in series
+robot (4)-(5). The equilibrium conditions for this case are                 interconnection to the joint stiffness K. The stiffness K θ
+                                                                            therefore must be smaller than K. Assumption 3, however,
+                         K(θ0 − q 0 )    = g(q 0 ) − τ ext ,         (34)   ensures the existence of the inverse function h−1    l (θ) as
+                         K(θ0 − q 0 )    = u0 ,                      (35)   formulated in the following proposition which is analogous
+                                                                            to Proposition 1.
+where u0 is the static value of u. In the following the desired
+stiffness relation                                                             Proposition 3: If Assumption 3 holds globally (i.e. for
+                                                                            Qp = Rn ) then the inverse function h−1    l (θ) := q̄ l (θ) of
+                             K θ (q 0 − q d ) = τ ext                (36)   hl (q) = q + K −1 l(q) : Rn → Rn exists globally. Moreover,
+                                                                            the iteration
+shall be achieved statically. By combining (36) with (34), one
+gets the condition                                                                                 q̂ l,n+1   = T l (q̂ l,n )                  (44)
+             K(θ 0 − q 0 ) = g(q 0 ) − K θ (q 0 − q d ) .            (37)
+                                                                            with T l (q) := θ − K −1 l(q) converges for every fixed θ and
+This condition can be seen as a relationship between the static             for every starting point q̂ l,0 to q̄ l (θ).
+motor side position θ 0 and the static link side position q 0 . In          Furthermore, by following the same derivation as in the
+order to stress the similarity of the following derivation to the           Appendix (with l(q) instead of g(q)), one can show that the
+derivation of the gravity compensation term in Section V-B                  controller term l(q̄ l (θ)) can be written as the differential of
+the function l(q) is defined as                                             the potential function
+                         l(q) := g(q) − K θ (q − q d ) .             (38)                                 1
+                                                                                 Vl̄ (θ) = Vl (q̄ l (θ)) + l(q̄ l (θ))T K −1 l(q̄ l (θ)) ,     (45)
+                                                                                                          2
+The following procedure is then completely analogous to the
+design of the gravity compensation term in Section V-B. The                 i.e. l(q̄ l (θ)) = (∂Vl̄ (θ)/∂θ)T .
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                    9
+
+
+
+B. Stability Analysis                                                        A. Visco-Elastic Joints
+  The closed-loop system for the controller (41) together with                  Since the analysis of the controller was based on a physical
+(3) is given by                                                              interpretation of the torque feedback it is also possible to
+                                                                             include joint damping, i.e. gear damping, very easily. The
+   M (q)q̈ + C(q, q̇)q̇ + g(q) = K(θ − q) + τ ext ,                   (46)   considered model with joint damping is given by
+             B θ θ̈ + K(θ − q) = l(q̄ l (θ)) − D θ θ̇ .               (47)       M (q)q̈ + C(q, q̇)q̇ + g(q) =        K(θ − q) +
+                                                                                                                      D(θ̇ − q̇) + τ ext ,
+Following the same line of argumentation as in the previous
+section, one can prove the asymptotic stability also for this                  B θ̈ + K(θ − q) + D(θ̇ − q̇) =         τm ,
+system by using the Lyapunov function
+                                                                             where the matrix D ∈ Rn×n is a diagonal and positive definite
+                            1 T             1 T                              damping matrix. For this model the same type of controller
+      Ve (q, q̇, θ, θ̇) =     q̇ M (q)q̇ + θ̇ B θ θ̇ +                       as in the last section can be used, when the control law (3) is
+                            2               2
+                            Vg (q) + Vk (q, θ) − Vl̄ (θ) ,                   replaced by
+                                                                                 τ m = BB −1                  −1            −1
+                                                                                                                                 
+                                                                                             θ u + (I − BB θ ) τ + DK          τ̇ ,    (48)
+with Vk (q, θ) and Vl̄ (θ) given in (33) and (45). This is
+summarized in the following proposition.                                     with τ = K(θ − q). This leads to the closed-loop system
+   Proposition 4: Under the Assumption 3 the system (46)-
+(47) is asymptotically stable for the case of free motion (i.e.                              M (q)q̈ + C(q, q̇)q̇ + g(q) =
+for τ ext = 0). Moreover, if Assumption 3 holds globally (i.e.                                τ ext + K(θ − q) + D(θ̇ − q̇)
+for Qp = Rn ), then the system is even globally asymptotically                         B θ θ̈ + K(θ − q) + D(θ̇ − q̇) = u
+stable. Considering interaction with the environment, i.e. for
+τ ext 6= 0, the closed-loop system represents a passive mapping              for which the intermediate control input u can be chosen in
+τ ext → q̇.                                                                  the same way as in the previous sections. All the passivity and
+                                                                             stability statements given in this work also hold for a model
+                                                                             with visco-elastic joints.
+C. Controller Discussion
+   Notice that also the control law presented in this section                B. Cartesian Impedance Control
+does not exactly implement the desired impedance (7), cf.                       In many applications the desired impedance behavior is
+Remark 3. However, this yields a good approximation which                    defined with respect to the end-effector motion rather than
+is the better the higher the inner loop torque feedback is.                  in joint coordinates. In this section it is shown that the
+In the experimental part in Section VIII some comparisons                    controller from Section VI can easily be generalized to the
+with a simulation of the desired impedance are presented,                    implementation of a desired Cartesian impedance controller. In
+which give an impression how well the desired impedance                      the Cartesian case, however, the singularities of the Jacobian
+is approximated. But in contrast to the previous solution from               matrix clearly pose a limitation on the achievable region
+Section V this controller fulfills now the required steady state             of attraction. Also, for a Cartesian controller applied to a
+condition exactly. This can be seen by computing the steady                  redundant robot, stability can only be achieved if the desired
+state for a constant external torque τ ext , which leads to                  Cartesian behavior is augmented by some nullspace behavior.
+                                                                             Despite these general differences between joint level control
+     K(θ0 − q 0 )     = g(q 0 ) − τ ext ,                                    and Cartesian control, the generalization of the impedance
+     K(θ0 − q 0 )     = g(q̄ l (θ 0 )) − K θ (q̄ l (θ 0 ) − q d ) .          controller to the Cartesian case can follow the same line of
+                                                                             argumentation as in Section VI.
+Since q̄ l (θ) (by construction) satisfies (37), it follows that             In the following it is assumed that the forward kinematics
+q̄ l (θ0 ) = q 0 must hold. This implies, as desired, K θ (q 0 −             mapping from the joint space coordinates q to the Cartesian
+q d ) = τ ext .                                                              coordinates x = f (q) ∈ R6 as well as the Jacobian matrix
+At first glance it might be somehow surprising that the                      J (q) = ∂f∂q(q) ∈ R6×n are known. The desired impedance
+controller is formulated in the coordinates q̄ l (θ) but does not            behavior is specified in terms of a Cartesian virtual equilibrium
+require the Jacobian matrix ∂q̄l (θ)/∂θ explicitly. Notice that              position xd , a symmetric and positive definite stiffness matrix
+the reason for this is that the function l(q̄ l (θ)) is already the          K x ∈ R6×6 , and a positive definite damping matrix D x ∈
+differential of the potential function Vl̄ (θ).                              R6×6 . Based on this one can formulate a desired Cartesian
+                                                                             stiffness potential in the form
+                                                                                               1
+                    VII. G ENERALIZATIONS                                                Vx =    (x − xd )T K x (x − xd ) .             (49)
+                                                                                               2
+   In the previous sections two joint level impedance con-                   Consider the case that a constant generalized external force
+trollers were presented. Several extensions of these controllers             F ext acts on the robot. In steady state at a position q 0
+are possible. Some of them are discussed in the following.                   the generalized external force F ext is related to the external
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                        10
+
+
+
+torques τ ext via τ ext = J (q 0 )T F ext . The desired static        singularities of the Jacobian nor the redundant case are prob-
+equilibrium condition for this case is                                lematic since no inversion of the Jacobian is needed for
+                                          T                         the controller computation. The potential function for the
+                                  ∂Vx (x)                             controller is given by
+      F ext = K x (x0 − xd ) =                    ,      (50)
+                                     ∂x     x=x0                                                     1
+which can be equivalently expressed in joint coordinates as               Vc̄ (θ) = Vc (q̄ c (θ)) + c(q̄ c (θ))T K −1 c(q̄ c (θ)) , (58)
+                                                                                                     2
+                    
+                      dVx (f (q))
+                                  T                                  for which c(q̄ c (θ)) = (∂Vc̄ (θ)/∂θ)T holds. The control law
+            τ ext =                      ,               (51)         again ensures passivity of the closed-loop system. This can be
+                          dq       q=q       0
+                                                                      seen by using the positive semi-definite9 function
+as long as the Jacobian matrix remains non-singular. By                                           1               1 T
+combining this desired steady state condition with (34) one                   Vf (q, q̇, θ, θ̇) = q̇ T M (q)q̇ + θ̇ B θ θ̇ +
+                                                                                                  2               2
+gets (instead of (37)) now the equation                                                           Vg (q) + Vk (q, θ) − Vc̄ (θ) ,    (59)
+                                               T
+                                    dVx (f (q))                       as a storage function.
+      K(θ0 − q 0 ) = g(q 0 ) −                       . (52)
+                                        dq       q=q                  For proving stability, however, one must distinguish between
+                                                         0
+
+The terms on the right hand side of this equation motivate the        the redundant and the non-redundant case. While (59) becomes
+definition of the function                                            positive definite for a non-redundant robot and can be used for
+                                            T                       proving (local10 ) asymptotic stability, an additional nullspace
+                                 dVx (f (q))                          control is needed in the redundant case.
+            c(q) := g(q) −                        .       (53)
+                                      dq                              Regarding singularities of the orientation representation in the
+which replaces l(q) from Section VI. For completing the               Cartesian coordinates f (q) it should be mentioned that the
+controller design one can then repeat the procedure from              potential function (49) could also be replaced by the potential
+the joint level case using c(q) instead of l(q) as well as            of one of the singularity-free spatial springs proposed by, e.g.,
+Vc (q) = Vg (q) − Vx (q) instead of Vl (q). Consequently, the         Fasse or Natale (see e.g. [28], [29]).
+controller can be formulated as
+                                                                                               VIII. E XPERIMENTS
+   u =      c(q̄ c (θ)) + D c (θ)θ̇ ,                          (54)      In this section some experiments are reported for evaluating
+                                       T
+                            dVc (f (q))                               the proposed controllers. The first two experiments were con-
+       =    g(q̄ c (θ)) −                           + Dc (θ)θ̇ ,
+                                dq       q=q̄ c (θ)
+                                                                      ducted with the seven-degrees-of-freedom DLR-Lightweight-
+                                                                      Robot-II, while the second two were performed with the newer
+where q̄ c (θ) corresponds to the solution of the equation            DLR-Lightweight-Robot-III. These robots are equipped with
+K(θ − q) = c(q) for q and D c (θ) is a joint level damping            joint torque sensors additionally to the motor position sensors
+matrix chosen as                                                      and thus are ideally suited for the implementation of the
+           D c (θ) = J (q̄ c (θ))T D x J (q̄ c (θ)) ,         (55)    proposed controllers. For the experiments the Cartesian control
+                                                                      law from Section VII-B was chosen because it is the most
+which is positive definite as long as the Jacobian matrix is          complex controller from the paper and the interaction with
+non-singular. For ensuring the existence and uniqueness of            the human user is then more intuitive. For the evaluation
+q̄ c (θ) the following assumption is needed representing an           additionally a force-torque sensor was mounted on the tip of
+upper bound of the achievable Cartesian stiffness.                    the robots.
+                                               2
+     Assumption 4: The Hessian H c (q) = ∂ ∂q    Vc (q)
+                                                   2    of the po-    Figure 6 shows the initial configuration of the robots for the
+tential function Vc (q) satisfies the condition                       experiments. In the first experiment the achieved compliance is
+                                                                      evaluated. The Cartesian impedance from Section VII-B was
+        αc := sup ||H c (q)||K < ||K||K = 1 .                 (56)    implemented with diagonal stiffness and damping matrices
+               ∀q∈Qp
+This assumption implicitly represents an upper bound for the          with the values given in Table I. The three translational
+Cartesian stiffness K x with respect to the joint stiffness K and     coordinates are denoted by ex , ey , and ez . For the orientation
+is analogous to Assumption 3 from the joint level controller.         representation RPY Euler angles were used. The orientational
+It ensures the existence of q̄ c (θ) according to the following       coordinates are denoted by φx , φy , and φz .
+proposition.                                                          In the experiment a human user exerts (generalized) forces on
+   Proposition 5: If Assumption 4 holds globally (i.e. for            the robot end-effector by pulling and pushing, mainly in the
+Qp = Rn ) then the function q̄ c (θ), i.e. the solution of            horizontal (x- and y-coordinates) directions. The interaction
+K(θ−q) = c(q) for q, exists globally. Moreover, the iteration         forces are measured by a six-degrees-of-freedom force-torque-
+                                                                      sensor11 mounted on the end-effector. Notice that this sensor
+                     q̂ c,n+1   = T c (q̂ c,n )               (57)    was not used in the implementation of the impedance con-
+with T c (q) := θ − K −1 c(q) converges for every fixed θ and         troller but is used only for evaluation purposes. The applied
+for every starting point q̂ c,0 to q̄ c (θ).                            9 which is positive definite only in the non-redundant case
+The above description presents the implementation of the                10 The global case is obstructed by the singularities of the Jacobian.
+
+controller so far. Notice that for the implementation neither           11 A JR3 sensor was used.
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                                            11
+
+
+
+
+                                                                                                      60
+
+                                                                                                      40
+
+
+
+
+                                                                                        force [N ]
+                                                                                                      20
+
+                                                                                                       0
+
+                                                                                                     −20
+                                                               z
+                                                                   y
+                                                                                                     −40
+                                                                   x
+
+
+                                                                                                     −60
+                                                                                                        0          2           4          6         8
+Fig. 6. Initial configuration of the DLR lightweight robots (LWR-II left,                                                      time [s]
+LWR-III right) for the experiments.
+                                                                                 Fig. 7. Applied forces in x-direction (solid line) and y-direction (dashed
+       Coord.       ex      ey        ez      φx        φy         φz            line) in the first experiment.
+       Stiffness    700    4000      4000     200       200        200
+                     N       N        N       Nm        Nm         Nm
+                     m       m        m       rad       rad        rad
+       Damping      70      400      400        5        5             5
+                    Ns      Ns        Ns      Nms      Nms         Nms
+                    m       m         m       rad      rad         rad                                40
+                                   TABLE I
+     S TIFFNESS AND DAMPING VALUES FOR THE FIRST EXPERIMENT.                                          20
+
+
+
+
+                                                                                        force [N ]
+                                                                                                       0
+
+                                                                                                     −20
+forces in x- and y-direction over time are shown in Figure
+7. In order to evaluate the resulting stiffness and damping,                                         −40
+the force and displacement in x- and y-direction are shown in                                        −60
+Figure 8 and Figure 9, respectively. The corresponding static                                                     −50               0               50
+characteristic line according to the relevant stiffness value                                                                  x [mm]
+from Table I is shown by the dashed line. Notice that the
+                                                                                 Fig. 8. Applied force vs. end-effector deviation in x-direction (solid line).
+hysteresis-like deviation from the static value is caused by                     The dashed line corresponds to the desired stiffness. The dotted line shows a
+the Cartesian damping. The dotted line shows additionally                        (simplified) simulation result.
+the result of a simple simulation of the desired Cartesian
+impedance. In this simulation the measured contact force is
+used as an input and the Cartesian motion is the output. This                    the impact force. The measured static end-effector deviation
+simulation contains some further simplifications12 . Notice that                 and contact force give a stiffness value of ∼ 3882 N/m which
+the simulation shows only the desired compliance and no joint                    corresponds very well to the desired value of 4000 N/m. The
+elasticity is included. One can see that the experimental results                peak of the contact force results mainly from the velocity at
+fit quite well the simulation of the desired compliance for low                  the impact. One can see that the closed-loop system keeps
+(Figure 8) and high (Figure 9) Cartesian stiffness values.                       stable also in contact with this environment having quite a high
+In a second experiment an impact with a wooden surface was                       stiffness and that also high impact velocities can be handled.
+performed using the controller from Section VII-B with the pa-                   Two additional experiments with the DLR-Lightweight-Robot-
+rameters from Table II. This experiment shows the robustness                     III were performed in order to analyze the step response of the
+of the controller in contact with a passive environment. The                     Cartesian controller as well as the effects of uncertainties in the
+initial configuration is shown in Fig. 6. Figure 10 displays the                 end-effector load. The stiffness values for these experiments
+desired and the measured end-effector motion in the vertical                     were chosen smaller than in the first two experiments and
+z−direction during the impact. Additionally, Fig. 11 depicts                     are given in Tab. III. In this experiment a heavy load of about
+
+      Coord.        ex       ey       ez       φx        φy        φz                  Coord.                ex         ey          ez        φx         φy    φz
+      Stiffness    4000     4000     4000      200       200       200                 Stiffness            2000       2000        2000       100        100   100
+                                                                                                             N          N           N         Nm         Nm    Nm
+                     N        N        N       Nm        Nm        Nm                                        m          m           m         rad        rad   rad
+                     m        m        m       rad       rad       rad                 Damping              110         110        110        14         14    14
+      Damping       400      400      400       5         5            5                                    Ns          Ns         Ns         Nms        Nms   Nms
+                    Ns       Ns       Ns      Nms       Nms        Nms                                      m           m          m          rad        rad   rad
+                    m        m        m       rad       rad        rad
+                                                                                                                              TABLE III
+                                   TABLE II
+    S TIFFNESS AND DAMPING VALUES FOR THE IMPACT EXPERIMENT.                     S TIFFNESS AND DAMPING VALUES FOR THE STEP RESPONSE EXPERIMENT.
+
+
+
+  12 The inertia matrix was considered constant and accordingly no centrifugal   4.5 kg was attached to the end-effector. In this evaluation only
+and Coriolis-terms were included.                                                the Cartesian position will be analyzed. In Fig. 12 the step
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                                  12
+
+
+
+                                                                                                                        0
+                                   60
+
+
+
+
+                                                                                        impact force [N ]
+                                   40                                                                              −50
+         force [N ]
+
+                                   20
+                                    0                                                                       −100
+
+                                  −20
+                                                                                                            −150
+                                  −40
+                                  −60
+                                                                                                            −200
+                                            −10         0        10                                             0             1         2       3
+                                                      y [mm]                                                                        time [s]
+
+Fig. 9. Applied force vs. end-effector deviation in y-direction (solid line).    Fig. 11.             Measured force in the impact experiment.
+The dashed line corresponds to the desired stiffness. The dotted line shows a
+(simplified) simulation result.
+
+
+                                                                                                                   30
+
+
+
+
+                                                                                               z-coordinate [mm]
+                                                                                                                   25
+       end-effector height [mm]
+
+
+
+
+                                   0.5
+
+                                  0.49                                                                             20
+                                                                                                                   15
+                                  0.48
+                                                                                                                   10
+                                  0.47
+                                                                                                                   5
+                                  0.46
+                                                                                                                   0
+                                  0.45                                                                              0       0.2       0.4      0.6   0.8
+                                                                                                                                    time [s]
+                                        0         1      2       3
+                                                      time [s]                   Fig. 12. Step response for the Cartesian impedance controller. The dashed
+                                                                                 line shows the commanded step. The step response with and without load are
+                                                                                 shown by the dotted and solid line, respectively.
+Fig. 10. End-effector height in the impact experiment. The dashed line shows
+the end-effector height of the virtual equilibrium position and the solid line
+the measured end-effector position.
+                                                                                 model error. This goes in accordance with the theoretically
+                                                                                 proven (passivity-based) robustness properties.
+response for a step of 30 mm in vertical z-direction is shown
+with and without the load attached. In both cases the exact load                                                              IX. S UMMARY
+was known for the controller computation. Since the controller                      In this paper we propose two impedance controllers for flex-
+does not shape the effective inertia but implements stiffness                    ible joint robots. In both controllers an inner torque feedback
+and damping, the step response changes accordingly. The                          loop is used in combination with an outer impedance control
+remaining end-effector deviation is in the range of the known                    loop. For the torque feedback a physical interpretation is given,
+friction effects for this robot. Next, the effects of uncertainties              such that the complete controllers could be analyzed based on
+in the load shall be analyzed. Notice that the controller does                   passivity theory.
+only contain the gravity model, while it does not require                        The first controller combines a motor position based gravity
+the computation of the inertia matrix or the centrifugal and                     compensation term with a stiffness and damping term. In the
+Coriolis-terms. Again, the load of ∼ 4.5 kg was attached                         second controller these parts instead are merged such that
+to the end-effector. At the beginning of the experiment the                      at steady state the desired equilibrium condition could be
+load is included in the computation of the controller. Then, at                  satisfied exactly. It is shown that both controllers can easily
+time step t = 0.26 s the load in the controller computation                      be adapted to the case of visco-elastic joints. Furthermore, the
+is set to zero simulating a huge model uncertainty for the                       generalization to Cartesian impedance control has been out-
+gravity compensation. Figure 13 shows the Cartesian position                     lined. Finally, the efficiency of the proposed control approach
+deviations for the case of the known (time period A) and                         was verified in several experiments with the DLR lightweight
+unknown (time period B) load. One can see that the deviation                     robots.
+in time period B corresponds very well to the commanded
+stiffness of 2000 N/m with an external force resulting from
+the unknown load. While uncertainties in the load thus clearly                                                                    A PPENDIX
+affect the position accuracy according to the desired stiffness                     In this appendix the potential function Vḡ (θ) for the grav-
+behavior, the stability of the system is not affected by this large              ity compensation term ḡ(θ) is derived such that ḡ(θ) =
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                                                                                                                 13
+
+
+
+                                                                                               Notice also that for all stationary points the potential energy
+                               0                                                               of the manipulator Vpot (q, θ) = Vk (q, θ) + Vg (q), with
+                                                                                               Vk (q, θ) = 12 (θ − q)T K(θ − q) as the potential of the joint
+        z-coordinate [mm]
+                             −5                                                                stiffness, is identical to the gravity compensation potential, i.e.
+
+                            −10                                                                            Vpot (q, θ) = Vḡ (θ)       ∀ (q, θ) ∈ Ω .                  (62)
+                                         A                        B
+                                                                                               From this it follows that Vḡ (θ) can also be written as
+                            −15
+                                                                                                  Vḡ (θ) = Vpot (q̄(θ), θ) = Vg (q̄(θ)) + Vk (q̄(θ), θ) .             (63)
+                            −20
+                                                                                                                             R EFERENCES
+                                0             0.2          0.4        0.6         0.8
+                                                     time [s]                                   [1] N. Hogan, “Impedance control: An approach to manipulation, part I -
+                                                                                                    theory,” ASME Journal of Dynamic Systems, Measurement, and Control,
+                                                                                                    vol. 107, pp. 1–7, 1985.
+Fig. 13. Effect of uncertainties in the gravity model. In time period A the                     [2] M. Spong, “Modeling and control of elastic joint robots,” Transactions
+load (∼ 4.5 kg) of the end-effector is known and considered in the controller,                      of the ASME: Journal of Dynamic Systems, Measurement, and Control,
+while in time period B this information is not included.                                            vol. 109, pp. 310–319, 1987.
+                                                                                                [3] A. De Luca and P. Lucibello, “A general algorithm for dynamic feedback
+                                                                                                    linearization of robots with elastic joints,” in IEEE Int. Conference on
+(∂Vḡ (θ)/∂θ)T holds. Remember that for the construction of                                         Robotics and Automation, 1998, pp. 504–510.
+                                                                                                [4] M. Spong, K. Khorasani, and P. Kokotovic, “An integral manifold
+ḡ(θ) = g(q̄(θ)) in Section V-B the function q̄(θ) = h−1g (θ),                                      approach to feedback control of flexible joint robots,” IEEE Journal
+i.e. the inverse of the function hg (q) = q + K −1 g(q), was                                        of Robotics and Automation, vol. 3, no. 4, pp. 291–300, 1987.
+used. Existence and uniqueness of h−1  g (θ) were established
+                                                                                                [5] A. Albu-Schäffer, Ch. Ott, and G. Hirzinger, “A unified passivity-based
+                                                                                                    control framework for position, torque and impedance control of flexible
+in Proposition 1 by the use of Assumption 1.                                                        joint robots,” The International Journal of Robotics Research, vol. 26,
+In the following the Jacobian matrix ∂q̄(θ)/∂θ will be needed.                                      no. 1, pp. 23–39, January 2007.
+Consider first the Jacobian matrix of the function hg (q)                                       [6] S. Nicosia and P. Tomei, “Design of global tracking controllers for
+                                                                                                    flexible-joint robots,” Journal of Robotic Systems, vol. 10, no. 6, pp.
+                                                                                                    835–846, 1993.
+                                         
+             ∂hg (q)                ∂g(q)
+                      = I + K −1             .            (60)                                  [7] T. Lin and A. Goldenberg, “Robust adaptive control of flexible joint
+               ∂q                     ∂q                                                            robots with joint torque feedback,” in IEEE Int. Conference on Robotics
+                                                                                                    and Automation, 1995, pp. 1229–1234.
+Due to hg (q̄(θ)) = θ one has                                                                   [8] B. Brogliato, R. Ortega, and R. Lozano, “Global tracking controllers for
+                                                                                                    flexible-joint manipulators: a comparative study,” Automatica, vol. 31,
+                              ∂hg (q̄(θ))   ∂hg (q̄) ∂q̄(θ)                                         no. 7, pp. 941–956, 1995.
+                                          =                 =I ,
+                                 ∂θ           ∂q̄     ∂θ                                        [9] R. Ortega, R. Kelly, and A. Loria, “A class of output feedback globally
+                                                                                                    stabilizing controllers for flexible joints robots,” IEEE Transactions on
+and therefore the Jacobian matrix ∂q̄(θ)
+                                    ∂θ is given by
+                                                                                                    Robotics and Automatic, vol. 11, no. 5, pp. 766–770, 1995.
+                                                                                               [10] P. Tomei, “A simple pd controller for robots with elastic joints,” IEEE
+                                    −1                                                            Transactions on Automatic Control, vol. 35, pp. 1208–1213, 1991.
+         ∂q̄(θ)            −1 ∂g(q̄)
+                 = I +K                         .                                       (61)   [11] P. Goldsmith, B. Francis, and A. Goldenberg, “Stability of hybrid
+           ∂θ                   ∂q̄    q̄=q̄(θ)                                                     position/force control applied to manipulators with flexible joints,”
+                                                                                                    International Journal of Robotics and Automation, vol. 14, no. 4, pp.
+The potential function Vḡ (θ) clearly can be written in the form                                   146–160, 1999.
+                                                                                               [12] M. Spong, “Adaptive control of flexible joint manipulators,” Systems and
+                            Vḡ (θ) = Vḡ (hg (q̄(θ))) =: Vḡh (q̄(θ)) .                            Control Letters, vol. 13, no. 1, pp. 15–21, 1989.
+                                                                                               [13] A. Albu-Schäffer, Ch. Ott, U. Frese, and G. Hirzinger, “Cartesian
+For the differential ∂Vḡ (θ)/∂θ one obtains                                                        impedance control of redundant robots: Recent results with the dlr-light-
+                                                                                                  weight-arms,” in IEEE Int. Conference on Robotics and Automation,
+         ∂Vḡ (θ)      ∂Vḡh (q̄)          ∂q̄(θ)                                                   2003, pp. 3704–3709.
+                  =                               .                                            [14] M. Spong, “On the force control problem for flexible joint robots,” IEEE
+            ∂θ             ∂q̄     q̄=q̄(θ) ∂θ                                                      Transactions on Automatioc Control, vol. 34, no. 1, pp. 107–111, 1989.
+                                                                                               [15] A. Albu-Schäffer and G. Hirzinger, “A globally stable state-feedback
+                                       ∂Vḡ (θ)
+By substituting                          ∂θ       = ḡ(q) = g(q̄(θ))T and ∂q̄(θ)
+                                                                           ∂θ    from               controller for flexible joint robots,” Journal of Advanced Robotics,
+(61), one gets                                                                                      vol. 15, no. 8, pp. 799–814, 2001.
+                                                                                             [16] A. Albu-Schäffer, “Regelung von robotern mit elastischen gelenken am
+                       ∂Vḡh (q̄)                                                                   beispiel der dlr-leichtbauarme,” Ph.D. dissertation, Technische Univer-
+                                                       T              −1 ∂g(q̄)
+                                             = g(q̄)           I +K        ,                        sität München, 2001.
+                         ∂q̄                                      ∂q̄                          [17] L. Zollo, B. Siciliano, A. D. Luca, E. Guglielmelli, and P. Dario, “Com-
+                                                                    ∂g(q̄)                          pliance control for an anthropomorphic robot with elastic joints: Theory
+                                             = g(q̄)T + g(q̄)T K −1         .                       and experiments,” ASME Journal of Dynamic Systems, Measurements,
+                                                                     ∂q̄                            and Control, vol. 127, no. 3, pp. 321–328, 2005.
+                                                                                               [18] A. De Luca, B. Siciliano, and L. Zollo, “Pd control with on-line gravity
+This differential can be integrated to Vḡh (q̄) = Vg (q̄) +                                        compensation for robots with elastic joints: Theory and experiments,”
+1      T   −1
+2 g(q̄) K     g(q̄) + c, with an arbitrary constant c ∈ Rn and                                      Automatica, vol. 41, no. 10, pp. 1809–1819, 2005.
+the gravity potential Vg (q) from Section IV. Setting c = 0                                    [19] G. Hirzinger, A. Albu-Schäffer, M. Hähnle, I. Schaefer, and N. Sporer,
+                                                                                                    “On a new generation of torque controlled light-weight robots.” in IEEE
+leads to the gravity compensation potential                                                         Int. Conference on Robotics and Automation, 2001, pp. 3356–3363.
+                                                                                               [20] G. Hirzinger, N. Sporer, A. Albu-Schäffer, M. Hähnle, R. Krenn,
+      Vḡ (θ) =                         Vḡh (q̄(θ))                                                A. Pascucci, and M. Schedl, “DLR’s torque-controlled light weight
+                                                    1                                               robot III - are we reaching the technological limits now?” in IEEE Int.
+                                   =    Vg (q̄(θ)) + g(q̄(θ))T K −1 g(q̄(θ)) .                      Conference on Robotics and Automation, 2002, pp. 1710–1716.
+                                                    2
+IEEE TRANSACTIONS ON ROBOTICS AUGUST 2007                                         14
+
+
+
+[21] A. De Luca and P. Tomei, Theory of Robot Control. Springer-Verlag,
+     London, 1996, ch. Elastic Joints, pp. 179–218.
+[22] Ch. Ott, “Cartesian impedance control of flexible joint manipulators,”
+     Ph.D. dissertation, Saarland University, November 2005.
+[23] Ch. Ott, A. Albu-Schäffer, A. Kugi, S. Stramigioli, and G. Hirzinger, “A
+     passivity based cartesian impedance controller for flexible joint robots
+     - part I: Torque feedback and gravity compensation,” in IEEE Int.
+     Conference on Robotics and Automation, 2004, pp. 2659–2665.
+[24] A. Albu-Schäffer, Ch. Ott, and G. Hirzinger, “A passivity based cartesian
+     impedance controller for flexible joint robots - part II: Full state
+     feedback, impedance design and experiments,” in IEEE Int. Conference
+     on Robotics and Automation, 2004, pp. 2666–2672.
+[25] Vidyasagar, Nonlinear Systems Analysis, 2nd ed. Prentice Hall, 1993.
+[26] A. van der Schaft, L2 -Gain and Passivity Techniques in Nonlinear
+     Control, 2nd ed. Springer-Verlag, 2000.
+[27] A. Kugi, Non-linear Control Based on Physical Models. Springer-
+     Verlag, 2001.
+[28] S. Zhang and E. D. Fasse, “Spatial compliance modeling using a
+     quaternion-based potential function method,” Multibody System Dynam-
+     ics, vol. 4, pp. 75–101, 2000.
+[29] C. Natale, Interaction Control of Robot Manipulators: Six-Degrees-of-
+     Freedom Tasks, ser. Springer Tracts in Advanced Robotics (STAR).
+     Springer-Verlag, 2003, vol. 3.
+

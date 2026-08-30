@@ -1,0 +1,94 @@
+{
+  "source_id": "y051Shzv2A8J",
+  "read_event_id": "b005d6a8b5864f769aae319bac7e2a40",
+  "content_sha256": "5f50df59171b73bd4767028eb0e0403557903702a294b563973b9d7293e0aa2a",
+  "claim": "This 2005 foundational handbook chapter provides decision-grade evidence for classical vocabulary, analytical lineage and boundary conditions: interaction control regulates mechanical-port behavior; impedance maps motion to force, admittance maps force to motion, and coupled stability depends on the exact robot–environment feedback interconnection rather than isolated controller stability. It is tutorial/review-level evidence and does not establish modern experimental performance, deployment safety or learning-controller guarantees.",
+  "claim_locator": [
+    "Interaction-control counterexamples",
+    "Impedance/admittance and passivity sections",
+    "Force feedback, natural admittance and series elasticity"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "foundational handbook tutorial/review synthesis for definitions, classical analytical results, mechanism lineage and boundaries only",
+  "problem_and_setting": "Controlling physical interaction through a mechanical port where robot and environment form a dynamically coupled feedback system.",
+  "method_or_mechanism": "Uses impedance/admittance causality and classical passivity analysis; treats robot and environment as an exact feedback interconnection; discusses direct impedance, force-feedback apparent-inertia reduction, natural admittance and series springs/dampers.",
+  "content_summary": "Counterexamples show isolated-stable motion or force controllers becoming unstable after environmental mass or spring coupling. Passive power-continuous port interconnection is a classical sufficient stability framework, with strict passivity supporting asymptotic behavior. Constant-reference simple impedance can be passive, but sampling and unmodeled dynamics can break it. Force feedback lowers apparent inertia/friction but resonance, delay and noncollocation can make gains above unity nonpassive. Natural admittance retains physical inertia; series compliance filters the environment at bandwidth/accuracy cost. Pure motion/force are infinite/zero-impedance ideals.",
+  "synthesis_role": "Defines the classical port vocabulary and coupled-stability baseline for classifying later variable, optimization and learning methods.",
+  "development_link": "Foundational precursor to variable impedance, energy tanks, passivity observers, SEA, sampled-data interaction control and learned policy stability analysis.",
+  "evidence": [
+    {
+      "locator": "Opening counterexamples",
+      "status": "classical analytical result",
+      "finding": "Isolated-stable controllers can become unstable when coupled to environmental mass or stiffness."
+    },
+    {
+      "locator": "Port causality",
+      "status": "foundational derivation",
+      "finding": "Impedance maps motion to force, admittance maps force to motion, and the interconnection is exact feedback."
+    },
+    {
+      "locator": "Passivity analysis",
+      "status": "classical analytical result",
+      "finding": "Passive robot/environment ports under power-continuous coupling are stable under stated conditions; strict passivity on one side supports asymptotic stability."
+    },
+    {
+      "locator": "Nonpassive counterexample",
+      "status": "classical analytical result",
+      "finding": "A nonpassive robot port can be destabilized by a selected passive spring or mass."
+    },
+    {
+      "locator": "Simple impedance",
+      "status": "implementation analysis",
+      "finding": "Constant-reference low-friction torque implementation can be passive, but sampling and unmodeled dynamics may destroy passivity."
+    },
+    {
+      "locator": "Force feedback",
+      "status": "implementation analysis",
+      "finding": "It reduces apparent inertia/friction, while resonance, delay and noncollocation can make high gain nonpassive."
+    },
+    {
+      "locator": "Natural admittance and series compliance",
+      "status": "design synthesis",
+      "finding": "They preserve inertia or mechanically filter interaction, trading bandwidth and position accuracy for robustness."
+    }
+  ],
+  "evidence_kind": [
+    "foundational tutorial",
+    "review synthesis",
+    "classical analytical result",
+    "mechanism lineage",
+    "field definition"
+  ],
+  "boundary_conditions": [
+    "Most results concern classical LTI one-port low-order settings.",
+    "Passivity assumes power-conjugate variables and power-continuous coupling.",
+    "Moving references can inject energy.",
+    "Sampling, delay, resonance and noncollocation can invalidate continuous-time passivity.",
+    "Active humans, powered tools, switched, delayed and multi-contact systems require more analysis.",
+    "The 2005 chapter does not cover modern learning, MPC or collaborative standards."
+  ],
+  "assumptions": [
+    "Compatible mechanical-port variables represent the system.",
+    "Interconnection preserves power flow.",
+    "Passivity holds for realized systems, not just ideal models.",
+    "Strict-passivity conditions hold for asymptotic conclusions.",
+    "Omitted implementation dynamics are benign or separately analyzed."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Isolated stability can fail after coupling.",
+      "Nonpassive ports can be destabilized by passive environments.",
+      "Sampling and unmodeled dynamics may break passivity.",
+      "High force-feedback gain can become nonpassive.",
+      "Series compliance reduces bandwidth and accuracy."
+    ],
+    "inferred": [
+      "Classical one-port results do not directly guarantee learned, hybrid, delayed or multi-contact systems.",
+      "Passivity is conditional coupled stability, not universal deployment safety.",
+      "Tutorial evidence cannot establish modern method superiority."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified against Controller-supplied admitted full text"
+}

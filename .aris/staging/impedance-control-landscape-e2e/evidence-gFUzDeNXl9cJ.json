@@ -1,0 +1,93 @@
+{
+  "source_id": "gFUzDeNXl9cJ",
+  "read_event_id": "0ffdee8d94ab4f38bc6c87258712b18e",
+  "content_sha256": "4198c472453ba4b5513aabc6d5649ee02ba070f9c8e0b1a6c9a709a9f54e91dd",
+  "claim": "A Cartesian adaptive fuzzy-neural command-filtered impedance controller can conditionally maintain full-state constraints and achieve semiglobal uniform ultimate boundedness for uncertain constrained manipulators subject to smooth bounded disturbances and modeled actuator saturation; the claimed convergence is to arbitrarily small neighborhoods and is supported only by planar-manipulator simulations.",
+  "claim_locator": [
+    "Controller architecture and problem formulation",
+    "Closed-loop stability and constraint-preservation theorem",
+    "2-DoF nonredundant planar-manipulator simulation",
+    "3-DoF redundant planar-manipulator simulation"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "conditional_theoretical_result_with_author_reported_simulation_support",
+  "problem_and_setting": "Cartesian impedance control of uncertain robotic manipulators with full-state constraints, smooth bounded time-varying disturbances, actuator saturation, and command-filter-induced errors; evaluated during simulated wall contact on 2-DoF nonredundant and 3-DoF redundant planar manipulators with prescribed desired inertia, damping, and stiffness.",
+  "method_or_mechanism": "The controller combines logarithmic barrier Lyapunov functions and backstepping for state-constraint enforcement, a fuzzy neural network for unknown dynamics, a disturbance observer for smooth bounded time-varying disturbances, a modified auxiliary system for actuator saturation, and command filtering with error compensation. In the redundant case, a null-space subtask reduces joint motion.",
+  "content_summary": "Under bounded-reference, disturbance regularity, feasible-initial-set, approximation, filter, and gain conditions, the theorem establishes semiglobal uniform ultimate boundedness and nonviolation of state constraints, with convergence only to tunably small neighborhoods rather than asymptotic zero. Simulations reportedly demonstrate tracking, constraint satisfaction, bounded adaptive weights, saturation compliance, and disturbance-estimation errors approaching small neighborhoods. Evidence includes no hardware experiments, human subjects, statistical replication, or broad safety validation, and comparator controllers omit one or more modeled challenge components.",
+  "synthesis_role": "Provides an integrated model-based/adaptive impedance-control design with conditional Lyapunov guarantees, useful as theoretical and simulation-level evidence rather than empirical evidence of real-world robustness or safety.",
+  "development_link": "Extends command-filtered adaptive impedance control by jointly incorporating barrier-based full-state constraints, fuzzy approximation of unknown dynamics, disturbance observation, explicit saturation compensation, and redundant-manipulator null-space behavior.",
+  "evidence": [
+    {
+      "locator": "Closed-loop stability and constraint-preservation theorem",
+      "status": "author_reported",
+      "finding": "Subject to stated conditions, all closed-loop signals are semiglobally uniformly ultimately bounded and constrained states remain admissible."
+    },
+    {
+      "locator": "Closed-loop convergence statement",
+      "status": "author_reported",
+      "finding": "Errors converge to arbitrarily small neighborhoods; asymptotic zero convergence is not established."
+    },
+    {
+      "locator": "2-DoF wall-contact simulation",
+      "status": "author_reported",
+      "finding": "Plots report impedance tracking, constraint satisfaction, bounded weights, saturation compliance, and disturbance estimates approaching small neighborhoods."
+    },
+    {
+      "locator": "3-DoF redundant wall-contact simulation",
+      "status": "author_reported",
+      "finding": "The simulation reports the principal boundedness and constraint behaviors plus joint-motion reduction through a null-space subtask."
+    },
+    {
+      "locator": "Simulation comparison design",
+      "status": "author_reported",
+      "finding": "Compared methods omit one or more disturbance-observer, saturation-compensation, or state-constraint components, limiting attribution."
+    },
+    {
+      "locator": "Validation scope",
+      "status": "directly_observed_from_supplied_packet",
+      "finding": "Validation is simulation-only, without hardware, human-subject, replicated-statistical, or broad safety evidence."
+    }
+  ],
+  "evidence_kind": [
+    "Lyapunov_stability_theorem",
+    "constraint_invariance_argument",
+    "numerical_simulation",
+    "qualitative_plot_evidence",
+    "component-incomplete_comparison"
+  ],
+  "boundary_conditions": [
+    "References and derivatives must satisfy boundedness conditions.",
+    "Disturbances must be smooth and bounded.",
+    "Initial conditions must lie in the barrier-feasible set.",
+    "Unknown dynamics must admit bounded-error fuzzy-neural approximation.",
+    "Filter and compensation conditions must hold.",
+    "Controller gains must meet theorem conditions.",
+    "Saturation must match the modeled structure.",
+    "Empirical support is limited to two simulated planar manipulators."
+  ],
+  "assumptions": [
+    "Required manipulator states are available or estimable.",
+    "Desired impedance and references are feasible under state and actuator limits.",
+    "Fuzzy bases approximate the relevant compact domain.",
+    "Disturbance regularity required by the observer holds.",
+    "The auxiliary system represents actuator limits.",
+    "Simulations implement the theoretical assumptions."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The theorem provides ultimate boundedness rather than asymptotic zero error.",
+      "Validation is restricted to 2-DoF and 3-DoF planar simulations.",
+      "Comparison controllers omit modeled challenge components."
+    ],
+    "inferred": [
+      "Component-mismatched comparisons do not isolate causes of improvement.",
+      "Constraint preservation may fail outside feasible initial/reference/gain conditions or under mismatched saturation.",
+      "Unmodeled nonsmooth or unbounded disturbances may invalidate guarantees.",
+      "Plot-level 'more stable' language does not establish statistical superiority or broad safety.",
+      "Simulation does not establish hardware robustness to noise, delay, friction, contacts, or computation limits."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified_only_against_controller_supplied_full_text_packet"
+}

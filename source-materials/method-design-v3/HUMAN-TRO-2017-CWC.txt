@@ -1,0 +1,680 @@
+                                                   Stability of Surface Contacts for Humanoid Robots:
+                                                   Closed-Form Formulae of the Contact Wrench Cone
+                                                              for Rectangular Support Areas
+arXiv:1501.04719v1 [cs.RO] 20 Jan 2015
+
+
+
+
+                                                 Stéphane Caron1 , Quang-Cuong Pham2 , and Yoshihiko Nakamura1
+                                             1
+                                                 Department of Mechano-Informatics, The University of Tokyo, Japan
+                                                    2
+                                                      School of Mechanical and Aerospace Engineering, Nanyang
+                                                                 Technological University, Singapore
+
+                                                                               January 21, 2015
+
+                                                                                        Abstract
+                                                        Humanoid robots locomote by making and breaking contacts with their
+                                                   environment. A crucial problem is therefore to find precise criteria for a
+                                                   given contact to remain stable or to break. For rigid surface contacts, the
+                                                   most general criterion is the Contact Wrench Condition (CWC). To check
+                                                   whether a motion satisfies the CWC, existing approaches take into account a
+                                                   large number of individual contact forces (for instance, one at each vertex of
+                                                   the support polygon), which is computationally costly and prevents the use
+                                                   of efficient inverse-dynamics methods. Here we argue that the CWC can be
+                                                   explicitly computed without reference to individual contact forces, and give
+                                                   closed-form formulae in the case of rectangular surfaces – which is of practi-
+                                                   cal importance. It turns out that these formulae simply and naturally express
+                                                   three conditions: (i) Coulomb friction on the resultant force, (ii) ZMP in-
+                                                   side the support area, and (iii) bounds on the yaw torque. Conditions (i) and
+                                                   (ii) are already known, but condition (iii) is, to the best of our knowledge,
+                                                   novel. It is also of particular interest for biped locomotion, where undesired
+                                                   foot yaw rotations are a known issue. We also show that our formulae yield
+                                                   simpler and faster computations than existing approaches for humanoid mo-
+                                                   tions in single support, and demonstrate their consistency in the OpenHRP
+                                                   simulator.
+
+
+                                         1        Introduction
+                                         From the viewpoint of the robot, establishing contact with the environment amounts
+                                         to constraining a certain number of Degrees Of Freedom (DOF) of an end-effector
+
+                                                                                         1
+link. For instance, a sliding planar contact imposes three equality constraints (two
+on the orientation of the link and one for the link-to-surface distance) while a fixed
+contact constraints all six DOFs of the end-effector link. A stability criterion can
+be seen as a set of inequality constraints describing the conditions under which
+these equalities are preserved.
+    The venerable Zero-Moment Point (ZMP) [1] criterion may be the best-known
+example of stability criterion for rigid surface contact. It is known [2] to be nec-
+essary but not sufficient for contact stability: in particular, it says nothing about
+possible sliding in the horizontal plane and rotation around the vertical axis (yaw).
+Yet, humanoid robots are often subject to significant yaw moments during single
+support phases, resulting in undesired foot rotations. Attesting the importance of
+this problem, recent works have been using upper-body motions to compensate for
+these yaws while continuing to use ZMP [3, 4].
+    A more principled (and general) way to address this problem is to consider in-
+dividual contact forces distributed on the contact surface, as can be found e.g., in
+bipedal balance control [5] and motion planning [6, 7]. This approach yields a
+stronger stability criterion than ZMP, and accounts for both the sliding and yaw
+rotation. It is however hampered by redundancy: the vector of contact forces has
+many more components (three times the number of contact points) than the degree
+of the contact constraint (six). This redundancy makes the resolution of the equa-
+tions of motion fundamentally harder, as illustrated by the fact that state-of-the-art
+Inverse Dynamics based on QR-decomposition [8] only apply to non-redundant
+variables 1 . In Time-Optimal Path Parameterization (TOPP), redundancy prompted
+the use of further contact approximations [9] or expensive polytope projection al-
+gorithms [7]. In the present paper, we argue that such workarounds are no longer
+necessary if one uses the correct contact representation (for instance, both [9] and
+[7] boil down to a single matrix inversion for a biped in single-support, as we will
+see in Section 5).
+    The key insight here is that the condition that individual contact forces lie in
+their respective friction cones can be replaced by the condition that the contact
+wrench belongs to a certain wrench cone [10]. The contact wrench naturally solves
+the redundancy issue, as its dimension is minimal (six). It was advocated as a gen-
+eralization of ZMP in [2], along with a stability theorem, and applied to walking
+pattern generation on rough terrains [11, 12]. However, this theorem makes the
+same “sufficient friction” assumption as ZMP, which means the resulting criterion
+does not account for sliding and yaw rotations. Besides, the contact wrench is
+   1
+     When this is not the case, the authors advocate the use of Singular Value Decomposition to
+compute new independent variables; however, it is unclear how to compute the inequality constraints
+applying to these new variables.
+
+
+
+                                                2
+computed from individual contact forces, which we argue yields unnecessarily ex-
+tensive calculations: following [10], the wrench cone can be computed explicitly
+from the sole geometry of the contact surface.
+    In this paper, we derive the closed-form formulae of the wrench cone in the case
+of rectangular support areas, which is of practical importance since most humanoid
+robot feet can be adequately approximated by rectangles. This result helps simplify
+dynamics computations, as we will see for humanoid motions. It also provides
+an analytical description of “yaw friction”, from which we derive a simple and
+principled control law to prevent undesirable yaw rotations.
+    The rest of the paper is organized as follows. In Section 2, we recall the defi-
+nitions related to contact stability. In Section 3, we discuss the physics of surface
+contact and give a theoretical justification for the practice of considering individual
+contact forces at the vertices of the contact polygon. Then, in Section 4, we derive
+a closed-form expression of the wrench cone in the case of rectangular contact ar-
+eas. We apply the resulting solution in a humanoid experiment in Section 5 before
+concluding in Section 6.
+
+
+2     Background
+2.1   Contact Forces and Contact Wrench
+Consider a robot with n degrees of freedom making N point contacts with the
+environment, at points C1 , . . . , CN in the laboratory reference frame (RF). The
+equations of motion of the robot are:
+                                                    N
+                                                    X
+                   M(q)q̈ + h(q, q̇) = S> τ a +           J(Ci )> fi ,             (1)
+                                                    i=1
+
+where q, q̇, q̈ are the n-dimensional vectors of DOF values, velocities and accelera-
+tions, M is the n×n inertia matrix, h(q, q̇) the n-dimensional vector of gravity and
+Coriolis forces. In case the robot has na actuated joints, τ a is the na -dimensional
+vector of torques at the actuated joints and S is a na × n joint selection matrix.
+Finally, for each i ∈ [1, N ], fi is a 3-dimensional vector of contact force and J(Ci )
+is the 3 × n translation Jacobian calculated at point Ci .
+     We assume that both the environment and the contacting link are rigid bodies.
+Thus, interactions between them can be represented by a single contact wrench
+
+
+
+
+                                          3
+W = (f , τ ), which we can compute from contact forces as:
+                                     def
+                                           X
+                                 f   =              fi ,                           (2)
+                                                i
+                                     def
+                                           X −−→
+                                τ    =       OCi ∧ fi ,                            (3)
+                                                i
+
+where O is the origin of the link RF. The contact jacobian Jwr is the 6 × n matrix
+obtained by stacking vertically J(O), the translation Jacobian computed at O, and
+Jrot , the rotation Jacobian of the link, both taken with respect to the absolute RF.
+With these definitions, we have the following property:
+                                            N
+                                            X
+                                J>
+                                 wr W =             J(Ci )> fi .                   (4)
+                                            i=1
+
+(See Appendix A for a proof.) Then, the equations of motion can be rewritten as:
+
+                        M(q)q̈ + h(q, q̇) = S> τ a + J>
+                                                      wr W.                        (5)
+
+2.2     Contact Stability
+Assume now that the robot is in a given state (q, q̇). The accelerations q̈ and
+generalized forces exerted on the robot (actuated torques or contact forces) are
+bound by a complementarity conditions [13]. For the sake of the explanation, let
+us consider first the simple case of a single translation coordinate x, as depicted in
+Figure 1.
+                                            x
+                                           fc
+                                                           fa
+
+                                                    mg
+
+                Figure 1: Block on a horizontal surface with one DOF.
+
+Under Coulomb’s friction model, either of the following situations occurs :
+
+      • Fixed contact: ẍ = 0 and the contact force obeys |fct | ≤ µfcn , where fct and
+        fcn are respectively the horizontal and vertical components of fc and µ is the
+        static friction coefficient;
+
+                                                4
+    • Sliding contact: ẍ > 0 and the contact force obeys fct = −µk fcn , where µk
+      is the kinetic friction coefficient.
+
+The acceleration ẍ and contact force fc are in a complementary relationship: when
+one is equality-constrained, the other is inequality-constrained. Similarly, for the
+general case of a 6-DOF end-effector in contact, the translational and rotational ac-
+celerations of the link are in a complementary relationship with some generalized
+contact forces γ (here, γ = W or (f1 , . . . , fN )). The contact mode describes, for
+each variable in a complementary relationship, whether it is equality- or inequality-
+constrained. In contact stability, we are interested in the fixed contact mode where
+the position and orientation of the end-effector are equality-constrained to a refer-
+ence value.
+
+Definition 1 (Weak Contact Stability) A contact is weakly stable when there ex-
+ists a solution (q̈, τ a , γ) of the equations of motion satisfying the fixed contact
+mode for all contacting links.
+
+    That is to say,
+
+    • for each contact (i), the relative velocity and acceleration at contact are zero:
+        (i)            (i)         (i)
+      Jwr q̇ = 0 and Jwr q̈ = −J̇wr q̇,
+
+    • actuated torques τ a are within torque limits,
+
+    • complementary forces γ satisfy their inequality constraints (friction cones
+      or wrench cone).
+
+This formulation has been widely used in the literature. In approaches based on
+inverse dynamics, the conditions on (q̇, q̈) are first enforced kinematically, then
+torques and complementary forces are solved [7, 8].
+     The “weakness” in the definition above refers to the notions of strong and weak
+stability, as stated by [13]. Strong stability happens when all solutions to the equa-
+tions of motion satisfy the fixed contact mode. Note that choosing between contact
+forces and the contact wrench changes the equations of motion (Equations (1) and
+(5), respectively), but the underlying contact stability is the same by Equation (4).
+In the rest of the paper, we will always refer to contact stability in the weak sense.
+
+
+3    Surface Contact
+Suppose we take contact forces f1 , . . . , fN as complementary variables to the po-
+sition and orientation of the contacting link. Let fin and fit denote the normal and
+
+
+                                          5
+the tangential components of the contact force fi . Coulomb friction provides the
+complementary inequalities:
+
+   • Unilaterality:                         fin > 0,                              (6)
+
+   • Non-slippage:                     kfit k ≤ µfin ,                            (7)
+
+where µ is the static coefficient of friction.
+    However, when the contact is done through a surface and not through a set
+of points, the reality of contact is that of continuum mechanics. In this case, the
+action of the environment at the contact surface S is described by two quantities:
+a scalar field p(x, y) corresponding to normal pressure, and a two-dimensional
+vector field σ(x, y) for tangential mechanical stress. Figure 2-(A) illustrates these
+two fields for a rectangular contact area. For convenience, we also will denote by
+  def
+ν = σ(x, y) + p(x, y)n, where n is the unit vector normal to the contact surface.
+The equations of motion become
+                                        Z
+                               >
+                Mq̈ + h = S τ a +           J(Cxy )> ν(x, y)dxdy                  (8)
+                                        S
+
+where J(Cxy ) is the 3 × n translation Jacobian calculated at the point of coordinate
+Cxy on the surface (taken in the laboratory RF). The wrench resulting from ν(x, y)
+is
+                                  Z
+                             def
+                         f =          ν(x, y)dxdy,                                (9)
+                                    S
+                                      −−−→
+                                  Z
+                             def
+                        τ =           OCxy ∧ ν(x, y)dxdy,                        (10)
+                                   S
+
+where O is the origin of the link RF. Under Coulomb friction, the inequality con-
+straints for ν(x, y) are:
+
+   • Unilaterality:                    p(x, y) > 0,                              (11)
+                                  kσ(x, y)k ≤ µ p(x, y).                         (12)
+   • Non-slippage:
+Note that taking a constant µ in Equation (12) is an approximation: in reality, the
+friction coefficient µ(x, y) varies with the position on the surface.
+     In the present literature, surface contact is often modeled using sets of contact
+points: sometimes more than required by positional constraints (e.g., nearly 30 per
+contacting link in [7]) or one at each vertex of the convex hull (e.g., in [5]). The
+proposition below gives a theoretical justification for the latter practice.
+
+
+                                            6
+Proposition 1 Assume that the contact surface S is a convex polygon with ver-
+tices C1 , . . . , CN . If there exists ν(x, y)(x,y)∈S satisfying complementary inequal-
+ity constraints (11)-(12), then there will exist contact forces applied at C1 , . . . , CN
+and summing up to the same contact wrench that satisfy complementary inequality
+constraints (6)-(7).
+
+                                                     Y
+                                             C1                       C2
+
+                                                                             X
+                                         x
+                                                         O
+                                   y
+                                         z
+
+
+                                             C4                       C3
+                  (A)                                    (B)
+Figure 2: Contact in the surface plane. (A) Example of stress/pressure fields. Red
+discs indicate the magnitude of pressure by their size. Blue arrows show tangential
+stress. (B) Notations used in Section 4.
+
+    Proof: consider pressure and stress fields summing up to W. By P        convexity, one
+can find strictly positive functions α1 (x, y), . . . , αP
+                                                         k (x, y) such that   i αi (x, y) =
+1 and each point Cxy ∈ S can be written Cxy = i αi (x, y)Ci . Then, define for
+each vertex Ci a force
+                                  Z
+                            fi :=    αi (x, y)ν(x, y)dxdy,
+                                    S
+
+By positivity of the αi ’s, it is straightforward to check that all fin > 0 and kfit k ≤
+µfin . In addition, this expression of fi ensures that the resulting wrenches are equal,
+i.e., (2) = (9) and (3) = (10). 
+     We furthermore argue that, when the friction coefficient µ is assumed to be
+constant as in Equation (12), the two conditions are equivalent. The complete
+proof of this equivalence, which involves reconstructing pressure and stress fields
+given local and boundary conditions, is however out of the scope of this paper. The
+bottom line of this argument is that using contact forces at vertices of the convex
+hull completely describes the dynamics of surface contact. The wrench cone that
+we derive in the next section will share the same characteristic.
+
+                                             7
+4        Wrench Cone for Rectangular Surfaces
+Consider a rectangular area (C1 C2 C3 C4 ) as depicted in Figure 2 (B). We calcu-
+late the contact wrench W at the center O in the link’s RF.2 Let us denote by
+(fix , fiy , fiz ) the three components of the contact force at point C i . Under the com-
+mon linear approximation of friction cones, Coulomb inequalities become
+                                          |fix |, |fiy | ≤ µfiz                        (13)
+                                                      fiz       > 0                    (14)
+The wrench cone is then given by the following proposition.
+Proposition 2 There exists a solution (f1 , . . . , f4 ) satisfying inequalities (13)-(14)
+if and only if there exists a wrench W = (f x , f y , f z , τ x , τ y , τ z ) such that:
+                                            |f x |      ≤       µf z                   (15)
+                                               y                     z
+                                             |f |       ≤       µf                     (16)
+                                                  z
+                                              f         >       0                      (17)
+                                               x                     z
+                                             |τ |       ≤       Yf                     (18)
+                                               y                     z
+                                             |τ |       ≤       Xf                     (19)
+                                          τmin ≤       τz       ≤ τmax                 (20)
+where
+                           def
+                   τmin    =       −µ(X + Y )f z + |Y f x − µτ x | + |Xf y − µτ y |,
+                           def
+                   τmax    =       +µ(X + Y )f z − |Y f x + µτ x | − |Xf y + µτ y |.
+
+    The proof of this proposition is given in Appendix A.1. The validity of this
+expression was also tested empirically with a script available at [14].
+    Let us now detail each line of the wrench cone. The first two inequalities (15)-
+(16) correspond to the usual Coulomb friction. Inequalities (17), (18) and (19) are
+equivalent to the ZMP condition. The last inequality (20) provides a bound on the
+admissible yaw torque that was implicitely encoded in the contact-force model.
+Note how this relation is more complex than a mere “no rotation occurs while τ z
+is small enough”, as it is coupled with all other components of the contact wrench.
+Notably, the “safest” value is not zero but:
+                                    def
+                           τsafe     =    (τmin + τmax )/2
+                                     =    sgn(−f x τ x ) min(Y |f x |, µ|τ x |)
+                                     +    sgn(−f y τ y ) min(X|f y |, µ|τ y |),
+    2
+        multiply by the link’s rotation matrix for a wrench in the absolute RF
+
+
+                                                            8
+    0.8      1.6      2.4       3.2      4.0       4.8      5.6       6.4      7.2
+
+
+
+Figure 3: Snapshots of the retimed motion. The motion lasts 7.285 s. Time stamps
+are shown below each frame. This motion stresses all components of the wrench
+cone. The first part stresses the pitch by moving the COM forward. The second
+segment extends the arms, then keeps the left arm still while moving the right arm,
+thus stressing the roll. At the same time, the chest pitch is actuated back and forth,
+which stresses the yaw. Finally, the waist performs an elliptic motion (back and
+forth, up and down) throughout the whole motion, thus stressing the translation of
+the contact foot.
+
+where sgn is the sign function. From (20), τ z may deviate from τsafe by at most
+
+            µ(X + Y )f z − max(Y |f x |, µ|τ x |) − max(X|f y |, µ|τ y |).
+
+We see that higher tangential forces or roll-pitch torques reduce the range of ad-
+missible yaw torques. In particular, when these other constraints are saturated (for
+instance when the ZMP reaches a corner of the support polygon), τsafe is the only
+solution that prevents the contact from breaking. Therefore, τ z = τsafe appears as
+a sensible control law to prevent undesired yaw rotations.
+
+
+5     Experiment
+We test the validity of the Contact Wrench Condition (CWC) in the integrated
+simulator OpenHRP with a model of the HRP4 robot. Note that OpenHRP has its
+own contact model where forces are distributed along the edges (not corners) of
+the contact surface.
+    We implemented the CWC condition within the Time-Optimal Path Parame-
+terization framework (TOPP), a well-known projection of system dynamics along
+a pre-defined path that has been used for motion planning of humanoid robots
+[7, 15, 9]. We considered the case of a single contact at the left foot and designed
+a motion that would challenge all six contact DOFs. In single contact, the contact
+wrench is fully determined by the unactuated rows of the equation of motion, i.e.,
+
+                      W = (PJwr )−1 P [M(q)q̈ + h(q, q̇)]
+
+
+                                          9
+    1.6        2.2       3.0        3.6        4.2        4.8        5.2        5.8
+
+
+
+Figure 4: Zoom on the contact forces computed by OpenHRP at the left foot. The
+first row corresponds to the retimed motion (7.29 s), the second to the 10% uni-
+form acceleration of the retimed motion (6.55 s) and the third to the 15% uniform
+acceleration (6.19 s). Time stamps are shown below each column. The retimed mo-
+tion maintains surface contact with contact forces distributed all around the contact
+area, except between 4.2 and 4.8 s where they are mostly on the left half of the foot.
+The 10%-accelerated version goes to point contact (3.0 s) and line edge contact (3.6
+to 4.8 s) but does not fall. At 15% acceleration, the CWC violation overcomes the
+stabilizer’s ability and the robot falls.
+
+
+where P = I − S is the unactuated line selection matrix. Note how computing the
+constraint projector is straightforward when using the contact wrench: it is not the
+case when contact forces are used, as we observed in previous research [9] (where
+we resolved the force redundancy with a force-binding model).
+     For this experiment, we designed by hand a set of eleven key postures. The
+geometric path was obtained by interpolating Bezier curves between these postures
+and applying a kinematic filter to fix the position and orientation of the support foot
+on the ground. To get a feasible trajectory from this path (i.e., to compute the timing
+information) we used the open-source TOPP solver [16]. The solver takes as input
+the path and a vector representation of the system dynamics along it, which is easy
+to compute once one knows the projectors mentioned above (see [9] for details).
+Figure 3 shows a timelapse of the final retimed motion. Videos are also available
+online at [14].
+     An interesting thing to note about TOPP is that, because of time optimality, the
+retimed motion always saturates at least one of the contact constraints. In an ideal
+setting with perfect system dynamics, the obtained trajectory should therefore be
+at the limit of contact: it would execute correctly, but the contact would break as
+soon as one tries to perform the motion faster at any time instant. We observed this
+phenomenon in the experiment, as depicted in Figure 4.
+     There are, however, a few points to discuss. In order to ensure proper tracking
+
+
+                                          10
+of the computed trajectory, we used HRP4’s stabilizer module, which occasionally
+changes the actual joint angles. In turn, this behavior violates the assumption made
+by TOPP that the robot follows a precise geometric path, and the constraints may
+get under- or over-saturated. To alleviate for this issue, we added safety margins
+in TOPP’s conditions: we scaled the contact area by 45% and set a smaller friction
+coefficient µ = 0.4 (versus µ = 0.8 in OpenHRP). Consequently, it was possible
+in practice to accelerate the retimed motion by about 5% (i.e., reducing the total
+duration by 5% with uniform timescaling) and obtain a successful execution. How-
+ever, we still observed the expected phenomenon with relatively small changes: for
+a 10% acceleration (by uniform timescaling), the humanoid started to lose surface
+contact, but the stabilizer was still able to recover; for a 15% acceleration, the
+violation of the contact constraint was too large and the robot fell. See Figure 4.
+
+
+6    Conclusion
+In this paper, we calculated the closed-form expression of the wrench cone for
+rectangular contact surfaces. This formula has several implications. First, it is very
+simple, making computations much easier than any previous formulation based
+on contact forces. Second, it describes concisely the phenomenon of yaw friction
+by a double-inequality that is, to the best of our knowledge, novel. From these
+bounds, we derived a simple control law to avoid undesired foot rotations, a recur-
+ring problem for bipeds in single contact. Finally, we showed how our criterion can
+give simpler and faster computations than contact forces for humanoid motions in
+single support, and demonstrated it with dynamic motions simulated in OpenHRP.
+
+References
+[1] M. Vukobratović and B. Borovac, “Zero-moment point—thirty five years of its life,” International Journal
+    of Humanoid Robotics, vol. 1, no. 01, pp. 157–173, 2004.
+
+[2] H. Hirukawa, S. Hattori, K. Harada, S. Kajita, K. Kaneko, F. Kanehiro, K. Fujiwara, and M. Morisawa, “A
+    universal stability criterion of the foot contact of legged robots-adios zmp,” in Robotics and Automation,
+    2006. ICRA 2006. Proceedings 2006 IEEE International Conference on. IEEE, 2006, pp. 1976–1983.
+
+[3] B. Ugurlu, J. A. Saglia, N. G. Tsagarakis, and D. G. Caldwell, “Yaw moment compensation for bipedal
+    robots via intrinsic angular momentum constraint,” International Journal of Humanoid Robotics, vol. 9,
+    no. 04, 2012.
+
+[4] R. Cisneros, K. Yokoi, and E. Yoshida, “Yaw moment compensation by using full body motion,” in Mecha-
+    tronics and Automation (ICMA), 2014 IEEE International Conference on. IEEE, 2014, pp. 119–125.
+
+[5] C. Ott, M. A. Roa, and G. Hirzinger, “Posture and balance control for biped robots based on contact
+    force optimization,” in Humanoid Robots (Humanoids), 2011 11th IEEE-RAS International Conference
+    on. IEEE, 2011, pp. 26–33.
+
+
+
+
+                                                    11
+ [6] L. Saab, O. E. Ramos, F. Keith, N. Mansard, P. Soueres, and J. Fourquet, “Dynamic whole-body motion
+     generation under rigid contacts and other unilateral constraints,” Robotics, IEEE Transactions on, vol. 29,
+     no. 2, pp. 346–362, 2013.
+
+ [7] K. Hauser, “Fast interpolation and time-optimization with contact,” The International Journal of Robotics
+     Research, vol. 33, no. 9, pp. 1231–1250, 2014.
+
+ [8] L. Righetti, J. Buchli, M. Mistry, M. Kalakrishnan, and S. Schaal, “Optimal distribution of contact forces
+     with inverse-dynamics control,” The International Journal of Robotics Research, vol. 32, no. 3, pp. 280–
+     298, 2013.
+
+ [9] S. Caron, Y. Nakamura, and Q.-C. Pham, “Kinodynamic motion retiming for humanoid robots,” in Pro-
+     ceedings of the 32nd Annual Conference of the Robotics Society of Japan, 2014.
+
+[10] D. J. Balkcom and J. C. Trinkle, “Computing wrench cones for planar rigid body contact tasks,” The Inter-
+     national Journal of Robotics Research, vol. 21, no. 12, pp. 1053–1066, 2002.
+
+[11] H. Hirukawa, S. Hattori, S. Kajita, K. Harada, K. Kaneko, F. Kanehiro, M. Morisawa, and S. Nakaoka, “A
+     pattern generator of humanoid robots walking on a rough terrain,” in Robotics and Automation, 2007 IEEE
+     International Conference on. IEEE, 2007, pp. 2181–2187.
+
+[12] Y. Zheng, M. C. Lin, D. Manocha, A. H. Adiwahono, and C.-M. Chew, “A walking pattern generator for
+     biped robots on uneven terrains,” in Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International
+     Conference on. IEEE, 2010, pp. 4483–4488.
+
+[13] J.-S. Pang and J. Trinkle, “Stability characterizations of rigid body contact problems with coulomb fric-
+     tion,” ZAMM-Journal of Applied Mathematics and Mechanics/Zeitschrift für Angewandte Mathematik und
+     Mechanik, vol. 80, no. 10, pp. 643–663, 2000.
+
+[14] https://scaron.info/research/conf/icra-2015.html, 2014, [Online].
+
+[15] Q.-C. Pham, S. Caron, and Y. Nakamura, “Kinodynamic planning in the configuration space via admissible
+     velocity propagation,” in Robotics: Science and Systems, 2013.
+
+[16] Q.-C. Pham, “A general, fast, and robust implementation of the time-optimal path parameterization
+     algorithm,” IEEE Transactions on Robotics (to appear), 2014. [Online]. Available: http://arxiv.org/abs/
+     1312.6533
+
+
+
+A      Proof of Equation 4
+The rotation Jacobian satisfies ω = Jrot q̇, where ω is the rotation velocity of the
+link. An interesting consequence of this property is that for any point C on the link
+and any vector u, one has
+                           −−→ >             −−→     
+                           ∂ OC            >
+                             ∂q    u  =  J rot  OC  ∧  u   .                     (21)
+
+Next, the position of any point Ci of the link in the absolute RF is related to that
+                                −−→
+of its origin O by Ci = O + OCi . The corresponding translation Jacobian is
+                                   −−→
+J(Ci ) = ∂C         ∂ OCi
+         ∂q = J(O) + ∂q . Thus,
+            i
+
+
+
+                      P           >         >
+                                                       P            P  ∂−−→ >
+                                                                         OCi
+                          i J(Ci ) fi = J(O)               i fi +        i   ∂q       fi .
+
+                                                      12
+The first term of the expression equals the translation component of J>     wr W. By
+                                                          −−→
+applying (21), we see that the second term equals J> rot (OC  i ∧ fi ). Factoring J>
+                                                                                   rot
+out of the summation yields the rotation component of J>   wr W.  
+
+A.1    Calculation of the Wrench Cone
+The wrench is defined by (2)-(3) as:
+
+           fx    =    f1x + f2x + f3x + f4x
+           fy    =    f1y + f2y + f3y + f4y
+           fz    =    f1z + f2z + f3z + f4z
+           τx    =    Y (f1z − f2z − f3z + f4z )
+           τy    =    −X(f1z + f2z − f3z − f4z )
+           τz    =    X(f1y + f2y − f3y − f4y ) − Y (f1x − f2x − f3x + f4x ).
+
+By unilaterality (14) we have f z > 0, so we can define:
+
+                K1    :=     f x /µf z           C1    :=   τ x /Y f z
+                K2    :=     f y /µf z           C2    :=   τ y /Xf  z
+                          z
+                      := τ /µ(X + Y )f z                    z
+                                                                 P z
+                K3                               Di    := fi / i fi
+                px    :=   X/(X + Y )            py    := Y /(X + Y )
+                αix   :=     fix /µfiz           αiy   :=   fiy /µfiz
+
+and normalize the system by dividing each row accordingly. From the non-slippage
+constraint (13), we have αix , αiy and Di ∈ [−1, 1]. Then, introduce the new vari-
+ables:
+               γx = α1x D1 + α4x D4         γx0 = α2x D2 + α3x D3
+                         y           y
+               γy = α1 D1 + α2 D2           γy0 = α3y D3 + α4y D4
+We can reduce the complete system in two ways. First, using the fact that the rela-
+                                                                               x|y
+tion M from α to γ is a linear surjection from [−1, 1]8 to M[−1, 1]8 = {|γi | ≤
+Dj + Dk } (the computation of antecedents being straightforward). Since there is
+no other constraint on the αi ’s than their domain and relation to γi ’s, one can ob-
+tain an equivalent system by replacing α ∈ [−1, 1]8 by γ ∈ M[−1, 1]8 . Then, the
+three equations in Di ’s are:
+                           1 = D1 + D2 + D3 + D4 ,
+                          C1 = D 1 − D 2 − D 3 + D 4 ,
+                          C2 = −D1 − D2 + D3 + D4 ,
+
+By linear combination, we can use them to rewrite M[−1, 1]8 as: 2|γx | ≤ 1 + C1 ,
+2|γx0 | ≤ 1−C1 , 2|γy | ≤ 1−C2 , 2|γy0 | ≤ 1+C2 . Finally, using the same equations,
+
+
+                                           13
+one can express all Di ’s as functions of, e.g., D4 . The inequalities D ∈ [0, 1]4
+become:
+                    −1 + C1 ≤ 2D4 ≤                 1 + C1
+                    C1 + C2 ≤ 2D4 ≤ 2 + C1 + C2
+                    −1 + C2 ≤ 2D4 ≤                 1 + C2
+                         0       ≤ 2D4 ≤               2
+This system has solutions if and only if all lower bounds are smaller than all upper
+bounds. Matching all pairs of lower and upper bounds one by one (we will show an
+example of this technique below in a more complex situation), one can check that
+all these inequalities boil down to C1 ∈ [−1, 1] and C2 ∈ [−1, 1]. The complete
+system is now:
+                     K1     =   γx + γx0       K2 = γy + γy0
+                     K3     =             0
+                                px (γy − γy ) − py (γx − γx0 )
+                   2|γx |   ≤   1 + C1       2|γx0 | ≤ 1 − C1
+                   2|γy |   ≤   1 − C2       2|γy0 | ≤ 1 + C2
+
+And (C1 , C2 ) ∈ [−1, 1]2 . One can use the first three equations to eliminate the
+redundant variables γx0 , γy and γy0 , expressing them as functions of γx in the in-
+equality constraints. After simplification, the resulting system is:
+                2py γx ≤ py (1 + C1 )                                           (22)
+                2py γx ≤ py (1 − C1 ) + 2py K1                                  (23)
+                2py γx ≤ px (1 − C2 ) − K3 + py K1 − px K2                      (24)
+                2py γx ≤ px (1 + C2 ) − K3 + py K1 + px K2                      (25)
+                2py γx ≥ −py (1 + C1 )                                          (26)
+                2py γx ≥ −py (1 − C1 ) + 2py K1                                 (27)
+                2py γx ≥ −px (1 − C2 ) − K3 + py K1 − px K2                     (28)
+                2py γx ≥ −px (1 + C2 ) − K3 + py K1 + px K2                     (29)
+
+And (C1 , C2 ) ∈ [−1, 1]2 . There exist a solution γx if and only if all of its lower
+bounds are smaller than all of its upper bounds. Let us match all pairs of lower
+bounds (26)-(29) and upper bounds (22)-(25). One can check that:
+   • (26) ≤ (22) ⇔ C1 ≥ −1
+
+   • (26) ≤ (23) ⇔ K1 ≥ −1
+
+   • (26) ≤ (24) ⇔ K3 − py K1 + px K2 − py C1 + px C2 ≤ 1
+
+   • (26) ≤ (25) ⇔ K3 − py K1 − px K2 − py C1 − px C2 ≤ 1
+
+
+                                         14
+   • (27) ≤ (22) ⇔ K1 ≤ 1
+
+   • (27) ≤ (23) ⇔ C1 ≤ 1
+
+   • (27) ≤ (24) ⇔ K3 + py K1 + px K2 + py C1 + px C2 ≤ 1
+
+   • (27) ≤ (25) ⇔ K3 + py K1 − px K2 + py C1 − px C2 ≤ 1
+
+   • (28) ≤ (22) ⇔ −K3 + py K1 − px K2 − py C1 + px C2 ≤ 1
+
+   • (28) ≤ (23) ⇔ −K3 − py K1 − px K2 + py C1 + px C2 ≤ 1
+
+   • (28) ≤ (24) ⇔ C2 ≤ 1
+
+   • (28) ≤ (25) ⇔ K2 ≥ −1
+
+   • (29) ≤ (22) ⇔ −K3 + py K1 + px K2 − py C1 − px C2 ≤ 1
+
+   • (29) ≤ (23) ⇔ −K3 − py K1 + px K2 + py C1 − px C2 ≤ 1
+
+   • (29) ≤ (24) ⇔ K2 ≤ 1
+
+   • (29) ≤ (25) ⇔ C2 ≥ −1
+Consequently, the complete system becomes:
+                  K3    ≤   1 − py K1 − px K2 − py C1 − px C2
+                  K3    ≤   1 − py K1 + px K2 − py C1 + px C2
+                  K3    ≤   1 + py K1 − px K2 + py C1 − px C2
+                  K3    ≤   1 + py K1 + px K2 + py C1 + px C2
+                  K3    ≥   −1 + py K1 + px K2 − py C1 − px C2
+                  K3    ≥   −1 + py K1 − px K2 − py C1 + px C2
+                  K3    ≥   −1 − py K1 + px K2 + py C1 − px C2
+                  K3    ≥   −1 − py K1 − px K2 + py C1 + px C2
+
+And (K1 , K2 , C1 , C2 ) ∈ [−1, 1]4 . In a more concise form, these last eight inequal-
+ities can be written K3 ≥ −1 + py |K1 − C1 | + px |K2 − C2 | and K3 ≤ +1 − py |K1 +
+C1 | − px |K2 + C2 |. We conclude by de-normalizing all inequalities. 
+
+
+
+
+                                          15
+

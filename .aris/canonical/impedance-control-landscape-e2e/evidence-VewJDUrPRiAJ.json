@@ -1,0 +1,92 @@
+{
+  "source_id": "VewJDUrPRiAJ",
+  "read_event_id": "e9debe9167d341b7a624092cb2eee7d5",
+  "content_sha256": "48c6c6dad872091fc519cca47796856050980704f2d488536b258a64a63a3cd9",
+  "claim": "In the tested peg-in-hole settings, model-free PPO policies using sparse asymmetric Cartesian impedance/admittance matrices achieved higher reported insertion success than diagonal or symmetric-matrix alternatives, while retaining high success under selected simulated and zero-shot real-world variants.",
+  "claim_locator": [
+    "Full-text packet: simulation small-peg insertion comparisons",
+    "Full-text packet: space-invariant versus space-dependent policy comparison",
+    "Full-text packet: UR5e zero-shot sim-to-real experiments",
+    "Full-text packet: semi-flexible wire/connector experiments"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported empirical evidence with statistical comparisons; mechanism interpretation is plausible but task-bounded, and no formal stability or passivity guarantee is supplied.",
+  "problem_and_setting": "Learning contact-responsive Cartesian impedance/admittance policies for peg-in-hole insertion when the hole location is estimated imperfectly. Experiments include simulated small-peg insertion and zero-shot transfer to a UR5e robot with force/torque sensing, plus tested rigid and semi-flexible insertion variants.",
+  "method_or_mechanism": "A model-free PPO policy conditions Cartesian inertia, damping, and stiffness matrices on the estimated hole location while retaining a minimum-jerk nominal trajectory and modifying motion after contact. Compared policy action structures are diagonal, non-diagonal symmetric, and asymmetric stiffness/damping matrices. Inertia remains diagonal positive definite. Asymmetric matrices are constrained by requiring their symmetric part to be positive definite, and only four off-diagonal couplings are enabled. The antisymmetric or curl component is intended to map force/torque along one axis into corrective motion along another.",
+  "content_summary": "The paper reports that asymmetric impedance policies outperform diagonal and symmetric alternatives in simulated small-peg insertion. Best asymmetric policies reach 98.5% success, whereas diagonal policies range from 70% to 94.5% with a 78% mean and symmetric policies range from 80% to 97% with a 90% mean. Wilcoxon comparisons favor asymmetric policies over diagonal policies at p=.004 and over symmetric policies at p=.01. A space-invariant mean policy retains 98% success versus 98.5% for the space-dependent policy. Zero-shot transfer to a UR5e yields 84% basic-task success, below the 98.5% simulation result; reported rigid-task variants include 79%, 94%, and 84% success. Semi-flexible wire/connector tasks exceed 80% success, compared with below 55% for PD control, with non-overlapping confidence intervals in some comparisons. The first five real-world conditions use 200 trials each and the final two use 100 each.",
+  "synthesis_role": "Provides comparative empirical evidence that deliberately structured asymmetric impedance couplings can improve contact-rich insertion and may transfer from simulation to hardware, while also defining important limits on generality and formal safety claims.",
+  "development_link": "Supports developing impedance-policy parameterizations that expose sparse cross-axis antisymmetric couplings while enforcing positive definiteness of the symmetric component; motivates evaluating such policies against diagonal and symmetric baselines in both simulation and hardware.",
+  "evidence": [
+    {
+      "locator": "Full-text packet: simulation small-peg insertion results",
+      "status": "author_reported",
+      "finding": "Best asymmetric policies reportedly achieved 98.5% success; diagonal policies achieved 70–94.5% with a 78% mean, and symmetric policies achieved 80–97% with a 90% mean."
+    },
+    {
+      "locator": "Full-text packet: statistical comparison of matrix structures",
+      "status": "author_reported",
+      "finding": "Wilcoxon tests reportedly favored asymmetric over diagonal policies at p=.004 and asymmetric over symmetric policies at p=.01."
+    },
+    {
+      "locator": "Full-text packet: spatial-dependence ablation",
+      "status": "author_reported",
+      "finding": "A space-invariant mean policy reportedly achieved 98% success versus 98.5% for the space-dependent policy."
+    },
+    {
+      "locator": "Full-text packet: UR5e zero-shot sim-to-real experiments",
+      "status": "author_reported",
+      "finding": "Basic real-world success was 84%, below the reported 98.5% simulation success; rigid variants reportedly achieved 79%, 94%, and 84%."
+    },
+    {
+      "locator": "Full-text packet: semi-flexible wire/connector experiments",
+      "status": "author_reported",
+      "finding": "Learned policies reportedly exceeded 80% success, while PD control remained below 55%; some comparisons had non-overlapping confidence intervals."
+    },
+    {
+      "locator": "Full-text packet: policy parameterization",
+      "status": "author_reported",
+      "finding": "Only four off-diagonal couplings were allowed; inertia was diagonal positive definite, and learned asymmetric matrices were checked by requiring a positive-definite symmetric part."
+    }
+  ],
+  "evidence_kind": [
+    "simulation_experiment",
+    "robot_hardware_experiment",
+    "comparative_baseline",
+    "statistical_hypothesis_test",
+    "ablation",
+    "zero_shot_sim_to_real"
+  ],
+  "boundary_conditions": [
+    "Policies use task-specific sparse matrix structures with only four permitted off-diagonal couplings.",
+    "The approach depends on contact force/torque sensing and an estimated hole location.",
+    "Training and policy optimization are tied to a PPO-based simulation design.",
+    "Training centers on a small-peg insertion task.",
+    "Hardware generalization is demonstrated only for the tested rigid and semi-flexible variants.",
+    "No formal closed-loop stability or passivity proof is supplied.",
+    "Real-world success remains below the best simulation result in the basic transfer condition.",
+    "The first five real conditions use 200 trials each and the final two use 100 each."
+  ],
+  "assumptions": [
+    "Positive definiteness of the asymmetric matrix's symmetric part is treated as an adequate admissibility check for the learned matrix parameterization.",
+    "The retained minimum-jerk trajectory provides a suitable nominal approach before contact-driven corrections.",
+    "Simulation contact dynamics and sensing are sufficiently representative to support zero-shot hardware transfer.",
+    "Reported success rates and statistical comparisons are valid for the stated protocols."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Basic zero-shot UR5e success decreased to 84% from 98.5% in simulation.",
+      "Some tested rigid real-world variants achieved only 79% or 84% success.",
+      "Diagonal and symmetric action structures produced lower reported mean or best-case simulation success than the asymmetric structure.",
+      "PD control achieved below 55% success on the tested semi-flexible tasks."
+    ],
+    "inferred": [
+      "Because only sparse, task-selected couplings were tested, performance may depend on prior structural choices and may not extend to arbitrary contact tasks.",
+      "Without a formal stability or passivity analysis, positive definiteness of the symmetric component alone does not establish closed-loop safety under all interactions.",
+      "The zero-shot simulation-to-real performance gap suggests sensitivity to unmodeled hardware, sensing, or contact-dynamics differences.",
+      "Near-equivalent success of space-invariant and space-dependent policies suggests spatial conditioning may contribute little in the tested setting."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Verified only against the Controller-supplied full-text packet; numerical results, statistical claims, novelty, and comparative conclusions remain author-reported and were not independently reproduced."
+}

@@ -1,0 +1,110 @@
+{
+  "source_id": "GkLovpurDJwJ",
+  "read_event_id": "44e90e266fd24befa91615934b11d53c",
+  "content_sha256": "fb205ecf3d6bda309dcdb708b49f736d6e5283b18de999e6a8b9398c75efff00",
+  "claim": "Lin, Chen, and Yao develop a two-loop unified motion/force/impedance controller for rigid manipulators contacting an initially unknown environment. Recursive least-squares estimation identifies a decoupled Kelvin-Voigt contact model; an outer model-predictive quadratic program replans motion and force references subject to estimated contact, velocity, acceleration, and force constraints; and an inner robust model-reaching law drives a generalized target model whose matrices trade motion against force tracking. The authors prove bounded parameter-estimation error and target-model reaching under known bounds on plant uncertainty and disturbance. Franka Panda experiments report smoother unknown-contact transitions and a better free-space/compliance compromise than the tested impedance and admittance baselines, plus simultaneous two-axis motion and force tracking. The guarantee does not remove the need for uncertainty bounds, sufficient contact excitation, a stable single decoupled contact, exact force sensing, or feasible real-time optimization, and the paper explicitly notes that time-varying inertia or stiffness can destroy passivity.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II-A-C, equations (1)-(9)",
+    "Section III-A, equations (10)-(14), Theorem 1",
+    "Section III-B, equations (15)-(18), Remark 6",
+    "Section III-C, equations (19)-(30), Theorem 2",
+    "Section IV-A, Figure 2",
+    "Section IV-B, Figures 3-7",
+    "Section IV-C, Figures 8-9",
+    "Section V, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical and hardware evidence: bounded estimation and target-model reaching are proved for the stated rigid-manipulator, bounded-uncertainty, decoupled Kelvin-Voigt setting; performance superiority is author-reported from a small number of Franka experiments without uncertainty intervals or statistical testing",
+  "problem_and_setting": "Automated assembly and similar tasks require fast, accurate free-space motion followed by compliant, force-regulated contact despite unknown contact position and stiffness. The paper seeks a single control framework that can move smoothly among motion, force, impedance, and hybrid objectives without assuming the environment model is known before contact.",
+  "method_or_mechanism": "A generalized target model links replanned motion error and force error through time-varying desired inertia, damping, stiffness, and force weighting. In the outer loop, recursive least squares estimates each decoupled environment direction's stiffness and damping after the first-contact equilibrium position is recorded. A receding-horizon quadratic program selects motion and force references close to the user's desired references while enforcing estimated Kelvin-Voigt dynamics and kinematic/force bounds. In the inner loop, a dynamic compensator and sliding function define robust model-reaching control; a discontinuous term sized from known model-error and disturbance bounds forces the sliding variables toward zero, thereby recovering the target model.",
+  "content_summary": "The paper formulates rigid-manipulator Cartesian dynamics with bounded model, friction, and disturbance errors and a stable, single-contact Kelvin-Voigt environment. Theorem 1 shows uniform boundedness of the recursive least-squares parameter error under the selected covariance law. Theorem 2 shows convergence of the robust model-reaching sliding variable and realization of the target model when the robust gain exceeds the stated uncertainty bound. Experiments use a seven-DOF Franka Emika Panda with an ATI Nano25 sensor at 1 kHz; estimation also runs at 1 kHz and trajectory adaptation at 200 Hz. Four controllers are compared during contact with a deformable plastic surface and a stiffer surface. The proposed controller with trajectory adaptation shows lower impact/second-contact behavior than its no-adaptation version and the tested admittance controller while tracking free motion better than the tested impedance controller. A separate inclined-surface experiment steps desired forces to 5 and 10 N in Z and 2.5 and 5 N in Y and reports concurrent tracking, with measured force noise around plus or minus 0.2 N.",
+  "synthesis_role": "Provides a systems-level example of unifying mode transitions through online environment estimation, constrained trajectory replanning, and a robust target-model inner loop. It supports feasibility on hardware but is not evidence of passivity-preserving variable impedance or broad robustness across contact regimes.",
+  "development_link": "The work extends generalized model-reaching control by adding estimated-environment trajectory adaptation, and extends prior unified impedance/admittance switching approaches to include force tracking and unknown-contact experiments. It also exposes a boundary shared with many variable-impedance schemes: changing target inertia or stiffness can inject energy unless additional passivity handling is used.",
+  "evidence": [
+    {
+      "locator": "Section II-A-C, equations (1)-(9)",
+      "status": "model and uncertainty specification",
+      "finding": "The controller is developed for a rigid manipulator with bounded model/friction/disturbance errors and a fully decoupled stable single-contact Kelvin-Voigt environment with unknown equilibrium position, stiffness, and damping."
+    },
+    {
+      "locator": "Section III-A, equations (10)-(14), Theorem 1",
+      "status": "conditional estimation guarantee",
+      "finding": "The recursive least-squares covariance law yields uniformly bounded environment-parameter error; accurate damping estimation still requires sufficient excitation during sustained contact."
+    },
+    {
+      "locator": "Section III-B, equations (15)-(17)",
+      "status": "online constrained replanning method",
+      "finding": "A real-time quadratic program replans force and motion references to satisfy estimated contact dynamics and velocity, acceleration, and force bounds while remaining close to desired references."
+    },
+    {
+      "locator": "Section III-B, equation (18), Remark 6",
+      "status": "author-stated stability boundary",
+      "finding": "The authors show that increasing desired inertia or stiffness can add energy and destroy passivity during target-model variation."
+    },
+    {
+      "locator": "Section III-C, equations (19)-(30), Theorem 2",
+      "status": "conditional robust-control guarantee",
+      "finding": "With known uncertainty bounds and a sufficiently large discontinuous robust term, the sliding variable converges and the manipulator reaches the selected generalized target model."
+    },
+    {
+      "locator": "Section IV-A, Figure 2",
+      "status": "author-reported hardware protocol",
+      "finding": "Validation uses a torque-controlled seven-DOF Franka Panda, ATI Nano25 force/torque sensor, 1 ms controller/estimator periods, and a 5 ms trajectory-replanning period."
+    },
+    {
+      "locator": "Section IV-B, Figures 4-7",
+      "status": "author-reported comparative hardware result",
+      "finding": "Across a deformable and a stiffer contact surface, trajectory adaptation reduces the initial mismatch and contact force relative to the same model-reaching controller without adaptation; the tested impedance and admittance baselines show the expected free-motion/compliance trade-off."
+    },
+    {
+      "locator": "Section IV-C, Figures 8-9",
+      "status": "author-reported multiaxis hardware result",
+      "finding": "On an inclined surface, the controller replans references, estimates stiffness/damping, and tracks stepped force commands simultaneously in two directions, with reported force noise of plus or minus 0.2 N."
+    }
+  ],
+  "evidence_kind": [
+    "recursive least-squares boundedness theorem",
+    "robust sliding/model-reaching theorem",
+    "model-predictive quadratic programming",
+    "seven-DOF Franka hardware experiment",
+    "four-controller contact comparison",
+    "multiaxis motion-force tracking experiment"
+  ],
+  "boundary_conditions": [
+    "The environment is modeled as stable, single-contact, linear Kelvin-Voigt dynamics that are fully decoupled across Cartesian dimensions.",
+    "Environment equilibrium position is initialized at first contact, and reliable damping estimation requires persistent or adequate excitation that may not occur during contact establishment.",
+    "The robust model-reaching gain requires known upper bounds on inertia, Coriolis, gravity, friction, modeling error, and external disturbance discrepancies.",
+    "The discontinuous s divided by norm(s) term is analyzed ideally; chattering, smoothing, sensor quantization, and actuator bandwidth are not incorporated in the theorem.",
+    "The trajectory-adaptation QP must remain feasible and solve within 5 ms; infeasibility, solver failures, and computational worst cases are not evaluated.",
+    "Changing target inertia or stiffness is not passivity-preserving in general, and no energy tank or passivity filter is added.",
+    "Experiments cover two contact surfaces and one inclined tracking task on one platform, with no repetition count, variance, confidence interval, or statistical test.",
+    "The target-model thresholds and matrices are hand selected; automatic selection and contact-rich assembly are left as future work."
+  ],
+  "assumptions": [
+    "Rigid-manipulator dynamics and Cartesian mapping satisfy the stated boundedness and positive-definiteness properties.",
+    "External force/moment is measured accurately and aligned with the modeled Cartesian contact dimensions.",
+    "The environment remains within the decoupled Kelvin-Voigt family during each estimation and replanning interval.",
+    "The uncertainty bounds used to choose the robust gain dominate actual modeling errors and disturbances.",
+    "Reference and target-model variation are sufficiently smooth for the dynamic compensator and controller derivation.",
+    "The QP constraints and desired references admit a feasible replanned trajectory at every update."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Impedance control in the comparison is compliant but has poorer free-space motion tracking.",
+      "Admittance control improves free-space tracking but produces larger contact force and more serious second contact on the stiff surface.",
+      "The proposed controller without trajectory adaptation experiences larger contact force because position and velocity mismatches remain at contact.",
+      "Environment damping cannot be estimated accurately during first contact without sufficient excitation.",
+      "Variation of target inertia or stiffness may destroy passivity."
+    ],
+    "inferred": [
+      "Underestimated uncertainty bounds can invalidate the reaching proof, whereas large conservative bounds can increase switching effort and chattering.",
+      "Coupled, nonlinear, hysteretic, or intermittently separating contacts can bias the estimator and make the QP constraints physically wrong.",
+      "Real-time QP infeasibility or delay could reintroduce the transition mismatch that the outer loop is intended to remove.",
+      "The limited unreplicated hardware set cannot establish reliability across payloads, contact angles, sensor noise levels, or industrial cycle counts."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

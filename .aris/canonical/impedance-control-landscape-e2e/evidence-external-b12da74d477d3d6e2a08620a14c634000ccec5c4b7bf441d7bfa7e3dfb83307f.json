@@ -1,0 +1,108 @@
+{
+  "source_id": "scholar:15965392972228430987",
+  "read_event_id": "bc495a564c68416083598c212dade0a3",
+  "content_sha256": "8c37d7a397fe27c711cabfb5315b0cd83a4d661b0cf5d4a05afe06160ff3f961",
+  "claim": "A static triangular-mesh closest-point representation of signed distance, local surface normal, curvature, and optional surface coordinates can define integrable geometry-dependent impedance coordinates and a conditionally passive impedance law; in one silicone-phantom robot experiment, negative desired distance maintained nearly continuous contact without the loss-of-contact/impact behavior reported for two feed-forward-force baselines. This supports local surface geometry as control-relevant mechanism evidence, but it does not establish the decision value or minimal sufficiency of nested soft-contact state because mesh geometry is not independent contact-area sensing and the study did not measure tangential wrench capacity or contact history, test held-out continuous material/geometry shifts or impedance-action equivalence, or evaluate ultrasound image quality.",
+  "claim_locator": "Abstract/contribution; theory/mechanism; discrete geometry; experiment; authors' limitations/future work (Controller-supplied admitted full-text dossier; PDF page numbers were not preserved in the dossier and are therefore not fabricated)",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "mixed_author_report_and_reader_inference",
+  "problem_and_setting": "The bound problem P-SOFTSCAN-STATE-01 v1 asks whether independent contact area, local geometry, tangential force/moment, and history have decision value for impedance selection under held-out continuous soft-contact shifts, and what representation is minimally sufficient relative to simpler or model-agnostic feedback. This paper instead studies geometry-dependent impedance control for robotic ultrasound-like scanning over a known arbitrary surface, using a 7-DoF DLR MIRO, a dummy spherical-tip tool, and a static triangular mesh of a Dragon Skin silicone phantom with Shore 10A hardness, an approximately 1 cm wall, and solid backing.",
+  "method_or_mechanism": "The controller forms task coordinates from signed distance to a closest-point surface proxy and tool alignment to the proxy normal, with an optional surface parametrization. Its Jacobian uses the normal, shape operator or principal curvature, and orientation terms. Positive-definite stiffness and damping applied to integrable coordinates are stated by the authors to yield a passive impedance law. On a triangular mesh, an AABB tree finds the closest triangle/proxy point; barycentric interpolation supplies normals, curvatures, and parameter values; quadric fitting supplies principal curvature information; and ARAP supplies an approximately isometric two-dimensional parametrization for disk-topology surfaces. A negative desired signed distance produces passive contact force and limits commanded penetration. The passivity statement is conditional theory based on coordinate integrability, gains, and the valid nearest-point region; the robot experiment is empirical behavior in one setup and is not experimental proof of passivity.",
+  "content_summary": "The paper reports real-time mesh-based task and Jacobian evaluation in a 3 kHz control loop and trajectory tracking on a silicone phantom. Lissajous tracking RMSE was 0.917 mm for s1, 1.465 mm for s2, and 0.871 mm for positive desired distance. For the same path, mean plus or minus standard-deviation Fz was -2.178 plus or minus 0.521 N for Cartesian impedance with -2 N feed-forward, -2.183 plus or minus 0.495 N for mesh impedance with -2 N feed-forward, and -2.403 plus or minus 0.498 N for mesh impedance with desired distance -10 mm and kd 250 N/m. The authors report loss of contact followed by impact for both feed-forward strategies and nearly continuous contact without that impact for negative-distance mesh impedance. The study uses a preoperative/static surface representation and does not evaluate human tissue, an ultrasound imaging endpoint, held-out shifts, independent contact area, tangential wrench capacity, or viscoelastic history.",
+  "synthesis_role": "Indirect mechanism evidence for CHAIN-SPATIAL-SUFFICIENCY and CHAIN-CLOSED-LOOP-ABSORPTION, and boundary-setting evidence for OBL-SPATIAL-OBSERVABILITY and OBL-INDEPENDENT-ENDPOINT. It shows that local mesh-derived normal and curvature can enter an integrable spatial controller and that feedback through signed-distance impedance can absorb some contact-maintenance demands in one fixed setting. It does not satisfy spatial observability for independent finite contact area, and it leaves the independent scanning-task endpoint unmet because no diagnostic ultrasound image quality was measured. It supplies no affirmative evidence for CHAIN-TANGENTIAL-SUFFICIENCY or CHAIN-HISTORY-SUFFICIENCY.",
+  "development_link": "The useful design implication is to include a static-geometry baseline using closest-point signed distance, local normal, and curvature, together with a simpler negative-distance impedance policy. The residual delta is a direct nested-representation decision test: add independent contact-area, tangential wrench, and history channels one level at a time; compare policies under held-out continuous material and geometry shifts while controlling for impedance-action equivalence; measure force/wrench safety plus an independent ultrasound scanning endpoint; and retain the disconfirming outcome that the mesh/signed-distance or model-agnostic baseline is sufficient. This paper cannot determine the minimal sufficient representation or whether richer contact state has incremental decision value.",
+  "evidence": [
+    {
+      "locator": "Theory/mechanism: parallel-surface construction and task coordinates (Controller-supplied dossier; PDF page number unavailable)",
+      "status": "author_reported_conditional_theory",
+      "finding": "The nearest-point parallel-surface map is assumed one-to-one only for absolute signed distance below the minimum curvature radius; within the integrable-coordinate construction, the authors state that positive-definite stiffness and damping yield a passive impedance law. This is a conditional analytical claim, not an experimentally verified passivity certificate for arbitrary deformable contact."
+    },
+    {
+      "locator": "Discrete geometry: triangular-mesh implementation (Controller-supplied dossier; PDF page number unavailable)",
+      "status": "author_reported_method",
+      "finding": "Closest-triangle search, barycentric interpolation, fitted principal curvatures/directions, and ARAP surface coordinates provide local mesh geometry at runtime. These are properties of the represented surface and proxy map, not measurements of the independent finite contact patch."
+    },
+    {
+      "locator": "Experiment: Lissajous tracking and three force strategies (Controller-supplied dossier; PDF page number unavailable)",
+      "status": "author_reported_single_setting_experiment",
+      "finding": "Negative-distance mesh impedance maintained almost continuous contact without the loss-of-contact/impact behavior observed for the two -2 N feed-forward baselines; reported Fz variability was similar across strategies. This supports contact-maintenance behavior in one silicone-phantom setup but does not isolate passivity, representation minimality, or generalization under held-out shifts."
+    },
+    {
+      "locator": "Experiment: platform, phantom, and timing (Controller-supplied dossier; PDF page number unavailable)",
+      "status": "author_reported_implementation_evidence",
+      "finding": "The 13,367-vertex and 26,360-face mesh was used at a 3 kHz control rate; AABB initialization took 18 ms and the task/Jacobian call took 11.91 microseconds. This supports real-time feasibility for the reported static-mesh implementation."
+    },
+    {
+      "locator": "Authors' limitations/future work and experiment scope (Controller-supplied dossier; PDF page number unavailable)",
+      "status": "mixed_author_report_and_reader_assessment",
+      "finding": "The authors call for realistic clinical in-vitro validation, clinicians, image-quality visual servoing, local stiffness estimation, and mesh updates for deformable tissue. From the reported measurements, the reader assesses that OBL-INDEPENDENT-ENDPOINT remains unmet because no ultrasound image or diagnostic-quality endpoint was evaluated."
+    }
+  ],
+  "evidence_kind": [
+    "conditional_analytical_mechanism",
+    "robot_experiment",
+    "real_time_implementation",
+    "scope_limitation",
+    "negative_evidence_for_bound_decision"
+  ],
+  "boundary_conditions": [
+    "The closest-point/parallel-surface mapping is restricted to offsets whose absolute signed distance is below the minimum curvature radius; farther offsets may self-intersect.",
+    "The demonstrated surface representation is a known preoperative/static triangular mesh, not an online estimate of a deforming tissue surface or contact patch.",
+    "ARAP parametrization is described for disk-topology surfaces and is only approximately isometric.",
+    "The experiment used one Dragon Skin silicone phantom with Shore 10A hardness, approximately 1 cm wall thickness, solid backing, and a dummy spherical-tip tool rather than human tissue and an ultrasound probe producing diagnostic images.",
+    "Controller gains were selected heuristically from experimental examination and known silicone stiffness; they were not selected or validated across held-out continuous material or geometry shifts.",
+    "The negative-distance result compares three strategies on the same path in the reported setup; it does not test nested state additions, policy action equivalence, or representation minimality.",
+    "High-curvature regions can generate high joint velocity; the authors identify prediction and limiting of this velocity as future safety work."
+  ],
+  "assumptions": [
+    "The reference surface is oriented and has a smooth normal field, and the nearest-point proxy is unique in the operated offset region.",
+    "The task coordinates remain integrable, and stiffness and damping matrices are positive definite, for the stated passivity result.",
+    "The static mesh, interpolated normal, and fitted curvature adequately represent the physical surface encountered by the tool.",
+    "The printed heuristic relation among desired contact force, distance-coordinate stiffness, and object stiffness is adequate for selecting desired penetration in the reported setting.",
+    "Unmeasured deformability, local stiffness variation, finite contact area, frictional/tangential capacity, and viscoelastic memory do not invalidate the proxy-control behavior in the demonstrated experiment."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Both -2 N feed-forward-force strategies lost contact and were followed by impact on the reported path, whereas negative-distance mesh impedance maintained almost continuous contact without that impact.",
+      "The authors report that realistic clinical in-vitro validation with clinicians is still needed and place ultrasound image-quality visual servoing in future work.",
+      "The authors identify deformable-tissue handling through local stiffness estimation and mesh update, out-of-plane rotation, focal-point/self-intersection handling, and arbitrary foliations as unresolved work.",
+      "The authors note that high-curvature regions can produce high joint velocity and propose predicting and limiting it for safety."
+    ],
+    "inferred": [
+      "The paper cannot determine whether independent contact area, tangential wrench, or history has incremental decision value because those channels were neither measured nor ablated.",
+      "The paper cannot establish a minimally sufficient nested contact representation because it compares control strategies rather than controlled representation levels and does not enforce impedance-action equivalence.",
+      "The experimental result does not demonstrate robustness to held-out continuous material or geometry shifts because only the reported phantom/setup was evaluated.",
+      "The force/contact result cannot substitute for an independent scanning-task endpoint because no ultrasound image quality or diagnostic outcome was measured.",
+      "The reported contact-maintenance behavior is consistent with a closed-loop absorption account, but the experiment does not prove that passivity, rather than other controller or setup factors, caused the observed difference."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified against Controller-supplied admitted full text",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-4687fd791eea39656dc1265feba0dfcd68d68cff760b7b8ebcb142d7adc2e766.json",
+    "query_plan_sha256": "52fac0b3ecd297c16bd06af3bfa2fb3ca5b843abcb1ff18f47c60e95cc5e0d5b",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+    "root_cause_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "DOMINANT_SOLUTION_SEARCH",
+    "design_obligation_set_id": "DOS-P-SOFTSCAN-STATE-01-v1",
+    "actual_hit_query_ids": [
+      "Q0058"
+    ],
+    "design_obligation_ids": [
+      "OBL-HISTORY-STATE",
+      "OBL-INDEPENDENT-ENDPOINT",
+      "OBL-NESTED-DECISION-VALUE",
+      "OBL-SAFE-ABSORPTION-BOUNDARY",
+      "OBL-SPATIAL-OBSERVABILITY",
+      "OBL-TANGENTIAL-MARGIN"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-CLOSED-LOOP-ABSORPTION",
+      "CHAIN-HISTORY-SUFFICIENCY",
+      "CHAIN-SPATIAL-SUFFICIENCY",
+      "CHAIN-TANGENTIAL-SUFFICIENCY"
+    ]
+  }
+}

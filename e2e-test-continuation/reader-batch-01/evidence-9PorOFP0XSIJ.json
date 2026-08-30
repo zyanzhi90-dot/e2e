@@ -1,0 +1,111 @@
+{
+  "source_id": "9PorOFP0XSIJ",
+  "read_event_id": "6842b8cbe0e34a4fa4b3fc46e95bc6c1",
+  "content_sha256": "82d97efa48c02d5370572b909768ea5d7c3d63ffbfc3bf6d725bc5b2d3b5628c",
+  "claim": "REVIEW-LEVEL SYNTHESIS, not primary causal evidence: this 2025 paper surveys variable impedance/admittance control for human-robot interaction with emphasis on nonlinear, fuzzy, fractional-order, hybrid, and learning-based approaches. It argues that the field still predominantly uses linear mass-damping-stiffness interaction models, with learning often tuning coefficients rather than replacing the linear structure, while nonlinear or fractional/fuzzy models may better express hysteresis, frequency dependence, uncertainty, and context-dependent human behavior at the price of computation, tuning burden, and reduced interpretability. Although titled a systematic review, the supplied full text does not report a reproducible database search, query, screening flow, eligibility criteria, date boundary, duplicate handling, or study-quality/risk-of-bias assessment; its favorable performance and safety conclusions are therefore narrative author synthesis of heterogeneous cited studies, not systematic comparative or causal evidence.",
+  "claim_locator": [
+    "Abstract and Section 1, Introduction",
+    "Section 2, Human-robot interaction and collaboration",
+    "Section 3 and Table 1, industrial cobot applications",
+    "Section 4.1-4.2.4, Figures 18-22",
+    "Section 5.1-5.3, equations (4)-(27), Tables 2 and related figures",
+    "Section 6.1-6.2, Figures 40-50",
+    "Section 7, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "context_only",
+  "epistemic_status": "self-described systematic review, but evidentially narrative: full text verified and useful for broad landscape mapping, yet no reproducible review protocol or study-level quality assessment is present; claims of improvement are mainly paraphrased from heterogeneous source papers without common metrics or meta-analysis",
+  "problem_and_setting": "The paper addresses selection of interaction controllers for Industry 4.0/5.0 HRI/HRC, where robots must adapt to human motion, contact conditions, uncertainty, and nonlinear physiology. It focuses on whether linear variable impedance/admittance models are sufficient and how fuzzy logic, fractional-order dynamics, hybrid controllers, and learning methods can improve adaptability, robustness, force tracking, and safety.",
+  "method_or_mechanism": "The article narratively assembles prior HRI/HRC, cobot-application, VIC/VAC, nonlinear-model, fuzzy-control, fractional-order, and learning literature. Its technical taxonomy contrasts the standard linear mass-damping-stiffness model with nonlinear gain scheduling and contextual/physiological models; fuzzy systems infer or adapt gains from linguistic rules or uncertainty; fractional-order derivatives add frequency- and memory-dependent dynamics; hybrid fuzzy-fractional/sliding-mode/neural controllers combine uncertainty approximation and robust tracking; learning methods estimate intentions, trajectories, dynamics, or impedance policies. The review does not expose a formal study-identification or appraisal mechanism.",
+  "content_summary": "The first sections review HRI/HRC definitions, collaboration levels, human factors, standards, sensors, and industrial applications. The control sections explain impedance/admittance and survey energy reservoirs, stability-constrained VIC, adaptive force tracking, sensorless variants, and fuzzy adaptation. A dedicated comparison argues that linear models are simple and interpretable but cannot fully capture nonlinear, hysteretic human joints or rapid contact changes; nonlinear models may improve fidelity but require more computation, data, and tuning. The fractional-order sections cover fuzzy FOPID, fractional sliding-mode, type-II fuzzy, and variable fractional admittance examples, many of which are simulations or low-DOF platforms rather than direct pHRI trials. The final section surveys fuzzy VIC/VAC and learning via neural networks, demonstrations, reinforcement learning, model-predictive control, and repetitive learning. The conclusion reports broad benefits but also reiterates that linear models dominate and that accuracy-complexity trade-offs remain.",
+  "synthesis_role": "Provides a recent, unusually broad catalog of fuzzy and fractional-order control ideas adjacent to variable impedance HRI. Its best use is hypothesis generation and terminology mapping. It should not be used alone to infer that nonlinear/fuzzy/fractional controllers outperform classical VIC or improve human safety across applications.",
+  "development_link": "Extends earlier impedance reviews by emphasizing the linear-to-nonlinear modeling transition and by grouping fractional calculus, type-I/type-II fuzzy logic, sliding mode, neural estimation, reinforcement learning, and MPC as routes to adaptive interaction. It highlights a continuing gap between increasingly complex gain-tuning machinery and the largely linear impedance structures being tuned.",
+  "evidence": [
+    {
+      "locator": "Abstract and Section 1",
+      "status": "author synthesis",
+      "finding": "The authors conclude that linear interaction models with unknown coefficients remain dominant and that learning methods commonly optimize those coefficients rather than replace the underlying linear structure."
+    },
+    {
+      "locator": "Sections 2-3 and Table 1",
+      "status": "review-level context catalog",
+      "finding": "HRI/HRC levels, human factors, standards, sensors, and cobot applications are cataloged across manufacturing, health care, agriculture, aerospace, logistics, construction, and hazardous work."
+    },
+    {
+      "locator": "Section 4.1",
+      "status": "narrative method synthesis",
+      "finding": "Reviewed VIC/VAC approaches adjust stiffness, damping, or inertia through energy reservoirs, stability-constrained profiles, environment estimation, fuzzy adaptation, sensorless inference, or learning; the article notes that energy injection can threaten passivity."
+    },
+    {
+      "locator": "Section 4.2.1-4.2.4, Figures 19-22",
+      "status": "author qualitative comparison",
+      "finding": "Linear models are judged simple and interpretable but limited for nonlinear/hysteretic human behavior and fast contact variation; nonlinear models offer richer adaptation while increasing computation, tuning, data demand, and interpretability problems."
+    },
+    {
+      "locator": "Section 5.1-5.3",
+      "status": "heterogeneous literature synthesis",
+      "finding": "Fuzzy fractional-order, fractional sliding-mode, type-II fuzzy, and variable fractional admittance controllers are reported across simulations, low-DOF manipulators, exoskeletons, haptics, polishing, teleoperation, and other systems, with no common benchmark or pooled effect."
+    },
+    {
+      "locator": "Section 6.1-6.2, Figures 40-50",
+      "status": "heterogeneous literature synthesis",
+      "finding": "Fuzzy and learning-based controllers estimate human intent, environment properties, trajectories, or impedance parameters using neural networks, demonstrations, RL, MPC, and iterative learning; evidence types range from simulation to small robot demonstrations."
+    },
+    {
+      "locator": "Section 7, Conclusion",
+      "status": "author conclusion",
+      "finding": "The paper claims improved adaptability, responsiveness, flexibility, safety, and error reduction from fractional, fuzzy, and learning methods, while acknowledging that nonlinear accuracy gains directly increase system complexity."
+    },
+    {
+      "locator": "Full-text review structure",
+      "status": "methodological limitation observed in supplied text",
+      "finding": "No database list, search string, search dates, PRISMA-style flow, inclusion/exclusion criteria, duplicate procedure, extraction protocol, study-quality appraisal, or quantitative synthesis is reported."
+    }
+  ],
+  "evidence_kind": [
+    "self-described systematic review",
+    "narrative review-level synthesis",
+    "controller and application taxonomy",
+    "qualitative linear/nonlinear comparison",
+    "fuzzy/fractional-order method catalog",
+    "learning-based method catalog"
+  ],
+  "boundary_conditions": [
+    "Despite the title, the supplied article does not document reproducible systematic-review methods; completeness and selection bias cannot be assessed.",
+    "The 247 references span reviews, theory, simulations, low-DOF robots, non-HRI control examples, industrial applications, and pHRI experiments, so they do not form a uniform causal evidence base.",
+    "No study-level risk-of-bias or quality grading, sample-size synthesis, standardized outcome definition, or meta-analysis is provided.",
+    "Reported percentage improvements and performance claims are carried over from individual source papers with different baselines and conditions.",
+    "Some fuzzy/fractional examples concern generic nonlinear systems, mobile robots, wind turbines, self-balancing robots, or tracking controllers rather than direct interaction-port impedance in human-robot tasks.",
+    "Safety is discussed largely as an intended or reported benefit; the review does not aggregate collision injury, force-limit, clinical, or human-subject safety outcomes.",
+    "The publication includes references from 2025 but does not state a search cutoff, making temporal coverage nonreproducible.",
+    "More complex nonlinear controllers may require computation, sensing, training data, and tuning unavailable on the platforms represented by simpler linear models."
+  ],
+  "assumptions": [
+    "The cited studies' reported simulations and experiments were accurately characterized by the review authors.",
+    "Fractional-order and fuzzy formulations capture task-relevant memory, frequency dependence, nonlinearity, or uncertainty rather than merely adding tunable degrees of freedom.",
+    "Performance metrics from heterogeneous applications are directionally comparable enough to support broad qualitative conclusions.",
+    "The underlying impedance/admittance port model remains meaningful when combined with learning and nonlinear gain adaptation.",
+    "Stability proofs based on Lyapunov, passivity, or boundedness in individual studies apply to the implementation actually tested.",
+    "The selected literature is representative despite the absent search and screening documentation."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Linear impedance models cannot fully represent nonlinear, hysteretic human musculoskeletal behavior or rapidly changing interaction conditions.",
+      "VIC can introduce energy and jeopardize passivity/stability; VAC can have difficulty distinguishing divergent forces from error-related forces.",
+      "Nonlinear accuracy and robustness gains come with greater model complexity, computation, tuning, and interpretability burden.",
+      "Many fractional-order robotic-control studies focus on one- to three-joint systems, leaving industrial manipulators with more than five joints underexplored.",
+      "Several fuzzy/fractional methods show only simulation evidence, and real-world implementation requires further study.",
+      "Learning methods commonly optimize parameters within a linear impedance structure rather than learn a genuinely nonlinear interaction law."
+    ],
+    "inferred": [
+      "Labeling the article systematic overstates methodological rigor because core systematic-review procedures are absent from the supplied text.",
+      "Narrative aggregation of favorable source results is vulnerable to publication, citation, and confirmation bias.",
+      "Mixing generic control and non-HRI examples with pHRI/VIC studies can inflate the apparent maturity of fuzzy fractional impedance control for human interaction.",
+      "Greater controller flexibility can increase identifiability problems, overfitting, implementation mismatch, and unverified behavior outside the training or tuning region.",
+      "Broad safety claims are not supported by a dedicated synthesis of human-subject adverse events, collision metrics, or standards compliance.",
+      "Without shared benchmarks, it is not possible to determine whether gains arise from fractional order, fuzzy inference, optimization effort, controller order, or different experimental conditions."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

@@ -1,0 +1,171 @@
+{
+  "source": "human_google_scholar",
+  "queries": [
+    {
+      "query_id": "Q0058",
+      "query": "continuous robotic ultrasound sliding soft contact optimal impedance contact area geometry tangential force moment history",
+      "results": [
+        {
+          "paper_id": "QPuQ4sfxSTIJ",
+          "title": "AuSoScan: Automatic Scoliosis Assessment by Ultrasound Scanning With Soft Contact Control",
+          "authors": ["Anqing Duan", "Wanli Liuchen", "Peng Zhou", "Dezhen Song", "Chenguang Yang", "Yongping Zheng", "David Navarro-Alarcon"],
+          "year": 2025,
+          "venue": "IEEE/ASME Transactions on Mechatronics",
+          "doi": "10.1109/TMECH.2025.3583041",
+          "doi_or_stable_url": "https://doi.org/10.1109/TMECH.2025.3583041"
+        },
+        {
+          "paper_id": "j4KJ1EdUyYAJ",
+          "title": "Neural-Network-Based Optimal Impedance Control for Robots in Physical Interaction With Soft Environments",
+          "authors": ["Haiyi Kong", "Guangzhu Peng", "Guang Li", "Chenguang Yang"],
+          "year": 2025,
+          "venue": "IEEE Transactions on Systems, Man, and Cybernetics: Systems",
+          "doi": "10.1109/TSMC.2025.3579017",
+          "doi_or_stable_url": "https://doi.org/10.1109/TSMC.2025.3579017"
+        },
+        {
+          "paper_id": "USER-TASE-2023-3282974",
+          "title": "Task Space Compliant Control and Six-Dimensional Force Regulation Toward Automated Robotic Ultrasound Imaging",
+          "authors": ["Junchen Wang", "Chunheng Lu", "Yifei Lv", "Siqin Yang", "Mingbo Zhang", "Yu Shen"],
+          "year": 2024,
+          "venue": "IEEE Transactions on Automation Science and Engineering",
+          "doi": "10.1109/TASE.2023.3282974",
+          "doi_or_stable_url": "https://doi.org/10.1109/TASE.2023.3282974"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0059",
+      "query": "finite area viscoelastic sliding contact pressure distribution robotic control Hunt Crossley friction moment",
+      "results": [
+        {
+          "paper_id": "Ubx3Xkv4y2kJ",
+          "title": "Modeling of Viscoelastic Contacts and Evolution of Limit Surface for Robotic Contact Interface",
+          "authors": ["Paolo Tiezzi", "Imin Kao"],
+          "year": 2007,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2006.889494",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2006.889494"
+        },
+        {
+          "paper_id": "ZDySGaNsMn8J",
+          "title": "Real-Time Deformable-Contact-Aware Model Predictive Control for Force-Modulated Manipulation",
+          "authors": ["Lasitha Wijayarathne", "Ziyi Zhou", "Ye Zhao", "Frank L. Hammond"],
+          "year": 2023,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2023.3286070",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2023.3286070"
+        },
+        {
+          "paper_id": "HUMAN-EJMAS-2024-105348",
+          "title": "Friction for a sliding adhesive viscoelastic cylinder: Effect of Maugis parameter",
+          "authors": ["A. Papangelo", "R. Nazari", "M. Ciavarella"],
+          "year": 2024,
+          "venue": "European Journal of Mechanics - A/Solids",
+          "doi": "10.1016/j.euromechsol.2024.105348",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.euromechsol.2024.105348",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0060",
+      "query": "robot soft tissue contact online low order viscoelastic state force control relaxation creep hysteresis impedance",
+      "results": [
+        {
+          "paper_id": "_8NXx8-VkcgJ",
+          "title": "Viscoelastic model based force control for soft tissue interaction and its application in physiological motion compensation",
+          "authors": ["Pedro Moreira", "Nabil Zemiti", "Chao Liu", "Philippe Poignet"],
+          "year": 2014,
+          "venue": "Computer Methods and Programs in Biomedicine",
+          "doi": "10.1016/j.cmpb.2014.01.017",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.cmpb.2014.01.017"
+        },
+        {
+          "paper_id": "iasK6kEBzIEJ",
+          "title": "Viscoelastic modeling based force control framework for enhancing operation safety of soft tissue for orthopedic surgical robots",
+          "authors": ["Guangming Xia", "Zifeng Jiang", "Bin Yao", "Yu Dai"],
+          "year": 2024,
+          "venue": "Computers in Biology and Medicine",
+          "doi": "10.1016/j.compbiomed.2024.109291",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.compbiomed.2024.109291"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0061",
+      "query": "safe variable impedance admittance control energy tank passivity model predictive learning contact model uncertainty delay",
+      "results": [
+        {
+          "paper_id": "lLfdIFGp-oYJ",
+          "title": "Passive Model-Predictive Impedance Control for Safe Physical Human-Robot Interaction",
+          "authors": ["Ran Cao", "Long Cheng", "Houcheng Li"],
+          "year": 2024,
+          "venue": "IEEE Transactions on Cognitive and Developmental Systems",
+          "doi": "10.1109/TCDS.2023.3275217",
+          "doi_or_stable_url": "https://doi.org/10.1109/TCDS.2023.3275217"
+        },
+        {
+          "paper_id": "TWbe_B2DfGkJ",
+          "title": "Composite Learning Variable Impedance Robot Control With Stability and Passivity Guarantees",
+          "authors": ["Yongping Pan", "Zhiwen Li", "Tian Shi", "Changyun Wen"],
+          "year": 2024,
+          "venue": "IEEE Robotics and Automation Letters",
+          "doi": "10.1109/LRA.2023.3327675",
+          "doi_or_stable_url": "https://doi.org/10.1109/LRA.2023.3327675"
+        },
+        {
+          "paper_id": "HUMAN-AUTOMATICA-2013-LBMPC",
+          "title": "Provably safe and robust learning-based model predictive control",
+          "authors": ["Anil Aswani", "Humberto Gonzalez", "S. Shankar Sastry", "Claire Tomlin"],
+          "year": 2013,
+          "venue": "Automatica",
+          "doi": "10.1016/j.automatica.2013.02.003",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.automatica.2013.02.003",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0062",
+      "query": "minimal sufficient state representation value of information control action equivalence component ablation model predictive control",
+      "results": [
+        {
+          "paper_id": "HUMAN-ICML-2022-ASR",
+          "title": "Action-Sufficient State Representation Learning for Control with Structural Constraints",
+          "authors": ["Biwei Huang", "Chaochao Lu", "Liu Leqi", "Jose Miguel Hernandez-Lobato", "Clark Glymour", "Bernhard Scholkopf", "Kun Zhang"],
+          "year": 2022,
+          "venue": "Proceedings of the 39th International Conference on Machine Learning",
+          "doi_or_stable_url": "https://proceedings.mlr.press/v162/huang22f.html",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0063",
+      "query": "robotic ultrasound scanning contact force image quality metric reconstruction quality independent endpoint phantom",
+      "results": [
+        {
+          "paper_id": "HUMAN-LRA-2022-ASEE",
+          "title": "A-SEE: Active-Sensing End-effector Enabled Probe Self-Normal-Positioning for Robotic Ultrasound Imaging Applications",
+          "authors": ["Xihan Ma", "Wen-Yi Kuo", "Kehan Yang", "Ashiqur Rahaman", "Haichong K. Zhang"],
+          "year": 2022,
+          "venue": "IEEE Robotics and Automation Letters",
+          "doi": "10.1109/LRA.2022.3218183",
+          "doi_or_stable_url": "https://doi.org/10.1109/LRA.2022.3218183",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-FROBT-2021-645424",
+          "title": "Robotic Ultrasound Scanning With Real-Time Image-Based Force Adjustment: Quick Response for Enabling Physical Distancing During the COVID-19 Pandemic",
+          "authors": ["Mojtaba Akbari", "Jay Carriere", "Tyler Meyer", "Ron Sloboda", "Siraj Husain", "Nawaid Usmani", "Mahdi Tavakoli"],
+          "year": 2021,
+          "venue": "Frontiers in Robotics and AI",
+          "doi": "10.3389/frobt.2021.645424",
+          "doi_or_stable_url": "https://doi.org/10.3389/frobt.2021.645424",
+          "publication_type": "journal-article"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "paper_id": "USER-TUFFC-2011-1961",
+  "source_path": "source-materials/user-supplied-softscan-2026-08-22/P17_Estimating_material_elasticity_by_spherical_indentation_load-relaxation_tests_on_viscoelastic_samples_of_finite_thickness.pdf",
+  "title": "Estimating Material Elasticity by Spherical Indentation Load-Relaxation Tests on Viscoelastic Samples of Finite Thickness",
+  "authors": ["Bo Qiang", "James Greenleaf", "Michelle Oyen", "Xiaoming Zhang"],
+  "year": 2011,
+  "venue": "IEEE Transactions on Ultrasonics, Ferroelectrics, and Frequency Control",
+  "doi_or_stable_url": "https://doi.org/10.1109/TUFFC.2011.1961",
+  "publication_type": "peer-reviewed journal article",
+  "reading_priority": "TARGETED_GAP_FOLLOWUP",
+  "screening_reason": "User-supplied primary load-relaxation evidence on gelatin and chicken tissue; diagnostic for whether finite thickness and material memory can be discriminated from a memoryless Hunt-Crossley fit."
+}

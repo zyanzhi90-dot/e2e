@@ -1,0 +1,362 @@
+{
+  "source": "human_web_search",
+  "queries": [
+    {
+      "query_id": "Q0064",
+      "query": "conditional sufficient statistic decision theory control state aggregation future cost action equivalence",
+      "results": [
+        {
+          "paper_id": "HUMAN-ICML-2022-ASR",
+          "title": "Action-Sufficient State Representation Learning for Control with Structural Constraints",
+          "authors": ["Biwei Huang", "Chaochao Lu", "Liu Leqi", "Jose Miguel Hernandez-Lobato", "Clark Glymour", "Bernhard Scholkopf", "Kun Zhang"],
+          "year": 2022,
+          "venue": "Proceedings of the 39th International Conference on Machine Learning",
+          "doi_or_stable_url": "https://proceedings.mlr.press/v162/huang22f.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-NEURIPS-2021-MI-SUFFICIENCY",
+          "title": "Which Mutual-Information Representation Learning Objectives are Sufficient for Control?",
+          "authors": ["Kate Rakelly", "Abhishek Gupta", "Carlos Florensa", "Sergey Levine"],
+          "year": 2021,
+          "venue": "Advances in Neural Information Processing Systems",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper/2021/hash/dd45045f8c68db9f54e70c67048d32e8-Abstract.html",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0065",
+      "query": "quotient state representation invariance contact geometry pressure distribution control sufficient representation",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2021-MI-SUFFICIENCY",
+          "title": "Which Mutual-Information Representation Learning Objectives are Sufficient for Control?",
+          "authors": ["Kate Rakelly", "Abhishek Gupta", "Carlos Florensa", "Sergey Levine"],
+          "year": 2021,
+          "venue": "Advances in Neural Information Processing Systems",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper/2021/hash/dd45045f8c68db9f54e70c67048d32e8-Abstract.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-ICML-2022-ASR",
+          "title": "Action-Sufficient State Representation Learning for Control with Structural Constraints",
+          "authors": ["Biwei Huang", "Chaochao Lu", "Liu Leqi", "Jose Miguel Hernandez-Lobato", "Clark Glymour", "Bernhard Scholkopf", "Kun Zhang"],
+          "year": 2022,
+          "venue": "Proceedings of the 39th International Conference on Machine Learning",
+          "doi_or_stable_url": "https://proceedings.mlr.press/v162/huang22f.html",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0066",
+      "query": "robotic soft contact finite area contact patch geometry pressure distribution impedance control observability",
+      "results": [
+        {
+          "paper_id": "ZDySGaNsMn8J",
+          "title": "Real-Time Deformable-Contact-Aware Model Predictive Control for Force-Modulated Manipulation",
+          "authors": ["Lasitha Wijayarathne", "Ziyi Zhou", "Ye Zhao", "Frank L. Hammond"],
+          "year": 2023,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2023.3286070",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2023.3286070"
+        },
+        {
+          "paper_id": "QPuQ4sfxSTIJ",
+          "title": "AuSoScan: Automatic Scoliosis Assessment by Ultrasound Scanning With Soft Contact Control",
+          "authors": ["Anqing Duan", "Wanli Liuchen", "Peng Zhou", "Dezhen Song", "Chenguang Yang", "Yongping Zheng", "David Navarro-Alarcon"],
+          "year": 2025,
+          "venue": "IEEE/ASME Transactions on Mechatronics",
+          "doi": "10.1109/TMECH.2025.3583041",
+          "doi_or_stable_url": "https://doi.org/10.1109/TMECH.2025.3583041"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0067",
+      "query": "state abstraction bisimulation causal representation control observation aliasing minimal sufficient state",
+      "results": [
+        {
+          "paper_id": "HUMAN-ICML-2022-ASR",
+          "title": "Action-Sufficient State Representation Learning for Control with Structural Constraints",
+          "authors": ["Biwei Huang", "Chaochao Lu", "Liu Leqi", "Jose Miguel Hernandez-Lobato", "Clark Glymour", "Bernhard Scholkopf", "Kun Zhang"],
+          "year": 2022,
+          "venue": "Proceedings of the 39th International Conference on Machine Learning",
+          "doi_or_stable_url": "https://proceedings.mlr.press/v162/huang22f.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-ARXIV-2019-CAUSAL-STATE",
+          "title": "Learning Causal State Representations of Partially Observable Environments",
+          "authors": ["Amy Zhang", "Zachary C. Lipton", "Luis Pineda", "Kamyar Azizzadenesheli", "Anima Anandkumar", "Laurent Itti", "Joelle Pineau", "Tommaso Furlanello"],
+          "year": 2019,
+          "venue": "arXiv",
+          "doi_or_stable_url": "https://arxiv.org/abs/1906.10437",
+          "publication_type": "preprint"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0068",
+      "query": "contact wrench cone limit surface friction remaining control authority distance constraint first principles",
+      "results": [
+        {
+          "paper_id": "HUMAN-TRO-2017-CWC",
+          "title": "Stability of Surface Contacts for Humanoid Robots: Closed-Form Formulae of the Contact Wrench Cone for Rectangular Support Areas",
+          "authors": ["Stephane Caron", "Quang-Cuong Pham", "Yoshihiko Nakamura"],
+          "year": 2017,
+          "venue": "IEEE Transactions on Robotics",
+          "doi_or_stable_url": "https://arxiv.org/abs/1501.04719",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "Ubx3Xkv4y2kJ",
+          "title": "Modeling of Viscoelastic Contacts and Evolution of Limit Surface for Robotic Contact Interface",
+          "authors": ["Paolo Tiezzi", "Imin Kao"],
+          "year": 2007,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2006.889494",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2006.889494"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0069",
+      "query": "constraint slack dual variable risk coordinate friction cone wrench limit surface representation transformation control",
+      "results": [
+        {
+          "paper_id": "HUMAN-TRO-2017-CWC",
+          "title": "Stability of Surface Contacts for Humanoid Robots: Closed-Form Formulae of the Contact Wrench Cone for Rectangular Support Areas",
+          "authors": ["Stephane Caron", "Quang-Cuong Pham", "Yoshihiko Nakamura"],
+          "year": 2017,
+          "venue": "IEEE Transactions on Robotics",
+          "doi_or_stable_url": "https://arxiv.org/abs/1501.04719",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-IJRR-2020-MOTION-CONES",
+          "title": "Planar in-hand manipulation via motion cones",
+          "authors": ["Nikhil Chavan-Dafle", "Rachel Holladay", "Alberto Rodriguez"],
+          "year": 2020,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/0278364919880257",
+          "doi_or_stable_url": "https://doi.org/10.1177/0278364919880257",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0070",
+      "query": "robot incipient slip detection tactile wrench moment friction limit surface impedance manipulation",
+      "results": [
+        {
+          "paper_id": "HUMAN-MEASUREMENT-2022-INCIPIENT-SLIP",
+          "title": "Incipient slip detection method for soft objects with vision-based tactile sensor",
+          "authors": ["Ruomin Sui", "Lunwei Zhang", "Tiemin Li", "Yao Jiang"],
+          "year": 2022,
+          "venue": "Measurement",
+          "doi": "10.1016/j.measurement.2022.111906",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.measurement.2022.111906",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "Ubx3Xkv4y2kJ",
+          "title": "Modeling of Viscoelastic Contacts and Evolution of Limit Surface for Robotic Contact Interface",
+          "authors": ["Paolo Tiezzi", "Imin Kao"],
+          "year": 2007,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2006.889494",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2006.889494"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0071",
+      "query": "remaining control authority envelope protection constraint margin structural isomorphism control systems",
+      "results": [
+        {
+          "paper_id": "HUMAN-JGCD-2016-LIMIT-MARGIN",
+          "title": "Direct Adaptive Limit and Control Margin Estimation with Concurrent Learning",
+          "authors": ["Gonenc Gursoy", "Ilkay Yavrucuk"],
+          "year": 2016,
+          "venue": "Journal of Guidance, Control, and Dynamics",
+          "doi": "10.2514/1.G001515",
+          "doi_or_stable_url": "https://doi.org/10.2514/1.G001515",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0072",
+      "query": "predictive sufficient state non Markov observation history conditional independence control theory",
+      "results": [
+        {
+          "paper_id": "HUMAN-IJRR-2011-PSR",
+          "title": "Closing the learning-planning loop with predictive state representations",
+          "authors": ["Byron Boots", "Sajid M. Siddiqi", "Geoffrey J. Gordon"],
+          "year": 2011,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/0278364911404092",
+          "doi_or_stable_url": "https://doi.org/10.1177/0278364911404092",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0073",
+      "query": "memory kernel internal variable balanced truncation Koopman predictive state low order viscoelastic control",
+      "results": [
+        {
+          "paper_id": "HUMAN-IJRR-2011-PSR",
+          "title": "Closing the learning-planning loop with predictive state representations",
+          "authors": ["Byron Boots", "Sajid M. Siddiqi", "Geoffrey J. Gordon"],
+          "year": 2011,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/0278364911404092",
+          "doi_or_stable_url": "https://doi.org/10.1177/0278364911404092",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0074",
+      "query": "robot soft tissue contact low order viscoelastic state relaxation creep hysteresis force impedance control",
+      "results": [
+        {
+          "paper_id": "_8NXx8-VkcgJ",
+          "title": "Viscoelastic model based force control for soft tissue interaction and its application in physiological motion compensation",
+          "authors": ["Pedro Moreira", "Nabil Zemiti", "Chao Liu", "Philippe Poignet"],
+          "year": 2014,
+          "venue": "Computer Methods and Programs in Biomedicine",
+          "doi": "10.1016/j.cmpb.2014.01.017",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.cmpb.2014.01.017"
+        },
+        {
+          "paper_id": "iasK6kEBzIEJ",
+          "title": "Viscoelastic modeling based force control framework for enhancing operation safety of soft tissue for orthopedic surgical robots",
+          "authors": ["Guangming Xia", "Zifeng Jiang", "Bin Yao", "Yu Dai"],
+          "year": 2024,
+          "venue": "Computers in Biology and Medicine",
+          "doi": "10.1016/j.compbiomed.2024.109291",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.compbiomed.2024.109291"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0075",
+      "query": "predictive state representation partially observable control minimal history state system identification",
+      "results": [
+        {
+          "paper_id": "HUMAN-IJRR-2011-PSR",
+          "title": "Closing the learning-planning loop with predictive state representations",
+          "authors": ["Byron Boots", "Sajid M. Siddiqi", "Geoffrey J. Gordon"],
+          "year": 2011,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/0278364911404092",
+          "doi_or_stable_url": "https://doi.org/10.1177/0278364911404092",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-ARXIV-2019-CAUSAL-STATE",
+          "title": "Learning Causal State Representations of Partially Observable Environments",
+          "authors": ["Amy Zhang", "Zachary C. Lipton", "Luis Pineda", "Kamyar Azizzadenesheli", "Anima Anandkumar", "Laurent Itti", "Joelle Pineau", "Tommaso Furlanello"],
+          "year": 2019,
+          "venue": "arXiv",
+          "doi_or_stable_url": "https://arxiv.org/abs/1906.10437",
+          "publication_type": "preprint"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0076",
+      "query": "feedback sensitivity value of model information control action equivalence robust margins closed loop",
+      "results": [
+        {
+          "paper_id": "HUMAN-ASME-2003-IMPEDANCE-DILEMMA",
+          "title": "Accuracy/Robustness Dilemma in Impedance Control",
+          "authors": ["Tomer Valency", "Miriam Zacksenhouse"],
+          "year": 2003,
+          "venue": "Journal of Dynamic Systems, Measurement, and Control",
+          "doi": "10.1115/1.1590685",
+          "doi_or_stable_url": "https://doi.org/10.1115/1.1590685",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0077",
+      "query": "decision focused representation action value sufficient statistic selective sensing control information bottleneck",
+      "results": [
+        {
+          "paper_id": "HUMAN-ICML-2022-ASR",
+          "title": "Action-Sufficient State Representation Learning for Control with Structural Constraints",
+          "authors": ["Biwei Huang", "Chaochao Lu", "Liu Leqi", "Jose Miguel Hernandez-Lobato", "Clark Glymour", "Bernhard Scholkopf", "Kun Zhang"],
+          "year": 2022,
+          "venue": "Proceedings of the 39th International Conference on Machine Learning",
+          "doi_or_stable_url": "https://proceedings.mlr.press/v162/huang22f.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-ARXIV-2011-ACTIONABLE-INFORMATION",
+          "title": "Steps Towards a Theory of Visual Information: Active Perception, Signal-to-Symbol Conversion and the Interplay Between Sensing and Control",
+          "authors": ["Stefano Soatto"],
+          "year": 2011,
+          "venue": "arXiv",
+          "doi_or_stable_url": "https://arxiv.org/abs/1110.2053",
+          "publication_type": "preprint"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0078",
+      "query": "robust impedance control model uncertainty feedback bandwidth delay action equivalence contact representation",
+      "results": [
+        {
+          "paper_id": "HUMAN-ASME-2003-IMPEDANCE-DILEMMA",
+          "title": "Accuracy/Robustness Dilemma in Impedance Control",
+          "authors": ["Tomer Valency", "Miriam Zacksenhouse"],
+          "year": 2003,
+          "venue": "Journal of Dynamic Systems, Measurement, and Control",
+          "doi": "10.1115/1.1590685",
+          "doi_or_stable_url": "https://doi.org/10.1115/1.1590685",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-ARXIV-2020-RISK-IMPEDANCE",
+          "title": "Impedance Optimization for Uncertain Contact Interactions Through Risk Sensitive Optimal Control",
+          "authors": ["Bilal Hammoud", "Majid Khadiv", "Ludovic Righetti"],
+          "year": 2020,
+          "venue": "arXiv",
+          "doi_or_stable_url": "https://arxiv.org/abs/2011.04684",
+          "publication_type": "preprint"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0079",
+      "query": "value of information control selective observation active sensing decision equivalence resource rational",
+      "results": [
+        {
+          "paper_id": "HUMAN-ARXIV-2011-ACTIONABLE-INFORMATION",
+          "title": "Steps Towards a Theory of Visual Information: Active Perception, Signal-to-Symbol Conversion and the Interplay Between Sensing and Control",
+          "authors": ["Stefano Soatto"],
+          "year": 2011,
+          "venue": "arXiv",
+          "doi_or_stable_url": "https://arxiv.org/abs/1110.2053",
+          "publication_type": "preprint"
+        },
+        {
+          "paper_id": "HUMAN-ACM-2023-ACTIVE-SENSING-SURVEY",
+          "title": "From Reactive to Active Sensing: A Survey on Information Gathering in Decision-theoretic Planning",
+          "authors": ["Tiago Veiga", "Jennifer Renoux"],
+          "year": 2023,
+          "venue": "ACM Computing Surveys",
+          "doi": "10.1145/3583068",
+          "doi_or_stable_url": "https://doi.org/10.1145/3583068",
+          "publication_type": "journal-article"
+        }
+      ]
+    }
+  ]
+}

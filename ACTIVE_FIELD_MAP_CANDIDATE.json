@@ -1,0 +1,330 @@
+{
+  "field_core_purposes": [
+    "Control the dynamic relation between robot endpoint motion and interaction force, rather than commanding either variable alone.",
+    "Maintain useful compliant behavior across free motion, impact, sustained contact, and contact release.",
+    "Select or adapt impedance so that tracking accuracy, contact performance, robustness, and safety match the current task and environment.",
+    "Preserve analyzable stability or passivity while impedance varies through scheduling, adaptation, optimization, or learning."
+  ],
+  "typical_tasks_and_scenarios": [
+    "Free-to-contact transitions and unilateral rigid-surface contact",
+    "Surface following, wiping, polishing, assembly, insertion, and constrained manipulation",
+    "Interaction with unknown stiffness, damping, contact location, friction, or payload",
+    "Flexible-joint and torque-sensor-based lightweight robot interaction",
+    "Repeated-task impedance refinement and state-dependent variable impedance learning",
+    "Contact-rich reinforcement learning with impedance-structured action spaces",
+    "Demonstration-based recovery of variable-impedance policies and reusable task rewards"
+  ],
+  "core_bottlenecks": [
+    {
+      "id": "B1_IMPEDANCE_SELECTION",
+      "name": "Context-dependent impedance selection",
+      "description": "Classical control defines how to realize a target impedance but not how to choose inertia, damping, stiffness, equilibrium, coordinate frame, or their state dependence for a new task. Adaptive, optimal-control, RL, and IRL approaches move this choice into force-error laws, explicit costs, task rewards, or demonstrations, but inherit those objectives and model classes."
+    },
+    {
+      "id": "B2_CONTACT_TRANSITION",
+      "name": "Contact-transition and unilateral-contact stability",
+      "description": "A stable in-contact equilibrium does not ensure that first impact establishes and maintains contact; environment stiffness, collision state, damping, delay, and bandwidth jointly determine rebound and force peaks."
+    },
+    {
+      "id": "B3_REALIZATION_ROBUSTNESS",
+      "name": "Desired-versus-realized impedance under uncertainty",
+      "description": "Model error, payload, friction, sampling, delay, sensing, actuator limits, and inner-loop dynamics can distort the commanded impedance, creating an accuracy-versus-robustness tradeoff."
+    },
+    {
+      "id": "B4_VARIABLE_GAIN_ENERGY",
+      "name": "Energy injection by variable gains",
+      "description": "Time- or state-varying stiffness and damping do not inherit fixed-gain passivity automatically; stiffness increases can inject energy and destabilize even nominal free-space regulation."
+    },
+    {
+      "id": "B5_LEARNING_GENERALIZATION",
+      "name": "Learning efficiency, identifiability, and generalization",
+      "description": "Iterative, supervised, composite, reinforcement, and inverse-reinforcement learning solve different subproblems and often remain tied to repeated tasks, labeled impedance maps, hand-designed mode laws, fixed waypoints, expert demonstrations, narrow task families, simulator reoptimization, or fragile exploration."
+    },
+    {
+      "id": "B6_CERTIFICATE_REALITY_GAP",
+      "name": "Continuous-time certificate to physical implementation gap",
+      "description": "Most guarantees depend on exact structural models, continuous-time dynamics, positive-definite gains, passive environments, or excitation conditions and do not directly certify sampled, filtered, saturated, noisy hardware."
+    },
+    {
+      "id": "B7_REPRESENTATION_SENSING",
+      "name": "Representation and sensing tradeoffs",
+      "description": "Joint-space, task-space, force-sensing, model-based, and potential-gradient representations trade embodiment transfer, singularity handling, observability, expressiveness, and certifiability."
+    },
+    {
+      "id": "B8_COMPLEX_ROBOT_CONTACT",
+      "name": "Extension to flexible, redundant, nonlinear, and multi-contact systems",
+      "description": "Results for rigid SISO or low-dimensional contacts do not transfer automatically to flexible joints, redundancy, singularities, nonlinear or active environments, and multiple simultaneous contacts."
+    }
+  ],
+  "method_families": [
+    {
+      "id": "M1_CLASSICAL_ENDPOINT_IMPEDANCE",
+      "name": "Classical endpoint impedance realization",
+      "core_mechanism": "Specify a physically realizable endpoint force-motion relation and map Cartesian stiffness, damping, and virtual equilibrium to joint torques, commonly through forward kinematics and the Jacobian transpose."
+    },
+    {
+      "id": "M2_CONTACT_TRANSITION_DESIGN",
+      "name": "Contact execution and transition-stability design",
+      "core_mechanism": "Use one continuous impedance across free and contact phases, then choose damping, stiffness, frequency, and bandwidth from unilateral-contact and delayed interaction models."
+    },
+    {
+      "id": "M3_ROBUST_REALIZATION",
+      "name": "Robust and model-light impedance realization",
+      "core_mechanism": "Separate desired response from error correction and compensate uncertain robot dynamics through direct adaptive Cartesian coefficients, inner torque feedback, internal-model control, time-delay estimation, or adaptive parameter estimation while the target impedance remains prescribed."
+    },
+    {
+      "id": "M4_FLEXIBLE_JOINT_PASSIVITY",
+      "name": "Flexible-joint passivity-based impedance",
+      "core_mechanism": "Cascade joint-torque feedback with outer impedance control so apparent motor inertia is reduced while physical elasticity and passive subsystem structure are retained."
+    },
+    {
+      "id": "M5_ITERATIVE_IMPEDANCE_LEARNING",
+      "name": "Iterative and betterment-based impedance learning",
+      "core_mechanism": "Improve a repeated finite-horizon task trial by trial, either learning the feedforward input needed to realize a prescribed impedance or directly updating time-varying damping and stiffness against a chosen cost."
+    },
+    {
+      "id": "M6_VARIABLE_IMPEDANCE_CERTIFICATION",
+      "name": "Variable-impedance stability certification and safe adaptation",
+      "core_mechanism": "Restrict gain rates or analyze a particular adaptive law so that variable impedance retains conditional stability or a defined passive input-output mapping."
+    },
+    {
+      "id": "M7_IMPEDANCE_STRUCTURED_RL",
+      "name": "Impedance-structured reinforcement learning",
+      "core_mechanism": "Place a learned policy in the outer loop to output desired motion and state-dependent impedance while a higher-rate classical controller realizes the action."
+    },
+    {
+      "id": "M8_ENERGY_STRUCTURED_LEARNING",
+      "name": "Energy-structured state-dependent impedance learning",
+      "core_mechanism": "Learn the stiffness force as the gradient of a constrained positive, radially unbounded neural potential so nominal stability and port passivity follow from the representation."
+    },
+    {
+      "id": "M9_ADAPTIVE_OPTIMAL_IMPEDANCE_SELECTION",
+      "name": "Adaptive and optimal target-impedance selection",
+      "core_mechanism": "Change the target impedance itself from interaction data: use force-error feedback to adapt selected gains or formulate impedance parameters as the feedback solution of an explicit tracking-force optimal-control problem, rather than only compensating robot dynamics to realize a fixed target."
+    }
+  ],
+  "family_development_traces": [
+    {
+      "family": "M1_CLASSICAL_ENDPOINT_IMPEDANCE",
+      "stage": "Foundational formulation and implementation",
+      "development": "The field moved from separate position/force commands to a port-level endpoint impedance. Jacobian-transpose realization avoided inverse kinematics, while physical mobility and configuration were recognized as part of the achievable impedance.",
+      "solved": "Unified free motion, constrained motion, and energetic interaction under one controlled force-motion relation.",
+      "left_open": "Task-dependent impedance selection, contact-transition guarantees, uncertain dynamics, and online adaptation.",
+      "evidence_ids": ["kmOXrypch9kJ", "LJMBf6MAPHQJ"]
+    },
+    {
+      "family": "M2_CONTACT_TRANSITION_DESIGN",
+      "stage": "Stable execution and transition analysis",
+      "development": "Continuous impedance was demonstrated across free motion, impact, and sliding contact, then refined by distinguishing in-contact equilibrium stability from the ability to maintain unilateral contact after first impact.",
+      "solved": "Mechanistic design guidance for apparent inertia, damping, relative stiffness, delay, and bandwidth in specific contact architectures.",
+      "left_open": "Nonlinear, uncertain, active, multi-contact, and learned-parameter transitions; safe peak-force guarantees.",
+      "evidence_ids": ["bh9zIsh1OIgJ", "D0Bq_8tYnBQJ"]
+    },
+    {
+      "family": "M3_ROBUST_REALIZATION",
+      "stage": "Accuracy and robustness under robot uncertainty",
+      "development": "Early direct adaptation updated Cartesian controller coefficients without identifying physical robot parameters while keeping desired impedance fixed. Later work separated accurate target-response realization from model-error correction, using desired-impedance internal models and time-delay estimates instead of allowing a high-gain inner position loop to contaminate the target behavior.",
+      "solved": "Conditional bounded-error or asymptotic realization of prescribed impedance under structured robot uncertainty, and improved realization under payload/dynamics error in sampled implementations.",
+      "left_open": "Port passivity, estimator noise/delay, certified peak forces, arbitrary payload/configuration changes, nonlinear contact uncertainty, and experimental validation of the early direct-adaptive result.",
+      "evidence_ids": ["w6vmLz5pAjIJ", "bl3FOCgTd_YJ", "TWbe_B2DfGkJ"]
+    },
+    {
+      "family": "M4_FLEXIBLE_JOINT_PASSIVITY",
+      "stage": "Elastic-transmission and lightweight-robot extension",
+      "development": "Inner torque feedback was given a physical apparent-motor-inertia interpretation and combined with outer impedance and potential-based gravity compensation.",
+      "solved": "Conditional passivity/asymptotic stability and exact steady-state stiffness for the merged-potential design on the reduced flexible-joint model.",
+      "left_open": "Exact transient impedance, redundant Cartesian global stability, nonpassive contacts, sensing/model error, and nonlinear elasticity.",
+      "evidence_ids": ["ZUU9058b5_oJ"]
+    },
+    {
+      "family": "M5_ITERATIVE_IMPEDANCE_LEARNING",
+      "stage": "From repeated-input learning to learned impedance schedules",
+      "development": "Early iterative learning refined the feedforward action needed to realize a fixed target impedance. Later betterment learning directly adjusted time-varying damping and stiffness without identifying the unknown environment.",
+      "solved": "Conditional trial-domain convergence for repeatable finite-horizon interaction and explicit optimization of tracking/compliance tradeoffs.",
+      "left_open": "Early-trial safety, full coupled-loop passivity, inter-task transfer, nonrepeatable environments, and autonomous objective selection.",
+      "evidence_ids": ["YroEWEBohvsJ", "SbaEWjemGjsJ"]
+    },
+    {
+      "family": "M6_VARIABLE_IMPEDANCE_CERTIFICATION",
+      "stage": "Explicit stability constraints for varying gains",
+      "development": "The field recognized stiffness variation as an energy source. Offline rate certificates constrain precomputed gain profiles; an online passivity-preservation controller cancels gain-dependent power on a flexible-joint plant; controller-specific adaptation combines smooth impedance maps with composite robot-parameter learning and a defined passive mapping.",
+      "solved": "Sufficient nominal stability for known profiles, conditional online interaction-port passivity for continuous scheduled gains on one compliant-robot model, and conditional stability/passivity for one structured adaptive VIC architecture.",
+      "left_open": "Less conservative and model-robust certificates, near-zero-velocity numerical sensitivity, discontinuous or unknown future policies, sampled-data guarantees, lack of excitation, actuator limits, and arbitrary physical interaction ports.",
+      "evidence_ids": ["3HbLu0M801YJ", "tZYsUFlRIUIJ", "TWbe_B2DfGkJ"]
+    },
+    {
+      "family": "M7_IMPEDANCE_STRUCTURED_RL",
+      "stage": "Task-reward learning of motion and impedance",
+      "development": "Early PI² jointly optimized DMP reference trajectories and time-indexed joint PD-gain schedules from a supplied task cost. Later neural policies output endpoint motion and state-dependent impedance, and adversarial IRL inferred a reward plus Cartesian gain policy from demonstrations before reoptimizing that reward in changed settings of the same task.",
+      "solved": "Feasible task-cost-driven gain discovery on finite-horizon robots; empirical contact robustness relative to tested torque, position, and fixed-gain actions; and improved same-task transfer under selected geometry or initial-state shifts when reward reoptimization is allowed.",
+      "left_open": "Formal stability/passivity, safe exploration, reward and impedance identifiability, expert-data dependence, fixed goal/waypoint assumptions, fair accounting of reoptimization data, rare failures, and cross-task/environment generalization.",
+      "evidence_ids": ["lk5U1cKDpscJ", "dqYs440MKMMJ", "AQhmZpqu8cQJ", "LJMBf6MAPHQJ", "QxZKurx6oDQJ"]
+    },
+    {
+      "family": "M8_ENERGY_STRUCTURED_LEARNING",
+      "stage": "Certificate-by-construction learned force fields",
+      "development": "Instead of validating a learned state-dependent stiffness after training, the stiffness force is restricted to the gradient of a constrained neural energy function.",
+      "solved": "Nominal unforced global asymptotic stability and contact-port passivity for the exact model under positive damping and energy constraints.",
+      "left_open": "Model-robust realization, discrete-time filtering and saturation, contact-force-dependent impedance, damping-learning details, expressiveness, and unseen-task transfer.",
+      "evidence_ids": ["kQorDN4oymIJ", "3HbLu0M801YJ"]
+    },
+    {
+      "family": "M9_ADAPTIVE_OPTIMAL_IMPEDANCE_SELECTION",
+      "stage": "From error-driven gain adaptation to cost-optimal target impedance",
+      "development": "Force-regulation work adapted a narrow target component online by setting virtual stiffness to zero and integrating force error into scalar damping. Adaptive dynamic programming instead treated desired damping/stiffness as the feedback solution of a quadratic tracking-force objective for an unknown but structurally specified LTI environment.",
+      "solved": "Online compensation of geometry-induced steady force bias in a position-controlled industrial robot, and data-driven recovery of the LQR-optimal impedance for two constant linear environment classes without estimating their numerical matrices.",
+      "left_open": "Full-matrix impedance choice, nonlinear or rapidly changing environments, safe/persistently exciting data collection, non-singular adaptive laws, model/inner-loop robustness, automatic objective selection, hardware validation of optimal adaptation, and passivity of the selected impedance.",
+      "evidence_ids": ["ycrjHzo2ClcJ", "d1A3Ar8wid4J"]
+    }
+  ],
+  "problem_method_matrix": [
+    {"problem": "B1_IMPEDANCE_SELECTION", "method": "M1_CLASSICAL_ENDPOINT_IMPEDANCE", "relationship": "Defines the design variables but leaves their values to the designer."},
+    {"problem": "B1_IMPEDANCE_SELECTION", "method": "M5_ITERATIVE_IMPEDANCE_LEARNING", "relationship": "Optimizes repeated-task input or gain schedules against a supplied target/cost."},
+    {"problem": "B1_IMPEDANCE_SELECTION", "method": "M7_IMPEDANCE_STRUCTURED_RL", "relationship": "Learns state-conditioned motion and impedance from task reward, with empirical rather than general guarantees."},
+    {"problem": "B1_IMPEDANCE_SELECTION", "method": "M9_ADAPTIVE_OPTIMAL_IMPEDANCE_SELECTION", "relationship": "Adapts selected gains from force error or solves an explicit tracking-force optimum, but only within a narrow environment, controller, and objective class."},
+    {"problem": "B2_CONTACT_TRANSITION", "method": "M2_CONTACT_TRANSITION_DESIGN", "relationship": "Directly derives or tests conditions for maintaining unilateral contact."},
+    {"problem": "B2_CONTACT_TRANSITION", "method": "M7_IMPEDANCE_STRUCTURED_RL", "relationship": "Improves contact behavior empirically but does not certify collision or rebound safety."},
+    {"problem": "B3_REALIZATION_ROBUSTNESS", "method": "M3_ROBUST_REALIZATION", "relationship": "Separates command response from uncertainty compensation."},
+    {"problem": "B3_REALIZATION_ROBUSTNESS", "method": "M4_FLEXIBLE_JOINT_PASSIVITY", "relationship": "Uses physical elasticity and torque feedback but remains model- and sensing-dependent."},
+    {"problem": "B4_VARIABLE_GAIN_ENERGY", "method": "M6_VARIABLE_IMPEDANCE_CERTIFICATION", "relationship": "Restricts gain derivatives, cancels gain-dependent power online, or proves a specific adaptive map to recover conditional guarantees."},
+    {"problem": "B4_VARIABLE_GAIN_ENERGY", "method": "M8_ENERGY_STRUCTURED_LEARNING", "relationship": "Makes the learned stiffness force conservative by construction."},
+    {"problem": "B5_LEARNING_GENERALIZATION", "method": "M5_ITERATIVE_IMPEDANCE_LEARNING", "relationship": "Strongest on repeatable finite-horizon tasks; weak transfer."},
+    {"problem": "B5_LEARNING_GENERALIZATION", "method": "M7_IMPEDANCE_STRUCTURED_RL", "relationship": "Broader state feedback and learned rewards help selected same-task shifts, but exploration, demonstrations, reoptimization cost, reward identifiability, and cross-task distribution shift remain unresolved."},
+    {"problem": "B5_LEARNING_GENERALIZATION", "method": "M8_ENERGY_STRUCTURED_LEARNING", "relationship": "Certifiable supervised representation trades expressiveness for safety structure."},
+    {"problem": "B6_CERTIFICATE_REALITY_GAP", "method": "M3_ROBUST_REALIZATION", "relationship": "Addresses bounded model error but not full sampled energetic safety."},
+    {"problem": "B6_CERTIFICATE_REALITY_GAP", "method": "M6_VARIABLE_IMPEDANCE_CERTIFICATION", "relationship": "Continuous-time sufficient results retain implementation and environment boundaries."},
+    {"problem": "B7_REPRESENTATION_SENSING", "method": "M7_IMPEDANCE_STRUCTURED_RL", "relationship": "Operational-space structure aids transfer but keeps model and singularity dependencies."},
+    {"problem": "B8_COMPLEX_ROBOT_CONTACT", "method": "M4_FLEXIBLE_JOINT_PASSIVITY", "relationship": "Extends to elastic joints yet reveals redundancy and Cartesian-globality limits."}
+  ],
+  "assumption_effectiveness_failure_matrix": [
+    {
+      "family": "M1_CLASSICAL_ENDPOINT_IMPEDANCE",
+      "assumptions": ["Torque-capable actuation", "Known forward kinematics and Jacobian", "Physically compatible interaction-port causality"],
+      "effective_when": "A target endpoint relation is already known and robot mechanics permit its realization.",
+      "fails_or_weakens_when": "Model error, delay, saturation, singularity, or task-dependent gain choice dominates.",
+      "source_ids": ["kmOXrypch9kJ", "LJMBf6MAPHQJ"]
+    },
+    {
+      "family": "M2_CONTACT_TRANSITION_DESIGN",
+      "assumptions": ["Passive or stiffness-dominated environment", "Low-dimensional/linearized contact", "Known delay and inner-loop bandwidth"],
+      "effective_when": "The contact geometry and stiffness ratio are bounded and damping can be selected conservatively.",
+      "fails_or_weakens_when": "Environment properties, collision energy, multiple contacts, or latency leave the analyzed range.",
+      "source_ids": ["bh9zIsh1OIgJ", "D0Bq_8tYnBQJ"]
+    },
+    {
+      "family": "M3_ROBUST_REALIZATION",
+      "assumptions": ["Fast sampling", "Bounded slowly varying lumped uncertainty", "Usable Jacobian, force, and acceleration estimates"],
+      "effective_when": "Robot uncertainty is structured and estimator delay is small.",
+      "fails_or_weakens_when": "Contact dynamics change faster than estimation, acceleration is noisy, or certified inertia regions are exceeded.",
+      "source_ids": ["w6vmLz5pAjIJ", "bl3FOCgTd_YJ", "TWbe_B2DfGkJ"]
+    },
+    {
+      "family": "M4_FLEXIBLE_JOINT_PASSIVITY",
+      "assumptions": ["Reduced flexible-joint model", "Positive-definite physical and apparent inertias", "Gravity-potential curvature bounds", "Passive environment"],
+      "effective_when": "Elastic transmissions and torque sensing match the model and operation stays away from singularities.",
+      "fails_or_weakens_when": "Nonlinear elasticity, active contacts, redundancy/nullspace behavior, or model/sensor error dominates.",
+      "source_ids": ["ZUU9058b5_oJ"]
+    },
+    {
+      "family": "M5_ITERATIVE_IMPEDANCE_LEARNING",
+      "assumptions": ["Repeated finite-duration operation", "Sufficiently repeatable environment", "Contraction/gain conditions", "Measured interaction force"],
+      "effective_when": "Systematic task errors repeat and early trials are safe enough to collect learning signals.",
+      "fails_or_weakens_when": "Tasks or contacts change between trials, the cost is misspecified, or early exploration is unsafe.",
+      "source_ids": ["YroEWEBohvsJ", "SbaEWjemGjsJ"]
+    },
+    {
+      "family": "M6_VARIABLE_IMPEDANCE_CERTIFICATION",
+      "assumptions": ["Known differentiable gain profile or exact prescribed online map", "Constant/structured apparent inertia or a modeled flexible-joint plant", "Positive-definite stiffness/damping inequalities", "Gain derivatives and full state available for online cancellation", "Required excitation for composite estimation"],
+      "effective_when": "The policy and plant class is restricted enough for offline matrix tests, online power cancellation, or controller-specific Lyapunov analysis.",
+      "fails_or_weakens_when": "Future gains are discontinuous or unknown, excitation is absent, velocity approaches a numerically singular region, or sampled physical implementation violates the exact model.",
+      "source_ids": ["3HbLu0M801YJ", "tZYsUFlRIUIJ", "TWbe_B2DfGkJ"]
+    },
+    {
+      "family": "M7_IMPEDANCE_STRUCTURED_RL",
+      "assumptions": ["Representative simulator/tasks, task cost, or expert demonstrations", "Stable bounded low-level controller", "Reliable state/perception and fixed valid goals", "Empirically safe gain range", "Access to changed settings for reward reoptimization when IRL transfer is claimed"],
+      "effective_when": "Contact feedback is informative and phase/gain structure reduces the search space or turns tracking error into corrective force across nearby same-task variations.",
+      "fails_or_weakens_when": "Exploration is unsafe, reward proxies or demonstrations mislead, contact timing/task semantics shift, forward RL cannot be rerun, or low-level model and gain bounds fail.",
+      "source_ids": ["lk5U1cKDpscJ", "dqYs440MKMMJ", "AQhmZpqu8cQJ", "QxZKurx6oDQJ"]
+    },
+    {
+      "family": "M8_ENERGY_STRUCTURED_LEARNING",
+      "assumptions": ["Exact nominal Cartesian impedance realization", "Conservative error-dependent stiffness field", "Positive damping", "Certificate-constrained training data and parameters"],
+      "effective_when": "A supervised state-dependent force field can be represented as a positive neural potential gradient.",
+      "fails_or_weakens_when": "Useful behavior is nonconservative, force/history dependent, model-uncertain, sampled/saturated, or outside training support.",
+      "source_ids": ["kQorDN4oymIJ"]
+    },
+    {
+      "family": "M9_ADAPTIVE_OPTIMAL_IMPEDANCE_SELECTION",
+      "assumptions": ["Known low-order linear environment class or scalar post-contact model", "Accurate force/state data", "Stable initial policy or approximate sampled-delay bound", "Designer-specified tracking-force cost or update law", "Adequate inner position-loop tracking"],
+      "effective_when": "The environment stays within the assumed stationary structure and the selected cost or force-error law faithfully represents the interaction goal.",
+      "fails_or_weakens_when": "Contact is nonlinear or rapidly changing, exploration is unsafe, the adaptive damping denominator is near zero, the cost is misspecified, or the inner loop/model violates the derivation.",
+      "source_ids": ["ycrjHzo2ClcJ", "d1A3Ar8wid4J"]
+    }
+  ],
+  "consensus": [
+    "Impedance control is fundamentally control of a force-motion relation at an interaction port, not a synonym for soft position control.",
+    "A single impedance architecture can span free and constrained motion, but impact establishment and maintained-contact stability are distinct questions.",
+    "The commanded impedance and the physically realized impedance differ under model error, inner-loop dynamics, sensing, delay, flexibility, saturation, and sampling.",
+    "Variable stiffness can inject energy; fixed-gain passivity cannot be assumed after scheduling or learning gains.",
+    "Learning and adaptation methods should be classified by the object changed: robot-control coefficients for realizing a fixed impedance, selected target gains, repeated feedforward input, impedance schedule, task policy, learned reward, or energy-structured force field.",
+    "An 'optimal' or 'transferable' impedance is objective- and protocol-relative: LQR optimality inherits its quadratic cost and LTI environment class, while IRL transfer in current evidence requires same-task forward-RL reoptimization rather than zero-shot cross-task reuse.",
+    "Existing analytical guarantees are controller- and assumption-specific; empirical task success is not a substitute for port-level stability or safety evidence."
+  ],
+  "unresolved_contradictions": [
+    {
+      "question": "Should safe variable impedance be enforced by offline rate constraints, online energy management, controller-specific adaptation, or certificate-by-construction representations?",
+      "status": "No family dominates: offline constraints are predictable but conservative, tanks alter behavior online, adaptive proofs restrict the controller, and energy gradients restrict expressiveness."
+    },
+    {
+      "question": "Does task-space impedance provide transferable abstraction or merely move robot dependence into the analytical low-level controller?",
+      "status": "Task-space RL transfers better empirically across tested embodiments, but still needs robot-specific dynamics, Jacobians, reachable sets, and singularity handling."
+    },
+    {
+      "question": "Can higher impedance improve accuracy without sacrificing safety and robustness?",
+      "status": "Results remain regime-dependent: stiffness can improve tracking yet increase force, amplify model error, violate variable-gain energy conditions, or require more damping at stiff contact."
+    },
+    {
+      "question": "Should target impedance be chosen from analytical models, online force error, explicit optimal cost, direct task reward, or inferred demonstrations?",
+      "status": "Each route displaces rather than removes prior knowledge: environment class, update law, cost weights, reward design, expert demonstrations, waypoints, and exploration protocol determine what can be learned and where it transfers."
+    }
+  ],
+  "coverage_record": {
+    "coverage_status": "SUFFICIENT",
+    "research_effort_budget": {
+      "planned_queries": 18,
+      "completed_queries": 18,
+      "deduplicated_candidates": 171,
+      "accepted_full_text_evidence_cards": 19,
+      "withdrawn_sources": 1,
+      "full_text_routes": ["automatic_open_access", "user_batch"]
+    },
+    "stopping_reason": "Two review cycles now cover the impedance-control-centered development from foundational endpoint formulation and contact execution through direct adaptive realization, contact-transition analysis, robust and flexible-joint realization, error-driven and cost-optimal target-impedance selection, iterative/PI² variable-impedance learning, offline and online variable-gain passivity mechanisms, impedance-structured RL, IRL reward transfer, and energy-structured learned impedance. The review-requested gaps all produced decision-grade primary Evidence Cards and changed the taxonomy. Additional broad searching is unlikely to reorganize the top-level map before problem generation; narrower literature should be retrieved later against specific unresolvedness or method-novelty decisions."
+  },
+  "unresolved_problem_leads": [
+    {
+      "id": "L1_LEARNED_CONTACT_CERTIFICATE",
+      "lead": "Develop a certificate that couples learned state-dependent impedance with unilateral contact transition, delay, and sampled-data energy rather than proving only unforced GAS or nominal port passivity.",
+      "why_open": "Current contact-transition bounds use fixed low-dimensional models, while learned-impedance certificates omit explicit impact establishment and implementation effects."
+    },
+    {
+      "id": "L2_ROBUST_ENERGY_REALIZATION",
+      "lead": "Close the gap between a certified target impedance field and its uncertain physical realization under model error, flexible transmission, filtering, saturation, and force-estimation error.",
+      "why_open": "Robust realization and energy certification are largely treated in separate controller families."
+    },
+    {
+      "id": "L3_SAFE_IMPEDANCE_DISCOVERY",
+      "lead": "Discover task-effective impedance online without unsafe exploration, repeated identical trials, hand-labeled gain maps, or a hand-designed mode schedule.",
+      "why_open": "Existing methods trade autonomy among force-error adaptation, cost-optimal ADP, repeated-task learning, structured RL/IRL, supervised energy fitting, and composite parameter estimation; each retains a cost, demonstration, model-class, excitation, or safety dependency."
+    },
+    {
+      "id": "L4_EXPRESSIVE_CERTIFIABLE_REPRESENTATION",
+      "lead": "Represent force-, history-, uncertainty-, and contact-mode-dependent impedance with certificates that are less restrictive than conservative gradient fields or known gain-rate bounds.",
+      "why_open": "Conservative potential-gradient structure improves proofability but excludes nonconservative and history-dependent interaction strategies."
+    },
+    {
+      "id": "L5_GENERALIZATION_EVIDENCE",
+      "lead": "Establish whether learned impedance mechanisms generalize across robots, contact geometries, environment dynamics, and task families without hiding embodiment dependence in the low-level controller.",
+      "why_open": "Current demonstrations are narrow and often use one robot, a few tasks, selected best policies, or repeated trajectories."
+    }
+  ]
+}

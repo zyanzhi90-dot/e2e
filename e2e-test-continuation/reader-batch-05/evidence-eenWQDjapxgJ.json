@@ -1,0 +1,96 @@
+{
+  "source_id": "eenWQDjapxgJ",
+  "read_event_id": "e27e9f5f5ecf46c5a5905e2aa54f1cc4",
+  "content_sha256": "b60e2359e42455c0f3f22fd7cca3624e8e7ad62eb68f3f0bd2384cac757f69f2",
+  "claim": "Xing et al. propose force-sensor-free impedance learning for human-guided robots in contact with an unknown viscoelastic environment. For nonrepetitive motion, a Lyapunov-based adaptation law estimates a lumped position-, velocity-, and constant disturbance representation; for spatially repetitive motion, an iterative law learns position-dependent disturbances across executions. Model-conditional proofs establish asymptotic tracking-error convergence for the nonrepetitive controller and iteration-domain convergence for the repetitive controller. H-MAN virtual-environment studies with six participants and Franka Panda carving and grinding studies with twelve participants report lower path error and human effort than a velocity-based assistance rule, but the evidence has small cohorts, manually tuned gains, no inferential statistics, and no general passivity, delay, saturation, or contact-safety guarantee.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, equations (1)-(10)",
+    "Section III-A, equations (11)-(19), Theorem 1",
+    "Section III-B, equations (20)-(31), Theorem 2",
+    "Section IV, virtual-environment experiments",
+    "Section V, physical carving and grinding experiments",
+    "Appendix, stability proofs"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: controller equations, assumptions, conditional convergence arguments, and experimental protocols are directly reported; performance advantages are author-reported on small task-specific cohorts without inferential statistics, and the analytical results do not establish passivity or safety under unmodeled delays, saturation, or arbitrary contact dynamics",
+  "problem_and_setting": "A person physically guides a robot that also experiences an unknown contact disturbance. The controller should reduce human effort while tracking the intended motion without separately measuring the environmental force. The paper treats both one-off trajectories and movements repeated through the same spatial path, with evaluation in virtual contact and real carving and grinding tasks.",
+  "method_or_mechanism": "The task-space dynamics combine robot inertia/damping, human spring-damper guidance, an unknown viscoelastic environment, gravity, and control input. In the nonrepetitive case, the input cancels gravity and uses online estimates multiplying position, velocity, and a constant term; gradient-style update laws driven by velocity-error products yield a Lyapunov derivative equal to a negative semidefinite damping term. In the repetitive case, estimates are updated over spatial position from the previous execution, using a speed-dependent scaling and a modified rule near zero velocity to avoid singular growth. A separate iteration-domain energy argument exploits repeatability of the position-dependent disturbance.",
+  "content_summary": "The article derives two related adaptive impedance controllers. The nonrepetitive law estimates a lumped disturbance induced by unknown environment impedance and the human-guidance model, proving bounded closed-loop signals and convergence of velocity/tracking error under the stated smooth bounded model. The repetitive law learns the disturbance along position rather than clock time, accommodating different traversal durations while requiring the disturbance to recur at the same spatial location. A two-DoF H-MAN study used six blinded participants in nonrepetitive circular and four-pass repetitive tasks and reported reduced tracking error and integrated human effort relative to control-off and a velocity-based method. A Panda study used six participants for wood carving and six different participants for repeated grinding of a rough printed surface; a handle separated human force from tool force for evaluation. Mean and variability plots favor learning, but no hypothesis tests are reported.",
+  "synthesis_role": "Provides a structured adaptive/iterative-learning branch for impedance assistance under unknown contact, contrasting one-pass model-based adaptation with spatial repetition-based learning. It offers stronger conditional convergence reasoning than heuristic learned-gain policies, while its narrow disturbance model and experimental scope limit causal and safety claims.",
+  "development_link": "Unlike policies that directly learn stiffness from reward, this approach retains an explicit impedance/disturbance model and updates interpretable coefficients. The repetitive controller is especially related to iterative learning control but indexes learning by position to tolerate execution-time variation. Relative to energy-tank or passivity-filter methods, stability is argued through task-specific Lyapunov functions rather than an interaction-port passivity budget.",
+  "evidence": [
+    {
+      "locator": "Section II, equations (1)-(10)",
+      "status": "model formulation",
+      "finding": "The human and environment are represented as spring-damper terms, permitting their combined effect to be written as position-, velocity-, and constant-dependent disturbance coefficients without direct environmental-force feedback."
+    },
+    {
+      "locator": "Section III-A, equations (11)-(19), Theorem 1 and Appendix",
+      "status": "analytical guarantee",
+      "finding": "Under the stated bounded smooth robot-human-environment model, the Lyapunov derivative is negative semidefinite and the tracking/velocity error converges to zero; the proof constrains the lumped disturbance error, not necessarily each physical parameter estimate."
+    },
+    {
+      "locator": "Section III-B, equations (20)-(31), Theorem 2 and Appendix",
+      "status": "analytical guarantee",
+      "finding": "A spatial iterative update with a near-zero-speed modification yields a nonincreasing iteration-domain energy and convergence when the disturbance is repeatable at the same position despite variation in traversal duration."
+    },
+    {
+      "locator": "Section IV, H-MAN protocol and result figures",
+      "status": "author-reported human virtual-environment experiment",
+      "finding": "Six participants completed blinded-order nonrepetitive and repetitive tasks; learning reduced plotted path error and integrated effort relative to a velocity-based controller, with benefit saturating at higher repetitive-disturbance levels."
+    },
+    {
+      "locator": "Section V, carving experiment",
+      "status": "author-reported human hardware experiment",
+      "finding": "Six participants guided a Panda through a figure-eight wood-carving task, and the learning controller produced lower mean path error and effort than the velocity-based assistance condition."
+    },
+    {
+      "locator": "Section V, grinding experiment",
+      "status": "author-reported human hardware experiment",
+      "finding": "Six further participants repeatedly ground a rough printed surface; performance improved over iterations and the reported mean error and effort favored spatial learning."
+    }
+  ],
+  "evidence_kind": [
+    "Lyapunov stability analysis",
+    "spatial iterative-learning convergence analysis",
+    "human virtual-environment experiment",
+    "human robot carving experiment",
+    "human robot grinding experiment"
+  ],
+  "boundary_conditions": [
+    "The nonrepetitive proof applies to the paper's spring-damper human and viscoelastic environment representation with bounded smooth signals; it is not an arbitrary-contact robustness result.",
+    "Individual stiffness, damping, and offset estimates need not converge without sufficient excitation even when the lumped tracking disturbance is rejected.",
+    "The repetitive result requires a disturbance that recurs as a function of position and a bounded traversal interval; nonrepeatable surfaces, changing tools, or evolving contact can invalidate the learned profile.",
+    "The spatial update requires special handling near zero velocity because direct inverse-speed scaling is singular.",
+    "Gains and initial estimates are selected manually, and reported transients depend on those choices.",
+    "The experiments cover one two-dimensional virtual interface and narrow Panda carving/grinding tasks with six participants per protocol; no inferential statistics or broad population claim is supported.",
+    "No actuator limits, sampling delay, communication delay, force constraint, collision transition, or interaction-port passivity theorem is analyzed."
+  ],
+  "assumptions": [
+    "Robot task-space inertia and damping are known well enough for the derived error dynamics, and state/trajectory derivatives are available with adequate quality.",
+    "Human guidance is adequately represented by bounded spring, damping, and intended-position terms over the task.",
+    "Environment interaction is adequately represented by bounded viscoelastic position and velocity terms.",
+    "Adaptive gains are positive definite and the closed-loop signals satisfy the smoothness conditions used by Barbalat-type convergence reasoning.",
+    "For iterative learning, repeated executions encounter the same position-dependent disturbance and the robot follows the same spatial path domain.",
+    "The evaluation handle and force measurements distinguish human effort from tool contact sufficiently for the reported metrics."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The repetitive controller's improvement plateaus at stronger disturbances in the reported virtual experiment, attributed to controller/platform limitations.",
+      "The inverse-speed spatial update requires a revised rule when velocity approaches zero.",
+      "Initial estimates and gain choices affect transient behavior.",
+      "Time-delayed teleoperation is left for future work."
+    ],
+    "inferred": [
+      "Changing contact properties between repetitions can turn the stored disturbance profile into a biased or destabilizing feedforward term.",
+      "Derivative reconstruction and noise can corrupt adaptation, especially around reversals and low-speed segments.",
+      "A zero tracking error does not imply correct physical environment identification because parameter errors can be unidentifiable.",
+      "The absence of passivity, saturation, and force-limit enforcement prevents interpreting the convergence proof as a general physical-interaction safety certificate.",
+      "Small separate cohorts and a lack of statistical tests make the magnitude and generality of human-effort improvement uncertain."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

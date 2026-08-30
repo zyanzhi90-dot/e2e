@@ -1,0 +1,88 @@
+{
+  "source_id": "_8NXx8-VkcgJ",
+  "read_event_id": "08cab94642464f6a82cf275175a2edb2",
+  "content_sha256": "9e7b1dc0a03f1cdd770b0393a0a2bdabc5427ca5721f551a85c10ff5be818d76",
+  "claim": "Relaxation tests on pig heart and beef show Kelvin-Boltzmann and Hunt-Crossley both capture transient tissue behavior well; Kelvin-Boltzmann is selected for an Active Observer controller for accuracy, physical meaning, linearity, and stability-analysis convenience, not because Hunt-Crossley is universally inadequate.",
+  "claim_locator": [
+    "Abstract",
+    "Sections 2-3, Table 1, Figures 2-4, Table 2",
+    "Section 3.5",
+    "Section 4 and equations (1)-(27)",
+    "Section 5 and Figures 9-16",
+    "Section 5.4",
+    "Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Model comparisons, controller results, and limitations are author-reported; implications for model sufficiency and optimal impedance are bounded inferences.",
+  "problem_and_setting": "Selection of a real-time soft-tissue interaction model and force controller under breathing and heartbeat disturbances, using ex-vivo pig-heart and beef relaxation data and in-vitro control experiments.",
+  "method_or_mechanism": "Six elastic/viscoelastic models are cross-validated. Kelvin-Boltzmann is embedded in a model-based Active Observer. Online adaptation updates only stiffness beta; disturbance estimation compensates physiological motion.",
+  "content_summary": "Kelvin-Boltzmann and Hunt-Crossley best capture fast transients, while the fractional model fits relaxation but is nonrecursive and poorer in fast response. The controller reports stable static/moving behavior and 87% breathing and 79% heartbeat compensation. Aggressive observer tuning reduces stability margins and noise limits it; full online parameter estimation, convergence, and in-vivo validation remain open.",
+  "synthesis_role": "Direct model-selection and force-control prior showing that HC inadequacy cannot be assumed and that model choice depends on accuracy, identifiability, and controller tractability.",
+  "development_link": "A stronger problem is whether measurable memory or finite-area state changes optimal impedance decisions under held-out conditions, with HC and Kelvin-Boltzmann compared under equal identification budgets.",
+  "evidence": [
+    {
+      "locator": "Sections 2-3 and Table 2",
+      "status": "author_reported",
+      "finding": "Kelvin-Boltzmann and Hunt-Crossley are the strongest transient models in cross-validation."
+    },
+    {
+      "locator": "Section 3.5",
+      "status": "author_reported",
+      "finding": "Kelvin-Boltzmann is selected for controller accuracy, physical parameters, linearity, and tractable stability analysis."
+    },
+    {
+      "locator": "Section 4",
+      "status": "author_reported",
+      "finding": "A model-based Active Observer force controller is formulated and analyzed."
+    },
+    {
+      "locator": "Section 5 and Figures 9-16",
+      "status": "author_reported",
+      "finding": "In-vitro tests report stable behavior with 87% breathing and 79% heartbeat compensation."
+    },
+    {
+      "locator": "Section 5.4 and Conclusion",
+      "status": "author_reported",
+      "finding": "Noise and stability margins limit observer aggressiveness; only stiffness is adapted online and full estimation/in-vivo tests remain future work."
+    }
+  ],
+  "evidence_kind": [
+    "cross-validated constitutive-model comparison",
+    "relaxation experiment",
+    "controller stability analysis",
+    "in-vitro motion-compensation experiment"
+  ],
+  "boundary_conditions": [
+    "Ex-vivo pig heart and beef plus in-vitro control.",
+    "Only stiffness is adapted online.",
+    "Smooth interaction may not excite viscosity.",
+    "Observer tuning trades compensation against stability and noise.",
+    "No optimal impedance, finite-area wrench, or explicit safety constraint is evaluated."
+  ],
+  "assumptions": [
+    "Lumped viscoelastic models suffice locally.",
+    "The observer captures physiological motion as a disturbance.",
+    "Stiffness-only adaptation suffices for the reported tests.",
+    "Available excitation and noise bound identifiability."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Fractional dynamics are nonrecursive and weak in fast transients.",
+      "Aggressive observer tuning erodes stability margins.",
+      "Noise limits tuning and viscosity may be insufficiently excited.",
+      "Full online estimation and in-vivo validation are absent."
+    ],
+    "inferred": [
+      "The results refute blanket HC inadequacy.",
+      "Stiffness-only adaptation may confound memory mismatch and disturbances.",
+      "Reported compensation does not imply force, pressure, passivity, or tissue-safety guarantees."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that HC uniformly fails on soft-tissue transients.",
+    "Any claim that constitutive fit alone determines the best control model.",
+    "Any claim that full viscoelastic parameters are identifiable online during smooth contact."
+  ],
+  "verification_status": "verified"
+}

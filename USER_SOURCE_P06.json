@@ -1,0 +1,12 @@
+{
+  "paper_id": "USER-TRO-2022-3216078",
+  "source_path": "source-materials/user-supplied-softscan-2026-08-22/P06_Choosing_Stiffness_and_Damping_for_Optimal_Impedance_Planning.pdf",
+  "title": "Choosing Stiffness and Damping for Optimal Impedance Planning",
+  "authors": ["Mathew Jose Pollayil", "Franco Angelini", "Guiyang Xin", "Michael Mistry", "Sethu Vijayakumar", "Antonio Bicchi", "Manolo Garabini"],
+  "year": 2023,
+  "venue": "IEEE Transactions on Robotics",
+  "doi_or_stable_url": "https://doi.org/10.1109/TRO.2022.3216078",
+  "publication_type": "peer-reviewed journal article",
+  "reading_priority": "TARGETED_GAP_FOLLOWUP",
+  "screening_reason": "User-supplied closest impedance-planning prior; needed to separate the value of richer environment state from existing online stiffness-damping planning based on robot inertia and disturbance bounds."
+}

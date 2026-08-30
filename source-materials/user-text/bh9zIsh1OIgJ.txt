@@ -1,0 +1,627 @@
+                                            STABLE EXECUTIONOF CONTACT TASKS USING IMPEDANCE CONTROL
+
+
+
+                                                                            Neville Hogan
+
+                                                               Department of Mechanical Engineering and
+                                                             Laboratory for Manufacturing and Productivity
+                                                                 Massachusetts Institute of Technology
+
+                                        ABSTRACT
+
+         This paper presents an experimental        evaluation  the
+                                                               of                         encountered by the robot (the series combination of the sensor
+         performanceofanonlinearrobotcontrolalgorithm               on a                  stiffness and the workpiece stiffness) was substantially less
+         contacttaskinvolving      free motion, constrained motion and                    than the effective stiffness of the robot itself (which is due to
+                  between
+         transitions     the            two.      The
+                                                    algorithm
+                                                           an
+                                                            is                                systems,
+                                                                                          drive        controllers,
+                                                                                                    servo                          etc.).    More recent
+         implementationof impedance control which uses end-point                          experimental work3 confirmed this limitation.
+         force feedback. Stable control of the force exerted on a rigid
+         surface is achieved without recourse to a soft sensor. Motion                     Restrictingcontacttasks      to compliantsurfaces      is clearly
+         control is achieved without inverse kinematic computations. It                    unacceptable; most workpieces are quite           Using
+                                                                                                                                        rigid.   a
+         is unnecessary to switch between different modes of control at                    compliant force sensor seems more reasonable but has the
+         the moment of contact as the impedance controller is competent                    drawback that the position of anything mounted on the force
+         in all phases of the task.                                                        sensor becomes uncertain due to the compliance of the sensor.
+                                                                                           A compliantwristforcesensordegradesthepositioning
+                                                                                           accuracy of the end-effector. Compliant force sensors at the
+                                                                                           tips of the fingers don't eliminate this problem, they simply
+                                                                                           relocate it; the accuracy with which aheldobject          can be
+                            INTRODUCTION: CONTACT TASKS                                    positioned is degraded by compliant finger pads.
+          Applying robots to contact tasks is one of the challenges of                                  JMPFDANCE CONTROLOF CONTACT TASKS
+          developing robot technology. Contact tasks are those in which
+          the robot grasps or pushes or works on its workpiece. They                       This paper presents some recent experimental results using a
+          make up a large proportion of the tasks to which robots could                    control algorithm which eliminates this problem. It will be
+          be applied. Yet, ironically, to date most of the successful                      shown to achieve stable control of the force exerted on a rigid
+          applications of robots are to tasks in which the robot stays                     surface without the need for a compliant force sensor. The
+          clear of the workpiece. Spray-painting is one example; the
+                                                                                           algorithm is an implementationof      impedance control4, an
+           robot brings the spray gun through a complex path in space,
+                                                                                           approach to robot control which was formulated to deal with
+          but (if it's working correctly) never touches the workpiece.
+                                                                                           contact tasks. Impedance control also providesaunified
+           Seam welding is another example; the robot end-effector
+                                                                                           approach to all aspects of manipulation. In this paper it will
+          tracks the weld seam, but never touches it. Even in those
+                                                                                           be shown that both free motions and contact tasks can be
+           applications where the robot does contact its workpiece, as in
+                                                                                           controlled successfully using a single control algorithm; it is
+           materials handling tasks, it generally does so without precise
+                                                                                           not necessary to switchbetweencontrolmodes             as task
+           control of the way it interacts with the object.
+                                                                                           conditions change. Furthermore, the algorithm completely
+                                  CONTACT INSTARILITY                                      eliminates the need toperform        thenotoriously    difficult
+                                                                                           inverse kinematic computations.
+          Oneof the reasons for this state of affairs is the problem of
+          contact instability. Experience to date has shown that even the                                                   ROROT CONTROI
+                                                                                                   MOTION-RASFD APPROACHFS TO
+          apparently simple contact task of wiping a surface canbe
+          surprisingly difficult. Robot control systems which perform                        Prior work on robot control has been dominated by position or
+          stably and well during free movements can break into unstable                      motion considerations, at both theplanning and execution
+          oscillation upon contact with a surface. Despite the substanHal                    levels. It is assumed that the robot's task may be planned and
+          research effort which has been directed at controlling the                         defined in terms of a series of desired or target motions. The
+          force exerted by a robot, attempts to use sensory feedback (e.g.                   execution or implementation problem is then to perform these
+          from awristforcesensor)for            this purposehavebeen                         motions with a minimum of error, usually as fast as possible,
+          thwarted by this problem of contact instability. Indeed, a                         giventhelimitations     of thehardware.Thisapproach          is
+                                                                                             eminently reasonable and quitesuccessful for non-contact
+          recent review by Whitneyl identified this as one of the major                      tasks (e.9. arc-welding or spray-painting) in which the only
+          challenges of developing robot technology.                                         aspect of the robot's behavior which needs to be controlled is
+                                                                                             its motion.
+           In fact, stable control of the force exerted on a surface was
+           reported in the literature about a decade ago2, but to achieve                    Prior approaches to contact tasks have also been built on this
+           stability, either the surface pushed on had to be compliant, or                   motion-control substrate, but they have been less successful.
+           the force sensor had to be. Theoretical analysis showed that                      In general, an ideal kinematic constraint divides the workspace
+           stability
+                   could
+                       be
+                        achieved               if the       stiffness
+                                                    effective                                of the end effector into two mutually exclusive subspaces, one
+
+
+
+                                                                                      1047
+            CH2413-3/87/0000/1047$01.00 0 1987 IEEE
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+             in which no motion is possible but force may be exerted, and                     force control, assumes the task may be described in terms of
+                                                                                              forces. The controller is then designed accordingly as though
+             one in which no force may be exerted but motion is possible'.                    the interactions    the
+                                                                                                               with                           a
+                                                                                                                            workpiece were source        of
+             In this way5 a contact task may be translated into two dual                      disturbances producing force errors.
+             geometry problems and the desired forces in the constrained
+             directions planned and defined in a manner exactly analogousto
+                                                                                                            AN ALTERNATIVE: IMPEDANCE CONTROL
+             the motions in the unconstrained directions.
+                                                                                                 An alternative is to recognise that the dynamic interactions are
+             Motion control is also at the heart of prior approaches to the
+                                                                                                 not a source of disturbances to be rejected, but an integral
+             execution or implementation of contact tasks (see Whitneyl,                         part of the task. This is the idea behind impedance control. It
+             for a review). Typically, the robot is designed with a fast                         is assumedthat       the robot's task must fundamentally be
+             (frequently analog) motion control servomechanism for each                          described, not in terms of motions, nor in terms of forces, but
+             joint. A force control feedback loop (usually digitaland                            in terms of the relations between them. In the case of a robot
+             slower) is then closed around this motion controllerto                              performing contact      tasks, that        should
+                                                                                                                                     relation   bean
+             generate corrections to the commanded motions so as to                              impedance. Accordingly, in implementation, the controller is
+              regulate the force. Unfortunately, this architecture results in                    designed to modulate and regulate, not the robot's motion, nor
+              problems with contact instability.                                                 the force it exerts, but its output impedance.
+
+                               THE MECHANICSOF INTERACTION                                       In fact, when the interactionbetween  a and
+                                                                                                                                       robot  its
+                                                                                                 environment is considered, that's what any feedback controller
+              Theproblemwiththismotion-basedapproach                is that it                   really does. The control algorithm implements arelation
+                            ignores
+              unrealistically       fundamental
+                                  the           mechanics                   of                   between sensed quantities and actuator efforts. Combined with
+              interaction in a contact task. The control system senses force                     the hardware, this producesa change in therobot'stotal
+              and in response tries to dictate the motion of the robot and the                   dynamic behavior. At the robot end-effector, that change
+              grasped workpiece. It embodies an implicit assumption that                         shows up as a modified output impedance. Therefore it makes
+              motions may be imposed on the workpiece and that it will                           sense to design the controller to do what it naturally does -
+              determine how hard to push back in response.                                       modify the robot's output impedance.
+              However, if the workpiece is kinematically constrained, the                        How does impedance control compare to some of the alternative
+              nature ofa     kinematic constraint is such that arbitrary                         approaches? A hybrid combination of motion control and force
+              imposed motions may not be possible. Arbitrary forces may be
+              applied; but the kinematic constraint determines whether the                       control in orthogonaldirections    has been explored8 but it
+              workpiece will move at all and if so, in what way and by how                            combines
+                                                                                                 simply              the motion control   and     force control
+              much. The mechanics of this kind of object make it a                               approaches and does not circumvent the problems inherent in
+              mechanical admittance.                                                             each. Another approach is stiffness controlg. Becausethe
+                                                                                                 objective of that approach is to implement a relation between
+              By this reasoning it might seem that an appropriate strategy                       forceand motion, it is closely related to impedance control.
+              would be to control force, not m ~ t i o n ~ -But ~ . to focus on                  However, stiffness is merely the static component of a robot's
+              controlling force alone unrealistically ignores the motions due                    output impedance.      impedance control               and
+                                                                                                                                              goes further
+              to dynamic interactions. One must consider the dynamic                             attempts to modulate the dynamics of the robot's interactive
+              relation between force and motion.                                                 behavior.
+
+                                                                                                 Describing the action of the controller in terms of the dynamic
+              When an object is grasped, and the manipulator pushes on it,
+              the object pushes back; it interacts dynamically with the                          impedance changes it produces is a considerable aid to -
+              manipulator. in effect, the grasped object becomes a part of                       indeed, is the key to - understanding what the controller
+              the physical hardware of the control system and changes how                        does. Force feedback does not merely regulate force; it changes
+              the robot responds to its actuators. These changes in the way                      impedance. For a typical robot, that impedance change is not a
+              thephysicalhardwarerespondstocommands                from the                      modified stiffness; as we will seenext, the principal effect of
+              controlier can have a profound effect on the performance of the                    force feedback is to change the robot's apparent inertia.
+              robot. In fact they can easily destabilise the control system,
+              causing catastrophically pathological behavior.                                                      WHAT FORCE FFFDBACK DOFZ
+
+              If the workpiece produces an output motion for an input force,                     A common model of a robot assumes thatit may be described as
+              then, because robot and workpiece are connected, the robot                         aninertial   mechanism driven by actuators which exert a
+              control system must have the opposite kind of behavior., It                        controllable torque. An extremely simplified one-dimensional
+              must accept an input motion and produce an output force, much                      model of the basic mechanics is a mass (representing the
+              the way a spring or an automobile shock-absorber does; it                          inertia of the mechanism) acted on by two (opposing) forces,
+              must behave as a mechanical impedance. The issue here is not                       one due to the actuators and one due to the environment. The
+              merely one of semantics; it is a matter of what may be treated                     mechanics of this system are simple:
+              as an input and what may be treated as an output; a matter of
+              what the robot physically can and cannot do.
+
+              The distinctionbeing drawn here is that the motion-based
+              approaches assume the task may bedefined in terms of                               In the absence of a feedback controller, (i.e. Factuator= 0) an
+              motions. The controller is then designed accordingly as though                     observer in the environment would perceive the system as an
+              the interactions with the workpiece were source  a           of                    inertia.
+              disturbances producing motion errors. The dual approach,
+
+              *An ideal kinematic constraint is assumed to be frictionless.
+
+
+
+                                                                                          1048
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+          Nowassume      the followingsimpleforce-feedbackcontrol                         its environment is a major part of what is going on during a
+          algorithm is implemented.                                                       contact task. The point is that a feedback controller does not
+                                                                                          merelyregulate    a variable such as force or position, it
+                                                                                          changes the dynamic behavior of the system.
+                   Factuator = G (Freference - Fexternad                      (3)
+                                                                                                         IMPLEMENTING IMPEDANCE CONTROL
+          This controller generates an actuator force proportional to the
+          deviation of the measured external force from a commanded                        Impedance controlis      based on therecognitionthatthe
+          reference force. For simplicity, assume for the present that                     controller changes the dynamic behavior of the system. To
+          the reference force is zero. Combining the controller with the                   implement impedance control, the first step is to specify the
+          physical system:                                                                 desired behavior of the robot, the target impedance. To arrive
+                                                                                           at a reasonable choice, consider the basic mechanics of the
+                    actual d2x/dt2 - (G + 1) Fexternal                        (4)          robot hardware. A common model of a robot assumes that it
+                                                                                           may be described as an inertial mechanism driven by actuators
+          Dividing by G + 1 and defining M E Mactual/(G + 1)                               which exert a controllable torque.
+
+                   M d2x/dt2 = - Fexternal                                    (5)          Ne% + C(e,e)e            Zactuator - ~ ~ ( Fexternal
+                                                                                                                                      0 )                      (1 0)
+
+          This has the same form as equation 2. From the viewpoint of                      This is a reasonable model of the mechanism (described below)
+          an observer in the environment, the controller changes the                       on which the impedance control algorithm was implemented.
+          apparent dynamic behavior of the system. In the equations, M                     The model can be generalised to include terms accounting for
+          plays the role of mass, so for this simple system, negative                      gravity and friction in the mechanism withoutpreventing
+          force feedback reduces apparent inertia. Thismakes physical                      derivation of the control algorithm4, but this was unnecessary
+          sense: whenever an external force is applied, the controller                     for the work reported here. The dominant behavior of the
+          detects it and make the actuators assist the external force so                   hardware along each degree of freedom is that of a second order
+          that the mass accelerates more rapidly than it would in the                      system. Consequently a reasonable target impedance is also
+          absence of feedback. Thus the force required to producea given                   second order (but simpler) in each degree of freedom.
+          acceleration - the apparent inertia - is reduced. Note that
+          we reach  this                  having
+                           conclusion
+                                    without     to
+                                                 make                any                               Fexternal= M i + B X + K(x - XO)                         (11)
+          assumptions about the dynamics of the environment.
+                                                                                            This target impedance is specified by the programmer or a
+          A force feedback controllersuch as the above is usually                           higher-level supervisorysystem. Thequantity            X 0 is the
+          considered to regulate force. The foregoing analysis does not
+                                                                                            nominal equilibrium position of the end effector at steady state
+          contradict this, but augments it. To understand this we will                      in the absence ot any external forces. Because it is specified in
+          make some simpleassumptionsabout            the environment,                      software, it may go to   positions     beyondthe      reachable
+          assuming that the workpiece is rigid and the force sensor is                      workspace of the robot and therefore it is referred to as a
+          modelled as a linear spring of some stiffness, K, with some                        virtual position. Itis used in theimpedancecontrollerto
+          internal linear damping with viscous coefficient B. These                         specify how the robot moves. Note, however, that the target
+          elements generate the external force.                                             impedance specifies much more than just the robot’s motion.
+                    Fexternal= B dddt + K X                                    (6)            A control system to implement this target impedance can be
+                                                                                              derived as follows. Purely for the sake of simplifyingthe
+           Rearranging and using the Laplace variable, s:                                     derivation, assume that there is a fictitious actuator at the tip
+                                                                                              of the robot which can generate controllable forces. These
+                              Fexternal                                                       controllable forces are related to the controllable torques of
+                    x =       -                                                (7)            the actuators through the Jacobian of the mechanism.
+                              (Bs + K)
+                                                                                                      Zactuator     Jt(e) Factuator                              (1 2)
+           Combining equations for the controller and the system we
+           obtain the transfer function:                                                      The robotdynamic equations now become
+
+                    Fexternal           (Bs + K) G/(G + 1)
+                    -     -
+                                                                                              I(e)Q + C(fj,B)e = Jt(0) (FaGtuator - Fexternal)                   (13)
+                                    -                                          (8)
+                    Freference             Ms2+ 0s + K                                        The acceleration of the robot joints is
+
+           This is the transfer function of a simple type-zero controller                     Q   =   l-’(e)[Jt(e) (FaCtuator - Fexterna,)                       ( 1 4)
+           which regulatestheexternal      force to follow the reference
+           force. For example, at steady state,                                                                                                 - c(e.e)el
+                    Fexternal = Freference
+                                     G/(G              + 1)                    (9)            The corresponding acceleration of the end-effector is
+
+           However, note that to reach this conclusion we had to make                                 i = J(e)Q + j(e)e                                          ( 1 5)
+           assumptions about the dynamics of the environment.                                 Substituting
+
+           This more conventional description of the controller action is
+           correct, but incomplete. It does not specify how the system                                2 = J 1 - l ~(Factuator
+                                                                                                                     ~        - Fexternal)        ( 1 6)
+           responds to its environment. Yet the response of the system to                                                         - J IL1C6 + j 6
+
+
+                                                                                       1049
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+            For clarity and notational convenience, the dependence of I, J                   impedance control algorithm which successfully protected a
+            and C on therobotconfigurationhasnotbeenwritten                                  robot from collisions with moving obstacleslo.
+            explicitly.
+                                                                                                             ELIMINATING INVERSE KINEMATICS
+            The quantity J I-’ J t has an important physical meaning. It is
+                                                                                             The typical motion-based approach to robot control consists of
+            the mobility tens04 of the robot end-point. We will denote it                    specifying the robot’s task in terms of appropriate motions of
+            by W.                                                                            its end-point. Because the control system which executes this
+                                                                                             planned task acts on the joints,not       the end-point, itis
+                     W = J I-lJt                                                (17)         necessary to translate the end-point motion specifications into
+                                                                                             corresponding
+                                                                                             a                   set of joint motion specifications. This
+            Its inverse is the actual inertia of the robot end-point.                        requires the inversion of the kinematic equations of the robot
+                                                                                             mechanism. Unfortunately, this is frequently an extremely
+                                                                                             complex and difficult computational problem. Its solution is
+                                                                                             multiple valued and may require iterative procedures (which
+                                                                                             can be disastrous if the computation isto be performed in a
+            Note that Mactual depends on the robot configuration 8 .                         real time control system). It has been described asthemost
+                                                                                             difficult problem in robot controll and has received much
+            To obtain the control law, we first solve for the fictitious.                    attention in the literature.
+            actuator force.
+                                                                                             The impedance control algorithm derived above completely
+            Factuator I W - ’ [ i    + J I-’Ch - J 61 + Fe,ternal               ( 1 9)       eliminates theneedto    solve the inverse kinematics problem.
+                                                                                             When the virtual position x, is moved around the workspace
+            But the desired acceleration of the end-effector is                              the algorithm will make the actual position of the end-point
+                                                                                             follow it. How closely it follows is a function of the speed of
+                      i = M-’{K(x,      - x) - B i - Fexternal}                 (20)         movement and the choice of the impedance parameters. Given
+                                                                                             an appropriate choice of M, B and K, the deviation between the
+             Substituting                                                                    two can be kept small, and the algorithm successfully controls
+                                                                                             motion. But this is achieved without any inverse kinematic
+                                                                                             computations.
+
+                                                                                                                THE EFFECT OF FORCE FEEDBACK
+
+                                                                                              The terms which       the
+                                                                                                             multiply measured        force
+                                                                                                                               external
+             Now substitute the controllableactuatortorques                   for the         determine the effective force feedback gain. T o understand the
+             fictitious forces.                                                               action of the force feedback, consider the application of this
+                                                                                              algorithm to a one degree of freedom system. The term Jt
+                                                                                              becomes a scaling constant; for simplicity assume it is unity.
+                                                                                              Itcan   then be seen that the term multiplyingtheforce
+                                                                                              measurement depends on the ratio of %heactual inertia of the
+                                                                                              end-point (which varies with position) to the target inertia.
+             Finally, use the robot kinematic equations to express the end-                   But (comparing to equation 3) this term is the negative of the
+             point position and velocity in terms of the joint position and                   force feedback gain,so
+             velocity.
+
+
+                                                                                                 Rewriting, we obtain
+
+
+                       a
+             This is nonlinear       impedance control algorithm. Given
+             measurements of joint motions and external forces it specifies                      M is one of the parameters of the target impedance, the
+             the actuator efforts required to make the robot end-effector                        apparent inertia imposed by the action of the force feedback.
+             exhibit the specified target impedance.                                             This is exactly the same relation between force feedbackand
+                                                                                                 apparent mass obtained earlier. Again, the true action of a
+              This algorithm has several interesting features. It requires                       feedback controller is to change the dynamic behavior of a
+              measurements of joint positions, joint angular velocities and                      system; in this case force feedback changes apparent inertia.
+              external forces,  each    of which can be    measuredwith
+              reasonable fidelity in practice. It requires the specification of                                    WPERIMENTAL WARDWARF
+              thetargetbehavior       in termsof     xg, M, B and K. This
+                                                                                                 To establish   practicality
+                                                                                                              the                    of this nonlinear control
+              information must be supplied by the programmer or a higher-                        algorithm, it was implemented using the apparatus shown in
+              level supervisory system. The impedance controller permits                         figure 1. Complete details of the implementation are presented
+              parameter adaptation; each of these qrlantities may be changed
+              with time to suit a particular task. Note, however, that the                       in Wlassich12. The hardware consists of a mechanism with
+              components of the target impedance need not be linear. For                         two links which arefreetomove      in the horizontal plane.The
+              example, the position-dependent component K(xo - x) can be                         popular SCARA robotdesign13           employs akinematically
+              nonlinear, and for some applications this can be quite useful.                     similar mechanism. The links are driven by disc-armature
+              A nonlinear position-dependent component has been used in an                       DC permanent-magnet motors, both ofwhichare mounted on
+
+
+
+                                                                                          1050
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+         the supporting base. The inner link is directly mounted on the                    motions, and to deal with the transitions between these two
+         shaft of one motor. The outerlink         is driven through a                     parts of the task.
+         parallel-linkmechanism     which is mounteddirectly     on the
+         shaft of the second motor.                                                        If thealgorithmsuccessfully       achieves the target dynamic
+                                                                                           behavior, then the time histories of force and motion should be
+         The motors are driven by transconductance amplifiers with                         as shown in figure 2. During free motion the force will be
+         high-gaininternal current feedback. Coupled with the low                          zero and the path of the end-point will describe an arc of a
+         inductance of the iron-less armature, a voltage input to the                      circle. Upon contacting the barrier the end-point should slide
+         amplifiers
+                  results
+                        in         an accurately
+                                               proportional   torque                       smoothly along a chord of the circle defined by the surface of
+         between the armature and the stator. Thus, aside from any                         the barrier. At the moment of contact with the barrier there
+         frictional losses,these
+                               actuators
+                                       produce
+                                             a
+                                             controllable                                  should beabrief impulsive force due to the collision of the
+         torque.                                                                           end-point inertia withthe      rigid surface, but immediately
+                                                                                           afterwards the force should drop to zero. Then, as the virtual
+         Low-friction ball bearings were used at all joints, so the drive                  point x0 moves inside the surface but the end-point x remains
+         system has an extremely low output mechanical impedance,                          on the surface, the difference between these two should result
+                                                                                           in an interface force determined by the target impedance. At
+         similar toa   Direct-Drive robot14. The links and the motor
+                                                                                           low speeds, thedominant        term will be due to the static
+          armatures have low inertia and as a result the maximum
+                                                                                           component, K(x0 - x). If the target impedance has linear
+          acceleration andspeedofthis      mechanism are considerably
+          greater than that of a typical commercial robot. In terms of                     components, thetimeprofile         of theinterface force should
+          end-pointmotion,    representative values are 100 idsecond                        describe a circle (or a section of an ellipse, depending on the
+                                                                                            choice of force and time scales).
+          and 3.3 g respectivelyl2.
+                                                                                                                  FXPFRIMENTALRF-
+          A low-noise analog position potentiometer was mounted at the
+          pivot point of each link. A two-axis analog force joystick was
+                                                                                           The actual performance of the impedance-controlled apparatus
+          mounted at the tip of the outer link to provide measurement of                   is shown in figure 3. The system remains stable throughout
+          the horizontal interface forces between the mechanism and its                    all phases of the task, both constrained and unconstrained. The
+          environment. Each of these sensor voltages was digitised by a                    combination ofthe environment (the barrier) and the force
+          12-bit A/D converter. An estimate of joint angular velocity                      sensor is quitestiff.     The barrier is a concrete block with
+          was obtained by digital differentiation of the digitised position                essentially infinite stiffness; the force sensor stiffness was
+          measurement.
+                                                                                           measured to be 700 Ibf/ft. In this instance the effective
+                                                                                           stiffness of the robot (which is entirely due to the action of the
+           The controlling computer was a DEC LSI 11/23. The nonlinear                     controller) is quite modest, 4.5 Ibf/ft. Similar results were
+           algorithmdefinedsymbolically      above was implemented in                      obtained for all values of stiffness and viscosity throughout the
+           software and the commanded torques transmitted to the                           range which couldbe achieved with this apparatus. Stable
+           hardware through D/A converters. The time required for one                      interaction with a rigid constraint was unaffected by the value
+           computational cycle    was 9 milliseconds,  resulting    in an                  of the stiffness and/or the viscosity of the robot. Clearly, the
+           effective sampling frequency of 111Hz. This means that the
+                                                                                           restriction that a compliant sensor be used to achieve stable
+                   bandwidth
+           effective              of thecontroller    was approximately
+                                                                                           interaction does not apply to this impedance control algorithm.
+           1/20th of this, a little over        5Hz. Translating this
+           performance into movement      times,     if the robotwere
+                                                                                            During the constrained portion of the task the interface force
+           peforming repetitive motions between two points, each point-
+                                                                                            is as predicted from the ideal target behavior. For clarity,
+           to-point move would last about l/lOth of a second.
+                                                                                            this data has not been smoothed or filtered, as can be seen from
+                                                                                            the high frequency fluctuations (which are due to the force
+           Because this mechanism was designed as a laboroatory-scale
+                                                                                            sensor) superimposed on the ideal performance. Thus, within
+           bench-top test apparatus, and was therefore not subject to the
+                                                                                            the limitations of this apparatus, the impedance controller
+           constraints imposed on a commercial robot, its performance
+                                                                                            achieves good control of interface force during a contact task.
+           far exceeds that of a typical robot. The merit of this approach
+           was that the mechanism provided an exacting and informative
+                                                                                            Throughout the entire task, the path of the end-point is as
+           test of the impedance control algorithm. By restricting the
+                                                                                            predicted from theideal target behavior. Again, for clarity,
+           apparatus to two degrees of freedom the significant kinematic
+                                                                                            the data are presented without filtering. The apparently
+           nonlinearities of a robot were retained but our understanding
+                                                                                            random fluctuations are due to noise in the system. For
+           of thebehaviorofthesystem            was not occluded by the
+                                                                                            Dxample,as the end-point "wipes" along the barrier, its true
+            mechanical and kinematic complexity of six or more degrees of
+           freedom. The relatively high speed and acceleration capability                    path is constrained to be a perfectly straight line. Within the
+           ofthe apparatus meant that the behavior of the algorithm,                         limitations of this apparatus, the impedance controller
+            especially any tendency to instability, was not obscured by                      achieves good control of end-point position. But remember,
+           sluggish hardware performance.                                                    this is achieved without any inverse kinematic computations.
+
+                                           TEST TASK                                                             WHY USF FORCF FFFDRACQ
+
+           To test the effectiveness of the impedance controller, a simple                    It couldbe argued that given this idealised laboratory-scale
+           task was chosen: the virtualposition         x. was brought at                     apparatus with its torque-controlled actuators andthelow
+                                                                                              friction in the drive-train, good controlof the interface force
+           constantspeedthroughacircle            in the workspace of the
+                                                                                              is to be expected whatever control algorithm is used. How
+           apparatus. Then a rigid barrier was placed in the workspace
+                                                                                              much of theobserved perfomance can be credited to the
+           so that its flat front surface intersected that circle. This task                  impedance control algorithm and how much is due to the
+           provided a comprehensive test of the impedance controller's                        apparatus? To examine this, the same test task was performed
+           ability to control the pathof        theend-pointduringfree                        using the same computational algorithm, but with the force
+           motions, to control the interaction forces during constrained                      feedback sensors disconnected. The results are shown in figure
+
+
+
+                                                                                       1051
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+            4. During the free motion phase of the task, the path control is                 Manipulation is fundamentally   process
+                                                                                                                             a      mechanical
+                                                                                                                                   of
+            essentially as before (as it should be). When the end-point                      interaction. During contact tasks dynamic interaction between
+            collides with the barrier, the system still remains stable and                   a manipulator and its workpiece becomes the dominant factor
+            the end-point slides along the constraining surface.                             determining stability and performance. The key idea behind
+                                                                                             impedance control is the recognition that the true action of a
+            This is an interesting result in its own right; it demonstrates                  controller on physical hardware is not merely to regulate
+            that, given proper design of the hardware components, force                      motion, or force, or stiffness, but to change its apparent
+            feedback is not necessary to achieve stable accomodation of a                    dynamic behavior. Consequently, the controller is designed
+            constraining surface. I t confirms an earlier result in which a                  with the objective of changing the dynamic behavior to an
+            constrained motion task was successfully performed by an                         appropriately chosen target impedance. The analytical and
+            impedance controlled robot without force feedback's.                             experimental       presented
+                                                                                                          results         demonstrate
+                                                                                                                        here         the
+                                                                                             practicality of this approach.
+            However, itis      important toclearly             between
+                                                     distinguish                                                     ACKNOWLEDGEMENTS
+            stability and performance. Although the system is still stable,
+            the performance is considerably poorer. Upon colliding with                         work
+                                                                                             This       was supported in part by National Science
+            the barrier, the end-point bounces several times, repeatedly                     Foundation Grant No. ECS-8307461 and in part byDaewoo
+            impacting the surface. As a result, the time history of the                      Heavy Industries, Ltd.
+            interface   departs
+                     force              from
+                             significantly  ideal.
+                                           the
+            Comparing with the previous figure it is quite clear that the
+            impedance control algorithm    accomplishes
+                                                      significant
+                                                      a                                                                   REFERFNCFS
+            improvement in performance by making appropriate use of
+            force feedback.                                                                  1. Whitney, D. (1985) Historical Perspective and State of the
+                                                                                             Art in Robot Force Control. Proceedings of the IEEE Conference
+                                          CONCLUSION                                         on Robotics and Automation.
+
+            Theseexperimentalresults
+                                  clearly
+                                        demonstratethat                                      2. Whitney, D. (1977) Force Feedback Control of Manipulator
+            impedance control is apracticalstrategy             for performing               Fine Motions Journal of Dynamic Systems, Measurement and
+            contact tasks. To achieve stable behavior while wiping a rigid                   Control, pp. 91-97.
+            surface it was not necessary to use a sensor more compliant
+            than ihe robot, as has been reported in prior approaches to                      3. Roberts, R., Paul, R. and Hillberry, 5. (1985) The Effect
+            this type of task. In fact, changing the effective stiffness of the              of Wrist Force SensorStiffness       on the Control of Robot
+            robot did not influence ihe stability of the apparatus during                    Manipulators. Proceedings of the IEEE Conference on Robotics
+            constrained motion. 'This shouid not be surprising as the                        and Automation.
+            analysispresented       hereshowedthat           for this kind of
+            mechanism, the true action of force feedback is related to the                   4 . Hogan, N. (1985) lmpedance Control: An Approach to
+            apparent inertia of the system, rather than its stiffness.                       Manipulation: Part i - Theory, Part il - implementation, Part
+                                                                                             111 - Applications. Journal of DynamicSystems,Measurement,
+                                                                                             and Control, pp. 1-24.
+              experimental
+            The                also
+                          resuits    that
+                                  show given                               an
+            appropriateiy designed mechanism, stable interaction may be                                        Compliance
+                                                                                             5. Mason, M. (1981)                 and Force Control for
+            achieved without using force feedback. However,the results                       Computer ControlledManipulators.IEEETransactions      on
+            also demonstrate that a control algorithm which can make                         Systems, Man and Cybernetics, pp. 418-432.
+            proper use of force feedback (such as the impedance controller
+            Dresented here) offers some benefits to offset its cost: it yields                                  Force
+                                                                                             S . Ishida, T. (1977)  Controi           in Coordination of
+            a substantial improvement in performance.                                        Manipulator Fine Motions. Fifth international Conference on
+                                                                                             ArtificialIntelligence.
+            In practice, contact tasks also involves phases when the robot
+            is not in contact.      The implementation presented here                        7. Shimano, B. (1977) Force Control. Stanford University
+            demonstrates that impedance controlcan provide effective                         Artificial lntelligence Laboratory Memo 285.4.
+            control of unconstrained motions. Furthermore, it does SO
+            without the need to perform the complex and difficult inverse                    8. Raibert, M. and Craig, J,(1981)  Hybrid Position/Force
+            kinematic calculations.                                                          Control of Manipulators. Journal of Dynamic Systems,
+                                                                                             Measurement, and Control, pp. 126-133.
+            A key point is that the same controller successfully deals with
+            all parts of the task: the free motion, the constrained motion                   9. Salisbury, J. K. (1980) Active Stiffness Control of a
+            and the transitions between, them. An alternative might be to                    Manipulator in Cartesian Coordinates. iEEE Proceedings,
+            restructure thecontroller (e.g. change from path control to                      Conference on Decision and Control.
+            force control) when the         contacts
+                                        robot           in
+                                                         its
+                                                   objects
+            environment. But this would require the controller to identify                   10. Andrews, J. R. and Hogan, N. (1983) lmpedance Control as
+            the moment of contact and rapidly switch between different                       a Framework for ImplementingObstacle        Avoidance in a
+            modes of control.   Usingimpedancecontrol            this is not                 Manipulator. Control of Manufacturing Processes and Robotic
+            necessary. Nor is it necessary for the system to use "guarded                    Systems, pp.243-251,ASME,NewYork.
+            moves"5 to make the transition between free and constrained
+            motion. The impact due 10 collision with the environment does                                     Robot
+                                                                                             11. Paul, R. (1981)            Mathematics,
+                                                                                                                 Manipulators:
+            not destabilise the system. lmpedance control is a unified                        Programming, and Control. M.I.T. Press, Cambridge, MA.
+            approach to robot manipulation. The results presented here
+            demonstrate one of the practical benefits of a unified approach;                  12. Wlassich, J. J. (1986)       Force
+                                                                                                                        Nonlinear  Feedback
+            the same control algorithm is competent in allparts of the                        lmpedance Control. S.M. Thesis, Department of Mechanical
+             task. In this regard, impedance control is simpler than some                     Engineering, M.I.T.
+             of the alternative strategies.
+
+
+
+                                                                                         1052
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+        13. Makino, H., Furuya, N., Soma, K. and Chin, E. (1980)
+        Research and Development of the SCARA Robot. Proceedingsof
+        theFourth   Annual International Conference On Production
+        Engineering, Tokyo.
+                                                                                                                                         Barrier
+        14. Asada, H. and Youcef-Toumi, K. (1984) Analysis and
+             of
+        Design       a Direct-Drive Arm With a Five-Bar-Link
+        Mechanism. Journal of Dynamic Systems, Measurement, and
+        Control, pp. 225-230.
+                                                                                                                                         Virtual
+                                                                                                                                         end-point
+        15. Andrews, J. R. (1983) Impedance Control as a Framework
+                                                                                                                                         path
+        for Implementing Obstacle Avoidance in a Manipulator. S.M.
+        Thesis, Department of Mechanical Engineering, M.1.T.
+
+
+
+
+                                                                                                       X2 axis
+
+
+
+
+                                                                                                                 Impulse due to impact
+
+                                                                                               Q
+                                                                                               L!                                     Normal force during contact
+                                                                                               LL
+
+
+
+
+                                                                                                                 Interface Force vs. Time
+
+
+
+
+                                                                                          Fiaure 2. The ideal performance of the impedance controller
+         Fiaure 1. A photograph of the mechanical apparatus used to                       on the test task. A plan view of the actual path (heavytine)
+         implement the impedance controller (from reference 12).                          and thevirtualpath     (light line) are shown on the top. The
+                                                                                          time history of the interface force is shown on the bottom.
+
+
+
+
+                                                                                      1053
+
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+                                                                                   1
+                                                                                   I
+
+
+
+
+                                 I-
+                         z. sa
+
+
+                         2.00
+
+
+
+
+                         I. 50
+
+
+
+                         1.08    i
+                   s
+                   3     0.50
+
+
+
+
+                         0.00
+                                 0.0      1.5        2.2   3.B   4.0   5.B   6.E   0
+                                  Tin.   (.-condo)
+
+
+
+
+                                                                                           1OS4
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:10:55 UTC from IEEE Xplore. Restrictions apply.
+

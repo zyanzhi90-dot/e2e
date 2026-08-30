@@ -1,0 +1,110 @@
+{
+  "source_id": "imOw8mw7I6cJ",
+  "read_event_id": "e646b790c7814d7982f6ab81a3f58b18",
+  "content_sha256": "850697cd098dfa15a44c2aee028cac3229221055d604119195b938418861f4f8",
+  "claim": "Kumar and Prakash propose Certified Gaussian-Manifold Sampling (C-GMS), which embeds Kronander-Billard sufficient stability inequalities into the parameterization of time-varying damping and stiffness schedules used by PI2 reinforcement learning. Matrix slacks make sampled gain schedules satisfy the inequalities by construction, a Cholesky-factor differential equation preserves positive-definite stiffness, and a scalar contraction governor preserves that certificate while enforcing joint-torque limits. Under exact operational-space inverse dynamics the inherited certificate concerns the unforced, constant-desired-inertia error system; with additional strict margins and bounded aggregate model/sensing residuals, the appendix derives uniform ultimate boundedness. Simulation and limited Franka Research 3 experiments support feasibility for free-space via-point tasks, but do not validate safe contact-rich interaction, general policy-search optimality, or robustness to unbounded/structured uncertainty.",
+  "claim_locator": [
+    "Abstract",
+    "Section II.B-C, equations (2)-(5)",
+    "Section III.A-B, equations (7)-(10)",
+    "Section III.C, equation (11)",
+    "Section III.D, convergence theorem",
+    "Section IV.A-D, Figures 3-5 and Table II",
+    "Section V, Conclusion and Limitations",
+    "Appendix A, equations (12)-(26)",
+    "Appendix B, Table III"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the gain-schedule certificate is analytically constructed from a prior sufficient Lyapunov condition, and the residual-error bound is theorem-derived under explicit strict-margin assumptions; empirical support is a small free-space simulation/hardware demonstration, so the paper's broader language of safe interaction must not be generalized to external contact or arbitrary deployment uncertainty",
+  "problem_and_setting": "The paper targets model-free learning of a Cartesian reference trajectory and time-varying impedance gains for compliant robot motion. Unconstrained PI2 exploration can lower task cost while sampling gain schedules that violate known variable-impedance stability conditions, and learned gains may also demand infeasible actuator torques. The concrete setting is a 7-DoF Franka Research 3 executing free-space, position-only via-point and handover motions under operational-space inverse dynamics; the formal nominal certificate sets external wrench to zero.",
+  "method_or_mechanism": "The reference motion is represented by a DMP whose forcing weights are optimized with episodic PI2. Instead of sampling damping D(t) and stiffness K(t) directly, C-GMS parameterizes matrix slacks SD(t), SK(t) with RBFs and enforces alpha H-D=-SD SD^T and Kdot+alpha Ddot-2 alpha K=-SK SK^T. It evolves a factor Q through Qdot=alpha Q+0.5 Q^{-T}B, B=-alpha Ddot-SK SK^T, and sets K=Q^TQ, making stiffness positive definite and the second inequality hold identically. Gaussian exploration therefore occurs in slack/trajectory parameter space while all reconstructed gain schedules remain inside this sufficient-certificate set. For torque feasibility, both slacks are uniformly scaled by sqrt(beta), beta in [0,1], which contracts gains affinely toward the baseline alpha H and preserves both inequalities; the largest beta compatible with per-joint torque boxes is selected analytically. PI2 then optimizes a task cost containing via-point tracking, acceleration, and stiffness penalties over certified rollouts.",
+  "content_summary": "The paper connects three previously separate elements: DMP trajectory learning, PI2 policy search, and a sufficient Lyapunov condition for time-varying impedance. It argues that task-cost convergence alone is not evidence of a stable impedance schedule and replaces penalties/post-hoc rejection with a constructive feasible-set parameterization. The experiment trains for 50 PI2 updates with 12 MuJoCo rollouts per update and executes the resulting task-space policy at 1 kHz on an FR3. The illustrated collaborative handover uses a pre-specified via-region around an obstacle. An ablation disables certification after the via-point; reported costs can still converge while the certificate eigenvalue becomes positive and trajectories/gains become oscillatory or divergent. Five additional free-space start-via-end hardware segments report task-space RMSEs and compare saturation with/without the governor under artificially halved torque limits; the governor reports no saturation. The appendix aggregates plant-model mismatch, feedforward error, and sensing error into a bounded residual input and derives an ultimate tracking-error bound when certificate margins dominate cross terms. Code and hyperparameters are provided.",
+  "synthesis_role": "Represents a post-learning development in which stability is no longer merely checked after a variable-impedance policy is learned: the policy search space itself is constructed from certified gain schedules. It is a useful bridge from offline stability screening to certificate-preserving exploration and actuator-aware execution, while also exposing the remaining gap between free-space internal stability and contact-port safety/passivity.",
+  "development_link": "Relative to Buchli-style PI2 variable-impedance learning, C-GMS preserves model-free task-cost optimization but restricts every rollout to schedules satisfying the Kronander-Billard sufficient condition. Relative to offline validation of a precomputed profile, it synthesizes admissible profiles during exploration. Relative to energy-tank/passivity controllers, it avoids runtime energy bookkeeping and gain clipping but provides a narrower free-space Lyapunov certificate rather than an interaction-port passivity guarantee. The torque governor adds a certificate-preserving contraction toward baseline gains, addressing realizability without changing the proof structure.",
+  "evidence": [
+    {
+      "locator": "Section II.B-C, equations (2)-(5)",
+      "status": "imported analytical premise",
+      "finding": "With exact operational-space inverse dynamics, constant positive-definite desired inertia H, and zero external wrench, the paper adopts the sufficient pointwise conditions alpha H-D <= 0 and Kdot+alpha Ddot-2 alpha K <= 0 for global uniform stability of the variable-impedance error system."
+    },
+    {
+      "locator": "Section III.B, equations (7)-(10)",
+      "status": "constructive derivation",
+      "finding": "Negative-semidefinite slack factorizations enforce both inequalities, while Cholesky-factor evolution maintains K(t)>0; sampled slack parameters therefore reconstruct certificate-compliant gain schedules by construction."
+    },
+    {
+      "locator": "Section III.C, equation (11)",
+      "status": "derived feasibility mechanism",
+      "finding": "Uniform slack contraction by sqrt(beta) preserves the certificate for beta in [0,1]; because the commanded torque is affine in beta, an analytical maximum beta can enforce per-joint box limits without post-hoc loss of the stated certificate."
+    },
+    {
+      "locator": "Section III.D and Appendix A, equations (12)-(26)",
+      "status": "theorem-supported under assumptions",
+      "finding": "For bounded aggregate residual input, continuous bounded gains, and strict certificate margins satisfying the appendix's dominance condition, the augmented Lyapunov analysis yields uniform ultimate boundedness with an ultimate radius proportional to the residual bound."
+    },
+    {
+      "locator": "Section IV.A-C and Appendix B",
+      "status": "author-reported protocol",
+      "finding": "The main evaluation uses a 7-DoF FR3, a 10-second Cartesian via-point task, 50 PI2 updates with 12 MuJoCo rollouts each, position-only impedance adaptation, and fixed hyperparameters; the obstacle via-region is specified a priori."
+    },
+    {
+      "locator": "Section IV.D, Figures 4-5",
+      "status": "author-reported simulation/ablation",
+      "finding": "Certified sampling keeps the plotted condition eigenvalues negative as cost falls, whereas disabling certification after the via-point allows positive eigenvalues, oscillatory trajectories, and unbounded gain growth despite continued cost convergence."
+    },
+    {
+      "locator": "Section IV.D, Table II",
+      "status": "author-reported hardware evaluation",
+      "finding": "Across five additional free-space via-point segments, the controller reports centimeter-scale or smaller coordinate RMSEs; with robot torque limits artificially halved, the governor prevents reported saturation in every segment, while three segments saturate without it."
+    },
+    {
+      "locator": "Section V, Conclusion and Limitations",
+      "status": "author-stated limitation",
+      "finding": "The authors explicitly state that their stability criterion is formulated for free-space dynamics, does not account for external contact, and currently excludes contact-rich and orientation-sensitive tasks."
+    }
+  ],
+  "evidence_kind": [
+    "constructive gain-schedule parameterization",
+    "inherited sufficient Lyapunov certificate",
+    "uniform-ultimate-boundedness derivation",
+    "simulation ablation",
+    "small-scale robot hardware demonstration",
+    "actuator-saturation comparison"
+  ],
+  "boundary_conditions": [
+    "The core stability condition is sufficient and applies to the unforced internal error dynamics; it is not a passivity or safety certificate at the robot-environment interaction port.",
+    "The controller assumes exact operational-space inverse-dynamics cancellation, a constant symmetric positive-definite desired inertia, measured/feedforward external wrench, and symmetric positive-definite differentiable gains.",
+    "The residual-input result assumes bounded aggregate modeling/sensing error, uniformly bounded damping, finite-horizon gain bounds, strict certificate margins, and an additional margin inequality; it does not cover arbitrary contact forces or discontinuities.",
+    "The actuator governor enforces stated box limits through scalar uniform contraction; it does not solve general coupled torque, velocity, power, collision, or state constraints.",
+    "All demonstrated policies are free-space translational via-point motions; the paper explicitly excludes contact-rich interaction and orientation control.",
+    "The main human-handover illustration uses a coarse obstacle via-region specified in advance; perception and autonomous obstacle reasoning are outside the evaluated method.",
+    "The empirical comparison is primarily an ablation against uncertified sampling, not a controlled benchmark against energy tanks, CBFs, model-based VIC, or alternative safe-RL methods.",
+    "This is an arXiv preprint dated 2025/updated 2026 in the supplied file; peer-review status is not established by the paper."
+  ],
+  "assumptions": [
+    "The rigid manipulator and operational-space model are accurate enough for inverse-dynamics shaping, with remaining mismatch representable as a bounded residual.",
+    "The DMP reference is twice differentiable and the RBF-generated slack/gain trajectories are continuous over the task horizon.",
+    "A fixed alpha and positive strict margins can be chosen so all sampled schedules remain within the constructive certificate.",
+    "The Cholesky-factor dynamics can be integrated numerically without losing nonsingularity or unacceptable conditioning.",
+    "PI2 rollout costs and the selected via-point/stiffness/acceleration weights meaningfully encode task performance, although the stability guarantee itself is independent of cost convergence.",
+    "Torque commands are affine in the scalar contraction beta under the chosen controller, and beta can be recomputed quickly enough for execution."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Unconstrained sampling can reduce cost while violating the Lyapunov condition and producing oscillatory/divergent trajectories or gains.",
+      "The current certificate does not cover external contact, preventing direct application to contact-rich tasks.",
+      "The task objective and experiments omit orientation control.",
+      "Payload variation is not handled explicitly; extension of the governor to varying payloads is left for future work."
+    ],
+    "inferred": [
+      "Calling every certified rollout 'safe' overstates the formal result: collision avoidance, interaction-force bounds, human safety, and environment-coupled stability are not certified.",
+      "The feasible manifold inherits the conservatism and model assumptions of the Kronander-Billard condition and may exclude useful stable gain schedules.",
+      "Uniform scalar gain contraction may be unnecessarily conservative when only particular directions/joints violate torque limits and may alter the learned compliance pattern.",
+      "The UUB result aggregates uncertainties into one bounded input and therefore does not identify robustness to structured model errors, delay, sampling, or estimator bias.",
+      "The limited free-space hardware tasks do not establish broad generalization, statistical reliability, or superiority over other certified learning architectures."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

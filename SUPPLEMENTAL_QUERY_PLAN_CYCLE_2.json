@@ -1,0 +1,25 @@
+{
+  "coverage_gaps": [
+    "classic online direct adaptive impedance and explicit optimal impedance selection",
+    "early primary work directly learning variable impedance between iterative feedforward learning and later structured RL",
+    "online passivity preservation or energy management for variable impedance"
+  ],
+  "queries": [
+    {
+      "query": "Direct adaptive impedance control of robot manipulators",
+      "purpose": "establish the mechanism and historical position of classic online adaptive impedance"
+    },
+    {
+      "query": "Impedance adaptation for optimal robot-environment interaction",
+      "purpose": "test whether explicit optimal impedance selection forms a distinct development stage"
+    },
+    {
+      "query": "Learning variable impedance control",
+      "purpose": "recover the early primary transition from repeated-input learning to direct variable-impedance learning"
+    },
+    {
+      "query": "Passivity preservation for variable impedance control of compliant robots",
+      "purpose": "establish direct evidence for online energy management and passivity preservation"
+    }
+  ]
+}

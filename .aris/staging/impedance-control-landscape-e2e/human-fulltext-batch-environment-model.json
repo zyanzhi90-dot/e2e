@@ -1,0 +1,24 @@
+{
+  "papers": [
+    {
+      "paper_id": "iasK6kEBzIEJ",
+      "source_path": "source-materials\\user-batch-environment-model\\Viscoelastic modeling based force control framework for enhancing operation safety of soft tissue for orthopedic surgical robots.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "Ubx3Xkv4y2kJ",
+      "source_path": "source-materials\\user-batch-environment-model\\Modeling_of_Viscoelastic_Contacts_and_Evolution_of_Limit_Surface_for_Robotic_Contact_Interface.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "_-WpL4QNulUJ",
+      "source_path": "source-materials\\user-batch-environment-model\\Velocity_Level_Approximation_of_Pressure_Field_Contact_Patches.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "9vRJMR2dgG4J",
+      "source_path": "source-materials\\user-batch-environment-model\\Safe_Machine-Learning-Supported_Model_Predictive_Force_and_Motion_Control_in_Robotics.pdf",
+      "media_type": "application/pdf"
+    }
+  ]
+}

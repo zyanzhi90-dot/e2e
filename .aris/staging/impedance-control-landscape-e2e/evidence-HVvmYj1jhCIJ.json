@@ -1,0 +1,67 @@
+{
+  "source_id": "HVvmYj1jhCIJ",
+  "read_event_id": "cc391045ad45465995ab92970a0ef369",
+  "content_sha256": "86a02756ecf06b2949c6b02c8cc24de9f02b830937ceece3ff5fdd37aca6ec49",
+  "claim": "Variable impedance/admittance control and learning strategies can support compliant human–robot physical interaction, but safe effectiveness depends on sensing quality, task and user conditions, controller assumptions, and explicit stability/passivity safeguards.",
+  "claim_locator": [
+    "Controller-supplied full-text packet: definition and taxonomy of variable impedance control",
+    "Controller-supplied full-text packet: stability-oriented tools",
+    "Controller-supplied full-text packet: learning strategies and challenges"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported survey synthesis; no independent verification or causal superiority claim inferred.",
+  "problem_and_setting": "Physical human–robot interaction requiring online adjustment of desired inertia, damping, and stiffness to balance compliance/transparency, movement accuracy, and stability amid uncertain human and environmental dynamics.",
+  "method_or_mechanism": "A systematic taxonomy of impedance/admittance variation and learning methods: velocity-, force-, and EMG-based adaptation; neural/adaptive and optimal-control schemes; Gaussian mixture/regression and dynamic movement primitive representations; reinforcement learning; and demonstration- or EMG-informed approaches. Stability considerations include Lyapunov analysis, passivity/energy reasoning, and constraints on time-varying gains.",
+  "content_summary": "The survey reviews roughly two decades of methods for varying or learning impedance/admittance during HRI. It distinguishes signal modalities and their trade-offs: velocity approaches can avoid force sensing but need task-specific calibration; force-based approaches regulate interaction force but require reliable force measurements; EMG-based approaches estimate intent or limb impedance but require wearable acquisition, processing, and robustness across subjects. It emphasizes that stability guarantees are architecture- and assumption-specific, and identifies safe adaptation, sensing reliability, generalization, and integration of learning with formal guarantees as unresolved challenges.",
+  "synthesis_role": "Background and taxonomy source for framing design alternatives, sensing requirements, safety constraints, and unresolved research gaps in adaptive impedance control for HRI.",
+  "development_link": "Supports development of an adaptive-HRI harness by motivating explicit representation of sensing modality, task/user calibration, controller architecture, and stability/passivity assumptions as first-class evaluation conditions rather than treating learned impedance adaptation as universally safe or superior.",
+  "evidence": [
+    {
+      "locator": "Controller-supplied full-text packet: variable impedance definition and modality taxonomy",
+      "status": "author-reported",
+      "finding": "Variable impedance control modulates desired inertia, damping, and stiffness online; velocity-, force-, and EMG-based approaches have distinct sensing and calibration trade-offs."
+    },
+    {
+      "locator": "Controller-supplied full-text packet: stability-oriented tools",
+      "status": "author-reported",
+      "finding": "Lyapunov, passivity/energy, and time-varying-gain constraints are discussed, but validity of a stability result depends on the modeled system, sensing, architecture, and assumptions."
+    },
+    {
+      "locator": "Controller-supplied full-text packet: learning and challenges sections",
+      "status": "author-reported",
+      "finding": "Learning routes span adaptive/neural, optimal-control, GMM/GMR, DMP, reinforcement-learning, and demonstration/EMG-informed methods; open issues include safe adaptation, reliable sensing, and generalization."
+    }
+  ],
+  "evidence_kind": [
+    "systematic survey",
+    "methodological taxonomy",
+    "narrative synthesis of prior studies"
+  ],
+  "boundary_conditions": [
+    "Physical HRI with online impedance/admittance adaptation.",
+    "Conclusions are survey-level and do not establish superiority of any individual method.",
+    "Stability claims are conditional on exact dynamics, sensing, controller design, and stated assumptions.",
+    "Performance and usability may vary by task, motion regime, user, and environment."
+  ],
+  "assumptions": [
+    "Desired impedance parameters can be meaningfully estimated or updated online.",
+    "Required position, force, and/or EMG signals are available with sufficient quality for the selected method.",
+    "Controller and robot/human/environment models satisfy conditions required by any invoked Lyapunov, passivity, or optimal-control analysis.",
+    "Calibration and robustness procedures are adequate for task and user variability."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Velocity-based approaches can be task- and calibration-dependent.",
+      "Force-based approaches require reliable interaction-force information.",
+      "EMG-based approaches require wearable acquisition, signal processing, and subject-specific robustness.",
+      "Safe stable adaptation, generalization, and integration of learning with formal stability/passivity constraints remain challenges."
+    ],
+    "inferred": [
+      "A deployment that omits sensing-quality checks or stability/passivity constraints may adapt impedance unsafely under unmodeled human or environmental dynamics.",
+      "Treating this survey as experimental proof of a method's superiority would overstate its evidence."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Grounded only in the supplied controller packet; bibliographic and full-text claims not independently checked."
+}

@@ -1,0 +1,447 @@
+                       Proceedings of the 1997 IEEE
+            Intemational Conference on Robotics and Automation
+                  Albuquerque, New Mexico - April 1997
+                          Contact Transition Stability in the Impedance Control
+                                                                   Dragoljub T.Surdilovic
+              Fraunhofer Institute for Production Systems and Design Technology IPK-Berlin, PascalstraBe 8-9, D-10587 Berlin,
+                                                 Germany, E-Mail: drago1jub.surdilovic @ipk.fhg.de
+
+            ABSTRACT                                                                     robots having very high equivalent Cartesian inertia (typically
+                Contact stability has been considered based on sim lified                well over 100 kg) and the Cartesian position control stiffness of
+            linearized models af robot and environment. It is shown t&t the             the order IO6 N/m.
+            m s t crucial parameter for contact stability is the target a h p i n g          The equivalence between impedance and force control
+            ratio. When a high compliance is re uired, the stability boundary           offers the possibility to apply the results on transition stability
+            conditions require a sign$cantfy overdamped impedance
+            behavior to ensure a stable contact with a stiff environment.               in force control [6] to the impedance control. However, in
+                                                            P
+            These conditions for a SISO system are de ned in the analytic
+           form Obtained minimal damping ratio va ues are significantly
+            lower than those previously proposed in the literature.
+                                                                                        contrast to the impedance control algorithms, which provide
+                                                                                        the same control structure for the three motion phases, in force
+                                                                                        control schemes the transition to and from contact motion is
+            1         INTRODUCTION                                                      usually based on discontinuous control (control switching)
+                The type of contact tasks may vary substantially depending              which is complex to implement in industrial robotic systems.
+            on specific requirements, but the robot always has to perform                    The control synthesis in the majority of the approaches is
+           three kinds of motion when realizing a contact task: so called               based on the increase of damping (a dominant real pole).
+           gross motion, related to robot movement in free-space (free-                 However, the high values of target mass and damping needed
+            motion mode), compliant (or fine, i.e. constrained} motion,                 to maintain a stable contact, give the robot a sluggish behavior.
+           related to robot movement constrained by an environment, and                 It is not desirable for handling both unexpected impact or loss
+            an interface transition motion, representing all passing-phases             of contact, resulting in high forces or long transition time,
+           between free and compliant motion.                                           respectively. The established criteria are either necessary or
+                Many experimental investigations have demonstrated that                 sufficient, and usually quite conservative.
+           the transition problem is very critical for most of the proposed                  The purpose of this paper is to derive more reliable
+           compliant motion control algorithms, especially when the                     transition stability criteria pertinent for industrial robots and
+           contact between end-effector and environment is stiff.                       real contact tasks. Therefore, the consideration in this paper is
+           However, the investigations were primarily concerned with the                mainly concerned with position-based impedance control, but
+           question of coupled stability (i.e. will the robot remain stable             under some circumstances the results can be extended to any
+           when it is interconnected with the environment ?) under                      controller realizing the target impedance. From this view, this
+           various control algorithms, while assuming the manipulator                   work represents a continuation of previous investigations [7, 81.
+           initially is and always remains in contact with the environment.             Our aim is to examine the effects of impedance control
+           Surprisingly, relatively little research has addressed the                   parameters on the transition stability, rather than to develop
+           problem of contact transition stability (i.e. will the robot, during         complex transition control algorithms. The validity of derived
+           transition from free- to contact-motion, establish a continuous              contact stability conditions and control design is demonstrated
+           contact with the environment without multiple impacts?) which                in experiments with an industrial robot (Manutec-r3).
+           is most fundamental for performing contact tasks in the                      2         MATHEMATICAL MODEL
+           presence of both unilateral (i.e. force) and bilateral (geometric)               Here we should briefly consider the models of the robot
+           constraints.                                                                 constrained motion to be used for the design of the impedance
+                Contact stability issues have been focused on in several                control and consideration of the contact stability problem.
+           studies, but relatively few have specifically addressed the                  Neglecting non-linear Coriolis and centrifugal effects due to
+           transition stability in impedance control. The stability                     relatively low operating velocities during contact and assuming
+           conditions have been investigated by Kazerooni et al. [l]. Using             the gravitational effect to be ideally compensated for, we
+           unstructured and structured models of the robotic manipulator                obtain the linearized model around a nominal trajectory in
+           and environment, the authors defined a general stability                     Cartesian space xo in the form
+           criterion in terms of operator norms. Colgate and Hogan [2]
+           have demonstrated that the robot control system must present a                A(X~)+
+                                                                                              %B ( x ~ ) X = z(x0) + F                                   (1)
+           passive impedance in order to remain stable in contact with an
+           arbitrary passive environment. In [3], this result is extended to             A(x) = J(q)-TE(q)J(q)-'; B(x)= J(q)-TbJ(q)-'
+           "nearly passive" systems, which are common in robotic
+           practice. Many theoretical and experimental investigations
+           have confirmed that high target damping and inertia are                       H, = diag(ni2J,); b = diag(ni2b,)
+           necessary to hold an impedance controlled robot against a
+           surface [4].Based on the equivalency between the force and                   where: q-6x1 vector of the robot joint angles, H(q)-6x6 inertia
+           impedance control, Volpe and Khosla [5] have recently                        matrix, ni gear ratio, J, inertia of the motor actuator, b f i
+           established the transition stability condition for the impedance             viscous friction coefficient, i- denotes the local subsystems,
+           control imposing mass ratio (robot inertia through target                     T~ is a 6x1 vector of the control output torque reduced at the
+           inertia) to be less than one. But similar to [I], these results              manipulator joints, F-6x1 vector of the Cartesian reaction
+           obtained on direct drive robots are not applicable to industrial             contact (process) forces acting upon the end-effector, J(q)-6x6
+                                                                                        Jacobian matrix which relates the end-effector velocities and
+
+
+
+           0-7803-3612-7-4/97 $5.00 0 1997 IEEE                                    847
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:11:18 UTC from IEEE Xplore. Restrictions apply.
+            joint velocities (i.e. Cartesian forces and joint torques). In                  where e = xo - x is position error (i.e. deviation between
+            industrial robots, the Coulomb frictiodstiction also plays an                   nominal and actual position), M, and Bt and & are positive
+            important role at low velocities and will be considered later as                definite diagonal inertia, damping and stiffness matrices,
+            a disturbance to the linearized model (1).                                      respectively, which define the target impedance model.
+                In passive environments, it is convenient to adopt the rela-
+            tionship between forces and motion around the contact point in
+            a linear form
+            -F = Mep+Bep+ Kep                                     (2)
+            where p = x - x, is the robot end-point penetration into the
+            environment, x, is contact point locations, Me, B e , and K,
+            are respectively inertial, damping and stiffness matrices.
+            Analogously the position difference PO = xo - x,, which would
+            be taken to mean a position planning failure due to tolerances
+            or a desired penetration in the environment, will be referred to
+            as nominal penetration. In the following we will consider                        Figure 1Position control system in contact with environment
+            contact with a surface and for the sake of simplicity, only the                    The basic impedance control scheme corresponding to the
+            dominating stiffness effect will be taken into account.                        considering linearized robot position control is depicted in (Fig.
+            3          POSITION BASED IMPEDANCE CONTROL
+                                                                                           2). This scheme consists of two control loops: an inner position
+                                                                                           servo and an outer loop generating position command
+                In commercially applied robotic systems it is most                         modification AxF based on end effector forceltorque
+            promising to implement position based compliance control                       measurements. The outer loop is naturally closed when the end-
+            schemes by closing force sensing-loops around the stable and                   effector encounters the environment.
+            robust position controller 171.
+               The position control system is based on the standardized
+            decentralized position servo regulators. The position control
+            law can be expressed in Cartesian space in the form
+             z = K , ( X ~-XI- ~ , i + ~ ~-x)dt
+                                            j ( x ~                               (3)
+                                                                                                        I
+            where the Cartesian and joint gains are related to each other as                            I                             I
+                                                                                                        L___--------__-_-_-_----------___-_---               ---
+             K, = J-'k,J-' and analogous velocity and integral gains K,
+                                                                                                                                                        prmmrimpom
+            and K,, k, = diag(kpi) represents the diagonal matrix of the
+            local equivalent position feedback gains including scaling,                          Figure 2            Basic impedance control scheme
+            transmission ratios, etc. Substituting (3) in (1) one obtains the                  The entire impedance control design problem is split into
+            closed loop transfer function of the position control system in                two subproblems: realization of the target impedance model;
+                                                                                           and design of the target impedance parameters to meet a stable
+            the free-space                                                                 interaction with environment and required performance.
+                                                                                               As demonstrated in [8], the performance of commercial
+                                                                                           industrial robots systems allow the significant simplification of
+                                                                                           the impedance control design and implementation. The
+            where G ,(s) and G (s) are transfer functions of the regulator
+            and robotic plant (i.e. robotic mechanical part) respectively                  robustness of intemal position control allow the disturbances
+                                                                                           due to interaction force and joint friction effects to be
+             G , ( ~ ) = Z , = K , + JK
+                                      ;G,(S)-   1 = Z , = A S 2 +(K,+B)s          (5)      neglected. Furthermore, due to high gear ratios and accurate
+                                    S                                                      design of joint position controller, the closed loop position
+            where the symbols Z, and Zs are introduced according to the                    control transfer matrix G, is diagonally dominant and spatially
+            means of these functions which represent impedances. Based                     rounded with good approximation, i.e. it exhibits similar
+            on the above relations the closed-loop behavior of the robot                   performances independent of Cartesian             directions or
+            arm in contact with a working environment (Fig. 1) can be                      compliance frame selection, and, far from singularities, has
+            expressed as                                                                   similar performance in a large workspace area. These
+                                                                                           characteristics, highly desired in position control to guarantee
+                                                                                           good and uniform trajectory tracking independent of motion
+                                                                                           direction nor robot position, allow the impedance control to be
+                                                                                           implemented in the same spirit as the position controller. Thus,
+                                                                                           we obtain a simple and reliable impedance control
+                                                                                           compensator in the frequency domain
+                The impedance control provides a general approach to the
+            compliant motion control. The key issue in this approach is to
+                                                                                            G~ (s) =   e, (s)-~G,
+            control the relationship between the force acting on the end-                   where G, is the diagonal target end-effector impedance matrix
+            effector and the error between nominal and actual positions of                  specifying the target behavior in each compliance frame
+            end-effector according to the law                                               directions corresponding to (6), G, is the diagonal estimate of
+                                                                                            the closed loop position transfer matrix. Based on (4-8) the
+             -F = M,e +B,e + K,e                                                (7)         above control law provides the following nominal closed loop
+
+
+
+                                                                                        848
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:11:18 UTC from IEEE Xplore. Restrictions apply.
+       contact behavior                                                               stability problem at the contact between a stiff robot and an
+                                                                                      elastic environment, where in general (13) is not valid, is not
+                                                                                      critical.
+                                                                                           Here we will examine the contact transition problem during
+                                                                                      an elemental positioning task in which a nominal position
+                                                                                      behind a hindrance is commanded and a stable transition and
+                                                                                      equilibrium should be realized (Fig. 3). Dependent on the way
+       corresponding to the target model. Stiff position controller                   the bounds of variables and parameters characterizing the
+       causes the nominal motion perturbation term in (10) to vanish                  contact transition (actual and nominal penetration, and target
+       in a relatively short period. For the analysis of the force history            impedance parameters) are estimated, the following stability
+       during contact, it is very useful to express the contact force in              analysis methods are established.
+       terms of nominal penetration
+
+
+
+       where the dimension and physical meaning of the transfer
+       function corresponds to an impedance referred to as coupled
+       impedance in [8]. The realization of the target model by the
+       proposed control law has been demonstrated in [7], where
+       experiment and simulation within system bandwidth is
+       relatively well-matched
+       4          CONTACT STABILITY CRITERIA
+            The objective is here to define necessary and sufficient
+       conditions for the stable transition in the impedance control.
+       From a pragmatic viewpoint, the contact transition can be
+       considered as stable, if the contact is not lost after the
+       manipulator hits the environment. A stable contact transition
+       can be characterized by non-zero force (after contact is
+       detected), positive penetration of manipulator end point into
+       environment, nonappearance of bouncing, etc. The most
+       critical issue in transition control is the initial impact against a
+       stiff environment. Obviously a stable controller should ensure
+       the passage through the transition phase with maintaining
+       contact until all impact energy has been absorbed.
+            The contact stability condition imposes that the actual
+       penetration p is positive during contact, i.e.
+
+
+
+       in each contact direction for t 2 to, where to denotes the time
+       instance when the first contact xtO = x e is established. An
+       equivalent criterion by a suitable orientation of the compliance
+       frame, relative to which the target model and contact force are                              Figure 3          Basic contact task
+       defined, can be expressed by F(t) 2 0.
+           Another contact stability condition is based on the simple                 4.1       Time domain criteria for stability
+       geometric consideration (therefore we refer it to as geometric                     A good place to start the analysis is the ideal target
+       criterion) and is expressed by                                                 impedance model (10) realized by the control law (8) in each
+                                                                                      constrained direction. Using (2), the target impedance model
+                                                                                      can be rewritten as (for the sake of simplicity the environment
+                                                                                      is presented as a stiffness)
+      This criterion presumes the position deviation to be smaller or
+      equal to the nominal penetration for t 2 to. In other words, the
+      above relation implies the actual end-effector position during a                where the nominal trajectory po(t) is a continuous and
+      stable contact to always be located between the position of                     bounded function, with initial condition po(to) = 0 , and
+      environment and the nominal position. Indeed, this simple                        po +Po* as t increases, where PO* is the maximum
+      geometrical criterion cannot be considered as a global contact                  penetration corresponding to the nominal goal position (Fig. 3);
+      stability condition. However, in a contact between industrial                    E,, = ~ , / 2 and  m    utL= K t / M t , meL = K,/Mt. Under
+      robotic systems with very stiff position servos and a relatively                these circumstances, the position deviation e(t) and actual
+      rigid environment, where impedances are significantly higher                    penetration p(t) reach the equilibriums when t + 00
+      than the target one, it is, as will be shown, quite correct and
+      convenient to apply the assumption (13). Moreover, the                                   1     * *       K
+                                                                                      p =-      PO ; e =-PO*                                            (15)
+      relative criterion is well suited to specify and analyze the                         14-K            1+K
+      transition problem in terms of input-output stability. The                      where K denotes stiffness ratio            K = Ke/Kt >>1. As well
+
+
+
+                                                                                 849
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:11:18 UTC from IEEE Xplore. Restrictions apply.
+             known, in the second order perturbed system (14) these                          behavior of penetration, i.e. motion deviation and force, is
+             equilibriums are for Gt > O (ensuring negative real part of                     significantly shaped by the nominal motion; b) a positive
+             characleristic equation eigenvalues) asymptotically stable.                     nominal acceleration at contact ( i.e. increasing velocity), as
+             This result can be established by considering the equpalent                     well as increasing damping ratios and target frequency, support
+             system
+             -         obtained by shifting the origins E = e-e , i.e.                       a stable transition.
+              p = p - p-,
+              E+25,wti +(o,2+ o e 2 ) E = we2(po - PO*)                         (16)                                                      e'po   T
+             and corresponding Liapunov function
+
+              v =-['
+                 2 e2+ (w t 2 + o , 2 ) E 2 ] ; v = - 2 ~ t o t ~ 2 + ~ o , 2 ( -po*)<O
+                                                                                po
+
+                                                                       (17)
+                  A typical transition behavior in the penetration phase plane
+             is sketched in (Fig. 4). For the positive nominal velocity during
+             nominal motion phase Po > 0, the deviation velocity is usually
+             also positive, thus the system is globally asymptotically stable.
+             However, the estimates of contact transition measures (12, 13)
+             based on the Liapunov functions (17) might be very
+             conservative and useless for the transition stability analysis.
+             Obviously, for the considered perturbed linear system more
+             accurate bounds can be obtained by solving the equation (14).                                                                                  dr*pnl
+
+
+             Assuming the initial condition at the contact e(to)=&(to)= 0 ,                       Figure 4               Typical contact transition behavior
+             which corresponds to an ideal position servo, the solution of
+                                                                                                 The critical point C for the loss of contact in the (p,p)
+             differential equation (14) for the under critical damping case
+                                                                                             phase plane (Fig. 4) can be determined by differentiating (19)
+              st .= .J1+K (we are looking for the minimum damping ensuring                   and setting e = po, which corresponds to p = 0 . The obtained
+             a stable contact) has the form
+                                                                                             equation, together with (12, 13) and (19), defines necessary
+                                                                                             and sufficient conditions ensuring a stable contact transition.
+                                                                                             However, using these equations for control synthesis is quite
+                                                                                             complex (expressed by systems of transcendental algebraic
+             where od =o,,/l+K-st2. Since the nominal penetration                            equations) even in the considered elemental case. Usually
+             function is characterized by standard velocity and acceleration                 some of the target impedance parameters are prescribed by the
+             profiles, it is interesting to analyze their influence on the                   control task, such as target stiffness determining the maximum
+             contact stability. Assuming po(t) and its derivative to be a                    steady-state force for an estimated tolerance (maximum
+             continuous function, we can express the position deviation and                  nominal penetration) based on (1 1). The maximum target
+             penetration in terms of nominal motion functions by means of                    frequency is limited by the position control bandwidth op
+             partial integration                                                             (usually w t ~ 0 . 5 0 , ) . Thus the above defined stability
+                                                                                             conditions allow us to determine the target damping ensuring a
+                                                                                             stable contact transition. For example, assuming the
+                                                                                             trapezoidal nominal velocity profile, and the transition during
+                                                                                             the constant velocity phase (Fig. 4),the condition p = 0 yields
+
+
+
+                                                                                             Instead of solving the system of transcendental equations (21),
+                                                                                             (19) and (13), we can from the above equation estimate the
+                                                                                  (19)       time period needed to reach the critical point C (Fig. 4)
+             where                                                                            (n+e)/@, < tC < (3n/2 + e ) / o d . Substituting the lower value
+                                                                                             in (19) and (13), that provides more safety result, yields
+
+
+             and i o= po(to), io= po(to). If the higher nominal motion
+             derivatives are discontinuous, the transition can be analyzed                   The solution of the above transcendental equation within the
+                                                              ,
+             within motion segments po(t) t ~ [ t , , t ~ ]based    on (19),                 interval (20), determines the minimum value of target damping
+             whereby well known homogenous solution should be added to                       ratio tt ensuring the stable contact transition. The interesting
+             the particular one (18), dependent on initial conditions at each                result is that in the considered ideal case, the bound of contact
+                                                                                             stability is influenced by target damping 5, and stiffness ratios
+             segment.
+                                                                                              K , but it is independent of the frequency 0,.
+                 The above equations provide a useful base to analyze the
+                                                                                             5.2        Influence of Coulomb friction and force time lags
+             transition behavior during the entire motion or particular
+             nominal path segments. Thereby, the following might be                             The influence of the Coulomb friction on the contact
+             observed: a) in the convenient target impedance model, the                      transient process can be analyzed by introducing the equivalent
+
+
+
+                                                                                          850
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:11:18 UTC from IEEE Xplore. Restrictions apply.
+       Cartesian friction force in the considered impedance control                   This criterion yields in a pure stiffness environment
+       model
+
+       Gt(s)e(s) = F(s)+Gt(s)(I-Gp(S))XO(S)+Sp(S)GI(S)FC(S) (23)
+                                                                                      Another possibility to define stable contact condition provides
+       where Fc is Coulomb friction force, while sP(s) denotes the                    the infinity norm of the relationship (13), which based on (11)
+       position control sensitivity transfer function. Since in industrial            yields
+       robotic systems with very stiff position controllers, the
+       sensitivity function is designed to be very small within the
+       position control (as well as position based impedance control)
+       bandwidth, it might be concluded that the influence of Fc on
+                                                                                      where 5 denotes the largest singular value. Since in the
+       the transition process is negligible. Moreover, considering the
+                                                                                      convenient position control systems position control norm is
+       motion resistant effect of the Coulomb friction, Fc supports the
+                                                                                      less than one (small gain theorem), it follows
+       end-effector to remain in the contact. Thus, the stability results
+       obtained with the ideal model are on the safe side.
+           Quite opposite is the effect of control time lags. The
+       difference-differential equation describing the closed loop                    Along each compliance frame direction this implies for the
+       behavior of the proposed control with retarded force information               considered target impedance model
+       can be presented in the form
+       G(t)+ 2~,,o,i(t)+ot2e(t) +oe2e(t - z) = oe2po(t)                   (24)
+                                                                                      The physical meaning of the criterion (28) is that the energy of
+       where z is time delay. A necessary and sufficient condition for                the target model is less than the input nominal motion energy
+       the asymptotic stability of the solution of the stationary                     (the difference corresponds to the absorbed energy during
+       equation is negativity of the real parts of all the roots of the               transition). The last condition requires somewhat higher
+       corresponding characteristic quasipolynomial                                   damping coefficients to ensure contact stability in comparison
+       z2 + 2 ~ , 0 , z + w ~ ~ z + m , ~= O
+                                           e-~~                            (25)       with (27). In spite of an effective and simple formulation, this
+                                                                                      criterion defines only a sufficient condition. However, due to
+           In order to analyze the contact stability of the retarded                  the conservative infinity norm the obtained results are on the
+       system based on previous results, it is suitable to utilize the                safe side. It should be mentioned, that the damping ratio bound
+       equivalency between the retarded system (24) and the ideal                     (28) is still less than the critical damping value proposed by
+       one (14) (see [8] for more details). For the retarded second                   Benady et al. [4] imposing kt 2 f i .
+       order system (24) it is possible to find an equivalent system
+                                                                                           A very important advantage of the input/output criterion
+       without retardation having the same fundamental solutions. A
+       numerical procedure designed to compute the contact stability                  (28) is that it can be applied for the continuous as well as for
+       bounds of the retarded system based on the second order                        the discrete systems including the time lags (25). The
+       system (14) is presented in [8]. In general, the retarded system               weighting functions representing the model uncertainties can
+       requires a significantly higher amount of damping in order to                  also be included. Figure S illustrates the derived contact
+       stabilize the transition process with delayed force signals. A                 stability limits for the ideal target impedance model without
+       further point of interest is that the target frequencies of the                retardation.
+       retarded and equivalent systems (14) are different, and thus the               5         EXPERIMENTAL TESTS
+       frequency becomes very important for the transition stability in                  In order to test obtained contact stability conditions, the
+       the real delayed systems. In principle, higher target frequency                experiments were performed on the Manutec-r3 robot using the
+       (lower mass) is more suitable to cope with the delay problem                   IPKs experimental control system. The proposed control
+       during transition.                                                             scheme is implemented with a computational cycle of 8 ms
+       53        InpuVoutput stability criteria                                       with a maximum force sensing and computation time lag of 8
+                                                                                      ms. In the experiments a nominal goal position 8 mm beyond
+         The contact stability condition imposes that the actual                      the contacted surface is commanded (Fig. 3). The target
+      penetration p is positive during contact. Assuming that the                     stiffness of Kt is varied in the interval [250, 500, 1000, 2000,
+      nominal penetration po(t) is always positive, the coupled                       4000 80001 Nlm, while the target frequencies are settled to
+      impedance transfer function (11) has to be a positive (i.e.                     [OS,1, 3, 6, 81 Hz respectively, by setting the target mass for
+      strictly p sitive) real function (SPR). SPR functions describe                  each above target stiffness in the interval [0.1, ...., 2001 kg.
+      behavior of passive mechanical systems or networks. System                      Damping ratios bounds are computed using the following
+      passivity means that the work is always done by the external                    criteria a) time continuous system with retardation (24) b)
+      force, without loss of the contact. The simplified coupled                      infinity norm criterion (28) including the delay 8ms in the
+      impedance transfer function obtained from (11) for an ideal                     denominator (25) and c) the middle value between these two
+      position servo G, = 1 , describes a passive system and can be                   bounds. The stiffness of the environment was Ke=60000 N/m in
+      applied to contact stability analysis based on the positivity                   the experiments (Fig 3).
+      criterion. Since both target and environment transfer functions                      For the each set of parameters a contact transition
+      are assumed to be Hurwitz polynomials, for contact stability it                 experiment has been performed. A typical result is shown in
+      is necessary that in each SlSO system along constrained frame                   (Fig. 6) presenting the contact force trajectory in experiments
+      directions                                                                      with variable damping ratios. The estimated real contact
+                                                                                      bounds obtained in experiments are illustrated in (Fig. 7). From
+       Re{G,(s)/[G,(s)+Ge(s)]}2 0 s = j w ;            0 €[O,-]          (26)         the experiments it can be observed that the contact stability
+      is fulfilled.                                                                   limits obtained for the simple second order system with delay
+
+
+                                                                                  85 1
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:11:18 UTC from IEEE Xplore. Restrictions apply.
+             provides quite accurate values for the high target frequencies                 defined in the analytic form. Obtained minimal damping ratio
+             (6-8 Hz) and relatively low stiffness ratios. Thc target                       values are significantly lower than those prcviously proposed in
+             frequency 8 Hz is near to the position control bandwidth limits,               the literature. They result in a faster system response and lower
+             and should be avoided in real applications. At lower U, (0.5-1                 force overshoots during transitions. The time delay in the real
+             Hz), more accurate transition is achieved at higher damping                    control system is the crucial influence on the lost of contact.
+             values. The infinity norm criterion (28) provides in all cases                 The experiments have proven the obtained conditions which
+             higher damping values than other methods, but due to simple                    guarantee a stable contact transition in real robotic systems.
+             computations it is quite practicable, especially to cover model
+             uncertainties and disturbances. Finally, the experiments have
+             proven the contact stability analysis obtained on the simple
+             linearized target impedance model.
+
+
+
+
+                                                                                                "0            50           100              150       200           250
+                                                                                                                           stiffness ratio Ke/Kt
+
+                                                                                              Figure 7 Experimental stability bounds (0,
+                                                                                                                                       = 6Hz, t=8 ms)
+                                                                                                retarded second order system lo', infinity-norm '*I, middle
+                                                                                                              values     experiment 'solid'
+                                                                                                                         '+I,
+
+
+
+
+                         Figure 5               Contact stability bounds                    7          REFERENCES
+                                   Contact transition: Kt=2000 N/m, Mb2.8 kg
+                                                                                            [l] Kazerooni H., Waibel B.J., Kim S., 1990, On the Stability of Robot
+                                                                                                 Compliant Motion Control: Theory and Experiments, Journal of
+                                                                                                 Dynamics, System, Measurement and Control, Vol. 112, pp. 417-
+                                                                                                 426, 1990.
+                                                                                            [2] Colgate J.E., Hogan N.,1988, " Robust Control of Dynamically
+                                                                                                 Interacting Systems", The Intemational Journal of Control, Vol. 48,
+                                                                                                 NO. 1, pp.65-88.
+                                                                                            [3] Chapel J.D., Su R., 1992, "Coupled Stability Characteristics of
+                                                                                                 Nearly Passive Robots", Proceedings of IEEE International
+                                                                                                 Conference on Robotics and Automation, Nice, pp. 1342-1346.
+                                                                                            [4] Benady M., Flash T., Gershon D., 1990, "Robot Learning of
+                                                                                                 Contact Tasks", in Robotic Svstems and AMT, (Editors Halevi G.,
+                                                                                                 Yudilevich I., and Weill I.), Elsevier Science Publishers,
+                                                                                                 Amsterdam pp. 147-159.
+                                                                                            [5] Volpe R., Khosla P., 1993 b, "A Theoretical and Experimental
+                                                                                                 Investigation of Impact Control for Manipulators", The
+                                                                                                 International Journal of Robotics Research , Vol. 12, No. 4, pp.
+                                                                                                 351-365.
+                                                                                            [6] Wu Y., Tam T.J., Xi N., Isidori A., 1996, "On Robust Impact
+                                                                                                 Control via Positive Acceleration Feedback for Robot
+                                                                                                 Manipulators", Proceedings of the IEEE International Conference
+                       5.5          6            6.5                                             on Robotics and Automation, Minneapolis, pp. 1891-1896.
+                                                  time [sec]
+                                                                                             [7] Surdilovic D., Kirchhof J., , 1996, "A New Position Based
+              Figure 6 Contact force transitions for various 5, ( a t= 6Hz)                      Force/Impedance Control for Industnal Robots", Proceedings of
+             6         CONCLUSION                                                                the IEEE Intemational Conference on Robotics and Automation,
+                                                                                                  Minneapolis, pp. 629-634.
+                 This paper considers the contact stability problem which
+             was recently found to be fundamental for performing almost all                  [81 Surdilovic D., 1996, "Contact Stability Issues in the Position Based
+             contact tasks in advanced robot applications. It is shown that                       Impedance Control: Theory and Experiments" Proceedings of the
+             the most crucial parameter for contact stability is the target                       IEEE International Conference on Robotics and Automation,
+             damping ratio. When a high compliance is required, the                               Minneapolis, pp. 1675-1680.
+             stability boundary conditions require a significantly
+             overdamped impedance behavior to ensure stable contact with
+             a stiff environment. These conditions for a SISO system are
+
+
+                                                                                        852
+
+
+Authorized licensed use limited to: Nanjing University of Information Science and Technology. Downloaded on August 12,2026 at 13:11:18 UTC from IEEE Xplore. Restrictions apply.
+

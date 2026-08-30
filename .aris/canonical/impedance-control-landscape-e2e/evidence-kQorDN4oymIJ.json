@@ -1,0 +1,110 @@
+{
+  "source_id": "kQorDN4oymIJ",
+  "read_event_id": "35a8e54eb9d644579252db440f395f22",
+  "content_sha256": "4c5983927bdc0f34ee1f28ff71c4147caa75e5ab1863e6db5b25a7b6cd61a281",
+  "claim": "Jin et al. learn state-dependent variable stiffness as the gradient of a constrained neural potential energy function, SNEUM, so stability is built into the learned force field rather than checked afterward from gain-rate bounds or maintained by online tank reshaping. For the exact Cartesian impedance error model, the paper proves passivity at the environment-force/velocity port during contact and global asymptotic stability of the unforced error equilibrium when damping and SNEUM satisfy explicit positivity, radial-unboundedness, unique-minimum, and parameter constraints. The guarantee applies to this conservative energy-gradient parameterization with model-compensated dynamics; it does not extend to arbitrary state-dependent policies, arbitrary contact environments, or uncertain realization of the target impedance.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, equations (1)–(10)",
+    "Section III, equations (11)–(12)",
+    "Section IV, equations (13)–(18) and Theorem 1",
+    "Section V, equations (19)–(29), Lemma 1, and Propositions 1–2",
+    "Section VI, equations (30)–(46) and Theorem 2",
+    "Section VII, equations (47)–(58) and Theorem 3",
+    "Section VIII.A, robot assembly experiment",
+    "Section VIII.B, robot polish experiment and Table I",
+    "Section IX, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the energy-function properties and nominal impedance-system guarantees are theorem-supported; learning fit and task benefits are author-reported experiments, and robustness to model, sensing, sampling, or arbitrary-environment uncertainty is not established",
+  "problem_and_setting": "The paper considers Cartesian compliant manipulation with stiffness Kd(e) dependent on position tracking error and damping Dd(e,ė) dependent on error and error velocity. A desired labeled set Ψ={et,ėt,Kd,t,Dd,t} is assumed available from a prior impedance law, human demonstrations, or expert specification. The objective is to learn a state-dependent impedance law that preserves task flexibility without an online stability filter reshaping it during execution.",
+  "method_or_mechanism": "The controller constrains desired inertia to the robot inertia and desired damping to C+Dd, yielding nominal error dynamics M ë+(C+Dd(e,ė))ė+Kd(e)e=fe and a force-sensor-free model-compensation law. Instead of fitting Kd directly, it enforces Kd(e)e=∂V2(e)/∂e, making stiffness-related force the gradient of a scalar potential. V2 is represented by a symmetric neural energy function, SNEUM: a constrained NEUM composed with an elementwise absolute-power transformation, plus a positive quadratic term. Positivity constraints on neural weights and directional parameters make SNEUM differentiable, positive definite, radially unbounded, symmetric in error sign, and uniquely minimized at e=0. Coupled and per-axis decoupled controllers are learned offline by constrained least squares that matches the SNEUM gradient to labeled stiffness forces Kd,t et; positive-definite damping is assumed or learned separately, with its learning details omitted.",
+  "content_summary": "Theorem 1 establishes a general certificate: if Dd is positive semidefinite and the stiffness force equals the gradient of a positive-semidefinite differentiable V2, the nominal impedance system is passive with supply ėᵀfe; if Dd and V2 are positive definite and V2 is radially unbounded with a unique stationary minimum, the unforced equilibrium is globally asymptotically stable. Propositions 1–2 and Lemma 1 establish those properties for the constrained SNEUM, and Theorems 2–3 specialize the passivity/GAS results to coupled and decoupled learned controllers. A hyperparameter controls local behavior: values below one make stiffness grow without bound as error approaches zero to emphasize accuracy, while values above one make stiffness vanish near zero for smoother control. Experiments use a Franka arm. A nominally contact-free assembly task with 0.5 mm tolerance reports accurate completion and monotonically decreasing encoded energy. A contact-rich circular polishing task reports accurate periodic tracking; comparisons against a tank-based VIC, constant impedance, and an online-optimization VIC report smoother unreshaped stiffness and the best tabulated compliance, accuracy, and smoothness metrics under the authors' tuning.",
+  "synthesis_role": "Advances variable-impedance learning by replacing post hoc profile certification with a stability-certificate parameterization: the learned state-dependent stiffness force is integrable by construction as a neural potential gradient. It directly addresses state-dependent laws that cannot be cleanly assessed by time-derivative rate certificates, but leaves model-robust realization, contact-force-dependent stiffness, damping-learning rigor, and discrete-time implementation as open bottlenecks.",
+  "development_link": "Relative to offline rate certificates, SNEUM does not require K̇d or Ḋd and can be evaluated online as a function of state, but restricts stiffness to an error-dependent conservative gradient field. Relative to VICES-like policy learning, it does not jointly learn reference pose and six-axis impedance from task reward; it learns a stiffness-force map from labeled impedance samples while the motion planner/reference remains separate. Relative to composite-learning VIC, it learns the impedance law itself offline rather than identifying robot dynamics online and switching hand-designed modes; conversely, it assumes model-based compensation and provides no composite estimator for uncertain robot parameters.",
+  "evidence": [
+    {
+      "locator": "Section IV, equations (13)–(18) and Theorem 1",
+      "status": "theorem-supported",
+      "finding": "The storage V=0.5ėᵀMė+V2(e) yields passivity when Kd(e)e=∂V2/∂e and damping/potential are semipositive; strict positivity, radial unboundedness, and a unique stationary minimum give GAS for fe=0."
+    },
+    {
+      "locator": "Section V, Lemma 1 and Propositions 1–2",
+      "status": "theorem-supported parameterization",
+      "finding": "The SNEUM construction is shown, under its neural parameter inequalities, to be differentiable, positive definite, radially unbounded, symmetric in the sign of e, and uniquely minimized at the origin."
+    },
+    {
+      "locator": "Sections VI–VII, equations (31)–(34) and (50)–(52)",
+      "status": "derived learning mechanism",
+      "finding": "Constrained least-squares objectives fit the potential gradient to Kd,t et for coupled or axis-decoupled training data while enforcing SNEUM certificate constraints."
+    },
+    {
+      "locator": "Section VI, Theorem 2; Section VII, Theorem 3",
+      "status": "theorem-supported",
+      "finding": "Coupled and decoupled SNEUM controllers inherit GAS for zero contact force and passivity at the contact-force/velocity port when damping is positive definite and the stated parameter constraints hold."
+    },
+    {
+      "locator": "Section VIII.A",
+      "status": "author-reported experiment",
+      "finding": "A Franka assembly experiment with 0.5 mm planar tolerance reports final x/y errors below tolerance, smooth control force, and total encoded energy decreasing monotonically to zero."
+    },
+    {
+      "locator": "Section VIII.B",
+      "status": "author-reported experiment",
+      "finding": "In circular polishing, the learned law tracks the periodic path; velocity noise produces noisy damping-related force, and low-pass filtering is applied before robot actuation."
+    },
+    {
+      "locator": "Section VIII.B, Figure 6 and Table I",
+      "status": "author-reported comparison",
+      "finding": "The tank comparator sometimes replaces learned stiffness when tank energy is exhausted; after comparative tuning, the proposed method is reported best on the tabulated force, tracking, and smoothness metrics against tank, constant-impedance, and online-optimization baselines."
+    }
+  ],
+  "evidence_kind": [
+    "energy-based passivity/GAS theorem",
+    "constrained neural certificate",
+    "offline supervised/constrained optimization",
+    "author-reported free-motion robot experiment",
+    "author-reported contact-rich robot experiment",
+    "author-reported baseline comparison"
+  ],
+  "boundary_conditions": [
+    "GAS is proved for the unforced nominal error system fe=0. With contact force, the theorem establishes passivity of the fe/ė port, not convergence, force bounds, or safety for arbitrary active environments.",
+    "The target Cartesian impedance must be realized exactly through the paper's structural choices Bd=M and desired damping C+Dd plus model-based feedforward of M, C, and gravity; robustness to compensation error is not part of the theorem.",
+    "The learned stiffness force must be a conservative gradient field of SNEUM and depends only on position error. Nonintegrable, history-dependent, contact-force-dependent, or broader policy representations are outside the proof.",
+    "Positive-definite state-dependent damping is required, but the paper calls its learning trivial and omits the detailed algorithm and certificate-preserving implementation.",
+    "Training requires labeled desired stiffness and damping samples. The paper lists demonstrations as one possible source but does not report learning the experimental laws from an actual human demonstration campaign.",
+    "Certificate constraints guarantee qualitative energy properties, not low approximation error to Ψ; feasibility and task performance still depend on data coverage, network size, hyperparameters, and constrained optimization.",
+    "For the accuracy-focused hyperparameter regime, theoretical stiffness can approach infinity near zero error; experiments use very large gains and low-pass filtering, without actuator-saturation or discrete-time stability analysis.",
+    "Experiments are limited to one Franka platform, position control with constant orientation impedance, one assembly setup, and one polishing setup; no transfer to unseen tasks or environments is demonstrated.",
+    "Baseline outcomes depend on authors' tuning, and the tank/optimization comparisons do not establish general dominance."
+  ],
+  "assumptions": [
+    "The Cartesian robot obeys the stated rigid dynamics, M is positive definite, and Ṁ−2C is skew symmetric.",
+    "Model terms M, C, and gravity needed by the control law are accurately available, while contact force need not be measured for implementation.",
+    "SNEUM parameters satisfy the strict inequalities on directional weights and positive output weights, with positive quadratic and smoothing constants.",
+    "Dd(e,ė) remains positive definite for all relevant states.",
+    "The labeled set Ψ adequately covers the state region encountered during execution.",
+    "Continuous-time gradients and energy arguments remain representative after numerical evaluation, filtering, sampling, and robot actuation."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Tank-based reshaping is unpredictable, sensitive to tank settings, and can replace desired stiffness when tank energy is exhausted; the paper reports resulting force impacts in its polishing comparison.",
+      "Rate-certificate constraints are described as restrictive and primarily suited to time-dependent rather than state-dependent impedance.",
+      "The SNEUM hyperparameters used in the assembly experiment were selected by trial and error.",
+      "Learned stiffness and damping can reach values on the order of 10^5 because sampled errors are very small.",
+      "Velocity noise makes damping and damping-related force noisy, requiring low-pass filtering.",
+      "Residual polishing error is attributed to friction and uncompensated dynamics.",
+      "The conclusion acknowledges that stiffness depends only on position tracking error, limiting flexibility, and leaves contact-force adaptation for future work."
+    ],
+    "inferred": [
+      "Exact model compensation is a substantive hidden boundary: passivity/GAS of the target impedance does not by itself guarantee the implemented robot retains those properties under model error, delay, saturation, or filtering.",
+      "The integrable potential-gradient structure excludes some otherwise useful coupled stiffness fields and policies, trading expressiveness for certifiability.",
+      "Unbounded or extremely high near-origin stiffness may be physically unrealizable and can challenge sampled-data safety even when the continuous-time force field has a valid energy certificate.",
+      "Because experimental training labels appear prescribed rather than demonstrated or reward-optimized, the evidence supports stable imitation of a desired impedance map more strongly than autonomous discovery of task-optimal impedance.",
+      "Passivity supports stable interconnection only with a compatible passive environment; it is not a universal guarantee against impacts or active human/environment behavior."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

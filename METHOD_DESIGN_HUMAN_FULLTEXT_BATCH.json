@@ -1,0 +1,24 @@
+{
+  "papers": [
+    {
+      "paper_id": "scholar:15965392972228430987",
+      "source_path": "source-materials/method-design-2026-08-24/RA-L-2022-3184800.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "HUMAN-EJMAS-2024-105348",
+      "source_path": "source-materials/method-design-2026-08-24/HUMAN-EJMAS-2024-105348.md",
+      "media_type": "text/markdown"
+    },
+    {
+      "paper_id": "HUMAN-AUTOMATICA-2013-LBMPC",
+      "source_path": "source-materials/method-design-2026-08-24/HUMAN-AUTOMATICA-2013-LBMPC.pdf",
+      "media_type": "application/pdf"
+    },
+    {
+      "paper_id": "HUMAN-LRA-2022-ASEE",
+      "source_path": "source-materials/method-design-2026-08-24/HUMAN-LRA-2022-ASEE.xml",
+      "media_type": "application/xml"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "decision": "CANDIDATE_SUFFICIENT",
+  "reasons": [
+    "The Controller-bound record supports a stratified foundation-to-frontier search: complementary review and foundational sources establish taxonomy and historical boundaries, while primary studies supply the mechanistic backbone, recent method branches, and targeted continuation evidence. The 49 completed query events, 99 verified read/full-text events, 82 decision-grade Evidence Cards, and completed 19-paper continuation subset support saturation at the field-map level.",
+    "All nine declared traces were reviewed. T1-T8 identify evidence-supported changes in the problem being solved, the operative method or representation, the residual limitation, and the resulting research direction. T9 is appropriately labeled as a cross-family assurance reframing rather than a replacement method paradigm; it materially changes how results and safety boundaries must be interpreted.",
+    "The constrained-predictive, energy-aware, skill-learning, human-intent, multi-objective, and learned-dynamics branches are placed coherently as parallel or interacting developments rather than as a forced linear succession.",
+    "The four review/foundational sources remain epistemically bounded to taxonomy, lineage, and scope. The map does not use them as substitutes for primary evidence about empirical performance or formal guarantees.",
+    "The map correctly separates port passivity, conditional boundedness or GAS, SCBF safe-set invariance, empirical low-force behavior, and human or deployment safety. It also preserves the limitations that none of these properties alone establishes injury avoidance, certification, solver-failure resilience, or safety under perception and distribution shift.",
+    "The unresolved leads are sufficiently specific to support problem generation and do not reveal a missing top-level branch that would materially alter the present field-evolution account."
+  ],
+  "gaps": [],
+  "reviewer_run_id": "coverage-review-e37b5460c9114eb7979773b02a309a44",
+  "review_request_id": "e37b5460c9114eb7979773b02a309a44",
+  "reviewed_artifact_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+  "run_id": "impedance-control-landscape-e2e",
+  "reviewer": "coverage_reviewer",
+  "verdict_id": "coverage-verdict-e37b5460c9114eb7979773b02a309a44",
+  "reviewed_artifact_hashes": {
+    "idea-stage\\SOURCE_ADMISSION_POLICY.yaml": "0aacb468316351ea4fcb10f35fcda53ea0def3c5ae5a408cf878a55038e87aa5",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\query_plan.json": "17a0441a9801dec552d0be8e12912ea70480a11edc677cfae20bc7c555152da7",
+    "idea-stage\\ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "idea-stage\\LITERATURE_CORPUS.jsonl": "bb3c56610246cfd17b73f1f4e1414b289360f4a5bc781ac4a2e47a8460385967",
+    "idea-stage\\SEARCH_LEDGER.jsonl": "a58cee0d14389198111d3671f10e467fffafae75a9f31499054ee8c32d16cfaf",
+    "idea-stage\\EVIDENCE_REGISTRY.jsonl": "853e1f7ebfb0af7abce7f56c5e277eb1adf1e76cfd4c64e40737760ca4f8f1b5"
+  },
+  "evolution_assessment": {
+    "foundation_to_frontier": {
+      "status": "PASS",
+      "rationale": "The map reconstructs a coherent lineage from port impedance and coupled-stability foundations through hardware realization, variable-energy management, adaptive and learned realization, skill learning, constrained prediction, intent adaptation, and layered assurance. Each major branch states its motivating bottleneck, achieved progress, remaining limitation, and frontier direction."
+    },
+    "key_nodes_and_branches": {
+      "status": "PASS",
+      "rationale": "The map captures the principal classical, transition-control, robust/adaptive, compliant-actuation, passivity-filter, learning, predictive-control, human-adaptation, and learned-dynamics branches. Recent constrained QP/MPC/SCBF, predefined-time energy-aware, hierarchical/diffusion skill, multi-objective phase-stiffness, intent-adaptive, and physical-prior dynamics studies are positioned as compatible forks or extensions rather than incorrectly collapsed into one paradigm."
+    },
+    "transition_causality": {
+      "status": "PASS",
+      "rationale": "The nine declared traces were individually reviewed against their stated prior limitation, technical progress, residual bottleneck, question shift, and subsequent direction. T1-T8 provide material method or problem-formulation evolution. T9 provides a material cross-family epistemic evolution by replacing undifferentiated safety language with property-specific assurance claims; its reframing status prevents it from being mistaken for a single chronological method transition.",
+      "basis": "DECLARED_TRACES_REVIEWED"
+    },
+    "explanatory_coherence": {
+      "status": "PASS",
+      "rationale": "The map explains why the field moved from fixed, idealized port behavior toward hardware-aware energetic control, context-dependent impedance selection, learned and compositional skills, anticipatory constraint handling, human-intent adaptation, and layered safety evidence. It locates the current frontier at the unresolved intersection of energetic guarantees, geometric and timing constraints, solver and perception failure, distribution shift, multi-contact complexity, and human-outcome validation."
+    },
+    "material_evolution_gaps": []
+  }
+}

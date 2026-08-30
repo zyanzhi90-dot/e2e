@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "source_repo": "D:\\桌面\\科研Agent Harness设计\\ARIS",
+  "managed_files": [
+    {
+      "path": ".codex\\config.toml",
+      "sha256": "efd250b68855b413c02e055caae392e908fbb1b4ab5bda84da27ad1c22f9228b"
+    },
+    {
+      "path": ".codex\\hooks.json",
+      "sha256": "ab67124d99d6eb9604fef6c4e7d035bb1dc2747aa51ade623b0412566143ddf7"
+    },
+    {
+      "path": ".codex\\agents\\paper_reader.toml",
+      "sha256": "66505403981d3a867c97c5de18a375b6ef0241cf44f8cf1cd33ea793e802ece2"
+    },
+    {
+      "path": ".codex\\agents\\coverage_reviewer.toml",
+      "sha256": "718fb2283ed03fe72ec10133b2d04bce545a8c8d42185b5c0ab5d8607920d891"
+    },
+    {
+      "path": ".codex\\agents\\independent_problem_reviewer.toml",
+      "sha256": "7e6705628fb4cdc337d963ca783881c2097beb5ca3922206a6b4538afc79ffd1"
+    },
+    {
+      "path": ".codex\\agents\\independent_novelty_reviewer.toml",
+      "sha256": "13ba6ff8013a5590d6fa01c13643509f2794a410061946dead9034ba159e5c4e"
+    },
+    {
+      "path": ".codex\\agents\\independent_root_cause_reviewer.toml",
+      "sha256": "b669aa643e32e907f9656e6793c53337275acf6fa9127e0dba51e6deafe223c0"
+    },
+    {
+      "path": ".codex\\agents\\independent_method_reviewer.toml",
+      "sha256": "043a60e1cc88443033dbec28d18888e9c362714c97719ce139dfab2a9d8cf7ac"
+    },
+    {
+      "path": ".codex\\agents\\result_to_claim_reviewer.toml",
+      "sha256": "13310d2eaef4b25ffd1207c31981c5b2b5da99f0a58261127f579f32b3ebf147"
+    },
+    {
+      "path": ".codex\\hooks\\pre_tool_use_policy.py",
+      "sha256": "88dceb2403611acd9b44d1dbf49b87a57e23eb9a54a0d580cda5fba95cfd2025"
+    },
+    {
+      "path": ".codex\\hooks\\subagent_attestation.py",
+      "sha256": "59cca0f7ae9f31cd01447d1ef0eb8ef4b8b43a5b359cfb1e31c81bd46fa84986"
+    },
+    {
+      "path": ".codex\\rules\\aris.rules",
+      "sha256": "e838e26b8156267c55ea0e2bed8f0be08b5ef5addb0cb71bd474716b89d6f8df"
+    }
+  ]
+}

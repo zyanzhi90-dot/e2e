@@ -1,0 +1,86 @@
+{
+  "source_id": "CkE-5mElf_IJ",
+  "read_event_id": "629d9498955d4756b75e615059cf28e3",
+  "content_sha256": "78fa38d115439641b84f4a505ffdb31f3279e3b3a4f6e8484cd6fa59b1543322",
+  "claim": "In continuous robotic breast-ultrasound scanning, smooth path optimization plus static force-strain regression and image-confidence feedback maintained image confidence comparable to higher constant-force settings while lowering desired force on three phantoms; the study does not show whether richer contact state or constrained impedance optimization would improve outcomes further.",
+  "claim_locator": [
+    "Abstract",
+    "Section I contribution paragraph",
+    "Sections III-A and III-C",
+    "Sections IV-A-IV-C",
+    "Table I",
+    "Figures 5-6",
+    "Section V"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Performance statements are author-reported phantom results; the unresolved need for richer representation and optimal impedance is an inference from the documented method and comparison scope.",
+  "problem_and_setting": "The paper addresses path smoothness, safe contact regulation, and image quality in robotic breast ultrasound, where deformation and internal structure vary and image-only feedback may not ensure stable force.",
+  "method_or_mechanism": "DO-ACDC optimizes anti-radial path points and normals for acceleration continuity and low deviation. CFS-DFP predicts desired force from a static force-strain regression fitted by 1 mm/s compressions, while UIC-DFU updates desired force from ultrasound-image confidence between path points.",
+  "content_summary": "Experiments used a UR5, a force/torque sensor, two silicone phantoms, and a hydrogel-core phantom with silicone skin. DO-ACDC improved angle-increment statistics. Variable desired-force control was compared with 8 N, 6 N, and 3 N constant references and reportedly achieved comparable confidence with lower force. Validation was limited to phantoms and did not compare contact-model classes or constrained impedance policies.",
+  "synthesis_role": "Direct application evidence that continuous soft scanning benefits from spatially varying contact-aware force regulation, while showing that a simple static representation can be a strong baseline against which richer contact models must earn their complexity.",
+  "development_link": "A richer model should be compared against this static force-strain plus image-feedback baseline on held-out materials, geometries, speeds, and contact histories; it is justified only if it changes selected impedance actions or improves force, deformation, safety, trajectory, or image outcomes.",
+  "evidence": [
+    {
+      "locator": "Abstract and Section I",
+      "status": "author_reported",
+      "finding": "The system combines path smoothing, force-strain desired-force prediction, and image-confidence force updating."
+    },
+    {
+      "locator": "Table I",
+      "status": "author_reported",
+      "finding": "DO-ACDC reduced mean absolute angle increment and its dispersion relative to NFO and EBTSO."
+    },
+    {
+      "locator": "Sections III-C and IV-A; Figure 5",
+      "status": "author_reported",
+      "finding": "Force-strain relations were fitted at 1 mm/s at three positions on each of three breast phantoms."
+    },
+    {
+      "locator": "Section IV-C and Figure 6",
+      "status": "author_reported",
+      "finding": "Variable desired-force control attained confidence comparable to higher constant-force references while using lower contact force."
+    },
+    {
+      "locator": "Section V",
+      "status": "author_reported",
+      "finding": "Online FEM path correction, clinical validation, and broader manipulator transfer remain future work."
+    }
+  ],
+  "evidence_kind": [
+    "robotic-ultrasound phantom experiment",
+    "continuous soft-contact scanning",
+    "force-strain regression",
+    "image-confidence feedback",
+    "variable-versus-constant desired-force comparison"
+  ],
+  "boundary_conditions": [
+    "Only three phantoms were tested.",
+    "Force-strain fitting was quasi-static at 1 mm/s and did not identify relaxation or hysteresis.",
+    "The controller regulates desired force rather than impedance gains under force, passivity, or energy constraints.",
+    "No clinical generalization or alternative contact-model comparison was performed."
+  ],
+  "assumptions": [
+    "A static local force-strain relation remains informative along the path.",
+    "Image confidence is a useful online force-update signal.",
+    "Phantom behavior is representative enough for concept validation.",
+    "Lower force at comparable confidence is a useful comfort/deformation proxy."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Image-confidence-only control may not stabilize force.",
+      "Excessive force may cause discomfort and deformation.",
+      "Deformation-induced path error, clinical robustness, and broader generalization remain unresolved."
+    ],
+    "inferred": [
+      "Static regression may fail under rate dependence, relaxation, hysteresis, or changing contact area.",
+      "The study cannot separate gains from path smoothing, model adequacy, and feedback correction.",
+      "Comparable confidence does not establish peak-force bounds, passivity, robustness, or impedance optimality."
+    ]
+  },
+  "conflicts_with": [
+    "A blanket claim that continuous soft scanning necessarily requires a richer memory or pressure-field model.",
+    "A claim that static force-strain regression is sufficient for general optimal impedance control."
+  ],
+  "verification_status": "verified"
+}

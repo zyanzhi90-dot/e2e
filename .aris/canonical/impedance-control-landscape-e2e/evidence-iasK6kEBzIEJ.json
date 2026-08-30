@@ -1,0 +1,111 @@
+{
+  "source_id": "iasK6kEBzIEJ",
+  "read_event_id": "ecb09d3b5c1b425b9fa6afd51e26fa45",
+  "content_sha256": "ed3a5bb455f008d86e275bfcd7a3bb5a7ba1b30330ba52d2122bff0d3cb3f95d",
+  "claim": "A second-order generalized-Maxwell tissue model identified from a bounded pre-touch supports practical offline force-controller tuning for sheep spinal-cord contact, but does not establish online adaptation, optimal impedance selection, or safety under heterogeneous continuous sliding.",
+  "claim_locator": [
+    "Viscoelastic model formulation",
+    "Differential-evolution identification",
+    "Model-order comparison",
+    "Controller timing and tuning",
+    "Sheep-spine step experiments",
+    "Limitations and future work"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported modeling and experiments; novelty and residual-gap implications are bounded reader inferences.",
+  "problem_and_setting": "Force-servo control in robot-assisted laminectomy near sheep spinal cord and dura, balancing representation of stress relaxation against repeated-simulation cost.",
+  "method_or_mechanism": "One elastic element is placed in parallel with n Maxwell units. Differential evolution identifies order and parameters from one safe pre-touch trajectory at 100 Hz with displacement limited to 3 mm. The selected second-order transfer function supports offline loss-based tuning of PID, LADRC, and IMC.",
+  "content_summary": "One Maxwell unit misses force decay, while two units reportedly capture the trend to the noise level. Higher order improves fit but raises simulation cost. A 10-s simulation takes 140.8±5.6 ms; measured optimization times are about 4.5 s for IMC, 16.2 s for PID, and 32.3 s for LADRC. Sheep-spine step tests show similar overall performance, with smaller PID overshoot, greater LADRC noise sensitivity, and slight IMC benefit. The workflow remains offline-calibrated without clinical cohort or formal safety certificate.",
+  "synthesis_role": "Direct prior for low-order viscoelastic tissue identification plus controller tuning; it excludes novelty based only on fitting a generalized-Maxwell model and using it for force control.",
+  "development_link": "Use the second-order model and offline-tuned controllers as baselines; retain online relaxation, heterogeneity, or sliding state only if it changes optimal impedance actions and held-out safety/task outcomes after geometry, material, speed, direction, or history shifts.",
+  "evidence": [
+    {
+      "locator": "Model and identification",
+      "status": "author_reported",
+      "finding": "An elastic element plus n Maxwell units is identified by differential evolution from one pre-touch trajectory sampled at 100 Hz and limited to 3 mm."
+    },
+    {
+      "locator": "Model-order comparison",
+      "status": "author_reported",
+      "finding": "First order misses force decay; second order captures the reported trend, while higher orders increase simulation time."
+    },
+    {
+      "locator": "Controller timing",
+      "status": "author_reported",
+      "finding": "A 10-s simulation takes 140.8±5.6 ms and measured optimization takes about 4.5 s IMC, 16.2 s PID, and 32.3 s LADRC."
+    },
+    {
+      "locator": "Sheep-spine experiments",
+      "status": "author_reported",
+      "finding": "Three optimized controllers perform similarly; PID may overshoot less, LADRC is noisier, and IMC gains slightly from the internal model."
+    },
+    {
+      "locator": "Limitations and future work",
+      "status": "author_reported",
+      "finding": "Direction or angle changes may require recalibration; online adaptation needs more compute; nonlinearity, temperature sensitivity, tactile feedback, and broader clinical tests remain unresolved."
+    },
+    {
+      "locator": "Order and control comparisons",
+      "status": "reader_inference",
+      "finding": "The study supports a low-order calibrated compromise but does not show state identifiability or action relevance during changing sliding contact."
+    }
+  ],
+  "evidence_kind": [
+    "generalized-Maxwell model",
+    "system identification",
+    "offline controller optimization",
+    "sheep-tissue experiment",
+    "timing analysis"
+  ],
+  "boundary_conditions": [
+    "One bounded pre-touch",
+    "100 Hz sensing and 3 mm limit",
+    "Sheep spinal tissue",
+    "Offline tuning",
+    "Force steps rather than continuous sliding",
+    "No HC/PFC/impedance comparison",
+    "No universal force limit, passivity, or chance guarantee"
+  ],
+  "assumptions": [
+    "Linear generalized-Maxwell dynamics hold in the tested range",
+    "One pre-touch excites sufficient dynamics",
+    "Calibration remains valid in later control",
+    "Offline loss predicts physical performance",
+    "Geometry and tissue state remain near calibration"
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "First order misses force decay",
+      "Higher order raises computation",
+      "LADRC is noise-sensitive",
+      "Geometry changes may require recalibration",
+      "Online adaptation and broader clinical validation are unresolved"
+    ],
+    "inferred": [
+      "Offline parameters may fail under heterogeneity, sliding, or history",
+      "Similar controller performance questions action relevance of added detail",
+      "Good tracking does not establish injury safety",
+      "Unused online state complexity would be unjustified"
+    ]
+  },
+  "conflicts_with": [
+    "Novelty from low-order viscoelastic identification plus force-controller tuning",
+    "Adequacy of a single relaxation mode",
+    "Online adaptive optimal impedance claims",
+    "Safety generalization beyond calibrated sheep-spine steps"
+  ],
+  "verification_status": "verified",
+  "problem_lead_search_contexts": [
+    {
+      "phase": "problem_generation",
+      "query_plan_sha256": "a6937acfc11d3a47018b762449863c3f7136f9cc5fea0ece98b061b6e4104776",
+      "lead_id": "lead-soft-contact-memory-boundary",
+      "lead_statement": "Hunt-Crossley may be an inadequate environment model for optimal impedance when soft contact exhibits decision-relevant relaxation, creep, hysteresis, or rate history that cannot be represented by current penetration and penetration rate alone.",
+      "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+      "decision_dimension": "Reality",
+      "purpose": "Attempt to disconfirm the adequacy of memoryless Hunt-Crossley contact by locating direct soft-tissue force-control evidence for relaxation, creep, hysteresis, or frequency dependence and the control consequences of including or omitting memory.",
+      "expected_close_condition": "Establish whether history-dependent viscoelasticity causes a measurable, decision-relevant control failure in the target regime and define the rate/hold conditions under which Hunt-Crossley remains sufficient."
+    }
+  ]
+}

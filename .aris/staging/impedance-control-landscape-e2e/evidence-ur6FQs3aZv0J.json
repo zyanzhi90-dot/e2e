@@ -1,0 +1,107 @@
+{
+  "source_id": "ur6FQs3aZv0J",
+  "read_event_id": "c5e4fd052e634f67a1daad7e7e63c933",
+  "content_sha256": "791ba852c3e18ef18ded150c3b6366ed32bee91389b8118ddd562a29aac18369",
+  "claim": "Ding et al. combine impedance control, radial-basis-function neural compensation, and zero-order-hold event-triggered updates to reduce state transmissions and controller/weight updates for uncertain robot interaction. Under bounded model uncertainty, disturbance, neural approximation error, compact-domain operation, positive-definite gains, and explicit trigger-threshold inequalities, their switched continuous/discrete Lyapunov analysis establishes local uniform ultimate boundedness of filtered tracking and neural-weight errors and derives a positive lower bound on inter-event time to exclude Zeno triggering. A two-link numerical simulation and a UR5 model in CoppeliaSim report position/force tracking similar to continuously sampled adaptive neural impedance control with lower trigger rates and more than 50% resource savings in the virtual UR5 tests. The latter is not physical hardware evidence, and the theorem is a conditional boundedness result rather than a passivity, asymptotic force-tracking, or unconditional interaction-safety guarantee.",
+  "claim_locator": [
+    "Abstract",
+    "Section II-A, robot dynamics and Assumption 1",
+    "Section II-B, RBFNN and Assumption 2",
+    "Section III-A, impedance control",
+    "Section III-B, equations (14)-(25)",
+    "Section III-C, Theorems 1-2 and equations (26)-(42)",
+    "Section IV-A, numerical simulation and Tables I-II",
+    "Section IV-B, CoppeliaSim UR5 tests and Table III",
+    "Section IV-C, discussion",
+    "Section V, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: local-UUB and non-Zeno claims are analytically derived under stated boundedness, compactness, gain, differentiability, and measurement assumptions; empirical evidence consists of numerical and CoppeliaSim studies, despite the paper's use of the term experimental tests, and does not establish physical-robot or human-interaction safety",
+  "problem_and_setting": "Continuous adaptive neural impedance control repeatedly samples robot states and updates control and neural parameters even when the changes are small. The paper seeks to preserve compliant position/force tracking for an uncertain rigid-link robot while reducing communication and computation through event-triggered state transmission. The workspace is divided into free space, with a desired mass-spring-damper position response, and contact space, with desired force tracking.",
+  "method_or_mechanism": "Known nominal inertia, Coriolis, and gravity terms are used directly, while bounded parameter errors, external torque, and disturbances are aggregated and approximated by an RBFNN whose input includes Cartesian position, velocity, and external torque. A filtered tracking error drives the controller. At event times, filtered error and nominal feedforward terms are sampled, the neural weights are updated, and a new torque is computed; between events a zero-order hold keeps these values fixed. Two norm inequalities trigger updates when sampling errors exceed affine functions of the tracking-error norm. The Lyapunov proof separately treats continuous evolution between events and discrete neural-weight updates, yielding local ultimate bounds. Bounded closed-loop derivatives are then used to lower-bound the time required for trigger errors to reach their thresholds.",
+  "content_summary": "The numerical study uses a two-link robot with nominal/actual model mismatch, sinusoidal disturbances, a 0.001 s integration step, and a 30 N desired contact force against a 5000 N/m wall. It compares continuous ANIC with ETANIC, varies the trigger parameter, and sweeps model uncertainty and disturbance scale. The reported trajectories and RMS errors remain similar while event updates are reduced, and the neural weights remain bounded. A second study uses a six-DOF UR5 inside CoppeliaSim, not a physical robot: computed torque commands are converted through forward dynamics and integration into joint position commands for the simulator's low-level controller. Against a virtual wall with a 30 N target force, ETANIC again tracks similarly to ANIC and the paper reports saving more than half the computational resources for selected trigger settings. The analysis guarantees local UUB rather than zero asymptotic error because approximation error and trigger offsets remain, and it does not formulate passivity or contact-force safety constraints.",
+  "synthesis_role": "Represents the event-triggered adaptive-neural branch of impedance control: communication and update frequency are reduced while a conditional Lyapunov boundedness and non-Zeno property is retained. It is useful analytical evidence about hybrid update timing, but its validation remains entirely simulated and its guarantee is not a physical interaction passivity certificate.",
+  "development_link": "Compared with continuously sampled ANIC, ETANIC transmits and recomputes only when filtered-state or feedforward sampling errors cross thresholds. Compared with reinforcement-learning impedance policies, neural adaptation estimates bounded dynamics/disturbance terms online and the controller has an explicit local-UUB proof rather than optimizing a task return. Compared with passivity filters, the proof controls tracking/weight Lyapunov bounds but does not constrain the energy exchanged at the environment port.",
+  "evidence": [
+    {
+      "locator": "Section II-A and II-B, Assumptions 1-2",
+      "status": "model and approximation assumptions",
+      "finding": "Nominal rigid-robot dynamics are known, parameter deviations and disturbances are bounded, operation remains on a compact approximation domain, the ideal RBF weights are bounded, and the residual neural approximation error and basis functions have finite bounds."
+    },
+    {
+      "locator": "Section III-B, equations (20)-(25)",
+      "status": "event-triggered controller formulation",
+      "finding": "Filtered tracking error and the nominal feedforward term are sampled at event times and held between events; either of two norm thresholds triggers a controller and neural-weight update."
+    },
+    {
+      "locator": "Section III-C, Theorem 2 and equations (26)-(36)",
+      "status": "conditional analytical guarantee",
+      "finding": "With positive gain margins and the stated update law, the proof bounds continuous tracking-error evolution and discrete RBF-weight updates to establish local uniform ultimate boundedness rather than asymptotic convergence to zero."
+    },
+    {
+      "locator": "Section III-C, equations (37)-(42)",
+      "status": "conditional non-Zeno guarantee",
+      "finding": "Assuming bounded differentiable closed-loop signals and positive trigger offsets, the sampling errors have bounded growth rates and the paper derives a strictly positive lower bound on inter-event time."
+    },
+    {
+      "locator": "Section IV-A, Figures 2-7 and Table II",
+      "status": "author-reported numerical simulation",
+      "finding": "A two-link robot shows similar position/force RMS tracking for ANIC and ETANIC, bounded neural-weight norms, nonzero trigger intervals, and limited degradation across the tested model-uncertainty and disturbance sweeps."
+    },
+    {
+      "locator": "Section IV-B, Figures 8-12 and Table III",
+      "status": "author-reported simulator experiment",
+      "finding": "A UR5 model in CoppeliaSim tracks pose and 30 N virtual-wall force under both controllers; ETANIC reduces trigger/update activity and is reported to save more than 50% of computational resources at the selected setting."
+    },
+    {
+      "locator": "Section IV-C and Section V",
+      "status": "scope qualification",
+      "finding": "Validation is limited to a numerical two-link model and a virtual UR5; extension to multi-robot and human-robot interaction is explicitly future work."
+    }
+  ],
+  "evidence_kind": [
+    "hybrid Lyapunov analysis",
+    "local uniform ultimate boundedness",
+    "non-Zeno inter-event bound",
+    "RBF neural uncertainty compensation",
+    "two-link numerical simulation",
+    "CoppeliaSim UR5 evaluation",
+    "trigger-rate comparison"
+  ],
+  "boundary_conditions": [
+    "The stability result is local UUB, depends on strict gain inequalities, and leaves residual neighborhoods determined by approximation error and positive event thresholds.",
+    "The rigid-robot nominal model and kinematic mapping are assumed available; uncertainties are bounded deviations rather than arbitrary unknown dynamics.",
+    "RBF approximation is asserted only on a compact domain with bounded ideal weights, basis functions, and residual error.",
+    "External interaction torque is included in the RBF input and therefore must be measured or otherwise available.",
+    "The non-Zeno proof assumes bounded derivatives, including a bounded control derivative, and positive threshold offsets; it does not cover implementation delay, packet loss, quantization, or asynchronous networks.",
+    "No passivity, environment-port energy bound, force/torque hard constraint, actuator saturation, collision avoidance, or time-delay robustness guarantee is derived.",
+    "The UR5 study is performed in CoppeliaSim and sends integrated reference joint configurations to a simulated low-level controller; it is not a physical-robot experiment.",
+    "Resource reduction is inferred from trigger/update activity and reported savings rather than a detailed CPU, bandwidth, energy, or real-time schedulability measurement."
+  ],
+  "assumptions": [
+    "The inertia and Coriolis matrices retain the standard positive-definite and skew-symmetry properties after task-space transformation.",
+    "Model uncertainty, disturbance, ideal RBF weights, neural basis functions, and approximation residuals are bounded on the operating domain.",
+    "Desired trajectories, reference signals, sensed interaction force, and their required derivatives are available and bounded.",
+    "Controller gains satisfy the positive margins used in the Lyapunov inequalities, and trigger parameters are positive and selected consistently with those gains.",
+    "Zero-order-held torque commands remain implementable and the underlying robot/simulator dynamics do not introduce unmodeled sampling delays or saturations.",
+    "All closed-loop signals needed in the inter-event analysis remain differentiable and bounded."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Trigger rates increase for the six-degree-of-freedom UR5 relative to the two-link example because more position, pose, and force errors can satisfy a trigger condition.",
+      "Changing the trigger parameter trades trigger activity against RMS tracking performance, with the authors selecting an intermediate value as relatively optimal.",
+      "The present experiments do not address multi-manipulator collaboration or human-robot interaction; these are left for future work.",
+      "Continuous ANIC incurs higher communication and computation because states and neural weights are updated at every sampling instant."
+    ],
+    "inferred": [
+      "Positive trigger offsets preclude Zeno behavior but also impose a nonzero ultimate tracking-error floor, so exact force or position convergence is not guaranteed.",
+      "The claimed computational savings may overstate real implementation gains because trigger rate is not equivalent to measured processor time or network utilization.",
+      "The non-Zeno derivation relies on bounded control and signal derivatives that can be challenged by nonsmooth contact, sensor noise, saturation, or digital implementation.",
+      "Local UUB of tracking and neural-weight errors does not ensure passivity or safety against a stiff, active, or delayed physical environment.",
+      "Calling the CoppeliaSim study experimental can be misread as hardware validation; the evidence remains simulation-only."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

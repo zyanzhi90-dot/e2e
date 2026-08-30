@@ -1,0 +1,108 @@
+{
+  "source_id": "y051Shzv2A8J",
+  "read_event_id": "b005d6a8b5864f769aae319bac7e2a40",
+  "content_sha256": "5f50df59171b73bd4767028eb0e0403557903702a294b563973b9d7293e0aa2a",
+  "claim": "REVIEW-LEVEL/TUTORIAL SYNTHESIS, not primary causal evidence: Hogan and Buerger formulate interaction control as regulation of mechanical port behavior rather than isolated motion or force tracking. Their central result is that isolated stability does not ensure stability after coupling, while a passive robot port coupled power-continuously to a passive environment is stable (asymptotically so when at least one side is strictly passive under the stated conditions). The chapter explains why impedance behavior is often ideal but admittance behavior may be easier for inertial/geared hardware, and compares simple impedance control, force-feedback impedance reduction, natural admittance control, and series mechanical filtering. It also makes explicit the performance-stability trade-off: force feedback can reduce apparent friction and inertia but structural dynamics, delay, sampling, and noncollocation can destroy passivity; low-impedance hardware and carefully chosen series dynamics remain robust design tools.",
+  "claim_locator": [
+    "Section 19.1.1-19.1.3, Examples 19.1-19.2",
+    "Section 19.2.1-19.2.2 and Table 19.1",
+    "Section 19.3.1-19.3.4, Figures 19.4-19.11, Examples 19.3-19.4",
+    "Section 19.4.1-19.4.3, equations (19.8)-(19.11)",
+    "Section 19.5.1-19.5.3, equations (19.12)-(19.21), Examples 19.5 onward",
+    "Sections 19.6-19.7"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "context_only",
+  "epistemic_status": "foundational handbook tutorial/review-level synthesis: full text verified; analytical examples and established results are directly presented, but the chapter is not a new controlled experiment and largely treats classical linear/SISO or idealized port models",
+  "problem_and_setting": "The chapter asks how a robot should control mechanical interaction when coupling changes both performance and stability and when the environment is not known precisely. It covers manipulation, tools, haptics, rehabilitation, teleoperation, and other power-exchanging tasks where pure motion or force objectives can be inappropriate.",
+  "method_or_mechanism": "The authors represent robot and environment by conjugate force-motion port functions. Causal analysis requires one connected system to take impedance causality and the other admittance causality. The exact coupled system becomes a negative-feedback interconnection of port functions, permitting Bode/Nyquist analysis. Positive-real/passive port behavior supplies an environment-independent stability condition for passive counterparts. Implementation sections distinguish virtual trajectory and nodic impedance, simple motion-feedback impedance on low-friction torque-controlled hardware, direct mechanical impedance modulation, force feedback to reduce apparent inertia/friction, natural admittance control that preserves near-physical inertia while rejecting friction, and series springs/dampers that mechanically filter destabilizing environment dynamics.",
+  "content_summary": "Two opening examples show a motion controller destabilized by added environment mass and a force-feedback controller destabilized by a stiff spring despite isolated stability. The chapter defines mechanical impedance/admittance and explains why port functions, unlike ordinary cascaded input-output transfer functions, account exactly for loading. It derives the passive interconnection argument and notes that nonpassive robots can be destabilized by some spring or mass. A simple impedance controller can emulate a spring-damper around a virtual trajectory without force feedback and is passive in the ideal constant-reference case, but real sampling and unmodeled dynamics can defeat that property. Force feedback reduces apparent inertia and friction but can make a resonant robot nonpassive at gains above unity. Natural admittance control avoids aggressive inertia reduction, and intentional series compliance/damping limits encountered environment dynamics and can restore passivity at the cost of bandwidth or position accuracy. The conclusion locates pure motion and force control at infinite- and zero-impedance ideals that may sacrifice interaction stability.",
+  "synthesis_role": "Serves as a foundational conceptual and analytical reference for impedance-control evidence synthesis. It defines the port-based vocabulary, separates nominal from coupled stability, and explains why passivity, hardware mechanics, and environment uncertainty remain central when evaluating later variable or learned impedance methods.",
+  "development_link": "The chapter connects early impedance control and Colgate-Hogan passivity results to practical realizations such as simple impedance, natural admittance, and series elastic interaction. Later passivity filters, energy tanks, complementary stability, robust interaction control, and certificate-constrained learning can be understood as attempts to relax, preserve, or operationalize these foundations.",
+  "evidence": [
+    {
+      "locator": "Section 19.1.1, Examples 19.1-19.2",
+      "status": "analytical counterexamples",
+      "finding": "A controller stable in isolation can become unstable when coupled to an added mass or stiff spring; environment dynamics therefore belong in the stability question."
+    },
+    {
+      "locator": "Section 19.2.1-19.3.2",
+      "status": "foundational conceptual derivation",
+      "finding": "Impedance maps motion to force and admittance maps force to motion at the same power port; environment constraints and inertias often prefer admittance causality, making robot impedance ideal in principle though real inertial hardware may favor admittance realization."
+    },
+    {
+      "locator": "Section 19.3.3-19.3.4, Definition 19.2",
+      "status": "classical analytical result",
+      "finding": "The coupled impedance-admittance connection is an exact feedback loop. Positive-real passive robot behavior guarantees stable coupling to passive environments under the stated power-continuous assumptions, with strict passivity yielding asymptotic stability."
+    },
+    {
+      "locator": "Section 19.4.1-19.4.2, equations (19.8)-(19.11)",
+      "status": "tutorial controller derivation",
+      "finding": "Simple impedance control uses motion feedback and a virtual trajectory to add spring-damper behavior without force feedback; with ideal low-impedance hardware and constant reference it can be passive even at non-end-effector contact points."
+    },
+    {
+      "locator": "Section 19.4.2",
+      "status": "author-stated implementation limit",
+      "finding": "Discrete-time implementation and unmodeled dynamics between actuator and sensor can make the realized controller nonpassive, while low-friction/low-inertia hardware is difficult to build."
+    },
+    {
+      "locator": "Section 19.5.1, equations (19.12)-(19.14), Figure 19.13",
+      "status": "analytical limitation",
+      "finding": "Force feedback reduces apparent inertia and friction, but structural resonance makes gains above unity nonpassive and vulnerable to coupled instability even though isolated stability is unchanged."
+    },
+    {
+      "locator": "Section 19.5.2",
+      "status": "reviewed design method",
+      "finding": "Natural admittance control preserves a target inertia near the physical value while using velocity feedback to reject friction, improving low-impedance behavior without the same passivity loss as aggressive inertia cancellation."
+    },
+    {
+      "locator": "Section 19.5.3, Figures 19.14-19.16, equation (19.21)",
+      "status": "analytical/mechanical design synthesis",
+      "finding": "Series springs and dampers bound or reshape the environment seen by a nonpassive robot and can make the interaction port passive, trading bandwidth or positioning accuracy for robust coupled stability."
+    }
+  ],
+  "evidence_kind": [
+    "foundational handbook synthesis",
+    "analytical counterexample",
+    "port-causality derivation",
+    "passivity stability result",
+    "controller implementation taxonomy",
+    "mechanical filtering analysis"
+  ],
+  "boundary_conditions": [
+    "Most explicit stability derivations use linear time-invariant one-port or simple low-order models; nonlinear, hybrid, sampled, delayed, and multi-contact systems need additional analysis.",
+    "Passive interconnection guarantees rely on compatible power variables, passive environments, and power-continuous coupling; active humans, powered tools, frictional switching, or communication channels may violate these premises.",
+    "The ideal simple-impedance passivity argument assumes a constant virtual trajectory and exact spring-damper emulation; moving references can inject energy.",
+    "Force-feedback limits are explained using collocated/noncollocated resonant models and should be recalculated for a specific robot's sensor/actuator structure.",
+    "Natural admittance preserves substantial physical inertia and may not meet very-low-inertia performance goals.",
+    "Series compliance and damping improve stability by mechanically filtering interaction but reduce bandwidth, positional accuracy, or stiffness rendering.",
+    "This 2005 handbook chapter is conceptually foundational but does not cover modern learning, optimization, formal safety constraints, or contemporary collaborative-robot standards."
+  ],
+  "assumptions": [
+    "The chosen port variables are power conjugates and the robot/environment connection is represented without hidden energy sources.",
+    "Port impedance/admittance models capture all dynamics relevant to coupled stability over the considered frequency range.",
+    "An environment may reasonably be modeled as passive when the passive-interconnection theorem is invoked.",
+    "Low-level force/torque actuation and motion sensing realize the commanded simple impedance closely enough for the physical analogy to hold.",
+    "Unmodeled high-frequency modes, delays, sampling, saturation, and friction are either negligible or explicitly included before claiming passivity.",
+    "The task can tolerate the performance cost of retained inertia or intentional series compliance when those methods are chosen."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Integral-action motion control can become unstable when interaction adds sufficient environment mass.",
+      "Force feedback around a robot with structural dynamics can become unstable in stiff contact despite isolated stability.",
+      "Treating interaction force as a bounded external disturbance can fail because force depends on robot behavior and may be arbitrarily large at a constraint.",
+      "Robustifying against broad environment-model changes can require unacceptable performance sacrifice and may fail when interaction changes model structure.",
+      "Discrete implementation and unmodeled actuator-sensor dynamics can destroy the passivity of simple impedance control.",
+      "Aggressive force feedback becomes nonpassive; natural admittance retains inertia; series dynamics compromise bandwidth or positioning accuracy."
+    ],
+    "inferred": [
+      "A controller labeled stable or passive at the continuous-time model level may not retain that property after digital implementation, saturation, estimation, or gain scheduling.",
+      "Assuming all human interaction is passive can be unsafe when voluntary action, reflexes, powered orthoses, or coupled controllers inject energy.",
+      "One-port analysis can miss distributed/multi-contact energy flow and configuration-dependent multi-DOF coupling.",
+      "The chapter's qualitative recommendation for low-impedance hardware does not resolve actuator force-density, packaging, cost, or failure-mode trade-offs.",
+      "Pure motion/force ideals can be acceptable only when exchanged work is negligible; applying them to energetic interaction risks coupled instability."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

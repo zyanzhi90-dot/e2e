@@ -1,0 +1,595 @@
+                                           A pressure field model for fast, robust approximation of net contact
+                                                   force and moment between nominally rigid objects
+                                                                  Ryan Elandt1,2 , Evan Drumwright1 , Michael Sherman1 , Andy Ruina2
+
+
+                                        Abstract— We introduce Pressure Field Contact (PFC), an               of the dynamics. This ‘motion constraint’ [6] approach to
+                                        approximate model for predicting the contact surface, pressure        contact forces, neglecting contact deformation, is usually
+                                        distribution, and net contact wrench between nominally rigid          considered accurate enough for, e.g., lubricated pin and
+                                        objects. PFC combines and generalizes two ideas: a bed of
+                                        springs (an ‘elastic foundation’) and hydrostatic pressure.           sliding joints.
+                                        Continuous pressure fields are computed offline for the interior         Contact deformation can’t always be neglected. In
+arXiv:1904.11433v2 [cs.CE] 5 Aug 2019
+
+
+
+
+                                        of each nominally rigid object. Unlike hydrostatics or elastic        fact, however, contact forces are resultants of stresses (or
+                                        foundations, the pressure fields need not satisfy mechanical          tractions) caused by deformation (strain) in the otherwise
+                                        equilibrium conditions. When two objects nominally overlap,           nominally-rigid objects [4]. In some situations, the formula-
+                                        a contact surface is defined where the two pressure fields are
+                                        equal. This static pressure is supplemented with a dissipative        tion of contact forces as motion constraints is not sufficiently
+                                        rate-dependent pressure and friction to determine tractions           accurate. Situations where some treatment of deformation
+                                        on the contact surface. The contact wrench between pairs of           is needed include: configurations with indeterminate con-
+                                        objects is an integral of traction contributions over this surface.   tact forces (e.g., the support forces on the feet of a four-
+                                        PFC evaluates much faster than elasticity-theory models, while        legged chair); frictional contacts, where the resistance to
+                                        showing the essential trends of force, moment, and stiffness
+                                        increase with contact load. It yields continuous wrenches even        rotation about the nominal contact normal depends on the
+                                        for non-convex objects and coarse meshes. The method shows            deformation-dependent area of contact (e.g., resistance to
+                                        promise as sufficiently fast, accurate, physical, and robust          rotation in a pinched grip); and simultaneous collisions (for
+                                        for robotics applications including motion and tactile sensor         which algebraic collision laws are arbitrary or inaccurate [3]).
+                                        simulation, controller learning and synthesis, state estimation,         Rigid objects with contact deformation. Rigid-object
+                                        and design-in-simulation.
+                                                                                                              models are commonly used because rigid-object computa-
+                                                              I. INTRODUCTION                                 tions are so much faster than, say, models where objects are
+                                                                                                              modeled using elasticity, and because for many problems,
+                                           For much of robotics, simulations based on motions of
+                                                                                                              the loss of accuracy by neglecting bulk deformation is small
+                                        rigid objects are likely accurate enough. A main simu-
+                                                                                                              compared to other modeling errors (e.g., in mass distribution,
+                                        lation weakness, however, is the modeling of the forces
+                                                                                                              geometry, or material properties). Then, locally violating the
+                                        and deformations of contact between these objects. Contact
+                                                                                                              rigidity assumption, contact forces (normal forces, friction,
+                                        models tend to have at least one of these problems: slow
+                                                                                                              and collisional impulses) are found using simplified defor-
+                                        computation, non-physical artifacts, severe inaccuracies, or
+                                                                                                              mation models including () point contact with collisional
+                                        applicability only to very simple geometry. Our primary
+                                                                                                              restitution and friction, () discrete springs/dampers, ()
+                                        goal with this work is improving simulations through robust
+                                                                                                              Hertz contact, and () finite-elements models of contact
+                                        contact modeling that effectively balances physical accuracy
+                                                                                                              regions [4].
+                                        and running time, toward developing and testing robot con-
+                                                                                                                 State of the art contact approaches generally lie at the ends
+                                        trollers.
+                                                                                                              of the speed/accuracy spectrum. Rigid point-contact based
+                                           Rigid objects. When objects are sufficiently stiff, motion
+                                                                                                              approaches are fast, but are non-smooth, hard to apply to ob-
+                                        of material points due to deformation is small compared to
+                                                                                                              jects with arbitrary geometries, and inefficient at computing
+                                        average translation and rotation. For such motions, energy,
+                                                                                                              all but coarse solutions. And, point contact models miss area-
+                                        force, and momentum equations are well approximated by
+                                                                                                              dependent phenomena especially the net contact moment,
+                                        those of rigid objects (‘rigid bodies’). Hence, the centuries-
+                                                                                                              e.g., scrubbing torques and rolling (or tipping) resistance. At
+                                        long tradition of modeling many systems — especially
+                                                                                                              the other extreme, finite element (FEM) deformation models
+                                        mechanisms made largely of hard materials like metal, stone,
+                                                                                                              can be precise (perhaps inappropriately precise if geometry
+                                        wood, and bone — using ‘rigid-object’ mechanics. Errors
+                                                                                                              is uncertain) but generally require orders of magnitude more
+                                        from this assumption are typically on the order of the strains,
+                                                                                                              time to simulate than rigid-contact methods. Both extremes
+                                        well under 1%.
+                                                                                                              have their place: simplicity is needed to simulate thousands
+                                           Contact forces. Motion comes from forces, some of which
+                                                                                                              of particles (e.g., granular flow), while fidelity is needed to
+                                        are generated when objects touch. Forces from assumed-to-
+                                                                                                              understand single contacts in detail (e.g., car tire modeling).
+                                        be rigid and workless contacts can be algebraically elimi-
+                                                                                                              Often, neither extreme is both sufficiently fast and suffi-
+                                        nated from the dynamics or, if needed, solved for as part
+                                                                                                              ciently accurate for scenarios that include collisions, rolling
+                                          1 Toyota Research Institute, Los Altos, CA 94022                    resistance, and sliding (or resistance to sliding) (e.g., [2], p.
+                                          2 Cornell University, Mechanical Engineering, Ithaca, NY 14850      107).
+   Key desired contact-model features. Our focus is situa-         C. Overlap volume methods
+tions (e.g., manipulation and locomotion) where these contact         These methods use overlap volume or submerged area to
+area-related torques can be important. We seek a contact           compute configuration-dependent normal forces. They ()
+model that captures area-dependent phenomena without the           determine a contact patch and average normal for an overlap
+computational cost of FEM.                                         region and () apply force in this direction. Methods include
+   For effective learning and optimization we need continu-        [10], [14], which assume that vector area defined by the
+ous gradients, meaning a contact law must predict forces           boundary of the overlap region determines patch direction;
+that are continuous functions of state. For computational          [10] uses a ‘reverse spring foundation’ for distributed force;
+expedience, we want to avoid solving complementarity               [14] projects 3D overlap volume onto the patch and applies
+problems (as explained in e.g., [6]). Similarly, we want           a lumped force at the patch centroid proportional to its area;
+to minimize the number of extra state variables associated         [7], which uses the overlap volume’s inertia to determine
+with a contact patch (e.g., FEM approaches parameterize            a patch normal and applies a force at the overlap volume’s
+contact deformation region using many state deformation            centroid; and [17], which combines a volumetric intersection
+variables). For general usage in robotics, the approach must       computation with kinematic constraints. These methods rely
+work for arbitrary shapes (curved or with corners, convex,         on a single representative patch normal, so they do not extend
+or non-convex) and produce physically-reasonable results for       well to non-convex contact (e.g., a peg in a hole). Related
+coarsely-represented geometry.                                     to the overlap volume approach, are hydrostatic and elastic
+                                                                   foundation approaches, discussed further below.
+                     II. BACKGROUND
+   Before describing the PFC model, we further review some         D. Gaming/animation physics approaches to contact
+alternative approaches.                                               Most current gaming and animation physics approaches
+                                                                   use point-contact constraint forces in the context of velocity-
+A. Dynamic, PDE-based wave-propagation models
+                                                                   stepping [2]. Some libraries targeted to engineering applica-
+   Dynamic FEM approaches approximate the continuum                tions (e.g., Algoryx, MuJoCo) also use this strategy. Velocity-
+dynamics solution of the full deformation field partial dif-       stepping approaches are first-order accurate [1] at best. These
+ferential equations (PDE), including contact region stresses       impulsive approaches provide neither error estimates nor
+(and thus forces). FEM uses multidimensional piecewise             error control. That said, the approach of [8], while requiring
+polynomials (i.e., isoparametric elements) to model spatial        considerable hand tuning to avoid context-specific artifacts,
+variation in material state (position and velocity throughout      can simulate thousands of non-convex contacting objects.
+the material). FEM converges (in principle) to the exact
+PDE solution for sufficiently fine meshes and small time-                       III. T HE PRESSURE FIELD MODEL
+steps. The grid size must be smaller than the feature size            The PFC model attempts to capture general trends as-
+and the time-step must be smaller than the wave transit            sociated with continuum mechanics calculations, including
+time to resolve elastic waves. A high-fidelity elastodynamic       that stiffness and contact area increase with load, but with a
+calculation is typically inappropriate for robotics-like simula-   simpler and faster calculation.
+tions because internal vibrations are typically only minimally        At a high level, the model concerns the non-dissipative
+excited. Quasi-static models provide similarly useful infor-       repulsion of two nominally rigid objects.
+mation with much less computation when robots are truly            () A single net wrench is calculated for each pair of
+soft, the application targeted in [5].                             contacting nominally-rigid objects, even if, for non-convex
+                                                                   objects, the contacting region is not connected.
+B. Quasi-static, only-local deformation models                     () Pressure field. Each object uses an immutable object-
+   As Hertz noted in the context of elastic objects whose          fixed ‘virtual pressure field’ p0 . This is not a real pressure,
+convex shapes were approximated as conic sections [11], it is      and need not satisfy any mechanical equilibrium conditions
+often reasonable to assume that the deforming contact region       (e.g., hydrostatics). This scalar field is zero on the surface
+is small and that the object is rigid outside this deformable      and increases with depth. The pressure field can be generated
+region. Thus, the characteristic time in solutions is associated   to increase linearly with depth, or could increase more
+with the whole-object mass interacting with a contact spring       quickly if bounded interpenetration is desired. For purely
+whose oscillation period is much longer than the wave transit      rigid objects, pressure fields jump from zero to infinity over
+time across the contact region. This simplification, to a rigid    an arbitrarily small distance from the boundary. Finally, the
+object with contact forces mediated by a quasi-static contact      ‘pressure’ field may better be considered a potential pressure
+region, can be generalized to arbitrary contact shapes and         field, in that it only manifests as an actual pressure in a
+to non-linear deformation laws even if Hertz contact is not        particular context (discussed below).
+appropriate. However, elastodynamics cannot be neglected           () Contact surface. Two overlapping objects A and B have
+for collisions of high aspect ratios objects such as rods and      pressure fields p0A and p0B . The equal-pressure surface S ∩
+shells, in which wave transit times are comparable to contact      (see an example in Figure 1) is defined by p0A = p0B in the
+durations. PFC does not attempt capture these phenomena            overlap region. This surface is not necessarily connected for
+either.                                                            non-convex shapes (i.e., the surface might be two or more
+                                                                                       Exterior
+
+
+
+
+                                                                                                   Rigid
+                                                                                                           Core
+
+
+
+
+                                                                       Fig. 2. The pressure field for a non-trivial 2D geometry is visualized
+                                                                       with gray isocontours. A rigid box (blue) penetrates this compliant
+                                                                       geometry. Orange arrows show the normal stress the compliant
+                                                                       object exerts on the rigid geometry. The direction of net force is
+                                                                       shown in green.
+
+
+                                                                       before friction and rate effects are taken into account, is
+Fig. 1.  The contact surfaces (the locus of points at which the        determined by the instantaneous relative pose of the con-
+pressure field values are equal for both objects) between a sphere     tacting pair. In some situations, the pressure field model
+and a halfspace for three relative compliances. Lighter areas on the
+contact surface indicate higher pressure. Neither surface needs to     agrees, or nearly agrees, with one of these models. The main
+be planar or convex.                                                   distinguishing features of the pressure field model are () its
+                                                                       output varies continuously with changing geometry, () it is
+                                                                       conservative (associated with a contact potential energy), ()
+disconnected surfaces). This iso-surface is straightforward to         it does not depend on small relative angles of the contacting
+compute if one judiciously selects the spatial data structures         surfaces, nor even simply connected regions of overlap, and
+as we do in §VI.                                                       () it can be tuned to make contact stiffness penetration
+() Net contact wrench. In the pressure field contact model,           dependent.
+the net contact wrench is calculated as the integral of                   Relation to hydrostatics. The pressure in fluids at equi-
+pressure effects over the contact surface. These wrenches              librium increases linearly with depth. Boats float due to this
+tend to separate overlapping bodies, as shown in Figure 2,             pressure acting on their hulls. The PFC model is identical
+where a compliant object pushes against a rigid rectangular            to this hydrostatic model in the case where one of our
+object (and vice versa).                                               objects has a flat surface and we choose a pressure field that
+() Dissipation and friction. The model is extended in §IX             increases linearly with distance below the surface, and where
+to include friction, through shear tractions on the contact            the penetrating object is rigid (i.e., has infinite pressure just
+surface, and bulk dissipation, through inclusion of a normal           inside its outer surface); see Figure 3. In this case, the equal-
+traction varying with deformation rate.                                pressure surface S ∩ is thus the outer boundary of the rigid
+() Existence of a strain energy. A key feature of the                 object.
+pressure-field contact model is that it is conservative. That is,         For non-flat objects, PFC generalizes hydrostatics. We
+a contact interaction has an elastic potential energy. Through         keep the pressure field but not tie it to equilibrium of a
+the course of contact gain and loss, the potential energy goes         real or imagined fluid. We can select pressure fields where
+from zero to zero and the pressure forces do no net work on            contact stiffness varies with penetration depth in a manner
+the pair of objects. The pressure field model is conservative          we choose. Also, both objects have pressure fields (which
+for any scalar pressure field; the pressure field need not             express each object’s compliance), not just one. Thus the
+satisfy any mechanics nor equilibrium conditions. The strain           interaction compliance depends on the compliance of both
+energy Up0 associated with VA∩ is (see §X-A):                          objects.
+            A
+                      Z                                                   Relation to elastic foundations. The contact of gently
+              Up0 =        p0A (x, y, z) dx dy dz            (1)       curved objects and an elastic layer is equivalent to contact
+                  A
+                          VA∩                                          with a continuous bed of springs (for long wavelengths), with
+where the volume of A displaced is VA∩ . The strain energy             normal traction proportional to deflection. If surfaces of the
+associated with the mutual displacement of the pressure fields         penetrating objects are not parallel, the elastic foundation
+in A and B is Up0 + Up0 .                                              model gives traction in the penetration direction while the
+                      A         B
+                                                                       hydrostatic model gives traction orthogonal to the surface
+             IV. R ELATION TO OTHER MODELS                             (see Figure 3). Even for the contact of a uniform thickness
+   The pressure-field contact model is most reminiscent of             compliant layer and a rigid object, for large relative surface
+elastic foundation, hydrostatic, and volume overlap models.            angles, both continuous and discrete elastic foundation mod-
+It shares with all of them that the contact wrench, at least           els are generally not conservative because the spring ends
+                                                                             Our implementation uses a tetrahedral (tet) approximation of
+                                                                             geometry. For example, a sphere might be approximated by
+                                                                             an icosahedron (20 faces) using 20 tets that share a common
+                                                                             vertex. Fewer tets generally implies faster simulations.
+
+Fig. 3. Left: Hydrostatics applies a normal traction (i.e., pressure)        A. Computing a pressure field
+to the penetrating surface. Right: Elastic foundation models push               PFC uses fields that are zero on object boundaries and
+objects away from an elastic layer. This model is not well defined
+for interpenetrating surfaces with large relative angles. Both: These        positive within the interior. We define p0 , the pressure field
+models become identical as the penetrating surface becomes flatter.          over an object’s domain, as the product of elastic modulus
+In both cases, the traction magnitude is proportional to a penetration       and a quantity  that we call ‘penetration extent’; for Point
+distance.                                                                    R, pR0 = E
+                                                                                           R
+                                                                                             (other mappings from  to p0 are possible).
+                                                                             We define penetration extent to be zero at the object surface
+                                                                             and unity at points far from the boundary (at the medial axis,
+are generally not anchored (i.e., associated with particular
+                                                                             for example). Note that defining p0 as a function of  allows
+material points). Thus such models, although nominally
+                                                                             for non-linear pressure fields using only a single layer of tets
+made from springs, can add or subtract energy from a system.
+                                                                             from the object boundary to its interior.
+As noted, the pressure field model is conservative.
+                                                                                Aside from , ∇ may also be necessary for computing
+   Relation to overlap volumes. Overlap volume models are
+                                                                             dissipation contributions to tractions since ∇p0 = E∇
+not explicitly mechanical in their contact wrench calculation.
+                                                                             (more on this below). In general, ∇ is not continuous over
+Instead, a force proportional to volume overlap is applied
+                                                                             the entire domain of . As a workaround, PFC can use an
+in some kind of average normal direction, at an average                                                               ˜
+                                                                             approximation to ∇ that we denote ∇.
+contact location. The methods do not seem sensible, or even
+                                                                                An example of how the pressure field is defined in practice
+well defined, in situations with complex geometry. Where
+                                                                             follows.
+the surfaces are only gently curved, the overlap, elastic
+                                                                                1) Example pressure field for a solid cube: Here we
+foundation, and hydrostatic models seem to be generally
+                                                                             describe how to create  (hereafter denoted the penetration
+equivalent, and are all special cases of PFC.                                                   ˜ for a solid foam cube centered at the
+                                                                             extent field) and ∇,
+                   V. A DDING DISSIPATION                                    origin. We divide the cube into 12 tets that share a common
+   To model dissipative contact, we add a term to the pressure               vertex at the origin. The exterior of the cube can participate
+that depends on the approach rate of the two bodies at any                   in contact, so  = 0 for all vertices on the boundary while
+given point. Specifically, a general damping function f is                    = 1 at the center of the cube. Since ∇ is undefined at each
+                                                                             vertex, we define ∇˜ at each corner vertex to be a unit vector
+dependent upon the pressure, pressure gradient, and approach
+                                                                             pointing to the cube origin. ∇ ˜ is defined to be zero at the
+rate at some point R on the contact surface. The normal
+pressure at R is then defined as:                                            cube origin as all tets share this vertex.  can be defined for
+                                                                             many simple shapes using symmetry and similar reasoning.
+               pR = pR       R     R            R
+                     0 + f (p0 , ∇p0 , ṘAB , n̂ )                     (2)      2) Arbitrary pressure fields with Laplace’s Equation: We
+                                                                             now discuss a general way to generate  and ∇  ˜ for arbitrary
+where pR       R
+       0 and ∇p0 are the pressure and pressure gradient                      geometry. We use the following PDE, which is known as
+of the conservative pressure-field at R, ṘAB is the relative
+                                                                             Laplace’s equation:
+velocity of the two bodies at R, and n̂R is the normal
+direction at R. For realizing non-negative dissipation χ with                                        ∂2   ∂2    ∂2
+                                                                                               0=        +      +      .                 (4)
+the Hunt and Crossley model [12], for example, one might                                             ∂x2   ∂y 2   ∂z 2
+use the formula:
+                                                                             This PDE is solved over a Cartesian domain subject to
+                                    R
+                                R ∇p0                                        boundary conditions. It’s been used to model various physical
+ f (pR     R            R
+     0 , ∇p0 , ṘAB , n̂ ) ≡ χ p0     (· n̂R (ṘAB · n̂R )).           (3)
+                                       E |             {z          }         phenomena, including steady state heat distributions in ther-
+                                        velocity normal to contact surface   modynamics. Figure 2 shows a solution to Laplace’s equation
+   Friction. The pressure-field model predicts normal trac-                  for an arbitrary 2D geometry. We generate  by solving
+tions at the calculated equal pressure field surface S ∩ . For               Laplace’s equation over the interior of an object subject to
+Point R, we can calculate the slip velocity by calculating the               unit boundary conditions: zero on the boundary and unity
+relative velocities of the two objects at R, and projecting that             far away from the boundary (e.g., at the medial axis or at
+onto S ∩ . Then we can use any friction law that uses pressure               the boundary of a rigid core inside the otherwise compliant
+and slip velocity. The simplest is to apply a shear traction                                                                          ˜ ≡
+                                                                             object). Solutions to Laplace’s Equation are smooth, so ∇
+against the direction of the projected relative velocity, with               ∇ in an object’s interior.
+magnitude µpR .
+                                                                             B. Calculating contact forces
+                     VI. I MPLEMENTATION                                        Calculating contact forces corresponding to a multibody
+  This method is comprised of both offline components (dis-                  state consists of three steps: () find all tet-tet pairs the
+cussed in VI-A) and online components (discussed in VI-B).                   contact surface lies in, () discretize the contact surface and
+calculate quantities needed to compute traction at quadrature
+points, and () compute force and moment.
+   1) Finding the contact surface: The tet mesh data struc-
+ture for each object is pre-computed and stores V and ∇   ˜V
+at each vertex V . A bounding volume hierarchy (BVH) is
+built on top of this mesh for broad phase collision, and
+minimizes the number of primitive-level, tet-tet checks.
+   2) Discretizing the contact surface: The pressure isosur-
+face between pairs of linear tetrahedral elements lies on a
+plane (see Appendix X-B). If not empty, the intersection
+between the tets and this plane yields a polygonal piece of the    Fig. 4.  Demonstration of a gripper manipulating a pencil in the
+contact surface. So solving for the contact surface between        context of robot controller design using simulation. In this task, the
+each tet-tet pair entails solving only a fast polygon clipping     gripper allows the pencil to rotate without falling by loosening the
+problem. The contact surface consists of convex polygons           pinch grasp; tightening the grasp causes the rotation to stop. Most
+from all pairs containing part of the isosurface.                  point-contact models fail to model this task correctly.
+   We tessellate each of these polygons into triangles and
+then compute the integral in (8) over each triangle with
+                                                                   Adding Coulomb friction is straightforward (this model must
+quadrature. Quadrature rules approximate this integral by
+                                                                   be ‘regularized’ [16] for continuity, not shown):
+sampling the contact wrenches at particular quadrature                            (
+points within each triangle.                                                                ṘAB⊥
+                                                                             R      −µpR ||Ṙ          if ||ṘAB⊥ || > 0,
+                                                                           TF =               AB⊥ ||                       (7)
+   Solving initial value problems and optimizing trajectories                       0∈R   3
+                                                                                                       if ||ṘAB⊥ || = 0.
+are more efficient when derivatives are continuous function
+of state. For PFC, this requirement entails making quadra-         The total traction at R is the sum of the normal and frictional
+ture points continuous functions of state. PFC satisfies this      contributions: T R = Tn̂R +TFR . T R induces a moment R×T R
+requirement deterministically and without tracking quadra-         on the bodies. The net wrench f acting on contacting objects
+ture locations by tessellating the intersection polygons in        A and B is the integral of tractions over the entire contact
+the following way: an n sided polygon is divided into n            surface S ∩ :
+triangles that share a vertex at the polygon’s centroid (see                                    R × TR
+                                                                                            Z           
+Figure 5). This ensures that only zero-area triangles are                              f=                  dS ∩ .              (8)
+                                                                                                   TR
+added/removed as objects move, so that contact surface
+discretization changes do not introduce force discontinuities.     Note that the integral of a pressure (in, e.g., N/m2 ) over a
+Algorithm 1 describes how to compute and tessellate the            surface area (in, e.g., m2 ) is a force (in N in the case of the
+contact surface.                                                   units we used for pressure and area), as expected.
+   3) Integrating tractions: ‘Traction’, denoted T , is the             VII. A SYMPTOTIC T IME C OMPLEXITY A NALYSIS
+limit of the forces acting at a cross-section of material as the
+                                                                      The time complexity of this contact model follows from
+area goes to zero. It is a 3D vector with units of pressure.
+                                                                   the cost of recursively comparing two bounding volume
+Quantities needed to compute traction for bodies A and B
+                                                                   hierarchies; other operations (e.g., polygon clipping) scale
+are:
+                                                                   linearly with the number of intersecting tets. Suppose that
+  R      a point on the contact surface (in R3 ).                  A has nA tets and B has nB tets, of which m inter-
+  RA     a point on Body A instantaneously coincident with         sect. The expected time complexity of collision detection
+         R.                                                        is O(m lg(nA + nB )) for a BVH1 . In the worst case, m
+  RB     a point on Body B instantaneously coincident with         is O(nA nB ) and corresponds to intersecting combs (i.e., a
+         R.                                                        Chazelle polyhedron) as Fig 1.4 of [15] shows. In practice,
+  ṘAB   the relative Cartesian velocity of the objects at R       recursive hierarchy traversal is usually small; most meshes
+         (i.e., ṘAB = ṘA − ṘB ).                                are not degenerate in this way.
+  n̂R    the unit vector normal to the contact surface at R
+         and pointing from Body B to Body A.                                 VIII. E XPERIMENT AND DEMONSTRATIONS
+                                                                      This section describes an experiment and some demon-
+The normal traction Tn̂R at R is given by Tn̂R = pR n̂R , where
+                                                                   strations that we conducted using multibody dynamics sim-
+pR is computed using (2). Let ṘAB n̂ and ṘAB⊥ denote the
+                                                                   ulation. Our simulation was built in Julia and used the
+normal and tangential velocities respectively (i.e., relative
+                                                                   RigidBodyDynamics library [13] for dynamics and a custom
+velocity between A and B in the plane normal to n̂R ) where:
+                                                                   implementation of the single-step variable order implicit
+                                                                   integrator RADAU Hairer describes in [9].
+                   ṘAB n̂ ≡ (ṘAB · n̂R )n̂R               (5)
+                                                                    1 The depth of a balanced tree with n
+                                                                                                           A leaves is O(lg nA ). Therefore,
+                  ṘAB⊥ ≡ ṘAB − ṘAB n̂                    (6)    O(lg(nA +nB )) intersection tests need to be performed against each object.
+Algorithm 1 ComputeContactSurface() computes the contact surface between two objects, A and B.
+ 1: function C OMPUTE C ONTACT S URFACE(A, B)
+ 2:    S←∅                                                                                 . Initialize the contact surface
+ 3:    T ← pairs of tetrahedra from A and B flagged for possible intersection in a broad phase
+ 4:    for all TAi , TBi ∈ T do
+ 5:        Ai ← penetration extent field from TAi
+ 6:        Bi ← penetration extent field from TBi
+ 7:        ρ ← equilibrium pressure plane from (15) using Ai and Bi and Young’s Moduli EA and EB
+ 8:        P ← TAi ∩ TBi ∩ ρ                                                           . Compute the intersecting polygon
+ 9:        if P 6= ∅ then
+10:            Create a vertex vc in the centroid of P
+11:            Tessellate P into set of triangles T by connecting all edges of P to vc
+12:            S ←S ∪T                                                                      . Update the contact surface
+13:        end if
+14:    end for
+15:    return S
+16: end function
+
+
+
+
+Fig. 5. An intersection polygon loses one of its five sides (green circles, left to right). The polygon is divided into triangles that share a
+vertex at the intersection polygon’s centroid. Small circles represent the position of quadrature points. Large circles represent the weight
+of quadrature points. The weight and position of quadrature points move continuously even as an edge disappears.
+
+
+A. Experiment against FEM                                                picking a mug, bolt threading in a hole, and two boxes
+   We checked the agreement of the quasi-static (i.e., pressure          manipulating a spoon — showing that we can simulate
+field) aspect of PFC by comparing the normal force produced              both rigid and compliant objects with convex and non-
+by PFC against that produced by finite strain elasticity for             convex geometries on challenging tasks. We have tested
+a periodic 2D plane scenario. Finite strain elasticity was               the approach on contacting boxes and a ball bouncing on
+simulated in ANSYS. For this scenario, a rigid sinusoidal                a surface (which demonstrates how we can visualize fields
+surface with amplitude η and wavelength λ was pressed a                  like pressure) defined over the contact surface. And we have
+distance d into a flat, frictionless, compliant layer of unit            devised demonstrations that use simulations with the pressure
+thickness and Poisson’s ratio ν = 0.3.2 Figure 6 shows                   field contact model to design controllers for robots; Figure 4
+this sinusoid and compliant layer when λ = 2π/3 for three                shows one such scenario in which we leverage the scrubbing
+amplitude values η ∈ [0.0, 0.166, 0.333]. The normal force               torques that the model can predict — and which point based
+produced by FEM and the pressure field are identical when                contacts struggle to simulate — to control the rotation of a
+η = 0 (conforming contact), as seen in Figure 6. At the                  pencil within a grasp.
+largest amplitude, when η = 0.333 (point-like contact), the                                      IX. D ISCUSSION
+pressure field method underestimates the normal force by
+23%. This experiment shows that PFC agrees best with                        PFC does not capture certain features of elastic materials
+FEM for conforming contacts (common in grasping), and                    including anisotropy, Poisson’s effects, and shear effects.
+underestimates forces for point contacts, as expected from               Anisotropic materials like wood do not deform in the di-
+PFC’s neglect of Poisson effects.                                        rection of applied loads because they are stiffer ‘along the
+                                                                         grain’. Poisson effects describe how materials deform in
+B. Demonstrations                                                        directions perpendicular to applied loads (e.g., a rubber band
+  As shown in the accompanying video, we have tested                     stretched in one direction gets thinner in the other two
+our approach on a number of manipulation scenarios —                     directions). When a rigid sphere penetrates a half-plane, the
+chopsticks manipulating small, soft objects, a robot hand                surface of the half-plane near the contact region stretches due
+                                                                         to shear effects. As PFC does not predict these effects, it is
+  2 ν = 0.3 is typical for many materials including certain foams.       most accurate when contact is conforming, like how fingers
+       η = 0.000                                      1                     A. The potential energy of a pressure field contact
+
+
+
+
+                                               force [unitless]
+                                                                            Theorem 1. The formula:
+                                                                                              Z
+                                                                                       Up0 =      p0 (x, y, z) dx dy dz,
+               d = 0.4                                                                             V∩
+
+ H=1                            λ = 2π
+                                     3                0                     (aka. Eqn (1)) gives the deformation energy.
+                                                       0.0        d   0.4
+                                                                            Proof. Consider the integral of the pressure field p0 over a
+                                                      1
+       η = 0.166                                                            volume V ∩ (t). Reynolds transport theorem says that the time
+
+
+
+
+                                               force [unitless]
+ 2η                                                                         derivative of this integral is the sum of the flux of p0 through
+                                                                            the volume’s boundary A∩ (t) and the volume integral of ṗ0 .
+                                                                                   Z                 Z              Z
+               d = 0.4                                                          d            ∩
+                                                                                      p0 dV =                   ∩
+                                                                                                        ṗ0 dV + (v · n̂)p0 dA∩           (9)
+                                                                                dt
+ H=1                            λ = 2π
+                                     3                0                                              | {z }         |        {z      }
+                                                       0.0        d   0.4                          change due to ṗ0    change due to boundary
+
+       η = 0.333                                      1                     Without loss of generality, we perform calculations in an
+ 2η                                                                         object-fixed frame to neglect the “change due to ṗ0 ” term.
+                                               force [unitless]
+
+
+                                                                            In this frame, the term associated with the “change on the
+                                                                            boundary” is the power delivered by elastic forces.
+               d = 0.4                                                                       Z              Z
+                                                                                           d         ∩
+                                λ = 2π
+                                                                                                p0 dV =       v · p0 n̂ dA∩         (10)
+ H=1                                 3                0                                   dt
+                                                       0.0        d   0.4                                   |     {z      }
+                                                                                                           power delivered by elastic forces
+Fig. 6. Left: Sinusoids of varying amplitude above a unit thickness
+                                                                            In the absence of dissipation, if we take the time integral
+layer. Middle: Sinusoids pressed a distance d = 0.4 into the
+layer. Right: Normalized forces predicted by FEM (solid) and PFC            of (10) starting when the intersection volume is zero (i.e.
+(dotted) for each sinusoid. The normalized force is 1 when η = 0            V ∩ = ∅) we get (1). In other words, the potential energy is
+and d = 0.4. FEM calculations accounted for large deformations              the work needed to displace a pressure field.
+and took all calculations to convergence.
+                                                                            B. Linear isoparametric tetrahedron intersection proof
+                                                                               Assume tet A is defined by vertices νA1 , . . . , νA4 ∈ R3 .
+conform to surfaces during grasping.                                        Points inside A can be written as a linear combination of
+   We are targeting contact applications that require physical              these four vertices; the scaling factors (barycentric coor-
+realism but do not require highly accurate predictions of                   dinates), ζ ∈ R4 , are non-negative and sum to one. A
+contact deformation. That is, the model must behave like                    4 × 4 matrix denoted by X A , transforms points from A to a
+a physical system (resists penetration and sliding, produces                Cartesian frame, e.g.:
+                                                                                                              
+continuous forces, is energetically consistent, etc.) but does                    R       νA1 νA2 νA3 νA4 A
+not have to perfectly predict any particular experiment. We                           =                            ζ = X Aζ A          (11)
+                                                                                  1        1       1   1      1
+believe this approximation is sufficiently accurate for pre-
+                                                                            where the subscript ‘A’ (A ) denotes a quantity relevant to
+dicting multi-object contact dynamics, because () feedback
+                                                                            tet A and the superscript ‘A’ (A ) denotes a point in A’s
+controllers (in robotics applications) are expected to be able
+                                                                            barycentric coordinates.
+to mitigate the effects of unmodeled disturbances, () the ini-
+tial conditions (particularly deformations) can not be known                Theorem 2. For linear pressure fields defined on compliant
+to sufficient accuracy to get the benefits of increased contact             bodies, points of equal pressure for two tets lie on a plane.
+modeling accuracy, and () speed can be more important
+                                                                            Proof. The static pressure p0 at Point R is pR    0 = EA  ,
+                                                                                                                                         R
+than accuracy in many applications, such as learning control
+                                                                            where EA ∈ R is the Young’s Modulus of object A. Let A
+policies.
+                                                                            denote the values of  at A’s vertices. Cartesian position and
+   An open source C++ implementation of this model is                        are both dot products of ζ A and the vertex values, therefore
+available in Drake (https://drake.mit.edu).                                  = A · ζ A . Combining these relationships with (11):
+                                                                                                                    
+                                                                                                                     R
+                         X. A PPENDIX                                                        p0A = EA A · AX                          (12)
+                                                                                                                     1
+                                                                                                             |     {z    }
+   The appendix consists of proofs for the relationship                                                                ζA
+between the static pressure function and potential energy                   The quasi-static assumption says that the contact surface is
+(§X-A), the location of the equilibrium pressure isosurface                 described by the set of points where the pressures between
+for pressure fields defined on linear tets (§X-B), and for                  two intersecting tets are equal, i.e.:
+the continuity of forces determined using non-continuous
+(discrete) geometry (§X-C).                                                                     pR     R
+                                                                                                 0A = p0B , ∀R ∈ R
+                                                                                                                   3
+                                                                                                                                                 (13)
+Put another way, Point R in Cartesian space is on the contact        3) Changes in contact surface mesh do not introduce
+surface if (13) is satisfied.                                     discontinuities: It remains to be shown that discrete changes
+                                                          to the contact surface mesh do not introduce discontinuities.
+                    A     R                B    R
+    0 = EA  A · X             − E B B · X              (14)     Figure 5 illustrates the argument here. Because of the con-
+                           1                    1
+         |         {z         } |         {z        }             tinuity established above, triangle edges move continuously
+                   pR
+                    0
+                    A
+                                             pR
+                                              0   B
+                                                                  with state. They must therefore reach zero area just prior to
+                                                                  being removed from the mesh, and new edges must enter
+After rearranging and collecting terms:                           in such a way that they initially form zero-area triangles.
+                                        
+                   A A         B B      R                       Because our forces result from integrals over these triangular
+             0=        · X−         · X                   (15)
+                   EB           EA        1                       faces, the force contributions of new and deleted triangles are
+                                                                  zero, so no discontinuity occurs. Subsequently they evolve
+The expression in parentheses is a 1 × 4 matrix, therefore,
+                                                                  continuously as established above.
+scaling (15) by some constant produces the canonical equa-
+tion for a plane: 0 = n̂ · R + d. Points of equal pressure for                                 R EFERENCES
+two tets lie on plane defined by n̂ and d that lies within the     [1] M. Anitescu and G. D. Hart. A fixed-point iteration approach for
+intersection of the tets.                                              multibody dynamics with contact and small friction. Mathematical
+                                                                       Programming, 101(3):3–32, 2004.
+C. Continuous forces from discrete geometry                        [2] B. Brogliato, A. A. ten Dam, L. Paoli, F. Génot, and S. Abadie.
+                                                                       Numerical simulation of finite dimensional multibody nonsmooth
+   Some contact models such as those that combine minimum              mechanical systems. ASME Appl. Mech. Reviews, 55(2):107–150,
+translational distance and point-contact produce forces that           March 2002.
+                                                                   [3] A. Chatterjee. On the realism of complementarity conditions in rigid-
+are not continuous functions of state (see, e.g., [18]). This          body collisions. Nonlinear Dynamics, 20:159–168, 1999.
+section will show that the normal force produced by the            [4] A. Chatterjee and A. Ruina. Two interpretations of rigidity in rigid
+pressure field model is a continuous function of state even in         body collisions. J. of Appl. Mech., 65(4):894–900, 1998.
+                                                                   [5] C. Duriez and T. Bieze. Soft robot modeling, simulation and control
+the presence of damping, discretization, and quadrature. We            in real-time. In C. Laschi, J. Rossiter, F. Iida, M. Cianchetti,
+denote the contact surface S ∩ , and assume that this surface          and L. Margheri, editors, Soft Robotics: Trends, Applications and
+does not touch a rigid boundary of either object.                      Challenges. Springer, 2017.
+                                                                   [6] R. Featherstone. Rigid Body Dynamics Algorithms. Springer, 2008.
+   Assuming the dissipation function in (3), force from            [7] Y. Gonthier, J. McPhee, C. Lange, and J.-C. Piedbœuf. A contact
+contact over the contact surface is:                                   modeling method based on volumetric properties. In ASME 2005 In-
+                                                                       ternational Design Engineering Technical Conferences and Computers
+                               n̂R (ṘAB ·n̂R )
+               Z                  z }| {                              and Information in Engineering Conference, pages 477–486. American
+                                                                       Society of Mechanical Engineers, 2005.
+          f=                 ∇ · ṘAB n̂ n̂R dS ∩ .
+                   p0 1 + χ |{z}                          (16)     [8] E. Guendelman, R. Bridson, and R. Fedkiw. Nonconvex rigid bodies
+                           ∇pR                                         with stacking. ACM Trans. on Graphics, 22(3):871–878, 2003.
+                             0 /E
+                                                                   [9] E. Hairer and G. Wanner. Stiff differential equations solved by radau
+p0 is a continuous function of state in the interior of each           methods. Journal of Computational and Applied Mathematics, 111(1-
+                                                                       2):93–111, 1999.
+object as it is described by a weighted average of tet vertex     [10] S. Hasegawa and N. Fujii. Real-time rigid body simulation based
+values. Similarly, n̂ (defined in §VI-B.3) is continuous since         on volumetric penalty method. In Proc. of the 11th Symposium on
+it is the result of a normalization operation applied to a             Haptic Interfaces for Virtual Environment and Teleoperator Systems
+                                                                       (HAPTICS), 2003.
+difference between two weighted averages of tet vertex            [11] H. Hertz. Über die berührung fester elastischer körper. Gesammelte
+values.                                                                Werke, 1, Leipzig, Germany 1895.
+   1) At every instant, the contact surface is contiguous in      [12] K. H. Hunt and F. R. E. Crossley. Coefficient of restitution interpreted
+                                                                       as damping in vibroimpact. J. Appl. Mech., 440, Jun 1975.
+the interior: Tet A1 belongs to mesh A. Tets B1 and B2            [13] T. Koolen and contributors. Rigidbodydynamics.jl, 2016.
+belong to mesh B and share a common face. Let PA1 B1 and          [14] L. Luo and M. Nahon. A compliant contact model including interfer-
+PA1 B2 denote the planes associated with the intersections of          ence geometry for polyhedral objects. Trans. ASME, Apr 2006.
+                                                                  [15] A. Nguyen. Implicit bounding volumes and bounding volume hierar-
+A1 with B1 and B2 respectively. PA1 B1 and PA1 B2 share                chies. Doctor of Philosophy, Stanford University, 2006.
+the same intersection (if any) with the face common to B1         [16] A. Ruina and R. Pratap. Introduction to Statics and Dynamics. In
+and B2 . As this coincident intersection is true in general,           review for, 2015.
+                                                                  [17] N. Wakisaka and T. Sugihara. Loosely-constrained volumetric contact
+the contact surface is contiguous in the interior because the          force computation for rigid body simulation. In Proc. IEEE/RSJ Intl.
+internal edges of clipped planes are shared.                           Conf. Intell. Robots & Systems (IROS), Vancouver, 2017.
+   2) The contact surface is a continuous function of state:      [18] J. Williams, Y. Lu, and J. C. Trinkle. A complementarity based contact
+                                                                       model for geometrically accurate treatment of polytopes in simulation.
+As shown in §X-B, tet/tet pressure isosurfaces lie on planes.          In Proc. ASME Intl. Design Engr. Tech. Conf. and Comput. and Inform.
+The intersection plane associated with any pair of tets is a           in Engr. Conf., 2014.
+continuous function of state because (15) is differentiable. It
+follows that n̂ is a continuous function of state. The contact
+surface is spatially continuous in the interior at all times
+and consists of planes whose movement is a continuous
+function of state. It follows that the contact surface is a
+continuous function of state, for a given tessellation of the
+contact surface.
+

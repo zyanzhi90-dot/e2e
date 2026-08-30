@@ -1,0 +1,105 @@
+{
+  "source_id": "ekyHPViUuoYJ",
+  "read_event_id": "d557d1f18a3a4cd8a11b51d1e2abf1e7",
+  "content_sha256": "5bd946805ced6c76accb82249a9558c8331012e79a4973ca7a24c81a5eba2441",
+  "claim": "Luo et al. use iterative LQG to learn time-varying operational-space wrench policies inside a low-gain motion/force controller, yielding an implicit variable-impedance behavior for four tight-tolerance gear-assembly subtasks on a Sawyer robot. In five post-training trials per task, the force-based controller achieves 5/5, 5/5, 2/5, and 4/5 successes while kinematic and direct-torque iLQG baselines are nearly always unsuccessful. A force-aware guided-policy-search neural controller generalizes modestly to 1-5 cm fixture shifts, but it does not consistently outperform its local iLQG teacher and a naive early force-input architecture fails 0/10. The work provides no convergence, stability, passivity, collision-safety, or force-limit theorem; policies are task-specific, samples are very small, some successful behaviors use large contact forces, and the claimed Pfaffian-constraint learning is an interpretation rather than an identified constraint model.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, task definition",
+    "Section III, optimization statement",
+    "Section IV-A, equations (1)-(4)",
+    "Section IV-B/C, equations (5)-(7)",
+    "Section IV-D, Algorithm 1",
+    "Section V-A/B, Table I and Figures 4-6",
+    "Section V-C, Table II",
+    "Section VI, Conclusions"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the hardware training protocol and small-sample success counts are directly reported; adaptive impedance and constraint-learning claims describe observed/local policy behavior, not a formally identified impedance law or certified stable/passive controller",
+  "problem_and_setting": "A robot must complete four contact-rich gear-assembly steps with tolerances below 0.1 mm despite movable parts, friction, and pose uncertainty. Sparse pose costs and direct torque actions make local RL prone to failure, motivating an operational-space force action representation and a global force-aware policy.",
+  "method_or_mechanism": "A low-gain joint-space position loop is combined with an operational wrench term and nullspace torque. Local iLQG repeatedly fits linear-Gaussian dynamics around rollouts and optimizes a maximum-entropy linear-Gaussian wrench policy. Because the learned wrench varies with robot state, the authors interpret free-space motion as high impedance and contact probing as higher admittance, and describe the policy as implicitly learning task constraints. Mirror-descent guided policy search distills one local controller into a neural network; filtered wrist force/torque is injected only near the output layer to avoid spurious free-space coupling. Each assembly subtask is trained independently.",
+  "content_summary": "The paper evaluates a force-action representation for high-precision assembly. Sawyer is commanded at 20 Hz, with four rollouts per iteration; success typically appears after three iterations and learning is said to converge after five. The cost penalizes mismatch between a three-point end-effector plane and its target. In five evaluation trials, kinematics fails all tasks, direct-torque iLQG succeeds once only on the easiest task, and the proposed controller succeeds in all trials for the first two tasks and partially for the harder square-shaft and gear-teeth tasks. Learned sequences include contact probing, maintaining downward force, rotation, and force relaxation. Generalization tests shift the base by 1, 2, or 5 cm: the proposed neural policy scores 9/10, 8/10, and 6/10 versus local iLQG 8/10, 5/10, and 6/10. Feeding force at the first network layer scores 0/10 and causes random free-space motion. No confidence intervals or formal stability analysis are supplied.",
+  "synthesis_role": "Represents task-specific model-based RL using operational force actions to make precision assembly learnable. It supplies concrete hardware success/failure counts and architectural ablations, while showing that empirical compliance is not equivalent to a certified variable-impedance controller.",
+  "development_link": "Compared with direct joint-torque iLQG, an operational wrench action embeds useful task structure and sharply improves small-sample hardware success. Compared with classical force/impedance control, RL selects a stochastic time-varying wrench rather than analytically scheduling stiffness/damping. Compared with passivity-constrained learning, no safety projection or energy condition restricts exploration or deployment.",
+  "evidence": [
+    {
+      "locator": "Section IV-A, equations (1)-(4)",
+      "status": "controller formulation",
+      "finding": "The implemented action is an operational-space wrench inside a low-gain joint position loop; variable impedance is implicit in the learned state-dependent wrench policy rather than an explicitly optimized stiffness/damping matrix."
+    },
+    {
+      "locator": "Section IV-B, iLQG description",
+      "status": "learning mechanism",
+      "finding": "Local iLQG iteratively fits linearized dynamics from rollouts and computes maximum-entropy linear-Gaussian feedback wrench policies using local quadratic cost approximations."
+    },
+    {
+      "locator": "Section IV-C, equations (5)-(7)",
+      "status": "author interpretation",
+      "finding": "The authors interpret learned operational forces as implicitly improving Pfaffian task constraints, but no constraint matrix is estimated or validated directly."
+    },
+    {
+      "locator": "Section IV-D, Figure 3 and Algorithm 1",
+      "status": "global-policy mechanism",
+      "finding": "Mirror-descent guided policy search trains a neural policy from the local controller, injecting low-pass-filtered force/torque near the output rather than into the first layer."
+    },
+    {
+      "locator": "Section V-A/B, Table I",
+      "status": "author-reported hardware comparison",
+      "finding": "Across five trials per task, the proposed controller scores 5/5, 5/5, 2/5, and 4/5; kinematic baselines score 0/5 throughout and direct-torque iLQG baselines score at most 1/5."
+    },
+    {
+      "locator": "Section V-B, Figures 5-6",
+      "status": "author-reported learned behavior",
+      "finding": "One successful insertion shows exploration variance changing by phase and measured force/torque peaks at contact; aggressive downward force and contact probing are described as automatically discovered behavior."
+    },
+    {
+      "locator": "Section V-C, Table II",
+      "status": "author-reported generalization and failure",
+      "finding": "For 1/2/5 cm shifts, the late-force neural policy scores 9/10, 8/10, and 6/10, local iLQG scores 8/10, 5/10, and 6/10, and the first-layer force architecture fails 0/10 with undesirable free-space behavior."
+    }
+  ],
+  "evidence_kind": [
+    "local model-based reinforcement learning",
+    "guided policy search neural distillation",
+    "Sawyer high-precision assembly trials",
+    "hardware ablation and fixture-shift tests"
+  ],
+  "boundary_conditions": [
+    "Each of the four assembly stages has a separately trained policy; multiplying per-stage rates is not evidence of an independently measured end-to-end assembly rate.",
+    "Training uses four rollouts per iteration and evaluation uses only five trials per assembly task and ten per generalization shift, yielding high binomial uncertainty.",
+    "The controller assumes slow robot motion and neglects acceleration and velocity terms in its operational force derivation.",
+    "Variable impedance is implicit and piecewise local; explicit positive-definite stiffness/damping trajectories are neither identified nor constrained.",
+    "The global neural policy is distilled from a single local controller, so tests examine nearby base shifts rather than broad task or object transfer.",
+    "The learned neural controller does not consistently beat local iLQG and equals it at the largest reported shift.",
+    "No analytical learning convergence, closed-loop stability, passivity, force/torque bound, collision constraint, or safe-exploration guarantee is provided.",
+    "Results concern one Sawyer, one benchmark gear set, 20 Hz control, and a manually shaped plane-distance cost."
+  ],
+  "assumptions": [
+    "Operational wrench actions and the low-gain position loop restrict learning to a locally useful and physically executable behavior space.",
+    "Local linear-Gaussian dynamics approximations remain adequate over each iLQG rollout update.",
+    "Sparse target-plane distance is a sufficient cost to induce safe and successful assembly without explicit contact or force penalties.",
+    "Wrist force/torque signals after low-pass filtering contain transferable contact-phase information despite being non-Markovian.",
+    "The guided-policy-search supervised objective preserves the useful behavior of the local controller under nearby fixture shifts.",
+    "Large downward force and exploratory stochasticity remain within safe hardware and part limits in the reported experiments.",
+    "Independent per-task training and fixed initial grasp/scene conditions adequately represent the intended assembly workflow."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Kinematic control fails all five trials on every task and direct-torque iLQG almost always fails without extensive cost shaping.",
+      "The proposed controller succeeds in only 2/5 trials on square-hole insertion and 4/5 on gear-teeth alignment.",
+      "Adding force/torque to the direct-torque iLQG state gives no reliable improvement because the signals are non-Markovian.",
+      "Putting force/torque at the first neural-network layer fails all generalization trials and can generate random undesirable free-space motion.",
+      "The neural policy does not consistently outperform its local iLQG controller and has high outcome variance."
+    ],
+    "inferred": [
+      "A sparse pose cost can reward completion while overlooking excessive force, impact, part wear, or near-failure contact trajectories.",
+      "Local dynamics fitting and 20 Hz updates may fail under faster impacts, different friction, or more compliant parts.",
+      "Stochastic exploratory actions on hardware are not protected by a passivity or safety filter.",
+      "Calling the behavior variable impedance or learned Pfaffian constraints can overstate what is actually a state-dependent wrench policy.",
+      "Small success counts and task-specific training leave uncertainty about repeatability, end-to-end yield, and transfer to other assemblies."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

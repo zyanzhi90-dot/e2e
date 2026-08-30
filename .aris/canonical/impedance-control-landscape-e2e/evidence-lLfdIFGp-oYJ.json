@@ -1,0 +1,109 @@
+{
+  "source_id": "lLfdIFGp-oYJ",
+  "read_event_id": "ae01d4a84def4c26a8320f84ee9be690",
+  "content_sha256": "40cda55e7c21233807e88f7bfd1b85f453b7f8dff9eb7d717b336fa291fcc8a4",
+  "claim": "Cao, Cheng, and Li propose passive model-predictive impedance control (PMPIC), in which a lower-loop variable Cartesian impedance controller is augmented by a receding-horizon complementary force chosen to satisfy a dissipated-energy constraint while minimizing intervention. Their theorem establishes recursive feasibility and passivity for a transformed input-output port under the discrete prediction model and stated impedance conditions. Simulations show stabilization of a deliberately nonpassive stiffness schedule and a 26.92% lower maximum complementary input than one earlier passivity filter in a single configured comparison; a Franka Panda sawing demonstration with one operator shows the reported energy signal remaining positive. The analytical result relies on accurate inverse dynamics and prediction, the relaxed negative energy bound is not strict passivity, and neither the proof nor this one task establishes comprehensive physical-human safety.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II-A-B, equations (1)-(8)",
+    "Section II-C-D, equations (9)-(16), Remarks 1-3, Theorem 1",
+    "Section III-A, equations (17)-(18), Figure 3",
+    "Section III-B, Figures 4-5",
+    "Section III-C, Figures 6-7",
+    "Section IV, Discussion",
+    "Appendix, proof of Theorem 1"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary analytical, simulation, and single-demonstration evidence: recursive feasibility and passivity are proved for the paper's modeled port and constraints, while lower conservativeness and safety claims are author-reported from two simulations and one Panda sawing demonstration with limited human-study detail",
+  "problem_and_setting": "Variable stiffness and damping can encode human demonstrations or task rules but may inject energy and destabilize physical interaction. Existing energy-tank or filter approaches can substantially alter the desired impedance. The paper asks whether MPC can compute the smallest complementary force that restores an energy inequality while preserving as much of a prescribed time-varying impedance profile as possible.",
+  "method_or_mechanism": "Inverse dynamics converts the robot to a Cartesian double-integrator and a desired model Mv e_ddot + Dv(t)e_dot + Kv(t)e = f_in. PMPIC adds u_mpc to the right-hand side. Using r=e_dot+alpha e and a matrix storage function, the authors derive a dissipated-energy state z driven by the quadratic state dissipation and complementary input. A discretized linear time-varying prediction model augments robot error state with z. At each top-loop step, a quadratic program minimizes the finite-horizon sum of u_mpc^T R u_mpc subject to predicted dynamics and z(k)>=0; a configurable z_min<=0 relaxes that constraint. Only the first action is applied before replanning. The theorem supplies a feasible terminal input and concludes recursive feasibility and passivity under the strict zero lower bound.",
+  "content_summary": "The controller runs a 1 kHz impedance loop and 100 Hz MPC using a locally linearized model and OSQP. In the first Gazebo/Panda simulation, a rapidly varying y-axis stiffness and very low damping cause an unconstrained variable impedance controller's dissipated energy and state trajectories to diverge; PMPIC activates a complementary force and retains the energy condition. A second simulation varies z_min and compares PMPIC with Bednarczyk et al.'s passivity filter. Strict z_min=0 intervenes more and produces smoother trajectories; negative bounds reduce intervention but allow bounded excess stored energy. Under matched settings, the paper reports PMPIC's peak complementary input as 26.92% lower. The physical demonstration is a 20-second push/pull sawing task on a Panda, with deliberate disturbances by the operator and another person, horizon 10, z_min=-0.01, and changing y stiffness. The plotted energy remains positive. Ethics approval and consent are reported, but participant count beyond the described operator is not given as a study cohort and no clinical or injury outcome is evaluated.",
+  "synthesis_role": "Represents optimization-based passivity enforcement: rather than directly clipping stiffness or relying only on stored tank energy, PMPIC treats passivity as a horizon constraint and minimizes a complementary interaction input. It is a bridge between classical energy certificates and model-predictive variable impedance, with model dependence as the central tradeoff.",
+  "development_link": "Compared with profile-shaping passivity filters, PMPIC leaves scheduled gains intact and modifies the apparent force input only when the predicted energy inequality requires it. Compared with energy tanks, it explicitly optimizes future intervention over a horizon. Compared with unconstrained learned impedance scheduling, it can accept learned gains as an upstream command but its certificate still depends on the analytical model and selected supply rate.",
+  "evidence": [
+    {
+      "locator": "Section II-A-B, equations (2)-(8)",
+      "status": "analytical formulation",
+      "finding": "Inverse dynamics is used to realize a time-varying Cartesian mass-damper-stiffness model, and passivity is formulated for input f_in and output r=e_dot+alpha e using a parameter-dependent storage function."
+    },
+    {
+      "locator": "Section II-C-D, equations (9)-(16)",
+      "status": "controller mechanism",
+      "finding": "A dissipated-energy state is included in a discrete prediction model, and MPC minimizes complementary force subject to a nonnegative predicted energy constraint."
+    },
+    {
+      "locator": "Section II-D, Theorem 1 and Appendix",
+      "status": "conditional analytical guarantee",
+      "finding": "The paper proves recursive feasibility and passivity for the modeled system by constructing a feasible shifted control sequence and terminal input, assuming the stated model and strict energy constraint."
+    },
+    {
+      "locator": "Section II-D, Remark 3",
+      "status": "author-proposed relaxation",
+      "finding": "Allowing z_min<0 reduces intervention by permitting a bounded excess of robot stored energy over external supplied energy; this is an engineering relaxation, not strict passivity."
+    },
+    {
+      "locator": "Section III-A, Figure 3",
+      "status": "author-reported simulation",
+      "finding": "Under rapidly varying y stiffness and damping ratio 0.01, the unconstrained controller diverges after force application while PMPIC activates complementary input and keeps the reported energy condition."
+    },
+    {
+      "locator": "Section III-B, Figures 4-5",
+      "status": "author-reported comparative simulation",
+      "finding": "With matched task and impedance settings, strict PMPIC is reported to require a 26.92% lower peak complementary input than the compared passivity filter; varying z_min illustrates the intervention-energy tradeoff."
+    },
+    {
+      "locator": "Section III-C, Figures 6-7",
+      "status": "author-reported hardware demonstration",
+      "finding": "A 20-second Panda sawing task with two staged stiffness behaviors and two deliberate disturbances retains a positive plotted dissipated-energy signal under PMPIC with horizon 10 and z_min=-0.01."
+    },
+    {
+      "locator": "Section IV",
+      "status": "author-stated limitation",
+      "finding": "The authors identify accurate robot dynamics as PMPIC's main disadvantage and propose shorter horizons or robust MPC as partial or future remedies."
+    }
+  ],
+  "evidence_kind": [
+    "conditional passivity proof",
+    "recursive-feasibility argument",
+    "constrained model predictive control",
+    "Gazebo robot simulations",
+    "passivity-filter comparison",
+    "single physical human-robot demonstration"
+  ],
+  "boundary_conditions": [
+    "The passivity port is f_in to r=e_dot+alpha e, not simply physical wrench to end-effector velocity; interpretation depends on this transformed supply rate.",
+    "The strict certificate uses z>=0. Choosing z_min<0 intentionally permits energy generation up to a selected bound and therefore relaxes strict passivity.",
+    "The controller assumes inverse-dynamics compensation and a locally linearized prediction model sufficiently accurate over the horizon.",
+    "The theorem does not include model uncertainty, sampling error, saturation, actuator limits, collision constraints, communication delay, or solver failure.",
+    "The cost penalizes only complementary input; task performance and safety depend on the externally supplied impedance schedule and other low-level limits.",
+    "The 26.92% result is one peak-input comparison against one filter under one simulation configuration, not a general conservativeness ranking.",
+    "The physical evidence is one brief sawing scenario on one Panda platform with no reported cohort-level statistics, comparator, injury metric, or force-safety threshold.",
+    "Passivity of the robot under assumptions does not establish safety against active humans, hazardous goals, excessive forces, or nonpassive environments."
+  ],
+  "assumptions": [
+    "The robot dynamics and Libfranka model quantities are accurate enough for Cartesian feedback linearization and MPC prediction.",
+    "The time-varying mass, damping, and stiffness matrices satisfy the paper's positivity and storage-function conditions.",
+    "State, interaction force, and impedance parameters are measured or supplied with adequate bandwidth and low error.",
+    "The QP remains feasible and OSQP returns a usable solution within the 100 Hz top-loop period.",
+    "The chosen horizon and local linearization capture the energy effect of the complementary input.",
+    "Any upstream learned or hand-designed impedance profile is itself meaningful for the task; PMPIC only constrains its energy consequence."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "A general variable impedance controller diverges in the deliberately low-damping simulation after the scheduled stiffness causes negative dissipated energy.",
+      "Stricter z_min near zero requires complementary force for longer and changes position, velocity, and acceleration more strongly.",
+      "More negative z_min reduces modification but can sacrifice safety when stored energy substantially exceeds supplied external energy.",
+      "MPC effectiveness relies on an accurate dynamic model; shorter horizons only partially relax this dependence.",
+      "Robustness to robot-model uncertainty is left for future work."
+    ],
+    "inferred": [
+      "Unmodeled contact transients, torque saturation, or solver overruns can break the predicted energy balance despite nominal recursive feasibility.",
+      "A complementary force that is small in peak magnitude can still degrade transparency, comfort, or task intent, none of which is quantified in the human demonstration.",
+      "The transformed passivity output may obscure physical safety risks not captured by the selected storage function and supply rate.",
+      "A negative z_min requires an independently justified energy budget; choosing it ad hoc can turn a formal passivity claim into only bounded energy injection."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

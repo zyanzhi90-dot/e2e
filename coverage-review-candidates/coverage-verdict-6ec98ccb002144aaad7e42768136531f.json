@@ -1,0 +1,22 @@
+{
+  "run_id": "impedance-control-landscape-e2e",
+  "reviewer": "coverage_reviewer",
+  "verdict_id": "coverage-verdict-6ec98ccb002144aaad7e42768136531f",
+  "decision": "CANDIDATE_SUFFICIENT",
+  "reasons": [
+    "第二轮 canonical Field Map 与 Controller 的 major_taxonomy_change 请求绑定一致，实际 SHA-256 为 bd47c1da873690e6e3f2a05d2030ba164fb13c561f5f24f73527460e5be3a039；19 张 canonical Evidence Card 均为 decision-grade，且全部进入了 development trace 或 assumption/failure mapping。",
+    "上一轮 G1 已由 primary evidence 实质关闭。w6vmLz5pAjIJ 表明经典 direct adaptive impedance 的自适应对象是实现固定目标阻抗所需的 Cartesian controller coefficients，因此将其归入 M3 而非目标阻抗选择是有证据依据的；d1A3Ar8wid4J 与 ycrjHzo2ClcJ 则分别支持显式 LQR/ADP 最优目标阻抗和窄结构 force-error-driven target damping adaptation，足以建立并限定 M9。",
+    "M9_ADAPTIVE_OPTIMAL_IMPEDANCE_SELECTION 的新增不是将所有 adaptive control 混为一类，而是以‘是否改变目标阻抗本身’为分类边界。Field Map 已明确区分固定目标的 realization adaptation、标量误差驱动增益调整和基于设计成本的最优反馈，并保留 LTI 环境、近似标量模型、初始稳定策略、持续激励、内环理想化、奇异分母及无 passivity guarantee 等关键边界。",
+    "上一轮 G2 已由 lk5U1cKDpscJ 的 2011 年 primary evidence 实质关闭：M7 的发展起点现包含 PI² 对 DMP reference 与时变 joint PD gains 的联合有限时域优化，并明确其 time-indexed、bounded-gain、no-passivity 和 repeated-rollout 限制。QxZKurx6oDQJ 进一步支持从直接 task-cost optimization 到 demonstration-derived reward plus forward-RL reoptimization 的后续发展；Field Map 没有把这种 transfer 误写为 cross-task 或 zero-shot transfer。",
+    "上一轮 G3 已由 tZYsUFlRIUIJ 的 primary theorem/experiment evidence 实质关闭。M6 现有证据分别覆盖 known-profile offline rate certification、compliant-joint plant 上的 online gain-dependent power cancellation，以及 controller-specific adaptive VIC stability/passivity analysis；Field Map 同时保留模型精度、连续增益、full-state/gain-derivative availability、near-zero-velocity sensitivity、sampled implementation 和 port-specific passivity 等限制，未将其泛化为 arbitrary learned-policy safety。",
+    "新增 6 张证据承担不同而互补的机制角色，并非重复补强：fixed-target direct adaptation、cost-optimal target selection、PI² gain discovery、online passivity preservation、force-error scalar adaptation 和 AIRL reward recovery。更新后的 9 个 method families 对核心机制、继承问题、已解决范围、假设、失败条件和遗留瓶颈均有明确 primary support，且 teleoperation/haptics、legged/whole-body 未被扩展成独立旁支。",
+    "当前仍存在的 sampled-data certificate、safe exploration、nonlinear/multi-contact generalization、objective specification 和 robust physical realization 等问题已被正确保留为问题发现线索，而不是被覆盖充分性结论掩盖。它们需要在后续具体问题真实性、未解决性或方法新颖性判断中做定向补充检索，但当前没有仍会改变顶层 taxonomy 或阻止可靠问题生成的 material coverage gap。"
+  ],
+  "gaps": [],
+  "reviewer_run_id": "coverage-review-30fa5ddae5584c18bb35184135609ea2",
+  "review_request_id": "8fb5902d36014eb290afef9c7ee1bc58",
+  "reviewed_artifact_sha256": "bd47c1da873690e6e3f2a05d2030ba164fb13c561f5f24f73527460e5be3a039",
+  "reviewed_artifact_hashes": {
+    "idea-stage\\ACTIVE_FIELD_MAP.md": "bd47c1da873690e6e3f2a05d2030ba164fb13c561f5f24f73527460e5be3a039"
+  }
+}

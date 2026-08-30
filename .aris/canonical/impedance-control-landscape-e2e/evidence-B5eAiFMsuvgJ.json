@@ -1,0 +1,110 @@
+{
+  "source_id": "B5eAiFMsuvgJ",
+  "read_event_id": "127127775e0c43f5a8ffe932cb5e9e07",
+  "content_sha256": "31cb5ca9e0a5ce8ee400ce7a89c1aff0434f5bf3539ee0fb1a4581d73729f64c",
+  "claim": "Hammoud, Khadiv, and Righetti extend iterative risk-sensitive optimal control to multi-contact legged locomotion with measurement uncertainty and use its local state-feedback matrices as automatically optimized stiffness and damping schedules. A Gaussian uncertainty ellipsoid at an impending foot contact is mapped into full robot state space and projected into the null space of active contacts; with positive risk sensitivity, the optimizer trades tracking accuracy for lower gains and impact robustness. Solo quadruped simulations report lower unexpected-contact force, approximately 20% lower jump impact force, admissible gain magnitudes, and more successful trotting across randomized terrain than standard DDP. These are simulation-only, locally optimal results under a predefined contact schedule, chosen covariance model, rigid-contact planning model, and tuned simulator; no theorem establishes closed-loop contact stability, constraint satisfaction under true uncertainty, global optimality, or transfer to hardware, and two alternative uncertainty models perform worse than DDP after impact.",
+  "claim_locator": [
+    "Abstract and Section I",
+    "Section II-A-B, equations (1)-(4)",
+    "Section II-C-D, equations (5)-(16)",
+    "Section III-A-C, equations (17)-(24), Figure 1",
+    "Section IV setup",
+    "Section IV-A, Figures 2-5",
+    "Section IV-B, Figures 6-9",
+    "Section IV-C, Table I and Figures 10-11",
+    "Section V, Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified primary simulation evidence: the stochastic optimal-control and contact-noise formulation is explicit, but performance claims come solely from one modeled quadruped and local iterative solutions; stability, real-world calibration, and hardware feasibility are not demonstrated",
+  "problem_and_setting": "High-gain locomotion feedback rejects disturbances but can generate destabilizing force at unexpected contact, while excessive compliance sacrifices task tracking. The paper seeks a systematic way to optimize time-varying whole-body feedback gains that reason jointly about process noise, state-estimation uncertainty, and uncertain foot-contact location during stepping, jumping, and trotting.",
+  "method_or_mechanism": "The method uses rigid multi-contact dynamics with predefined contact phases and an exponential risk-sensitive cost. Local dynamics and cost approximations support an iterative Riccati-like backward pass. Measurement uncertainty is incorporated by augmenting the linearized robot deviations with error-state EKF dynamics; the resulting control law depends on the conditional state estimate. Contact-location uncertainty is represented as Gaussian position/velocity noise at the swing foot, mapped through a pseudoinverse into robot state space, and projected into the null space of feet already in rigid contact before being added to ordinary state-measurement covariance. A positive risk parameter penalizes higher cost moments and changes the full local feedback matrices, whose position and velocity blocks are interpreted as stiffness and damping schedules.",
+  "content_summary": "A kino-dynamic optimizer first supplies reference trajectories and contact timing. Standard DDP and risk-sensitive optimization then share the same costs, nominal states, feedforward torques, and flat-floor plan; only the feedback gains differ, with risk sensitivity sigma=10 and fixed Gaussian covariances. Simulations use a detailed Solo quadruped model at 1 kHz, a 0.01 s optimization grid, and a stiff linear spring-damper contact simulator. In an 8 cm step, an unplanned 3 cm block causes early contact. Uniform and swing-joint noise models diverge, whereas contact-space uncertainty, especially after null-space projection, produces much smaller gain norms and impact forces. In a 0.5 m jump with an unexpected 3 cm block, the risk-sensitive policy increases joint damping and reports 20% lower impact force but larger position error. A 14-switch trot is tested in 1000 simulations divided between terrain disturbances up to 14% and 11% of leg length; the paper reports more successful terminal executions than DDP while accepting larger base tracking error.",
+  "synthesis_role": "Represents uncertainty-aware offline impedance optimization for dynamic contact rather than online force-error adaptation. It shows how covariance structure can induce compliant and dissipative gain patterns, but also exposes the dependence of risk-sensitive behavior on the correctness of the selected noise model.",
+  "development_link": "The work brings Ponton's measurement-uncertainty risk-sensitive formulation into whole-body multi-contact control and complements deterministic variable-impedance methods by optimizing full feedback matrices. Unlike passivity filters or energy bounds, its robustness is objective- and distribution-driven rather than certified by an interaction-energy inequality.",
+  "evidence": [
+    {
+      "locator": "Section II-C-D, equations (5)-(16)",
+      "status": "stochastic optimal-control formulation",
+      "finding": "An exponential cost incorporates higher cost moments, and augmented EKF/error dynamics make local feedback gains depend on process and measurement covariance."
+    },
+    {
+      "locator": "Section III-A-B, equations (17)-(20)",
+      "status": "algorithmic extension",
+      "finding": "The nonlinear problem is split across predefined smooth contact phases, while an error-state EKF on the floating-base manifold is included in each local iteration."
+    },
+    {
+      "locator": "Section III-C, equations (21)-(24)",
+      "status": "uncertainty-model mechanism",
+      "finding": "Swing-foot contact-location covariance is mapped to full state space and projected into the active-contact null space so it does not contradict rigid support constraints."
+    },
+    {
+      "locator": "Section IV setup",
+      "status": "author-reported simulation protocol",
+      "finding": "DDP and risk-sensitive controllers use identical costs, reference trajectories, nominal feedforward torques, and flat-ground planning; risk sensitivity and the assumed covariance model determine the gain differences."
+    },
+    {
+      "locator": "Section IV-A, Figures 2-5",
+      "status": "author-reported comparative simulation",
+      "finding": "For an early foot strike, uniform and swing-joint risk models diverge after impact, while contact-space models lower gains and forces; the null-space-projected model best preserves support-foot behavior."
+    },
+    {
+      "locator": "Section IV-B, Figures 6-9",
+      "status": "author-reported jump simulation",
+      "finding": "Risk-sensitive control raises joint damping before unexpected landing, reports 20% lower impact force and avoids DDP bouncing, at the cost of larger joint-position deviations."
+    },
+    {
+      "locator": "Section IV-C, Table I and Figures 10-11",
+      "status": "author-reported Monte Carlo simulation",
+      "finding": "Across 1000 randomized trotting simulations in two terrain-amplitude batches, the risk-sensitive policy is reported to finish successfully more often than DDP but with larger tracking errors when successful."
+    },
+    {
+      "locator": "Section V",
+      "status": "author-stated evidence boundary",
+      "finding": "All validation is numerical; the authors identify real-robot experiments as future work."
+    }
+  ],
+  "evidence_kind": [
+    "iterative risk-sensitive optimal control",
+    "EKF-augmented feedback synthesis",
+    "contact-location covariance model",
+    "whole-body gain schedule optimization",
+    "quadruped impact simulations",
+    "randomized trotting simulation comparison"
+  ],
+  "boundary_conditions": [
+    "The optimized solution is local, initialized from a separate kino-dynamic plan, and uses a predefined contact sequence and timing.",
+    "Rigid contact is assumed inside the optimizer, while validation uses a particular linear spring-damper contact simulator; complementarity, slip transitions, and contact-model mismatch are not formally addressed.",
+    "Noise is Gaussian with manually chosen covariances and fixed risk sensitivity; the behavior changes materially with the structure and magnitude of that covariance.",
+    "Feedback blocks are interpreted as impedance schedules but are full local gain matrices and need not correspond to a passive, symmetric, independently realizable Cartesian mass-spring-damper.",
+    "No passivity, Lyapunov stability, chance-constraint, recursive feasibility, collision-safety, torque-limit, or global-optimality guarantee is derived for the executed policy.",
+    "All evidence uses one simulated Solo quadruped and one simulator parameterization; statements that gains are hardware-admissible rely on preliminary experience, not robot experiments.",
+    "DDP and risk-sensitive methods share references and costs, but comparison covers one baseline family and one selected risk parameter rather than a broad robustness benchmark.",
+    "The 1000-run success comparison is reported without confidence intervals, sensitivity analysis over simulator uncertainty, or independent replication."
+  ],
+  "assumptions": [
+    "Local linear-quadratic approximations and the iterative solver converge to a useful policy around the supplied nominal trajectory.",
+    "The error-state EKF is observable and its Gaussian covariance adequately represents estimation error.",
+    "The projected swing-foot covariance is a meaningful proxy for unknown terrain height and contact timing.",
+    "The nominal contact sequence remains valid under disturbances large enough to test robustness.",
+    "The simulator's stiffness, damping, friction, integration step, and robot model approximate the relevant impact dynamics.",
+    "Positive exponential risk sensitivity creates the desired accuracy-robustness tradeoff without excessive conservatism or numerical failure."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Risk-Uniform and Risk-SwingJoints policies diverge after unexpected impact and accumulate more error than DDP.",
+      "DDP also diverges in the early-contact example and produces gain magnitudes considered unusable on the real robot.",
+      "Risk-sensitive jumping reduces impact but increases joint-position deviation.",
+      "Successful risk-sensitive trotting ends with larger base-configuration error in exchange for more successful executions.",
+      "Hardware validation is absent and explicitly deferred to future work."
+    ],
+    "inferred": [
+      "A miscalibrated covariance or risk parameter can produce inappropriate compliance, excessive tracking error, or worse impact behavior than risk-neutral DDP.",
+      "A contact disturbance that changes the mode sequence rather than only its timing/location can invalidate the predefined hybrid plan.",
+      "Local gain matrices may exceed actuator bandwidth or violate passivity even when their magnitudes lie in an empirically acceptable range.",
+      "The reported Monte Carlo improvement may depend strongly on the same simulator and disturbance distribution used to motivate the uncertainty model."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

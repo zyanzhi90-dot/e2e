@@ -1,0 +1,87 @@
+{
+  "source_id": "USER-TRO-2022-3216078",
+  "read_event_id": "ceac05f303c2415ba3075671c698c256",
+  "content_sha256": "0a4daf55aa3f6b0f3f2064d9686446d432d66a425e66581d8b6a4ad103df5e7e",
+  "claim": "The paper plans Cartesian stiffness and damping online through constrained optimization that minimizes impedance-related cost while limiting perturbation-induced tracking error and respecting gain bounds, with an analytic solution for diagonally dominant inertia and a numerical solution otherwise, without force/torque sensing; it does not model the contacted environment or optimize from soft-contact mechanics.",
+  "claim_locator": [
+    "Abstract",
+    "Sections I-II",
+    "Sections III-VI",
+    "Sections VII-VIII and Figures 5-11",
+    "Section IX",
+    "Appendix C"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "The optimization, experiments, and assumptions are author-reported; contact-model implications are bounded reader inferences.",
+  "problem_and_setting": "Real-time selection of Cartesian impedance gains for robots under perturbations, with acceptable tracking-error and gain limits and no force/torque sensor requirement.",
+  "method_or_mechanism": "A constrained optimization selects stiffness and damping, conservatively using minimum closed-loop inertia. It is analytic for diagonally dominant inertia and numerical for nondiagonal inertia. Perturbation attenuation enters through tracking-error constraints rather than an identified environment model.",
+  "content_summary": "Quadruped and manipulator experiments compare variable gains with fixed gains and inertia shaping. Comparable performance is reported without force/torque sensors. Negligible Coriolis-like terms, slowly varying inertia, approximate gain bounds, and peak-impact energy modulation remain limitations or future work.",
+  "synthesis_role": "Closest-prior evidence for online optimal impedance planning and a contact-agnostic baseline against which contact-state-aware planning must show decision-relevant benefit.",
+  "development_link": "A soft-contact extension must show that measurable contact state or model uncertainty changes selected gains or improves outcomes beyond this planner under matched tracking-error and gain constraints.",
+  "evidence": [
+    {
+      "locator": "Abstract",
+      "status": "author_reported",
+      "finding": "The method plans Cartesian impedance online without force/torque measurements and bounds perturbation effects."
+    },
+    {
+      "locator": "Sections III-VI",
+      "status": "author_reported",
+      "finding": "It minimizes impedance-related cost subject to tracking-error and gain constraints, analytically for diagonal-dominant inertia and numerically otherwise."
+    },
+    {
+      "locator": "Sections VII-VIII and Figures 5-11",
+      "status": "author_reported",
+      "finding": "Real-time robot experiments compare variable gains with fixed gains and a standard inertia-shaping method."
+    },
+    {
+      "locator": "Section IX",
+      "status": "author_reported",
+      "finding": "Comparable performance is reported without inertia shaping or force/torque sensors; slowly varying inertia, negligible Coriolis-like terms, and peak-impact energy modulation remain open."
+    },
+    {
+      "locator": "Appendix C",
+      "status": "author_reported",
+      "finding": "Stiffness bounds and feasible-set construction are approximate design choices."
+    }
+  ],
+  "evidence_kind": [
+    "constrained impedance optimization",
+    "analytic and numerical planning",
+    "robot experiment",
+    "baseline comparison",
+    "stated assumptions"
+  ],
+  "boundary_conditions": [
+    "Analytic solution requires diagonally dominant inertia.",
+    "Coriolis-like terms are neglected and inertia is assumed slowly varying.",
+    "Tracking-error constraints replace explicit runtime contact-force constraints.",
+    "The feasible gain set is approximate.",
+    "No soft-tissue scanning or contact constitutive state is evaluated."
+  ],
+  "assumptions": [
+    "Minimum closed-loop inertia is a suitable conservative choice.",
+    "Tracking-error limits encode acceptable perturbation effects.",
+    "Gain bounds capture feasible behavior.",
+    "Force/torque sensing is unnecessary for the stated objective."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Non-negligible Coriolis-like terms and rapidly varying inertia are untreated.",
+      "Peak-impact kinetic-energy modulation is future work.",
+      "Gain bounds are approximate."
+    ],
+    "inferred": [
+      "The planner cannot condition gains on relaxation, hysteresis, or pressure redistribution.",
+      "Tracking-error bounds do not imply hard force, pressure, deformation, or passivity bounds.",
+      "This baseline could falsify the need for richer contact state if held-out outcomes are indistinguishable."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that online constrained Cartesian stiffness/damping optimization is new.",
+    "Any claim that force/torque sensing is universally required for useful online impedance planning.",
+    "Any equivalence between bounded tracking error and verified tissue-safety bounds."
+  ],
+  "verification_status": "verified"
+}

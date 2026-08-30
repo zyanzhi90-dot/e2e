@@ -1,0 +1,98 @@
+{
+  "source_id": "zs_SrlrWveIJ",
+  "read_event_id": "0d1f7af1ce9045dbb36cee93a849b28a",
+  "content_sha256": "180e818b56a8b7f582585daf14ea769cb8fea3dd16a4f75f0fecee042738dc1e",
+  "claim": "Roveda et al. design one two-layer force-tracking impedance controller for both free-space approach and established contact. In contact, an analytically solved LQR adapts external admittance gains to an EKF estimate of environment stiffness; before contact, an impact model and offline numerical optimization select approach velocity and gains, followed by logistic gain interpolation at collision. Two KUKA LWR4+ experiments with robot-emulated 500 N/m and 20,000 N/m environments show overshoot-free force traces when approach velocity and the initial stiffness estimate fall in the tested acceptable range. The LQR result is optimal only for the modeled 1-DoF linear dynamics and chosen quadratic cost, while environment-estimate accuracy, manually selected bandwidth parameters, force-sensor filtering, and absence of passivity or robustness analysis limit the claimed overshoot and stability scope.",
+  "claim_locator": [
+    "Abstract",
+    "Section II, environment dynamics and EKF",
+    "Section III, internal impedance and external admittance loops",
+    "Section IV-A, equations (5)-(9), contact LQR",
+    "Section IV-B, equations (10)-(14), impact formulation",
+    "Section IV-C, equation (15), gain transition",
+    "Section V, experimental results, Figures 4-7",
+    "Appendix, equations (16)-(23)"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "qualified: the LQR algebra and impact-based gain construction are directly documented and hardware traces support feasibility for two robot-emulated stiffnesses; overshoot avoidance is conditional on model/initialization/velocity choices, and no general stability, passivity, uncertainty-bound, or statistical result is established",
+  "problem_and_setting": "A robot must approach an environment whose exact location and stiffness are not known, make contact without a force overshoot, and then accurately track a desired force. The design targets assembly, polishing, and fragile-contact tasks while preserving impedance behavior in directions not assigned to force tracking.",
+  "method_or_mechanism": "An inner loop realizes a decoupled second-order Cartesian impedance. An outer admittance loop deforms its position setpoint using robot acceleration/velocity, integrated force error, and reference-force feedforward. During contact, a first-order desired force model and a quadratic force-error/control-rate cost yield an LQR Riccati equation; its analytical solution updates gains from EKF estimates of environment stiffness and assumed damping. Before contact, a rigid-impact relation links approach velocity to impulse. Offline numerical minimization selects an approach velocity and gain pair for assumed material stiffness, while other gains are set to avoid integral growth before unknown contact. Logistic functions interpolate from free-space to contact gains.",
+  "content_summary": "The paper models the local environment as massless Kelvin-Voigt contact and estimates stiffness with an augmented-state EKF; damping is not reliably estimated because assembly motion lacks sufficient excitation. The inner KUKA impedance is assumed decoupled up to about 5 Hz. For established contact, the authors solve the 1-DoF continuous-time LQR algebraically and update gains with estimated stiffness. For free-space approach, they set two feedback gains to zero, compute feedforward for constant velocity, and optimize the remaining gain and velocity from an impact-error integral. Experiments run the controller and EKF at 200 Hz on one KUKA contacting a second impedance-controlled KUKA that emulates soft 500 N/m and hard 20,000 N/m environments. Plots show that the optimized velocity avoids overshoot, higher-than-optimal speed overshoots especially on the hard environment, and initial stiffness estimates one-quarter or four times true stiffness can still work in the tested soft case. No physical-material trials, repetitions, or statistical comparison are reported.",
+  "synthesis_role": "Represents analytical gain scheduling across free-motion/contact transition, linking impact-aware approach design to force-tracking impedance. It is useful evidence that overshoot depends jointly on precontact velocity and contact impedance, but not evidence of unconditional safe impact control.",
+  "development_link": "Relative to fixed impedance, external gains adapt continuously to estimated stiffness. Relative to heuristic gain scheduling, contact gains solve a stated LQR problem and precontact gains use an impact criterion. Relative to passive or robust interaction controllers, the design optimizes nominal tracking but does not certify energy behavior under estimation error and switching.",
+  "evidence": [
+    {
+      "locator": "Section II-A/B, equation (1) and EKF equations",
+      "status": "environment-estimation mechanism",
+      "finding": "A massless Kelvin-Voigt environment is assumed and stiffness is estimated online; the authors state that damping cannot be estimated accurately in assembly because the contact is insufficiently excited."
+    },
+    {
+      "locator": "Section IV-A, equations (5)-(9) and Appendix",
+      "status": "analytical optimal-control result",
+      "finding": "For the modeled 1-DoF linear contact dynamics, a Riccati solution minimizes integrated force error plus squared setpoint-rate control and yields gains parameterized by environment stiffness, damping, and user weight q."
+    },
+    {
+      "locator": "Section IV-B, equations (10)-(14)",
+      "status": "impact-based design",
+      "finding": "A rigid instantaneous-collision model relates approach velocity to impulse; an offline numerical criterion jointly selects the precontact velocity and one gain to minimize subsequent force-error energy."
+    },
+    {
+      "locator": "Section IV-C, equation (15)",
+      "status": "transition mechanism",
+      "finding": "Logistic interpolation with separate feedforward and feedback time constants smooths the switch between free-space and contact gain sets, but no hybrid robustness theorem is supplied."
+    },
+    {
+      "locator": "Section V, Figures 4-5",
+      "status": "author-reported hardware experiment",
+      "finding": "For robot-emulated 500 N/m and 20,000 N/m environments, the optimized approach velocity yields overshoot-free plotted traces, whereas a faster approach causes overshoot, especially for the hard environment."
+    },
+    {
+      "locator": "Section V, Figures 6-7",
+      "status": "author-reported estimator sensitivity experiment",
+      "finding": "In the tested soft environment, EKF initialization at one-quarter or four times true stiffness changes the initial force increment but remains overshoot-free; the estimate converges with residual noise/model error."
+    }
+  ],
+  "evidence_kind": [
+    "continuous-time LQR derivation",
+    "impact-model numerical optimization",
+    "extended Kalman stiffness estimation",
+    "dual-robot contact experiment"
+  ],
+  "boundary_conditions": [
+    "The contact derivation is scalar/1-DoF and assumes a decoupled second-order robot impedance; rotational and redundancy effects are future work.",
+    "The environment is locally massless Kelvin-Voigt, with stable contact and coincident robot/environment positions; hysteresis, plasticity, friction, and distributed contact are omitted.",
+    "The analytical LQR gains require sufficiently accurate environment parameters; damping is not estimated and the paper commonly sets it to zero for worst-case precontact optimization.",
+    "Before contact, assumed material stiffness is needed to select a lookup-table approach speed and gain despite unknown exact contact position.",
+    "The overshoot-free result is empirical for tested speeds and initialization errors, not a proof over bounded uncertainty.",
+    "A 5 Hz force-measurement low-pass filter limits achievable controller bandwidth; q and reference-model bandwidth c are selected experimentally.",
+    "Experiments use a second robot as the environment at two programmed stiffnesses and report no physical materials, repeated trials, or uncertainty statistics.",
+    "No passivity, force/velocity constraint, actuator saturation, time-delay, sensor-fault, or hybrid impact stability theorem is given."
+  ],
+  "assumptions": [
+    "The internal KUKA controller realizes a nearly diagonal Cartesian impedance up to approximately 5 Hz.",
+    "The EKF receives sufficiently accurate position and force measurements and its stiffness estimate converges faster than the outer control dynamics.",
+    "The selected Riccati solution is real and positive semidefinite and the associated LQR detectability/stabilizability conditions hold.",
+    "Contact is approximately instantaneous for the restitution/impulse model, the environment is stationary, and position does not change appreciably during impact.",
+    "The material-based nominal stiffness used before contact lies close enough to the actual stiffness for the precomputed approach policy.",
+    "The logistic transition is faster than estimator dynamics and smooth enough to avoid harmful gain-switching transients."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Approach velocity above the optimized value produces force overshoot, with the hard environment more sensitive to velocity error.",
+      "Overshoot avoidance is retained only when the initial stiffness-estimation error is within an acceptable range.",
+      "Environment damping cannot be estimated accurately in the target assembly tasks because dynamics are insufficiently excited.",
+      "Force-sensor low-pass filtering limits how far q and reference-model bandwidth can be increased without overshoot.",
+      "Rotational DoFs and redundancy-aware impact optimization are left for future work."
+    ],
+    "inferred": [
+      "A large material-stiffness mismatch or contact with appreciable inertia can invalidate the precontact velocity lookup and cause impact overshoot.",
+      "EKF bias or delay can continuously schedule incorrect gains even when the nominal LQR is stable.",
+      "Smooth logistic interpolation does not by itself guarantee stability of the time-varying/hybrid closed loop.",
+      "Optimizing force error without explicit force and velocity constraints can still permit unsafe transients outside the tested conditions.",
+      "A robot-emulated Kelvin-Voigt environment may underrepresent the nonlinear, rate-dependent, and surface effects of leather or fragile real materials cited as targets."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified"
+}

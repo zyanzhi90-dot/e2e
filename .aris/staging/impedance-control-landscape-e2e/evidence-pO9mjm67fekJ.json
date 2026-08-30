@@ -1,0 +1,89 @@
+{
+  "source_id": "pO9mjm67fekJ",
+  "read_event_id": "a4957f83871a42078610e8247ceb5191",
+  "content_sha256": "72d6e3d0dc8dcad78d1ef7db68b795c5f77e5e019cb176185819de0da562246e",
+  "claim": "OBG-K is a gradient-based passivity controller that constrains unknown, real-time-varying virtual stiffness as a function of spring deflection and observed potential energy, preserving two-port passivity while retaining a selectable nonzero minimum stiffness in the tested 1-DoF settings; this evidence does not establish universal safety or broad robustness.",
+  "claim_locator": [
+    "Title and controller formulation",
+    "Experimental evaluation and discussion",
+    "Limitations and future work"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "author-reported method and experimental evidence, with scope-limited synthesis inference",
+  "problem_and_setting": "Real-time impedance control with unknown variable-stiffness profiles can inject energy and violate passivity. The paper studies bilateral interaction using two 1-DoF rotational devices under conservative demonstrations without virtual-coupling damping, including active environments and a 50-ms round-trip communication delay.",
+  "method_or_mechanism": "OBG-K observes the virtual spring's potential energy and limits stiffness over the spring-deflection domain rather than over time or frequency. The gradient-based constraint permits an arbitrarily selected nonzero minimum stiffness, requires no initial energy-tank reserve, and is designed to combine with time-domain passivity approaches, wave variables, or energy tanks.",
+  "content_summary": "Panzirsch et al. present a deflection-domain passivity controller for variable virtual stiffness. Experiments used two 1-DoF rotational devices under QNX at 1 kHz, with EMG sampled at 200 Hz and desired wrist stiffness constrained to 1.2–4.5 Nm/rad. Across multiple stiffness profiles, active environments, and delayed communication, the observed energy of the variable-stiffness two-port remained nonnegative. Conventional TDPA without OBG-K could completely attenuate force and produce zero-stiffness phases. With delay, TDPA could still briefly reduce feedback to zero because the communication channel generated energy. The authors report conservatism during pressing with fast stiffness increases, assume negligible deadband energy, and leave higher-dimensional dynamics and realistic scenarios for future work.",
+  "synthesis_role": "Provides experimental and mechanistic evidence that potential-energy-based, deflection-domain stiffness limiting can preserve passivity without forcing the commanded stiffness to zero, while identifying delay-channel dissipation and dimensional validation as unresolved boundaries.",
+  "development_link": "Supports development of variable-impedance teleoperation controllers that separate stiffness-induced energy regulation from communication-channel passivity management; motivates combining OBG-K with TDPA, wave variables, or energy tanks and extending validation beyond 1-DoF.",
+  "evidence": [
+    {
+      "locator": "Controller formulation and potential-energy analysis",
+      "status": "author_reported",
+      "finding": "OBG-K limits unknown real-time stiffness profiles in the virtual-spring deflection domain using observed potential energy, while allowing an arbitrary selected nonzero minimum stiffness and requiring no initial tank energy."
+    },
+    {
+      "locator": "Experimental setup",
+      "status": "author_reported",
+      "finding": "Tests used two 1-DoF rotational devices, QNX control at 1 kHz, EMG at 200 Hz, desired wrist stiffness of 1.2–4.5 Nm/rad, and no virtual-coupling damping."
+    },
+    {
+      "locator": "Experiments across stiffness profiles and active environments",
+      "status": "author_reported",
+      "finding": "Observed energy remained nonnegative for the variable-stiffness two-port under the tested conditions."
+    },
+    {
+      "locator": "Comparison with conventional TDPA",
+      "status": "author_reported",
+      "finding": "Without OBG-K, conventional TDPA could fully attenuate force feedback and create phases of zero stiffness."
+    },
+    {
+      "locator": "50-ms round-trip delay experiment and discussion",
+      "status": "author_reported",
+      "finding": "Under delay, TDPA still briefly attenuated feedback to zero because communication generated energy; future combinations are proposed to reduce this effect."
+    },
+    {
+      "locator": "Limitations and future work",
+      "status": "author_reported",
+      "finding": "The pressing-phase constraint may be conservative during fast stiffness increases, deadband energy is assumed negligible, and validation is limited to 1-DoF hardware."
+    }
+  ],
+  "evidence_kind": [
+    "analytical_method",
+    "hardware_experiment",
+    "comparative_experiment",
+    "delay_experiment",
+    "author-reported_limitations"
+  ],
+  "boundary_conditions": [
+    "Validated only on two 1-DoF rotational devices.",
+    "Desired wrist stiffness was constrained to 1.2–4.5 Nm/rad.",
+    "Conservative demonstrations omitted virtual-coupling damping.",
+    "Communication-delay testing used a 50-ms round-trip delay.",
+    "Passivity of the variable-stiffness two-port does not by itself establish passivity of every coupled communication component.",
+    "Passivity evidence is not equivalent to universal safety.",
+    "Broad robustness beyond the tested profiles, environments, delays, and hardware is unestablished."
+  ],
+  "assumptions": [
+    "Potential energy can be observed or computed accurately enough for online control.",
+    "Energy associated with the deflection deadband is negligible.",
+    "The modeled virtual-spring energy accounting adequately represents stiffness-related energy exchange.",
+    "Other combined passivity components operate according to their own assumptions and energy bookkeeping."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "The pressing-phase limitation can be conservative for rapid stiffness increases.",
+      "Deflection-deadband energy is assumed negligible rather than explicitly regulated.",
+      "Only 1-DoF hardware was tested.",
+      "Other dynamics, 6-DoF operation, and realistic scenarios were not validated.",
+      "With communication delay, TDPA can still briefly attenuate feedback to zero because the channel generates energy."
+    ],
+    "inferred": [
+      "The evidence cannot support universal safety, since passivity is narrower than safety and the experimental scope is limited.",
+      "Performance may depend on potential-energy estimation and modeling accuracy.",
+      "Generality to untested stiffness ranges, delays, multi-DoF coupling, contact dynamics, and communication architectures remains uncertain."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "verified_against_controller_supplied_full_text_packet_only"
+}
