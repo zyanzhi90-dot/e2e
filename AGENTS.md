@@ -25,3 +25,12 @@ For long-running asynchronous work:
   send interactive input.
 - These tools return early when the process or cell completes.
   Do not wake the model merely to report that work is still running.
+
+## Completion and Git hygiene
+
+- Before declaring a task complete, run the relevant tests or validation checks for
+  the changes made and report any checks that cannot be run.
+- Inspect the final `git diff` and `git status` to confirm that only intended
+  repository changes are included.
+- Commit the completed, validated changes with a descriptive message and push the
+  resulting branch and any task-created tags to the configured GitHub remote.
