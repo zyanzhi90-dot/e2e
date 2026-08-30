@@ -32207,8 +32207,7 @@
           "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
           "scope": "impedance-control-landscape-e2e-only",
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
-          "preserved_executed_prefix_through": "problem_human_acceptance",
-          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+          "preserved_executed_prefix_through": "problem_human_acceptance"
         }
       },
       {
@@ -32278,8 +32277,7 @@
           "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
           "scope": "impedance-control-landscape-e2e-only",
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
-          "preserved_executed_prefix_through": "problem_human_acceptance",
-          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+          "preserved_executed_prefix_through": "problem_human_acceptance"
         }
       },
       {
@@ -32349,8 +32347,7 @@
           "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
           "scope": "impedance-control-landscape-e2e-only",
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
-          "preserved_executed_prefix_through": "problem_human_acceptance",
-          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+          "preserved_executed_prefix_through": "problem_human_acceptance"
         }
       },
       {
@@ -32375,8 +32372,7 @@
           "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
           "scope": "impedance-control-landscape-e2e-only",
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
-          "preserved_executed_prefix_through": "problem_human_acceptance",
-          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+          "preserved_executed_prefix_through": "problem_human_acceptance"
         }
       },
       {
@@ -32401,8 +32397,7 @@
           "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
           "scope": "impedance-control-landscape-e2e-only",
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
-          "preserved_executed_prefix_through": "problem_human_acceptance",
-          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+          "preserved_executed_prefix_through": "problem_human_acceptance"
         }
       },
       {
@@ -32445,8 +32440,7 @@
           "maintenance_id": "batch-0-method-design-refactor-reset-20260830T122900465Z",
           "scope": "impedance-control-landscape-e2e-only",
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
-          "preserved_executed_prefix_through": "problem_human_acceptance",
-          "snapshot_manifest": "manual-maintenance/batch0-db382b10302a/SNAPSHOT_MANIFEST.json"
+          "preserved_executed_prefix_through": "problem_human_acceptance"
         }
       }
     ],

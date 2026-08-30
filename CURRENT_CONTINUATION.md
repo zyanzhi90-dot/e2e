@@ -43,13 +43,10 @@ real time.
   cycle, incremental literature session, or Method Design query-plan binding
   is active.
 
-The Human-authorized Batch 0 maintenance preserved the executed prefix through
-`problem_human_acceptance` and reset the old-workflow suffix without migrating
-the workflow or changing Harness production code. Its immutable snapshot and
-hash manifest are under
-`manual-maintenance/batch0-db382b10302a/`.
-The original State snapshot SHA-256 is
-`db382b10302a953523aabf964c8db8376f55b750553592f1d6773c8e9e25b587`.
+Batch 0 saved a recovery snapshot under
+`manual-maintenance/batch0-db382b10302a/contents/`, retained the executed prefix
+through `problem_human_acceptance`, and reset the old-workflow suffix. The
+workflow was not migrated, and Harness production code was not changed.
 
 The authoritative State is
 `.aris/runs/impedance-control-landscape-e2e.json`. Never edit it directly.
@@ -100,7 +97,6 @@ permission from this checkpoint.
 
 Do not create a new run, re-adopt the archived suffix, directly edit formal
 Controller State, modify the preserved accepted Problem/upstream artifacts, or
-bypass a Gate. The one-time Batch 0 direct maintenance authorization has been
-consumed. Future formal research-state changes occur only through
-`python -m arisctl` and only when the live Controller exposes the required
-action.
+bypass a Gate. Future formal scientific-state changes occur only through the
+normal Controller lifecycle with `python -m arisctl`, and only when the live
+Controller exposes the required action.

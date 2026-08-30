@@ -1,3 +1,2 @@
 .gitattributes text eol=lf
-SNAPSHOT_MANIFEST.json text eol=lf
 contents/** binary
