@@ -20,23 +20,23 @@
     },
     {
       "path": ".codex\\agents\\independent_problem_reviewer.toml",
-      "sha256": "7e6705628fb4cdc337d963ca783881c2097beb5ca3922206a6b4538afc79ffd1"
+      "sha256": "e5614de424d1f270edd1e1f8a11d3717d43674c75292d2474b0d612f7a4df94c"
     },
     {
       "path": ".codex\\agents\\independent_novelty_reviewer.toml",
-      "sha256": "13ba6ff8013a5590d6fa01c13643509f2794a410061946dead9034ba159e5c4e"
+      "sha256": "0241930a027636e66e6c3ce952b37681529f554d9acc3317cb614ef50f1601bc"
     },
     {
       "path": ".codex\\agents\\independent_root_cause_reviewer.toml",
-      "sha256": "b669aa643e32e907f9656e6793c53337275acf6fa9127e0dba51e6deafe223c0"
+      "sha256": "01a5ddba8b1e0c9fc3a66db840331ecbe83cc08162cb66852e2532237f380ca2"
     },
     {
       "path": ".codex\\agents\\independent_method_reviewer.toml",
-      "sha256": "043a60e1cc88443033dbec28d18888e9c362714c97719ce139dfab2a9d8cf7ac"
+      "sha256": "fca4b6e2b83ed5c85a1158d8c886ab607e907e80a9fa119be017dcd9b8910085"
     },
     {
       "path": ".codex\\agents\\result_to_claim_reviewer.toml",
-      "sha256": "13310d2eaef4b25ffd1207c31981c5b2b5da99f0a58261127f579f32b3ebf147"
+      "sha256": "77572a9e6e32bf365920e1c0cee7cbb1cc01201bbaf7502a98659363e822f115"
     },
     {
       "path": ".codex\\hooks\\pre_tool_use_policy.py",
@@ -44,7 +44,7 @@
     },
     {
       "path": ".codex\\hooks\\subagent_attestation.py",
-      "sha256": "59cca0f7ae9f31cd01447d1ef0eb8ef4b8b43a5b359cfb1e31c81bd46fa84986"
+      "sha256": "cbfdb89eba9275f8dc8225431818f3417136f28080f677694adc6c3b044651d3"
     },
     {
       "path": ".codex\\rules\\aris.rules",

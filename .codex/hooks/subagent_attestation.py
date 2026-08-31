@@ -302,9 +302,10 @@ def main() -> int:
             required_verdict_fields = {
                 "schema_version", "analysis_id", "reviewed_analysis_sha256",
                 "problem_contract_sha256", "evidence_capsule_sha256", "reasons", "issues",
+                "necessity_closure_sha256", "necessity_verdict_sha256",
                 "observation_fidelity", "grouping_adequacy", "causal_depth",
                 "explanatory_coverage", "evidence_calibration", "intervention_relevance",
-                "falsifiability",
+                "falsifiability", "residual_failure_alignment",
             }
             missing = sorted(required_verdict_fields - set(payload))
             if missing:
@@ -324,11 +325,26 @@ def main() -> int:
                     + ", ".join(missing)
                 )
         if role == "independent_problem_reviewer":
-            records = payload.get("verdict_records")
-            if not isinstance(records, list) or not records:
-                raise ValueError(
-                    f"{role} must return complete reviewer-owned verdict_records"
-                )
+            if "necessity_id" in payload:
+                required_verdict_fields = {
+                    "schema_version", "necessity_id", "reviewed_closure_sha256",
+                    "problem_contract_sha256", "evidence_capsule_sha256", "reasons", "issues",
+                    "failure_reality", "operating_envelope_fidelity",
+                    "simple_repair_coverage", "residual_failure_fidelity",
+                    "problem_identity_fidelity", "evidence_sufficiency",
+                }
+                missing = sorted(required_verdict_fields - set(payload))
+                if missing:
+                    raise ValueError(
+                        "independent_problem_reviewer must return the complete canonical Necessity verdict payload: "
+                        + ", ".join(missing)
+                    )
+            else:
+                records = payload.get("verdict_records")
+                if not isinstance(records, list) or not records:
+                    raise ValueError(
+                        f"{role} must return complete reviewer-owned verdict_records"
+                    )
         if role == "result_to_claim_reviewer":
             required_verdict_fields = {
                 "schema_version", "workflow_sha256", "handoff_sha256", "rationale",
@@ -340,10 +356,22 @@ def main() -> int:
                     "result_to_claim_reviewer must return the complete canonical validation verdict payload: "
                     + ", ".join(missing)
                 )
-            if payload.get("decision") == "VALIDATED" and "mechanism_evidence_closure" not in payload:
-                raise ValueError(
-                    "result_to_claim_reviewer VALIDATED payload requires mechanism_evidence_closure"
-                )
+            if payload.get("decision") == "VALIDATED":
+                required_validation_fields = {
+                    "mechanism_evidence_closure", "coverage_assessments",
+                    "supported_claim_elements", "applicability_boundaries",
+                    "retained_limitations", "remaining_uncertainties",
+                }
+                missing = sorted(required_validation_fields - set(payload))
+                if missing:
+                    raise ValueError(
+                        "result_to_claim_reviewer VALIDATED payload is incomplete: "
+                        + ", ".join(missing)
+                    )
+                if "established_scientific_delta" in payload:
+                    raise ValueError(
+                        "result_to_claim_reviewer cannot author Established Scientific Delta"
+                    )
         target = review_attestation_path(root, run_id, role, correlation_id)
     else:
         target = root / ".aris" / "agent-attestations" / role / f"{correlation_id}.json"
@@ -389,7 +417,7 @@ def main() -> int:
         if role in {
             "coverage_reviewer", "independent_problem_reviewer",
             "independent_novelty_reviewer", "independent_root_cause_reviewer",
-            "result_to_claim_reviewer",
+            "independent_method_reviewer", "result_to_claim_reviewer",
         }:
             # The Controller, rather than Main, will validate and atomically
             # materialize this exact reviewer-owned verdict payload.
