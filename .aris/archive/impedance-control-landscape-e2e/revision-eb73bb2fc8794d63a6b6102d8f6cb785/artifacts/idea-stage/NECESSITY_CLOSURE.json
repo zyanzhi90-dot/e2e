@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "necessity_id": "NEC-P-SOFTSCAN-STATE-01-V1",
+  "problem_binding": {
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 1,
+    "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+  },
+  "active_failures": [
+    {
+      "failure_id": "F-REPRESENTATION-ALIASING",
+      "condition": "Continuous finite-area soft contact under held-out changes in material relaxation, local thickness or curvature, sliding speed or direction, and tangential loading, especially when instantaneous normal force and indentation are similar across physically different contact states.",
+      "observable_failure": "A calibrated instantaneous normal-contact representation can fit or regulate its nominal condition yet cannot uniquely predict the subsequent normal/tangential wrench, contact-area evolution, or feasible wrench capacity across those shifted states; documented examples show recovery mismatch for simpler memoryless models, area/geometry-dependent force and moment, and degraded performance outside the model's calibrated structure.",
+      "consequence": "An impedance selector using only the aliased simple state can choose stiffness or damping without knowing which future wrench/constraint regime it is acting in, so equivalence of the selected action and held-out safety/task outcome cannot be assumed.",
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "QPuQ4sfxSTIJ",
+        "Ubx3Xkv4y2kJ",
+        "USER-TUFFC-2011-1961",
+        "iasK6kEBzIEJ",
+        "0n2WntIcZ5MJ"
+      ]
+    },
+    {
+      "failure_id": "F-BOUNDED-SIMPLE-CONTROL",
+      "condition": "Bounded nominal regimes in which measured-wrench feedback, scheduled/variable impedance, static uncertainty compensation, or one calibrated finite-area model regulates contact well, followed by a shift in geometry, relaxation, tangential capacity, or material not represented in the controller state.",
+      "observable_failure": "Strong simple comparators are effective within their stated bounds, but their evidence does not establish action-equivalence after the hidden contact condition changes: model-agnostic admittance is reactive to current wrench, the static GP prior confines uncertainty to a static output map, and the calibrated finite-area MPC omits relaxation memory and online material adaptation.",
+      "consequence": "Nominal success can mask the unresolved boundary at which the simple controller ceases to be decision-equivalent; adding modules or retuning without identifying that boundary cannot justify a new method or a minimal sensing/model claim.",
+      "evidence_refs": [
+        "USER-TASE-2023-3282974",
+        "9vRJMR2dgG4J",
+        "QPuQ4sfxSTIJ",
+        "j4KJ1EdUyYAJ",
+        "ZDySGaNsMn8J"
+      ]
+    }
+  ],
+  "operating_envelope": {
+    "task": "Continuous sliding or scanning of a rigid probe over a compliant finite-area environment.",
+    "observables": [
+      "normal and tangential wrench",
+      "robot pose or indentation",
+      "rendered impedance action",
+      "sliding speed",
+      "available contact-area/local-geometry/history estimates",
+      "independent task-quality endpoint"
+    ],
+    "variation_axes": [
+      "material stiffness and relaxation",
+      "thickness and curvature",
+      "contact-patch evolution",
+      "speed, direction, dwell and loading history",
+      "tangential load, slip/moment-capacity proximity and disturbances",
+      "held-out specimens or regions"
+    ],
+    "fairness_boundary": "Comparisons must hold data, compute, objective, safety constraint, sensing latency and controller bandwidth budgets fixed and must judge impedance-action equivalence plus held-out closed-loop outcomes, not model-fit improvement alone."
+  },
+  "simple_repair_assessments": [
+    {
+      "assessment_id": "SR-MEASURED-WRENCH-ADAPTATION",
+      "repair": "Use conventional variable/adaptive impedance or gain scheduling driven by current force/wrench error, including the strongest model-agnostic admittance comparator.",
+      "applicable_failure_ids": [
+        "F-REPRESENTATION-ALIASING",
+        "F-BOUNDED-SIMPLE-CONTROL"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "USER-TASE-2023-3282974",
+        "USER-TRO-2022-3216078"
+      ],
+      "coverage_boundary": "Can fully remove the superficial failure 'fixed impedance does not adapt' and can regulate six-dimensional wrench in calibrated, sufficiently observable and bandwidth-limited regimes. It remains reactive to the current measured port signal and does not by itself resolve two contact states that require different future actions before their wrench errors separate.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ]
+    },
+    {
+      "assessment_id": "SR-MEMORYLESS-MODEL-TUNING",
+      "repair": "Retune a conventional memoryless nonlinear contact model or local estimator and optimize impedance within that calibrated model class.",
+      "applicable_failure_ids": [
+        "F-REPRESENTATION-ALIASING",
+        "F-BOUNDED-SIMPLE-CONTROL"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "9vRJMR2dgG4J"
+      ],
+      "coverage_boundary": "Covers nominal regimes where the instantaneous variables form an adequate state and calibrated parameters/uncertainty remain valid. It cannot distinguish path-dependent relaxation or geometry/tangential-capacity states that are observationally aliased under the chosen representation; more tuning inside the same state cannot create the missing information.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ]
+    },
+    {
+      "assessment_id": "SR-STATIC-FINITE-AREA-MODEL",
+      "repair": "Use a known calibrated finite-area, local-geometry and friction-aware contact model inside conventional MPC without a new state-selection mechanism.",
+      "applicable_failure_ids": [
+        "F-REPRESENTATION-ALIASING",
+        "F-BOUNDED-SIMPLE-CONTROL"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J",
+        "0n2WntIcZ5MJ"
+      ],
+      "coverage_boundary": "Covers regimes where the selected geometry/area/friction model is calibrated and sufficient, and directly defeats any claim that finite-area modeling alone is novel. It does not establish relaxation-history, heterogeneous-shift, component-minimality, or decision-equivalence boundaries and can remain wrong when omitted state changes future wrench capacity.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ]
+    },
+    {
+      "assessment_id": "SR-STRONGEST-FAIR-COMBINATION",
+      "repair": "Combine calibrated six-axis measured-wrench feedback, conventional gain scheduling, static uncertainty tightening, and a known finite-area contact predictor under equal resource and safety budgets.",
+      "applicable_failure_ids": [
+        "F-REPRESENTATION-ALIASING",
+        "F-BOUNDED-SIMPLE-CONTROL"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "USER-TASE-2023-3282974",
+        "9vRJMR2dgG4J",
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J"
+      ],
+      "coverage_boundary": "This nearest fair combination is the required simple baseline and may prove sufficient over much of the envelope. The current formal evidence nevertheless leaves an explicit residual where two histories/material/geometry states are not separated by its state before an action must be chosen; stacking the known blocks does not determine which additional information is necessary, whether it changes the action, or where it is unnecessary.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ]
+    }
+  ],
+  "residual_failure_envelope": [
+    {
+      "residual_failure_id": "RF-HIDDEN-STATE-DECISION-BOUNDARY",
+      "source_failure_ids": [
+        "F-REPRESENTATION-ALIASING",
+        "F-BOUNDED-SIMPLE-CONTROL"
+      ],
+      "condition": "After conventional measured-wrench adaptation, memoryless model tuning, static uncertainty handling, finite-area modeling, and their nearest fair combination have removed nominal/fixed-impedance failures, the controller encounters held-out soft-contact states whose relevant relaxation, geometry/area, or tangential-capacity condition is not identifiable from the retained instantaneous state before materially different impedance actions are required.",
+      "observable_failure": "Under matched resources, the simple representation either selects an impedance action outside the prespecified equivalence margin from a representation that resolves the condition and this difference produces a repeatable held-out safety/task consequence, or it cannot certify equivalence because the same retained state maps to materially different subsequent wrench/constraint outcomes. The residual expressly excludes nominal regimes where the strongest simple combination remains action- and outcome-equivalent.",
+      "consequence": "Without resolving this residual, the system cannot know when extra contact information is necessary, which smallest component set is sufficient, or when added sensing/model complexity should be rejected; the accepted practical decision-value problem remains unanswered.",
+      "uncovered_by_repair_assessment_ids": [
+        "SR-MEASURED-WRENCH-ADAPTATION",
+        "SR-MEMORYLESS-MODEL-TUNING",
+        "SR-STATIC-FINITE-AREA-MODEL",
+        "SR-STRONGEST-FAIR-COMBINATION"
+      ],
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "QPuQ4sfxSTIJ",
+        "USER-TASE-2023-3282974",
+        "ZDySGaNsMn8J",
+        "USER-TUFFC-2011-1961",
+        "iasK6kEBzIEJ",
+        "Ubx3Xkv4y2kJ",
+        "9vRJMR2dgG4J",
+        "0n2WntIcZ5MJ"
+      ]
+    }
+  ],
+  "problem_identity_disposition": "SAME_ACCEPTED_PROBLEM",
+  "analysis_provenance": {
+    "author_role": "main_research_agent",
+    "created_at": "2026-08-31T16:13:51Z",
+    "analysis_modes": [
+      "EXISTING_FORMAL_EVIDENCE",
+      "FORMAL_ANALYSIS"
+    ],
+    "source_artifact_ids": [
+      "j4KJ1EdUyYAJ",
+      "QPuQ4sfxSTIJ",
+      "USER-TASE-2023-3282974",
+      "USER-TRO-2022-3216078",
+      "ZDySGaNsMn8J",
+      "USER-TUFFC-2011-1961",
+      "iasK6kEBzIEJ",
+      "Ubx3Xkv4y2kJ",
+      "9vRJMR2dgG4J",
+      "0n2WntIcZ5MJ"
+    ]
+  }
+}

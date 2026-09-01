@@ -1,19 +1,36 @@
-# Problem Candidate Index
+# Problem Candidate — P-SOFTSCAN-STATE-01 v2
 
-## P-SOFTSCAN-STATE-01 — Which additional contact information actually improves optimal impedance?
+## Primary research question
 
-**Research question.** In continuous soft-contact tasks, compared with existing simple contact representations, under which practical operating conditions do additional contact information—contact area, local geometry, tangential force or moment, and contact history, separately or in combination—improve optimal impedance decisions and held-out closed-loop outcomes, and what is the minimal sufficient contact representation required to achieve each improvement?
+How can a robot select time-varying normal–tangential impedance online during continuous soft-contact scanning to minimize a joint force-regulation, trajectory-tracking, and contact-loss or slip objective while respecting wrench and interaction-energy constraints across material, geometry, sliding-condition, and contact-history shifts absent from its calibration data?
 
-**Why this is the mature problem.** Existing work already covers HC-based learned optimal impedance (`j4KJ1EdUyYAJ`), soft-contact-aware ultrasound MPC (`QPuQ4sfxSTIJ`), deformable-contact-aware MPC (`ZDySGaNsMn8J`), low-order viscoelastic tissue identification plus force control (`iasK6kEBzIEJ`), real-time PFC (`_-WpL4QNulUJ`), and learned uncertainty-tightened force MPC (`9vRJMR2dgG4J`). The unresolved delta is therefore not “use a richer contact model” or “add history state,” but which additional contact information changes the impedance decision or a closed-loop outcome in which practical regime, and how much of that information is minimally sufficient.
+## Why this is the problem—not the method
 
-**Competing explanations.** Contact area or geometry may matter under curvature, thickness, or contact-patch change; tangential wrench information may matter near sliding, stick–slip, or moment-capacity limits; history may matter when material and motion timescales interact; robust wrench feedback or calibrated uncertainty may absorb these effects; or only a smaller latent statistic—or no extra information—may be reproducibly useful.
+The central object is the online impedance decision and its closed-loop force–motion–contact consequence. Contact models, state representations, estimators, critics, MPC, uncertainty bounds, passivity devices, and safety filters are possible explanations or later design choices; none is assumed to be the answer.
 
-**Decisive falsifier.** For each added-information component and their combinations, if matched simple or contact-model-agnostic baselines choose equivalent impedance and match the richer representation on held-out transient wrench, constraint, contact-loss/slip, and independent scanning-quality outcomes, that component is not control-relevant in the tested regime. A claimed minimal representation must also be observable, reproducible, and incrementally predictive.
+The previously accepted question asked which extra contact-information components were useful. That is retained only as a possible downstream diagnostic or ablation. It no longer defines the scientific objective.
 
-**Feasible probe.** A randomized repeated-measures phantom study spanning relaxation time, stiffness, thickness/curvature, contact-area change, sliding speed, direction, dwell history, and withheld specimens, followed by a bounded ex-vivo transfer check. Equalize data, compute, objectives, and constraints; use nested ablations that add area, geometry, tangential wrench, and history information separately and in justified combinations; compare selected impedance trajectories and failure-inclusive closed-loop outcomes rather than fit alone.
+## Evidence-backed gap
 
-**Value under either answer.** A positive result yields an information-by-regime map and the minimal sufficient contact representation for each supported benefit. A negative or selective result prevents unjustified sensing and modeling complexity and redirects work toward robust feedback, uncertainty calibration, and constraint design.
+- Optimal-impedance learning exists for a previously identified scalar Hunt–Crossley environment, but abrupt contact shifts, continuous normal–tangential scanning, enforceable wrench or energy limits, safe exploration, and solver failure remain outside its demonstrated envelope.
+- Continuous finite-area robotic-ultrasound and deformable-contact MPC exist, but their impedance is predefined rather than selected online for a held-out joint objective.
+- Strong model-agnostic six-dimensional compliant control exists, but it does not solve optimal gain selection and warns that ideal time-varying impedance can lose passivity under constraint.
+- Online constrained stiffness-and-damping planning and uncertainty-tightened predictive control exist, but not with the complete continuous-soft-contact problem and held-out failure-inclusive comparison.
 
-**Primary formal evidence.** `j4KJ1EdUyYAJ`, `QPuQ4sfxSTIJ`, `USER-TASE-2023-3282974`, `USER-TRO-2022-3216078`, `ZDySGaNsMn8J`, `_8NXx8-VkcgJ`, `USER-TUFFC-2011-1961`, `iasK6kEBzIEJ`, `Ubx3Xkv4y2kJ`, `_-WpL4QNulUJ`, `9vRJMR2dgG4J`, `0n2WntIcZ5MJ`.
+## Scope
 
-**Current status.** Revised Candidate awaiting the independent Problem Quality Gate; not yet recertified, re-audited for novelty, or human accepted.
+Rigid ultrasound-like probes; continuous sliding over compliant finite-area surfaces; bounded normal and tangential stiffness/damping; matched data, sensing, compute, tuning, objective, inner-loop, and safety budgets; held-out material, geometry, speed, direction, history, tangential-load, and disturbance shifts; quantitative force/wrench, motion, contact-failure, energy, real-time, and independent scanning outcomes.
+
+Excluded: universal tissue modeling, unrestricted physical exploration, universal clinical or injury claims, and any precommitment to HC, PFC, MPC, a critic architecture, or a particular safety mechanism.
+
+## Decisive test
+
+An online selector must outperform the strongest matched fixed, scheduled, model-agnostic, contact-aware predefined-impedance, and uncertainty-aware comparators on held-out joint performance while satisfying every predeclared wrench, contact, energy, actuator, and computation limit. Timeouts, infeasibility, and fallback events count against it. Equivalence of the strongest conventional baselines falsifies the claimed need for a new general principle in the stated envelope.
+
+## Formal evidence anchors
+
+`j4KJ1EdUyYAJ`, `QPuQ4sfxSTIJ`, `USER-TASE-2023-3282974`, `USER-TRO-2022-3216078`, `ZDySGaNsMn8J`, `_8NXx8-VkcgJ`, `USER-TUFFC-2011-1961`, `Ubx3Xkv4y2kJ`, and `9vRJMR2dgG4J`.
+
+## User-material provenance
+
+The problem was re-centered from the user's 2026-08-22 SoftScan synthesis, especially the optimal-impedance draft, contact-model draft, contact-model survey, and literature–method relation map. Those materials define the high-value hypothesis and system intent; formal scientific claims remain bound to accepted Controller evidence.

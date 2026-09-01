@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "4113c5e09ca3495a96990ade8de876a7",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "c47f28e89ea64d30988c2532bff0da62",
+  "necessity_id": "NEC-P-SOFTSCAN-STATE-01-V1",
+  "reviewed_closure_sha256": "ec8396ced5982dd23b485a3dc9fabbcdaa43fc81e918d9123e274d85ff9b5d28",
+  "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+  "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+  "decision": "RESIDUAL_SAME_PROBLEM",
+  "reasons": [
+    "The bound evidence supports a real representation-aliasing failure: instantaneous normal force and indentation can correspond to states with different relaxation, geometry, area evolution, or tangential capacity and therefore different future wrench or constraint outcomes.",
+    "The operating envelope faithfully matches the accepted Problem and defines fair matched-resource comparisons using action equivalence and held-out closed-loop outcomes rather than nominal model-fit gains.",
+    "Each assessed repair is a conventional, applicable low-complexity comparator that preserves the core contact-information-to-impedance-decision relation; each covers bounded observable or calibrated regimes but cannot, by construction, recover distinctions absent from its retained state.",
+    "The strongest fair combination still leaves the exact RF-HIDDEN-STATE-DECISION-BOUNDARY where retained instantaneous observations do not separate states before materially different impedance actions are required.",
+    "The residual remains the accepted P-SOFTSCAN-STATE-01 problem because it asks when additional contact information is decision-relevant and what minimal representation is sufficient; it neither substitutes a new failure nor presupposes a new method.",
+    "The current evidence is sufficient for this necessity judgment because it jointly establishes the physical relevance of the omitted state components, credible success of the strongest simple comparators in bounded regimes, and the information limitation that preserves the residual boundary without requiring a new active experiment."
+  ],
+  "issues": [],
+  "failure_reality": "PASS",
+  "operating_envelope_fidelity": "PASS",
+  "simple_repair_coverage": "PASS",
+  "residual_failure_fidelity": "PASS",
+  "problem_identity_fidelity": "PASS",
+  "evidence_sufficiency": "PASS",
+  "reviewed_artifact_hashes": {
+    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+    "idea-stage/NECESSITY_CLOSURE.json": "ec8396ced5982dd23b485a3dc9fabbcdaa43fc81e918d9123e274d85ff9b5d28"
+  }
+}

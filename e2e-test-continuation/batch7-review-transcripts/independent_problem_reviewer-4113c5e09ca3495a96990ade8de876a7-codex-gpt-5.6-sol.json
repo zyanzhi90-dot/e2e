@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "4113c5e09ca3495a96990ade8de876a7",
+  "reviewer": "codex-gpt-5.6-sol",
+  "verdict_id": "998de8ee-0ae1-4155-8084-95f1f30011a0",
+  "necessity_id": "NEC-P-SOFTSCAN-STATE-01-V1",
+  "reviewed_closure_sha256": "ec8396ced5982dd23b485a3dc9fabbcdaa43fc81e918d9123e274d85ff9b5d28",
+  "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+  "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+  "decision": "UNRESOLVED",
+  "reasons": [
+    "The bound Evidence establishes that relaxation, finite-area geometry, pressure distribution, and tangential wrench capacity can matter physically, and it establishes strong conventional comparators within bounded regimes, but it does not establish that the retained instantaneous state in the target continuous-scanning envelope maps to materially different optimal impedance actions before measured-wrench feedback can respond.",
+    "The strongest fair conventional combination declared in SR-STRONGEST-FAIR-COMBINATION has not been evaluated by any bound Evidence Card. The absence of a study establishing its action-equivalence boundary cannot support PARTIAL_COVERAGE rather than UNRESOLVED coverage.",
+    "RF-HIDDEN-STATE-DECISION-BOUNDARY presupposes the decisive fact that materially different impedance actions are required, while its alternative observable is an inability to certify equivalence. The first is not demonstrated by the bound Evidence and the second is an evidence gap rather than an observed residual failure.",
+    "The Operating Envelope and fairness boundary faithfully match the accepted Contract, and the proposed residual scientific question remains the same accepted component-by-condition decision-value problem; those two bindings do not cure the unresolved repair-coverage and residual-reality questions."
+  ],
+  "issues": [
+    {
+      "issue_id": "NEC-BLOCK-COVERAGE-001",
+      "severity": "BLOCKING",
+      "rubric": "simple_repair_coverage",
+      "description": "The closure labels the nearest fair combination of measured-wrench feedback, gain scheduling, static uncertainty tightening, and a known finite-area predictor as PARTIAL_COVERAGE without formal Evidence that evaluates that combination across the bound shifts or demonstrates a pre-response impedance-action divergence. Current Evidence therefore cannot decide whether this repair fully covers, partially covers, or fails to cover the accepted Failure.",
+      "evidence_ids": [
+        "USER-TASE-2023-3282974",
+        "9vRJMR2dgG4J",
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J"
+      ],
+      "affected_ids": [
+        "SR-STRONGEST-FAIR-COMBINATION",
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ]
+    },
+    {
+      "issue_id": "NEC-BLOCK-RESIDUAL-002",
+      "severity": "BLOCKING",
+      "rubric": "residual_failure_fidelity",
+      "description": "The residual condition builds in that omitted contact state requires materially different impedance actions, but the bound Evidence supports only physical/model mismatch and bounded comparator limitations, not that decision-level premise in held-out continuous scanning. The alternative 'cannot certify equivalence' is insufficient as an observable failure. The allowed current Evidence therefore leaves the residual Failure itself unresolved.",
+      "evidence_ids": [
+        "j4KJ1EdUyYAJ",
+        "USER-TASE-2023-3282974",
+        "USER-TUFFC-2011-1961",
+        "iasK6kEBzIEJ",
+        "Ubx3Xkv4y2kJ"
+      ],
+      "affected_ids": [
+        "F-REPRESENTATION-ALIASING",
+        "F-BOUNDED-SIMPLE-CONTROL",
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ]
+    }
+  ],
+  "failure_reality": "FAIL",
+  "operating_envelope_fidelity": "PASS",
+  "simple_repair_coverage": "FAIL",
+  "residual_failure_fidelity": "FAIL",
+  "problem_identity_fidelity": "PASS",
+  "evidence_sufficiency": "FAIL",
+  "reviewed_artifact_hashes": {
+    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+    "idea-stage/NECESSITY_CLOSURE.json": "ec8396ced5982dd23b485a3dc9fabbcdaa43fc81e918d9123e274d85ff9b5d28"
+  }
+}

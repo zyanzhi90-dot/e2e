@@ -22,6 +22,8 @@
       "literature_corpus": "idea-stage/LITERATURE_CORPUS.jsonl",
       "source_admission_policy": "idea-stage/SOURCE_ADMISSION_POLICY.yaml",
       "search_log": "idea-stage/SEARCH_LEDGER.jsonl",
+      "necessity_closure": "idea-stage/NECESSITY_CLOSURE.json",
+      "necessity_verdict": "idea-stage/NECESSITY_VERDICT.json",
       "root_cause_analysis": "idea-stage/ROOT_CAUSE_ANALYSIS.json",
       "root_cause_analysis_view": "idea-stage/ROOT_CAUSE_ANALYSIS.md",
       "root_cause_verdict": "idea-stage/ROOT_CAUSE_VERDICT.json",
@@ -37,13 +39,107 @@
       "principle_evaluation": "idea-stage/PRINCIPLE_EVALUATION.json",
       "principle_evaluation_verdict": "idea-stage/PRINCIPLE_EVALUATION_VERDICT.json",
       "selected_principle": "idea-stage/SELECTED_PRINCIPLE.yaml",
+      "final_method_packet": "refine-logs/FINAL_METHOD_PACKET.json",
       "final_proposal": "refine-logs/FINAL_PROPOSAL.md",
       "final_method_review": "refine-logs/FINAL_BLIND_REVIEW.md",
       "refine_state": "refine-logs/REFINE_STATE.json",
       "final_method_novelty_verdict": "idea-stage/FINAL_METHOD_NOVELTY_VERDICT.md",
+      "top_venue_method_strength_verdict": "idea-stage/TOP_VENUE_METHOD_STRENGTH_VERDICT.json",
       "final_human_report": "idea-stage/IDEA_REPORT.md"
     },
     "artifact_contracts": {
+      "necessity_closure": {
+        "format": "json",
+        "schema_version": 1,
+        "lifecycle": "phase_scoped_pre_rca_scientific_artifact",
+        "required_fields": [
+          "schema_version",
+          "run_id",
+          "necessity_id",
+          "problem_binding",
+          "active_failures",
+          "operating_envelope",
+          "simple_repair_assessments",
+          "residual_failure_envelope",
+          "problem_identity_disposition",
+          "analysis_provenance"
+        ],
+        "problem_binding_fields": [
+          "problem_id",
+          "problem_version",
+          "problem_contract_sha256",
+          "evidence_capsule_sha256"
+        ],
+        "active_failure_fields": [
+          "failure_id",
+          "condition",
+          "observable_failure",
+          "consequence",
+          "evidence_refs"
+        ],
+        "simple_repair_assessment_fields": [
+          "assessment_id",
+          "repair",
+          "applicable_failure_ids",
+          "preserves_core_causal_or_computational_relation",
+          "evidence_refs",
+          "coverage_boundary",
+          "coverage_conclusion",
+          "residual_failure_ids"
+        ],
+        "coverage_conclusion_enum": [
+          "FULL_COVERAGE",
+          "PARTIAL_COVERAGE",
+          "NO_COVERAGE",
+          "UNRESOLVED"
+        ],
+        "residual_failure_fields": [
+          "residual_failure_id",
+          "source_failure_ids",
+          "condition",
+          "observable_failure",
+          "consequence",
+          "uncovered_by_repair_assessment_ids",
+          "evidence_refs"
+        ],
+        "problem_identity_disposition_enum": [
+          "NO_RESIDUAL_FAILURE",
+          "SAME_ACCEPTED_PROBLEM",
+          "REDEFINES_PROBLEM",
+          "UNRESOLVED"
+        ]
+      },
+      "necessity_verdict": {
+        "format": "json",
+        "schema_version": 1,
+        "required_fields": [
+          "schema_version",
+          "run_id",
+          "review_request_id",
+          "reviewer",
+          "verdict_id",
+          "necessity_id",
+          "reviewed_closure_sha256",
+          "problem_contract_sha256",
+          "evidence_capsule_sha256",
+          "decision",
+          "reasons",
+          "issues",
+          "failure_reality",
+          "operating_envelope_fidelity",
+          "simple_repair_coverage",
+          "residual_failure_fidelity",
+          "problem_identity_fidelity",
+          "evidence_sufficiency",
+          "reviewed_artifact_hashes"
+        ],
+        "decision_enum": [
+          "FULLY_COVERED",
+          "RESIDUAL_SAME_PROBLEM",
+          "RESIDUAL_REDEFINES_PROBLEM",
+          "UNRESOLVED"
+        ]
+      },
       "method_design_packet": {
         "format": "json",
         "schema_version": 1,
@@ -53,10 +149,12 @@
           "design_cycle_id",
           "problem_binding",
           "root_cause_binding",
+          "primary_chain_dispositions",
           "required_mechanism_changes",
           "required_capabilities",
           "design_obligations",
           "principle_search_record",
+          "solution_space_constraint_assessment",
           "candidate_principles",
           "relevant_history_refs",
           "return_feedback_refs"
@@ -68,15 +166,29 @@
           "recommended_execution_set",
           "estimated_total_cost"
         ],
+        "primary_chain_disposition_fields": [
+          "causal_chain_id",
+          "disposition",
+          "mechanism_change_ids",
+          "evidence_refs",
+          "rationale"
+        ],
+        "primary_chain_disposition_enum": [
+          "RMC",
+          "CLAIM_BOUNDARY",
+          "OUTSIDE_FINAL_CLAIM_ENVELOPE"
+        ],
         "required_mechanism_change_fields": [
           "mechanism_change_id",
           "causal_chain_ids",
           "failed_relation_state_or_information_structure",
           "required_mechanism_change",
+          "change_direction",
+          "causal_position",
+          "activation_condition",
           "root_cause_resolution_rationale",
           "capability_ids",
-          "obligation_ids",
-          "acceptance_conditions"
+          "obligation_ids"
         ],
         "required_capability_fields": [
           "capability_id",
@@ -96,7 +208,9 @@
           "principle_version",
           "parent_version",
           "principle",
-          "origin",
+          "origin_type",
+          "origin_ref_id",
+          "alignment_ref_id",
           "mechanism_change_ids",
           "capability_ids",
           "obligation_ids",
@@ -108,12 +222,19 @@
           "failure_conditions",
           "fatal_assumptions",
           "target_domain_operationalization",
+          "target_intervention_novelty",
           "provisional_scientific_delta",
           "substantive_difference",
           "predictions",
           "evidence_refs",
           "status",
           "status_rationale"
+        ],
+        "candidate_origin_type_enum": [
+          "FIRST_PRINCIPLES",
+          "REPRESENTATION_TRANSFORMATION",
+          "SAME_FIELD_SOURCE",
+          "CROSS_DOMAIN_SOURCE"
         ],
         "candidate_derived_from_principle_fields": [
           "principle_id",
@@ -122,6 +243,9 @@
         "candidate_forbidden_fields": [
           "proposed_test_ids",
           "tests",
+          "test_operationalization",
+          "execution_requirements",
+          "test_only_concrete_realization",
           "execution_set",
           "estimated_cost"
         ],
@@ -138,32 +262,216 @@
           "assumption",
           "failure_consequence"
         ],
+        "solution_space_constraint_assessment_fields": [
+          "disposition",
+          "constraint_basis"
+        ],
+        "solution_space_constraint_disposition_enum": [
+          "UNDERCONSTRAINED",
+          "CONSTRAINED"
+        ],
         "prediction_fields": [
           "prediction_id",
           "assumption_ids",
-          "predicted_observation",
-          "activation_conditions",
-          "discriminates_from_principle_ids"
+          "observable",
+          "pattern_a",
+          "rival_type",
+          "rival_id",
+          "pattern_b",
+          "activation_condition",
+          "killer_criterion",
+          "cheapest_informative_rationale"
+        ],
+        "prediction_rival_type_enum": [
+          "PRINCIPLE",
+          "RIVAL_RCA"
         ],
         "principle_search_record_fields": [
+          "target_mechanism_signatures",
           "first_principles",
           "representation_transformations",
           "same_field_mechanisms",
           "cross_domain_structural_isomorphisms",
+          "discovery_executions",
+          "domain_hypotheses",
+          "terminology_maps",
+          "search_space_closures",
           "closure_rationale"
         ],
-        "cross_domain_candidate_fields": [
+        "target_mechanism_signature_fields": [
+          "target_mechanism_signature_id",
+          "rmc_id",
+          "domain_neutral_failure_structure",
+          "causal_or_computational_variable_or_relation",
+          "current_relation_or_state",
+          "required_intervention",
+          "change_direction",
+          "causal_position",
+          "activation_condition"
+        ],
+        "first_principles_derivation_fields": [
+          "origin_record_id",
+          "rmc_id",
+          "premises",
+          "derivation_steps",
+          "formal_or_evidence_basis",
+          "derived_intervention",
+          "rmc_resolution_rationale",
+          "assumptions",
+          "boundaries"
+        ],
+        "representation_transformation_fields": [
+          "origin_record_id",
+          "rmc_id",
+          "old_representation",
+          "new_representation",
+          "failure_mechanism_resolution",
+          "information_preserved",
+          "information_lost",
+          "formal_or_evidence_basis",
+          "assumptions",
+          "boundaries"
+        ],
+        "domain_hypothesis_fields": [
+          "domain_hypothesis_id",
+          "rmc_id",
+          "target_mechanism_signature_ref",
+          "source_channel",
+          "domain_or_research_community_or_paradigm",
+          "structural_rationale",
+          "expected_problem_structure",
+          "expected_intervention_family",
+          "provenance_refs",
+          "introduced_query_plan_sha256",
+          "disposition",
+          "closure_rationale",
+          "closure_provenance_refs"
+        ],
+        "domain_hypothesis_source_enum": [
+          "MODEL_PRIOR",
+          "ACADEMIC_BRIDGE",
+          "PRACTITIONER_SIGNAL"
+        ],
+        "domain_hypothesis_disposition_enum": [
+          "EXPLORE",
+          "CLOSED"
+        ],
+        "discovery_execution_fields": [
+          "discovery_execution_id",
+          "rmc_id",
+          "target_mechanism_signature_ref",
+          "source_channel",
+          "outcome",
+          "query_plan_sha256",
+          "plan_item_ids",
+          "evidence_refs",
+          "registered_domain_hypothesis_ids",
+          "closure_rationale"
+        ],
+        "discovery_execution_outcome_enum": [
+          "HYPOTHESES_REGISTERED",
+          "NO_ADDITIONAL_DOMAIN_HYPOTHESIS"
+        ],
+        "terminology_map_fields": [
+          "terminology_map_id",
+          "domain_hypothesis_id",
+          "canonical_problem_terms",
+          "canonical_variable_state_relation_terms",
+          "canonical_intervention_terms",
+          "canonical_method_families",
+          "evidence_refs",
+          "search_read_provenance",
+          "query_plan_sha256",
+          "plan_item_id"
+        ],
+        "source_mechanism_fields": [
+          "source_mechanism_id",
+          "served_rmc_ids",
+          "served_capability_ids",
+          "served_obligation_ids",
+          "discovery_provenance",
+          "search_provenance",
+          "genealogy",
+          "mechanism_origin_or_stop_rationale",
           "source_problem",
-          "source_root_cause",
           "source_intervention",
-          "changed_relation_state_or_information_structure",
-          "source_mechanism_evidence_refs",
-          "solution_principle",
-          "target_source_structural_mapping",
-          "causal_direction",
-          "activation_transfer_conditions",
-          "disanalogies",
-          "transfer_boundaries"
+          "changed_variable_relation_or_structure",
+          "causal_or_computational_effect",
+          "outcome",
+          "assumptions",
+          "activation_conditions",
+          "boundaries",
+          "evidence_refs",
+          "intervention_level_alignment"
+        ],
+        "source_mechanism_optional_fields": [
+          "source_root_cause"
+        ],
+        "genealogy_node_fields": [
+          "node_id",
+          "paper_id",
+          "mechanism_role",
+          "evidence_refs"
+        ],
+        "genealogy_relation_fields": [
+          "from_node_id",
+          "to_node_id",
+          "relation"
+        ],
+        "intervention_alignment_fields": [
+          "alignment_id",
+          "rmc_id",
+          "source_mechanism_id",
+          "variable_or_relation_role_mapping",
+          "change_direction_alignment",
+          "intervention_position_alignment",
+          "activation_condition_alignment",
+          "source_actual_effect",
+          "assumption_boundary_mismatches",
+          "decision",
+          "evidence_refs",
+          "solution_principle_abstraction",
+          "failure_disposition"
+        ],
+        "intervention_alignment_decision_enum": [
+          "PASS",
+          "FAIL"
+        ],
+        "target_intervention_novelty_fields": [
+          "novelty_closure_id",
+          "nearest_target_prior_evidence_refs",
+          "causal_equivalent_intervention_check",
+          "evidence_search_provenance",
+          "uncovered_residual_delta",
+          "mechanism_delta",
+          "scientific_delta",
+          "disposition"
+        ],
+        "target_intervention_novelty_check_enum": [
+          "UNCOVERED",
+          "PARTIALLY_COVERED",
+          "COVERED"
+        ],
+        "target_intervention_novelty_disposition_enum": [
+          "NOVEL_DELTA",
+          "RESTRUCTURED_DELTA",
+          "REJECTED_AS_COVERED"
+        ],
+        "search_space_closure_fields": [
+          "rmc_id",
+          "same_field_search_provenance",
+          "same_field_outcome",
+          "cross_domain_search_provenance",
+          "cross_domain_outcome",
+          "model_prior_executed",
+          "academic_bridge_executed",
+          "unresolved_high_value_branches",
+          "literature_budget_disposition",
+          "closure_rationale"
+        ],
+        "source_search_outcome_enum": [
+          "CREDIBLE_SOURCE_RETAINED",
+          "NO_CREDIBLE_SOURCE_FOUND"
         ]
       },
       "method_design_view": {
@@ -223,7 +531,10 @@
           "test_id",
           "test_type",
           "evidence_tier",
+          "killer_test_concept_ref",
           "operationalization",
+          "observation_contract",
+          "terminal_criteria",
           "targets",
           "information_gain",
           "falsification_criterion",
@@ -247,6 +558,19 @@
           "prediction_id",
           "mechanism_change_id",
           "causal_chain_id"
+        ],
+        "observation_contract_fields": [
+          "observable",
+          "pattern_a",
+          "rival_type",
+          "rival_id",
+          "pattern_b",
+          "activation_condition"
+        ],
+        "terminal_criteria_fields": [
+          "pattern_a_criterion",
+          "pattern_b_criterion",
+          "inconclusive_criterion"
         ],
         "recommended_execution_set_fields": [
           "execution_set_id",
@@ -386,9 +710,12 @@
           "MORE_EVIDENCE",
           "CANDIDATE_REJECTED",
           "RCA_CONFLICT",
+          "NECESSITY_CONFLICT",
+          "PROBLEM_CONFLICT",
           "new_test_cycle",
           "principle_reopened",
           "root_cause_reopened",
+          "necessity_reopened",
           "problem_premise_reopened"
         ]
       },
@@ -405,29 +732,97 @@
           "test_validity_assessments",
           "activation_condition_assessments",
           "prediction_comparisons",
-          "principle_updates",
-          "rca_conflicts",
+          "scientific_updates",
           "remaining_uncertainties",
           "relevant_history_refs",
           "return_feedback_refs"
         ],
-        "principle_update_fields": [
-          "principle_id",
-          "principle_version",
+        "operationalization_assessment_fields": [
+          "test_id",
+          "status",
           "evidence_refs",
-          "decision",
-          "rationale",
-          "updated_boundary_or_assumption_refs"
+          "rationale"
         ],
-        "principle_update_decisions": [
-          "SUPPORTED",
-          "EXTENDED",
-          "REVISED",
-          "WEAKENED",
-          "MERGED",
-          "RETIRED",
-          "REJECTED",
-          "UNCHANGED"
+        "operationalization_status_enum": [
+          "FAITHFUL",
+          "UNFAITHFUL",
+          "UNRESOLVED"
+        ],
+        "test_validity_assessment_fields": [
+          "test_id",
+          "status",
+          "discriminativeness",
+          "evidence_refs",
+          "rationale"
+        ],
+        "test_validity_status_enum": [
+          "VALID",
+          "INVALID",
+          "UNRESOLVED"
+        ],
+        "test_discriminativeness_enum": [
+          "DISCRIMINATING",
+          "NON_DISCRIMINATING",
+          "UNRESOLVED"
+        ],
+        "activation_condition_assessment_fields": [
+          "test_id",
+          "prediction_id",
+          "status",
+          "evidence_refs",
+          "rationale"
+        ],
+        "activation_status_enum": [
+          "HELD",
+          "NOT_HELD",
+          "UNRESOLVED"
+        ],
+        "prediction_comparison_fields": [
+          "test_id",
+          "prediction_id",
+          "observable",
+          "observed_pattern",
+          "rival_type",
+          "rival_id",
+          "rival_discrimination",
+          "evidence_refs",
+          "rationale"
+        ],
+        "rival_discrimination_enum": [
+          "FAVORS_PATTERN_A",
+          "FAVORS_PATTERN_B",
+          "INCONCLUSIVE",
+          "INVALID_COMPARISON"
+        ],
+        "scientific_update_fields": [
+          "update_id",
+          "target_type",
+          "target_id",
+          "before",
+          "proposed_after",
+          "evidence_refs",
+          "consequence",
+          "rationale"
+        ],
+        "scientific_update_target_type_enum": [
+          "PRINCIPLE",
+          "ASSUMPTION",
+          "SOURCE_TARGET_MAPPING",
+          "TARGET_OPERATIONALIZATION",
+          "APPLICABILITY_BOUNDARY",
+          "RIVAL_PRINCIPLE",
+          "RIVAL_RCA",
+          "ROOT_CAUSE",
+          "NECESSITY_RESIDUAL_ENVELOPE"
+        ],
+        "scientific_update_consequence_enum": [
+          "REVISE_EVALUATION",
+          "MORE_EVIDENCE",
+          "UPDATE_BOUNDARY",
+          "RETURN_METHOD_DESIGN",
+          "REOPEN_RCA",
+          "REOPEN_NECESSITY",
+          "REDEFINE_PROBLEM"
         ]
       },
       "principle_evaluation_verdict": {
@@ -448,11 +843,14 @@
           "REVISE_EVALUATION",
           "MORE_EVIDENCE",
           "CANDIDATE_REJECTED",
-          "RCA_CONFLICT"
+          "RCA_CONFLICT",
+          "NECESSITY_CONFLICT",
+          "PROBLEM_CONFLICT"
         ],
         "principle_converged_required_fields": [
           "selected_principle_id",
-          "selected_principle_version"
+          "selected_principle_version",
+          "accepted_boundary_update_ids"
         ]
       },
       "selected_principle": {
@@ -463,36 +861,315 @@
           "schema_version",
           "principle_id",
           "principle_version",
+          "principle",
+          "intervention",
+          "changed_structure",
           "problem_binding",
           "root_cause_binding",
           "causal_chain_ids",
           "mechanism_change_ids",
           "capability_ids",
           "obligation_ids",
+          "origin_binding",
+          "origin_closure",
+          "intervention_alignment",
+          "target_intervention_novelty",
+          "accepted_assumptions",
+          "accepted_predictions",
+          "provisional_scientific_delta",
           "evidence_closure",
           "activation_conditions",
           "failure_conditions",
           "applicability_boundaries",
           "remaining_uncertainty"
         ],
+        "origin_binding_fields": [
+          "origin_type",
+          "origin_ref_id",
+          "alignment_ref_id"
+        ],
         "preserve_on": [
           "REVISE",
           "HOLD",
           "REVISE_METHOD_DELTA",
+          "REVISE_METHOD",
           "final_human_request_revision",
           "METHOD_REFINEMENT_REQUIRED"
         ],
         "invalidate_on": [
           "RETHINK",
           "RETHINK_PRINCIPLE_DELTA",
+          "RETHINK_PRINCIPLE",
+          "REOPEN_RCA",
+          "REOPEN_NECESSITY",
+          "REDEFINE_PROBLEM",
           "SELECTED_PRINCIPLE_REJECTED",
           "RCA_CONFLICT",
+          "NECESSITY_CONFLICT",
+          "PROBLEM_CONFLICT",
           "ROOT_CAUSE_REJECTED",
+          "NECESSITY_PREMISE_REJECTED",
           "PROBLEM_PREMISE_REJECTED"
+        ]
+      },
+      "final_method_packet": {
+        "format": "json",
+        "schema_version": 1,
+        "lifecycle": "method_refinement_canonical_machine_authority",
+        "required_fields": [
+          "schema_version",
+          "final_method_id",
+          "problem_binding",
+          "necessity_binding",
+          "root_cause_binding",
+          "selected_principle_binding",
+          "target_constraints",
+          "assumption_constraint_collisions",
+          "minimal_faithful_realization",
+          "principle_only_closure",
+          "residual_musts",
+          "minimal_necessary_composition",
+          "core_method_changes",
+          "causal_repair_dag",
+          "mechanism_delta",
+          "intervention_alignment",
+          "target_only_natural_derivation",
+          "feasibility_closure",
+          "counterfactual_necessity_obligations",
+          "final_scientific_delta_claim",
+          "claim_validation_obligations",
+          "failure_and_applicability_boundaries"
+        ],
+        "problem_binding_fields": [
+          "problem_id",
+          "problem_version",
+          "problem_contract_sha256",
+          "evidence_capsule_sha256"
+        ],
+        "necessity_binding_fields": [
+          "necessity_id",
+          "closure_sha256",
+          "verdict_id",
+          "verdict_sha256",
+          "residual_failure_ids"
+        ],
+        "root_cause_binding_fields": [
+          "analysis_id",
+          "analysis_sha256",
+          "verdict_id",
+          "verdict_sha256",
+          "primary_causal_chain_ids"
+        ],
+        "selected_principle_binding_fields": [
+          "principle_id",
+          "principle_version",
+          "selected_principle_sha256"
+        ],
+        "target_constraint_fields": [
+          "constraint_id",
+          "constraint",
+          "source_ref_ids",
+          "evidence_refs"
+        ],
+        "collision_fields": [
+          "collision_id",
+          "assumption_id",
+          "target_constraint_id",
+          "disposition",
+          "rationale",
+          "residual_must_ids"
+        ],
+        "collision_disposition_enum": [
+          "ADAPTED",
+          "CLOSED",
+          "RESIDUAL_GAP"
+        ],
+        "minimal_faithful_realization_fields": [
+          "selected_intervention",
+          "target_realization",
+          "reused_implementation_machinery",
+          "core_method_change_ids",
+          "fidelity_rationale"
+        ],
+        "principle_only_closure_fields": [
+          "closure_id",
+          "subject_type",
+          "subject_id",
+          "status",
+          "predicted_mechanism_change",
+          "rationale",
+          "residual_must_ids"
+        ],
+        "principle_only_closure_subject_enum": [
+          "CAUSAL_CHAIN",
+          "RMC",
+          "CAPABILITY",
+          "OBLIGATION",
+          "ACTIVATION_CONDITION",
+          "FAILURE_CONDITION",
+          "APPLICABILITY_BOUNDARY"
+        ],
+        "principle_only_closure_status_enum": [
+          "CLOSED",
+          "RESIDUAL_GAP"
+        ],
+        "residual_must_fields": [
+          "residual_must_id",
+          "closure_id",
+          "gap",
+          "acceptance_condition"
+        ],
+        "composition_fields": [
+          "support_id",
+          "residual_must_ids",
+          "mechanism",
+          "activation_conditions",
+          "integration_interface",
+          "assumption_compatibility",
+          "core_method_change_ids"
+        ],
+        "core_method_change_fields": [
+          "core_method_change_id",
+          "change",
+          "change_type",
+          "causal_parent_refs",
+          "served_rmc_ids",
+          "served_capability_ids",
+          "served_obligation_ids"
+        ],
+        "core_method_change_type_enum": [
+          "PRINCIPLE_REALIZATION",
+          "RESIDUAL_SUPPORT"
+        ],
+        "causal_dag_node_fields": [
+          "node_id",
+          "node_type",
+          "ref_id"
+        ],
+        "causal_dag_node_type_enum": [
+          "PRIMARY_ROOT_CAUSE",
+          "TARGET_CONSTRAINT",
+          "INCOMPATIBILITY",
+          "CORE_METHOD_CHANGE"
+        ],
+        "causal_dag_edge_fields": [
+          "edge_id",
+          "from_node_id",
+          "to_node_id",
+          "validation_obligation_id"
+        ],
+        "mechanism_delta_fields": [
+          "existing_causal_or_computational_relation",
+          "new_causal_or_computational_relation",
+          "intervention_change",
+          "nearest_prior_separation"
+        ],
+        "nearest_prior_separation_fields": [
+          "prior_id",
+          "evidence_refs",
+          "existing_intervention",
+          "existing_mechanism_or_relation",
+          "final_separation"
+        ],
+        "intervention_alignment_fields": [
+          "alignment_id",
+          "rmc_id",
+          "selected_intervention",
+          "final_computational_change_ids",
+          "rationale"
+        ],
+        "intervention_alignment_optional_fields": [
+          "source_intervention"
+        ],
+        "natural_derivation_fields": [
+          "residual_failure_ids",
+          "root_cause_refs",
+          "rmc_ids",
+          "target_constraint_ids",
+          "core_method_change_ids",
+          "derivation",
+          "source_story_removed"
+        ],
+        "feasibility_closure_fields": [
+          "supported_conditions",
+          "unresolved_feasibility_debts",
+          "claim_restrictions",
+          "fatality_disposition"
+        ],
+        "feasibility_debt_fields": [
+          "debt_id",
+          "dimension",
+          "debt",
+          "fatal",
+          "evidence_refs",
+          "restriction_ids",
+          "repair_disposition",
+          "claim_restriction_disposition",
+          "excluded_recovery_evidence_refs"
+        ],
+        "claim_restriction_fields": [
+          "restriction_id",
+          "claim_element_ids",
+          "debt_ids",
+          "boundary_id"
+        ],
+        "feasibility_fatality_enum": [
+          "NO_FATAL_DEBT",
+          "FATAL_REPAIRABLE_OR_RESTRICTED",
+          "FATAL_UNRECOVERABLE"
+        ],
+        "counterfactual_obligation_fields": [
+          "counterfactual_obligation_id",
+          "support_id",
+          "removal_condition",
+          "expected_failed_closure_ids",
+          "discriminating_consequence",
+          "evidence_status"
+        ],
+        "counterfactual_evidence_status_enum": [
+          "FUTURE_OBLIGATION"
+        ],
+        "final_scientific_delta_claim_fields": [
+          "claim_status",
+          "claim_elements"
+        ],
+        "final_scientific_delta_claim_status_enum": [
+          "FINAL_PENDING_VALIDATION"
+        ],
+        "claim_element_fields": [
+          "claim_element_id",
+          "claim",
+          "causal_chain_ids",
+          "mechanism_change_ids",
+          "capability_ids",
+          "obligation_ids",
+          "core_method_change_ids",
+          "boundary_refs"
+        ],
+        "claim_validation_obligation_fields": [
+          "validation_obligation_id",
+          "claim_element_id",
+          "predicted_mechanism_change",
+          "observed_mechanism_change_required",
+          "discriminating_evidence_required",
+          "performance_consequence_required",
+          "falsifying_pattern"
+        ],
+        "boundary_fields": [
+          "boundary_id",
+          "boundary_type",
+          "boundary",
+          "source_refs"
+        ],
+        "boundary_type_enum": [
+          "FAILURE_CONDITION",
+          "APPLICABILITY_BOUNDARY",
+          "CLAIM_RESTRICTION"
         ]
       },
       "final_proposal": {
         "format": "markdown",
+        "authority": "deterministic_view_of_final_method_packet",
         "required_sections": [
           "Selected Principle binding",
           "Target-domain adaptation",
@@ -507,6 +1184,58 @@
           "Claim-validation obligations"
         ]
       },
+      "top_venue_method_strength_verdict": {
+        "format": "json",
+        "schema_version": 1,
+        "required_fields": [
+          "schema_version",
+          "run_id",
+          "review_request_id",
+          "reviewer",
+          "verdict_id",
+          "decision",
+          "reviewed_artifact_hashes",
+          "dimensions",
+          "findings"
+        ],
+        "decision_enum": [
+          "TOP_VENUE_READY",
+          "REVISE_METHOD",
+          "RETHINK_PRINCIPLE",
+          "REOPEN_RCA",
+          "REOPEN_NECESSITY",
+          "REDEFINE_PROBLEM",
+          "NO_GO"
+        ],
+        "required_dimensions": [
+          "problem_value",
+          "necessity",
+          "bottleneck_relevance_and_causal_leverage",
+          "target_intervention_novelty",
+          "mechanism_delta",
+          "final_scientific_delta_claim",
+          "closest_prior_separation",
+          "causal_coherence",
+          "minimality",
+          "natural_derivation",
+          "claim_proportional_feasibility",
+          "discriminative_validation_readiness"
+        ],
+        "dimension_fields": [
+          "judgment",
+          "rationale"
+        ],
+        "dimension_judgment_enum": [
+          "PASS",
+          "FAIL"
+        ],
+        "forbidden_score_fields": [
+          "score",
+          "weighted_score",
+          "aggregate_score",
+          "overall_score"
+        ]
+      },
       "validation_result": {
         "format": "json",
         "schema_version": 1,
@@ -515,6 +1244,7 @@
           "METHOD_REFINEMENT_REQUIRED",
           "SELECTED_PRINCIPLE_REJECTED",
           "ROOT_CAUSE_REJECTED",
+          "NECESSITY_PREMISE_REJECTED",
           "PROBLEM_PREMISE_REJECTED"
         ],
         "required_fields": [
@@ -526,10 +1256,14 @@
           "return_guidance"
         ],
         "validated_required_fields": [
+          "mechanism_evidence_closure",
+          "coverage_assessments",
           "supported_claim_elements",
           "applicability_boundaries",
           "retained_limitations",
-          "remaining_uncertainties",
+          "remaining_uncertainties"
+        ],
+        "controller_materialized_fields": [
           "established_scientific_delta"
         ]
       }
@@ -628,6 +1362,7 @@
         "problem_quality_gate",
         "problem_novelty_gate",
         "problem_human_acceptance",
+        "problem_necessity",
         "root_cause_analysis",
         "root_cause_gate",
         "method_design",
@@ -637,6 +1372,7 @@
         "principle_evaluation",
         "method_refinement",
         "final_method_novelty_gate",
+        "top_venue_method_strength_gate",
         "final_method_human_acceptance"
       ],
       "allowed_agents": {
@@ -651,6 +1387,10 @@
         ],
         "problem_human_acceptance": [
           "main_research_agent"
+        ],
+        "problem_necessity": [
+          "main_research_agent",
+          "independent_problem_reviewer"
         ],
         "root_cause_analysis": [
           "main_research_agent"
@@ -683,6 +1423,9 @@
         "final_method_novelty_gate": [
           "independent_novelty_reviewer"
         ],
+        "top_venue_method_strength_gate": [
+          "independent_method_reviewer"
+        ],
         "final_method_human_acceptance": [
           "main_research_agent"
         ]
@@ -693,12 +1436,13 @@
         "permitted_phases": [
           "problem_generation",
           "problem_novelty_gate",
+          "problem_necessity",
           "root_cause_analysis",
           "method_design",
           "method_refinement",
           "final_method_novelty_gate"
         ],
-        "entry_policy": "problem_generation_may_enter_existing_research_lit_gateway_only_while_running_with_lead_bound_query_context; other eligible phases may enter before start; problem_generation_root_cause_analysis_and_method_design_may_reenter_while_running; method_design_running_uses_RMC_capability_obligation_bound_principle_search; method_refinement_running_uses_selected_principle_bound_adaptation_gap_search",
+        "entry_policy": "problem_generation_may_enter_existing_research_lit_gateway_only_while_running_with_lead_bound_query_context; other eligible phases may enter before start; problem_generation_problem_necessity_root_cause_analysis_and_method_design_may_reenter_while_running; problem_necessity_uses_current_problem_contract_capsule_and_failure_simple_repair_decision_targets; method_design_running_uses_RMC_capability_obligation_bound_principle_search; method_refinement_running_uses_selected_principle_bound_adaptation_gap_search",
         "completion": "return_to_landscape_accepted_without_coverage_review",
         "evidence_binding": "phase_scoped_Evidence_Card_hashes_with_binding-time_formal_upstream_anchor; historical_bindings_remain_auditable_and_require_explicit_same-card_re-adoption_in_a_new_current_context"
       },
@@ -706,11 +1450,19 @@
       "validation_entry_policy": "human_initiated_only_after_method_confirmation",
       "validation_required_inputs": [
         "idea-stage/RESEARCH_CONTRACT.md",
+        "@artifact:necessity_closure",
+        "@artifact:necessity_verdict",
         "@artifact:root_cause_analysis",
         "@artifact:root_cause_verdict",
+        "@artifact:method_design_packet",
+        "@artifact:method_design_review",
+        "@artifact:principle_evaluation",
+        "@artifact:principle_evaluation_verdict",
         "@artifact:selected_principle",
-        "@artifact:final_proposal",
+        "@artifact:final_method_packet",
+        "@artifact:final_method_review",
         "@artifact:final_method_novelty_verdict",
+        "@artifact:top_venue_method_strength_verdict",
         "@artifact:final_human_report"
       ],
       "validation_accepted_decisions": [
@@ -720,6 +1472,7 @@
         "METHOD_REFINEMENT_REQUIRED": "method_refinement",
         "SELECTED_PRINCIPLE_REJECTED": "method_design",
         "ROOT_CAUSE_REJECTED": "root_cause_analysis",
+        "NECESSITY_PREMISE_REJECTED": "problem_necessity",
         "PROBLEM_PREMISE_REJECTED": "problem_generation"
       },
       "validation_success_contract": "predicted_mechanism_change_to_observed_mechanism_change_to_discriminating_evidence_to_performance_consequence"
@@ -878,13 +1631,50 @@
         }
       },
       {
-        "phase": "root_cause_analysis",
+        "phase": "problem_necessity",
         "depends_on": [
           "problem_human_acceptance"
         ],
         "required_inputs": [
           "idea-stage/RESEARCH_CONTRACT.md",
           "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md"
+        ],
+        "produced_artifacts": [
+          "@artifact:necessity_closure",
+          "@artifact:necessity_verdict"
+        ],
+        "reviewed_artifacts": [
+          "@artifact:necessity_closure"
+        ],
+        "gate_id": "problem_necessity_review",
+        "gate_owner": "idea-creator:necessity",
+        "formal_gate": true,
+        "human_checkpoint": false,
+        "reviewer_role": "independent_problem_reviewer",
+        "accepted_verdicts": [
+          "RESIDUAL_SAME_PROBLEM"
+        ],
+        "return_targets": {
+          "FULLY_COVERED": "problem_generation",
+          "RESIDUAL_REDEFINES_PROBLEM": "problem_generation",
+          "UNRESOLVED": "problem_necessity"
+        },
+        "return_effects": {
+          "FULLY_COVERED": "record_no_new_method_needed_and_return_to_problem_generation",
+          "RESIDUAL_REDEFINES_PROBLEM": "return_through_problem_quality_novelty_and_Human_acceptance",
+          "UNRESOLVED": "remain_at_problem_necessity_for_current_evidence_literature_or_read_only_analysis"
+        }
+      },
+      {
+        "phase": "root_cause_analysis",
+        "depends_on": [
+          "problem_necessity"
+        ],
+        "required_inputs": [
+          "idea-stage/RESEARCH_CONTRACT.md",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+          "@artifact:necessity_closure",
+          "@artifact:necessity_verdict"
         ],
         "produced_artifacts": [
           "@artifact:root_cause_analysis",
@@ -903,6 +1693,8 @@
         "required_inputs": [
           "idea-stage/RESEARCH_CONTRACT.md",
           "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+          "@artifact:necessity_closure",
+          "@artifact:necessity_verdict",
           "@artifact:root_cause_analysis",
           "@artifact:root_cause_analysis_view"
         ],
@@ -911,10 +1703,19 @@
         ],
         "requires_validated_artifacts": [
           {
+            "phase": "problem_necessity",
+            "artifacts": [
+              "@artifact:necessity_closure",
+              "@artifact:necessity_verdict"
+            ]
+          },
+          {
             "phase": "root_cause_analysis",
             "artifacts": [
               "idea-stage/RESEARCH_CONTRACT.md",
               "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+              "@artifact:necessity_closure",
+              "@artifact:necessity_verdict",
               "@artifact:root_cause_analysis",
               "@artifact:root_cause_analysis_view"
             ]
@@ -942,6 +1743,8 @@
           "idea-stage/ACTIVE_FIELD_MAP.md",
           "idea-stage/RESEARCH_CONTRACT.md",
           "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+          "@artifact:necessity_closure",
+          "@artifact:necessity_verdict",
           "@artifact:root_cause_analysis",
           "@artifact:root_cause_verdict"
         ],
@@ -960,10 +1763,19 @@
         ],
         "requires_validated_artifacts": [
           {
+            "phase": "problem_necessity",
+            "artifacts": [
+              "@artifact:necessity_closure",
+              "@artifact:necessity_verdict"
+            ]
+          },
+          {
             "phase": "root_cause_analysis",
             "artifacts": [
               "idea-stage/RESEARCH_CONTRACT.md",
               "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+              "@artifact:necessity_closure",
+              "@artifact:necessity_verdict",
               "@artifact:root_cause_analysis"
             ]
           },
@@ -1185,13 +1997,17 @@
           "REVISE_EVALUATION": "principle_evaluation",
           "MORE_EVIDENCE": "principle_test_design",
           "CANDIDATE_REJECTED": "method_design",
-          "RCA_CONFLICT": "root_cause_analysis"
+          "RCA_CONFLICT": "root_cause_analysis",
+          "NECESSITY_CONFLICT": "problem_necessity",
+          "PROBLEM_CONFLICT": "problem_generation"
         },
         "return_effects": {
           "REVISE_EVALUATION": "preserve_cycle_execution_set_and_terminal_results_then_rebuild_equivalent_evidence_context_without_new_tests",
           "MORE_EVIDENCE": "preserve_selected_for_testing_binding_end_the_active_evidence_context_and_design_a_new_minimum_test_cycle_requiring_independent_review_and_Human_approval",
           "CANDIDATE_REJECTED": "end_active_evidence_context_stop_the_failed_Candidate_version_in_history_invalidate_selected_for_testing_binding_and_return_failure_Evidence_to_method_design",
-          "RCA_CONFLICT": "end_active_evidence_context_invalidate_selected_for_testing_binding_and_reopen_root_cause_with_linked_evidence_and_return_guidance"
+          "RCA_CONFLICT": "end_active_evidence_context_invalidate_selected_for_testing_binding_and_reopen_root_cause_with_linked_evidence_and_return_guidance",
+          "NECESSITY_CONFLICT": "end_active_evidence_context_invalidate_selected_for_testing_binding_and_reopen_problem_necessity_with_linked_evidence_and_return_guidance",
+          "PROBLEM_CONFLICT": "end_active_evidence_context_invalidate_selected_for_testing_binding_and_return_to_problem_generation_with_linked_evidence_and_return_guidance"
         }
       },
       {
@@ -1202,23 +2018,35 @@
         "required_inputs": [
           "idea-stage/ACTIVE_FIELD_MAP.md",
           "idea-stage/RESEARCH_CONTRACT.md",
+          "@artifact:necessity_closure",
+          "@artifact:necessity_verdict",
           "@artifact:root_cause_analysis",
           "@artifact:root_cause_verdict",
           "@artifact:selected_principle"
         ],
         "produced_artifacts": [
+          "@artifact:final_method_packet",
           "@artifact:final_proposal",
           "@artifact:final_method_review",
           "@artifact:refine_state"
         ],
         "reviewed_artifacts": [
-          "@artifact:final_proposal"
+          "@artifact:final_method_packet"
         ],
         "requires_validated_artifacts": [
+          {
+            "phase": "problem_necessity",
+            "artifacts": [
+              "@artifact:necessity_closure",
+              "@artifact:necessity_verdict"
+            ]
+          },
           {
             "phase": "root_cause_analysis",
             "artifacts": [
               "idea-stage/RESEARCH_CONTRACT.md",
+              "@artifact:necessity_closure",
+              "@artifact:necessity_verdict",
               "@artifact:root_cause_analysis"
             ]
           },
@@ -1248,7 +2076,15 @@
           "REVISE": "method_refinement",
           "RETHINK": "method_design",
           "HOLD": "method_refinement",
-          "RCA_CONFLICT": "root_cause_analysis"
+          "RCA_CONFLICT": "root_cause_analysis",
+          "NECESSITY_CONFLICT": "problem_necessity",
+          "PROBLEM_CONFLICT": "problem_generation"
+        },
+        "terminal_verdicts": {
+          "NO_GO": {
+            "action": "terminate_scientific_core",
+            "status": "SCIENTIFIC_NO_GO"
+          }
         }
       },
       {
@@ -1258,7 +2094,7 @@
         ],
         "required_inputs": [
           "@artifact:selected_principle",
-          "@artifact:final_proposal",
+          "@artifact:final_method_packet",
           "@artifact:final_method_review"
         ],
         "produced_artifacts": [
@@ -1279,14 +2115,65 @@
         }
       },
       {
-        "phase": "final_method_human_acceptance",
+        "phase": "top_venue_method_strength_gate",
         "depends_on": [
           "final_method_novelty_gate"
         ],
         "required_inputs": [
+          "idea-stage/ACTIVE_FIELD_MAP.md",
+          "idea-stage/RESEARCH_CONTRACT.md",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
+          "@artifact:necessity_closure",
+          "@artifact:necessity_verdict",
+          "@artifact:root_cause_analysis",
+          "@artifact:root_cause_verdict",
+          "@artifact:principle_evaluation",
+          "@artifact:principle_evaluation_verdict",
+          "@artifact:selected_principle",
+          "@artifact:final_method_packet",
+          "@artifact:final_method_review",
+          "@artifact:final_method_novelty_verdict"
+        ],
+        "scientific_history_inputs": [
+          "@artifact:method_principles",
+          "@artifact:method_test_evidence"
+        ],
+        "scientific_history_scope": "all_records_relevant_to_the_current_selected_principle_final_method_and_scientific_returns",
+        "produced_artifacts": [
+          "@artifact:top_venue_method_strength_verdict"
+        ],
+        "gate_id": "top_venue_method_strength",
+        "gate_owner": "independent_method_reviewer",
+        "formal_gate": true,
+        "human_checkpoint": false,
+        "reviewer_role": "independent_method_reviewer",
+        "accepted_verdicts": [
+          "TOP_VENUE_READY"
+        ],
+        "return_targets": {
+          "REVISE_METHOD": "method_refinement",
+          "RETHINK_PRINCIPLE": "method_design",
+          "REOPEN_RCA": "root_cause_analysis",
+          "REOPEN_NECESSITY": "problem_necessity",
+          "REDEFINE_PROBLEM": "problem_generation"
+        },
+        "terminal_verdicts": {
+          "NO_GO": {
+            "action": "terminate_scientific_core",
+            "status": "SCIENTIFIC_NO_GO"
+          }
+        }
+      },
+      {
+        "phase": "final_method_human_acceptance",
+        "depends_on": [
+          "top_venue_method_strength_gate"
+        ],
+        "required_inputs": [
           "@artifact:selected_principle",
           "@artifact:final_proposal",
-          "@artifact:final_method_novelty_verdict"
+          "@artifact:final_method_novelty_verdict",
+          "@artifact:top_venue_method_strength_verdict"
         ],
         "produced_artifacts": [
           "@artifact:final_human_report"
@@ -1306,7 +2193,7 @@
     ]
   },
   "created": "2026-08-12T10:39:56Z",
-  "updated": "2026-08-30T12:29:00Z",
+  "updated": "2026-09-01T03:47:41Z",
   "phases": [
     {
       "phase": "landscape",
@@ -1353,10 +2240,10 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-23T14:11:03Z",
+      "updated": "2026-09-01T03:31:22Z",
       "validated_artifacts": {
-        "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-        "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007"
+        "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+        "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6"
       },
       "candidate_ids": [
         "P-SOFTSCAN-STATE-01"
@@ -1364,11 +2251,11 @@
       "handoff_artifacts": {
         "idea-stage/PROBLEM_CANDIDATES.md": {
           "path": "idea-stage\\PROBLEM_CANDIDATES.md",
-          "sha256": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-          "size_bytes": 3472,
+          "sha256": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+          "size_bytes": 3611,
           "status": "active",
           "producer_phase": "problem_generation",
-          "registered_at": "2026-08-23T14:11:03Z",
+          "registered_at": "2026-09-01T03:31:22Z",
           "provenance": {
             "controller": "ARISController",
             "run_id": "impedance-control-landscape-e2e",
@@ -1382,20 +2269,17 @@
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
           }
         },
         "idea-stage/PROBLEM_CANDIDATES.jsonl": {
           "path": "idea-stage\\PROBLEM_CANDIDATES.jsonl",
-          "sha256": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-          "size_bytes": 13454,
+          "sha256": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+          "size_bytes": 14937,
           "status": "active",
           "producer_phase": "problem_generation",
-          "registered_at": "2026-08-23T14:11:03Z",
+          "registered_at": "2026-09-01T03:31:22Z",
           "provenance": {
             "controller": "ARISController",
             "run_id": "impedance-control-landscape-e2e",
@@ -1409,11 +2293,8 @@
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
           }
         }
       },
@@ -1423,31 +2304,33 @@
       "gate_verdict": null,
       "reviewed_analysis_sha256": null,
       "review_request": null,
-      "return_guidance": null
+      "return_guidance": null,
+      "acceptance_artifacts": null,
+      "history_recorded_for_reviewed_sha256": null
     },
     {
       "phase": "problem_quality_gate",
       "status": "accepted",
       "artifact": "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl",
-      "verdict_id": "verdict-d3dc3f33c0304fefb9e25477c00021ca-gpt-5-codex",
-      "reviewer": "gpt-5-codex",
+      "verdict_id": "bc2106709fe24b2d9527cf3f6a0c9f31",
+      "reviewer": "gpt-5.6-sol",
       "reviewer_family": "openai",
       "review_independence": "independent-context",
       "acceptance_status": "accepted",
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-23T15:23:23Z",
+      "updated": "2026-09-01T03:41:17Z",
       "review_request": null,
       "validated_artifacts": {
-        "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6"
+        "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5"
       },
       "gate_verdict": "CERTIFIED",
-      "review_request_id": "d3dc3f33c0304fefb9e25477c00021ca",
+      "review_request_id": "703a8fe5b5cf450d9751b12d51785f92",
       "reviewed_artifact_hashes": {
         "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-        "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-        "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+        "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+        "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
@@ -1455,11 +2338,8 @@
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
       },
       "candidate_ids": [
         "P-SOFTSCAN-STATE-01"
@@ -1470,11 +2350,11 @@
       "handoff_artifacts": {
         "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": {
           "path": "idea-stage\\PROBLEM_QUALITY_VERDICTS.jsonl",
-          "sha256": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
-          "size_bytes": 8426,
+          "sha256": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5",
+          "size_bytes": 7548,
           "status": "active",
           "producer_phase": "problem_quality_gate",
-          "registered_at": "2026-08-23T15:23:21Z",
+          "registered_at": "2026-09-01T03:40:58Z",
           "provenance": {
             "controller": "ARISController",
             "run_id": "impedance-control-landscape-e2e",
@@ -1482,22 +2362,22 @@
           },
           "upstream_snapshot": {
             "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-            "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007"
+            "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+            "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6"
           },
           "acceptance": {
             "status": "accepted",
-            "verdict_id": "verdict-d3dc3f33c0304fefb9e25477c00021ca-gpt-5-codex",
-            "reviewer": "gpt-5-codex",
+            "verdict_id": "bc2106709fe24b2d9527cf3f6a0c9f31",
+            "reviewer": "gpt-5.6-sol",
             "reviewer_family": "openai",
             "review_independence": "independent-context",
-            "accepted_at": "2026-08-23T15:23:23Z",
-            "review_request_id": "d3dc3f33c0304fefb9e25477c00021ca",
-            "reviewer_agent_id": "01a02f22-f873-7443-9a90-2daf09e5041c",
+            "accepted_at": "2026-09-01T03:41:17Z",
+            "review_request_id": "703a8fe5b5cf450d9751b12d51785f92",
+            "reviewer_agent_id": "01a05b07-9036-7c50-9c1c-126f0e621128",
             "reviewed_artifact_bindings": {
               "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-              "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+              "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+              "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
@@ -1505,11 +2385,8 @@
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
             }
           }
         }
@@ -1518,32 +2395,34 @@
       "problem_contract_sha256": null,
       "evidence_capsule_sha256": null,
       "reviewed_analysis_sha256": null,
-      "return_guidance": null
+      "return_guidance": null,
+      "acceptance_artifacts": null,
+      "history_recorded_for_reviewed_sha256": null
     },
     {
       "phase": "problem_novelty_gate",
       "status": "accepted",
       "artifact": "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl",
-      "verdict_id": "a96bf22d-2ae4-4e81-a97a-a92ff0476627",
-      "reviewer": "gpt-5",
+      "verdict_id": "347b9ed1702b4caeb35e8831cf0c97ca",
+      "reviewer": "gpt-5.6-sol",
       "reviewer_family": "openai",
       "review_independence": "independent-context",
       "acceptance_status": "accepted",
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-23T15:30:04Z",
+      "updated": "2026-09-01T03:47:41Z",
       "review_request": null,
       "validated_artifacts": {
-        "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
+        "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "f6c30c7e70fcb9b8ed5638f12362e8c42cc702300c5430d09ab25fef4fc1617f"
       },
       "gate_verdict": "NOVEL",
-      "review_request_id": "7254a8b4b54948549730f21bd3a99690",
+      "review_request_id": "7a9527aa1c264c1c8378364574cb831b",
       "reviewed_artifact_hashes": {
         "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-        "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-        "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-        "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
+        "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+        "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+        "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
@@ -1551,13 +2430,10 @@
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-        ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f",
-        "idea-stage\\LITERATURE_CORPUS.jsonl": "d79131ec7cd93bd4131f8102bfe5886c923ecc7b29d12b96846c3d2961e9d295",
-        "idea-stage\\SEARCH_LEDGER.jsonl": "453fcf554ed1bda7b18716b8487489b60ad8bf24a95260abb28683068701162d"
+        "idea-stage\\LITERATURE_CORPUS.jsonl": "1078b3e6dca273153951b60fa9fe5feb8efe9c7e707154c7adb8e33531768ebb",
+        "idea-stage\\SEARCH_LEDGER.jsonl": "94b11efeb2ea7f6e2a1f582a1a89a14a464a85a569f895b92d1b0357b2b4ac13"
       },
       "candidate_ids": [
         "P-SOFTSCAN-STATE-01"
@@ -1568,11 +2444,11 @@
       "handoff_artifacts": {
         "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": {
           "path": "idea-stage\\PROBLEM_NOVELTY_VERDICTS.jsonl",
-          "sha256": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf",
-          "size_bytes": 12268,
+          "sha256": "f6c30c7e70fcb9b8ed5638f12362e8c42cc702300c5430d09ab25fef4fc1617f",
+          "size_bytes": 10058,
           "status": "active",
           "producer_phase": "problem_novelty_gate",
-          "registered_at": "2026-08-23T15:30:02Z",
+          "registered_at": "2026-09-01T03:47:31Z",
           "provenance": {
             "controller": "ARISController",
             "run_id": "impedance-control-landscape-e2e",
@@ -1580,24 +2456,24 @@
           },
           "upstream_snapshot": {
             "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-            "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-            "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6"
+            "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+            "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+            "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5"
           },
           "acceptance": {
             "status": "accepted",
-            "verdict_id": "a96bf22d-2ae4-4e81-a97a-a92ff0476627",
-            "reviewer": "gpt-5",
+            "verdict_id": "347b9ed1702b4caeb35e8831cf0c97ca",
+            "reviewer": "gpt-5.6-sol",
             "reviewer_family": "openai",
             "review_independence": "independent-context",
-            "accepted_at": "2026-08-23T15:30:04Z",
-            "review_request_id": "7254a8b4b54948549730f21bd3a99690",
-            "reviewer_agent_id": "01a02f3b-eac0-79f3-8b9e-45a3854bb780",
+            "accepted_at": "2026-09-01T03:47:41Z",
+            "review_request_id": "7a9527aa1c264c1c8378364574cb831b",
+            "reviewer_agent_id": "01a05b0f-6787-7232-a5b4-7a16ccb873bd",
             "reviewed_artifact_bindings": {
               "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-              "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-              "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
+              "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+              "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+              "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
@@ -1605,13 +2481,10 @@
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
               ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f",
-              "idea-stage\\LITERATURE_CORPUS.jsonl": "d79131ec7cd93bd4131f8102bfe5886c923ecc7b29d12b96846c3d2961e9d295",
-              "idea-stage\\SEARCH_LEDGER.jsonl": "453fcf554ed1bda7b18716b8487489b60ad8bf24a95260abb28683068701162d"
+              "idea-stage\\LITERATURE_CORPUS.jsonl": "1078b3e6dca273153951b60fa9fe5feb8efe9c7e707154c7adb8e33531768ebb",
+              "idea-stage\\SEARCH_LEDGER.jsonl": "94b11efeb2ea7f6e2a1f582a1a89a14a464a85a569f895b92d1b0357b2b4ac13"
             }
           }
         }
@@ -1620,86 +2493,24 @@
       "problem_contract_sha256": null,
       "evidence_capsule_sha256": null,
       "reviewed_analysis_sha256": null,
-      "return_guidance": null
+      "return_guidance": null,
+      "acceptance_artifacts": null,
+      "history_recorded_for_reviewed_sha256": null
     },
     {
       "phase": "problem_human_acceptance",
-      "status": "human_accepted",
-      "artifact": "idea-stage/RESEARCH_CONTRACT.md",
+      "status": "pending",
+      "artifact": null,
       "verdict_id": null,
       "reviewer": null,
       "reviewer_family": null,
       "review_independence": null,
-      "acceptance_status": "human_accepted",
+      "acceptance_status": null,
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
-      "human_decision": {
-        "decision": "approve",
-        "selected_id": "P-SOFTSCAN-STATE-01",
-        "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
-        "artifact_bindings": {
-          "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf",
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        },
-        "confirmed_in": "codex_ui",
-        "recorded_at": "2026-08-23T15:50:55Z"
-      },
-      "updated": "2026-08-23T15:50:55Z",
-      "handoff_artifacts": {
-        "idea-stage/RESEARCH_CONTRACT.md": {
-          "path": "idea-stage\\RESEARCH_CONTRACT.md",
-          "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "size_bytes": 8643,
-          "status": "active",
-          "producer_phase": "problem_human_acceptance",
-          "registered_at": "2026-08-23T15:50:55Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "human_gate": "problem_acceptance",
-            "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
-            "approved_by": "codex_ui_user",
-            "selected_id": "P-SOFTSCAN-STATE-01",
-            "confirmed_in": "codex_ui"
-          },
-          "upstream_snapshot": {
-            "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
-          },
-          "problem_version": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 1,
-            "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          }
-        },
-        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-          "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-          "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-          "size_bytes": 2951,
-          "status": "active",
-          "producer_phase": "problem_human_acceptance",
-          "registered_at": "2026-08-23T15:50:55Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "human_gate": "problem_acceptance",
-            "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
-            "approved_by": "codex_ui_user",
-            "selected_id": "P-SOFTSCAN-STATE-01",
-            "confirmed_in": "codex_ui"
-          },
-          "upstream_snapshot": {
-            "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
-          },
-          "problem_version": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 1,
-            "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-            "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-          }
-        }
-      },
+      "human_decision": null,
+      "updated": "2026-09-01T03:24:52Z",
+      "handoff_artifacts": null,
       "validated_artifacts": null,
       "analysis_id": null,
       "problem_contract_sha256": null,
@@ -1707,7 +2518,44 @@
       "gate_verdict": null,
       "reviewed_analysis_sha256": null,
       "review_request": null,
-      "return_guidance": null
+      "return_guidance": null,
+      "acceptance_artifacts": null,
+      "history_recorded_for_reviewed_sha256": null
+    },
+    {
+      "phase": "problem_necessity",
+      "status": "pending",
+      "artifact": null,
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
+      "executor_model": "codex-gpt-5.6-sol",
+      "executor_family": "openai",
+      "human_decision": null,
+      "updated": "2026-09-01T03:24:52Z",
+      "review_request": null,
+      "history_recorded_for_reviewed_sha256": null,
+      "validated_artifacts": null,
+      "gate_verdict": null,
+      "review_request_id": "4113c5e09ca3495a96990ade8de876a7",
+      "reviewed_artifact_hashes": {
+        "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+        "idea-stage/NECESSITY_CLOSURE.json": "ec8396ced5982dd23b485a3dc9fabbcdaa43fc81e918d9123e274d85ff9b5d28"
+      },
+      "necessity_id": "NEC-P-SOFTSCAN-STATE-01-V1",
+      "residual_failure_ids": [
+        "RF-HIDDEN-STATE-DECISION-BOUNDARY"
+      ],
+      "handoff_artifacts": null,
+      "return_guidance": null,
+      "acceptance_artifacts": null,
+      "analysis_id": null,
+      "problem_contract_sha256": null,
+      "evidence_capsule_sha256": null,
+      "reviewed_analysis_sha256": null
     },
     {
       "phase": "root_cause_analysis",
@@ -1721,7 +2569,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-30T12:29:00Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "root_cause_gate",
@@ -1735,7 +2583,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-30T12:29:00Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "method_design",
@@ -1749,7 +2597,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-30T12:29:00Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "principle_human_selection",
@@ -1763,7 +2611,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "principle_test_design",
@@ -1777,7 +2625,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "principle_test_human_approval",
@@ -1791,7 +2639,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "principle_evaluation",
@@ -1805,7 +2653,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "method_refinement",
@@ -1819,7 +2667,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "final_method_novelty_gate",
@@ -1833,7 +2681,21 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
+    },
+    {
+      "phase": "top_venue_method_strength_gate",
+      "status": "pending",
+      "artifact": null,
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
+      "executor_model": "codex-gpt-5.6-sol",
+      "executor_family": "openai",
+      "human_decision": null,
+      "updated": "2026-09-01T03:16:25Z"
     },
     {
       "phase": "final_method_human_acceptance",
@@ -1847,12 +2709,12 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-08-29T07:31:47Z"
+      "updated": "2026-09-01T03:16:25Z"
     }
   ],
   "controller_managed": true,
   "controller_version": 2,
-  "workflow_sha256": "1e0e076e78dab213a839b05323e6dd7e9bf04155672b4a1a904f98e3e8b1b410",
+  "workflow_sha256": "120376b6e35cd88eafb1e42f599831ae721fd6f06e6e390fa5eb3c63ebae91f3",
   "research_lit": {
     "current_stage": "LANDSCAPE_ACCEPTED",
     "waiting_for": null,
@@ -31398,6 +32260,270 @@
             "lifecycle_return_event_id": "human-return-fd671281f0cb470bb216ba0c45b9a4d0"
           },
           "re_adopted_at": "2026-08-23T14:10:57Z"
+        },
+        "evidence:QPuQ4sfxSTIJ@readopt-913dd17292644854aee9546b36534952": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json",
+          "validator_result": "PASS",
+          "sha256": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+          "read_event_id": "5eedf9d861164bf1b4e6dfa8500bde73",
+          "accepted_at": "2026-08-22T05:02:01Z",
+          "evidence_key": "evidence:QPuQ4sfxSTIJ",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:09Z"
+        },
+        "evidence:USER-TASE-2023-3282974@readopt-23b0aad4b56147c2bc28711ed7daed5b": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json",
+          "validator_result": "PASS",
+          "sha256": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+          "read_event_id": "6972b3201de04901851925c3ff36cd0b",
+          "accepted_at": "2026-08-22T05:02:02Z",
+          "evidence_key": "evidence:USER-TASE-2023-3282974",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:10Z"
+        },
+        "evidence:USER-TRO-2022-3216078@readopt-4df5ae8a817b4eb3a524bc873b03026d": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json",
+          "validator_result": "PASS",
+          "sha256": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+          "read_event_id": "ceac05f303c2415ba3075671c698c256",
+          "accepted_at": "2026-08-22T04:55:24Z",
+          "evidence_key": "evidence:USER-TRO-2022-3216078",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:11Z"
+        },
+        "evidence:ZDySGaNsMn8J@readopt-6b11b8acea18447e894c9d4ef1ea382a": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json",
+          "validator_result": "PASS",
+          "sha256": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          "read_event_id": "e1d636708a284cac83ae95fe6b08ed7c",
+          "accepted_at": "2026-08-22T04:55:26Z",
+          "evidence_key": "evidence:ZDySGaNsMn8J",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:13Z"
+        },
+        "evidence:_8NXx8-VkcgJ@readopt-e38a30a4c49b4522bdefa6eee25eb8cc": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json",
+          "validator_result": "PASS",
+          "sha256": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          "read_event_id": "08cab94642464f6a82cf275175a2edb2",
+          "accepted_at": "2026-08-22T04:57:53Z",
+          "evidence_key": "evidence:_8NXx8-VkcgJ",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:14Z"
+        },
+        "evidence:USER-TUFFC-2011-1961@readopt-295a2e455933433db21950410bf42e70": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json",
+          "validator_result": "PASS",
+          "sha256": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+          "read_event_id": "bd7b6509ef0042febaa3951fd0fbaa7d",
+          "accepted_at": "2026-08-22T04:57:54Z",
+          "evidence_key": "evidence:USER-TUFFC-2011-1961",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:15Z"
+        },
+        "evidence:Ubx3Xkv4y2kJ@readopt-656aa5edae78490ca7fd4fd3920f1c76": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json",
+          "validator_result": "PASS",
+          "sha256": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          "read_event_id": "a8925a1f60314020922c851a1dc6664c",
+          "accepted_at": "2026-08-22T06:33:06Z",
+          "evidence_key": "evidence:Ubx3Xkv4y2kJ",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:17Z"
+        },
+        "evidence:9vRJMR2dgG4J@readopt-7ae77a2344f44aaeaf2794eec9ca2fdc": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json",
+          "validator_result": "PASS",
+          "sha256": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+          "read_event_id": "3607e558ee3e4c0c937b8b323764b0a0",
+          "accepted_at": "2026-08-22T06:33:05Z",
+          "evidence_key": "evidence:9vRJMR2dgG4J",
+          "phase_binding_anchor": {
+            "phase": "problem_generation",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              }
+            },
+            "lifecycle_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+            "pending_problem_revision": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "parent_version": 1,
+              "status": "draft",
+              "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+              "source": "explicit_user_revision",
+              "allow_problem_replacement": false,
+              "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+              "created_at": "2026-09-01T03:24:52Z"
+            },
+            "problem_return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+          },
+          "re_adopted_at": "2026-09-01T03:31:18Z"
         }
       }
     },
@@ -31505,15 +32631,15 @@
   },
   "scientific_core": {
     "status": "ACTIVE",
-    "current_phase": "root_cause_analysis",
+    "current_phase": "problem_human_acceptance",
     "accepted_artifacts": {
       "idea-stage/PROBLEM_CANDIDATES.md": {
         "path": "idea-stage\\PROBLEM_CANDIDATES.md",
-        "sha256": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-        "size_bytes": 3472,
+        "sha256": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+        "size_bytes": 3611,
         "status": "active",
         "producer_phase": "problem_generation",
-        "registered_at": "2026-08-23T14:11:03Z",
+        "registered_at": "2026-09-01T03:31:22Z",
         "provenance": {
           "controller": "ARISController",
           "run_id": "impedance-control-landscape-e2e",
@@ -31527,20 +32653,17 @@
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
         }
       },
       "idea-stage/PROBLEM_CANDIDATES.jsonl": {
         "path": "idea-stage\\PROBLEM_CANDIDATES.jsonl",
-        "sha256": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-        "size_bytes": 13454,
+        "sha256": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+        "size_bytes": 14937,
         "status": "active",
         "producer_phase": "problem_generation",
-        "registered_at": "2026-08-23T14:11:03Z",
+        "registered_at": "2026-09-01T03:31:22Z",
         "provenance": {
           "controller": "ARISController",
           "run_id": "impedance-control-landscape-e2e",
@@ -31554,20 +32677,17 @@
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
           ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
         }
       },
       "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": {
         "path": "idea-stage\\PROBLEM_QUALITY_VERDICTS.jsonl",
-        "sha256": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
-        "size_bytes": 8426,
+        "sha256": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5",
+        "size_bytes": 7548,
         "status": "active",
         "producer_phase": "problem_quality_gate",
-        "registered_at": "2026-08-23T15:23:21Z",
+        "registered_at": "2026-09-01T03:40:58Z",
         "provenance": {
           "controller": "ARISController",
           "run_id": "impedance-control-landscape-e2e",
@@ -31575,22 +32695,22 @@
         },
         "upstream_snapshot": {
           "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-          "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007"
+          "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+          "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6"
         },
         "acceptance": {
           "status": "accepted",
-          "verdict_id": "verdict-d3dc3f33c0304fefb9e25477c00021ca-gpt-5-codex",
-          "reviewer": "gpt-5-codex",
+          "verdict_id": "bc2106709fe24b2d9527cf3f6a0c9f31",
+          "reviewer": "gpt-5.6-sol",
           "reviewer_family": "openai",
           "review_independence": "independent-context",
-          "accepted_at": "2026-08-23T15:23:23Z",
-          "review_request_id": "d3dc3f33c0304fefb9e25477c00021ca",
-          "reviewer_agent_id": "01a02f22-f873-7443-9a90-2daf09e5041c",
+          "accepted_at": "2026-09-01T03:41:17Z",
+          "review_request_id": "703a8fe5b5cf450d9751b12d51785f92",
+          "reviewer_agent_id": "01a05b07-9036-7c50-9c1c-126f0e621128",
           "reviewed_artifact_bindings": {
             "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-            "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+            "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+            "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
@@ -31598,21 +32718,18 @@
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700"
           }
         }
       },
       "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": {
         "path": "idea-stage\\PROBLEM_NOVELTY_VERDICTS.jsonl",
-        "sha256": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf",
-        "size_bytes": 12268,
+        "sha256": "f6c30c7e70fcb9b8ed5638f12362e8c42cc702300c5430d09ab25fef4fc1617f",
+        "size_bytes": 10058,
         "status": "active",
         "producer_phase": "problem_novelty_gate",
-        "registered_at": "2026-08-23T15:30:02Z",
+        "registered_at": "2026-09-01T03:47:31Z",
         "provenance": {
           "controller": "ARISController",
           "run_id": "impedance-control-landscape-e2e",
@@ -31620,24 +32737,24 @@
         },
         "upstream_snapshot": {
           "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-          "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-          "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6"
+          "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+          "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+          "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5"
         },
         "acceptance": {
           "status": "accepted",
-          "verdict_id": "a96bf22d-2ae4-4e81-a97a-a92ff0476627",
-          "reviewer": "gpt-5",
+          "verdict_id": "347b9ed1702b4caeb35e8831cf0c97ca",
+          "reviewer": "gpt-5.6-sol",
           "reviewer_family": "openai",
           "review_independence": "independent-context",
-          "accepted_at": "2026-08-23T15:30:04Z",
-          "review_request_id": "7254a8b4b54948549730f21bd3a99690",
-          "reviewer_agent_id": "01a02f3b-eac0-79f3-8b9e-45a3854bb780",
+          "accepted_at": "2026-09-01T03:47:41Z",
+          "review_request_id": "7a9527aa1c264c1c8378364574cb831b",
+          "reviewer_agent_id": "01a05b0f-6787-7232-a5b4-7a16ccb873bd",
           "reviewed_artifact_bindings": {
             "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
-            "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
-            "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
+            "idea-stage/PROBLEM_CANDIDATES.md": "3b407c6b51915670450894b9ed104bbed69d28629b99adf12f291778e27a6a91",
+            "idea-stage/PROBLEM_CANDIDATES.jsonl": "44a73608cc3f9b4d0c8a5cc9b4cf43faf4a6392b6f09ff38b7161771f1b3f3b6",
+            "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "f65f29c44e80ef126e9609b6afbcf5d979c94b4e475cc911fe85505ff52931f5",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
@@ -31645,66 +32762,11 @@
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
             ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f",
-            "idea-stage\\LITERATURE_CORPUS.jsonl": "d79131ec7cd93bd4131f8102bfe5886c923ecc7b29d12b96846c3d2961e9d295",
-            "idea-stage\\SEARCH_LEDGER.jsonl": "453fcf554ed1bda7b18716b8487489b60ad8bf24a95260abb28683068701162d"
+            "idea-stage\\LITERATURE_CORPUS.jsonl": "1078b3e6dca273153951b60fa9fe5feb8efe9c7e707154c7adb8e33531768ebb",
+            "idea-stage\\SEARCH_LEDGER.jsonl": "94b11efeb2ea7f6e2a1f582a1a89a14a464a85a569f895b92d1b0357b2b4ac13"
           }
-        }
-      },
-      "idea-stage/RESEARCH_CONTRACT.md": {
-        "path": "idea-stage\\RESEARCH_CONTRACT.md",
-        "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-        "size_bytes": 8643,
-        "status": "active",
-        "producer_phase": "problem_human_acceptance",
-        "registered_at": "2026-08-23T15:50:55Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "human_gate": "problem_acceptance",
-          "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
-          "approved_by": "codex_ui_user",
-          "selected_id": "P-SOFTSCAN-STATE-01",
-          "confirmed_in": "codex_ui"
-        },
-        "upstream_snapshot": {
-          "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
-        },
-        "problem_version": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 1,
-          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        }
-      },
-      "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
-        "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
-        "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-        "size_bytes": 2951,
-        "status": "active",
-        "producer_phase": "problem_human_acceptance",
-        "registered_at": "2026-08-23T15:50:55Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "human_gate": "problem_acceptance",
-          "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
-          "approved_by": "codex_ui_user",
-          "selected_id": "P-SOFTSCAN-STATE-01",
-          "confirmed_in": "codex_ui"
-        },
-        "upstream_snapshot": {
-          "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
-        },
-        "problem_version": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 1,
-          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
         }
       }
     },
@@ -32442,6 +33504,332 @@
           "reason": "Batch 0 reset to the Human-accepted Problem checkpoint before Method Design scientific-core refactoring",
           "preserved_executed_prefix_through": "problem_human_acceptance"
         }
+      },
+      {
+        "path": "idea-stage\\PROBLEM_CANDIDATES.md",
+        "sha256": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
+        "size_bytes": 3472,
+        "status": "invalidated",
+        "producer_phase": "problem_generation",
+        "registered_at": "2026-08-23T14:11:03Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\PROBLEM_CANDIDATES.md",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\PROBLEM_CANDIDATES.jsonl",
+        "sha256": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+        "size_bytes": 13454,
+        "status": "invalidated",
+        "producer_phase": "problem_generation",
+        "registered_at": "2026-08-23T14:11:03Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\PROBLEM_CANDIDATES.jsonl",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\PROBLEM_QUALITY_VERDICTS.jsonl",
+        "sha256": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
+        "size_bytes": 8426,
+        "status": "invalidated",
+        "producer_phase": "problem_quality_gate",
+        "registered_at": "2026-08-23T15:23:21Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
+          "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "verdict-d3dc3f33c0304fefb9e25477c00021ca-gpt-5-codex",
+          "reviewer": "gpt-5-codex",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-08-23T15:23:23Z",
+          "review_request_id": "d3dc3f33c0304fefb9e25477c00021ca",
+          "reviewer_agent_id": "01a02f22-f873-7443-9a90-2daf09e5041c",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
+            "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f"
+          }
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\PROBLEM_QUALITY_VERDICTS.jsonl",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\PROBLEM_NOVELTY_VERDICTS.jsonl",
+        "sha256": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf",
+        "size_bytes": 12268,
+        "status": "invalidated",
+        "producer_phase": "problem_novelty_gate",
+        "registered_at": "2026-08-23T15:30:02Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
+          "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+          "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "a96bf22d-2ae4-4e81-a97a-a92ff0476627",
+          "reviewer": "gpt-5",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-08-23T15:30:04Z",
+          "review_request_id": "7254a8b4b54948549730f21bd3a99690",
+          "reviewer_agent_id": "01a02f3b-eac0-79f3-8b9e-45a3854bb780",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/PROBLEM_CANDIDATES.md": "1ecf11aadb29507a1f070831d78adad03d4c00b840e42404ea4e7c8df2251eaa",
+            "idea-stage/PROBLEM_CANDIDATES.jsonl": "6b5f81b4727383267f5b0110e00b87ecbcff3ca5b64deef7184122602ff9f007",
+            "idea-stage/PROBLEM_QUALITY_VERDICTS.jsonl": "75c6d34270002c06c821623137da53391df1af9bdd55759f102f62856a7e59a6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TUFFC-2011-1961.json": "469098ca2c4c023f5255f63fc5404209a80ef30817ea8c98c50340c21c519a94",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-iasK6kEBzIEJ.json": "cd66e5b3bd076bfc2971a196fb82366088bc3d686665471ec3b3eecf46fb4ad9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_-WpL4QNulUJ.json": "39a6d0b0e18e0408e9ad964f8f2834e8587f557d588e73616f99e83593fb49c4",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-0n2WntIcZ5MJ.json": "8ccd655a33772581bbef7e2c5c3e4c268083ce74bab855d906e5b81e6007ec4f",
+            "idea-stage\\LITERATURE_CORPUS.jsonl": "d79131ec7cd93bd4131f8102bfe5886c923ecc7b29d12b96846c3d2961e9d295",
+            "idea-stage\\SEARCH_LEDGER.jsonl": "453fcf554ed1bda7b18716b8487489b60ad8bf24a95260abb28683068701162d"
+          }
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\PROBLEM_NOVELTY_VERDICTS.jsonl",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\RESEARCH_CONTRACT.md",
+        "sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+        "size_bytes": 8643,
+        "status": "invalidated",
+        "producer_phase": "problem_human_acceptance",
+        "registered_at": "2026-08-23T15:50:55Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "human_gate": "problem_acceptance",
+          "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
+          "approved_by": "codex_ui_user",
+          "selected_id": "P-SOFTSCAN-STATE-01",
+          "confirmed_in": "codex_ui"
+        },
+        "upstream_snapshot": {
+          "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
+        },
+        "problem_version": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\RESEARCH_CONTRACT.md",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+        "sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+        "size_bytes": 2951,
+        "status": "invalidated",
+        "producer_phase": "problem_human_acceptance",
+        "registered_at": "2026-08-23T15:50:55Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "human_gate": "problem_acceptance",
+          "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
+          "approved_by": "codex_ui_user",
+          "selected_id": "P-SOFTSCAN-STATE-01",
+          "confirmed_in": "codex_ui"
+        },
+        "upstream_snapshot": {
+          "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf"
+        },
+        "problem_version": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\NECESSITY_CLOSURE.json",
+        "sha256": "ec8396ced5982dd23b485a3dc9fabbcdaa43fc81e918d9123e274d85ff9b5d28",
+        "size_bytes": 10821,
+        "status": "invalidated",
+        "producer_phase": "problem_necessity",
+        "registered_at": "2026-09-01T03:23:04Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\NECESSITY_CLOSURE.json",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\NECESSITY_VERDICT.json",
+        "sha256": "96278d32756aaf388d2d57fbcd1045591583dd9161cf0cb2400435bc6010f36a",
+        "size_bytes": 2847,
+        "status": "invalidated",
+        "producer_phase": "problem_necessity",
+        "registered_at": "2026-09-01T03:23:04Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 1,
+          "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "invalidated_at": "2026-09-01T03:24:52Z",
+        "invalidation": {
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "from_phase": "problem_necessity",
+          "return_target": "problem_generation",
+          "decision": "EXPLICIT_PROBLEM_REVISION",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785\\artifacts\\idea-stage\\NECESSITY_VERDICT.json",
+        "archive_status": "archived"
       }
     ],
     "return_history": [
@@ -32583,6 +33971,46 @@
         "return_target": "problem_generation",
         "decision": "request_revision",
         "approval_request_id": "9938ef41b1ab4972ad4e0b065ca9590f"
+      },
+      {
+        "id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+        "at": "2026-09-01T03:24:52Z",
+        "archive_root": ".aris\\archive\\impedance-control-landscape-e2e\\revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+        "invalidated_phases": [
+          "problem_generation",
+          "problem_quality_gate",
+          "problem_novelty_gate",
+          "problem_human_acceptance",
+          "problem_necessity"
+        ],
+        "invalidated_artifact_paths": [
+          "idea-stage\\PROBLEM_CANDIDATES.md",
+          "idea-stage\\PROBLEM_CANDIDATES.jsonl",
+          "idea-stage\\PROBLEM_QUALITY_VERDICTS.jsonl",
+          "idea-stage\\PROBLEM_NOVELTY_VERDICTS.jsonl",
+          "idea-stage\\RESEARCH_CONTRACT.md",
+          "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+          "idea-stage\\NECESSITY_CLOSURE.json",
+          "idea-stage\\NECESSITY_VERDICT.json"
+        ],
+        "problem_revision": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 2,
+          "parent_version": 1,
+          "status": "draft",
+          "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+          "source": "explicit_user_revision",
+          "allow_problem_replacement": false,
+          "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+          "created_at": "2026-09-01T03:24:52Z"
+        },
+        "approval_request_id": "b1c84daadc704ac2ab4c3304c9671256",
+        "confirmed_in": "codex_ui",
+        "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+        "from_phase": "problem_necessity",
+        "return_target": "problem_generation",
+        "decision": "EXPLICIT_PROBLEM_REVISION",
+        "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself."
       }
     ],
     "lessons": [],
@@ -32701,7 +34129,17 @@
         }
       }
     },
-    "approval_request": null,
+    "approval_request": {
+      "id": "0281f00dbdba43688634b264502f69ee",
+      "gate": "problem_acceptance",
+      "phase": "problem_human_acceptance",
+      "requires_selection": true,
+      "artifact_bindings": {
+        "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "f6c30c7e70fcb9b8ed5638f12362e8c42cc702300c5430d09ab25fef4fc1617f"
+      },
+      "issued_by": "ARISController",
+      "created_at": "2026-09-01T03:47:41Z"
+    },
     "review_request": null,
     "approvals": [
       {
@@ -32725,6 +34163,18 @@
         "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
         "confirmed_in": "codex_ui",
         "at": "2026-08-23T15:50:55Z"
+      },
+      {
+        "gate": "problem_revision",
+        "phase": "problem_necessity",
+        "decision": "approve",
+        "approval_request_id": "b1c84daadc704ac2ab4c3304c9671256",
+        "artifact_bindings": {
+          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
+        },
+        "confirmed_in": "codex_ui",
+        "at": "2026-09-01T03:24:52Z"
       }
     ],
     "transition_log": [
@@ -32817,13 +34267,38 @@
         "from": "method_design",
         "to": "principle_human_selection",
         "reason": "formal_gate_accepted"
+      },
+      {
+        "timestamp": "2026-09-01T03:24:52Z",
+        "from": "problem_necessity",
+        "to": "problem_generation",
+        "reason": "explicit_problem_revision",
+        "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785"
+      },
+      {
+        "timestamp": "2026-09-01T03:31:22Z",
+        "from": "problem_generation",
+        "to": "problem_quality_gate",
+        "reason": "non_gate_phase_completed"
+      },
+      {
+        "timestamp": "2026-09-01T03:41:17Z",
+        "from": "problem_quality_gate",
+        "to": "problem_novelty_gate",
+        "reason": "formal_gate_accepted"
+      },
+      {
+        "timestamp": "2026-09-01T03:47:41Z",
+        "from": "problem_novelty_gate",
+        "to": "problem_human_acceptance",
+        "reason": "formal_gate_accepted"
       }
     ],
     "problem_versions": [
       {
         "problem_id": "P-SOFTSCAN-STATE-01",
         "version": 1,
-        "status": "accepted",
+        "status": "superseded",
         "parent_version": null,
         "contract_path": "idea-stage/RESEARCH_CONTRACT.md",
         "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
@@ -32841,33 +34316,23 @@
           },
           "confirmed_in": "codex_ui",
           "recorded_at": "2026-08-23T15:50:55Z"
-        }
+        },
+        "superseded_at": "2026-09-01T03:24:52Z",
+        "superseded_by": 2
       }
     ],
-    "active_problem_version": {
+    "active_problem_version": null,
+    "pending_problem_revision": {
       "problem_id": "P-SOFTSCAN-STATE-01",
-      "version": 1,
-      "status": "accepted",
-      "parent_version": null,
-      "contract_path": "idea-stage/RESEARCH_CONTRACT.md",
-      "contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-      "evidence_capsule_path": "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md",
-      "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-      "accepted_at": "2026-08-23T15:50:55Z",
-      "acceptance": {
-        "decision": "approve",
-        "selected_id": "P-SOFTSCAN-STATE-01",
-        "approval_request_id": "85ff5a823c6d403393be083c732f97cb",
-        "artifact_bindings": {
-          "idea-stage/PROBLEM_NOVELTY_VERDICTS.jsonl": "bc5f5594227e82c6786e3b3fe907e889a2492b370ac4d1a180d952b7df0c6adf",
-          "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81"
-        },
-        "confirmed_in": "codex_ui",
-        "recorded_at": "2026-08-23T15:50:55Z"
-      }
+      "version": 2,
+      "parent_version": 1,
+      "status": "draft",
+      "reason": "The accepted problem incorrectly demotes the primary objective—achieving optimal impedance control in continuous soft contact—to a narrow component-information-value study. Rebuild the problem from the user's 2026-08-22 SoftScan synthesis and the preserved formal evidence, keeping optimal impedance control as the central scientific objective and treating contact representation, state, geometry, wrench, uncertainty, safety, and real-time feasibility as candidate causes or design constraints rather than the research question itself.",
+      "source": "explicit_user_revision",
+      "allow_problem_replacement": false,
+      "return_event_id": "revision-eb73bb2fc8794d63a6b6102d8f6cb785",
+      "created_at": "2026-09-01T03:24:52Z"
     },
-    "pending_problem_revision": null,
     "problem_revision_request": null,
     "validation_entry": {
       "status": "BLOCKED_UNTIL_METHOD_CONFIRMATION",
@@ -33018,6 +34483,87 @@
         "principle_evaluation",
         "method_refinement",
         "final_method_novelty_gate",
+        "final_method_human_acceptance"
+      ],
+      "recorded_by": "ARISController"
+    },
+    {
+      "schema_version": 1,
+      "migration_id": "2543bac7b2c94acd9858ab9ffae0611b",
+      "migration_type": "COMPATIBLE_WORKFLOW_MIGRATION",
+      "migrated_at": "2026-08-31T15:45:54Z",
+      "from_workflow_id": "idea-discovery-v4",
+      "to_workflow_id": "idea-discovery-v4",
+      "from_workflow_sha256": "1e0e076e78dab213a839b05323e6dd7e9bf04155672b4a1a904f98e3e8b1b410",
+      "to_workflow_sha256": "a9b3fd37c9fdd3491367ad02adf83a30c57944158177feb35951048213dc136f",
+      "executed_phases": [
+        "landscape",
+        "scope_human_approval",
+        "problem_generation",
+        "problem_quality_gate",
+        "problem_novelty_gate",
+        "problem_human_acceptance"
+      ],
+      "checked_phase_semantics": [
+        "landscape",
+        "problem_generation",
+        "problem_human_acceptance",
+        "problem_novelty_gate",
+        "problem_quality_gate",
+        "scope_human_approval"
+      ],
+      "replaced_suffix": [
+        "root_cause_analysis",
+        "root_cause_gate",
+        "method_design",
+        "principle_human_selection",
+        "principle_test_design",
+        "principle_test_human_approval",
+        "principle_evaluation",
+        "method_refinement",
+        "final_method_novelty_gate",
+        "final_method_human_acceptance"
+      ],
+      "recorded_by": "ARISController"
+    },
+    {
+      "schema_version": 1,
+      "migration_id": "9e1c27dc5b14452db24a373711b291ea",
+      "migration_type": "COMPATIBLE_WORKFLOW_MIGRATION",
+      "migrated_at": "2026-09-01T03:16:25Z",
+      "from_workflow_id": "idea-discovery-v4",
+      "to_workflow_id": "idea-discovery-v4",
+      "from_workflow_sha256": "a9b3fd37c9fdd3491367ad02adf83a30c57944158177feb35951048213dc136f",
+      "to_workflow_sha256": "120376b6e35cd88eafb1e42f599831ae721fd6f06e6e390fa5eb3c63ebae91f3",
+      "executed_phases": [
+        "landscape",
+        "scope_human_approval",
+        "problem_generation",
+        "problem_quality_gate",
+        "problem_novelty_gate",
+        "problem_human_acceptance",
+        "problem_necessity"
+      ],
+      "checked_phase_semantics": [
+        "landscape",
+        "problem_generation",
+        "problem_human_acceptance",
+        "problem_necessity",
+        "problem_novelty_gate",
+        "problem_quality_gate",
+        "scope_human_approval"
+      ],
+      "replaced_suffix": [
+        "root_cause_analysis",
+        "root_cause_gate",
+        "method_design",
+        "principle_human_selection",
+        "principle_test_design",
+        "principle_test_human_approval",
+        "principle_evaluation",
+        "method_refinement",
+        "final_method_novelty_gate",
+        "top_venue_method_strength_gate",
         "final_method_human_acceptance"
       ],
       "recorded_by": "ARISController"
