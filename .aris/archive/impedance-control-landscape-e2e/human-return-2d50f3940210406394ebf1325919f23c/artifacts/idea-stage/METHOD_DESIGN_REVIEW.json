@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "109e1f7f13404c2b94b5331649f17a50",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "ec58de33c2f74dd09d973e7905f0b3f9",
+  "decision": "PRINCIPLE_PACKET_READY",
+  "reviewed_artifact_hashes": {
+    "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+    "idea-stage/METHOD_DESIGN_PACKET.json": "1b782e72e0526e4d32af81f77abbde173de231c353858d48986c6b745edcd517"
+  },
+  "reviewed_artifact": {
+    "path": "idea-stage/METHOD_DESIGN_PACKET.json",
+    "sha256": "1b782e72e0526e4d32af81f77abbde173de231c353858d48986c6b745edcd517"
+  },
+  "findings": [
+    "Every live-request-bound original artifact is readable, and every observed SHA-256 matches the Controller-declared binding.",
+    "Both RMCs remain entailed by the accepted residual causal chains without changing Problem identity: the adaptive decision-sufficient action-capacity operator repairs history/contact-state aliasing, while the total applied-action relation repairs separation among impedance selection, physical feasibility, computation outcome, and rendered action.",
+    "The RMC-to-Capability-to-Design-Obligation chains remain causally closed. The packet retains substantive first-principles and representation derivations, pre-Source Target Mechanism Signatures, MODEL_PRIOR and ACADEMIC_BRIDGE executions, scholarly provenance, Evidence-grounded terminology, bounded Source genealogies, Intervention-Level Isomorphism judgments, and justified search closures.",
+    "Source attribution remains scientifically honest. VES and SPO support only decision-relevant representation and loss; Predict-then-Calibrate contributes bounded split-calibration discipline without being promoted to nonlinear constraint-side coverage; BOX-FDDP remains a feasibility-restoration precedent rather than evidence for interruption totality; PSR and MPVIC are explicitly classified as Evidence-informed Target derivations, not passed transfers.",
+    "The R7 ADAPTING-IN-ENVELOPE defect is closed in both active Candidates. F_env is independently defined by all declared envelope constraints for every w in W_env, and F_adapt is explicitly a subset of F_env. Posterior lower margins may add vetoes, while posterior belief may otherwise shape only cost or information value; it cannot shrink W_env, relax any g_env constraint, or substitute covariance inflation for coverage.",
+    "The R7 OUTSIDE-ENVELOPE defect is closed in both active Candidates over the declared withdrawal envelope. Leaving the adaptation envelope activates the internal tuple u_wd=(WITHDRAW,a_wd,r_wd): tangential reference speed is stopped, gains move within rate bounds to a dissipative withdrawal setting, and the normal reference unloads along the last verified normal until the release threshold is reached. The tuple is preverified against robot-side wrench, energy, actuator, and gain-rate bounds, is retrieved by constant-time lookup before the same deadline, and is exposed as a fatal assumption and killer criterion if feasibility, latency, or unloading semantics fail.",
+    "The complete three-state relation propagates through each active Candidate's Principle statement, intervention, causal rationale, operationalization, failure conditions, fatal assumptions, paper-level methodology, contributions, and discriminating predictions. Supported and adapting scan modes retain their distinct incumbent-persistence or viability totality mechanisms, while OUTSIDE-ENVELOPE consistently has priority and returns the defined withdrawal tuple.",
+    "The claim boundary is appropriately restricted. Neither Candidate asserts adaptation performance or safety under arbitrary distribution shift; outside the adaptation envelope only the separately declared withdrawal-envelope relation is claimed, and failure of that envelope requires narrowing the claim or supplying a lower-level certified emergency relation.",
+    "The nearest-prior and causal-equivalence account remains honest: NNBO's fixed-trial scalar identified contact relation and MPVIC's offline uncertainty-seeking free-space model plus deployment stiffness MPC are separated from the Target's continual soft-contact readout adaptation, action-conditioned nonlinear margins, admissible information actions, coupled normal-tangential gains, audited calibrated re-entry, and total rendering.",
+    "The R5 incumbent and viability histories remain immutable and recoverable through the archived R5 packet and declared Principle-history references. Current MERGED records accurately identify themselves as intentionally abbreviated summaries, while the active R8 Candidates retain the reviewed paper-level method shape and preserve the prior passed scientific findings.",
+    "UNDERCONSTRAINED remains correct. Verified-incumbent persistence and capacity-conditioned viability are substantively different intervention mechanisms with different totality premises, failure modes, activation regimes, scientific deltas, and killer concepts; their distinction is not a backbone, optimizer, parameter, or module variation.",
+    "Both active Principles are algorithm-independent at the claim level, their prospective Scientific Deltas are bounded and conditional, and their predictions specify observables, Candidate Pattern A, Rival Principle or Rival RCA Pattern B, activation conditions, killer criteria, and cheapest-informative rationales. The packet contains no concrete Principle Test Plan, execution set, execution requirements, or cost."
+  ],
+  "return_guidance": null
+}
