@@ -32,7 +32,7 @@
     },
     {
       "path": ".codex\\agents\\independent_method_reviewer.toml",
-      "sha256": "fca4b6e2b83ed5c85a1158d8c886ab607e907e80a9fa119be017dcd9b8910085"
+      "sha256": "0faf611bbfd4c1e9b074867073e0f3b532ce2e076ace49cfa0337d976d990c89"
     },
     {
       "path": ".codex\\agents\\result_to_claim_reviewer.toml",
