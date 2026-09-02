@@ -1,0 +1,266 @@
+{
+  "source_id": "HUMAN-NEURIPS-2022-VES",
+  "read_event_id": "ee99a4a530c746128398cbdf1ac23d96",
+  "content_sha256": "f4766fa07b765322e3b67bd20d182fe21f52fca2e0de91bcb5cc753240aeb102",
+  "claim": "Value-Equivalent Sampling learns a deliberately compressed environment model whose retained information is selected by downstream policy and value distortion rather than full predictive fidelity. It provides a transferable mechanism for action-relevant representation, but not a calibrated action-conditional capacity set, held-out coverage, or abstention.",
+  "claim_locator": "Abstract; Sections 1, 3-5; rate-distortion formulation; regret analysis; multi-resolution MDP example",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary NeurIPS theoretical study; impedance migration and unmet calibration obligations are explicitly reader inference; configured paper_reader model gpt-5.4",
+  "problem_and_setting": "A computationally bounded model-based RL agent cannot represent or learn all true reward and transition dynamics, while full-model posterior sampling expends capacity on details with negligible behavioral value. Exact value equivalence may be unattainable, forcing a tradeoff between retained information and policy suboptimality in a Bayesian finite-horizon episodic MDP.",
+  "method_or_mechanism": "The method minimizes mutual information between the true MDP and a compressed target model subject to expected value-based distortion. The distortion is the supremum Bellman-update discrepancy over selected policy and value-function test sets. Value-Equivalent Sampling acts with a D-satisficing compressed posterior target and derives information-theoretic Bayesian regret bounds relating capacity to achievable suboptimality.",
+  "content_summary": "VES reframes model learning as decision-targeted lossy compression. Its strong transferable element is the explicit information-versus-decision-distortion relation: model distinctions are kept only when they change selected planning consequences. Scope is limited by the chosen policy and value tests. It neither constructs a contact-capacity set nor supplies empirical coverage calibration, distribution-shift abstention, or optimal impedance feasibility.",
+  "synthesis_role": "Positive Source Mechanism for the decision-relevant representation component and negative boundary for calibration. It conditionally supports CAP-ACTION-RELEVANT-STATE and OBL-MINIMAL-DECISION-SUFFICIENCY after redefining distortion as disagreement in feasible or optimal impedance action and held-out outcome; it fails the capacity-set calibration half.",
+  "development_link": "For RMC-DECISION-SUFFICIENT-CAPACITY-STATE, intervention-level alignment is partial: PASS for action-relevant minimal information, FAIL as a complete RMC intervention because CAP-CALIBRATED-CAPACITY-SET and OBL-HELDOUT-CAPACITY-CALIBRATION are absent. Migration requires impedance-action/capacity distortion, target test sets broad enough to expose gain-relevant contact regimes, and a separate calibrated set with abstention.",
+  "evidence": [
+    {
+      "locator": "Abstract and Sections 1, 4",
+      "status": "author_reported",
+      "finding": "The algorithm targets an approximately value-equivalent lossy compression rather than the true environment model, using rate-distortion theory."
+    },
+    {
+      "locator": "Section 3 and value-distortion definition",
+      "status": "author_reported",
+      "finding": "Distortion is defined through Bellman-update disagreement over selected policies and value functions, not generic transition or reward reconstruction error."
+    },
+    {
+      "locator": "Section 5, regret analysis",
+      "status": "author_reported",
+      "finding": "Information-theoretic Bayesian regret bounds expose the tradeoff between retained model information and attainable suboptimality for finite-horizon sequential decisions."
+    },
+    {
+      "locator": "Multi-resolution MDP example",
+      "status": "author_reported",
+      "finding": "Learning all environment components can be wasteful when later components contribute vanishing reward, motivating satisficing compression."
+    },
+    {
+      "locator": "Policy/value test-set scope",
+      "status": "reader_inference",
+      "finding": "Important contact distinctions can be lost if the target impedance actions, capacity violations, or held-out regimes are omitted from the distortion tests."
+    },
+    {
+      "locator": "Target-obligation comparison",
+      "status": "reader_inference",
+      "finding": "Bayesian value regret is not empirical capacity-set coverage; VES supplies no calibrated set or abstention and therefore cannot alone satisfy the full RMC."
+    }
+  ],
+  "evidence_kind": [
+    "rate-distortion formulation",
+    "value-equivalent model compression",
+    "Bayesian regret bound",
+    "illustrative MDP"
+  ],
+  "boundary_conditions": [
+    "Equivalence is relative to selected policy and value-function test sets.",
+    "The analysis assumes a Bayesian finite-horizon MDP and a meaningful distortion tolerance.",
+    "No held-out capacity-set calibration, conditional coverage, deployment-shift guarantee, or abstention is supplied.",
+    "No contact model, impedance feasible set, or gain optimizer is implemented."
+  ],
+  "assumptions": [
+    "Policy and value test sets cover decisions of interest.",
+    "Mutual information is an appropriate representation-cost measure.",
+    "Impedance action and outcome disagreement can be expressed as a target-domain distortion after migration."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Full true-model pursuit can waste bounded representation capacity.",
+      "Exact value equivalence may be unattainable."
+    ],
+    "inferred": [
+      "A misspecified target distortion can preserve state-action aliasing.",
+      "Treating Bayesian regret as held-out coverage calibration would be invalid.",
+      "VES alone leaves calibrated capacity and abstention obligations unsatisfied."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that VES itself yields a calibrated contact-capacity set or abstention.",
+    "Any claim that its value-regret bound proves held-out capacity coverage."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-41a081d290ac9c39d2d1ed0a967aee85d3f2cb8a2a04e052ac1f7dec6a97e209.json",
+    "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+    "root_cause_analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "actual_hit_query_ids": [
+      "Q0098",
+      "Q0104",
+      "Q0106"
+    ],
+    "mechanism_change_ids": [
+      "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+    ],
+    "capability_ids": [
+      "CAP-ACTION-RELEVANT-STATE",
+      "CAP-CALIBRATED-CAPACITY-SET"
+    ],
+    "obligation_ids": [
+      "OBL-HELDOUT-CAPACITY-CALIBRATION",
+      "OBL-MINIMAL-DECISION-SUFFICIENCY"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
+    ],
+    "search_dimensions": [
+      "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM"
+    ],
+    "search_steps": [
+      "DOMAIN_DISCOVERY",
+      "SOURCE_SEARCH",
+      "TERMINOLOGY_GROUNDING"
+    ],
+    "target_mechanism_signature_refs": [
+      "TMS-DECISION-SUFFICIENT-CAPACITY"
+    ],
+    "domain_hypothesis_ids": [
+      "DH-AB-VALUE-EQUIVALENT-MODELING"
+    ],
+    "terminology_map_ids": [
+      "TM-VALUE-EQUIVALENCE"
+    ],
+    "decision_targets": [
+      "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY"
+    ],
+    "phase_binding_anchor": {
+      "phase": "method_design",
+      "required_inputs": {
+        "idea-stage/ACTIVE_FIELD_MAP.md": {
+          "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+          "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "producer_phase": "landscape",
+          "registered_at": "2026-08-22T04:18:43Z"
+        },
+        "idea-stage/RESEARCH_CONTRACT.md": {
+          "path": "idea-stage\\RESEARCH_CONTRACT.md",
+          "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+          "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+          "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/NECESSITY_CLOSURE.json": {
+          "path": "idea-stage\\NECESSITY_CLOSURE.json",
+          "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/NECESSITY_VERDICT.json": {
+          "path": "idea-stage\\NECESSITY_VERDICT.json",
+          "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+          "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+          "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "producer_phase": "root_cause_analysis",
+          "registered_at": "2026-09-01T08:18:49Z"
+        },
+        "idea-stage/ROOT_CAUSE_VERDICT.json": {
+          "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+          "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          "producer_phase": "root_cause_gate",
+          "registered_at": "2026-09-01T09:16:18Z",
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T09:16:28Z",
+            "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+            "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+            }
+          }
+        }
+      },
+      "lifecycle_return_event_id": null,
+      "active_problem_binding": {
+        "problem_id": "P-SOFTSCAN-STATE-01",
+        "version": 2,
+        "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+        "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+      },
+      "accepted_rca_binding": {
+        "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+        "lifecycle_return_event_id": null
+      },
+      "design_obligation_binding": {
+        "source": "method_design_query_context",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "capability_ids": [
+          "CAP-ACTION-RELEVANT-STATE",
+          "CAP-CALIBRATED-CAPACITY-SET",
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+          "CAP-DEADLINE-TOTALITY"
+        ],
+        "obligation_ids": [
+          "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+          "OBL-HELDOUT-CAPACITY-CALIBRATION",
+          "OBL-MINIMAL-DECISION-SUFFICIENCY",
+          "OBL-SAME-RELATION-HARD-LIMITS"
+        ],
+        "principle_search_context_sha256": "0239804f7cb757668e3cda5bc3ac50f1c3fc396ecbedf76074f23b5b6d3df1ce"
+      }
+    },
+    "admission_decision_id": "admission-83bb6afa3eb945f9ae5bfde549f4d7d0"
+  }
+}

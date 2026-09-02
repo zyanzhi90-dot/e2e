@@ -1,0 +1,783 @@
+{
+  "schema_version": 1,
+  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R2",
+  "problem_binding": {
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 2,
+    "problem_contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+  },
+  "root_cause_binding": {
+    "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+    "analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "causal_chain_ids": [
+      "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
+      "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+    ]
+  },
+  "primary_chain_dispositions": [
+    {
+      "causal_chain_id": "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
+      "disposition": "RMC",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "evidence_refs": [],
+      "rationale": "The defect is loss of contact-history distinctions that change feasible impedance, not insufficient physical detail in general."
+    },
+    {
+      "causal_chain_id": "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING",
+      "disposition": "RMC",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "evidence_refs": [],
+      "rationale": "Uncertainty, limits, selection, verification, fallback and rendering must act on one gain relation."
+    }
+  ],
+  "required_mechanism_changes": [
+    {
+      "mechanism_change_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+      "causal_chain_ids": [
+        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
+      ],
+      "failed_relation_state_or_information_structure": "Point models merge histories with different future capacity while rewarding detail that never changes impedance.",
+      "required_mechanism_change": "Learn the smallest history-conditioned, action-conditional future-margin object preserving robust impedance decisions, with calibration and abstention.",
+      "change_direction": "FROM parameter/trajectory fidelity TO calibrated impedance-decision sufficiency",
+      "causal_position": "Between safe observation history and gain selection",
+      "activation_condition": "Material, geometry, sliding, speed, dwell or loading history changes feasible normal/tangential impedance",
+      "root_cause_resolution_rationale": "Avoids both an aliased scalar model and an unnecessary digital twin.",
+      "capability_ids": [
+        "CAP-ACTION-RELEVANT-STATE",
+        "CAP-CALIBRATED-CAPACITY-SET"
+      ],
+      "obligation_ids": [
+        "OBL-MINIMAL-DECISION-SUFFICIENCY",
+        "OBL-HELDOUT-CAPACITY-CALIBRATION"
+      ]
+    },
+    {
+      "mechanism_change_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+      "causal_chain_ids": [
+        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+      ],
+      "failed_relation_state_or_information_structure": "Performance gains are proposed separately from capacity, energy, wrench, actuator/rate, deadline and fallback feasibility.",
+      "required_mechanism_change": "Make rendered impedance/fallback outputs of one robust program initialized by a verified feasible incumbent and improved only by verified replacements.",
+      "change_direction": "FROM nominal gain plus guards/tank/timeout TO incumbent-preserving robust selection with deadline return",
+      "causal_position": "At decision and rendering",
+      "activation_condition": "Physical or computation margins become active",
+      "root_cause_resolution_rationale": "Interruption may reduce optimality but cannot yield no action or an unverified action.",
+      "capability_ids": [
+        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+        "CAP-DEADLINE-TOTALITY"
+      ],
+      "obligation_ids": [
+        "OBL-SAME-RELATION-HARD-LIMITS",
+        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
+      ]
+    }
+  ],
+  "required_capabilities": [
+    {
+      "capability_id": "CAP-ACTION-RELEVANT-STATE",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "required_capability": "Retain area/geometry, 6-D wrench, slip cues and history only when they change robust gain ranking or margins.",
+      "acceptance_conditions": [
+        "Every retained information family adds held-out decision/outcome value under matched resources."
+      ]
+    },
+    {
+      "capability_id": "CAP-CALIBRATED-CAPACITY-SET",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "required_capability": "Return action-conditional sets for force/moment, slip, contact-loss, energy and actuator margins with support detection.",
+      "acceptance_conditions": [
+        "Coverage holds on a declared held-out population; unsupported contexts use the same program's safe set."
+      ]
+    },
+    {
+      "capability_id": "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "required_capability": "Jointly optimize time-varying normal/tangential stiffness and damping inside all hard margins.",
+      "acceptance_conditions": [
+        "Executed gains equal verified optimizer outputs; no downstream element changes them."
+      ]
+    },
+    {
+      "capability_id": "CAP-DEADLINE-TOTALITY",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "required_capability": "Return a verified incumbent or certified fallback at every deadline.",
+      "acceptance_conditions": [
+        "Timeout, failure, abstention and infeasibility each have a logged feasible output and bounded latency."
+      ]
+    }
+  ],
+  "design_obligations": [
+    {
+      "obligation_id": "OBL-MINIMAL-DECISION-SUFFICIENCY",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "capability_ids": [
+        "CAP-ACTION-RELEVANT-STATE"
+      ],
+      "design_obligation": "Define model content by robust action equivalence, not physical completeness.",
+      "acceptance_conditions": [
+        "Remove information improving reconstruction but not regret, margins or outcome."
+      ]
+    },
+    {
+      "obligation_id": "OBL-HELDOUT-CAPACITY-CALIBRATION",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "capability_ids": [
+        "CAP-CALIBRATED-CAPACITY-SET"
+      ],
+      "design_obligation": "Independently calibrate the exact future-margin vector consumed by optimization and declare the shift population.",
+      "acceptance_conditions": [
+        "Evaluate calibration/abstention separately from training and controller tuning."
+      ]
+    },
+    {
+      "obligation_id": "OBL-SAME-RELATION-HARD-LIMITS",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "capability_ids": [
+        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE"
+      ],
+      "design_obligation": "Apply contact, wrench, energy, actuator and rate limits to the same gain variables minimizing performance loss.",
+      "acceptance_conditions": [
+        "Energy state/safe mode is inside the program; penalized limits are not called hard."
+      ]
+    },
+    {
+      "obligation_id": "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "capability_ids": [
+        "CAP-DEADLINE-TOTALITY"
+      ],
+      "design_obligation": "Shift/verify the prior plan, retain a safe fallback and replace the incumbent only after full verification.",
+      "acceptance_conditions": [
+        "Arbitrary interruption changes quality only, not certified feasibility or output existence."
+      ]
+    }
+  ],
+  "principle_search_record": {
+    "target_mechanism_signatures": [
+      {
+        "target_mechanism_signature_id": "TMS-DECISION-SUFFICIENT-CAPACITY",
+        "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+        "domain_neutral_failure_structure": "A predictor merges contexts inducing different constrained decisions.",
+        "causal_or_computational_variable_or_relation": "History to action-conditional margins to impedance",
+        "current_relation_or_state": "Point state without action equivalence, coverage or abstention",
+        "required_intervention": "Learn decision-equivalent state and calibrate optimizer-consumed margins",
+        "change_direction": "FROM parameter/trajectory fidelity TO calibrated impedance-decision sufficiency",
+        "causal_position": "Between safe observation history and gain selection",
+        "activation_condition": "Material, geometry, sliding, speed, dwell or loading history changes feasible normal/tangential impedance"
+      },
+      {
+        "target_mechanism_signature_id": "TMS-JOINT-FEASIBILITY",
+        "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+        "domain_neutral_failure_structure": "A nominal decision is changed or unavailable after feasibility/deadline checks.",
+        "causal_or_computational_variable_or_relation": "Capacity, gains, verification, fallback, rendering",
+        "current_relation_or_state": "Performance proposal followed by correction",
+        "required_intervention": "Incumbent-preserving total feasibility relation",
+        "change_direction": "FROM nominal gain plus guards/tank/timeout TO incumbent-preserving robust selection with deadline return",
+        "causal_position": "At decision and rendering",
+        "activation_condition": "Physical or computation margins become active"
+      }
+    ],
+    "first_principles": [
+      {
+        "origin_record_id": "FP-DECISION-CAPACITY",
+        "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+        "premises": [
+          "A distinction is needed only if it changes robust decisions/outcomes.",
+          "Point estimates omit hard-constraint tail margin."
+        ],
+        "derivation_steps": [
+          "Quotient histories by impedance equivalence.",
+          "Predict margins conditional on candidate gains.",
+          "Calibrate residual sets; abstain outside support."
+        ],
+        "formal_or_evidence_basis": [
+          "HUMAN-NEURIPS-2022-VES",
+          "HUMAN-MANSCI-2021-SPO",
+          "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"
+        ],
+        "derived_intervention": "Decision-focused history state plus calibrated action-conditional capacity tube.",
+        "rmc_resolution_rationale": "Model complexity is fixed by downstream impedance value.",
+        "assumptions": [
+          "Decision probes cover active regimes.",
+          "A calibration population exists."
+        ],
+        "boundaries": [
+          "Coverage is limited by its declared population/support rule."
+        ]
+      },
+      {
+        "origin_record_id": "FP-FEASIBLE-INCUMBENT",
+        "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+        "premises": [
+          "An action is required at every deadline.",
+          "Only verified candidates may replace a feasible action."
+        ],
+        "derivation_steps": [
+          "Shift/construct incumbent.",
+          "Improve gains within robust set.",
+          "Commit verified improvements only.",
+          "Return incumbent on deadline/failure."
+        ],
+        "formal_or_evidence_basis": [
+          "bRrwxfzJq_QJ",
+          "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+          "USER-TASE-2023-3282974"
+        ],
+        "derived_intervention": "Feasibility-driven robust update with incumbent retention.",
+        "rmc_resolution_rationale": "Feasibility and totality do not depend on convergence.",
+        "assumptions": [
+          "A fallback exists.",
+          "Verification fits the budget."
+        ],
+        "boundaries": [
+          "BOX-FDDP supports fast restoration, not interruption-safe return."
+        ]
+      }
+    ],
+    "representation_transformations": [
+      {
+        "origin_record_id": "RT-PARAMETER-TO-CAPACITY",
+        "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+        "old_representation": "Contact parameters or next-state point",
+        "new_representation": "History-conditioned action-to-margin tube",
+        "failure_mechanism_resolution": "Separates histories only when gains change future margins/ranking.",
+        "information_preserved": [
+          "gain-relevant capacity",
+          "hard-margin uncertainty"
+        ],
+        "information_lost": [
+          "decision-irrelevant detail"
+        ],
+        "formal_or_evidence_basis": [
+          "HUMAN-NEURIPS-2022-VES",
+          "HUMAN-MANSCI-2021-SPO",
+          "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"
+        ],
+        "assumptions": [
+          "Regret/margin labels are estimable."
+        ],
+        "boundaries": [
+          "Not interpretable material identification."
+        ]
+      },
+      {
+        "origin_record_id": "RT-STACK-TO-RELATION",
+        "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+        "old_representation": "Learned gain plus projection/tank/timeout",
+        "new_representation": "One robust gain program with tube, energy state, incumbent and deadline return",
+        "failure_mechanism_resolution": "Optimized and applied feasible actions become identical.",
+        "information_preserved": [
+          "performance",
+          "hard margins",
+          "fallback identity"
+        ],
+        "information_lost": [
+          "unrenderable nominal gains"
+        ],
+        "formal_or_evidence_basis": [
+          "bRrwxfzJq_QJ",
+          "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"
+        ],
+        "assumptions": [
+          "Incumbent is valid under the tube."
+        ],
+        "boundaries": [
+          "Short-deadline output may be conservative."
+        ]
+      }
+    ],
+    "same_field_mechanisms": [
+      {
+        "source_mechanism_id": "SM-BOX-FDDP",
+        "served_rmc_ids": [
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "served_capability_ids": [
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+          "CAP-DEADLINE-TOTALITY"
+        ],
+        "served_obligation_ids": [
+          "OBL-SAME-RELATION-HARD-LIMITS",
+          "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
+        ],
+        "discovery_provenance": {
+          "query_plan_sha256": "6028427a61e8e32e71635c7f78a026316e20e2a7b37bb21db12f33fb5c797173",
+          "plan_item_id": "MDV5-SAME-RECURSIVE-FEASIBLE-IMPEDANCE",
+          "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY",
+          "domain_hypothesis_id": null,
+          "terminology_map_id": null
+        },
+        "search_provenance": {
+          "query_plan_sha256": "6028427a61e8e32e71635c7f78a026316e20e2a7b37bb21db12f33fb5c797173",
+          "plan_item_id": "MDV5-SAME-RECURSIVE-FEASIBLE-IMPEDANCE"
+        },
+        "genealogy": {
+          "nodes": [
+            {
+              "node_id": "N-BOX",
+              "paper_id": "bRrwxfzJq_QJ",
+              "mechanism_role": "feasibility-driven bounded-control DDP",
+              "evidence_refs": [
+                "bRrwxfzJq_QJ"
+              ]
+            }
+          ],
+          "relations": []
+        },
+        "mechanism_origin_or_stop_rationale": "Supports warm-started one-iteration constrained policy updates/Riccati feedback, not per-iterate feasibility or interruption safety.",
+        "source_problem": "Large constrained MPC under milliseconds.",
+        "source_intervention": "Warm-started BOX-FDDP with explicit control bounds.",
+        "changed_variable_relation_or_structure": "Defects and bounds enter policy update.",
+        "causal_or_computational_effect": "Fast empirical feasibility restoration.",
+        "outcome": "Reported 50-100 Hz real-robot MPC.",
+        "assumptions": [
+          "Useful warm start",
+          "adequate model"
+        ],
+        "activation_conditions": [
+          "Repeated nearby OCPs"
+        ],
+        "boundaries": [
+          "No every-iterate proof",
+          "no interruption contract",
+          "penalties are not hard guarantees"
+        ],
+        "evidence_refs": [
+          "bRrwxfzJq_QJ"
+        ],
+        "intervention_level_alignment": {
+          "alignment_id": "ALIGN-BOX-FDDP",
+          "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+          "source_mechanism_id": "SM-BOX-FDDP",
+          "variable_or_relation_role_mapping": {
+            "bounded_policy": "impedance trajectory",
+            "Riccati_feedback": "gain renderer"
+          },
+          "change_direction_alignment": "Constraints enter online policy update.",
+          "intervention_position_alignment": "Decision/rendering.",
+          "activation_condition_alignment": "Deadline-limited repeated OCP.",
+          "source_actual_effect": "Fast restoration, not totality.",
+          "assumption_boundary_mismatches": [
+            "Target adds uncertain soft contact and incumbent certification."
+          ],
+          "decision": "PASS",
+          "evidence_refs": [
+            "bRrwxfzJq_QJ"
+          ],
+          "solution_principle_abstraction": "Warm-start constrained feedback updates while retaining the last verified policy.",
+          "failure_disposition": null
+        }
+      }
+    ],
+    "cross_domain_structural_isomorphisms": [
+      {
+        "source_mechanism_id": "SM-VES",
+        "served_rmc_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+        "served_capability_ids": ["CAP-ACTION-RELEVANT-STATE"],
+        "served_obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY"],
+        "discovery_provenance": {
+          "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
+          "plan_item_id": "MDV2-BRIDGE-RMC1",
+          "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY",
+          "domain_hypothesis_id": "DH-AB-VALUE-EQUIVALENT-MODELING",
+          "terminology_map_id": "TM-VALUE-EQUIVALENCE"
+        },
+        "search_provenance": {"query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "plan_item_id": "MDV4-SOURCE-VES"},
+        "genealogy": {"nodes": [{"node_id": "N-VES", "paper_id": "HUMAN-NEURIPS-2022-VES", "mechanism_role": "value-equivalent representation", "evidence_refs": ["HUMAN-NEURIPS-2022-VES"]}], "relations": []},
+        "mechanism_origin_or_stop_rationale": "Value-equivalent sampling is the direct source for discarding distinctions that do not change downstream value or policy.",
+        "source_problem": "Predictively detailed models can preserve distinctions irrelevant to planning decisions.",
+        "source_intervention": "Restrict model fidelity to value-equivalent distinctions for a declared policy/value test set.",
+        "changed_variable_relation_or_structure": "Model equivalence is defined by downstream value/policy effect rather than generic prediction error.",
+        "causal_or_computational_effect": "Decision-irrelevant detail can be compressed without changing the scoped downstream decision.",
+        "outcome": "More decision-efficient model learning in the source setting.",
+        "assumptions": ["A declared downstream decision class exists."],
+        "activation_conditions": ["Histories differ predictively but not in impedance consequence."],
+        "boundaries": ["Does not provide calibrated hard-constraint margins or robotic stability."],
+        "evidence_refs": ["HUMAN-NEURIPS-2022-VES"],
+        "intervention_level_alignment": {
+          "alignment_id": "ALIGN-VES", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "source_mechanism_id": "SM-VES",
+          "variable_or_relation_role_mapping": {"model state": "contact-history state", "value/policy test set": "candidate impedance decisions"},
+          "change_direction_alignment": "FROM prediction fidelity TO decision-equivalent representation.",
+          "intervention_position_alignment": "At the learned state before impedance selection.",
+          "activation_condition_alignment": "Aliased histories change or fail to change downstream gain choice.",
+          "source_actual_effect": "Scopes representation fidelity by downstream decision effect.",
+          "assumption_boundary_mismatches": ["Target needs constrained continuous-contact decisions rather than Bellman tests."],
+          "decision": "PASS", "evidence_refs": ["HUMAN-NEURIPS-2022-VES"],
+          "solution_principle_abstraction": "Retain contact information only when it changes the scoped robust impedance decision.", "failure_disposition": null
+        }
+      },
+      {
+        "source_mechanism_id": "SM-SPO",
+        "served_rmc_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+        "served_capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+        "served_obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+        "discovery_provenance": {
+          "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074", "plan_item_id": "MDV2-BRIDGE-RMC1",
+          "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY", "domain_hypothesis_id": "DH-AB-DECISION-FOCUSED-OPTIMIZATION", "terminology_map_id": "TM-DECISION-FOCUSED"
+        },
+        "search_provenance": {"query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "plan_item_id": "MDV4-SOURCE-SPO"},
+        "genealogy": {"nodes": [{"node_id": "N-SPO", "paper_id": "HUMAN-MANSCI-2021-SPO", "mechanism_role": "decision-regret loss", "evidence_refs": ["HUMAN-MANSCI-2021-SPO"]}], "relations": []},
+        "mechanism_origin_or_stop_rationale": "SPO supplies the loss-level mechanism that weights prediction errors by the decisions they induce.",
+        "source_problem": "Low prediction error can still induce high downstream optimization regret.",
+        "source_intervention": "Train predictions using a surrogate of downstream decision regret.",
+        "changed_variable_relation_or_structure": "Prediction error is evaluated through optimizer-induced objective loss.",
+        "causal_or_computational_effect": "Learning focuses capacity on errors that change decisions and cost.",
+        "outcome": "Lower downstream regret in predict-then-optimize tasks.",
+        "assumptions": ["A faithful downstream oracle or surrogate is available."],
+        "activation_conditions": ["Equal prediction errors have unequal impedance consequences."],
+        "boundaries": ["SPO does not itself calibrate chance coverage or ensure sequential feasibility."],
+        "evidence_refs": ["HUMAN-MANSCI-2021-SPO"],
+        "intervention_level_alignment": {
+          "alignment_id": "ALIGN-SPO", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "source_mechanism_id": "SM-SPO",
+          "variable_or_relation_role_mapping": {"predicted coefficients": "future contact margins", "optimization decision": "impedance trajectory", "regret": "closed-loop force/trajectory/contact loss"},
+          "change_direction_alignment": "FROM generic prediction loss TO impedance-decision regret.",
+          "intervention_position_alignment": "At representation and margin training.",
+          "activation_condition_alignment": "Model errors alter gain ranking or feasibility.",
+          "source_actual_effect": "Aligns learning with downstream optimization loss.",
+          "assumption_boundary_mismatches": ["Target constraints are nonlinear, sequential and partially observed."],
+          "decision": "PASS", "evidence_refs": ["HUMAN-MANSCI-2021-SPO"],
+          "solution_principle_abstraction": "Train the contact representation by robust impedance regret and margin error, not reconstruction fidelity.", "failure_disposition": null
+        }
+      },
+      {
+        "source_mechanism_id": "SM-PREDICT-CALIBRATE",
+        "served_rmc_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+        "served_capability_ids": ["CAP-CALIBRATED-CAPACITY-SET", "CAP-COUPLED-FEASIBLE-GAIN-CHOICE"],
+        "served_obligation_ids": ["OBL-HELDOUT-CAPACITY-CALIBRATION", "OBL-SAME-RELATION-HARD-LIMITS"],
+        "discovery_provenance": {
+          "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074", "plan_item_id": "MDV2-BRIDGE-RMC2",
+          "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY", "domain_hypothesis_id": "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION", "terminology_map_id": "TM-PREDICTIVE-SAFETY"
+        },
+        "search_provenance": {"query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "plan_item_id": "MDV4-SOURCE-PSF"},
+        "genealogy": {"nodes": [{"node_id": "N-PC", "paper_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "mechanism_role": "decision-calibrated robust uncertainty set", "evidence_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"]}], "relations": []},
+        "mechanism_origin_or_stop_rationale": "Predict-then-calibrate connects empirical uncertainty coverage to the robust feasible decisions induced by the learned set.",
+        "source_problem": "Point predictions of uncertain constraints can produce risk-misaligned or infeasible decisions.",
+        "source_intervention": "Calibrate context-dependent uncertainty sets and optimize their robust counterpart.",
+        "changed_variable_relation_or_structure": "Context maps to a calibrated set that directly parameterizes the feasible decision region.",
+        "causal_or_computational_effect": "Uncertainty changes the same optimization relation that selects the action.",
+        "outcome": "Finite-sample calibrated robust decisions for the declared source population.",
+        "assumptions": ["Calibration and deployment samples satisfy the declared population relation."],
+        "activation_conditions": ["Uncertain capacity is active in the downstream feasible set."],
+        "boundaries": ["No arbitrary-shift guarantee, robotic stability proof or deadline fallback."],
+        "evidence_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"],
+        "intervention_level_alignment": {
+          "alignment_id": "ALIGN-PREDICT-CALIBRATE", "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY", "source_mechanism_id": "SM-PREDICT-CALIBRATE",
+          "variable_or_relation_role_mapping": {"context": "safe contact history", "uncertainty set": "future capacity tube", "robust decision": "coupled impedance trajectory"},
+          "change_direction_alignment": "FROM point capacity plus later correction TO calibrated capacity inside robust choice.",
+          "intervention_position_alignment": "Inside the feasible-set construction used by the optimizer.",
+          "activation_condition_alignment": "Capacity uncertainty changes feasibility near hard margins.",
+          "source_actual_effect": "Calibrates an optimizer-consumed uncertainty set.",
+          "assumption_boundary_mismatches": ["Sequential contact dependence and real-time totality must be added and tested."],
+          "decision": "PASS", "evidence_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"],
+          "solution_principle_abstraction": "Calibrate the action-conditional capacity tube that defines robust impedance feasibility.", "failure_disposition": null
+        }
+      }
+    ],
+    "discovery_executions": [
+      {
+        "discovery_execution_id": "DE-MODEL-RMC1", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY",
+        "source_channel": "MODEL_PRIOR", "outcome": "HYPOTHESES_REGISTERED", "query_plan_sha256": null, "plan_item_ids": [], "evidence_refs": [],
+        "registered_domain_hypothesis_ids": ["DH-VALUE-EQUIVALENT-REPRESENTATION"], "closure_rationale": "Registered decision-equivalent representation as the model-prior branch."
+      },
+      {
+        "discovery_execution_id": "DE-BRIDGE-RMC1", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY",
+        "source_channel": "ACADEMIC_BRIDGE", "outcome": "HYPOTHESES_REGISTERED", "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406",
+        "plan_item_ids": ["MDV3-BRIDGE-DISCOVERY-RMC1"], "evidence_refs": ["HUMAN-NEURIPS-2022-VES", "HUMAN-MANSCI-2021-SPO"],
+        "registered_domain_hypothesis_ids": ["DH-AB-VALUE-EQUIVALENT-MODELING", "DH-AB-DECISION-FOCUSED-OPTIMIZATION"], "closure_rationale": "Recovered complementary representation- and loss-level decision-sufficiency mechanisms."
+      },
+      {
+        "discovery_execution_id": "DE-MODEL-RMC2", "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY", "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY",
+        "source_channel": "MODEL_PRIOR", "outcome": "HYPOTHESES_REGISTERED", "query_plan_sha256": null, "plan_item_ids": [], "evidence_refs": [],
+        "registered_domain_hypothesis_ids": ["DH-PREDICTIVE-SAFETY-FEASIBILITY"], "closure_rationale": "Registered joint predictive feasibility as the model-prior branch."
+      },
+      {
+        "discovery_execution_id": "DE-BRIDGE-RMC2", "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY", "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY",
+        "source_channel": "ACADEMIC_BRIDGE", "outcome": "HYPOTHESES_REGISTERED", "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406",
+        "plan_item_ids": ["MDV3-BRIDGE-DISCOVERY-RMC2"], "evidence_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"],
+        "registered_domain_hypothesis_ids": ["DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION"], "closure_rationale": "Recovered calibrated robust contextual optimization; deadline totality remains the target-side delta."
+      }
+    ],
+    "domain_hypotheses": [
+      {
+        "domain_hypothesis_id": "DH-VALUE-EQUIVALENT-REPRESENTATION", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY", "source_channel": "MODEL_PRIOR",
+        "domain_or_research_community_or_paradigm": "Decision-focused learning, value-equivalent models, predictive-state representations and task-oriented compression",
+        "structural_rationale": "These communities retain distinctions because they change downstream policy, value or optimization decisions.", "expected_problem_structure": "Partial histories contain decision-irrelevant detail and decision-changing aliases.",
+        "expected_intervention_family": "Decision-loss training, value-equivalent compression or action-conditional set prediction", "provenance_refs": [],
+        "introduced_query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074", "disposition": "CLOSED", "closure_rationale": "The retained academic bridges instantiate this prior.", "closure_provenance_refs": ["Q0104"]
+      },
+      {
+        "domain_hypothesis_id": "DH-PREDICTIVE-SAFETY-FEASIBILITY", "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY", "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY", "source_channel": "MODEL_PRIOR",
+        "domain_or_research_community_or_paradigm": "Predictive safety filters, runtime assurance, feasibility-aware predict-then-optimize and robust constrained control",
+        "structural_rationale": "These communities couple nominal action, uncertain capacity and fallback through a feasibility-aware decision.", "expected_problem_structure": "Actions fail when constraints or computation are checked after optimization.",
+        "expected_intervention_family": "Robust feasible-set optimization, recursive feasibility or total runtime assurance", "provenance_refs": [],
+        "introduced_query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074", "disposition": "CLOSED", "closure_rationale": "Calibrated robust optimization and same-field BOX-FDDP delimit the transferable and missing parts.", "closure_provenance_refs": ["Q0105", "Q0113"]
+      },
+      {
+        "domain_hypothesis_id": "DH-AB-VALUE-EQUIVALENT-MODELING", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY", "source_channel": "ACADEMIC_BRIDGE",
+        "domain_or_research_community_or_paradigm": "Value-equivalent modeling and sampling in model-based reinforcement learning", "structural_rationale": "Model distinctions are necessary only when they change scoped values, policies or regret.",
+        "expected_problem_structure": "Detailed predictive models waste capacity on distinctions irrelevant to planning.", "expected_intervention_family": "Value-equivalent model classes and decision-relevant compression",
+        "provenance_refs": ["HUMAN-NEURIPS-2022-VES"], "introduced_query_plan_sha256": "4aeaafecd2aed17710e7e605adc57264e2ae2b1e552e854579f1958844965e00", "disposition": "CLOSED", "closure_rationale": "Retained as the representation-level source.", "closure_provenance_refs": ["Q0104", "Q0106"]
+      },
+      {
+        "domain_hypothesis_id": "DH-AB-DECISION-FOCUSED-OPTIMIZATION", "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY", "source_channel": "ACADEMIC_BRIDGE",
+        "domain_or_research_community_or_paradigm": "Decision-focused learning and smart predict-then-optimize", "structural_rationale": "Errors are weighted by downstream objective, constraint or regret rather than generic accuracy.",
+        "expected_problem_structure": "Accurate parameter estimates can induce poor or infeasible optimized decisions.", "expected_intervention_family": "SPO loss and decision-focused learning",
+        "provenance_refs": ["HUMAN-MANSCI-2021-SPO"], "introduced_query_plan_sha256": "4aeaafecd2aed17710e7e605adc57264e2ae2b1e552e854579f1958844965e00", "disposition": "CLOSED", "closure_rationale": "Retained as the training-objective source.", "closure_provenance_refs": ["Q0104", "Q0107"]
+      },
+      {
+        "domain_hypothesis_id": "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION", "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY", "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY", "source_channel": "ACADEMIC_BRIDGE",
+        "domain_or_research_community_or_paradigm": "Calibrated robust contextual optimization", "structural_rationale": "Context-conditioned uncertainty is calibrated through the robust feasible decisions it induces.",
+        "expected_problem_structure": "Point predictions induce infeasible or risk-misaligned decisions when uncertain parameters define constraints.", "expected_intervention_family": "Predict-then-calibrate uncertainty sets and robust counterparts",
+        "provenance_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"], "introduced_query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "disposition": "CLOSED", "closure_rationale": "Retained as the uncertainty-to-feasible-set source.", "closure_provenance_refs": ["Q0105", "Q0109"]
+      }
+    ],
+    "terminology_maps": [
+      {
+        "terminology_map_id": "TM-VALUE-EQUIVALENCE", "domain_hypothesis_id": "DH-AB-VALUE-EQUIVALENT-MODELING",
+        "canonical_problem_terms": ["model irrelevance for planning", "decision regret"], "canonical_variable_state_relation_terms": ["Bellman-update equivalence", "value equivalence"],
+        "canonical_intervention_terms": ["value-equivalent model", "decision-relevant compression"], "canonical_method_families": ["model-based reinforcement learning"],
+        "evidence_refs": ["HUMAN-NEURIPS-2022-VES"], "search_read_provenance": ["Q0098"],
+        "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "plan_item_id": "MDV3-TERM-VALUE-EQUIVALENCE"
+      },
+      {
+        "terminology_map_id": "TM-DECISION-FOCUSED", "domain_hypothesis_id": "DH-AB-DECISION-FOCUSED-OPTIMIZATION",
+        "canonical_problem_terms": ["predict-then-optimize mismatch", "decision loss"], "canonical_variable_state_relation_terms": ["predicted parameter to optimizer", "regret"],
+        "canonical_intervention_terms": ["SPO loss", "decision-focused learning"], "canonical_method_families": ["smart predict-then-optimize"],
+        "evidence_refs": ["HUMAN-MANSCI-2021-SPO"], "search_read_provenance": ["Q0099"],
+        "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "plan_item_id": "MDV3-TERM-DECISION-FOCUSED"
+      },
+      {
+        "terminology_map_id": "TM-PREDICTIVE-SAFETY", "domain_hypothesis_id": "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION",
+        "canonical_problem_terms": ["uncertain constraint parameters", "robust decision infeasibility"], "canonical_variable_state_relation_terms": ["context to calibrated uncertainty set", "robust feasible decision"],
+        "canonical_intervention_terms": ["predict-then-calibrate", "robust counterpart"], "canonical_method_families": ["robust contextual optimization"],
+        "evidence_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE"], "search_read_provenance": ["Q0100"],
+        "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406", "plan_item_id": "MDV3-TERM-PREDICTIVE-SAFETY"
+      }
+    ],
+    "search_space_closures": [
+      {
+        "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+        "same_field_search_provenance": [
+          "Q0102",
+          "Q0111",
+          "Q0112"
+        ],
+        "same_field_outcome": "NO_CREDIBLE_SOURCE_FOUND",
+        "cross_domain_search_provenance": [
+          "Q0104",
+          "Q0107",
+          "Q0109"
+        ],
+        "cross_domain_outcome": "CREDIBLE_SOURCE_RETAINED",
+        "model_prior_executed": true,
+        "academic_bridge_executed": true,
+        "unresolved_high_value_branches": [],
+        "literature_budget_disposition": "Extended search completed.",
+        "closure_rationale": "Sources fix decision sufficiency/calibration; no same-field integrated relation found."
+      },
+      {
+        "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+        "same_field_search_provenance": [
+          "Q0103",
+          "Q0113"
+        ],
+        "same_field_outcome": "CREDIBLE_SOURCE_RETAINED",
+        "cross_domain_search_provenance": [
+          "Q0105",
+          "Q0109",
+          "Q0110"
+        ],
+        "cross_domain_outcome": "CREDIBLE_SOURCE_RETAINED",
+        "model_prior_executed": true,
+        "academic_bridge_executed": true,
+        "unresolved_high_value_branches": [],
+        "literature_budget_disposition": "Extended search completed.",
+        "closure_rationale": "Sources support robust choice/online updates but not interruption-safe return; retain it as target delta."
+      }
+    ],
+    "closure_rationale": "One route remains: decision-equivalent history, calibrated action-conditional capacity, one robust coupled impedance program and incumbent-preserving rendering."
+  },
+  "solution_space_constraint_assessment": {
+    "disposition": "CONSTRAINED",
+    "constraint_basis": "Both chains require one shared object and one applied-action relation: the model predicts optimizer-consumed margins; calibration acts on those margins; optimization applies them to coupled gains; rendering returns only the verified policy. Separate model, critic, safety filter, tank or timeout controller recreates an accepted failure. Encoder, set and solver choices remain implementations inside this principle."
+  },
+  "candidate_principles": [
+    {
+      "principle_id": "P-DECISION-CALIBRATED-TOTAL-IMPEDANCE",
+      "principle_version": "2",
+      "parent_version": "1",
+      "principle": "Represent soft contact by the smallest history-conditioned, action-conditional future-margin capacity tube preserving robust impedance decisions; calibrate it on declared shifts; use it inside one incumbent-preserving horizon program whose only rendered output is a verified feasible time-varying normal/tangential impedance policy.",
+      "origin_type": "REPRESENTATION_TRANSFORMATION",
+      "origin_ref_id": "RT-STACK-TO-RELATION",
+      "alignment_ref_id": null,
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "capability_ids": [
+        "CAP-ACTION-RELEVANT-STATE",
+        "CAP-CALIBRATED-CAPACITY-SET",
+        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+        "CAP-DEADLINE-TOTALITY"
+      ],
+      "obligation_ids": [
+        "OBL-MINIMAL-DECISION-SUFFICIENCY",
+        "OBL-HELDOUT-CAPACITY-CALIBRATION",
+        "OBL-SAME-RELATION-HARD-LIMITS",
+        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
+        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+      ],
+      "activation_conditions": [
+        "Held-out/history-dependent contact changes feasible coupled impedance near physical or computation margins."
+      ],
+      "intervention": "Encode safe history; predict candidate-gain-conditioned force/moment, slip, loss, energy and actuator margins; calibrate their tube; shift/verify the prior policy; improve it in one robust program; commit verified candidates only; return the incumbent at deadline.",
+      "changed_structure": "Environment identification plus controllers becomes one decision-calibrated capacity-to-feasible-impedance relation.",
+      "root_cause_resolution_rationale": "Histories are separated by decisions/margins they change; uncertainty, objective, hard limits, fallback and rendering share the same variables/policy.",
+      "failure_conditions": [
+        "No incremental information value",
+        "capacity miscoverage",
+        "no feasible fallback",
+        "verification misses deadline",
+        "downstream gain alteration"
+      ],
+      "fatal_assumptions": [
+        {
+          "assumption_id": "A-OBSERVABILITY",
+          "assumption": "Safe history contains gain-relevant future-margin information.",
+          "failure_consequence": "Add sensing or narrow the claim."
+        },
+        {
+          "assumption_id": "A-CALIBRATION",
+          "assumption": "A meaningful held-out population/support rule exists.",
+          "failure_consequence": "Coverage/robustness is vacuous."
+        },
+        {
+          "assumption_id": "A-FALLBACK",
+          "assumption": "A shifted policy or safe action remains feasible in the declared envelope.",
+          "failure_consequence": "Deadline totality fails."
+        },
+        {
+          "assumption_id": "A-BUDGET",
+          "assumption": "Set construction, verification and return fit the update budget.",
+          "failure_consequence": "Not online executable."
+        }
+      ],
+      "target_domain_operationalization": [
+        "Candidate history includes area/geometry, 6-D wrench, scan/slip kinematics and loading history; nested-state evidence decides retention.",
+        "The learned output is the optimizer's future margin vector, not a material digital twin.",
+        "Variables are coupled time-varying normal/tangential stiffness/damping; objective covers force, trajectory, loss and slip; hard limits cover contact, wrench, energy, actuators, gain rate and deadlines.",
+        "Riccati/DDP feedback may render the verified policy but cannot overwrite it."
+      ],
+      "target_intervention_novelty": {
+        "novelty_closure_id": "NOV-DCFI-V2",
+        "nearest_target_prior_evidence_refs": [
+          "QPuQ4sfxSTIJ",
+          "USER-TRO-2022-3216078",
+          "USER-TASE-2023-3282974",
+          "bRrwxfzJq_QJ"
+        ],
+        "causal_equivalent_intervention_check": "UNCOVERED",
+        "evidence_search_provenance": [
+          {
+            "query_plan_sha256": "6028427a61e8e32e71635c7f78a026316e20e2a7b37bb21db12f33fb5c797173",
+            "plan_item_id": "MDV3-SAME-RMC1",
+            "query_id": "Q0121"
+          },
+          {
+            "query_plan_sha256": "6028427a61e8e32e71635c7f78a026316e20e2a7b37bb21db12f33fb5c797173",
+            "plan_item_id": "MDV5-SAME-RECURSIVE-FEASIBLE-IMPEDANCE",
+            "query_id": "Q0113"
+          }
+        ],
+        "uncovered_residual_delta": "No target prior unifies decision-minimal state, calibrated action-conditional capacity, coupled feasibility and interruption-safe return.",
+        "mechanism_delta": "Model content and all later stages share the optimizer-consumed capacity/gain relation.",
+        "scientific_delta": "Identifies necessary contact information and tests whether it enables deadline-total feasible impedance under shifts.",
+        "disposition": "NOVEL_DELTA"
+      },
+      "provisional_scientific_delta": "Decision-calibrated feasible impedance co-designs the minimal contact representation and optimal law around one calibrated incumbent-preserving relation.",
+      "substantive_difference": "Not a richer model plus existing control: impedance regret selects model content; exact margins are calibrated/constrained; gains and limits are joint; only verified policies render.",
+      "predictions": [
+        {
+          "prediction_id": "PR-STATE",
+          "assumption_ids": [
+            "A-OBSERVABILITY"
+          ],
+          "observable": "Incremental held-out regret/margin prediction from nested histories",
+          "pattern_a": "Retained information changes gain ranking/outcomes; a smaller sufficient state matches full state.",
+          "rival_type": "RIVAL_RCA",
+          "rival_id": "ALT-MODEL-AGNOSTIC-FEEDBACK-SUFFICIENT",
+          "pattern_b": "Richer history equals scalar/memoryless state.",
+          "activation_condition": "Held-out aliases occur.",
+          "killer_criterion": "No reproducible incremental decision/outcome value.",
+          "cheapest_informative_rationale": "Offline oracle replay."
+        },
+        {
+          "prediction_id": "PR-CALIBRATION",
+          "assumption_ids": [
+            "A-CALIBRATION"
+          ],
+          "observable": "Margin-tube coverage and violation rate",
+          "pattern_a": "Coverage holds; support failures enter safe mode and reduce violations.",
+          "rival_type": "RIVAL_RCA",
+          "rival_id": "ALT-CALIBRATED-MEMORYLESS-MODEL-SUFFICIENT",
+          "pattern_b": "Miscoverage persists or memoryless is equivalent.",
+          "activation_condition": "Shifts affect capacity.",
+          "killer_criterion": "Systematic miscoverage or no decision value.",
+          "cheapest_informative_rationale": "Held-out logged trajectories."
+        },
+        {
+          "prediction_id": "PR-TOTALITY",
+          "assumption_ids": [
+            "A-FALLBACK",
+            "A-BUDGET"
+          ],
+          "observable": "Returned policy identity, feasibility and latency under forced interruption",
+          "pattern_a": "Every deadline returns a verified incumbent; extra compute improves cost only.",
+          "rival_type": "RIVAL_RCA",
+          "rival_id": "ALT-POSTHOC-GUARD-EQUIVALENT",
+          "pattern_b": "Timeout yields no/unverified action or guard-altered output.",
+          "activation_condition": "Interrupted near active margins.",
+          "killer_criterion": "Any deadline lacks a feasible action or correction reappears.",
+          "cheapest_informative_rationale": "Software interruption sweeps."
+        }
+      ],
+      "evidence_refs": [
+        "HUMAN-NEURIPS-2022-VES",
+        "HUMAN-MANSCI-2021-SPO",
+        "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+        "bRrwxfzJq_QJ",
+        "QPuQ4sfxSTIJ",
+        "USER-TRO-2022-3216078",
+        "USER-TASE-2023-3282974"
+      ],
+      "status": "ACTIVE",
+      "status_rationale": "The sole retained principle closes both causal chains through one shared object and one applied-action relation; separated component stacks are absorbed or rejected."
+    }
+  ],
+  "relevant_history_refs": [],
+  "return_feedback_refs": []
+}

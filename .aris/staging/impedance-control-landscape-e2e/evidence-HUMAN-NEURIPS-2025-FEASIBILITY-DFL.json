@@ -1,0 +1,82 @@
+{
+  "source_id": "HUMAN-NEURIPS-2025-FEASIBILITY-DFL",
+  "read_event_id": "d82b4b3d7e16488c9c6230926c98c090",
+  "content_sha256": "007d58243d70b038be8d3ddc9d77d07c985c590bac6f4137a5258b38396eed5e",
+  "claim": "Odece trains predicted constraint parameters against the feasibility and optimality consequences of the optimizer-selected decision. Its IPL and OPL mixture supplies a controllable feasibility-regret tradeoff and is strongly isomorphic to training a contact-capacity model through the optimal impedance action it induces, but it does not provide calibrated capacity sets, deadline handling, fallback, or closed-loop stability.",
+  "claim_locator": "Abstract; Sections 1, 3-5; IPL and OPL derivations; Lemma results; Figure 1 and Tables 1-6; Conclusion",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary NeurIPS method and benchmark study; contact-capacity migration is explicitly reader inference; configured paper_reader model gpt-5.6-sol",
+  "problem_and_setting": "In predict-then-optimize with uncertain parameters in constraints, point-prediction loss ignores changes to the feasible region. Predicted constraints can select decisions infeasible under true parameters, while conservative predictions can exclude high-quality feasible decisions; two-stage repair changes the intended optimized action.",
+  "method_or_mechanism": "Odece uses two maximum-likelihood-inspired decision-focused losses. IPL penalizes predicted parameters when the optimizer-selected decision violates true constraints. OPL penalizes predicted parameters that exclude the known true-optimal decision. Their convex combination alpha*IPL+(1-alpha)*OPL trains constraint estimates through the downstream decision and exposes a controllable infeasibility-versus-regret tradeoff.",
+  "content_summary": "The source places uncertainty in optimizer constraints, making its problem-intervention pair closely match learned contact capacity feeding optimal impedance selection. Lemma-level results characterize feasibility and optimality preservation, and multidimensional knapsack and alloy benchmarks report large infeasibility reductions relative to MSE with a regret tradeoff. The method optimizes empirical outcomes, not calibrated set coverage, and omits online physical dynamics, deadlines, fallback, passivity, and stability.",
+  "synthesis_role": "Primary positive Source Mechanism for constraint-side decision-focused contact modeling. Use IPL to penalize capacity predictions whose selected impedance violates realized capacity and OPL to prevent excess conservatism that excludes empirically optimal feasible gains. Pair with calibrated set prediction and deadline-total optimization rather than treating Odece as complete.",
+  "development_link": "Intervention-level PASS for RMC-DECISION-SUFFICIENT-CAPACITY-STATE insofar as contact representation is trained by action feasibility and quality. PARTIAL PASS for RMC-JOINT-UPDATE-TIME-FEASIBILITY and CAP-COUPLED-FEASIBLE-GAIN-CHOICE if capacity, energy, actuator, and gain-rate limits are encoded in the same target optimizer. FAIL for CAP-CALIBRATED-CAPACITY-SET and OBL-HELDOUT-CAPACITY-CALIBRATION; deadline and deterministic fallback are absent, so the full second RMC remains unsatisfied by this source alone.",
+  "evidence": [
+    {
+      "locator": "Abstract and introduction",
+      "status": "author_reported",
+      "finding": "Predicting constraint parameters by generic loss can produce downstream infeasibility, while pure conservatism can create severe suboptimality."
+    },
+    {
+      "locator": "Section 4.1, IPL",
+      "status": "author_reported",
+      "finding": "IPL penalizes a prediction when the solution optimized under predicted constraints is infeasible under the true constraints."
+    },
+    {
+      "locator": "Section 4.2, OPL",
+      "status": "author_reported",
+      "finding": "OPL penalizes predicted constraints that render the known true-optimal solution infeasible."
+    },
+    {
+      "locator": "Section 4, combined Odece loss",
+      "status": "author_reported",
+      "finding": "Alpha combines IPL and OPL and explicitly controls infeasibility aversion versus optimality preservation."
+    },
+    {
+      "locator": "Section 5, Figure 1 and Tables 1-3",
+      "status": "author_reported",
+      "finding": "MSE infeasibility rates of roughly 33%, 60%, and 53% are reduced by Odece(alpha=0.8) to roughly 6%, 4%, and 3% across the three benchmarks, with increased regret."
+    },
+    {
+      "locator": "Target migration comparison",
+      "status": "reader_inference",
+      "finding": "Constraint-side uncertainty and optimizer-mediated losses align strongly with learning action-conditional contact capacity through optimal impedance decisions, but calibrated coverage and real-time totality require other mechanisms."
+    }
+  ],
+  "evidence_kind": [
+    "decision-focused constraint learning",
+    "MLE-inspired feasibility losses",
+    "lemma-level results",
+    "discrete optimization benchmarks"
+  ],
+  "boundary_conditions": [
+    "Observed infeasibility and regret are not finite-sample predictive-set calibration.",
+    "Alpha can produce trivial conservatism or excessive infeasibility.",
+    "Benchmarks are synthetic or discrete optimization, not contact dynamics.",
+    "The source predicts static instance constraints rather than history-dependent future wrench/slip/moment capacity.",
+    "No deadline, timeout, fallback, passivity, or closed-loop stability result is supplied."
+  ],
+  "assumptions": [
+    "True constraint feasibility and a reference optimal feasible decision are available for training.",
+    "Realized contact capacity can be evaluated for selected impedance actions.",
+    "All claimed target hard limits are explicitly encoded in the same optimizer.",
+    "A separate calibrated-set and deadline-fallback mechanism is added."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "MSE-trained constraint prediction can yield high infeasibility.",
+      "Reducing infeasibility trades against regret and depends on alpha."
+    ],
+    "inferred": [
+      "Odece alone cannot satisfy calibrated capacity coverage.",
+      "It cannot establish joint update-time feasibility without deadline and fallback.",
+      "Direct closed-loop safety transfer is unsupported without target dynamics and stability analysis."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that low empirical infeasibility equals calibrated coverage.",
+    "Any claim that Odece alone guarantees deadline-total or closed-loop feasible impedance control."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved"
+}

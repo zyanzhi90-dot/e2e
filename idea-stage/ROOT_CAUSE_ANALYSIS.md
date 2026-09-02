@@ -1,35 +1,37 @@
-# Root-Cause Analysis — P-SOFTSCAN-STATE-01
+# Root-Cause Analysis — P-SOFTSCAN-STATE-01 v2
 
-- **Analysis ID**: RCA-P-SOFTSCAN-STATE-01-v1
-- **Problem ID**: P-SOFTSCAN-STATE-01
-- **Problem-contract SHA-256**: cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b
-- **Evidence-capsule SHA-256**: 187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81
-- **Primary causal chains**: CHAIN-SPATIAL-SUFFICIENCY, CHAIN-TANGENTIAL-SUFFICIENCY, CHAIN-HISTORY-SUFFICIENCY, CHAIN-CLOSED-LOOP-ABSORPTION
+Analysis ID: `RCA-P-SOFTSCAN-STATE-01-V2`
 
-## Diagnosis
+Problem: `P-SOFTSCAN-STATE-01`
 
-The central mechanism is representation-dependent state aliasing, not a blanket failure of simple contact models. A simple instantaneous normal-contact representation can be sufficient when measured-wrench feedback and robust margins absorb contact mismatch before it changes constrained impedance actions. It becomes insufficient only when omitted spatial, tangential, or temporal contact state remains predictive after conditioning on the simple variables, survives the closed-loop rejection dynamics, changes the ranking of candidate impedance actions, and produces a material held-out outcome difference.
+Problem contract: `0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5`
 
-## CHAIN-SPATIAL-SUFFICIENCY
+Evidence capsule: `2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32`
 
-Changes in contact area, local curvature, thickness, or deformation can map distinct pressure and force distributions to the same scalar normal state. The action-relevant intermediate failure is a biased prediction of force, pressure, friction capacity, or contact-loss margin. The chain is falsified if area and geometry can be removed while impedance actions and all declared held-out outcomes remain within equivalence margins after data, compute, objective, safety, latency, and tuning resources are matched.
+Necessity binding: `NEC-P-SOFTSCAN-STATE-01-V2`; closure `8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81`; verdict `a8d4752676604f84ad6bf7fa19c12f1e`; verdict artifact `a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29`; residual `RF-HELDOUT-JOINT-IMPEDANCE-REGRET`.
 
-## CHAIN-TANGENTIAL-SUFFICIENCY
+## Diagnosis outcome
 
-Near slip and moment-capacity limits, normal force alone does not locate the contact state on the tangential-force and normal-moment limit surface. Tangential force or moment is useful only if it changes impedance before a slip, contact, wrench, or task-quality failure and retains that advantage under friction control and matched resources. It is unnecessary where normal variables and kinematics already proxy the relevant margin.
+The residual is explained by two linked but independently falsifiable mechanism failures. First, held-out material, relaxation, geometry, friction, sliding, and loading history can make the controller's current representation alias contact conditions with different future wrench or capacity relations. If those distinctions change feasible or joint-cost-minimizing impedance, a fixed, scheduled, or contact-agnostic selector returns a non-equivalent action. Second, a nominally desirable online gain can still be unrealizable or unsafe when gain selection is separated from rendered interaction energy, finite-area wrench/contact capacity, actuator and gain-rate reachability, solve deadline, infeasibility, and fallback state.
 
-## CHAIN-HISTORY-SUFFICIENCY
+## Primary causal chains
 
-When dwell, reversal, speed change, repeated loading, or disturbance timescales overlap material relaxation or creep, identical instantaneous indentation, rate, and force can imply different future wrench and area evolution. The target is not a maximal constitutive parameter vector: it is the lowest-dimensional observable history statistic that removes action-relevant temporal aliasing. This chain is falsified if a calibrated memoryless or uncertainty-aware baseline remains decision- and outcome-equivalent, or if every useful history statistic fails observability and reproducibility.
+### CHAIN-CONTACT-STATE-TO-ACTION-ALIASING
 
-## CHAIN-CLOSED-LOOP-ABSORPTION
+Held-out continuous-contact changes alter latent contact mechanics → a calibration-fixed or memoryless state aliases conditions with different future wrench/capacity → prediction or uncertainty becomes biased or overconfident → the same apparent state maps to a gain that is not action-equivalent → joint force-motion-contact regret, contact loss/slip, hard-limit activation, or inability to choose coupled normal/tangential gains follows.
 
-Richer prediction does not imply richer control. When feedback bandwidth and authority dominate contact variation, disturbances are observable, constraints are inactive, and uncertainty margins cover residual mismatch, different models can produce equivalent impedance actions and outcomes. This chain defines the expected no-benefit region and prevents the diagnosis from presuming that complex representation is superior.
+Intervention target: the observation-to-decision relation must retain only contact-capacity/history coordinates that demonstrably change feasible gains or held-out outcomes. Strong alternatives remain live: six-dimensional feedback may already be sufficient; matched tuning may erase the residual; a calibrated memoryless finite-area model may be enough.
 
-## Discriminating handoff
+Falsifier: an oracle contact-capacity/history state changes neither selected gains nor any primary held-out outcome beyond equivalence margins under matched sensing, compute, tuning, objective, inner-loop, and safety budgets.
 
-Downstream method design must preserve matched resources and nested component removal, measure impedance-action differences separately from prediction error, use sensor-grounded equivalence margins, and test independent transient, constraint, contact-stability, and scanning-quality endpoints. It must also distinguish genuine information value from sensor bias, friction or temperature drift, geometry error, estimator leakage, latency, and comparator weakness.
+### CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING
 
-## Remaining uncertainty
+Online normal/tangential gains are optimized near active limits → performance selection is separated from rendered energy and physical/real-time feasibility → the nominal gain approaches wrench/slip/moment boundaries, injects energy, exceeds actuator or gain-rate capacity, or misses its deadline → post-hoc projection or fallback changes the realized action → violation, oscillation, timeout, fallback, or excess joint cost follows.
 
-The unresolved quantities are the regime boundaries, online observability of each candidate statistic, interaction or redundancy among information components, practical action/outcome equivalence margins, endpoint sensitivity, confound control, and bounded phantom-to-ex-vivo transfer. These uncertainties define discriminating tests; they do not require new literature before independent root-cause review.
+Intervention target: evaluate gain choice in the same update-time feasibility relation that includes wrench/contact capacity, interaction energy, actuator and gain-rate reachability, deadline, infeasibility, and deterministic fallback.
+
+Falsifier: joint feasibility never changes the realized action or fallback decision and never improves any primary outcome or violation rate over a separated planner with matched standard post-hoc guards.
+
+## Boundary carried into Method Design
+
+This RCA does not preselect a contact model, estimator, critic, MPC, passivity device, or learning method. It requires candidate principles to repair one or both causal relations with a minimal intervention, and it rejects extra contact variables that improve fit but do not change impedance actions or held-out outcomes. The user's pre-existing SoftScan files remain an ordinary candidate only and have not influenced the priority or status of either chain.

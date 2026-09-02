@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "reuse_baseline": {
+    "candidate_count": 0,
+    "accepted_evidence_card_count": 0,
+    "policy": "Reuse the Controller-bound v2 Evidence Capsule and existing decision-grade corpus first; execute only the reviewer-identified recovery searches needed to decide the strongest conventional-combination boundary."
+  },
+  "search_strategy": {
+    "priority_order": [
+      "RECENT_AUTHORITATIVE_REVIEWS",
+      "HIGH_CITATION_BACKBONE",
+      "RECENT_ELITE_FRONTIER",
+      "TARGETED_GAP_FOLLOWUP"
+    ],
+    "discovery_sources": [
+      "Google Scholar",
+      "Crossref",
+      "OpenAlex"
+    ],
+    "time_range": {
+      "year_from": 2010,
+      "year_to": 2026
+    },
+    "screening_requirement": "TITLE_ABSTRACT_FOR_ALL_RETRIEVED_CANDIDATES",
+    "saturation_criteria": [
+      "The strongest integrated conventional or low-complexity variable-impedance comparator is represented by decision-grade evidence rather than inferred from separate constituent papers.",
+      "Evidence determines whether held-out contact changes create a specific coupled normal-tangential impedance-action or joint-outcome boundary after strong feedback and constraints, or records that the boundary remains unresolved.",
+      "Exact-title recovery covers the known closest constrained, adaptive-optimal, and predictive-impedance papers already visible in the corpus.",
+      "A targeted integrated soft-contact scanning query adds no closer mechanism or contradictory coverage result after deduplication."
+    ]
+  },
+  "coverage_gaps": [
+    "No directly evaluated strongest matched conventional combination establishes full coverage or a residual boundary across the accepted held-out continuous soft-contact envelope.",
+    "The current residual is conditional rather than directly evidenced for coupled normal-tangential gain choice under wrench, contact, interaction-energy, actuator, and deadline limits."
+  ],
+  "problem_necessity_context": {
+    "search_mode": "NECESSITY_EVIDENCE_RECOVERY",
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 2,
+    "problem_contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "decision_targets": [
+      {
+        "decision_target_id": "DT-HELDOUT-COUPLED-GAIN-BOUNDARY",
+        "failure_id": "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "simple_repair_decision_target": "Determine whether held-out material, geometry, sliding, or contact-history changes produce a repeatable coupled impedance-action or joint-outcome boundary after robust fixed/scheduled impedance and measured-wrench feedback."
+      },
+      {
+        "decision_target_id": "DT-STRONGEST-CONVENTIONAL-COMBINATION",
+        "failure_id": "F-ONLINE-COUPLED-SELECTION-BOUNDARY",
+        "simple_repair_decision_target": "Determine whether an actually evaluated conventional combination of feedback, constrained gain planning, calibrated prediction or uncertainty handling, standard energy supervision, and fallback fully covers the accepted operating envelope or leaves an explicit failure boundary."
+      }
+    ]
+  },
+  "queries": [
+    {
+      "plan_item_id": "necessity-review-variable-impedance",
+      "query": "variable impedance control learning review environment uncertainty contact stability generalization",
+      "purpose": "Use authoritative synthesis to identify which conventional variable-impedance combinations have actually been evaluated under environmental change, and whether the field reports a remaining integrated coverage boundary rather than only component limitations.",
+      "priority_tier": "RECENT_AUTHORITATIVE_REVIEWS",
+      "year_from": 2018,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Recover review-level evidence that names an evaluated conventional integrated baseline and its environment-shift boundary, or conclude that reviews cannot decide the Necessity target.",
+      "decision_target_ids": [
+        "DT-HELDOUT-COUPLED-GAIN-BOUNDARY",
+        "DT-STRONGEST-CONVENTIONAL-COMBINATION"
+      ]
+    },
+    {
+      "plan_item_id": "necessity-backbone-contact-sensitive-vic",
+      "query": "Learning variable impedance control for contact sensitive tasks",
+      "purpose": "Recover the high-citation contact-sensitive comparison of state-dependent impedance against fixed-gain and direct-action policies, including uncertainty conditions, failures, and whether ordinary feedback remains equivalent.",
+      "priority_tier": "HIGH_CITATION_BACKBONE",
+      "year_from": 2020,
+      "year_to": 2020,
+      "page": 1,
+      "exact_title": true,
+      "target_venues": [
+        "IEEE Robotics and Automation Letters"
+      ],
+      "expected_close_condition": "Identity-match and recover decision-grade comparative evidence or explicitly record why its task evidence cannot decide the soft-contact Necessity boundary.",
+      "decision_target_ids": [
+        "DT-HELDOUT-COUPLED-GAIN-BOUNDARY"
+      ]
+    },
+    {
+      "plan_item_id": "necessity-frontier-constrained-vic",
+      "query": "Constrained Variable Impedance Control using Quadratic Programming",
+      "purpose": "Recover the closest ordinary constrained online stiffness-and-damping selector and determine exactly which contact, impedance, position, velocity, stability, feasibility, and environment-shift boundaries remain.",
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2022,
+      "year_to": 2022,
+      "page": 1,
+      "exact_title": true,
+      "target_venues": [
+        "IEEE International Conference on Robotics and Automation"
+      ],
+      "expected_close_condition": "Establish whether low-complexity constrained gain optimization plus feedback is already sufficient or lacks a specific accepted-envelope variable or limit.",
+      "decision_target_ids": [
+        "DT-STRONGEST-CONVENTIONAL-COMBINATION"
+      ]
+    },
+    {
+      "plan_item_id": "necessity-frontier-adaptive-optimal",
+      "query": "Human-Inspired Adaptive Optimal Control Framework for Robot-Environment Interaction",
+      "purpose": "Recover direct material-change evidence for adaptive optimal impedance and compare its integrated mechanism with fixed or LQR-style repair, including interaction-force, tracking, stability, sensing, and generalization boundaries.",
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2025,
+      "year_to": 2025,
+      "page": 1,
+      "exact_title": true,
+      "target_venues": [
+        "IEEE Transactions on Systems, Man, and Cybernetics: Systems"
+      ],
+      "expected_close_condition": "Determine whether reported material changes establish a real gain-adaptation residual and whether the mechanism covers coupled scanning constraints or remains bounded away from them.",
+      "decision_target_ids": [
+        "DT-HELDOUT-COUPLED-GAIN-BOUNDARY",
+        "DT-STRONGEST-CONVENTIONAL-COMBINATION"
+      ]
+    },
+    {
+      "plan_item_id": "necessity-frontier-predictive-impedance",
+      "query": "Learning-Based Predictive Impedance Control Towards Safe Predefined-Time Physical Robotic Interaction",
+      "purpose": "Recover the closest predictive impedance framework that combines online force modeling, safety-oriented switching, constraint compliance, energy logic, and learned tuning, including its ultrasound case and failure boundaries.",
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2025,
+      "year_to": 2025,
+      "page": 1,
+      "exact_title": true,
+      "target_venues": [
+        "IEEE/RSJ International Conference on Intelligent Robots and Systems"
+      ],
+      "expected_close_condition": "Determine whether this integrated comparator fully covers the accepted held-out coupled scanning decision or leaves explicit normal-tangential, history, guarantee, or real-time gaps.",
+      "decision_target_ids": [
+        "DT-HELDOUT-COUPLED-GAIN-BOUNDARY",
+        "DT-STRONGEST-CONVENTIONAL-COMBINATION"
+      ]
+    },
+    {
+      "plan_item_id": "necessity-integrated-softscan-gap",
+      "query": "continuous soft contact scanning online variable impedance normal tangential stiffness damping wrench energy constraints held-out material geometry history",
+      "purpose": "Search directly for a causally equivalent integrated solution or negative result in continuous soft-contact scanning, rather than extrapolating from manipulation constituents.",
+      "priority_tier": "TARGETED_GAP_FOLLOWUP",
+      "year_from": 2015,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [],
+      "expected_close_condition": "Find a direct integrated comparator with matched held-out evaluation and hard-limit accounting, or record that no retrieved paper determines the exact accepted-envelope coverage boundary.",
+      "decision_target_ids": [
+        "DT-HELDOUT-COUPLED-GAIN-BOUNDARY",
+        "DT-STRONGEST-CONVENTIONAL-COMBINATION"
+      ]
+    }
+  ]
+}

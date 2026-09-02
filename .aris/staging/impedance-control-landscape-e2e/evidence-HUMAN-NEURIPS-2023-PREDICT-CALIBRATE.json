@@ -1,0 +1,84 @@
+{
+  "source_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+  "read_event_id": "331633c7b6a54ecf9435f30def6ba7d0",
+  "content_sha256": "7359442161d50716db575a28683ee9796f211d4a52560f5766592eb2b691594d",
+  "claim": "Predict-then-Calibrate converts arbitrary predictions into context-conditioned box or ellipsoidal uncertainty sets through independent residual calibration and inserts them into robust contextual optimization. It is strong mechanism evidence for replacing point contact models with calibrated capacity sets that shape optimal impedance decisions, subject to a nontrivial constraint-side robust counterpart and target-distribution validation.",
+  "claim_locator": "Abstract; Sections 1, 3-5; Algorithms 1-2; Propositions 1-4; shortest-path and fractional-knapsack experiments; Conclusion",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary NeurIPS theoretical and empirical study; constraint-side impedance migration is explicitly reader inference; configured paper_reader model gpt-5.6-sol",
+  "problem_and_setting": "A contextual decision must be made from covariates before an uncertain objective is observed. Risk-neutral predict-then-optimize does not quantify uncertainty or align the decision with a requested risk profile, while some robust approaches restrict predictors or impose strong distributional assumptions.",
+  "method_or_mechanism": "Train any predictor on one split, use residuals from independent calibration splits to construct context-conditioned box or ellipsoidal U_alpha(z), perform a final coverage adjustment, and insert U_alpha(z) into a tractable robust contextual LP. The box method calibrates coordinatewise residual bounds; the ellipsoid method predicts residual norm or shape. The framework extends to distributionally robust contextual LP.",
+  "content_summary": "The method disentangles prediction from calibration while reconnecting them through the robust downstream decision. Proposition 1 gives population-average coverage and a robustness implication for the robust solution; later propositions analyze conservatism and a DRO extension. Experiments report coverage near requested levels and improved robust objective with better prediction or calibration. Guarantees are marginal under calibration sampling from P, not per-context conditional or arbitrary-shift guarantees.",
+  "synthesis_role": "Primary positive Source Mechanism for held-out contact-capacity calibration and partial architecture evidence for embedding that set into optimal impedance selection. It complements decision-focused constraint learning: one aligns model errors with selected actions, the other converts residual uncertainty into a set with explicit coverage.",
+  "development_link": "PASS for the calibration half of RMC-DECISION-SUFFICIENT-CAPACITY-STATE, CAP-CALIBRATED-CAPACITY-SET, and OBL-HELDOUT-CAPACITY-CALIBRATION after mapping context to observation history and the uncertain vector to future wrench/slip/moment-capacity parameters. The overall RMC remains qualified because source uncertainty is in an LP objective and target capacity enters nonlinear constraints. FAIL as a complete RMC-JOINT-UPDATE-TIME-FEASIBILITY intervention: the paper omits target hard limits, deadline, timeout, fallback, passivity, and closed-loop stability.",
+  "evidence": [
+    {
+      "locator": "Algorithms 1-2",
+      "status": "author_reported",
+      "finding": "Independent residual calibration constructs context-conditioned box or ellipsoidal uncertainty sets followed by an additional coverage adjustment."
+    },
+    {
+      "locator": "Proposition 1",
+      "status": "author_reported",
+      "finding": "The sets attain population-average coverage for a new sample from P, and coverage extends to a robustness guarantee for the corresponding robust solution."
+    },
+    {
+      "locator": "Propositions 2-3",
+      "status": "author_reported",
+      "finding": "Better prediction or calibration can reduce unnecessary conservatism in illustrative linear programs."
+    },
+    {
+      "locator": "Proposition 4",
+      "status": "author_reported",
+      "finding": "A distributionally robust contextual-LP generalization result is supplied under smoothness and boundedness assumptions."
+    },
+    {
+      "locator": "Section 5 experiments",
+      "status": "author_reported",
+      "finding": "A 60/20/20 prediction/calibration/final-adjustment split yields reported coverage close to requested risk levels and better robust objectives when prediction or calibration improves."
+    },
+    {
+      "locator": "Conclusion and target comparison",
+      "status": "reader_inference",
+      "finding": "The context-dependent set can be migrated to action-conditional contact capacity, but marginal coverage cannot be relabeled conditional and a nonlinear target robust counterpart must be derived and validated."
+    }
+  ],
+  "evidence_kind": [
+    "split residual calibration",
+    "context-conditioned uncertainty sets",
+    "robust contextual optimization",
+    "coverage proposition",
+    "optimization benchmarks"
+  ],
+  "boundary_conditions": [
+    "Source uncertainty enters an LP objective; target capacity primarily enters constraints.",
+    "No robust counterpart is derived for nonlinear contact, wrench capacity, impedance stability, energy, actuator, or gain-rate constraints.",
+    "Coverage is population-average or marginal, not conditional at every context.",
+    "Calibration assumes exchangeability or sampling from P and not arbitrary post-calibration shift.",
+    "No explicit abstention, hard deadline, timeout, deterministic fallback, passivity, or closed-loop stability is supplied."
+  ],
+  "assumptions": [
+    "Prediction and calibration splits are independent.",
+    "Calibration samples and deployment samples are exchangeable or drawn from P.",
+    "The uncertainty set admits a tractable robust optimization counterpart.",
+    "Target migration has suitable contact-capacity parameterization and held-out data."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Individual conditional coverage is not provided and is identified as harder future work.",
+      "Poor calibration can create unnecessary conservatism."
+    ],
+    "inferred": [
+      "Directly copying the objective-side guarantee to nonlinear contact constraints is invalid.",
+      "Context-conditioned does not imply conditional coverage.",
+      "The method cannot establish update-time totality or closed-loop stability alone."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that Proposition 1 guarantees per-context conditional coverage.",
+    "Any claim that training-distribution independence means arbitrary deployment-shift robustness.",
+    "Any claim that plug-in compatibility proves tractability for contact and impedance constraints."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved"
+}

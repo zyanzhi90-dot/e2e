@@ -1,383 +1,241 @@
 {
   "schema_version": 1,
   "run_id": "impedance-control-landscape-e2e",
-  "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
+  "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
   "problem_id": "P-SOFTSCAN-STATE-01",
-  "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-  "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+  "problem_contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+  "necessity_binding": {
+    "necessity_id": "NEC-P-SOFTSCAN-STATE-01-V2",
+    "closure_sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+    "verdict_sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "residual_failure_ids": ["RF-HELDOUT-JOINT-IMPEDANCE-REGRET"]
+  },
   "failure_observations": [
     {
-      "observation_id": "OBS-SPATIAL-ALIASING",
-      "phenomenon": "Finite contact area and local geometry alter pressure, deformation, force, and tracking even when a simple scalar normal-contact description is otherwise similar.",
-      "conditions": "Contact-patch, curvature, thickness, deformation, or sliding-speed changes outside the simple representation's calibrated regime.",
-      "abnormal_variables": [
-        "contact_area",
-        "local_curvature",
-        "pressure_distribution",
-        "normal_wrench_prediction",
-        "optimal_impedance_action"
-      ],
+      "observation_id": "OBS-DYNAMIC-CONTACT-MISMATCH",
+      "phenomenon": "A soft-contact law or uncertainty model calibrated at one material, geometry, rate, or history does not preserve its force-prediction relation when relaxation, recovery, speed, surface motion, or material parameters change.",
+      "conditions": "Held-out material stiffness or relaxation, thickness or curvature, scan speed or direction, dwell or loading history, or bounded surface motion differs from the calibration regime.",
+      "abnormal_variables": ["predicted normal force", "viscoelastic recovery force", "contact-model residual", "uncertainty calibration"],
       "evidence_source_type": "literature",
-      "evidence_refs": [
-        "QPuQ4sfxSTIJ",
-        "ZDySGaNsMn8J",
-        "Ubx3Xkv4y2kJ"
-      ],
+      "evidence_refs": ["j4KJ1EdUyYAJ", "QPuQ4sfxSTIJ", "_8NXx8-VkcgJ", "USER-TUFFC-2011-1961", "9vRJMR2dgG4J"],
+      "epistemic_status": "established"
+    },
+    {
+      "observation_id": "OBS-FINITE-AREA-WRENCH-SHIFT",
+      "phenomenon": "Finite-area deformation, pressure redistribution, tangential resistance, slip, and moment capacity change the admissible wrench relation beyond a scalar normal spring-damper description.",
+      "conditions": "A rigid finite-area probe slides over a compliant surface while indentation, local geometry, velocity, friction, or contact patch evolves.",
+      "abnormal_variables": ["contact-area distribution", "tangential resistance", "slip margin", "contact moment capacity", "normal-tangential wrench coupling"],
+      "evidence_source_type": "literature",
+      "evidence_refs": ["QPuQ4sfxSTIJ", "ZDySGaNsMn8J", "_8NXx8-VkcgJ", "USER-TUFFC-2011-1961", "Ubx3Xkv4y2kJ"],
       "epistemic_status": "supported"
     },
     {
-      "observation_id": "OBS-TANGENTIAL-CAPACITY",
-      "phenomenon": "Distributed pressure, friction, tangential loading, and evolving area change tangential-force and normal-moment capacity, which cannot be inferred uniquely from normal scalar contact alone.",
-      "conditions": "Directional sliding, nonzero tangential force or moment, changing friction, or operation near slip and moment-capacity limits.",
-      "abnormal_variables": [
-        "tangential_force",
-        "normal_moment",
-        "slip_margin",
-        "friction_limit_surface",
-        "constraint_violation_risk"
-      ],
+      "observation_id": "OBS-CONTACT-AGNOSTIC-GAIN-CHOICE",
+      "phenomenon": "Online Cartesian stiffness and damping can be optimized under tracking-error and approximate gain constraints without representing the contacted environment, so the selected gains cannot condition on relaxation, hysteresis, pressure redistribution, or wrench capacity.",
+      "conditions": "The selector receives robot dynamics and perturbation/tracking limits but no decision-sufficient soft-contact state.",
+      "abnormal_variables": ["selected stiffness", "selected damping", "predicted tracking error", "unmodeled contact-state dependence"],
       "evidence_source_type": "literature",
-      "evidence_refs": [
-        "ZDySGaNsMn8J",
-        "Ubx3Xkv4y2kJ",
-        "USER-TASE-2023-3282974"
-      ],
-      "epistemic_status": "supported"
+      "evidence_refs": ["USER-TRO-2022-3216078"],
+      "epistemic_status": "established"
     },
     {
-      "observation_id": "OBS-HISTORY-ALIASING",
-      "phenomenon": "Soft-contact force, area, and wrench capacity can depend on prior displacement or load history; low-order viscoelastic dynamics improve some transient descriptions, but detailed multi-exponential state can be weakly identifiable.",
-      "conditions": "Dwell, reversal, speed change, repeated loading, or disturbance timescales comparable to material relaxation or creep timescales.",
-      "abnormal_variables": [
-        "relaxation_state",
-        "creep_state",
-        "future_force_prediction",
-        "contact_area_evolution",
-        "recovery_transient"
-      ],
+      "observation_id": "OBS-RENDERED-IMPEDANCE-INSTABILITY",
+      "phenomenon": "Nominally desirable time-varying impedance can lose passivity or coupled stability and oscillate under constraint, while practical feedback improves stability at a free-space tracking cost.",
+      "conditions": "Rendered impedance varies during constrained physical interaction and the environment or operator closes an energetic feedback path.",
+      "abnormal_variables": ["rendered interaction energy", "passivity margin", "constrained oscillation", "free-space tracking error"],
       "evidence_source_type": "literature",
-      "evidence_refs": [
-        "Ubx3Xkv4y2kJ",
-        "iasK6kEBzIEJ",
-        "_8NXx8-VkcgJ",
-        "USER-TUFFC-2011-1961"
-      ],
-      "epistemic_status": "supported"
+      "evidence_refs": ["USER-TASE-2023-3282974"],
+      "epistemic_status": "established"
     },
     {
-      "observation_id": "OBS-SIMPLE-CONTROL-ADEQUACY",
-      "phenomenon": "Simple memoryless or contact-model-agnostic control can achieve strong bounded-regime force or wrench regulation, so richer contact information is not universally decision-relevant.",
-      "conditions": "Observable disturbances, adequate feedback bandwidth, bounded calibrated contact, sufficient uncertainty margins, and operation away from unobserved spatial, slip, or relaxation limits.",
-      "abnormal_variables": [
-        "incremental_information_value",
-        "impedance_action_difference",
-        "closed_loop_equivalence_margin",
-        "feedback_rejection_margin"
-      ],
+      "observation_id": "OBS-PREDICTION-SELECTION-SEPARATION",
+      "phenomenon": "Contact-aware or uncertainty-tightened MPC can improve force and motion regulation while leaving impedance predefined, and scalar optimal impedance can improve identified one-dimensional contact while omitting finite-area wrench, passivity, and hard-limit coupling.",
+      "conditions": "Prediction, uncertainty handling, or scalar impedance optimization is added as a separate component rather than solving the coupled online impedance decision under the complete constraint set.",
+      "abnormal_variables": ["predefined impedance", "scalar optimal impedance", "force constraint margin", "joint force-motion-contact objective", "solver feasibility"],
       "evidence_source_type": "literature",
-      "evidence_refs": [
-        "j4KJ1EdUyYAJ",
-        "USER-TASE-2023-3282974",
-        "_8NXx8-VkcgJ",
-        "9vRJMR2dgG4J"
-      ],
-      "epistemic_status": "supported"
+      "evidence_refs": ["j4KJ1EdUyYAJ", "QPuQ4sfxSTIJ", "ZDySGaNsMn8J", "9vRJMR2dgG4J"],
+      "epistemic_status": "established"
     }
   ],
   "phenomenon_clusters": [
     {
-      "cluster_id": "CLUSTER-UNOBSERVED-CONTACT-STATE",
-      "observation_ids": [
-        "OBS-SPATIAL-ALIASING",
-        "OBS-HISTORY-ALIASING"
-      ],
-      "grouping_rationale": "Both observations create many-to-one aliasing: identical instantaneous simple inputs can correspond to different spatial or temporal contact states and therefore different future wrench responses."
+      "cluster_id": "CLUSTER-CONTACT-STATE-ALIASING",
+      "observation_ids": ["OBS-DYNAMIC-CONTACT-MISMATCH", "OBS-FINITE-AREA-WRENCH-SHIFT"],
+      "grouping_rationale": "Both observations show that held-out continuous contact changes the mapping from safely measured instantaneous variables to future force, tangential resistance, slip, and wrench capacity. The common failure is not generic model error but decision-relevant contact states becoming observationally aliased by a memoryless or calibration-fixed representation."
     },
     {
-      "cluster_id": "CLUSTER-HIDDEN-WRENCH-CONSTRAINT",
-      "observation_ids": [
-        "OBS-SPATIAL-ALIASING",
-        "OBS-TANGENTIAL-CAPACITY"
-      ],
-      "grouping_rationale": "Area, geometry, and distributed pressure jointly determine tangential and moment constraints that a scalar normal-contact representation does not encode."
+      "cluster_id": "CLUSTER-IMPEDANCE-DECISION-DECOUPLING",
+      "observation_ids": ["OBS-CONTACT-AGNOSTIC-GAIN-CHOICE", "OBS-PREDICTION-SELECTION-SEPARATION"],
+      "grouping_rationale": "The gain selector, contact predictor, and constrained controller are each effective in their own variables, yet the causal relation from contact condition through feasible impedance to joint outcome is split across components. Consequently, prediction may not change gains and gain planning may not reflect contact capacity."
     },
     {
-      "cluster_id": "CLUSTER-CLOSED-LOOP-ABSORPTION",
-      "observation_ids": [
-        "OBS-SIMPLE-CONTROL-ADEQUACY",
-        "OBS-SPATIAL-ALIASING",
-        "OBS-HISTORY-ALIASING",
-        "OBS-TANGENTIAL-CAPACITY"
-      ],
-      "grouping_rationale": "The practical value of any omitted contact variable depends on whether feedback, uncertainty handling, and safety margins absorb its effect before it changes impedance actions or held-out outcomes."
+      "cluster_id": "CLUSTER-IMPEDANCE-SAFETY-COUPLING",
+      "observation_ids": ["OBS-RENDERED-IMPEDANCE-INSTABILITY"],
+      "grouping_rationale": "The abnormality concerns the energetic and stability consequences of changing impedance itself. It is distinct from prediction error: even a performance-improving gain can be unsafe or unrealizable when variation, constraint, and feedback energy are handled outside the selection relation."
     }
   ],
   "causal_depth_traces": [
     {
-      "trace_id": "TRACE-STATE-ALIASING",
-      "cluster_id": "CLUSTER-UNOBSERVED-CONTACT-STATE",
+      "trace_id": "TRACE-CONTACT-STATE-ALIASING",
+      "cluster_id": "CLUSTER-CONTACT-STATE-ALIASING",
       "why_steps": [
         {
-          "step_id": "WHY-STATE-1",
-          "effect": "A simple representation can predict the same contact state for trials that later exhibit different wrench transients or constraint margins.",
-          "candidate_cause": "The representation collapses contact area, geometry, or history into instantaneous normal force, indentation, and rate.",
-          "evidence_refs": [
-            "QPuQ4sfxSTIJ",
-            "Ubx3Xkv4y2kJ",
-            "USER-TUFFC-2011-1961"
-          ],
+          "step_id": "CSA-WHY-1",
+          "effect": "Force, recovery, tangential resistance, and wrench-capacity predictions shift outside calibration.",
+          "candidate_cause": "Material relaxation, contact-area geometry, velocity, friction, and loading history alter the latent contact condition and its input-output relation.",
+          "evidence_refs": ["QPuQ4sfxSTIJ", "_8NXx8-VkcgJ", "USER-TUFFC-2011-1961", "Ubx3Xkv4y2kJ"],
           "epistemic_status": "supported",
-          "discriminating_observation": "Conditioned on the simple variables, area, geometry, or a low-order history statistic still predicts held-out future wrench or constraint outcomes."
+          "discriminating_observation": "Under matched current pose, velocity, and wrench, changing prior dwell/loading or local patch geometry changes subsequent force relaxation, slip margin, or contact moment."
         },
         {
-          "step_id": "WHY-STATE-2",
-          "effect": "The controller evaluates the consequence of a candidate impedance using a state with missing predictive information.",
-          "candidate_cause": "Spatial and temporal contact states alter force evolution, pressure, and contact capacity over the control horizon.",
-          "evidence_refs": [
-            "ZDySGaNsMn8J",
-            "iasK6kEBzIEJ",
-            "Ubx3Xkv4y2kJ"
-          ],
+          "step_id": "CSA-WHY-2",
+          "effect": "Different contact conditions are mapped to the same controller state or uncertainty estimate.",
+          "candidate_cause": "A scalar memoryless, preidentified, or static-output representation discards decision-relevant history and finite-area capacity coordinates.",
+          "evidence_refs": ["j4KJ1EdUyYAJ", "QPuQ4sfxSTIJ", "9vRJMR2dgG4J"],
           "epistemic_status": "supported",
-          "discriminating_observation": "Nested representations produce materially different held-out wrench or constraint forecasts under equal data and compute."
+          "discriminating_observation": "A history- or capacity-aware predictor separates paired conditions that are indistinguishable to the existing representation and reduces held-out conditional prediction error without additional future information."
         },
         {
-          "step_id": "WHY-STATE-3",
-          "effect": "Optimal stiffness or damping differs only in operating regimes where the omitted-state forecast error changes the action ranking.",
-          "candidate_cause": "Representation value is decision-dependent rather than equivalent to model-fit improvement.",
-          "evidence_refs": [
-            "j4KJ1EdUyYAJ",
-            "USER-TASE-2023-3282974",
-            "9vRJMR2dgG4J"
-          ],
+          "step_id": "CSA-WHY-3",
+          "effect": "The controller cannot preserve action-equivalence to the condition-informed impedance choice.",
+          "candidate_cause": "Aliased contact conditions induce different feasible or joint-cost-minimizing gains, but the fixed, scheduled, or contact-agnostic selector receives the same effective state and therefore returns the same action.",
+          "evidence_refs": ["j4KJ1EdUyYAJ", "USER-TRO-2022-3216078", "USER-TASE-2023-3282974"],
           "epistemic_status": "preliminary",
-          "discriminating_observation": "The richer representation changes selected impedance beyond implementation resolution and improves at least one prespecified held-out endpoint beyond its equivalence margin."
+          "discriminating_observation": "An offline condition-informed oracle selects materially different normal or tangential stiffness/damping for aliased condition pairs and the action difference predicts joint outcome regret; if actions and outcomes remain equivalent, this step is false."
         }
       ]
     },
     {
-      "trace_id": "TRACE-WRENCH-CAPACITY",
-      "cluster_id": "CLUSTER-HIDDEN-WRENCH-CONSTRAINT",
+      "trace_id": "TRACE-DECISION-DECOUPLING",
+      "cluster_id": "CLUSTER-IMPEDANCE-DECISION-DECOUPLING",
       "why_steps": [
         {
-          "step_id": "WHY-WRENCH-1",
-          "effect": "Normal-force tracking can remain nominal while slip or moment capacity changes.",
-          "candidate_cause": "Distributed pressure and area determine the tangential-force and normal-moment limit surface.",
-          "evidence_refs": [
-            "ZDySGaNsMn8J",
-            "Ubx3Xkv4y2kJ"
-          ],
+          "step_id": "IDD-WHY-1",
+          "effect": "Online gain planning satisfies robot-side tracking and gain constraints but lacks contact-condition dependence.",
+          "candidate_cause": "The optimization state and constraints encode perturbation attenuation rather than soft-contact wrench capacity, relaxation, slip, or history.",
+          "evidence_refs": ["USER-TRO-2022-3216078"],
           "epistemic_status": "supported",
-          "discriminating_observation": "Trials matched on normal scalar variables show different tangential or moment margins when area, geometry, direction, or history differs."
+          "discriminating_observation": "Adding only the contact-condition variables to a matched planner changes its chosen gains near held-out capacity or relaxation shifts; no action change falsifies this cause in that regime."
         },
         {
-          "step_id": "WHY-WRENCH-2",
-          "effect": "A normal-only optimizer can overestimate safe aggressive impedance or underestimate the need for directional compliance.",
-          "candidate_cause": "The optimizer lacks tangential force or moment and the spatial state needed to estimate proximity to frictional limits.",
-          "evidence_refs": [
-            "Ubx3Xkv4y2kJ",
-            "USER-TASE-2023-3282974"
-          ],
+          "step_id": "IDD-WHY-2",
+          "effect": "Contact prediction improves tracking without resolving which impedance should be selected.",
+          "candidate_cause": "Contact-aware and uncertainty-tightened MPCs retain predefined impedance, while identified optimal impedance is scalar and separated from finite-area contact feasibility.",
+          "evidence_refs": ["j4KJ1EdUyYAJ", "QPuQ4sfxSTIJ", "ZDySGaNsMn8J", "9vRJMR2dgG4J"],
+          "epistemic_status": "supported",
+          "discriminating_observation": "Holding the predictor fixed while optimizing normal and tangential gains changes outcomes beyond retuning the predefined gains; equivalence after exhaustive matched tuning weakens this explanation."
+        },
+        {
+          "step_id": "IDD-WHY-3",
+          "effect": "Constituent improvements do not compose into a verified online joint decision.",
+          "candidate_cause": "Prediction, impedance action, and hard feasibility are optimized or certified in separate relations, so no single decision variable is constrained by all force-motion-contact consequences at the update time.",
+          "evidence_refs": ["USER-TRO-2022-3216078", "QPuQ4sfxSTIJ", "USER-TASE-2023-3282974", "9vRJMR2dgG4J"],
           "epistemic_status": "preliminary",
-          "discriminating_observation": "Adding tangential wrench information changes impedance action before slip or moment-limit events and reduces those events without degrading primary task quality."
+          "discriminating_observation": "A jointly constrained reference changes the selected gain or fallback decision exactly when the separated stack would exceed wrench, energy, actuator, or deadline limits; identical decisions and limits falsify this step."
         }
       ]
     },
     {
-      "trace_id": "TRACE-CLOSED-LOOP-ABSORPTION",
-      "cluster_id": "CLUSTER-CLOSED-LOOP-ABSORPTION",
+      "trace_id": "TRACE-SAFETY-COUPLING",
+      "cluster_id": "CLUSTER-IMPEDANCE-SAFETY-COUPLING",
       "why_steps": [
         {
-          "step_id": "WHY-ABSORB-1",
-          "effect": "Richer contact information can improve prediction without improving closed-loop outcomes.",
-          "candidate_cause": "Measured-wrench feedback, disturbance estimation, or uncertainty tightening corrects or bounds the omitted dynamics quickly enough.",
-          "evidence_refs": [
-            "USER-TASE-2023-3282974",
-            "_8NXx8-VkcgJ",
-            "9vRJMR2dgG4J"
-          ],
+          "step_id": "ISC-WHY-1",
+          "effect": "A time-varying impedance command can oscillate or lose coupled stability under constraint despite accurate nominal tracking.",
+          "candidate_cause": "Changing the rendered impedance exchanges energy with the interaction, and nominal gain desirability does not bound that exchange.",
+          "evidence_refs": ["USER-TASE-2023-3282974"],
           "epistemic_status": "supported",
-          "discriminating_observation": "Under matched controller bandwidth and safety margins, richer and simple representations yield equivalent impedance actions and held-out outcomes despite different prediction error."
+          "discriminating_observation": "Measured interaction-energy or passivity margin crosses its bound before constrained oscillation when the same performance gain is rendered without an energy gate."
         },
         {
-          "step_id": "WHY-ABSORB-2",
-          "effect": "The benefit boundary moves with operating speed, estimator delay, disturbance observability, and distance to constraints.",
-          "candidate_cause": "Only mismatch that persists through the closed-loop sensitivity function and changes constrained action ranking is control-relevant.",
-          "evidence_refs": [
-            "j4KJ1EdUyYAJ",
-            "USER-TASE-2023-3282974",
-            "9vRJMR2dgG4J"
-          ],
+          "step_id": "ISC-WHY-2",
+          "effect": "A gain may be performance-improving but unavailable, unsafe, or late at the actual update instant.",
+          "candidate_cause": "Wrench/contact, interaction-energy, actuator, gain-rate, solver-time, infeasibility, and fallback constraints are not all part of the gain-selection feasibility relation.",
+          "evidence_refs": ["USER-TASE-2023-3282974", "USER-TRO-2022-3216078", "9vRJMR2dgG4J"],
           "epistemic_status": "preliminary",
-          "discriminating_observation": "Information value appears when mismatch timescale or amplitude exceeds feedback rejection and equivalence margins, and disappears when feedback authority or margin is restored."
+          "discriminating_observation": "Enforcing the full constraint set during selection rejects or modifies gains that a performance-only planner accepts, and this prevents a registered hard-limit event without merely shifting failure to timeout or fallback."
         }
       ]
     }
   ],
   "causal_chains": [
     {
-      "chain_id": "CHAIN-SPATIAL-SUFFICIENCY",
-      "cluster_ids": [
-        "CLUSTER-UNOBSERVED-CONTACT-STATE",
-        "CLUSTER-HIDDEN-WRENCH-CONSTRAINT"
-      ],
-      "conditions_or_input_change": "Contact area, curvature, thickness, or local deformation changes across held-out specimens, regions, speeds, or loads.",
-      "mechanism_failure": "The simple representation maps distinct finite-area geometries and pressure distributions to the same scalar state.",
-      "intermediate_state_abnormality": "Biased force, pressure, friction-capacity, or contact-loss forecasts change the ranking of candidate impedance actions.",
-      "final_failure_phenomenon": "The simple representation selects non-equivalent impedance and incurs worse held-out wrench, constraint, contact-stability, or scanning-quality outcomes.",
-      "evidence_refs": [
-        "QPuQ4sfxSTIJ",
-        "ZDySGaNsMn8J",
-        "Ubx3Xkv4y2kJ"
-      ],
+      "chain_id": "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
+      "cluster_ids": ["CLUSTER-CONTACT-STATE-ALIASING", "CLUSTER-IMPEDANCE-DECISION-DECOUPLING"],
+      "conditions_or_input_change": "Held-out material, relaxation, contact-area geometry, scan speed/direction, friction, dwell, loading history, or bounded surface motion changes during continuous finite-area scanning.",
+      "mechanism_failure": "The controller state is not decision-sufficient: it aliases contact conditions with different future wrench/capacity relations, and the gain-selection relation is not conditioned on the missing distinction.",
+      "intermediate_state_abnormality": "Contact prediction or uncertainty is biased or overconfident, slip/moment capacity is mislocated, and the same apparent state maps to an impedance action that is not action-equivalent to the condition-informed choice.",
+      "final_failure_phenomenon": "The strongest simple baseline or separated predictor/planner exhibits excess joint force-motion-contact cost, contact loss or slip, hard-limit activation, or inability to select condition-dependent coupled normal-tangential stiffness and damping.",
+      "evidence_refs": ["j4KJ1EdUyYAJ", "QPuQ4sfxSTIJ", "ZDySGaNsMn8J", "USER-TRO-2022-3216078", "_8NXx8-VkcgJ", "USER-TUFFC-2011-1961", "Ubx3Xkv4y2kJ", "9vRJMR2dgG4J"],
       "alternative_explanations": [
         {
-          "explanation_id": "ALT-SPATIAL-SENSOR-BIAS",
-          "mechanism": "Apparent area or geometry value is caused by reconstruction error, registration error, or leakage from the evaluation signal.",
-          "epistemic_status": "preliminary",
-          "discriminating_evidence": "Independent calibration and held-out reconstruction uncertainty remove the apparent incremental action and outcome value."
-        },
-        {
-          "explanation_id": "ALT-SPATIAL-RESOURCE-MISMATCH",
-          "mechanism": "The richer representation wins because it receives more data, compute, tuning, or controller authority.",
-          "epistemic_status": "preliminary",
-          "discriminating_evidence": "The improvement disappears after equalizing data, compute, objective, safety margins, latency, and tuning budget."
-        }
-      ],
-      "intervention_target": "The smallest observable area and geometry statistic that removes action-relevant spatial aliasing under matched resources.",
-      "falsifier": "After matched-resource calibration, removing all area and geometry variables leaves impedance actions and all prespecified held-out outcomes within equivalence margins across the declared spatial shifts.",
-      "epistemic_status": "preliminary"
-    },
-    {
-      "chain_id": "CHAIN-TANGENTIAL-SUFFICIENCY",
-      "cluster_ids": [
-        "CLUSTER-HIDDEN-WRENCH-CONSTRAINT"
-      ],
-      "conditions_or_input_change": "Sliding direction, tangential load, friction, patch shape, or moment demand changes near slip or wrench-capacity limits.",
-      "mechanism_failure": "A normal scalar representation omits tangential force or moment and cannot locate the contact state relative to the frictional limit surface.",
-      "intermediate_state_abnormality": "Slip and moment margins are misestimated, so the predicted safety and task consequences of stiffness or damping are biased.",
-      "final_failure_phenomenon": "The selected impedance causes avoidable slip, contact loss, moment-limit excursions, or scanning-quality degradation.",
-      "evidence_refs": [
-        "ZDySGaNsMn8J",
-        "Ubx3Xkv4y2kJ",
-        "USER-TASE-2023-3282974"
-      ],
-      "alternative_explanations": [
-        {
-          "explanation_id": "ALT-TANGENTIAL-FRICTION-DRIFT",
-          "mechanism": "Benefits attributed to tangential wrench sensing are actually caused by uncontrolled coupling-medium or surface-friction drift.",
-          "epistemic_status": "preliminary",
-          "discriminating_evidence": "Measured friction and randomized surface conditions explain the outcome difference without residual tangential-wrench value."
-        },
-        {
-          "explanation_id": "ALT-TANGENTIAL-NORMAL-PROXY",
-          "mechanism": "Normal force and robot kinematics already proxy tangential risk sufficiently in the tested regime.",
+          "explanation_id": "ALT-MODEL-AGNOSTIC-FEEDBACK-SUFFICIENT",
+          "mechanism": "Measured six-dimensional wrench feedback is already decision-sufficient; richer contact state changes prediction but not optimal gains or held-out outcomes.",
           "epistemic_status": "supported",
-          "discriminating_evidence": "Tangential force or moment adds no held-out action or outcome information after conditioning on the simple variables."
-        }
-      ],
-      "intervention_target": "The minimum tangential force or moment statistic needed to estimate action-relevant slip and wrench-capacity margin.",
-      "falsifier": "Adding tangential force or moment does not change impedance actions or improve slip, contact, wrench, or task outcomes beyond equivalence margins in any declared tangential regime.",
-      "epistemic_status": "preliminary"
-    },
-    {
-      "chain_id": "CHAIN-HISTORY-SUFFICIENCY",
-      "cluster_ids": [
-        "CLUSTER-UNOBSERVED-CONTACT-STATE"
-      ],
-      "conditions_or_input_change": "Dwell, speed, direction, reversal, repeated loading, or disturbance timing approaches material relaxation or creep timescales.",
-      "mechanism_failure": "Instantaneous indentation, rate, and force are not a sufficient Markov state because different loading histories produce different future force, area, and capacity.",
-      "intermediate_state_abnormality": "The simple model biases recovery and transient forecasts, while an over-detailed history model may itself be unidentifiable or unstable.",
-      "final_failure_phenomenon": "The simple representation selects non-equivalent impedance and worsens transient wrench, constraint, contact-stability, or task outcomes; alternatively, unnecessary history state increases latency or variance without benefit.",
-      "evidence_refs": [
-        "Ubx3Xkv4y2kJ",
-        "iasK6kEBzIEJ",
-        "_8NXx8-VkcgJ",
-        "USER-TUFFC-2011-1961"
-      ],
-      "alternative_explanations": [
-        {
-          "explanation_id": "ALT-HISTORY-DISTURBANCE",
-          "mechanism": "Apparent relaxation state is a proxy for unmeasured disturbance, drift, temperature, or changing geometry.",
-          "epistemic_status": "preliminary",
-          "discriminating_evidence": "Independent disturbance, temperature, and geometry measurements eliminate the incremental value of history."
+          "discriminating_evidence": "Under matched sensing, compute, tuning, and safety budgets, compare the strongest model-agnostic baseline with an offline contact-informed oracle on paired held-out conditions. Action and outcome equivalence supports this alternative."
         },
         {
-          "explanation_id": "ALT-HISTORY-STATIC-UNCERTAINTY",
-          "mechanism": "A calibrated memoryless uncertainty envelope is sufficient even though a stateful model fits transients better.",
+          "explanation_id": "ALT-OBJECTIVE-OR-TUNING-MISMATCH",
+          "mechanism": "Observed regret comes from mismatched cost weights, tuning effort, horizons, or inner-loop bandwidth rather than missing contact state.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Equalize objectives, tuning budget, horizon, inner loop, and compute; then test whether the state-conditioned action difference and residual persist."
+        },
+        {
+          "explanation_id": "ALT-CALIBRATED-MEMORYLESS-MODEL-SUFFICIENT",
+          "mechanism": "A well-calibrated memoryless finite-area model plus conservative uncertainty bounds fully captures all decision-relevant variation in the accepted envelope.",
           "epistemic_status": "supported",
-          "discriminating_evidence": "Static uncertainty-aware control matches history-aware impedance actions and held-out outcomes within prespecified margins."
+          "discriminating_evidence": "Compare paired histories and geometries with identical instantaneous inputs; absence of conditional force/capacity and gain differences supports the memoryless explanation."
         }
       ],
-      "intervention_target": "The lowest-dimensional observable history statistic that removes action-relevant temporal aliasing without requiring nonidentifiable constitutive parameters.",
-      "falsifier": "A simple calibrated or uncertainty-aware baseline remains decision- and outcome-equivalent across all declared history and timescale shifts, or every history statistic that changes action fails observability and reproducibility tests.",
-      "epistemic_status": "preliminary"
+      "intervention_target": "The causal relation from safely obtainable observations to a calibrated, decision-sufficient contact-capacity state used by impedance selection; retain additional history, geometry, area, tangential wrench, or uncertainty coordinates only when they change feasible gains or held-out outcomes.",
+      "falsifier": "After matched objectives, compute, tuning, sensing, and safety, an oracle contact-capacity/history state neither changes the selected normal-tangential gains beyond equivalence margins nor improves any primary held-out outcome versus the strongest model-agnostic baseline.",
+      "epistemic_status": "supported"
     },
     {
-      "chain_id": "CHAIN-CLOSED-LOOP-ABSORPTION",
-      "cluster_ids": [
-        "CLUSTER-CLOSED-LOOP-ABSORPTION"
-      ],
-      "conditions_or_input_change": "Feedback bandwidth and authority are high relative to contact-state variation, disturbances are observable, operation remains away from active constraints, and uncertainty margins cover residual mismatch.",
-      "mechanism_failure": "No representation failure reaches the decision layer because feedback and robust margins absorb the omitted contact dynamics.",
-      "intermediate_state_abnormality": "Prediction errors differ, but constrained action ranking and rendered impedance remain unchanged within implementation resolution.",
-      "final_failure_phenomenon": "Richer contact information produces no repeatable held-out closed-loop benefit and may only add sensing, estimation, computation, or latency burden.",
-      "evidence_refs": [
-        "j4KJ1EdUyYAJ",
-        "USER-TASE-2023-3282974",
-        "_8NXx8-VkcgJ",
-        "9vRJMR2dgG4J"
-      ],
+      "chain_id": "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING",
+      "cluster_ids": ["CLUSTER-IMPEDANCE-DECISION-DECOUPLING", "CLUSTER-IMPEDANCE-SAFETY-COUPLING"],
+      "conditions_or_input_change": "Normal and tangential gains are updated online near wrench/contact, energy, actuator, gain-rate, or solve-time boundaries during constrained interaction.",
+      "mechanism_failure": "Performance-oriented impedance selection and physical/real-time feasibility are separate relations, so the chosen gain is not jointly conditioned on rendered energy, contact capacity, actuator reachability, and deadline/fallback state.",
+      "intermediate_state_abnormality": "A nominally low-cost gain injects excess interaction energy, approaches slip or moment limits, exceeds actuator or gain-rate capacity, or arrives after the online deadline; post-hoc guards then distort the intended action or force fallback.",
+      "final_failure_phenomenon": "Constrained oscillation, wrench/contact violation, actuator saturation, timeout, infeasibility, fallback, or excess joint objective cost occurs even when the predictor or nominal gain optimizer performs well in isolation.",
+      "evidence_refs": ["USER-TASE-2023-3282974", "USER-TRO-2022-3216078", "QPuQ4sfxSTIJ", "9vRJMR2dgG4J"],
       "alternative_explanations": [
         {
-          "explanation_id": "ALT-ABSORPTION-WEAK-ENDPOINT",
-          "mechanism": "The apparent no-benefit result is caused by insensitive endpoints or equivalence margins that are too wide.",
-          "epistemic_status": "preliminary",
-          "discriminating_evidence": "Independent task-quality, transient, and constraint endpoints with sensor-grounded margins reveal a reproducible difference."
+          "explanation_id": "ALT-CONSERVATIVE-FIXED-GAIN-SAFETY",
+          "mechanism": "A conservatively tuned fixed or scheduled impedance already stays within every hard limit and is outcome-equivalent; joint online feasibility adds no value.",
+          "epistemic_status": "supported",
+          "discriminating_evidence": "Use the strongest direct simple baseline with matched margins across all held-out axes; zero primary-endpoint loss and zero additional violations supports this alternative."
         },
         {
-          "explanation_id": "ALT-ABSORPTION-ESTIMATOR-LATENCY",
-          "mechanism": "The richer representation is genuinely informative but its estimator delay cancels the achievable control benefit.",
+          "explanation_id": "ALT-COMPUTE-LATENCY-ONLY",
+          "mechanism": "Failures arise solely from solver implementation or hardware latency, not from the structure separating gain selection and feasibility.",
           "epistemic_status": "preliminary",
-          "discriminating_evidence": "Offline counterfactual action analysis shows value that disappears only when measured online latency is included."
+          "discriminating_evidence": "Compare an offline exact joint solution and a latency-matched online approximation. If the offline separated solution is feasible and outcome-equivalent, implementation latency is the better explanation."
+        },
+        {
+          "explanation_id": "ALT-POSTHOC-GUARD-EQUIVALENT",
+          "mechanism": "Standard post-hoc energy, saturation, and fallback guards project every nominal gain to the same feasible action a joint selector would choose.",
+          "epistemic_status": "preliminary",
+          "discriminating_evidence": "Log pre-guard and realized actions. Exact realized-action and outcome equivalence between post-hoc guarding and joint feasibility supports this alternative."
         }
       ],
-      "intervention_target": "The closed-loop sensitivity boundary separating mismatch that feedback absorbs from mismatch that changes constrained impedance decisions and outcomes.",
-      "falsifier": "Under matched latency, bandwidth, authority, and safety margins, richer information changes action ranking and improves a prespecified held-out endpoint even in the purported absorption regime.",
+      "intervention_target": "The impedance-decision feasibility relation itself: normal/tangential gain choice must be evaluated in the same update-time relation that accounts for wrench/contact capacity, interaction energy, actuator and gain-rate reachability, solve deadline, infeasibility, and deterministic fallback.",
+      "falsifier": "With the same predictor, objectives, gains, and resource budget, coupling all hard constraints into the selection relation never changes the realized action or fallback decision and produces no improvement in violations or primary outcomes over a separated planner with standard post-hoc guards.",
       "epistemic_status": "supported"
     }
   ],
-  "primary_causal_chain_ids": [
-    "CHAIN-SPATIAL-SUFFICIENCY",
-    "CHAIN-TANGENTIAL-SUFFICIENCY",
-    "CHAIN-HISTORY-SUFFICIENCY",
-    "CHAIN-CLOSED-LOOP-ABSORPTION"
-  ],
+  "primary_causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING", "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
   "unresolved_questions": [
-    "Which dimensionless combinations of contact-state variation, relaxation timescale, controller bandwidth, and distance to active constraints delimit each representation-benefit regime?",
-    "Which area, geometry, tangential-wrench, and history statistics are observable and reproducible at the latency and bandwidth required for impedance decisions?",
-    "Do information components act independently, redundantly, or only through interactions under held-out material and geometry shifts?",
-    "What sensor-grounded equivalence margins make an impedance-action difference and a closed-loop outcome difference practically material?",
-    "Which independent scanning-quality endpoint is sensitive enough to detect benefit without leaking into representation estimation?",
-    "How much apparent value is explained by friction, temperature, geometry, estimator latency, or unequal resource budgets?",
-    "Which regime boundaries transfer from controlled phantoms to bounded ex-vivo contact without supporting clinical generalization?"
+    "Which safely observable subset of contact area, local geometry, tangential force or moment, relaxation/history, and uncertainty is minimally sufficient to separate gain-relevant contact conditions?",
+    "On which held-out regimes does the strongest model-agnostic six-dimensional feedback baseline remain action- and outcome-equivalent, making richer state unnecessary?",
+    "Can decision-sufficient contact capacity be estimated at the slower impedance-update rate without unsafe excitation or violating the solve deadline?",
+    "Does joint update-time feasibility change gains and outcomes beyond standard post-hoc energy, saturation, uncertainty, and fallback guards, or merely reproduce them?"
   ],
   "analysis_provenance": {
     "author_role": "main_research_agent",
-    "created_at": "2026-08-23T15:55:00Z",
-    "source_artifact_ids": [
-      "j4KJ1EdUyYAJ",
-      "QPuQ4sfxSTIJ",
-      "USER-TASE-2023-3282974",
-      "USER-TRO-2022-3216078",
-      "ZDySGaNsMn8J",
-      "_8NXx8-VkcgJ",
-      "USER-TUFFC-2011-1961",
-      "iasK6kEBzIEJ",
-      "Ubx3Xkv4y2kJ",
-      "_-WpL4QNulUJ",
-      "9vRJMR2dgG4J",
-      "0n2WntIcZ5MJ"
-    ]
+    "created_at": "2026-09-01T08:13:25Z",
+    "source_artifact_ids": ["j4KJ1EdUyYAJ", "QPuQ4sfxSTIJ", "USER-TASE-2023-3282974", "USER-TRO-2022-3216078", "ZDySGaNsMn8J", "_8NXx8-VkcgJ", "USER-TUFFC-2011-1961", "Ubx3Xkv4y2kJ", "9vRJMR2dgG4J"]
   }
 }

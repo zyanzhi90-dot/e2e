@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "necessity_id": "NEC-P-SOFTSCAN-STATE-01-V2",
+  "problem_binding": {
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 2,
+    "problem_contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+  },
+  "active_failures": [
+    {
+      "failure_id": "F-HELDOUT-IMPEDANCE-TRANSFER",
+      "condition": "A rigid ultrasound-like probe continuously scans compliant finite-area surfaces while material stiffness or relaxation, thickness or curvature, speed or direction, dwell or loading history, tangential resistance, or bounded disturbance shifts outside the impedance controller's calibration conditions.",
+      "observable_failure": "The impedance action that was fixed, predefined, or optimized for the calibrated contact no longer has established action-equivalence to the condition-informed optimum: force regulation, trajectory or speed tracking, and contact-loss or slip behavior can trade off differently, while model mismatch, time-varying-impedance oscillation, and altered force/moment capacity are documented within constituent regimes.",
+      "consequence": "A controller can retain acceptable nominal tracking yet incur avoidable joint objective regret, contact loss or slip, wrench/energy violation, or fallback under a held-out shift; conversely, unnecessary online complexity cannot be justified unless this failure remains after strong conventional repair.",
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "QPuQ4sfxSTIJ",
+        "USER-TASE-2023-3282974",
+        "ZDySGaNsMn8J",
+        "_8NXx8-VkcgJ",
+        "USER-TUFFC-2011-1961",
+        "Ubx3Xkv4y2kJ"
+      ]
+    },
+    {
+      "failure_id": "F-ONLINE-COUPLED-SELECTION-BOUNDARY",
+      "condition": "Normal and tangential impedance must be selected before or during continuous contact, with only safely obtainable observations and a finite update period, while wrench, interaction-energy, actuator, contact, and solve-time limits remain active.",
+      "observable_failure": "Existing constituent methods either optimize scalar impedance after identified stationary contact, plan gains without soft-contact mechanics, regulate measured six-dimensional wrench without optimal gain selection, or predict deformable contact while leaving impedance predefined. Their evidence therefore does not establish a feasible online rule that jointly selects normal and tangential stiffness and damping across the held-out envelope, and the closest methods expose excitation, passivity, constraint, and real-time boundaries.",
+      "consequence": "It remains unknown whether a transferable online selector can outperform the strongest matched fixed, scheduled, model-agnostic, or predefined-impedance predictive controller without losing a primary endpoint or violating a hard limit.",
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "USER-TRO-2022-3216078",
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J",
+        "USER-TASE-2023-3282974",
+        "9vRJMR2dgG4J"
+      ]
+    }
+  ],
+  "operating_envelope": {
+    "task": "Continuous sliding or scanning by a rigid ultrasound-like probe over compliant finite-area surfaces, with normal force regulation and tangential motion tracking performed together.",
+    "decision": "Bounded normal and tangential stiffness and damping updated online more slowly than the inner interaction-control loop.",
+    "variation_axes": [
+      "held-out material stiffness, damping and relaxation",
+      "held-out local curvature, thickness and contact-area evolution",
+      "speed, direction, dwell and loading history",
+      "friction, tangential resistance, slip and moment-capacity proximity",
+      "bounded surface motion, sensing error and external disturbance"
+    ],
+    "hard_limits": [
+      "normal and tangential wrench or contact-loss/slip limits",
+      "interaction-energy and time-varying-impedance rendering limits",
+      "actuator, gain and gain-rate limits",
+      "online solve deadline, infeasibility, timeout and fallback accounting"
+    ],
+    "fairness_boundary": "All comparators receive matched sensing, data, compute, objective, horizon, inner-loop, tuning and safety budgets; held-out specimens and conditions are separated from development; the judgment uses the joint force-motion-contact outcome and every primary endpoint, with timeouts and fallbacks counted against the selector."
+  },
+  "simple_repair_assessments": [
+    {
+      "assessment_id": "SR-ROBUST-FIXED-OR-SCHEDULED",
+      "repair": "Tune a robust fixed impedance or a conventional schedule over measured task variables, using the full permitted development envelope and matched safety margins.",
+      "applicable_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "USER-TASE-2023-3282974",
+        "USER-TRO-2022-3216078"
+      ],
+      "coverage_boundary": "This is the lowest-complexity repair and can fully cover the accepted problem if one robust setting or ordinary schedule is outcome-equivalent across the held-out envelope. The current bound evidence establishes strong compliant regulation and online planning in bounded regimes, but it does not establish that a fixed setting or ordinary task-variable schedule remains action-equivalent when finite-area mechanics and history shift. The repair therefore covers the demonstrated calibrated regimes but not the full accepted envelope.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HELDOUT-JOINT-IMPEDANCE-REGRET"
+      ]
+    },
+    {
+      "assessment_id": "SR-MODEL-AGNOSTIC-WRENCH-FEEDBACK",
+      "repair": "Use the strongest calibrated six-dimensional model-agnostic admittance or variable-impedance feedback driven by measured wrench and motion error, without online optimal gain selection.",
+      "applicable_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "USER-TASE-2023-3282974"
+      ],
+      "coverage_boundary": "Measured-wrench feedback can absorb large modeling errors and is a mandatory strongest comparator; it may prove equivalent over much or all of the envelope. Its evidence demonstrates excellent bounded-regime regulation but also a stability/tracking tradeoff and does not test whether reactive regulation is joint-objective-equivalent to condition-dependent gain choice before contact loss, slip, or constraint activation.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HELDOUT-JOINT-IMPEDANCE-REGRET"
+      ]
+    },
+    {
+      "assessment_id": "SR-CONTACT-AGNOSTIC-ONLINE-GAIN-PLANNING",
+      "repair": "Apply conventional online constrained stiffness-and-damping planning based on robot dynamics, tracking-error limits, and gain bounds, without introducing a new soft-contact state or method.",
+      "applicable_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "USER-TRO-2022-3216078"
+      ],
+      "coverage_boundary": "This repair directly removes the superficial failure that gains are fixed and provides a real-time constrained selector. Its demonstrated constraints concern perturbation-induced tracking error and approximate gain bounds rather than soft-contact wrench, slip, relaxation, interaction energy, or condition-dependent joint force-motion optimality; peak-impact energy modulation is explicitly left open.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HELDOUT-JOINT-IMPEDANCE-REGRET"
+      ]
+    },
+    {
+      "assessment_id": "SR-PREDEFINED-IMPEDANCE-CONTACT-MPC",
+      "repair": "Embed the strongest calibrated finite-area or deformable-contact predictor and static uncertainty tightening in constrained MPC while retaining predefined impedance.",
+      "applicable_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J",
+        "9vRJMR2dgG4J"
+      ],
+      "coverage_boundary": "Known contact-aware MPC and uncertainty tightening can improve bounded-regime force/motion tracking and constrain predicted force, and therefore defeat any claim that contact modeling or MPC alone is sufficient novelty. Their calibrated or static-output structures leave impedance predefined and do not establish transfer across held-out relaxation, geometry, sliding and history shifts.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HELDOUT-JOINT-IMPEDANCE-REGRET"
+      ]
+    },
+    {
+      "assessment_id": "SR-IDENTIFIED-CONTACT-OPTIMAL-IMPEDANCE",
+      "repair": "Reproduce identified-contact optimal impedance with a Hunt-Crossley model and single critic, adding only standard bounds and conservative fallback required for a fair implementation.",
+      "applicable_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ"
+      ],
+      "coverage_boundary": "This is the closest direct optimal-impedance repair and can improve a one-dimensional identified stationary soft-contact objective. It requires prior identification and excitation, leaves abrupt or time-varying parameters open, and does not establish coupled normal-tangential selection, passivity, hard contact constraints, solver-failure behavior, or held-out transfer.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HELDOUT-JOINT-IMPEDANCE-REGRET"
+      ]
+    },
+    {
+      "assessment_id": "SR-STRONGEST-DIRECT-SIMPLE-BASELINE",
+      "repair": "Use the directly evaluated model-agnostic practical or hybrid task-space admittance baseline with measured six-dimensional wrench feedback, fixed calibrated rendering parameters, standard bounds, and deterministic fallback. Treat any newly engineered combination with contact prediction, online gain optimization, uncertainty learning, and energy supervision as a method competitor rather than relabeling a multi-intervention method as a simple repair.",
+      "applicable_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "preserves_core_causal_or_computational_relation": true,
+      "evidence_refs": [
+        "USER-TASE-2023-3282974"
+      ],
+      "coverage_boundary": "This is the strongest directly evaluated simple baseline in the current v2 Evidence Capsule. It achieves sub-percent mean phantom force and moment regulation across five trials and supports lateral scanning without any explicit tissue model, so it defeats necessity claims based only on nominal force accuracy or contact modeling. Its own analysis and constrained experiment show that ideal time-varying impedance can lose passivity and oscillate, while practical feedback trades free-space accuracy for constrained stability. It neither selects normal and tangential stiffness and damping online nor tests held-out material, relaxation, geometry, sliding-history, gain-rate, solver-time, or fallback changes. It therefore covers nominal calibrated wrench regulation but not the accepted online selection decision. A multi-intervention predictive/optimization/learning controller is not a low-complexity repair and remains a fair method competitor for the next phases.",
+      "coverage_conclusion": "PARTIAL_COVERAGE",
+      "residual_failure_ids": [
+        "RF-HELDOUT-JOINT-IMPEDANCE-REGRET"
+      ]
+    }
+  ],
+  "residual_failure_envelope": [
+    {
+      "residual_failure_id": "RF-HELDOUT-JOINT-IMPEDANCE-REGRET",
+      "source_failure_ids": [
+        "F-HELDOUT-IMPEDANCE-TRANSFER",
+        "F-ONLINE-COUPLED-SELECTION-BOUNDARY"
+      ],
+      "condition": "After equalizing sensing, data, compute, objective, tuning, inner-loop and safety resources, a held-out material, geometry, sliding-condition or contact-history shift changes the feasible or joint-cost-minimizing normal-tangential impedance beyond the action-equivalence envelope of the strongest directly evaluated simple baseline.",
+      "observable_failure": "Relative to a predeclared condition-informed offline reference and equivalence margins, the strongest directly evaluated simple baseline exhibits repeatable excess joint force-motion-contact cost, contact loss or slip, a hard-limit violation, or inability to choose condition-dependent coupled gains; the residual is absent wherever that baseline is equivalent or better on every primary endpoint. Existing evidence establishes its calibrated-regime strength and its stability/tracking boundary, while the final residual magnitude remains a falsifiable benchmark question rather than an asserted effect size.",
+      "consequence": "Without closing this residual, reliable online impedance choice across uncalibrated continuous soft contact remains unresolved; if the residual cannot be demonstrated, the accepted problem is fully covered and additional contact modeling, estimation, learning, critic, MPC, or passivity structure is unnecessary.",
+      "uncovered_by_repair_assessment_ids": [
+        "SR-ROBUST-FIXED-OR-SCHEDULED",
+        "SR-MODEL-AGNOSTIC-WRENCH-FEEDBACK",
+        "SR-CONTACT-AGNOSTIC-ONLINE-GAIN-PLANNING",
+        "SR-PREDEFINED-IMPEDANCE-CONTACT-MPC",
+        "SR-IDENTIFIED-CONTACT-OPTIMAL-IMPEDANCE",
+        "SR-STRONGEST-DIRECT-SIMPLE-BASELINE"
+      ],
+      "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "USER-TRO-2022-3216078",
+        "QPuQ4sfxSTIJ",
+        "ZDySGaNsMn8J",
+        "USER-TASE-2023-3282974",
+        "_8NXx8-VkcgJ",
+        "USER-TUFFC-2011-1961",
+        "Ubx3Xkv4y2kJ",
+        "9vRJMR2dgG4J"
+      ]
+    }
+  ],
+  "problem_identity_disposition": "SAME_ACCEPTED_PROBLEM",
+  "analysis_provenance": {
+    "author_role": "main_research_agent",
+    "created_at": "2026-09-01T07:41:20Z",
+    "analysis_modes": [
+      "EXISTING_FORMAL_EVIDENCE",
+      "FORMAL_ANALYSIS"
+    ],
+    "source_artifact_ids": [
+      "j4KJ1EdUyYAJ",
+      "USER-TRO-2022-3216078",
+      "QPuQ4sfxSTIJ",
+      "ZDySGaNsMn8J",
+      "USER-TASE-2023-3282974",
+      "_8NXx8-VkcgJ",
+      "USER-TUFFC-2011-1961",
+      "Ubx3Xkv4y2kJ",
+      "9vRJMR2dgG4J"
+    ],
+    "supplemental_search_disposition": "COMPLETED_WITHOUT_NEW_PHASE_CURRENT_EVIDENCE: Controller query-plan SHA256 e5f6f35ad464c21a6a8fae43cf1c2c8a462b7948d332382ab8c62acaf2c95606 executed as Q0080-Q0085 after budget extension from 80 to 110. The searches recovered an authoritative VIC review, direct fixed-versus-variable comparison, constrained QP VIC, adaptive-optimal interaction control, learned predictive impedance, medical-scanning QP plus energy-tank metadata, and a 2025 RAS predictive VIC comparator. Because the incremental session reused global accepted artifacts without creating v2 problem_necessity phase-current bindings, none of those supplemental sources is cited as current decision-grade Evidence in this closure. The closure relies only on the Controller-bound v2 Evidence Capsule. The earlier unevaluated six-module stack was removed; the strongest directly evaluated simple baseline is USER-TASE-2023-3282974, while richer integrated systems remain method competitors for RCA/Method Design if formally re-adopted there."
+  }
+}

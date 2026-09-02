@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "5b436deb85a14befac9afbb9cb1e08ae",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "eb47453c752f4ca29860a97786132a4c",
+  "decision": "REVISE_PRINCIPLES",
+  "reviewed_artifact_hashes": {
+    "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+    "idea-stage/METHOD_DESIGN_PACKET.json": "8ca64606c031b694207f86d8cbbacd4370b74efd0b7d1fbc1916d756835d08d9"
+  },
+  "reviewed_artifact": {
+    "path": "idea-stage/METHOD_DESIGN_PACKET.json",
+    "sha256": "8ca64606c031b694207f86d8cbbacd4370b74efd0b7d1fbc1916d756835d08d9"
+  },
+  "findings": [
+    {
+      "code": "RMC_CAUSAL_FIDELITY",
+      "status": "FAIL",
+      "detail": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE is faithful to the accepted aliasing chain. RMC-JOINT-UPDATE-TIME-FEASIBILITY is faithful only at the level of unifying selection, hard feasibility, applied action and deadline/fallback. Requiring a verified incumbent replaced only by verified candidates is one Candidate mechanism, not a necessity entailed uniquely by the accepted RCA. Embedding it in the RMC manufactures the subsequent one-Candidate constraint."
+    },
+    {
+      "code": "INTERVENTION_LEVEL_ISOMORPHISM",
+      "status": "FAIL",
+      "detail": "SM-BOX-FDDP cannot receive PASS for the full RMC: its Evidence supports warm-started fast feasibility restoration and Riccati feedback but explicitly denies per-iterate feasibility, certified-incumbent retention and arbitrary-interruption totality. Its abstraction improperly adds retention of a last verified policy. SM-PREDICT-CALIBRATE likewise overstates the Source position: the bound Evidence calibrates uncertainty for objective-side robust contextual optimization with marginal coverage, not nonlinear contact-capacity constraints defining the Target feasible region. Both adaptations may remain hypotheses, but not Evidence-backed PASS transfers."
+    },
+    {
+      "code": "DERIVATION_AND_CAUSAL_CLOSURE",
+      "status": "FAIL",
+      "detail": "The proposed chain—decision-equivalent history, action-conditional capacity, calibration, robust gain selection, verified return and faithful rendering—is scientifically plausible, but the first-principles and representation records are compressed assertions rather than reviewable derivations. They do not define the history equivalence relation, show why the calibrated object is sufficient for all stated hard margins, derive constraint-side coverage from the Source boundary, or establish how fallback feasibility persists when the tube and contact state change. The Candidate also cites only RT-STACK-TO-RELATION as its origin although that record serves the second RMC while the Candidate claims both."
+    },
+    {
+      "code": "METHOD_SOUP_AND_MINIMALITY",
+      "status": "FAIL",
+      "detail": "Calling the components one program does not by itself prove a single necessary causal route. The packet must show that representation, calibration, capacity constraints, energy handling, optimizer, incumbent/backup and renderer are transformations of one shared decision relation and that each is necessary. Presently the energy state, certified return and renderer are appended without a mechanism-level minimality derivation."
+    },
+    {
+      "code": "SOLUTION_SPACE_CONSTRAINT",
+      "status": "FAIL",
+      "detail": "CONSTRAINED is not justified. The accepted RCA requires decision-sufficient state and update-time feasible applied action, but it leaves live integrated alternatives to a calibrated tube plus retained incumbent. The packet neither supplies multiple substantively different surviving mechanisms nor demonstrates scientific constraints excluding alternative invariant-backup, certificate-carrying, risk-limited or recursively feasible relations."
+    },
+    {
+      "code": "EARLY_TARGET_INTERVENTION_NOVELTY",
+      "status": "FAIL",
+      "detail": "The NOVEL_DELTA conclusion does not confront the bound Active Field Map's closest constrained-predictive impedance lineage, including U1Trzk-2GRIJ, ctEq_owme9kJ, xlNjdqnC2fMJ and 4tr9C5LNwYwJ. Those entries already cover direct online impedance optimization with constraints, predictive safe sets, passivity correction or deadline-aware predictive interaction. The claimed delta may survive as decision-minimal calibrated contact capacity plus interruption-total applied-action identity, but current nearest-prior separation is incomplete and cannot support UNCOVERED."
+    },
+    {
+      "code": "KILLER_TEST_CONCEPTS",
+      "status": "PARTIAL",
+      "detail": "PR-STATE and PR-TOTALITY preserve observables, rival patterns, activation conditions and genuine killer criteria. PR-CALIBRATION conflates two different failures—miscoverage and memoryless-state equivalence—and does not distinguish marginal Source coverage from the Target constraint-side coverage claim. It should be split or rewritten into a single discriminating Pattern A/Pattern B concept."
+    },
+    {
+      "code": "PACKET_SCOPE_AND_UPSTREAM_CONSISTENCY",
+      "status": "PASS",
+      "detail": "The packet contains Principle-level killer-test concepts but no concrete test plan, execution set or cost. The accepted Problem, Necessity closure and RCA remain viable; the defects are in Method Design attribution, derivation, competition and novelty closure, so RCA_CONFLICT is not warranted."
+    }
+  ],
+  "return_guidance": {
+    "missing_evidence": [
+      "A substantive derivation showing which parts of RMC-JOINT-UPDATE-TIME-FEASIBILITY are entailed by the accepted RCA and which belong only to the incumbent-retention Candidate mechanism.",
+      "Evidence-valid intervention-level alignment for BOX-FDDP and Predict-then-Calibrate that preserves their explicit boundaries on interruption totality, certified incumbents, objective-side uncertainty, marginal coverage and nonlinear Target constraints.",
+      "A reviewable two-RMC derivation defining action equivalence, action-conditional capacity, calibration and support semantics, energy handling, feasible applied-action identity, fallback persistence and exact Candidate synthesis provenance.",
+      "Target-domain nearest-prior separation against the constrained-predictive impedance mechanisms identified in the current Active Field Map.",
+      "Scientific justification for a genuinely CONSTRAINED solution space, or multiple surviving Candidates with substantively different integrated intervention mechanisms."
+    ],
+    "decision_target": "method_design",
+    "required_check": [
+      "Rewrite RMC-JOINT-UPDATE-TIME-FEASIBILITY at the accepted causal level and move incumbent retention into a Candidate unless its necessity over all integrated alternatives is derived.",
+      "Reclassify BOX-FDDP as non-isomorphic for full interruption totality or restrict it to its evidenced update component. Correct Predict-then-Calibrate to objective-side marginal calibration and treat nonlinear constraint-side contact migration as an unvalidated Target adaptation.",
+      "Provide substantive first-principles and representation derivations for both RMCs, and bind the Candidate to a real origin that derives both mechanisms or to an exact mechanism-level synthesis.",
+      "Reassess solution-space constraint: provide multiple substantively different integrated Candidates or demonstrate why accepted scientific constraints exclude each alternative without relying on implementation differences.",
+      "Redo Early Target Intervention Novelty against U1Trzk-2GRIJ, ctEq_owme9kJ, xlNjdqnC2fMJ, 4tr9C5LNwYwJ and other closest current-field mechanisms using Target-specific Problem-Intervention searches and causal-equivalence checks.",
+      "Split or sharpen PR-CALIBRATION so Pattern A and Pattern B test one defined Target coverage claim against one relevant rival."
+    ]
+  }
+}

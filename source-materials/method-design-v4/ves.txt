@@ -1,0 +1,1221 @@
+Deciding What to Model: Value-Equivalent Sampling
+           for Reinforcement Learning
+
+
+           Dilip Arumugam                                  Benjamin Van Roy
+    Department of Computer Science                 Department of Electrical Engineering
+          Stanford University                Department of Management Science & Engineering
+      dilip@cs.stanford.edu                                Stanford University
+                                                           bvr@stanford.edu
+
+
+
+                                              Abstract
+         The quintessential model-based reinforcement-learning agent iteratively refines
+         its estimates or prior beliefs about the true underlying model of the environment.
+         Recent empirical successes in model-based reinforcement learning with function
+         approximation, however, eschew the true model in favor of a surrogate that, while
+         ignoring various facets of the environment, still facilitates effective planning over
+         behaviors. Recently formalized as the value equivalence principle, this algorithmic
+         technique is perhaps unavoidable as real-world reinforcement learning demands
+         consideration of a simple, computationally-bounded agent interacting with an over-
+         whelmingly complex environment, whose underlying dynamics likely exceed the
+         agent’s capacity for representation. In this work, we consider the scenario where
+         agent limitations may entirely preclude identifying an exactly value-equivalent
+         model, immediately giving rise to a trade-off between identifying a model that
+         is simple enough to learn while only incurring bounded sub-optimality. To ad-
+         dress this problem, we introduce an algorithm that, using rate-distortion theory,
+         iteratively computes an approximately-value-equivalent, lossy compression of the
+         environment which an agent may feasibly target in lieu of the true model. We
+         prove an information-theoretic, Bayesian regret bound for our algorithm that holds
+         for any finite-horizon, episodic sequential decision-making problem. Crucially,
+         our regret bound can be expressed in one of two possible forms, providing a per-
+         formance guarantee for finding either the simplest model that achieves a desired
+         sub-optimality gap or, alternatively, the best model given a limit on agent capacity.
+
+
+1   Introduction
+A central challenge of the reinforcement-learning problem [154, 87] is exploration, where a sequential
+decision-making agent must judiciously balance exploitation of knowledge accumulated thus far
+against the need to further acquire information for optimal long-term performance. Historically,
+provably-efficient reinforcement-learning algorithms [91, 35, 90, 20, 23, 151, 81, 121, 45, 120, 22,
+46, 10, 85, 168, 56, 105] have often relied upon one of two possible mechanisms for addressing
+the exploration challenge in a principled manner: optimism in the face of uncertainty or posterior
+sampling. Briefly, methods in the former category begin with optimistically-biased value estimates
+for all state-action pairs; an agent acting greedily with respect to these estimates will be incentivized
+to visit all state-action pairs a sufficient number of times until this bias dissipates and the agent
+is left with an accurate estimate of the value function for deriving optimal behavior. In contrast,
+posterior-sampling methods primarily operate based on Thompson sampling [156, 141] whereby the
+agent begins with a prior belief over the Markov Decision Process (MDP) with which it is interacting
+and acts optimally with respect to a single sample drawn from these beliefs. The resulting experience
+sampled from the true environment allows the agent to derive a corresponding posterior distribution
+
+36th Conference on Neural Information Processing Systems (NeurIPS 2022).
+and this Posterior Sampling for Reinforcement Learning (PSRL) [152] algorithm proceeds iteratively
+in this manner, eventually arriving at a posterior sharply concentrated around the true environment
+MDP. While both paradigms have laid down solid theoretical foundations for provably-efficient
+reinforcement learning, a line of work has demonstrated how posterior-sampling methods can be
+more favorable both in theory and in practice [121–123, 120, 114, 125, 63].
+While existing analyses of reinforcement-learning algorithms have largely focused on providing
+guarantees for learning optimal solutions, real-world reinforcement learning demands consideration
+for a computationally-bounded agent interacting with an overwhelmingly complex environment [105].
+A simplified view of this notion can be succinctly depicted in the multi-armed bandit setting [97, 38,
+100]; as the number of arms increases, a Thompson sampling agent’s relentless pursuit of the optimal
+arm will lead to large regret [138, 139]. On the other hand, one might simply settle for the first
+ε-optimal arm found, for some ε > 0, which may be identified in far fewer time periods. The goal of
+this work is to augment PSRL so as to accommodate these satisficing solutions in addition to optimal
+ones, paralleling existing work for satisficing in multi-armed bandit problems [140, 139, 15, 16]. To
+help elucidate the utility of satisficing solutions in the reinforcement-learning setting, we offer the
+following illustrative example:
+Example 1 (A Multi-Resolution MDP). For a large but finite N ∈ N, consider a sequence of MDPs,
+{Mn }n∈[N ] , which all share a common action space A but vary in state space Sn , reward function,
+and transition function. Moreover, for each n ∈ [N ], the rewards of the nth MDP are bounded in
+the interval [0, n1 ]. An agent is confronted with the resulting product MDP, M, defined on the state
+space S1 × . . . × SN with action space A and rewards summed across the N constituent reward
+functions. The transition function is defined such that each action a ∈ A is executed across all N
+MDPs simultaneously and the resulting individual transitions are combined into a transition of M.
+
+Example 1 presents a simple scenario where, as N ↑ ∞, a complex environment retains a wealth of
+information and yet, due to the scale of N and the boundedness of rewards for each constituent MDP
+Mn , only a subset of that information is within the agent’s reach or even necessary for producing
+reasonably competent behavior. Despite this fact, PSRL will persistently act to fully identify the
+transition and reward structure of all {Mn }n∈[N ] , for any value of N . Without knowing which MDPs
+are more important a priori and even as data accumulates during learning, PSRL is unable to forego
+learning granular components of M, eventually accumulating optimal reward at the cost of more time.
+Intuitively, however, one might anticipate that there exists a value M ≪ N such that learning the
+subsequence of MDPs {Mn }n∈[M ] in fewer time periods is sufficient for achieving a desired degree
+of sub-optimality, since the rewards of the remaining MDPs {Mn }n>M make suitably negligible
+contributions to the overall rewards of M. Alternatively, for a computationally-bounded decision
+maker, the agent’s resource limitations ought to translate into a value C ≪ N such that {Mn }n∈[C]
+is feasible and learning this subsequence is the best possible outcome under the agent capacity
+constraints. In this work, we introduce an algorithm that, in a purely data-driven and automated
+fashion, implicitly identifies such a value M or C to facilitate tractable, near-optimal learning in what
+may otherwise be an intractable problem. Following Arumugam and Van Roy [15], a key tool for
+defining a notion of satisficing in reinforcement learning will be rate-distortion theory [146, 25].
+The paper proceeds as follows: we introduce our problem formulation in Section 3, present our
+generalization of PSRL in Section 4, and provide a complementary regret analysis in Section 5. Due
+to space constraints, technical proofs, an overview of related work, and discussion of our results in a
+broader context are relegated to the appendix.
+
+2   Preliminaries
+In this section, we provide brief background on information theory and details on our notation. All
+random variables are defined on a probability space (Ω, F, P). For any random variable X : Ω → X
+taking values on the measurable space (X , X), we use σ(X) ≜ {X −1 (A) | A ∈ X} ⊆ F to
+denote the σ-algebra generated by X. For any natural number N ∈ N, we denote the index set as
+[N ] ≜ {1, 2, . . . , N }. For any arbitrary set X , ∆(X ) denotes the set of all probability distributions
+with support on X . For any two arbitrary sets X and Y, we denote the class of all (measurable)
+functions mapping from X to Y as {X → Y} ≜ {f | f : X → Y}. While our exposition throughout
+the paper will consistently refer to bits of information, it will be useful for the purposes of analysis
+that all logarithms be in base e.
+
+
+                                                    2
+2.1   Information Theory
+
+Here we introduce various concepts in probability theory and information theory used throughout
+this paper. We encourage readers to consult [41, 71, 129, 59] for more background.
+We define the mutual information between any two random variables X, Y through the Kullback-
+Leibler (KL) divergence:
+                                                                        (R      
+                                                                                 dP
+                                                                            log dQ   dP P ≪ Q
+I(X; Y ) = DKL (P((X, Y ) ∈ ·) || P(X ∈ ·)×P(Y ∈ ·))    DKL (P || Q) =                           ,
+                                                                          +∞              P ̸≪ Q
+                                                                                 dP
+where P and Q are both probability measures on the same measurable space and dQ     denotes the
+Radon-Nikodym derivative of P with respect to Q. An analogous definition of conditional mutual
+information holds through the expected KL-divergence for any three random variables X, Y, Z:
+           I(X; Y | Z) = E [DKL (P((X, Y ) ∈ · | Z) || P(X ∈ · | Z) × P(Y ∈ · | Z))] .
+With these definitions in hand, we may define the entropy and conditional entropy for any two random
+variables X, Y as
+                       H(X) = I(X; X)          H(Y | X) = H(Y ) − I(X; Y ).
+This yields the following identities for mutual information and conditional mutual information for
+any three arbitrary random variables X, Y , and Z:
+I(X; Y ) = H(X)−H(X | Y ) = H(Y )−H(Y |X),                 I(X; Y |Z) = H(X|Z)−H(X | Y, Z) = H(Y |Z)−H(Y |X, Z).
+Through the chain rule of the KL-divergence and the fact that DKL (P || P ) = 0 for any probability
+measure P , we obtain another equivalent definition of mutual information,
+                          I(X; Y ) = E [DKL (P(Y ∈ · | X) || P(Y ∈ ·))] ,
+                                                                            n
+                                                                            P
+as well as the chain rule of mutual information: I(X; Y1 , . . . , Yn ) =         I(X; Yi | Y1 , . . . , Yi−1 ).
+                                                                            i=1
+Finally, for any three random variables X, Y , and Z which form the Markov chain X → Y → Z,
+we have the following data-processing inequality: I(X; Z) ≤ I(X; Y ).
+
+3     Problem Formulation
+We formulate a sequential decision-making problem as a finite-horizon, episodic Markov Decision
+Process (MDP) [24, 130] defined by M = ⟨S, A, R, T , β, H⟩. Here S denotes a set of states, A is a
+set of actions, R : S × A → [0, 1] is a deterministic reward function providing evaluative feedback
+signals (in the unit interval) to the agent, T : S × A → ∆(S) is a transition function prescribing
+distributions over next states, β ∈ ∆(S) is an initial state distribution, and H ∈ N is the maximum
+episode length or horizon.
+As is standard in Bayesian reinforcement learning [70], neither the transition function nor the reward
+function are known to the agent and, consequently, both are treated as random variables. Since
+all other components of the MDP are thought of as known a priori, the randomness in the model
+(R, T ) fully accounts for the randomness in M, which is also a random variable. We denote by
+M⋆ the true MDP with model (R⋆ , T ⋆ ) that the agent interacts with and attempts to solve over the
+course of K episodes. Within each episode, the agent acts for exactly H steps beginning with an
+initial state s1 ∼ β. For each h ∈ [H], the agent observes the current state sh ∈ S, selects action
+ah ∼ πh (· | sh ) ∈ A, enjoys a reward rh = R(sh , ah ) ∈ [0, 1], and transitions to the next state
+sh+1 ∼ T (· | sh , ah ) ∈ S.
+A stationary, stochastic policy for timestep h ∈ [H], πh : S → ∆(A), encodes a pattern of behavior
+mapping individual states to distributions over possible actions. Letting {S → ∆(A)} denote the class
+of all stationary, stochastic policies, a non-stationary policy π = (π1 , . . . , πH ) ∈ {S → ∆(A)}H
+is a collection of exactly H stationary, stochastic policies whose overall performance in any MDP
+M at timestep h ∈ [H] when starting at state s ∈ S and taking action a ∈ A is assessed        by its
+                                                         H
+                                      π
+                                                        P
+associated action-value function QM,h (s, a) = E             R(sh′ , ah′ ) sh = s, ah = a , where the
+                                                       h′ =h
+
+
+                                                   3
+                                                            h and transition
+expectation integrates over randomness in the action selections       i      dynamics. Taking
+                                     π                        π
+the corresponding value function as VM,h (s) = Ea∼πh (·|s) QM,h (s, a) , we define the optimal
+                                   ⋆
+policy π ⋆ = (π1⋆ , π2⋆ , . . . , πH                                ⋆
+                                     ) as achieving supremal value VM,h (s) =       sup        π
+                                                                                              VM,h (s) for
+                                                                                π∈{S→∆(A)}H
+all s ∈ S, h ∈ [H]. For brevity, we will write any value function V ∈ {S → R} without its
+argument to implicitly integrate over randomness in the initial state: V = Es1 ∼β(·) [V (s1 )]. We
+           (k)   (k)   (k)       (k)   (k)   (k)   (k)
+let τk = (s1 , a1 , r1 , . . . , sH , aH , rH , sH+1 ) be the random variable denoting the trajectory
+experienced by the agent in the kth episode. Meanwhile, Hk = {τ1 , τ2 , . . . , τk−1 } ∈ Hk is the
+random variable representing the entire history of the agent’s interaction within the environment at
+the start of the kth episode; the sequence of history random variables {Hk }k∈[K] induce and, by
+definition, are adapted to the filtration {σ(Hk )}k∈[K] of (Ω, F). We call attention to the fact that
+we have yet to make any further restrictions on the state-action space S × A, such as finiteness;
+notably, the main results of this paper are not limited to tabular MDPs. As mentioned by Lattimore
+and Szepesvári [100] (also as Proposition 7.28 of Bertsekas and Shreve [28]), the Ionescu-Tulcea
+Theorem [80] ensures the existence of a probability space upon which τk and Hk are well-defined
+random variables for all episodes k ∈ [K].
+Abstractly, a reinforcement-learning algorithm is a sequence of non-stationary policies
+(π (1) , . . . , π (K) ) where for each episode k ∈ [K], π (k) : Hk → {S → ∆(A)}H is a function
+of the current history Hk . We define the regret of a reinforcement-learning algorithm over K episodes
+as
+                                                              K
+                                                                                     π (k)
+                                                              X
+                    R EGRET(K, π (1) , . . . , π (K) , M⋆ ) =   ∆k ∆k ≜ VM ⋆
+                                                                             ⋆ ,1 − VM⋆ ,1 ,
+
+                                                             k=1
+
+where ∆k denotes the episodic regret or regret incurred during the kth episode with respect to the true
+MDP M⋆ . An agent’s initial uncertainty in the (unknown) true MDP M⋆ is reflected by an arbitrary
+prior distribution P(M⋆ ∈ · | H1 ). Since the regret is a random variable due to our uncertainty in
+M⋆ , we integrate over this randomness to arrive at the Bayesian regret:
+                                                       h                                       i
+           BAYES R EGRET(K, π (1) , . . . , π (K) ) = E R EGRET(K, π (1) , . . . , π (K) , M⋆ ) .
+
+Broadly speaking, our goal is to design a provably-efficient reinforcement-learning algorithm that
+incurs bounded Bayesian regret.
+Throughout the paper, we will denote the entropy and conditional entropy conditioned upon a specific
+realization of an agent’s history Hk , for some episode k ∈ [K], as Hk (X) ≜ H(X | Hk = Hk )
+and Hk (X | Y ) ≜ Hk (X | Y, Hk = Hk ), for two arbitrary random variables X and Y . This
+notation will also apply analogously to the mutual information Ik (X; Y ) ≜ I(X; Y | Hk = Hk ) =
+Hk (X) − Hk (X | Y ) = Hk (Y ) − Hk (Y | X), as well as the conditional mutual information
+Ik (X; Y | Z) ≜ I(X; Y | Hk = Hk , Z), given an arbitrary third random variable, Z. Note that their
+dependence on the realization of random history Hk makes both Ik (X; Y ) and Ik (X; Y | Z) random
+variables themselves. The traditional notion of conditional mutual information given the random
+variable Hk arises by integrating over this randomness:
+              E [Ik (X; Y )] = I(X; Y | Hk )         E [Ik (X; Y | Z)] = I(X; Y | Hk , Z).
+Additionally, we will also adopt a similar notation to express a conditional expectation given the
+random history Hk : Ek [X] ≜ E [X|Hk ] .
+
+4     Satisficing Through Posterior Sampling
+4.1   Rate-Distortion Theory
+
+We begin with a brief, high-level overview of rate-distortion theory [146, 25] and encourage readers
+to consult [41] for more details and [26] for a survey of advances in rate-distortion theory towards
+solving the lossy source coding problem in information theory. A lossy compression problem
+consumes as input a fixed information source P(X ∈ ·) and a measurable distortion function
+d : X × Z → R≥0 which quantifies the loss of fidelity by using Z in place of X. Then, for any
+
+
+                                                         4
+D ∈ R≥0 , the rate-distortion function quantifies the fundamental limit of lossy compression as
+                   R(D) =       inf     I(X; Z)      Λ(D) ≜ {Z : Ω → Z | E [d(X, Z)] ≤ D},
+                             Z∈Λ(D)
+
+where the infimum is taken over all random variables Z that incur bounded expected distortion,
+E [d(X, Z)] ≤ D. Naturally, R(D) represents the minimum number of bits of information that must
+be retained from X in order to achieve this bounded expected loss of fidelity1 . Throughout the paper,
+various facts of the rate-distortion function will be referenced as needed. For now, we simply note
+that, in keeping with the problem formulation of the previous section which does not automatically
+assume discrete random variables, the rate-distortion function is well-defined for abstract information
+source and channel output random variables [43].
+Just as in past work that studies satisficing in multi-armed bandit problems [138, 139, 15], we will
+use rate-distortion theory to formalize and identify the best simplified MDP Mfk that the agent will
+attempt to learn over the course of each episode k ∈ [K]. The dependence on the particular episode
+comes from the fact that this lossy compression mechanism or channel will treat the agent’s current
+beliefs over the true MDP P(M⋆ ∈ · | Hk ) as the information source to be compressed.
+
+4.2        The Value Equivalence Principle
+
+As outlined in the previous section, the second input for a well-specified lossy-compression problem is
+a distortion function prescribing non-negative real values to realizations of the information source and
+channel output random variables (M⋆ , M)   f that quantify the loss of fidelity incurred by using Mf in
+           ⋆
+lieu of M . To define this function, we will leverage an approximate notion of value equivalence [72,
+73]. For any arbitrary MDP M with model (R, T ) and any stationary, stochastic policy π : S →
+                                        π
+∆(A), define the Bellman operator BM       : {S → R} → {S → R} as follows:
+                  π
+                    V (s) ≜ Ea∼π(·|s) R(s, a) + Es′ ∼T (·|s,a) [V (s′ )] ,
+                                                                        
+                BM                                                               ∀s ∈ S.
+The Bellman operator is a foundational tool in dynamic-programming approaches to reinforcement
+learning [29] and gives rise to the classic Bellman equation: for any MDP M = ⟨S, A, R, T , β, H⟩
+                                                                                                π
+and any non-stationary policy π = (π1 , . . . , πH ), the value functions induced by π satisfy VM,h (s) =
+  πh π                                            π
+BM VM,h+1 (s), for all h ∈ [H] and with VM,H+1 (s) = 0, ∀s ∈ S. For any two MDPs M =
+⟨S, A, R, T , β, H⟩ and Mc = ⟨S, A, R,  b Tb , β, H⟩, Grimm et al. [72] define a notion of equivalence
+between them despite their differing models. For any policy class Π ⊆ {S → ∆(A)} and value
+function class V ⊆ {S → R}, M and M      c are value equivalent with respect to Π and V if and only if
+  π        π
+BM  V = BM  c V , ∀π ∈ Π,  V  ∈  V. In words,   two different models are deemed value equivalent if they
+induce identical Bellman updates under any pair of policy and value function from Π×V. Grimm et al.
+[72] prove that when Π = {S → ∆(A)} and V = {S → R}, the set of all exactly value-equivalent
+models is a singleton set containing only the true model of the environment. The key insight behind
+value equivalence, however, is that practical model-based reinforcement-learning algorithms need not
+be concerned with modeling every granular detail of the underlying environment and may, in fact,
+stand to benefit by optimizing an alternative criterion besides the traditional maximum-likelihood
+objective [147, 66, 116, 17, 65, 57, 1, 44, 21, 144, 110, 113, 161]. Indeed, by restricting focus to
+decreasing subsets of policies Π ⊂ {S → ∆(A)} and value functions V ⊂ {S → R}, the space of
+exactly value-equivalent models is monotonically increasing.
+For brevity, let R ≜ {S × A → [0, 1]} and T ≜ {S × A → ∆(S)} denote the classes of all
+reward functions and transition functions, respectively. Recall that, with ⟨S, A, β, H⟩ all known, the
+uncertainty in a random MDP M is entirely driven by its model (R, T ) such that we may think of
+the support of M⋆ as supp(M⋆ ) = M ≜ R × T. We define a distortion function on pairs of MDPs
+d : M × M → R≥0 for any Π ⊆ {S → ∆(A)}, V ⊆ {S → R} as
+                                                                                         2
+        dΠ,V (M, M)c = sup ||B π V − B π V ||2 = sup sup |B π V (s) − B π V (s)| .
+                                  M        Mc    ∞                    M           M
+                                                                                  c
+                                 π∈Π                            π∈Π    s∈S
+                                 V ∈V                           V ∈V
+
+In words, dΠ,V is the supremal squared Bellman error between MDPs M and M
+                                                                        c across all states
+s ∈ S with respect to the policy class Π and value function class V.
+      1
+          With a slight abuse of notation, we overload R.
+
+
+                                                            5
+4.3   Value-Equivalent Sampling for Reinforcement Learning
+
+By virtue of the previous two sections, we are now in a position to define the lossy compression
+problem that characterizes a MDP M    f that the agent will aspire to learn in each episode k ∈ [K]
+instead of the true MDP M⋆ . For any Π ⊆ {S → ∆(A)}; V ⊆ {S → R}; k ∈ [K]; and D ≥ 0, we
+define the rate-distortion function
+   RΠ,V (D) =
+      k             inf     Ik (M⋆ ; M),
+                                     f Λk (D) ≜ {M  f : Ω → M | Ek [dΠ,V (M⋆ , M)]  f ≤ D}. (1)
+                M∈Λ
+                f k (D)
+
+This rate-distortion function characterizes the fundamental limit of MDP compression under our
+chosen distortion measure resulting in a channel that retains the minimum amount of information from
+the true MDP M⋆ while yielding an approximately value-equivalent MDP in expectation. Observe
+that this distortion constraint is a notion of approximate value equivalence which collapses to the
+exact value equivalence of Grimm et al. [72] as D → 0. Meanwhile, as D → ∞, we accommodate a
+more aggressive compression of the true MDP M⋆ resulting in less faithful Bellman updates.
+
+
+Algorithm 1 Posterior Sampling for Re- Algorithm 2 Value-equivalent Sampling for Reinforce-
+inforcement Learning (PSRL) [152]      ment Learning (VSRL)
+  Input: Prior P(M⋆ ∈ · | H1 )                Input: Prior P(M⋆ ∈ · | H1 ), Threshold D ∈ R≥0 ,
+  for k ∈ [K] do                              Distortion function dΠ,V : M × M → R≥0
+    Sample Mk ∼ P(M⋆ ∈ · | Hk )               for k ∈ [K] do
+    Get optimal policy π (k) = πM
+                                ⋆
+                                                Compute M  fk achieving RΠ,V (D) limit (Equation 1)
+                                  k                                       k
+              (k)
+    Execute π and get trajectory τk             Sample MDP M ⋆ ∼ P(M⋆ ∈ · | Hk )
+    Update history Hk+1 = Hk ∪ τk               Sample compression Mk ∼ P(M   fk ∈ · | M⋆ = M ⋆ )
+    Induce posterior P(M⋆ ∈ · | Hk+1 )                                          ⋆
+                                                Compute optimal policy π (k) = πM k
+  end for                                                  (k)
+                                                Execute π and observe trajectory τk
+                                                Update history Hk+1 = Hk ∪ τk
+                                                Induce posterior P(M⋆ ∈ · | Hk+1 )
+                                              end for
+
+A standard algorithm for our problem setting is widely known as Posterior Sampling for Reinforce-
+ment Learning (PSRL) [152, 120], which we present as Algorithm 1, while our Value-equivalent
+Sampling for Reinforcement Learning (VSRL) is given as Algorithm 2. The key distinction between
+them is that, at each episode k ∈ [K], the latter takes the posterior sample M ⋆ ∼ P(M⋆ ∈ · | Hk )
+and passes it through the channel that achieves the rate-distortion limit (Equation 1) at this episode to
+get the Mk whose optimal policy is executed in the environment.
+The core impetus for this work is to recognize that, for complex environments, pursuit of the exact
+MDP M⋆ (as in PSRL) may be an entirely infeasible goal. Consider a MDP that represents control
+of a real-world, physical system; learning a transition function of the associated environment, at some
+level, demands that the agent internalize the laws of physics and motion with near-perfect accuracy.
+More formally, identifying M⋆ demands the agent obtain exactly H1 (M⋆ ) bits of information
+from the environment which, under an uninformative prior, may either be prohibitively large by
+far exceeding the agent’s capacity constraints or be simply impractical under time and resource
+constraints.
+As a remedy for this problem, we embrace the idea of being “sufficiently satisfying” or satisficing [148,
+140, 138, 139, 15, 16]; as succinctly stated by Herbert A. Simon during his 1978 Nobel Memorial
+Lecture, “decision makers can satisfice either by finding optimum solutions for a simplified world,
+or by finding satisfactory solutions for a more realistic world.” Rather than spend an inordinate
+amount of time trying to recover an optimum solution to the true environment, we will instead
+design an algorithm that pursues optimum solutions for a sequence of simplified environments.
+In the next section, our analysis demonstrates that finding such optimum solutions for simplified
+worlds ultimately acts as a mechanism for achieving a satisfactory solution for the realistic, complex
+world. Naturally, the loss of fidelity between the simplified and true environments translates into a
+fixed amount of regret that an agent designer consciously and willingly accepts for two reasons: (1)
+they expect a reduction in the amount of time, data, and bits of information needed to identify the
+simplified environment and (2) in tasks where the environment encodes irrelevant information and
+
+
+                                                   6
+exact knowledge is not needed to achieve optimal behavior [66, 72, 73, 161], this worst-case error
+term may be negligible anyways while still maintaining greater efficiency than traditional PSRL.
+Recalling Example 1 that revolves around a particular sequence of MDPs, {Mn }n∈[N ] , we note
+that as the distortion threshold D increases, the significance of MDPs in the sequence indexed by
+larger values of n ∈ [N ] rapidly diminishes. As D ↑ ∞, the lossy compression M  fk needn’t convey
+information about any of the MDPs in {Mn }n∈[N ] . Conversely, at D = 0, a VSRL agent must
+necessarily obtain enough information about the entire sequence so as to facilitate planning over Π
+and V. In between, however, the agent need only concern itself with a particular subsequence of
+{Mn }n∈[N ] while the remaining MDPs can be ignored due to their negligible contribution to overall
+value and, therefore, expected distortion under dΠ,V .
+
+5     Regret Analysis
+In this section, we offer an information-theoretic analysis of VSRL (Algorithm 2) before refining our
+regret bounds to the tabular setting. We conclude by highlighting how our performance guarantees can
+be expressed via a notion of agent capacity that is considerate of real-world reinforcement learning.
+
+5.1   An Information-Theoretic Bayesian Regret Bound
+
+To establish a Bayesian regret bound for VSRL we first require a regret decomposition that ac-
+knowledges the agent’s new objective of identifying an approximately value-equivalent MDP in
+              fk , rather than the true MDP M⋆ . Crucially, this regret decomposition leverages the
+each episode, M
+precise form of our distortion function dΠ,V (M⋆ , M
+                                                   fk ).
+Theorem 1. Take any Π ⊇ {S → A}, any V ⊇ {V π | π ∈ ΠH }, and fix any D ≥ 0.
+For each episode k ∈ [K], let M   fk be any MDP that achieves the rate-distortion limit of
+  Π,V
+Rk (D) with information source P(M⋆ ∈ · | Hk ) and distortion function dΠ,V . Then,
+                                                                      √
+                                     K     h               i
+                   (1)        (K)             ⋆       π (k)
+                                       P
+BAYES R EGRET(K, π , . . . , π ) ≤ E          f ,1 − VM
+                                          Ek VM       f ,1     + 2KH D.
+                                                         k        k
+                                            k=1
+
+Theorem 1 shows how the Bayesian regret incurred by VSRL can be separated into an error term
+the agent must pay for learning a simplified MDP M      fk , rather than M⋆ , and the Bayesian regret
+incurred while trying to learn Mk . This first term mirrors the satisficing regret of Russo and Van Roy
+                               f
+[138, 139] for multi-armed bandits where the performance of the agent in the kth episode is being
+measured with respect to a compressed MDP M        fk , rather than the true MDP M⋆ . While further
+discussion on the choices of Π and V is provided later in this section, we simply note that the
+conditions placed upon them in Theorem 1 are an artifact of VSRL only executing optimal policies in
+each time period h ∈ [H] which, under the assumptions of our problem formulation, are deterministic.
+The remainder of this section is devoted to an analysis for establishing an information-theoretic bound
+on the satisficing regret term of Theorem 1. A central tool of our analysis will be the information
+ratio [136, 137] at the kth episode:
+                                       h                   i2
+                                           ⋆         π (k)
+                                   Ek VM   fk ,1 − V M
+                                                     fk ,1
+                             Γk ≜                                 ∀k ∈ [K].
+                                       Ik (Mk ; τk , Mk )
+                                            f
+In words, the information ratio is the ratio between squared expected regret in the kth episode with
+respect to M fk and the information gained about M      fk in the kth episode by sampling MDP Mk
+and observing trajectory τk , given the current history Hk . Numerous prior works have leveraged
+similar or generalized types of information ratios for analyzing multi-armed bandit problems [135–
+139, 54, 99, 169, 36, 15, 98] as well as reinforcement-learning problems [104]; in comparison to the
+latter, we simply note that our analysis bears stronger resemblance to those in multi-armed bandits by
+not constructing confidence sets over MDPs [121, 120, 104], avoiding a restricted focus to tabular
+problems. That said, our results are contingent upon the existence of a uniform upper bound to the
+information ratios across all episodes, a non-trivial result [78] that we leave to future work.
+Through our information-ratio analysis, we obtain the following information-theoretic bound on
+satisficing Bayesian regret:
+
+
+                                                  7
+                                                  K       h                i q
+                                                                      π (k)
+                                                             ⋆
+                                                                              ≤ ΓKRΠ,V
+                                                   P
+Theorem 2. If Γk ≤ Γ, for all k ∈ [K], then E            Ek VM
+                                                             f ,1 − V M
+                                                                      f ,1         1 (D).
+                                                                k           k
+                                                   k=1
+
+An immediate consequence of the preceding theorems is the following corollary which establishes
+our main result, an information-theoretic Bayesian regret bound for VSRL. We omit the proof as it
+follows directly from applying Theorems 1 and 2 in sequence.
+Corollary 1. Take any Π ⊇ {S → A}, any V ⊇ {V π | π ∈ ΠH }, and fix any D > 0. For
+any prior distribution P(M⋆ ∈ · | H1 ),qif Γk ≤ Γ for all k ∈ [K],  then VSRL (Algorithm 2) has
+                      (1)      (K)             Π,V
+                                                               √
+BAYES R EGRET(K, π , . . . , π ) ≤ ΓKR1 (D) + 2KH D.
+
+Once again we recall that, since the rate-distortion function is well-defined for arbitrary source and
+channel output random variables defined on abstract alphabets [43], the Bayesian regret bound of
+Corollary 1 holds for any finite-horizon, episodic MDP, extending beyond past analyses of PSRL
+constrained only to tabular MDPs. We defer a discussion of practical considerations for implementing
+VSRL to the appendix.
+At this point, we call attention to the parameterization of our lossy compression problem by a
+particular policy class Π and value function class V, whose dependence we inherit from the value
+equivalence principle [72]. The next result clarifies how the performance of VSRL is affected by
+fluctuations in these classes via a dominance relationship [150] between the induced distortion
+functions.
+Lemma 1. For any two Π, Π′ and any V, V ′ such that Π′ ⊆ Π ⊆ {S → ∆(A)} and V ′ ⊆ V ⊆
+                                     ′ ′
+{S → R}, we have RkΠ,V (D) ≥ RkΠ ,V (D), ∀k ∈ [K], D > 0.
+Property 3 of Grimm et al. [72] highlights how the set of value-equivalent MDPs grows as the policy
+and value function classes shrink. Lemma 1 provides an intuitive, information-theoretic counterpart
+to their result where, as the sets of policies and value functions over which models will be assessed
+diminish, an agent may naturally compress more aggressively and throw away larger quantities of
+bits from each source distribution over the true MDP M⋆ .
+Since a compressed MDP M     fk that achieves the rate-distortion limit has expected distortion bounded
+by D, one may wonder how the probability of not recovering an approximately-value-equivalent
+MDP scales as D ↑ ∞. To that end, we conclude this section with a final result that brings clarity to
+this via a generalization [60] of Fano’s inequality [64]. We leave investigation of other generalizations
+of Fano’s inequality that might yield similarly interesting results to future work [160, 8].
+Lemma 2. Take any Π ⊆ {S → ∆(A)} and V ⊆ {S → R}. For any D ≥ 0 and any k ∈ [K],
+define δ = sup P(dΠ,V (M⋆ , M     c) ≤ D | Hk ). Then,
+           c∈M
+           M
+                                                                    Π,V
+                   sup                  f > D | Hk ) ≥ 1 − Rk
+                           P(dΠ,V (M⋆ , M)
+                                                                          (D) + log(2)
+                                                                                       .
+                                                                          log 1δ
+                                                                                 
+                M∈Λ
+                f k (D)
+
+
+For any episode k ∈ [K], the left-hand side of the inequality in Lemma 2 denotes the worst-case
+error probability of sampling a compressed MDP M  f that is not approximately-value-equivalent to
+   ⋆
+M . The right-hand side conveys that, in order to avoid such an error with reasonable probability,
+one requires a setting of D < ∞ such that RΠ,V
+                                           k (D) ≈ log δ .
+                                                            1
+
+
+5.2   Specializing to Tabular MDPs
+
+While the preceding subsection constitutes the main contribution of this paper, the presence of
+information-theoretic terms makes it difficult to compare our guarantees to those obtained in prior
+work, which typically focuses on the tabular setting. To help remedy this, we offer the following
+theorem which restricts focus to the case where the agent pursues an exactly value-equivalent model
+of the tabular environment. Notably, the results of this section still retain a dependence on a uniform
+upper bound to the information ratio whose exact form is a result left to future work.
+Theorem 3. Take any Π ⊇ {S → A}, any V ⊇ {V π | π ∈ ΠH }, and let D = 0. For any prior
+distribution P(M⋆ ∈ · | H1 ) over tabular MDPs,if Γk ≤ Γ forall k ∈ [K], then VSRL (Algorithm
+                                                        q
+2) has BAYES R EGRET(K, π (1) , . . . , π (K) ) ≤ O |S| Γ|A|K .
+
+
+                                                   8
+An immediate observation is that the Bayesian regret bound of Theorem 3 matches the dependence
+on the number of states, |S|, obtained in the first (weaker) guarantee established for PSRL by Osband
+et al. [121]; we suspect that this guarantee for VSRL is unimprovable without further distributional
+assumptions [120, 119]. As an alternative, we contemplate how a change in the distortion measure
+used by VSRL might incur an improved regret bound when specialized to the tabular setting.
+Specifically, notice that the only piece of the VSRL analysis tethered to the particular form of
+the distortion function dΠ,V (M, M) c is Theorem 1, while all other components remain agnostic
+to the precise criterion for assessing the loss of fidelity between original and compressed MDPs.
+Consequently, there is potential for a modified distortion function to offer an improved regret analysis
+relative to Theorem 3. Rather than concerning ourselves with planning over multiple behaviors, we
+consider a distortion function based solely on the optimal action-value functions:
+              c = sup ||Q⋆M,h − Q⋆ ||2∞ = sup
+      dQ⋆ (M, M)                                             sup     |Q⋆M,h (s, a) − Q⋆M,h      2
+                                 M,h
+                                 c                                                     c (s, a)| .
+                     h∈[H]                         h∈[H] (s,a)∈S×A
+             ⋆
+We use RQ  k (D) to denote the rate-distortion function under this new measure of distortion,
+dQ (M, M). In order for this new distortion function to be compatible with VSRL, we require an
+  ⋆      c
+analogue to the regret decomposition of Theorem 1.
+Theorem 4. Fix any D ≥ 0 and, for each episode k ∈ [K], let M
+                                                            fk be any MDP that achieves the rate-
+                       ⋆
+distortion limit of RQ
+                     k (D) with information source P(M⋆ ∈ · | Hk ) and distortion function dQ⋆ .
+                                                                                       √
+                                             K      h                i
+                           (1)      (K)                ⋆        π (k)
+                                               P
+Then, BAYES R EGRET(K, π , . . . , π ) ≤ E             f ,1 − VM
+                                                   Ek VM        f ,1     + 2K(H + 1) D.
+                                                                k         k
+                                                   k=1
+
+With this regret decomposition in hand, we may recover the analogue to Corollary 1, whose proof is
+immediate and, therefore, omitted.
+Corollary 2. Fix any D > 0. For any prior distribution P(M⋆ ∈ · | H1 ), if Γk ≤ Γ for all k ∈ [K],
+                                                                                 (1)       (K)
+q VSRL (Algorithm 2) with√distortion function dQ has BAYES R EGRET(K, π , . . . , π ) ≤
+then                                                 ⋆
+
+           ⋆
+  ΓKRQ  1 (D) + 2K(H + 1) D.
+
+As illustrated by the following lemma, the significance of this change in distortion measure from dΠ,V
+to dQ⋆ is that the optimal action-value functions may now act as an information bottleneck [158]
+between the original MDP M⋆ and compressed MDP M         fk .
+Lemma 3. For each episode k ∈ [K] and for D = 0, let M            fk be any MDP that achieves the
+                             ⋆
+rate-distortion limit of RQ                                    ⋆
+                          k (D) with information source P(M ∈ · | Hk ) and distortion function
+dQ⋆ . Then, we have the Markov chain M⋆ → Q⋆M⋆ → M       fk , where Q⋆ ⋆ = {Q⋆ ⋆ }h∈[H] is the
+                                                                      M        M ,h
+collection of random variables denoting the optimal action-value functions of M⋆ .
+
+Lemma 3, through the data-processing inequality, immediately leads us to an analogue of Theorem 3
+that matches the dependence on |S| in the best known Bayesian regret bound for PSRL [120].
+Theorem 5. For D = 0 and any prior distribution P(M⋆ ∈ · | H1 ) over tabular MDPs, if Γk ≤ Γ
+forall k ∈ [K], thenVSRL with distortion function dQ⋆ has BAYES R EGRET(K, π (1) , . . . , π (K) ) ≤
+     q
+Oe      Γ|S||A|KH .
+
+Ultimately, Theorem 5 confirms that while there is great flexibility in the original definition of value
+equivalence to support planning across multiple policies and value functions, focusing on optimal
+value functions gives rise to more efficient learning. Moreover, comparing the result with the PSRL
+regret bound of Osband and Van Roy [120] for tabular MDPs, this suggests an achievable uniform
+upper bound to the information ratio as Γ ≲ H 2 , where the ≲ accounts for numerical constants and
+logarithmic factors.
+
+5.3    Capacity-Sensitive Performance Guarantees
+
+We recognize that the information-theoretic regret bounds of the previous two sections, like many other
+guarantees for provably-efficient reinforcement learning before them, implicitly and unrealistically
+
+
+                                                   9
+assume that an agent is of unbounded capacity and may pursue any approximately-value-equivalent
+model under a given distortion threshold D. In the context of real-world reinforcement learning [62,
+105], however, fundamental limits on computational resources and time leave an agent designer
+with a bounded agent to be deployed within an overwhelmingly complex environment. As such,
+this designer may seldom be in a position to dictate an ideal or desired sub-optimality threshold D,
+but rather must make do with a known constraint on agent capacity; guarantees on sample-efficient
+reinforcement learning cognizant of such a fundamental constraint are nascent.
+While there are numerous possibilities for how one might choose to formally characterize agent
+capacity, we here adopt a fundamental perspective that learning is the process of acquiring information
+and so take this capacity to imply the existence of a non-negative real value R ∈ R>0 such that
+the agent may only acquire and retain exactly R bits of information. To help contextualize this
+notion of agent capacity, we introduce the distortion-rate function [146, 25, 41] which quantifies the
+fundamental limit of expected distortion under an information constraint:
+       ⋆
+                             h              i           ⋆
+                                                                               h               i
+   DQ (R) =
+     k             inf    Ek dQ⋆ (M⋆ , M)f          DQ (R) =
+                                                        k            inf   Ek dQ⋆ (M⋆ , M) f , (2)
+                M∈Υ
+                f  k (R)                                          M∈Υ
+                                                                  f  k (R)
+
+where the infimum is taken over all channels with bounded rate, Υk (R) ≜ {M                  f : Ω → M |
+       ⋆ f
+Ik (M ; M) ≤ R}. In words, given the agent’s current beliefs over the true MDP P(M⋆ ∈ · | Hk ),
+the infimum of the distortion-rate function is taken over all potential lossy compressions of the
+environment that fall within the agent’s capacity constraint of R bits and identifies the one that
+preserves the most useful information, as measured by the distortion function. Conveniently, the
+rate-distortion function and distortion-rate function are inverses of one another [41] (R(D(R)) = R)
+such that we recover the following two capacity-sensitive regret bounds directly from Corollaries 1
+and 2 by simply taking the input distortion threshold of VSRL equal to the associated distortion-rate
+                                                             ⋆
+function in the first episode (D = D1Π,V (R) and D = D1Q (R), respectively).
+Corollary 3. Take any Π ⊇ {S → A}, any V ⊇ {V π | π ∈ ΠH }, and let R > 0 be the agent
+capacity. For any prior distribution P(M⋆ ∈ · | H1 ), if Γk ≤ Γ for all k ∈ [K], then               √ VSRL
+                                                                            (1)             (K)
+(Algorithm
+      q      2) with  distortion function d Π,V has B AYES  R  EGRET  (K, π     , . . . , π     ) ≤  ΓKR +
+2KH      D1Π,V (R).
+Corollary 4. Let R > 0 be the agent capacity. For any prior distribution P(M⋆ ∈ · | H1 ),
+if Γk ≤ Γ for all k ∈ [K], then VSRL (Algorithm 2)qwith distortion function dQ⋆ has
+                                          √                   ⋆
+BAYES R EGRET(K, π (1) , . . . , π (K) ) ≤ ΓKR + 2K(H + 1) D1Q (R).
+
+Turning back to Example 1, note how an agent with significantly limited capacity cannot possibly hope
+to capture all the granularity contained in the entire MDP sequence {Mn }n∈[N ] , for large values of N .
+For a capacity of exactly R bits, Corollaries 3 and 4 immediately translate this fundamental limit into
+a corresponding performance guarantee, allowing the agent to identify a subsequence {Mn }n∈[C]
+for some C ≪ N which only requires gathering R bits of information from the environment.
+
+6   Conclusion
+In this paper, we began with a finite-horizon, episodic MDP and considered the ramifications of
+a real-world reinforcement-learning scenario wherein the relative complexity of the environment
+is so immense that an agent may find itself incapable of perfectly recovering optimal behavior.
+An immediate consequence of this reality is the need to strike an appropriate balance between
+what is performant and what is achievable. We introduced the VSRL algorithm for incrementally
+synthesizing simple and useful approximations of the environment from which an agent might
+still recover near-optimal behaviors. Recognizing the information-theoretic nature of this lossy
+MDP compression, we provided an analysis of VSRL whose performance guarantees, by virtue of
+rate-distortion theory, are twofold. The first set of guarantees ensure VSRL recovers the simplest
+compression of the environment which still incurs bounded sub-optimality, as specified by the agent
+designer. Alternatively, the second set of guarantees maintain that VSRL finds the best compression
+of the environment subject to constraints on agent capacity. Through our general problem formulation
+and information-theoretic analysis, both regret bounds hold for any finite-horizon, episodic MDP,
+regardless of whether or not the state-action space is finite. That said, the question of how to
+practically instantiate VSRL for high-dimensional settings is an open problem left to future work.
+
+
+                                                   10
+Acknowledgements
+The authors gratefully acknowledge Christopher Grimm for initial discussions that provided an
+impetus for this work. The authors also thank Adithya Devraj, Shi Dong, John Duchi, Hong Jun
+Jeon, Saurabh Kumar, and Xiuyuan (Lucy) Lu for insightful comments on various components of the
+paper. Financial support from Army Research Office (ARO) grant W911NF2010055 is gratefully
+acknowledged.
+
+References
+  [1] Romina Abachi, Mohammad Ghavamzadeh, and Amir-massoud Farahmand. Policy-aware
+      model learning for policy gradient methods. arXiv preprint arXiv:2003.00030, 2020. 5
+
+  [2] Yasin Abbasi-Yadkori and Csaba Szepesvari. Bayesian optimal control of smoothly parameter-
+      ized systems: The lazy posterior sampling algorithm. arXiv preprint arXiv:1406.3926, 2014.
+      22
+
+  [3] David Abel. A Theory of Abstraction in Reinforcement Learning. PhD thesis, Brown University,
+      2020. 23
+
+  [4] David Abel, David Hershkowitz, and Michael Littman. Near optimal behavior via approximate
+      state abstraction. In International Conference on Machine Learning, pages 2915–2923. PMLR,
+      2016. 23, 25
+
+  [5] David Abel, Dilip Arumugam, Lucas Lehnert, and Michael Littman. State abstractions for
+      lifelong reinforcement learning. In International Conference on Machine Learning, pages
+      10–19, 2018.
+
+  [6] David Abel, Dilip Arumugam, Kavosh Asadi, Yuu Jinnai, Michael L Littman, and Lawson LS
+      Wong. State abstraction as compression in apprenticeship learning. In Proceedings of the
+      AAAI Conference on Artificial Intelligence, volume 33, pages 3134–3142, 2019. 22, 23, 25
+
+  [7] David Abel, Nate Umbanhowar, Khimya Khetarpal, Dilip Arumugam, Doina Precup, and
+      Michael Littman. Value preserving state-action abstractions. In International Conference on
+      Artificial Intelligence and Statistics, pages 1639–1650. PMLR, 2020. 23
+
+  [8] Shuchin Aeron, Venkatesh Saligrama, and Manqi Zhao. Information theoretic bounds for
+      compressed sensing. IEEE Transactions on Information Theory, 56(10):5111–5130, 2010. 8
+
+  [9] Alekh Agarwal, Sham Kakade, Akshay Krishnamurthy, and Wen Sun. FLAMBE: Structural
+      complexity and representation learning of low rank MDPs. In H. Larochelle, M. Ranzato,
+      R. Hadsell, M. F. Balcan, and H. Lin, editors, Advances in Neural Information Processing
+      Systems, volume 33, pages 20095–20107. Curran Associates, Inc., 2020. 23
+
+ [10] Shipra Agrawal and Randy Jia. Optimistic posterior sampling for reinforcement learning:
+      worst-case regret bounds. In Advances in Neural Information Processing Systems, pages
+      1184–1194, 2017. 1, 22
+
+ [11] Alexander Alemi, Ben Poole, Ian Fischer, Joshua Dillon, Rif A Saurous, and Kevin Murphy.
+      Fixing a broken ELBO. In International Conference on Machine Learning, pages 159–168.
+      PMLR, 2018. 25
+
+ [12] Mauricio Araya-López, Vincent Thomas, and Olivier Buffet. Near-optimal BRL using op-
+      timistic local transitions. In Proceedings of the 29th International Conference on Machine
+      Learning, pages 515–522, 2012. 22
+
+ [13] Suguru Arimoto. An algorithm for computing the capacity of arbitrary discrete memoryless
+      channels. IEEE Transactions on Information Theory, 18(1):14–20, 1972. 25
+
+ [14] Dilip Arumugam and Benjamin Van Roy. Randomized value functions via posterior state-
+      abstraction sampling. arXiv preprint arXiv:2010.02383, 2020. 23
+
+
+                                               11
+[15] Dilip Arumugam and Benjamin Van Roy. Deciding what to learn: A rate-distortion approach.
+     In International Conference on Machine Learning, pages 373–382. PMLR, 2021. 2, 5, 6, 7,
+     22, 25, 29
+[16] Dilip Arumugam and Benjamin Van Roy. The value of information when deciding what to
+     learn. Advances in Neural Information Processing Systems, 34, 2021. 2, 6, 22, 25
+[17] Kavosh Asadi, Dipendra Misra, and Michael Littman. Lipschitz continuity in model-based
+     reinforcement learning. In International Conference on Machine Learning, pages 264–273.
+     PMLR, 2018. 5
+[18] John Asmuth, Lihong Li, Michael L Littman, Ali Nouri, and David Wingate. A Bayesian
+     sampling approach to exploration in reinforcement learning. In Proceedings of the Twenty-Fifth
+     Conference on Uncertainty in Artificial Intelligence, pages 19–26, 2009. 22
+
+[19] Karl Johan Åström. Optimal control of Markov processes with incomplete state information.
+     Journal of Mathematical Analysis and Applications, 10(1):174–205, 1965. 23
+[20] Peter Auer, Thomas Jaksch, and Ronald Ortner. Near-optimal regret bounds for reinforcement
+     learning. In Advances in Neural Information Processing Systems, pages 89–96, 2009. 1, 22
+[21] Alex Ayoub, Zeyu Jia, Csaba Szepesvari, Mengdi Wang, and Lin Yang. Model-based rein-
+     forcement learning with value-targeted regression. In International Conference on Machine
+     Learning, pages 463–474. PMLR, 2020. 5
+[22] Mohammad Gheshlaghi Azar, Ian Osband, and Rémi Munos. Minimax regret bounds for
+     reinforcement learning. In International Conference on Machine Learning, pages 263–272.
+     PMLR, 2017. 1, 22
+[23] Peter L Bartlett and Ambuj Tewari. REGAL: a regularization based algorithm for reinforcement
+     learning in weakly communicating MDPs. In Proceedings of the Twenty-Fifth Conference on
+     Uncertainty in Artificial Intelligence, pages 35–42, 2009. 1, 22
+[24] Richard Bellman. A Markovian decision process. Journal of Mathematics and Mechanics,
+     pages 679–684, 1957. 3
+[25] Toby Berger. Rate Distortion Theory: A Mathematical Basis for Data Compression. Prentice-
+     Hall, 1971. 2, 4, 10
+[26] Toby Berger and Jerry D Gibson. Lossy source coding. IEEE Transactions on Information
+     Theory, 44(6):2693–2723, 1998. 4
+[27] Donald A. Berry, Robert W. Chen, Alan Zame, David C. Heath, and Larry A. Shepp. Bandit
+     problems with infinitely many arms. Ann. Statist., 25(5):2103–2116, 10 1997. 22
+[28] Dimitri Bertsekas and Steven E Shreve. Stochastic optimal control: the discrete-time case,
+     volume 5. Athena Scientific, 1996. 4
+[29] Dimitri P. Bertsekas. Dynamic Programming and Optimal Control. Athena Scientific, 1995. 5
+[30] Dimitri P. Bertsekas and David A. Castañon. Adaptive aggregation methods for infinite horizon
+     dynamic programming. IEEE Transactions on Automatic Control, 34(6):589–598, 1989. 23
+[31] Richard Blahut. Computation of channel capacity and rate-distortion functions. IEEE Trans-
+     actions on Information Theory, 18(4):460–473, 1972. 25
+[32] Thomas Bonald and Alexandre Proutiere. Two-target algorithms for infinite-armed bandits with
+     Bernoulli rewards. In Advances in Neural Information Processing Systems, pages 2184–2192,
+     2013. 22
+[33] Vivek S Borkar, Sanjoy Mitter, and Sekhar Tatikonda. Markov control problems under
+     communication contraints. Communications in Information and Systems, 1(1):15–32, 2001.
+     22
+
+
+                                               12
+[34] Pinhas Boukris. An upper bound on the speed of convergence of the Blahut algorithm for
+     computing rate-distortion functions (corresp.). IEEE Transactions on Information Theory, 19
+     (5):708–709, 1973. 25
+[35] Ronen I Brafman and Moshe Tennenholtz. R-MAX-a general polynomial time algorithm for
+     near-optimal reinforcement learning. Journal of Machine Learning Research, 3(Oct):213–231,
+     2002. 1, 22
+[36] Sébastien Bubeck and Mark Sellke. First-order Bayesian regret analysis of Thompson sampling.
+     In Algorithmic Learning Theory, pages 196–233. PMLR, 2020. 7
+[37] Sébastien Bubeck, Rémi Munos, Gilles Stoltz, and Csaba Szepesvári. X-armed bandits.
+     Journal of Machine Learning Research, 12(5), 2011. 22
+[38] Sébastien Bubeck, Nicolò Cesa-Bianchi, et al. Regret analysis of stochastic and nonstochastic
+     multi-armed bandit problems. Foundations and Trends® in Machine Learning, 5(1):1–122,
+     2012. 2, 22
+[39] Pablo Samuel Castro and Doina Precup. Using linear programming for Bayesian exploration
+     in Markov decision processes. In IJCAI, volume 24372442, 2007. 22
+[40] Mung Chiang and Stephen Boyd. Geometric programming duals of channel capacity and rate
+     distortion. IEEE Transactions on Information Theory, 50(2):245–258, 2004. 25
+[41] Thomas M Cover and Joy A Thomas. Elements of Information Theory. John Wiley & Sons,
+     2012. 3, 4, 10, 30, 33, 35
+[42] Imre Csiszár. On the computation of rate-distortion functions (corresp.). IEEE Transactions
+     on Information Theory, 20(1):122–124, 1974. 25
+[43] Imre Csiszár. On an extremum problem of information theory. Studia Scientiarum Mathemati-
+     carum Hungarica, 9, 1974. 5, 8, 25
+[44] Brandon Cui, Yinlam Chow, and Mohammad Ghavamzadeh. Control-aware representations for
+     model-based reinforcement learning. In International Conference on Learning Representations,
+     2020. 5
+[45] Christoph Dann and Emma Brunskill. Sample complexity of episodic fixed-horizon reinforce-
+     ment learning. In Proceedings of the 28th International Conference on Neural Information
+     Processing Systems-Volume 2, pages 2818–2826, 2015. 1, 22
+[46] Christoph Dann, Tor Lattimore, and Emma Brunskill. Unifying PAC and regret: uniform
+     PAC bounds for episodic reinforcement learning. In Proceedings of the 31st International
+     Conference on Neural Information Processing Systems, pages 5717–5727, 2017. 1, 22
+[47] Christoph Dann, Nan Jiang, Akshay Krishnamurthy, Alekh Agarwal, John Langford, and
+     Robert E Schapire. On oracle-efficient PAC RL with rich observations. In Proceedings of the
+     32nd International Conference on Neural Information Processing Systems, pages 1429–1439,
+     2018. 22
+[48] Justin Dauwels. Numerical computation of the capacity of continuous memoryless channels. In
+     Proceedings of the 26th Symposium on Information Theory in the BENELUX, pages 221–228.
+     Citeseer, 2005. 25
+[49] Peter Dayan. Improving generalization for temporal difference learning: The successor
+     representation. Neural computation, 5(4):613–624, 1993. 26
+[50] Thomas Dean and Robert Givan. Model minimization in Markov decision processes. In
+     Proceedings of the AAAI Conference on Artificial Intelligence, pages 106–111. AAAI Press,
+     1997. 23
+[51] Richard Dearden, Nir Friedman, and Stuart Russell. Bayesian Q-learning. In Proceedings of
+     the Fifteenth National/Tenth Conference on Artificial Intelligence/Innovative Applications of
+     Artificial Intelligence, pages 761–768, 1998. 22
+
+
+                                               13
+[52] Richard Dearden, Nir Friedman, and David Andre. Model based Bayesian exploration. In
+     Proceedings of the Fifteenth Conference on Uncertainty in Artificial Intelligence, pages 150–
+     159, 1999. 22
+
+[53] Yash Deshpande and Andrea Montanari. Linear bandits in high dimension and recommen-
+     dation systems. In 2012 50th Annual Allerton Conference on Communication, Control, and
+     Computing (Allerton), pages 1750–1754. IEEE, 2012. 22
+
+[54] Shi Dong and Benjamin Van Roy. An information-theoretic analysis for Thompson sampling
+     with many actions. In Advances in Neural Information Processing Systems, pages 4157–4165,
+     2018. 7, 22
+
+[55] Shi Dong, Benjamin Van Roy, and Zhengyuan Zhou. Provably efficient reinforcement learning
+     with aggregated states. arXiv preprint arXiv:1912.06366, 2019. 23
+
+[56] Shi Dong, Benjamin Van Roy, and Zhengyuan Zhou. Simple agent, complex environment:
+     Efficient reinforcement learning with agent state. arXiv preprint arXiv:2102.05261, 2021. 1,
+     22, 23
+
+[57] Pierluca D’Oro, Alberto Maria Metelli, Andrea Tirinzoni, Matteo Papini, and Marcello Restelli.
+     Gradient-aware model-based policy search. In Proceedings of the AAAI Conference on
+     Artificial Intelligence, volume 34, pages 3801–3808, 2020. 5
+
+[58] Simon Du, Akshay Krishnamurthy, Nan Jiang, Alekh Agarwal, Miroslav Dudik, and John
+     Langford. Provably efficient RL with rich observations via latent state decoding. In Interna-
+     tional Conference on Machine Learning, pages 1665–1674. PMLR, 2019. 22, 23
+
+[59] John C. Duchi. Lecture Notes for Statistics 311/Electrical Engineering 377, Stanford University.
+     2021. 3, 33, 36
+
+[60] John C. Duchi and Martin J. Wainwright. Distance-based and continuum Fano inequalities
+     with applications to statistical estimation. arXiv preprint arXiv:1311.2669, 2013. 8, 33
+
+[61] Michael O’Gordon Duff. Optimal Learning: Computational procedures for Bayes-adaptive
+     Markov decision processes. University of Massachusetts Amherst, 2002. 22
+
+[62] Gabriel Dulac-Arnold, Nir Levine, Daniel J Mankowitz, Jerry Li, Cosmin Paduraru, Sven
+     Gowal, and Todd Hester. Challenges of real-world reinforcement learning: definitions, bench-
+     marks and analysis. Machine Learning, pages 1–50, 2021. 10
+
+[63] Vikranth Dwaracherla, Xiuyuan Lu, Morteza Ibrahimi, Ian Osband, Zheng Wen, and Ben-
+     jamin Van Roy. Hypermodels for exploration. In International Conference on Learning
+     Representations, 2020. 2, 25
+
+[64] Robert M. Fano. Class Notes for MIT Course 6.574: Transmission of Information, MIT,
+     Cambridge, MA. 1952. 8, 33
+
+[65] Amir-massoud Farahmand. Iterative value-aware model learning. In Proceedings of the 32nd
+     International Conference on Neural Information Processing Systems, pages 9090–9101, 2018.
+     5
+
+[66] Amir-massoud Farahmand, Andre Barreto, and Daniel Nikovski. Value-aware loss function for
+     model-based reinforcement learning. In Artificial Intelligence and Statistics, pages 1486–1494.
+     PMLR, 2017. 5, 7
+
+[67] Norm Ferns, Prakash Panangaden, and Doina Precup. Metrics for finite Markov Decision
+     Processes. In Proceedings of the 20th Conference on Uncertainty in Artificial Intelligence,
+     pages 162–169, 2004. 23
+
+[68] Norman Ferns, Pablo Samuel Castro, Doina Precup, and Prakash Panangaden. Methods for
+     computing state similarity in Markov Decision Processes. arXiv preprint arXiv:1206.6836,
+     2012. 23
+
+
+                                                14
+[69] Sebastian Flennerhag, Jane X Wang, Pablo Sprechmann, Francesco Visin, Alexandre Galashov,
+     Steven Kapturowski, Diana L Borsa, Nicolas Heess, Andre Barreto, and Razvan Pascanu.
+     Temporal difference uncertainties as a signal for exploration. arXiv preprint arXiv:2010.02255,
+     2020. 26
+[70] Mohammad Ghavamzadeh, Shie Mannor, Joelle Pineau, and Aviv Tamar. Bayesian reinforce-
+     ment learning: A survey. Foundations and Trends® in Machine Learning, 8(5-6):359–483,
+     2015. 3, 22
+[71] Robert M. Gray. Entropy and information theory. Springer Science & Business Media, 2011.
+     3
+[72] Christopher Grimm, Andre Barreto, Satinder Singh, and David Silver. The value equivalence
+     principle for model-based reinforcement learning. Advances in Neural Information Processing
+     Systems, 33, 2020. 5, 6, 7, 8
+[73] Christopher Grimm, André Barreto, Greg Farquhar, David Silver, and Satinder Singh. Proper
+     value equivalence. Advances in Neural Information Processing Systems, 34, 2021. 5, 7, 23
+[74] Arthur Guez, David Silver, and Peter Dayan. Efficient Bayes-adaptive reinforcement learning
+     using sample-based search. In Proceedings of the 25th International Conference on Neural
+     Information Processing Systems-Volume 1, pages 1025–1033, 2012. 22
+[75] Arthur Guez, David Silver, and Peter Dayan. Scalable and efficient Bayes-adaptive reinforce-
+     ment learning based on Monte-Carlo tree search. Journal of Artificial Intelligence Research,
+     48:841–883, 2013.
+[76] Arthur Guez, Nicolas Heess, David Silver, and Peter Dayan. Bayes-adaptive simulation-based
+     search with value function approximation. In Advances in Neural Information Processing
+     Systems, pages 451–459, 2014. 22
+[77] Assaf Hallak, Dotan Di Castro, and Shie Mannor. Contextual Markov decision processes.
+     arXiv preprint arXiv:1502.02259, 2015. 25
+[78] Botao Hao and Tor Lattimore. Regret bounds for information-directed reinforcement learning.
+     arXiv preprint arXiv:2206.04640, 2022. 7
+[79] Matthew T Harrison and Ioannis Kontoyiannis. Estimation of the rate–distortion function.
+     IEEE Transactions on Information Theory, 54(8):3757–3762, 2008. 25
+[80] Cassius T. Ionescu-Tulcea. Mesures dans les espaces produits. Atti Acad. Naz. Lincei Rend. Cl
+     Sci. Fis. Mat. Nat, 8(7), 1949. 4
+[81] Thomas Jaksch, Ronald Ortner, and Peter Auer. Near-optimal regret bounds for reinforcement
+     learning. Journal of Machine Learning Research, 11(4), 2010. 1, 22
+[82] David Janz, Jiri Hron, Przemysław Mazur, Katja Hofmann, José Miguel Hernández-Lobato,
+     and Sebastian Tschiatschek. Successor uncertainties: exploration and uncertainty in temporal
+     difference learning. Advances in Neural Information Processing Systems, 32, 2019. 26
+[83] Nan Jiang, Alex Kulesza, and Satinder Singh. Abstraction selection in model-based rein-
+     forcement learning. In International Conference on Machine Learning, pages 179–188, 2015.
+     23
+[84] Nan Jiang, Akshay Krishnamurthy, Alekh Agarwal, John Langford, and Robert E Schapire.
+     Contextual decision processes with low Bellman rank are PAC-learnable. In International
+     Conference on Machine Learning, pages 1704–1713. PMLR, 2017. 22
+[85] Chi Jin, Zeyuan Allen-Zhu, Sebastien Bubeck, and Michael I Jordan. Is Q-learning provably
+     efficient? In Proceedings of the 32nd International Conference on Neural Information
+     Processing Systems, pages 4868–4878, 2018. 1, 22
+[86] Nicholas K Jong and Peter Stone. State abstraction discovery from irrelevant state variables.
+     In Proceedings of the 19th International Joint Conference on Artificial Intelligence, pages
+     752–757, 2005. 23
+
+
+                                               15
+ [87] Leslie Pack Kaelbling, Michael L Littman, and Andrew W Moore. Reinforcement learning: A
+      survey. Journal of Artificial Intelligence Research, 4:237–285, 1996. 1
+ [88] Leslie Pack Kaelbling, Michael L Littman, and Anthony R Cassandra. Planning and acting in
+      partially observable stochastic domains. Artificial intelligence, 101(1-2):99–134, 1998. 23
+ [89] Sham Kakade and John Langford. Approximately optimal approximate reinforcement learning.
+      In Proceedings of the Nineteenth International Conference on Machine Learning, pages
+      267–274, 2002. 37
+ [90] Sham Machandranath Kakade. On the Sample Complexity of Reinforcement Learning. PhD
+      thesis, Gatsby Computational Neuroscience Unit, University College London, 2003. 1, 22
+ [91] Michael Kearns and Satinder Singh. Near-optimal reinforcement learning in polynomial time.
+      Machine Learning, 49(2-3):209–232, 2002. 1, 22
+ [92] Robert Kleinberg, Aleksandrs Slivkins, and Eli Upfal. Multi-armed bandits in metric spaces.
+      In Proceedings of the 40th Annual ACM Symposium on Theory of Computing, pages 681–690,
+      2008. 22
+ [93] Andrei Nikolaevich Kolmogorov and Vladimir Mikhailovich Tikhomirov. ε-entropy and
+      ε-capacity of sets in function spaces. Uspekhi Matematicheskikh Nauk, 14(2):3–86, 1959. 35
+ [94] J Zico Kolter and Andrew Y Ng. Near-Bayesian exploration in polynomial time. In Proceedings
+      of the 26th Annual International Conference on machine Learning, pages 513–520, 2009. 22
+ [95] Victoria Kostina and Babak Hassibi. Rate-cost tradeoffs in control. IEEE Transactions on
+      Automatic Control, 64(11):4525–4540, 2019. 22
+ [96] Akshay Krishnamurthy, Alekh Agarwal, and John Langford. PAC reinforcement learning with
+      rich observations. In Proceedings of the 30th International Conference on Neural Information
+      Processing Systems, pages 1848–1856, 2016. 22
+ [97] Tze Leung Lai and Herbert Robbins. Asymptotically efficient adaptive allocation rules.
+      Advances in applied mathematics, 6(1):4–22, 1985. 2
+ [98] Tor Lattimore and Andras Gyorgy. Mirror descent and the information ratio. In Conference on
+      Learning Theory, pages 2965–2992. PMLR, 2021. 7
+ [99] Tor Lattimore and Csaba Szepesvári. An information-theoretic approach to minimax regret in
+      partial monitoring. In Conference on Learning Theory, pages 2111–2139. PMLR, 2019. 7
+[100] Tor Lattimore and Csaba Szepesvári. Bandit algorithms. Cambridge University Press, 2020.
+      2, 4, 22
+[101] Lihong Li, Thomas J Walsh, and Michael L Littman. Towards a unified theory of state
+      abstraction for MDPs. ISAIM, 4:5, 2006. 23, 25
+[102] Evan Z Liu, Aditi Raghunathan, Percy Liang, and Chelsea Finn. Decoupling exploration and
+      exploitation for meta-reinforcement learning without sacrifices. In International conference
+      on machine learning, pages 6925–6935. PMLR, 2021. 25
+[103] Xiuyuan Lu and Benjamin Van Roy. Ensemble sampling. In Proceedings of the 31st In-
+      ternational Conference on Neural Information Processing Systems, pages 3260–3268, 2017.
+      25
+[104] Xiuyuan Lu and Benjamin Van Roy. Information-theoretic confidence bounds for reinforce-
+      ment learning. Advances in Neural Information Processing Systems, 32:2461–2470, 2019.
+      7
+[105] Xiuyuan Lu, Benjamin Van Roy, Vikranth Dwaracherla, Morteza Ibrahimi, Ian Osband, and
+      Zheng Wen. Reinforcement Learning, Bit by Bit. arXiv preprint arXiv:2103.04047, 2021. 1,
+      2, 10, 22, 23
+
+
+                                               16
+[106] Gerald Matz and Pierre Duhamel. Information geometric formulation and interpretation of
+      accelerated Blahut-Arimoto-type algorithms. In Information theory workshop, pages 66–70.
+      IEEE, 2004. 25
+[107] Dipendra Misra, Mikael Henaff, Akshay Krishnamurthy, and John Langford. Kinematic state
+      abstraction and provably efficient rich-observation reinforcement learning. In International
+      Conference on Machine Learning, pages 6961–6971. PMLR, 2020. 23
+[108] Sanjoy Mitter and Anant Sahai. Information and control: Witsenhausen revisited. In Learning,
+      Control and Hybrid Systems, pages 281–293. Springer, 1999. 22
+[109] Sanjoy K Mitter. Control with limited information. European Journal of Control, 7(2-3):
+      122–131, 2001. 22
+[110] Suraj Nair, Silvio Savarese, and Chelsea Finn. Goal-aware prediction: Learning to model what
+      matters. In International Conference on Machine Learning, pages 7207–7219. PMLR, 2020. 5
+[111] Ziad Naja, Florence Alberge, and Pierre Duhamel. Geometrical interpretation and improve-
+      ments of the Blahut-Arimoto’s algorithm. In 2009 IEEE International Conference on Acoustics,
+      Speech and Signal Processing, pages 2505–2508. IEEE, 2009. 25
+[112] Urs Niesen, Devavrat Shah, and Gregory Wornell. Adaptive alternating minimization algo-
+      rithms. In 2007 IEEE International Symposium on Information Theory, pages 1641–1645.
+      IEEE, 2007. 25
+[113] Evgenii Nikishin, Romina Abachi, Rishabh Agarwal, and Pierre-Luc Bacon. Control-oriented
+      model-based reinforcement learning with implicit differentiation. In Proceedings of the AAAI
+      Conference on Artificial Intelligence, 2022. 5
+[114] Brendan O’Donoghue, Ian Osband, Remi Munos, and Volodymyr Mnih. The uncertainty
+      Bellman equation and exploration. In International Conference on Machine Learning, pages
+      3836–3845, 2018. 2, 26
+[115] Brendan O’Donoghue, Ian Osband, and Catalin Ionescu. Making sense of reinforcement
+      learning and probabilistic inference. In International Conference on Learning Representations,
+      2020. 25
+[116] Junhyuk Oh, Satinder Singh, and Honglak Lee. Value prediction network. In Proceedings of the
+      31st International Conference on Neural Information Processing Systems, pages 6120–6130,
+      2017. 5, 23
+[117] Ian Osband. Deep Exploration via Randomized Value Functions. PhD thesis, Stanford
+      University, 2016. 26
+[118] Ian Osband and Benjamin Van Roy. Model-based reinforcement learning and the Eluder
+      dimension. Advances in Neural Information Processing Systems, 27, 2014. 22
+[119] Ian Osband and Benjamin Van Roy. Gaussian-Dirichlet posterior dominance in sequential
+      learning. arXiv preprint arXiv:1702.04126, 2017. 9
+[120] Ian Osband and Benjamin Van Roy. Why is posterior sampling better than optimism for
+      reinforcement learning? In International Conference on Machine Learning, pages 2701–2710.
+      PMLR, 2017. 1, 2, 6, 7, 9, 22, 38
+[121] Ian Osband, Daniel Russo, and Benjamin Van Roy. (More) efficient reinforcement learning
+      via posterior sampling. Advances in Neural Information Processing Systems, 26:3003–3011,
+      2013. 1, 2, 7, 9, 22, 26, 38
+[122] Ian Osband, Charles Blundell, Alexander Pritzel, and Benjamin Van Roy. Deep exploration via
+      Bootstrapped DQN. In Advances in Neural Information Processing Systems, pages 4026–4034,
+      2016. 25, 26
+[123] Ian Osband, Benjamin Van Roy, and Zheng Wen. Generalization and exploration via random-
+      ized value functions. In International Conference on Machine Learning, pages 2377–2386,
+      2016. 2
+
+
+                                                17
+[124] Ian Osband, John Aslanides, and Albin Cassirer. Randomized prior functions for deep
+      reinforcement learning. Advances in Neural Information Processing Systems, 31, 2018. 25, 26
+[125] Ian Osband, Benjamin Van Roy, Daniel J Russo, and Zheng Wen. Deep exploration via
+      randomized value functions. Journal of Machine Learning Research, 20(124):1–62, 2019. 2,
+      26
+[126] Ian Osband, Zheng Wen, Mohammad Asghari, Morteza Ibrahimi, Xiyuan Lu, and Benjamin
+      Van Roy. Epistemic neural networks. arXiv preprint arXiv:2107.08924, 2021. 25, 26
+[127] Ian Osband, Zheng Wen, Seyed Mohammad Asghari, Vikranth Dwaracherla, Botao Hao,
+      Morteza Ibrahimi, Dieterich Lawson, Xiuyuan Lu, Brendan O’Donoghue, and Benjamin
+      Van Roy. Evaluating predictive distributions: Does Bayesian deep learning work? arXiv
+      preprint arXiv:2110.04629, 2021. 25
+[128] Hari Palaiyanur and Anant Sahai. On the uniform continuity of the rate-distortion function. In
+      2008 IEEE International Symposium on Information Theory, pages 857–861. IEEE, 2008. 25
+[129] Yury Polyanskiy and Yihong Wu. Lecture notes on information theory. 2019. 3
+[130] Martin L. Puterman. Markov Decision Processes—Discrete Stochastic Dynamic Programming.
+      John Wiley & Sons, Inc., New York, NY, 1994. 3
+[131] Kate Rakelly, Aurick Zhou, Chelsea Finn, Sergey Levine, and Deirdre Quillen. Efficient
+      off-policy meta-reinforcement learning via probabilistic context variables. In International
+      conference on machine learning, pages 5331–5340. PMLR, 2019. 25
+[132] Kenneth Rose. A mapping approach to rate-distortion computation and analysis. IEEE
+      Transactions on Information Theory, 40(6):1939–1952, 1994. 25
+[133] Jonathan Rubin, Ohad Shamir, and Naftali Tishby. Trading value and information in MDPs.
+      In Decision Making with Imperfect Decision Makers, pages 57–74. Springer, 2012. 22
+[134] Paat Rusmevichientong and John N Tsitsiklis. Linearly parameterized bandits. Mathematics
+      of Operations Research, 35(2):395–411, 2010. 22
+[135] Daniel Russo and Benjamin Van Roy. Learning to optimize via information-directed sampling.
+      Advances in Neural Information Processing Systems, 27:1583–1591, 2014. 7, 22, 38
+[136] Daniel Russo and Benjamin Van Roy. An information-theoretic analysis of Thompson sam-
+      pling. The Journal of Machine Learning Research, 17(1):2442–2471, 2016. 7
+[137] Daniel Russo and Benjamin Van Roy. Learning to optimize via information-directed sampling.
+      Operations Research, 66(1):230–252, 2018. 7, 22
+[138] Daniel Russo and Benjamin Van Roy. Satisficing in time-sensitive bandit learning. arXiv
+      preprint arXiv:1803.02855, 2018. 2, 5, 6, 7, 22
+[139] Daniel Russo and Benjamin Van Roy. Satisficing in time-sensitive bandit learning. Mathematics
+      of Operations Research, 2022. 2, 5, 6, 7, 22
+[140] Daniel Russo, David Tse, and Benjamin Van Roy. Time-sensitive bandit learning and satisficing
+      Thompson sampling. arXiv preprint arXiv:1704.09028, 2017. 2, 6, 22
+[141] Daniel J Russo, Benjamin Van Roy, Abbas Kazerouni, Ian Osband, and Zheng Wen. A tutorial
+      on Thompson sampling. Foundations and Trends® in Machine Learning, 11(1):1–96, 2018. 1,
+      22
+[142] Ilya O Ryzhov, Warren B Powell, and Peter I Frazier. The knowledge gradient algorithm for a
+      general class of online learning problems. Operations Research, 60(1):180–195, 2012. 22
+[143] Jossy Sayir. Iterating the Arimoto-Blahut algorithm for faster convergence. In 2000 IEEE
+      International Symposium on Information Theory (Cat. No. 00CH37060), page 235. IEEE,
+      2000. 25
+
+
+                                                18
+[144] Julian Schrittwieser, Ioannis Antonoglou, Thomas Hubert, Karen Simonyan, Laurent Sifre,
+      Simon Schmitt, Arthur Guez, Edward Lockhart, Demis Hassabis, Thore Graepel, et al. Master-
+      ing Atari, Go, Chess and Shogi by planning with a learned model. Nature, 588(7839):604–609,
+      2020. 5, 23, 25
+[145] Ehsan Shafieepoorfard, Maxim Raginsky, and Sean P Meyn. Rationally inattentive control of
+      Markov processes. SIAM Journal on Control and Optimization, 54(2):987–1016, 2016. 22, 25
+[146] Claude E. Shannon. Coding theorems for a discrete source with a fidelity criterion. IRE Nat.
+      Conv. Rec., March 1959, 4:142–163, 1959. 2, 4, 10, 22
+[147] David Silver, Hado Hasselt, Matteo Hessel, Tom Schaul, Arthur Guez, Tim Harley, Gabriel
+      Dulac-Arnold, David Reichert, Neil Rabinowitz, Andre Barreto, et al. The Predictron: End-
+      to-end learning and planning. In International Conference on Machine Learning, pages
+      3191–3199. PMLR, 2017. 5, 23
+[148] Herbert A. Simon. Models of bounded rationality. Economic Analysis and Public Policy, MIT
+      Press, Cambridge, Mass, 1982. 6
+[149] Jonathan Sorg, Satinder Singh, and Richard L Lewis. Variance-based rewards for approxi-
+      mate Bayesian reinforcement learning. In Proceedings of the Twenty-Sixth Conference on
+      Uncertainty in Artificial Intelligence, pages 564–571, 2010. 22
+[150] Jan-Erik Stjernvall. Dominance–a relation between distortion measures. IEEE Transactions
+      on Information Theory, 29(6):798–807, 1983. 8, 32, 33
+[151] Alexander L Strehl, Lihong Li, and Michael L Littman. Reinforcement learning in finite
+      MDPs: PAC analysis. Journal of Machine Learning Research, 10(Nov):2413–2444, 2009. 1,
+      22
+[152] Malcolm JA Strens. A Bayesian framework for reinforcement learning. In Proceedings of the
+      Seventeenth International Conference on Machine Learning, pages 943–950, 2000. 2, 6, 22
+[153] Wen Sun, Nan Jiang, Akshay Krishnamurthy, Alekh Agarwal, and John Langford. Model-
+      based RL in contextual decision processes: PAC bounds and exponential improvements over
+      model-free approaches. In Conference on Learning Theory, pages 2898–2933. PMLR, 2019.
+      22
+[154] Richard S Sutton and Andrew G Barto. Introduction to reinforcement learning. 1998. 1
+[155] Sekhar Tatikonda and Sanjoy Mitter. Control under communication constraints. IEEE Trans-
+      actions on Automatic Control, 49(7):1056–1068, 2004. 22
+[156] William R Thompson. On the likelihood that one unknown probability exceeds another in
+      view of the evidence of two samples. Biometrika, 25(3/4):285–294, 1933. 1, 22
+[157] Naftali Tishby and Daniel Polani. Information theory of decisions and actions. In Perception-
+      action cycle, pages 601–636. Springer, 2011. 22
+[158] Naftali Tishby, Fernando C Pereira, and William Bialek. The information bottleneck method.
+      arXiv preprint physics/0004057, 2000. 9, 25
+[159] Benjamin Van Roy. Performance loss bounds for approximate value iteration with state
+      aggregation. Mathematics of Operations Research, 31(2):234–244, 2006. 23, 25
+[160] Sergio Verdú et al. Generalizing the Fano inequality. IEEE Transactions on Information
+      Theory, 40(4):1247–1251, 1994. 8
+[161] Claas A Voelcker, Victor Liao, Animesh Garg, and Amir-massoud Farahmand. Value gradient
+      weighted model-based reinforcement learning. In International Conference on Learning
+      Representations, 2022. 5, 7
+[162] Pascal O Vontobel, Aleksandar Kavcic, Dieter M Arnold, and Hans-Andrea Loeliger. A
+      generalization of the Blahut–Arimoto algorithm to finite-state channels. IEEE Transactions on
+      Information Theory, 54(5):1887–1918, 2008. 25
+
+
+                                                19
+[163] Tao Wang, Daniel Lizotte, Michael Bowling, and Dale Schuurmans. Bayesian sparse sampling
+      for on-line reward optimization. In Proceedings of the 22nd International Conference on
+      Machine Learning, pages 956–963, 2005. 22
+[164] Yizao Wang, Jean-Yves Audibert, and Rémi Munos. Algorithms for infinitely many-armed
+      bandits. In Proceedings of the 21st International Conference on Neural Information Processing
+      Systems, pages 1729–1736, 2008. 22
+[165] Ward Whitt. Approximations of dynamic programs, I. Mathematics of Operations Research, 3
+      (3):231–243, 1978. 23
+[166] Hans S Witsenhausen. Separation of estimation and control for discrete time systems. Pro-
+      ceedings of the IEEE, 59(11):1557–1566, 1971. 22
+[167] Yaming Yu. Squeezing the Arimoto–Blahut algorithm for faster convergence. IEEE Transac-
+      tions on Information Theory, 56(7):3149–3157, 2010. 25
+[168] Andrea Zanette and Emma Brunskill. Tighter problem-dependent regret bounds in reinforce-
+      ment learning without domain knowledge using value function bounds. In International
+      Conference on Machine Learning, pages 7304–7312. PMLR, 2019. 1, 22
+[169] Julian Zimmert and Tor Lattimore. Connections between mirror descent, Thompson sampling
+      and the information ratio. In Advances in Neural Information Processing Systems, pages
+      11973–11982, 2019. 7
+[170] Luisa Zintgraf, Kyriacos Shiarlis, Maximilian Igl, Sebastian Schulze, Yarin Gal, Katja Hof-
+      mann, and Shimon Whiteson. VariBAD: A Very Good Method for Bayes-Adaptive Deep RL
+      via Meta-Learning. In International Conference on Learning Representations, 2019. 25
+
+
+Checklist
+     1. For all authors...
+         (a) Do the main claims made in the abstract and introduction accurately reflect the paper’s
+             contributions and scope? [Yes]
+         (b) Did you describe the limitations of your work? [Yes]
+         (c) Did you discuss any potential negative societal impacts of your work? [N/A]
+         (d) Have you read the ethics review guidelines and ensured that your paper conforms to
+             them? [Yes]
+     2. If you are including theoretical results...
+         (a) Did you state the full set of assumptions of all theoretical results? [Yes]
+         (b) Did you include complete proofs of all theoretical results? [Yes]
+     3. If you ran experiments...
+         (a) Did you include the code, data, and instructions needed to reproduce the main experi-
+             mental results (either in the supplemental material or as a URL)? [N/A]
+         (b) Did you specify all the training details (e.g., data splits, hyperparameters, how they
+             were chosen)? [N/A]
+         (c) Did you report error bars (e.g., with respect to the random seed after running experi-
+             ments multiple times)? [N/A]
+         (d) Did you include the total amount of compute and the type of resources used (e.g., type
+             of GPUs, internal cluster, or cloud provider)? [N/A]
+     4. If you are using existing assets (e.g., code, data, models) or curating/releasing new assets...
+         (a) If your work uses existing assets, did you cite the creators? [N/A]
+         (b) Did you mention the license of the assets? [N/A]
+         (c) Did you include any new assets either in the supplemental material or as a URL? [N/A]
+
+         (d) Did you discuss whether and how consent was obtained from people whose data you’re
+             using/curating? [N/A]
+
+
+                                                 20
+    (e) Did you discuss whether the data you are using/curating contains personally identifiable
+        information or offensive content? [N/A]
+5. If you used crowdsourcing or conducted research with human subjects...
+    (a) Did you include the full text of instructions given to participants and screenshots, if
+        applicable? [N/A]
+    (b) Did you describe any potential participant risks, with links to Institutional Review
+        Board (IRB) approvals, if applicable? [N/A]
+    (c) Did you include the estimated hourly wage paid to participants and the total amount
+        spent on participant compensation? [N/A]
+
+
+
+
+                                           21
+

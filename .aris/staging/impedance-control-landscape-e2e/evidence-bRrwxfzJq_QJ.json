@@ -1,0 +1,96 @@
+{
+  "source_id": "bRrwxfzJq_QJ",
+  "read_event_id": "d1940cea5788426a8b1cd14fea6f7b29",
+  "content_sha256": "28996a3c2bde018fdc1e96b57bc63c5dd63aa27b5cffd83bba4e772778880701",
+  "claim": "BOX-FDDP supports warm-started, single-iteration feasibility-driven constrained policy updates and Riccati feedback for empirical real-time MPC. It does not establish that every intermediate iterate is feasible or specify an interruption-safe deadline rule returning a previously certified feasible incumbent. It therefore supports fast feasibility restoration and RTI-like continuation, not deadline-total feasible-incumbent return.",
+  "claim_locator": [
+    "Abstract",
+    "FDDP background",
+    "Section III-C",
+    "MPC implementation",
+    "State-feedback discussion",
+    "Experiments and Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Solver formulation, implementation, and timing are author-reported; the absence of interruption-safe totality and per-iterate feasibility is an explicitly bounded reader inference.",
+  "problem_and_setting": "Full-body hybrid legged-robot MPC must solve a nonlinear OCP with contact switching, dynamics equalities, torque/control limits, and friction/wrench-cone conditions within millisecond-scale control cycles. ANYmal experiments use predefined contact sequences and timings supplied by a planner.",
+  "method_or_mechanism": "BOX-FDDP uses lifted multiple shooting and a feasibility-driven rollout that contracts dynamic defects. A bound-constrained QP computes feed-forward controls, feedback gains are obtained on the free-control subspace, and a Goldstein condition accepts steps. Each MPC update performs one warm-started solver iteration, reusing states, controls, and regularization. Riccati gains render task-priority-dependent feedback, while explicit control bounds are handled through projection onto the free-control space.",
+  "content_summary": "The paper combines full-body hybrid predictive control, explicit actuation bounds, feasibility-driven BOX-FDDP updates, and Riccati feedback. Memory is preallocated; MPC runs at 50–100 Hz, with onboard operation reported around 90 Hz, while a 400 Hz tracking controller executes the policy. The approach empirically handles agile motions, disturbances, payload mismatch, stairs, jumps, torque saturation, slippage, and contact-timing error. Because trajectories may begin infeasible and feasibility is restored iteratively, it does not prove feasibility of every intermediate iterate or safe output under arbitrary interruption.",
+  "synthesis_role": "Positive mechanism evidence for warm-started one-iteration constrained policy updates and Riccati gain rendering; negative boundary evidence against interpreting fast convergence as interruption-safe, deadline-total feasible-incumbent return.",
+  "development_link": "For RMC-JOINT-UPDATE-TIME-FEASIBILITY, adopt feasibility-driven warm-started joint policy/gain updates as a computational precedent, but add an explicit certified-feasible-incumbent retention and deadline-return relation. Additional machinery is required for continuous soft-contact uncertainty and hard contact-constraint guarantees.",
+  "evidence": [
+    {
+      "locator": "Section III-C",
+      "status": "author-reported",
+      "finding": "Each MPC update uses a feasibility-driven DDP-type solver that explicitly handles control constraints."
+    },
+    {
+      "locator": "FDDP background",
+      "status": "author-reported",
+      "finding": "Dynamic gaps contract and iterations are driven toward feasibility, showing an iterative feasibility-restoration mechanism."
+    },
+    {
+      "locator": "MPC implementation",
+      "status": "author-reported",
+      "finding": "Each update performs one solver iteration and warm-starts states, controls, and regularization from the previous MPC solution."
+    },
+    {
+      "locator": "MPC implementation",
+      "status": "author-reported",
+      "finding": "MPC computes policies at 50–100 Hz while the tracking controller runs at 400 Hz; delay compensation assumes current torque persists for about 2.5 ms."
+    },
+    {
+      "locator": "State-feedback discussion",
+      "status": "author-reported",
+      "finding": "Riccati gains follow the optimal MPC policy and yield task-priority-dependent variable feedback, with control limits projected to the free-control subspace."
+    },
+    {
+      "locator": "Formulation and absence of an interruption contract",
+      "status": "reader-inferred",
+      "finding": "Gap contraction and empirical timing do not prove every intermediate iterate feasible or guarantee return of a certified feasible incumbent under arbitrary interruption."
+    }
+  ],
+  "evidence_kind": [
+    "full-text solver formulation",
+    "real-time implementation",
+    "hardware experiments",
+    "negative guarantee boundary"
+  ],
+  "boundary_conditions": [
+    "Contact sequence and timings are predefined by a planner.",
+    "Validation is on ANYmal under the reported rigid-body/contact model and control architecture.",
+    "Control bounds are explicit, but some friction and wrench-cone inequalities are quadratic penalties.",
+    "The method may start from dynamically infeasible trajectories and iteratively contracts defects.",
+    "Reported 50–100 Hz or approximately 90 Hz execution is empirical and platform-specific.",
+    "No result certifies a feasible output after arbitrary solver interruption.",
+    "The paper does not evaluate calibrated uncertainty or held-out soft-material, geometry, sliding, and contact-history generalization."
+  ],
+  "assumptions": [
+    "A useful warm start from the preceding MPC solution is available.",
+    "The planned contact schedule is supplied and sufficiently accurate.",
+    "The rigid-body and contact model is adequate for prediction.",
+    "Current torque can be treated as applied during an approximately 2.5 ms delay.",
+    "A 400 Hz tracking controller can execute the local policy between MPC updates.",
+    "Penalty treatment of friction and wrench-cone violations is acceptable in the reported experiments."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Experiments encounter model mismatch, disturbances, payload mismatch, slippage, torque limits, and contact-timing errors; results are empirical rather than universal guarantees."
+    ],
+    "inferred": [
+      "Intermediate iterates need not be dynamically feasible.",
+      "A single warm-started iteration does not itself guarantee feasible output before every deadline.",
+      "No certified-feasible-incumbent retention and deadline-return rule is specified.",
+      "Penalized friction and wrench-cone inequalities are not proven hard-satisfied at every iterate.",
+      "The evidence cannot support calibrated contact uncertainty or held-out soft-contact generalization."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that BOX-FDDP proves every intermediate iterate feasible.",
+    "Any claim that it establishes a hard worst-case computation deadline.",
+    "Any claim that it returns a certified feasible incumbent under arbitrary interruption.",
+    "Any claim that penalized friction and wrench constraints are hard-satisfied at every iterate."
+  ],
+  "verification_status": "Verified by an independent paper_reader against Controller-supplied inline full-text content only; no external search or local-path access was performed by the reviewer. Model identifier: gpt-5.6-sol."
+}

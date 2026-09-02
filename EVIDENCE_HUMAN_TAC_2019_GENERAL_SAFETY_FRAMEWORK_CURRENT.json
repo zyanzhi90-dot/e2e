@@ -1,0 +1,128 @@
+{
+  "source_id": "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK",
+  "read_event_id": "11add6039b784d0eb2fd39501fdded49",
+  "content_sha256": "35534dcf890bbe6172eb43a09c4e062e1fbfc2ab269de216d3be307f13140f9c",
+  "claim": "Fisac et al. present a least-restrictive Hamilton-Jacobi reachability supervisor that normally passes through an independently generated learning-policy action but overrides it with a robust safety action when the state reaches the certified-set boundary or Bayesian confidence falls below a threshold. Conditional on modeled disturbance-set coverage and regularity assumptions, value-function superlevel sets are robust controlled invariant. This is a post-hoc supervisory override, not one joint performance-feasibility optimizer, and the paper does not establish solve-deadline totality or a deterministic timeout or infeasibility fallback.",
+  "claim_locator": "Abstract; Sections II-IV; Propositions 4-7 and Corollary 2; Experiments A-C; Conclusion",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary theoretical and experimental robotics-control study, with migration relevance and unmet target obligations explicitly marked as reader inference",
+  "problem_and_setting": "Arbitrary learning controllers for uncertain physical systems may violate state constraints because approximate causal dynamics and model-error bounds can be wrong or become invalid under model shift. The paper considers fully observable deterministic continuous-time systems with partially known dynamics, compact control and disturbance sets, state constraints, an approximate model, and an unknown deterministic Lipschitz state-dependent disturbance represented through bounded sets and Gaussian-process confidence intervals.",
+  "method_or_mechanism": "The maximal robust controlled-invariant subset of the constraint set is represented as the nonnegative superlevel set of an infinite-horizon HJI value function. A safe controller maximizes the worst-case directional increase of that safety value. The applied action equals the independent learning-policy action when V(x)>0 and, in the validation-enhanced version, local confidence exceeds a threshold; otherwise the safe HJ action replaces it. Independent Gaussian processes infer disturbance components from residual-dynamics observations and local posterior confidence tests whether the current bound remains credible between costly global HJ recomputations. Because performance is generated independently and conditionally replaced, the mechanism is a post-hoc least-restrictive supervisor rather than one joint performance-feasibility optimizer.",
+  "content_summary": "The framework combines robust HJ reachability with Bayesian online model validation. It precomputes a safe set and boundary policy under an approximate dynamics-error bound, lets an arbitrary learning controller act inside the safe set, and overrides it at critical states. Gaussian-process evidence updates a local confidence score so the framework can intervene earlier when observations undermine the assumed bound. Conditional invariance and local probabilistic results are supplied. Low-dimensional vertical-flight experiments show collision prevention during poor initial learning, confidence-triggered intervention between seconds-scale safety-set recomputations, and recovery from an unmodeled fan disturbance. The method depends on full-state feedback, approximate dynamics, valid disturbance coverage, and available HJ lookup tables; it does not address a jointly constrained impedance update or hard real-time fallback semantics.",
+  "synthesis_role": "Partial cross-domain Source Mechanism analogue for confidence-triggered certified fallback and negative boundary evidence: it contributes uncertainty-aware supervisory intervention, but fails intervention-level isomorphism to RMC-JOINT-UPDATE-TIME-FEASIBILITY because nominal performance and safety remain separate and deadline totality is absent.",
+  "development_link": "For RMC-JOINT-UPDATE-TIME-FEASIBILITY, the source shows how an arbitrary nominal action can be filtered through a certified state-dependent safety relation and how declining model confidence can trigger intervention. It does not replace a performance-first gain selector plus guards with one total update-time relation conditioned on physical, energy, actuator, gain-rate, and deadline constraints. Therefore CAP-COUPLED-FEASIBLE-GAIN-CHOICE, CAP-DEADLINE-TOTALITY, OBL-SAME-RELATION-HARD-LIMITS, and OBL-DEADLINE-INFEASIBILITY-FALLBACK are not satisfied. Retain only the confidence-triggered certified-supervisor component; do not claim complete mechanism isomorphism.",
+  "evidence": [
+    {
+      "locator": "Abstract and contribution statement",
+      "status": "author_reported",
+      "finding": "The framework is modular with arbitrary learning algorithms, uses approximate dynamics for constraint guarantees, refines safety analysis with Bayesian evidence, and intervenes when the computed guarantee requires it or confidence decays."
+    },
+    {
+      "locator": "Section II, model and assumptions",
+      "status": "author_reported",
+      "finding": "The analysis assumes fully observable deterministic dynamics, compact control and disturbance sets, bounded and uniformly continuous dynamics, Lipschitz regularity, state constraints, and a deterministic Lipschitz state-dependent disturbance; the exposition additionally uses an action-independent additive disturbance effect."
+    },
+    {
+      "locator": "Section III, least-restrictive HJ policy",
+      "status": "author_reported",
+      "finding": "The applied controller uses the learning policy for V(x)>0 and the robust HJ action at the safety boundary; the safe action maximizes predicted safety-value increase under worst-case modeled uncertainty."
+    },
+    {
+      "locator": "Section III, switching relation",
+      "status": "reader_inference",
+      "finding": "Because the learning policy produces performance actions independently and the HJ mechanism conditionally replaces them, the intervention is a post-hoc least-restrictive supervisor rather than a single joint performance-feasibility optimizer."
+    },
+    {
+      "locator": "Propositions 4-5 and Corollary 2",
+      "status": "author_reported",
+      "finding": "The paper proves conditional robust controlled invariance of HJ value-function superlevel sets and gives conditions under which invariance transfers when the true disturbance is contained in the modeled set on the relevant boundary."
+    },
+    {
+      "locator": "Section IV, Gaussian-process bound and Proposition 7",
+      "status": "author_reported",
+      "finding": "Gaussian-process posterior intervals define state-dependent disturbance bounds; local confidence is the posterior probability that the disturbance lies in the bound, and the safe action locally maintains or increases the safety value with probability at least that confidence."
+    },
+    {
+      "locator": "Section IV-C, online validation computation",
+      "status": "author_reported",
+      "finding": "Global Bayesian validation is computationally difficult, hyperparameter refitting is not continuous because it is prohibitive, and HJ recomputation may require seconds or minutes; precomputed safety functions and policies are stored as lookup tables for online use."
+    },
+    {
+      "locator": "Section IV-C and target-obligation comparison",
+      "status": "reader_inference",
+      "finding": "Constant-time lookup does not establish deadline totality: no hard deadline, timing distribution, timeout or infeasibility semantics, or deterministic fallback for unavailable computation or lookup is supplied."
+    },
+    {
+      "locator": "Experiment A, From Fall to Flight",
+      "status": "author_reported",
+      "finding": "With initially ineffective learning weights, boundary override commanded maximum thrust and prevented floor collision. Chattering occurred near the boundary, and off-policy override observations slowed learning."
+    },
+    {
+      "locator": "Experiment B, When in Doubt",
+      "status": "author_reported",
+      "finding": "A new HJ computation took roughly two seconds after the first data batch. Falling local confidence triggered repeated override until later GP and safe-set recomputation permitted tracking to resume."
+    },
+    {
+      "locator": "Experiment C, Gone with the Wind",
+      "status": "author_reported",
+      "finding": "An unmodeled fan disturbance caused repeated ground contact without Bayesian validation. With local validation, discrepancy detection triggered the safety controller and the vehicle avoided the affected region; the guarantee is local and broader behavior is best-effort evidence."
+    },
+    {
+      "locator": "Full-paper target-mechanism comparison",
+      "status": "reader_inference",
+      "finding": "The evidence does not establish contact-capacity estimation, impedance-gain choice, joint energy, actuator and gain-rate feasibility, or deadline-conditioned fallback, so it cannot alone satisfy the target RMC."
+    }
+  ],
+  "evidence_kind": [
+    "Hamilton-Jacobi reachability formulation",
+    "robust controlled-invariance results",
+    "Gaussian-process uncertainty validation",
+    "least-restrictive supervisory controller",
+    "physical quadrotor experiments",
+    "model-mismatch ablation"
+  ],
+  "boundary_conditions": [
+    "Guarantees are conditional on the true disturbance lying within the modeled state-dependent disturbance set on the relevant safety boundary or level set.",
+    "Full observability and sufficiently accurate state feedback are required.",
+    "Dynamics and disturbance regularity, compact control and disturbance sets, and the stated Lipschitz and Gaussian-process assumptions must hold.",
+    "The exposition assumes an action-independent additively decoupled disturbance effect, although the authors state coupled adaptation is possible.",
+    "The modeled action space, state constraints, HJ approximation, and stored policy must accurately represent the deployed system.",
+    "Only low-dimensional vertical quadrotor experiments are reported; scaling safety certificates to complex systems remains open.",
+    "Local Bayesian confidence supports only a local probabilistic statement.",
+    "The paper does not model contact capacity, impedance variables, interaction-energy constraints, gain-rate constraints, hard solve deadlines, or infeasibility and timeout behavior."
+  ],
+  "assumptions": [
+    "Continuous-time deterministic dynamics with partially known causal structure.",
+    "Compact control and disturbance domains and bounded, uniformly continuous dynamics.",
+    "Lipschitz continuity in state and disturbance.",
+    "Unknown dynamics can be represented by a deterministic Lipschitz state-dependent disturbance.",
+    "Independent component Gaussian processes and selected posterior confidence intervals adequately characterize disturbance uncertainty.",
+    "HJ numerical approximation and stored lookup tables are sufficiently accurate.",
+    "The learning controller can be overridden whenever the supervisory condition activates.",
+    "State and local confidence required for switching are available online."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Broad model-error bounds make robust safe sets conservative, whereas narrow incorrect bounds can invalidate safety.",
+      "Global Bayesian validation is computationally difficult and online Gaussian-process hyperparameter refitting is computationally prohibitive.",
+      "HJ safety recomputation can require seconds or minutes.",
+      "Experiment A exhibited boundary chattering and slower learning from off-policy override observations.",
+      "Experiment C showed repeated ground contact under an unmodeled disturbance when Bayesian validation was disabled.",
+      "Local confidence provides a strictly local guarantee, and scaling certificate computation remains open."
+    ],
+    "inferred": [
+      "The independent nominal-policy and boundary-override architecture is not evidence for a single coupled performance-feasibility optimization relation.",
+      "Lookup-based online execution does not prove deadline totality.",
+      "No deterministic action is specified for timeout, unavailable lookup, failed recomputation, or optimization infeasibility.",
+      "The source does not cover target contact-capacity state, impedance-gain variables, interaction energy, actuator and gain-rate limits, or joint update-time feasibility."
+    ]
+  },
+  "conflicts_with": [
+    "A claim that this paper jointly optimizes nominal performance and feasibility in one update-time relation.",
+    "A claim that it proves hard real-time completion or deterministic timeout and infeasibility fallback.",
+    "A claim that its safety guarantee is unconditional under arbitrary model mismatch.",
+    "A claim that its quadrotor experiments validate contact-rich impedance selection."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved"
+}

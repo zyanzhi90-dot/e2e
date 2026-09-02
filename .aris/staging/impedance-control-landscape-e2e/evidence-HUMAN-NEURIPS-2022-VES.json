@@ -1,0 +1,80 @@
+{
+  "source_id": "HUMAN-NEURIPS-2022-VES",
+  "read_event_id": "ee99a4a530c746128398cbdf1ac23d96",
+  "content_sha256": "f4766fa07b765322e3b67bd20d182fe21f52fca2e0de91bcb5cc753240aeb102",
+  "claim": "Value-Equivalent Sampling learns a deliberately compressed environment model whose retained information is selected by downstream policy and value distortion rather than full predictive fidelity. It provides a transferable mechanism for action-relevant representation, but not a calibrated action-conditional capacity set, held-out coverage, or abstention.",
+  "claim_locator": "Abstract; Sections 1, 3-5; rate-distortion formulation; regret analysis; multi-resolution MDP example",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary NeurIPS theoretical study; impedance migration and unmet calibration obligations are explicitly reader inference; configured paper_reader model gpt-5.4",
+  "problem_and_setting": "A computationally bounded model-based RL agent cannot represent or learn all true reward and transition dynamics, while full-model posterior sampling expends capacity on details with negligible behavioral value. Exact value equivalence may be unattainable, forcing a tradeoff between retained information and policy suboptimality in a Bayesian finite-horizon episodic MDP.",
+  "method_or_mechanism": "The method minimizes mutual information between the true MDP and a compressed target model subject to expected value-based distortion. The distortion is the supremum Bellman-update discrepancy over selected policy and value-function test sets. Value-Equivalent Sampling acts with a D-satisficing compressed posterior target and derives information-theoretic Bayesian regret bounds relating capacity to achievable suboptimality.",
+  "content_summary": "VES reframes model learning as decision-targeted lossy compression. Its strong transferable element is the explicit information-versus-decision-distortion relation: model distinctions are kept only when they change selected planning consequences. Scope is limited by the chosen policy and value tests. It neither constructs a contact-capacity set nor supplies empirical coverage calibration, distribution-shift abstention, or optimal impedance feasibility.",
+  "synthesis_role": "Positive Source Mechanism for the decision-relevant representation component and negative boundary for calibration. It conditionally supports CAP-ACTION-RELEVANT-STATE and OBL-MINIMAL-DECISION-SUFFICIENCY after redefining distortion as disagreement in feasible or optimal impedance action and held-out outcome; it fails the capacity-set calibration half.",
+  "development_link": "For RMC-DECISION-SUFFICIENT-CAPACITY-STATE, intervention-level alignment is partial: PASS for action-relevant minimal information, FAIL as a complete RMC intervention because CAP-CALIBRATED-CAPACITY-SET and OBL-HELDOUT-CAPACITY-CALIBRATION are absent. Migration requires impedance-action/capacity distortion, target test sets broad enough to expose gain-relevant contact regimes, and a separate calibrated set with abstention.",
+  "evidence": [
+    {
+      "locator": "Abstract and Sections 1, 4",
+      "status": "author_reported",
+      "finding": "The algorithm targets an approximately value-equivalent lossy compression rather than the true environment model, using rate-distortion theory."
+    },
+    {
+      "locator": "Section 3 and value-distortion definition",
+      "status": "author_reported",
+      "finding": "Distortion is defined through Bellman-update disagreement over selected policies and value functions, not generic transition or reward reconstruction error."
+    },
+    {
+      "locator": "Section 5, regret analysis",
+      "status": "author_reported",
+      "finding": "Information-theoretic Bayesian regret bounds expose the tradeoff between retained model information and attainable suboptimality for finite-horizon sequential decisions."
+    },
+    {
+      "locator": "Multi-resolution MDP example",
+      "status": "author_reported",
+      "finding": "Learning all environment components can be wasteful when later components contribute vanishing reward, motivating satisficing compression."
+    },
+    {
+      "locator": "Policy/value test-set scope",
+      "status": "reader_inference",
+      "finding": "Important contact distinctions can be lost if the target impedance actions, capacity violations, or held-out regimes are omitted from the distortion tests."
+    },
+    {
+      "locator": "Target-obligation comparison",
+      "status": "reader_inference",
+      "finding": "Bayesian value regret is not empirical capacity-set coverage; VES supplies no calibrated set or abstention and therefore cannot alone satisfy the full RMC."
+    }
+  ],
+  "evidence_kind": [
+    "rate-distortion formulation",
+    "value-equivalent model compression",
+    "Bayesian regret bound",
+    "illustrative MDP"
+  ],
+  "boundary_conditions": [
+    "Equivalence is relative to selected policy and value-function test sets.",
+    "The analysis assumes a Bayesian finite-horizon MDP and a meaningful distortion tolerance.",
+    "No held-out capacity-set calibration, conditional coverage, deployment-shift guarantee, or abstention is supplied.",
+    "No contact model, impedance feasible set, or gain optimizer is implemented."
+  ],
+  "assumptions": [
+    "Policy and value test sets cover decisions of interest.",
+    "Mutual information is an appropriate representation-cost measure.",
+    "Impedance action and outcome disagreement can be expressed as a target-domain distortion after migration."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Full true-model pursuit can waste bounded representation capacity.",
+      "Exact value equivalence may be unattainable."
+    ],
+    "inferred": [
+      "A misspecified target distortion can preserve state-action aliasing.",
+      "Treating Bayesian regret as held-out coverage calibration would be invalid.",
+      "VES alone leaves calibrated capacity and abstention obligations unsatisfied."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that VES itself yields a calibrated contact-capacity set or abstention.",
+    "Any claim that its value-regret bound proves held-out capacity coverage."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved"
+}

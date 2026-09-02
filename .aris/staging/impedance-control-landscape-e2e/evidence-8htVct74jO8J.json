@@ -1,0 +1,97 @@
+{
+  "source_id": "8htVct74jO8J",
+  "read_event_id": "a313ca06ea2d4b7eb68a6f11c01570cb",
+  "content_sha256": "e8506c63b82aea764a1c3b9c6c856791399ecabcc309226c271f6844dceee15c",
+  "claim": "Unknown-environment information can alter the action-conditioned prediction relation used by MPC: MIAC inserts online estimates of environment impedance parameters into the MPC dynamics for horizon prediction. However, the reported better cross-task transfer of an outer-loop MRAC and MIAC's observability and force-estimation failures show that identifying a richer predefined physical model is not sufficient evidence for a minimal, transferable, downstream-decision-sufficient contact representation.",
+  "claim_locator": [
+    "Abstract and Introduction",
+    "Section II: nonlinear OCP and constraints",
+    "Section III: environment assumptions, MIAC, and MRAC",
+    "Door-opening and unknown-object-lifting experiments",
+    "Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Author-reported formulation, simulation and hardware results, and limitations; the decision-sufficiency interpretation is explicitly reader-inferred.",
+  "problem_and_setting": "Whole-body SLQ-MPC for mobile-manipulation interaction with an initially inaccurate environment model, evaluated on ball-balancing manipulation during light/heavy door opening and lifting an unknown 2 kg object. The environment is restricted to a rigid-contact, linear mass-spring-damper impedance along a constant or slowly varying principal interaction direction.",
+  "method_or_mechanism": "MIAC estimates scalar environment mass, damping, stiffness, and static-force parameters from projected interaction force and motion and inserts them into the coupled robot-environment dynamics at the next MPC iteration. MRAC instead uses a Lyapunov-derived adaptive outer-force controller; its estimates do not enter the MPC dynamics, so it is a cascade rather than a unified optimizer-internal environment representation.",
+  "content_summary": "The baseline MPC optimizes tracking under model dynamics and soft barrier joint/torque inequalities. MIAC changes the optimizer's horizon predictions using identified environment parameters; MRAC adapts commanded force outside MPC. Both improve door opening relative to baseline. In hardware lifting, MIAC degrades when torque inaccuracies corrupt force estimation and identification, while MRAC transfers the same gains more successfully. The paper leaves theoretical MPC stability and feasibility and multi-DOF environment generalization open.",
+  "synthesis_role": "Same-field mechanism and negative boundary for RMC-DECISION-SUFFICIENT-CAPACITY-STATE.",
+  "development_link": "Retain MIAC's causal principle that inferred contact information must change the optimizer's candidate-action-to-future-outcome prediction. Do not inherit a requirement to identify every physical impedance parameter or treat an appended adaptive force loop as a unified solution. The target method should learn the smallest history-conditioned, action-conditional contact-capacity representation required by the joint constrained impedance decision, with uncertainty and identifiability explicit.",
+  "evidence": [
+    {
+      "locator": "Section III: MIAC formulation",
+      "status": "author-reported",
+      "finding": "MIAC estimates environment parameters online and supplies them to MPC at the next iteration, so horizon predictions use an updated coupled robot-environment model."
+    },
+    {
+      "locator": "Section III: MIAC motivation",
+      "status": "author-reported",
+      "finding": "The authors distinguish model identification from direct measured-force compensation because the identified model supports prediction over the MPC horizon."
+    },
+    {
+      "locator": "Section III: MRAC formulation",
+      "status": "author-reported",
+      "finding": "MRAC estimates are not inserted into MPC; the adaptive outer controller changes commanded force while MPC dynamics omit interaction force."
+    },
+    {
+      "locator": "Door-opening experiments",
+      "status": "author-reported",
+      "finding": "Both adaptive schemes substantially reduce error relative to baseline MPC on light and heavy doors; the baseline cannot fully open the heavy door without retuning."
+    },
+    {
+      "locator": "Unknown-object-lifting hardware experiment",
+      "status": "author-reported",
+      "finding": "MIAC degrades when actuator-torque inaccuracies corrupt interaction-force estimation and identification, whereas MRAC consistently improves tracking and lifts the payload."
+    },
+    {
+      "locator": "Cross-task comparison",
+      "status": "author-reported",
+      "finding": "The same MRAC gains transfer from door opening to lifting, but MIAC does not maintain the same behavior across tasks with unchanged identification parameters."
+    },
+    {
+      "locator": "Reader synthesis of formulation and experiments",
+      "status": "reader-inferred",
+      "finding": "Inserting environment estimates into MPC is causally relevant but does not establish a unified, minimal, and transferable downstream-decision-sufficient state."
+    }
+  ],
+  "evidence_kind": [
+    "full-text mechanism formulation",
+    "simulation experiment",
+    "hardware experiment",
+    "cross-task comparison",
+    "author-reported limitations"
+  ],
+  "boundary_conditions": [
+    "Rigid end-effector/environment contact with a positive-symmetric linear impedance model.",
+    "A principal interaction direction reduces the model to scalar mass, damping, and stiffness and must be constant or slowly varying.",
+    "MIAC requires usable interaction-force estimates; mass may be unobservable without persistent acceleration and parameters may be linearly dependent.",
+    "Joint-angle and torque inequalities are soft relaxed-log-barrier constraints.",
+    "Evidence covers two manipulation tasks, not held-out material, geometry, sliding, or contact-history generalization.",
+    "Multi-DOF environment generalization and theoretical MPC stability/feasibility remain future work."
+  ],
+  "assumptions": [
+    "A linear mass-spring-damper relation adequately represents the decision-relevant interaction dynamics.",
+    "Projected interaction direction varies slowly enough for scalar identification.",
+    "Force sensing or observation is accurate enough for MIAC.",
+    "The Kalman-filter parameter random walk is suitable for environment variation.",
+    "The MRAC regressor sufficiently matches the true relation for its tracking argument.",
+    "Joint PD feedback tracks MPC-generated trajectories."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Baseline MPC is strongly degraded by environment-model mismatch and cannot fully open the heavy door without retuning.",
+      "MIAC hardware lifting degrades when torque inaccuracies corrupt force estimation and identification.",
+      "MIAC does not maintain the same behavior across door opening and lifting with unchanged identification parameters.",
+      "Environment parameters can be unobservable or linearly dependent.",
+      "Theoretical MPC stability and feasibility are not provided, and multi-DOF extension remains future work."
+    ],
+    "inferred": [
+      "A richer predefined physical model can add sensing and identifiability burdens without yielding the minimal information needed by impedance optimization.",
+      "MRAC's transfer does not establish a unified downstream-control-aware environment model because adaptation remains outside MPC.",
+      "The paper does not establish calibrated uncertainty, hard safety, contact-loss/slip prediction, or the target held-out generalization."
+    ]
+  },
+  "conflicts_with": [],
+  "verification_status": "Verified by an independent paper_reader against the Controller-supplied full-text decision-relevant sections; no external browsing or local-file access was performed by the reviewer. Model identifier: gpt-5.6-sol."
+}

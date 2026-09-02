@@ -1,0 +1,109 @@
+{
+  "source": "human_web_search",
+  "queries": [
+    {
+      "query_id": "Q0080",
+      "results": [
+        {
+          "paper_id": "LJMBf6MAPHQJ",
+          "title": "Variable Impedance Control and Learning—A Review",
+          "authors": ["Fares J. Abu-Dakka", "Matteo Saveriano"],
+          "year": 2020,
+          "venue": "Frontiers in Robotics and AI",
+          "doi": "10.3389/frobt.2020.590681",
+          "doi_or_stable_url": "https://doi.org/10.3389/frobt.2020.590681"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0081",
+      "results": [
+        {
+          "paper_id": "dqYs440MKMMJ",
+          "title": "Learning Variable Impedance Control for Contact Sensitive Tasks",
+          "authors": ["Miroslav Bogdanovic", "Majid Khadiv", "Ludovic Righetti"],
+          "year": 2020,
+          "venue": "IEEE Robotics and Automation Letters",
+          "doi": "10.1109/LRA.2020.3011379",
+          "doi_or_stable_url": "https://doi.org/10.1109/LRA.2020.3011379"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0082",
+      "results": [
+        {
+          "paper_id": "U1Trzk-2GRIJ",
+          "title": "Constrained Variable Impedance Control using Quadratic Programming",
+          "authors": ["Zhehao Jin", "Dongdong Qin", "Andong Liu", "Wen-An Zhang", "Li Yu"],
+          "year": 2022,
+          "venue": "2022 International Conference on Robotics and Automation (ICRA)",
+          "doi": "10.1109/ICRA46639.2022.9812210",
+          "doi_or_stable_url": "https://doi.org/10.1109/ICRA46639.2022.9812210"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0083",
+      "results": [
+        {
+          "paper_id": "Rw7RRyHn644J",
+          "title": "Human-Inspired Adaptive Optimal Control Framework for Robot-Environment Interaction",
+          "authors": ["Haotian Liu", "Yuchuang Tong", "Zhengtao Zhang"],
+          "year": 2025,
+          "venue": "IEEE Transactions on Systems, Man, and Cybernetics: Systems",
+          "doi": "10.1109/TSMC.2025.3577296",
+          "doi_or_stable_url": "https://doi.org/10.1109/TSMC.2025.3577296"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0084",
+      "results": [
+        {
+          "paper_id": "4tr9C5LNwYwJ",
+          "title": "Learning-Based Predictive Impedance Control Towards Safe Predefined-Time Physical Robotic Interaction",
+          "authors": ["Junyuan Xue", "Wenyu Liang", "Yilan Xu", "Yan Wu", "Tong Heng Lee"],
+          "year": 2025,
+          "venue": "2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+          "doi": "10.1109/IROS60139.2025.11246143",
+          "doi_or_stable_url": "https://doi.org/10.1109/IROS60139.2025.11246143"
+        },
+        {
+          "paper_id": "HUMAN-RAS-2025-MPVIC",
+          "title": "Model predictive variable impedance control towards safe robotic interaction in unknown disturbance-rich environments",
+          "authors": ["Junyuan Xue", "Wenyu Liang", "Yan Wu", "Tong Heng Lee"],
+          "year": 2025,
+          "venue": "Robotics and Autonomous Systems",
+          "doi": "10.1016/j.robot.2025.104961",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.robot.2025.104961",
+          "abstract": "An adaptive robust and passive model-predictive variable-impedance scheme estimates unknown environment contact parameters online, switches impedance according to safety thresholds, and was evaluated on two silicone models and a human arm under bounded unpredictable position shifts, including robotic ultrasound scanning."
+        }
+      ]
+    },
+    {
+      "query_id": "Q0085",
+      "results": [
+        {
+          "paper_id": "GBHeodrYfZQJ",
+          "title": "Optimization-Based Variable Impedance Control of Robotic Manipulator for Medical Contact Tasks",
+          "authors": ["Junling Fu", "Ilaria Burzo", "Elisa Iovene", "Jianzhuang Zhao", "Giancarlo Ferrigno", "Elena De Momi"],
+          "year": 2024,
+          "venue": "IEEE Transactions on Instrumentation and Measurement",
+          "doi": "10.1109/TIM.2024.3372209",
+          "doi_or_stable_url": "https://doi.org/10.1109/TIM.2024.3372209"
+        },
+        {
+          "paper_id": "HUMAN-RAS-2025-MPVIC",
+          "title": "Model predictive variable impedance control towards safe robotic interaction in unknown disturbance-rich environments",
+          "authors": ["Junyuan Xue", "Wenyu Liang", "Yan Wu", "Tong Heng Lee"],
+          "year": 2025,
+          "venue": "Robotics and Autonomous Systems",
+          "doi": "10.1016/j.robot.2025.104961",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.robot.2025.104961",
+          "abstract": "An adaptive robust and passive model-predictive variable-impedance scheme estimates unknown environment contact parameters online, switches impedance according to safety thresholds, and was evaluated on two silicone models and a human arm under bounded unpredictable position shifts, including robotic ultrasound scanning."
+        }
+      ]
+    }
+  ]
+}

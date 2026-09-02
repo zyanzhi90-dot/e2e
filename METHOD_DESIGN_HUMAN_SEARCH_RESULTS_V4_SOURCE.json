@@ -1,0 +1,289 @@
+{
+  "source": "human_web_search",
+  "queries": [
+    {
+      "query_id": "Q0098",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2020-VALUE-EQUIVALENCE",
+          "title": "The Value Equivalence Principle for Model-Based Reinforcement Learning",
+          "authors": ["Christopher Grimm", "Andre Barreto", "Satinder P. Singh", "David Silver"],
+          "year": 2020,
+          "venue": "Advances in Neural Information Processing Systems 33",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper/2020/hash/3bb585ea00014b0e3ebe4c6dd165a358-Abstract.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-NEURIPS-2022-VES",
+          "title": "Deciding What to Model: Value-Equivalent Sampling for Reinforcement Learning",
+          "authors": ["Dilip Arumugam", "Benjamin Van Roy"],
+          "year": 2022,
+          "venue": "Advances in Neural Information Processing Systems 35",
+          "doi": "10.52202/068431-0656",
+          "doi_or_stable_url": "https://doi.org/10.52202/068431-0656",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0099",
+      "results": [
+        {
+          "paper_id": "HUMAN-MANSCI-2021-SPO",
+          "title": "Smart Predict, then Optimize",
+          "authors": ["Adam N. Elmachtoub", "Paul Grigas"],
+          "year": 2021,
+          "venue": "Management Science",
+          "doi": "10.1287/mnsc.2020.3922",
+          "doi_or_stable_url": "https://doi.org/10.1287/mnsc.2020.3922",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-NEURIPS-2025-FEASIBILITY-DFL",
+          "title": "Feasibility-Aware Decision-Focused Learning for Predicting Parameters in the Constraints",
+          "authors": ["Jayanta Mandi", "Marianne Defresne", "Senne Berden", "Tias Guns"],
+          "year": 2025,
+          "venue": "Advances in Neural Information Processing Systems 38",
+          "doi": "10.52202/085713-5451",
+          "doi_or_stable_url": "https://doi.org/10.52202/085713-5451",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0100",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+          "title": "Predict-then-Calibrate: A New Perspective of Robust Contextual LP",
+          "authors": ["Chunlin Sun", "Linyu Liu", "Xiaocheng Li"],
+          "year": 2023,
+          "venue": "Advances in Neural Information Processing Systems 36",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/397271e11322fae8ba7f827c50ca8d9b-Abstract-Conference.html",
+          "publication_type": "proceedings-article",
+          "abstract": "Risk-sensitive contextual optimization requires decisions from covariates without observing the objective at test time. The paper proposes predict-then-calibrate: first learn a prediction model, then calibrate its uncertainty to the downstream risk profile and solve a robust contextual linear program."
+        },
+        {
+          "paper_id": "HUMAN-NEURIPS-2025-FEASIBILITY-DFL",
+          "title": "Feasibility-Aware Decision-Focused Learning for Predicting Parameters in the Constraints",
+          "authors": ["Jayanta Mandi", "Marianne Defresne", "Senne Berden", "Tias Guns"],
+          "year": 2025,
+          "venue": "Advances in Neural Information Processing Systems 38",
+          "doi": "10.52202/085713-5451",
+          "doi_or_stable_url": "https://doi.org/10.52202/085713-5451",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0101",
+      "results": [
+        {
+          "paper_id": "HUMAN-NIPS-2003-ARA-STAR",
+          "title": "ARA*: Anytime A* with Provable Bounds on Sub-Optimality",
+          "authors": ["Maxim Likhachev", "Geoffrey J. Gordon", "Sebastian Thrun"],
+          "year": 2003,
+          "venue": "Advances in Neural Information Processing Systems 16",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper/2003/hash/ee8fe9093fbbb687bef15a38facc44d2-Abstract.html",
+          "publication_type": "proceedings-article",
+          "abstract": "ARA* rapidly finds a feasible suboptimal solution using a loose bound, then reuses search effort to tighten the suboptimality bound as time permits. It can be interrupted after a feasible incumbent exists and converges to an optimal solution given enough time."
+        }
+      ]
+    },
+    {
+      "query_id": "Q0102",
+      "results": [
+        {
+          "paper_id": "HUMAN-RSS-2020-CONTACT-POMDP",
+          "title": "Controlling Contact-Rich Manipulation Under Partial Observability",
+          "authors": ["Florian Wirnshofer", "Philipp Sebastian Schmitt", "Georg von Wichert", "Wolfram Burgard"],
+          "year": 2020,
+          "venue": "Robotics: Science and Systems XVI",
+          "doi": "10.15607/RSS.2020.XVI.023",
+          "doi_or_stable_url": "https://doi.org/10.15607/RSS.2020.XVI.023",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-RSS-2023-TACTILE-FILTER",
+          "title": "Tactile-Filter: Interactive Tactile Perception for Part Mating",
+          "authors": ["Kei Ota", "Devesh K. Jha", "Hsiao-Yu Tung", "Joshua Tenenbaum"],
+          "year": 2023,
+          "venue": "Robotics: Science and Systems XIX",
+          "doi": "10.15607/RSS.2023.XIX.079",
+          "doi_or_stable_url": "https://doi.org/10.15607/RSS.2023.XIX.079",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "ZDySGaNsMn8J",
+          "title": "Real-Time Deformable-Contact-Aware Model Predictive Control for Force-Modulated Manipulation",
+          "authors": ["Lasitha Wijayarathne", "Ziyi Zhou", "Ye Zhao", "Frank L. Hammond"],
+          "year": 2023,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2023.3286070",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2023.3286070",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0103",
+      "results": [
+        {
+          "paper_id": "U1Trzk-2GRIJ",
+          "title": "Constrained Variable Impedance Control using Quadratic Programming",
+          "authors": ["Zhehao Jin", "Dongdong Qin", "Andong Liu", "Wen-An Zhang", "Li Yu"],
+          "year": 2022,
+          "venue": "2022 IEEE International Conference on Robotics and Automation",
+          "doi": "10.1109/ICRA46639.2022.9812210",
+          "doi_or_stable_url": "https://doi.org/10.1109/ICRA46639.2022.9812210",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-IJRR-2024-UNIFIED-FORCE-IMPEDANCE",
+          "title": "Unified force-impedance control",
+          "authors": ["Sami Haddadin", "Erfan Shahriari"],
+          "year": 2024,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/02783649241249194",
+          "doi_or_stable_url": "https://doi.org/10.1177/02783649241249194",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "GBHeodrYfZQJ",
+          "title": "Optimization-Based Variable Impedance Control of Robotic Manipulator for Medical Contact Tasks",
+          "authors": ["Junling Fu", "Ilaria Burzo", "Elisa Iovene", "Jianzhuang Zhao", "Giancarlo Ferrigno", "Elena De Momi"],
+          "year": 2024,
+          "venue": "IEEE Transactions on Instrumentation and Measurement",
+          "doi": "10.1109/TIM.2024.3372209",
+          "doi_or_stable_url": "https://doi.org/10.1109/TIM.2024.3372209",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0104",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2022-VES",
+          "title": "Deciding What to Model: Value-Equivalent Sampling for Reinforcement Learning",
+          "authors": ["Dilip Arumugam", "Benjamin Van Roy"],
+          "year": 2022,
+          "venue": "Advances in Neural Information Processing Systems 35",
+          "doi": "10.52202/068431-0656",
+          "doi_or_stable_url": "https://doi.org/10.52202/068431-0656",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-MANSCI-2021-SPO",
+          "title": "Smart Predict, then Optimize",
+          "authors": ["Adam N. Elmachtoub", "Paul Grigas"],
+          "year": 2021,
+          "venue": "Management Science",
+          "doi": "10.1287/mnsc.2020.3922",
+          "doi_or_stable_url": "https://doi.org/10.1287/mnsc.2020.3922",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0105",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+          "title": "Predict-then-Calibrate: A New Perspective of Robust Contextual LP",
+          "authors": ["Chunlin Sun", "Linyu Liu", "Xiaocheng Li"],
+          "year": 2023,
+          "venue": "Advances in Neural Information Processing Systems 36",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/397271e11322fae8ba7f827c50ca8d9b-Abstract-Conference.html",
+          "publication_type": "proceedings-article",
+          "abstract": "The method separates prediction from downstream risk calibration, constructs an uncertainty-aware robust contextual linear program, and supplies risk-sensitive decision guarantees under its calibration assumptions."
+        },
+        {
+          "paper_id": "HUMAN-NIPS-2003-ARA-STAR",
+          "title": "ARA*: Anytime A* with Provable Bounds on Sub-Optimality",
+          "authors": ["Maxim Likhachev", "Geoffrey J. Gordon", "Sebastian Thrun"],
+          "year": 2003,
+          "venue": "Advances in Neural Information Processing Systems 16",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper/2003/hash/ee8fe9093fbbb687bef15a38facc44d2-Abstract.html",
+          "publication_type": "proceedings-article",
+          "abstract": "An anytime planner first obtains a feasible solution and then improves a provable suboptimality bound while reusing prior computation, enabling interruption when deliberation time expires."
+        }
+      ]
+    },
+    {
+      "query_id": "Q0106",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2022-VES",
+          "title": "Deciding What to Model: Value-Equivalent Sampling for Reinforcement Learning",
+          "authors": ["Dilip Arumugam", "Benjamin Van Roy"],
+          "year": 2022,
+          "venue": "Advances in Neural Information Processing Systems 35",
+          "doi": "10.52202/068431-0656",
+          "doi_or_stable_url": "https://doi.org/10.52202/068431-0656",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0107",
+      "results": [
+        {
+          "paper_id": "HUMAN-MANSCI-2021-SPO",
+          "title": "Smart Predict, then Optimize",
+          "authors": ["Adam N. Elmachtoub", "Paul Grigas"],
+          "year": 2021,
+          "venue": "Management Science",
+          "doi": "10.1287/mnsc.2020.3922",
+          "doi_or_stable_url": "https://doi.org/10.1287/mnsc.2020.3922",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0108",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2025-FEASIBILITY-DFL",
+          "title": "Feasibility-Aware Decision-Focused Learning for Predicting Parameters in the Constraints",
+          "authors": ["Jayanta Mandi", "Marianne Defresne", "Senne Berden", "Tias Guns"],
+          "year": 2025,
+          "venue": "Advances in Neural Information Processing Systems 38",
+          "doi": "10.52202/085713-5451",
+          "doi_or_stable_url": "https://doi.org/10.52202/085713-5451",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0109",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+          "title": "Predict-then-Calibrate: A New Perspective of Robust Contextual LP",
+          "authors": ["Chunlin Sun", "Linyu Liu", "Xiaocheng Li"],
+          "year": 2023,
+          "venue": "Advances in Neural Information Processing Systems 36",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/397271e11322fae8ba7f827c50ca8d9b-Abstract-Conference.html",
+          "publication_type": "proceedings-article",
+          "abstract": "Risk-sensitive contextual optimization requires decisions from covariates without observing the objective at test time. Predict-then-calibrate quantifies prediction uncertainty against the downstream risk profile and uses it in robust contextual linear optimization."
+        }
+      ]
+    },
+    {
+      "query_id": "Q0110",
+      "results": [
+        {
+          "paper_id": "HUMAN-NIPS-2003-ARA-STAR",
+          "title": "ARA*: Anytime A* with Provable Bounds on Sub-Optimality",
+          "authors": ["Maxim Likhachev", "Geoffrey J. Gordon", "Sebastian Thrun"],
+          "year": 2003,
+          "venue": "Advances in Neural Information Processing Systems 16",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper/2003/hash/ee8fe9093fbbb687bef15a38facc44d2-Abstract.html",
+          "publication_type": "proceedings-article",
+          "abstract": "ARA* finds a feasible suboptimal solution quickly, then repeatedly improves its bound while reusing prior search effort. The current feasible incumbent is available when computation is interrupted."
+        }
+      ]
+    }
+  ]
+}

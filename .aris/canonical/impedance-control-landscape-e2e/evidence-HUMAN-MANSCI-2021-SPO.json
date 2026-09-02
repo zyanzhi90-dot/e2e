@@ -1,0 +1,268 @@
+{
+  "source_id": "HUMAN-MANSCI-2021-SPO",
+  "read_event_id": "5671c7e0f6504d48ad7d6506c0ba02cb",
+  "content_sha256": "130bfd92a1cfdadc4f8e3f047dbaaae7d30f731527a58c73a336a3d9d9aa36ef",
+  "claim": "Smart Predict-then-Optimize replaces pointwise prediction-error training with a downstream decision-regret loss and a tractable convex surrogate using the optimization problem structure. This supports training a contact representation by the impedance decisions it induces, but canonical SPO assumes a fixed known feasible set and does not calibrate uncertain contact-capacity constraints.",
+  "claim_locator": "Abstract; problem formulation; SPO and SPO+ loss derivation; consistency analysis; shortest-path and portfolio experiments",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary optimization-learning study; constraint-side contact migration is explicitly reader inference; configured paper_reader model gpt-5.4",
+  "problem_and_setting": "Applications predict unknown linear objective coefficients from features and then optimize over a fixed known feasible region. Standard regression ignores that small coefficient errors can cause high decision regret while large errors can be decision-irrelevant, particularly under predictor misspecification.",
+  "method_or_mechanism": "SPO loss measures the true decision error induced by predicted coefficients. Because it is nonconvex and discontinuous, SPO+ uses duality and downstream optimization-oracle calls to form a convex upper-bounding surrogate. The learning objective therefore weights parameter errors by their effect on the ranking and choice of feasible downstream decisions.",
+  "content_summary": "SPO establishes that prediction accuracy can be the wrong objective when predictions feed optimization. Theoretical upper-bound and conditional consistency results and shortest-path and portfolio experiments support optimization-aware training. Its canonical uncertainty is in objective coefficients, whereas target contact capacity defines constraints; it supplies no predictive set, coverage calibration, abstention, deadline, or fallback.",
+  "synthesis_role": "Positive Source Mechanism for action-relevant representation learning and a negative boundary for calibrated constraint uncertainty. It motivates impedance-decision regret or action equivalence as the encoder loss, but requires feasibility-aware constraint learning and calibrated robust optimization downstream.",
+  "development_link": "For RMC-DECISION-SUFFICIENT-CAPACITY-STATE, PASS_WITH_REQUIRED_ADAPTATION for CAP-ACTION-RELEVANT-STATE and qualified OBL-MINIMAL-DECISION-SUFFICIENCY: train the history/contact encoder against induced optimal impedance regret or action ranking. FAIL for CAP-CALIBRATED-CAPACITY-SET and OBL-HELDOUT-CAPACITY-CALIBRATION. Canonical SPO cannot establish joint feasibility when uncertainty moves from objective coefficients into contact constraints.",
+  "evidence": [
+    {
+      "locator": "Abstract and introduction",
+      "status": "author_reported",
+      "finding": "Pointwise prediction error can be poorly aligned with downstream decision quality, especially under misspecification."
+    },
+    {
+      "locator": "SPO loss formulation",
+      "status": "author_reported",
+      "finding": "SPO evaluates the true objective regret of the decision selected under predicted coefficients."
+    },
+    {
+      "locator": "SPO+ derivation",
+      "status": "author_reported",
+      "finding": "A convex surrogate uses the feasible region and optimization-oracle calls and upper-bounds the SPO loss."
+    },
+    {
+      "locator": "Consistency analysis",
+      "status": "author_reported",
+      "finding": "Statistical consistency is established under the stated distributional and regularity conditions."
+    },
+    {
+      "locator": "Shortest-path and portfolio experiments",
+      "status": "author_reported",
+      "finding": "Optimization-aware training improves reported downstream decision quality over prediction-error baselines, particularly with misspecified predictors."
+    },
+    {
+      "locator": "Canonical problem scope",
+      "status": "reader_inference",
+      "finding": "Because the feasible region is fixed and uncertainty lies in objective coefficients, SPO alone does not cover action-conditional contact-capacity constraints."
+    }
+  ],
+  "evidence_kind": [
+    "decision-regret loss",
+    "convex surrogate",
+    "consistency analysis",
+    "optimization benchmarks"
+  ],
+  "boundary_conditions": [
+    "The uncertain vector is a linear objective coefficient.",
+    "The feasible region is fixed and known.",
+    "No calibrated predictive set, marginal or conditional coverage, or distribution-shift abstention is supplied.",
+    "No online hard-feasibility, deadline, timeout, or deterministic fallback mechanism is supplied.",
+    "No latent-state minimality or identifiability theorem is supplied."
+  ],
+  "assumptions": [
+    "A downstream optimization oracle is available during training.",
+    "The feasible region represents admissible decisions.",
+    "Target migration can define meaningful robust impedance regret and action equivalence."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Prediction-error minimization can produce poor decisions despite small parameter error.",
+      "Misspecification worsens the prediction-decision mismatch."
+    ],
+    "inferred": [
+      "Canonical SPO cannot calibrate contact capacity or guarantee feasibility with uncertain constraints.",
+      "It cannot prove a learned contact state is minimal or identifiable.",
+      "It supplies no abstention or deadline-total fallback."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that SPO directly yields calibrated contact-capacity sets.",
+    "Any claim that SPO guarantees feasibility for uncertain constraints.",
+    "Any claim that decision-focused loss alone proves representation minimality."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-41a081d290ac9c39d2d1ed0a967aee85d3f2cb8a2a04e052ac1f7dec6a97e209.json",
+    "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+    "root_cause_analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "actual_hit_query_ids": [
+      "Q0099",
+      "Q0104",
+      "Q0107"
+    ],
+    "mechanism_change_ids": [
+      "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+    ],
+    "capability_ids": [
+      "CAP-ACTION-RELEVANT-STATE",
+      "CAP-CALIBRATED-CAPACITY-SET"
+    ],
+    "obligation_ids": [
+      "OBL-HELDOUT-CAPACITY-CALIBRATION",
+      "OBL-MINIMAL-DECISION-SUFFICIENCY"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
+    ],
+    "search_dimensions": [
+      "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM"
+    ],
+    "search_steps": [
+      "DOMAIN_DISCOVERY",
+      "SOURCE_SEARCH",
+      "TERMINOLOGY_GROUNDING"
+    ],
+    "target_mechanism_signature_refs": [
+      "TMS-DECISION-SUFFICIENT-CAPACITY"
+    ],
+    "domain_hypothesis_ids": [
+      "DH-AB-DECISION-FOCUSED-OPTIMIZATION"
+    ],
+    "terminology_map_ids": [
+      "TM-DECISION-FOCUSED"
+    ],
+    "decision_targets": [
+      "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY"
+    ],
+    "phase_binding_anchor": {
+      "phase": "method_design",
+      "required_inputs": {
+        "idea-stage/ACTIVE_FIELD_MAP.md": {
+          "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+          "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "producer_phase": "landscape",
+          "registered_at": "2026-08-22T04:18:43Z"
+        },
+        "idea-stage/RESEARCH_CONTRACT.md": {
+          "path": "idea-stage\\RESEARCH_CONTRACT.md",
+          "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+          "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+          "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/NECESSITY_CLOSURE.json": {
+          "path": "idea-stage\\NECESSITY_CLOSURE.json",
+          "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/NECESSITY_VERDICT.json": {
+          "path": "idea-stage\\NECESSITY_VERDICT.json",
+          "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+          "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+          "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "producer_phase": "root_cause_analysis",
+          "registered_at": "2026-09-01T08:18:49Z"
+        },
+        "idea-stage/ROOT_CAUSE_VERDICT.json": {
+          "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+          "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          "producer_phase": "root_cause_gate",
+          "registered_at": "2026-09-01T09:16:18Z",
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T09:16:28Z",
+            "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+            "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+            }
+          }
+        }
+      },
+      "lifecycle_return_event_id": null,
+      "active_problem_binding": {
+        "problem_id": "P-SOFTSCAN-STATE-01",
+        "version": 2,
+        "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+        "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+      },
+      "accepted_rca_binding": {
+        "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+        "lifecycle_return_event_id": null
+      },
+      "design_obligation_binding": {
+        "source": "method_design_query_context",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "capability_ids": [
+          "CAP-ACTION-RELEVANT-STATE",
+          "CAP-CALIBRATED-CAPACITY-SET",
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+          "CAP-DEADLINE-TOTALITY"
+        ],
+        "obligation_ids": [
+          "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+          "OBL-HELDOUT-CAPACITY-CALIBRATION",
+          "OBL-MINIMAL-DECISION-SUFFICIENCY",
+          "OBL-SAME-RELATION-HARD-LIMITS"
+        ],
+        "principle_search_context_sha256": "0239804f7cb757668e3cda5bc3ac50f1c3fc396ecbedf76074f23b5b6d3df1ce"
+      }
+    },
+    "admission_decision_id": "admission-f971237b740549859f054e7667d34f6a"
+  }
+}

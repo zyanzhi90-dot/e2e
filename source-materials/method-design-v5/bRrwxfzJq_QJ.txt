@@ -1,0 +1,1541 @@
+                                                                                                                                                                                                    1
+
+
+
+
+                                                                Agile Maneuvers in Legged Robots:
+                                                                  a Predictive Control Approach
+                                                                          Carlos Mastalli∗   Wolfgang Merkt∗    Guiyang Xin
+                                                              Jaehyun Shim    Michael Mistry   Ioannis Havoutis   Sethu Vijayakumar
+
+
+
+                                            Abstract—Planning and execution of agile locomotion maneu-
+                                         vers have been a longstanding challenge in legged robotics. It
+                                         requires to derive motion plans and local feedback policies in
+arXiv:2203.07554v2 [cs.RO] 18 Jul 2022
+
+
+
+
+                                         real-time to handle the nonholonomy of the kinetic momenta.
+                                         To achieve so, we propose a hybrid predictive controller that
+                                         considers the robot’s actuation limits and full-body dynamics. It
+                                         combines the feedback policies with tactile information to locally
+                                         predict future actions. It converges within a few milliseconds
+                                         thanks to a feasibility-driven approach. Our predictive controller
+                                         enables ANYmal robots to generate agile maneuvers in realistic
+                                         scenarios. A crucial element is to track the local feedback policies
+                                         as, in contrast to whole-body control, they achieve the desired
+                                         angular momentum. To the best of our knowledge, our predictive
+                                         controller is the first to handle actuation limits, generate agile
+                                         locomotion maneuvers, and execute optimal feedback policies for
+                                         low level torque control without the use of a separate whole-body
+                                         controller.
+                                            Index Terms—agile maneuvers, model predictive control, state
+                                         feedback control, legged robots, full-body dynamics
+
+
+                                                                   I. I NTRODUCTION
+                                                                                                                        Fig. 1. Our hybrid predictive controller generating different agile maneuvers
+                                                 ODEL Predictive Control (MPC) is a powerful tool to
+                                         M       synthesize in real-time motions and controls through
+                                         task goals (cost / optimality) and constraints (system dynamics,
+                                                                                                                        on the ANYmal B robot. In the top clip, ANYmal jumped diagonally twice.
+                                                                                                                        In the middle clip, ANYmal jumped four times with a rotation of 30 degrees
+                                                                                                                        each. In the bottom clip, ANYmal jumped 15cm forward. All the maneuvers
+                                                                                                                        were computed using our B OX -FDDP solver, which efficiently handles torque
+                                         interaction constraints, etc.) [1]. One of the benefits of state-              limits and dynamic feasibility, and executed with our Riccati-based state-
+                                         feedback predictive control is to handle nonholonomic sys-                     feedback controller. Each contact switching (landing phase) is described using
+                                                                                                                        impulse dynamics. To watch the video, click the figure or see https://
+                                         tems, as according to Brockett theorem [2] we cannot stabilize                 youtu.be/R8lFti7x5N8
+                                         these systems with continuous time-invariant feedback control
+                                         laws. In rigid body systems, nonholonomics constraints appear
+                                         in the conservation of the angular momentum [3]. This means
+                                         that, during flying motions, the robot cannot properly regulate
+                                         the angular momentum with instantaneous control actions                        trots. Furthermore, MPC approaches are recognized to react
+                                         (e.g., [4], [5], [6], [7]). As a consequence, it is important to               against unforeseen disturbances and model errors in a wide
+                                         consider the full-body dynamics for the generation, and not                    range of situations. To give an example in the case of legged
+                                         only execution, of agile maneuvers such as jumps and flying                    locomotion, predictive control helps to compensate strong
+                                                                                                                        push forces [8] or to produce safer motions by simply mini-
+                                            This research was supported by (1) the European Commission under the        mizing the jerk of the center of mass (CoM) [9]. It promises to
+                                         Horizon 2020 project Memory of Motion (MEMMO, project ID: 780684), (2)         leverage motion plans and controls together while increasing
+                                         the Engineering and Physical Sciences Research Council (EPSRC) UK RAI
+                                         Hub for Offshore Robotics for Certification of Assets (ORCA, grant reference   the overall robustness and exploiting the robot’s capabilities
+                                         EP/R026173/1), and (3) the Alan Turing Institute. ∗ The first two authors      for agile maneuvers. However, as briefly justified below, we
+                                         contributed equally to this work. (Corresponding author: Carlos Mastalli.)     can potentially enable those promises by 1) employing the
+                                            Carlos Mastalli is with the School of Engineering and Physical Sciences,
+                                         Heriot-Watt University, U.K. (e-mail: c.mastalli@hw.ac.uk).                    full-body dynamics of the robot, by 2) following the optimal
+                                            Jaehyun Shim, Michael Mistry and Sethu Vijayakumar are with the School      policy, and by 3) improving the globalization of algorithms
+                                         of Informatics, University of Edinburgh, U.K. (e-mail: jshim@ed.ac.uk; mm-     for numerical optimal control. We propose a framework that
+                                         istry@ed.ac.uk; sethu.vijayakumar@ed.ac.uk).
+                                            Wolfgang Merkt and Ioannis Havoutis are with the Oxford Robotics            addresses these challenges in this work. Fig. 1 shows the
+                                         Institute, Department of Engineering Science, University of Oxford, U.K. (e-   generation of different agile maneuvers that are only possible
+                                         mail: wolfgang@robots.ox.ac.uk; ioannis@robots.ox.ac.uk).                      when our MPC (i) considers the torque limits and (ii) tracks the
+                                            Guiyang Xin is with the School of Optoelectronic Engineering and Instru-
+                                         mentation Science, Dalian University of Technology, Dalian, China. (e-mail:    optimal policy via our Riccati-based state-feedback predictive
+                                         guiyang.xin@dlut.edu.cn).                                                      controller.
+                                                                                                                                            2
+
+
+
+A. Brief justification                                              et al. [25] proposed a kinodynamic optimal control formulation
+   To date, most of the locomotion frameworks follow a              that significantly reduces the computational cost by employ-
+motion-planning paradigm (e.g., [10], [11]), in which an            ing alternating direction method of multipliers (ADMM) and
+instantaneous controller tracks motion plans computed from          hybrid dynamics. The former aspect reduces the computation
+reduced-order dynamics (e.g., [12], [13], [14]). In this control    time needed by off-the-shelf solvers, while the latter one
+paradigm, the strategy is to encode, in the instantaneous           avoids the use of complementarity constraints. But, even
+controller, a hand-tuned control policy (i.e., a set of tasks and   though that this approach decreases the computation time, it
+weights) that depends on motion plans often computed assum-         seems to be still high for predictive control applications as the
+ing reduced-order dynamics. However, when considering plans         results were reported in the context of trajectory optimization
+computed using the full-body dynamics, this leads to a sub-         only. This is also the case for recent works that similarly split
+optimal policy as the instantaneous controller re-writes the mo-    the nonconvex optimal control problem into two convex and
+tion plans provided by the full-dynamics motion planner. This       alternating sub-problems [26], [27]. It is also important to
+sub-optimality arises as the hand-tuned policies do not align       note that, with the exception of [26], these approaches do not
+with the optimal policy, especially if there is nonholonomy in      consider actuation limits.
+the dynamics [8] as it describes a non-conservative vector field       Many works have recently demonstrated dynamic locomo-
+(i.e., path-dependent field). This highlights the importance of     tion realized using MPC with reduced-order models such as
+following the optimal policy based on the full-body dynamics,       inverted pendulum model [8], [9] or the single-rigid body
+which constitutes what we call as motion-control paradigm. In       dynamics [28], [12], [29] with full kinematics [13], [30].
+this work, we propose this new control paradigm and show that       With former models based on inverted pendulum, we can
+increases tracking performance while maintaining the robot’s        improve the robot’s stability compared with the zero mo-
+compliance.                                                         ment point (ZMP) approach [31], as we could incorporate
+   Additionally, reduced-order models neglect the nonholon-         further constraints. With latter approaches based on single-
+omy in the dynamics, the robot’s actuation and kinematic            rigid body dynamics, legged robots can achieve more dynamic
+limits by approximating the kinetic angular momenta (i.e., the      motions through fast resolution of direct transcription prob-
+Euler equation of motion). This assumption is very restrictive      lems.1 However, these simplifications “hold” for legged robots
+as it requires actuators with high bandwidth and torque limits      where (i) the mass and inertia of the limbs are negligible
+such as the ones developed for the Atlas robot. It limits the       compared to the torso (e.g., MIT’s Mini Cheetah) and (ii) the
+application of these simplified predictive controllers to robots    actuation capabilities are unlimited with infinite torque limits
+with light limbs. As we wish to generate agile maneuvers            and bandwidth (e.g., Boston Dynamics’s Atlas). Conversely,
+in any kind of robot, it is important to develop predictive         some authors have resorted to model the leg inertia explicitly
+control algorithms that consider the robot’s full dynamics, its     through lumped mass or learned models [33], [34]. Again,
+actuation limits, and compute locally optimal policies. In this     neither of these models can explicitly include actuation con-
+work, we also propose a full-dynamics MPC that can generate         straints/capabilities in the formulation. Indeed, this is possible
+agile maneuvers efficiently. To the best of our knowledge, our      with the full rigid body dynamics, or its projection to the CoM
+predictive controller is the first to handle nonholonomy in the     point that it is well-known as centroidal dynamics [16].
+kinetic momenta, torque limits and friction-cone constraints,          Predictive control with full rigid body dynamics is challeng-
+which allows the ANYmal robot to perform multiple jumps.            ing, as it is a large nonlinear optimization problem that needs
+                                                                    to be solved within a few milliseconds [32]. Nevertheless,
+                                                                    Tassa et al. [35] demonstrated in simulation that it is feasible
+B. Related work
+                                                                    to deploy MPC based on the robot’s full dynamics with the
+   The nonholonomy in the kinetic momenta, introduced               iterative linear-quadratic regulator (iLQR)2 algorithm [37].
+above, is related with the non-Euclidean nature of rigid body       Note that this approach employed MuJoCo’s smooth and
+systems [15]. This effect can be handled (at least) using the       invertible contact model [38]. Later, the first experimental
+centroidal dynamics together with the robot’s full kinemat-         validation was performed on the HRP-2 humanoid robot,
+ics [16], as the momentum of a rigid body system depends on         but for kinematic manipulation tasks only [39] as MuJoCo’s
+the robot’s configuration and velocity. However, most state-        contact dynamics seems to be not accurate enough for locomo-
+of-the-art approaches in trajectory optimization neglect the        tion. In the same vein, a similar approach was developed for
+momentum components associated with the robot’s limbs, as           quadrupedal locomotion [40], in which a linear spring-damper
+it leads to a simpler and smaller optimization problem for          system models the contact interactions. This approach enables
+motion generation [17], [18], [13] and contact planning [19],       the MPC controller to automatically make and break contact,
+[14], [20]. In contrast, the earliest effort that adopts the        albeit with the complexity of tuning the hyperparameters of the
+centroidal dynamics for trajectory optimization [21] has a high     contact model that artificially creates non-zero phantom forces
+computational cost, and it cannot be used in predictive control.    during non-contact phases. These phantom forces predicts
+Its high computation cost is due to (i) formulating the contact     unrealistic motions, especially during flying phases, and it is
+dynamics using complementarity constraints (also reported by
+others [22], [23], [24]), and (ii) building upon a general-           1 For more details about direct transcription formulation see [32].
+purpose nonlinear optimization software (which cannot exploit         2 The iLQR is also commonly recognized to be a differential dynamic
+the problem structure efficiently). In a follow-up work, Herzog     programming (DDP) algorithm [36] with Gauss-Newton approximation.
+                                                                                                                                                      3
+
+
+
+unlikely to generate agile and complex locomotion maneuvers                  and feedback policies given a predefined sequence of contact
+under this assumption. Indeed, the authors have demonstrated                 phases in real-time. It uses tactile information to locally predict
+their approach in simple motions: trotting and walking in flat               future actions and controls. We introduce the friction/wrench
+terrain. Again, both approaches neglect the robot’s actuation                cone constraints based on our hybrid paradigm [55], [46]. To
+limits as they rely on the iLQR algorithm.                                   achieve high control frequency rates while considering the
+   The promising efficiency of iLQR-like solvers has attracted               robot’s full dynamics, our approach employs multiple-shooting
+special attention in the legged robotics community. These                    to enable parallelization in the computation of analytical
+techniques can be classified as indirect methods, since they                 derivatives.
+are a numerical implementation of the Pontryagin’s min-                         Secondly, we reduce the reliance on separate tracking con-
+imun principle [32]. Their efficiency is due to the induced                  trollers and exploit the local feedback control laws synthesized
+sparse structure via the “Bellman’s principle of optimality”.                at the motion planning level. As mentioned above, this consti-
+Concretely speaking, it breaks the large matrix factoriza-                   tutes a motion-control paradigm, in which in contrast to [30]
+tion, needed often in nonlinear programming solvers such as                  we follow both: optimal trajectories and policies. To the best
+S NOPT [41], K NITRO [42], and I POPT [43], into a sequence                  of our knowledge, we demonstrate the first application of local
+of much smaller matrix factorizations. These features make                   feedback policies (Riccati gains) for low-level torque control
+it appealing to real-time MPC, in particular due to the fact                 in hardware experiments for locomotion tasks. The key benefit
+that libraries for linear algebra, such as E IGEN [44], are often            hereto is that the optimal feedback gains increase the tracking
+very efficient to handle small and dense matrix factorizations.3             performance and compliance as they follow the optimal and
+However, their main limitations are 1) their inability to handle             non-conservative vector field defined by the nonholonomic
+arbitrary constraints, and 2) the poor globalization of indirect             of the robot’s dynamics. Our experimental analysis compares
+approaches. Note that the algorithm’s globalization, or limited              our Riccati-based state-feedback control approach against a
+capability to converge from arbitrary starting points, is of great           hierarchical whole-body controller based on the robot’s inverse
+interest, as it prohibits the optimization of agile maneuvers                dynamics. We validate our pipeline in a series of maneuvers
+such as jumps [46].                                                          of progressively increasing complexity on the ANYmal B and
+   Most recent works focus on the former limitations, which                  C quadrupeds.4
+derive from basic notions proposed in [47]. Indeed, this work
+showed the connection with the control Hamiltonian minimiza-                                                II. OVERVIEW
+tion, typically found in textbooks (e.g., [32]), which can be                   In this section, we first justify the importance of using
+extended for handling arbitrary constraints as proposed in [48].             full-body dynamics and predictive control, which is partic-
+Unfortunately, this extension increases the computation time                 ularly important for the generation of agile maneuvers (Sec-
+by up to four times. To improve this, Howell et al. [49]                     tion II-A). Later, we briefly describe our locomotion pipeline
+proposed an augmented Lagrangian approach to boost the                       (Section II-B).
+computational efficiency, which was later extended in [50],
+[51]. On the other hand, for improving the poor globalization,
+a modification of the Riccati equations to account for lifted                A. The role of full-body dynamics
+dynamics was proposed in [52]. Note that the term lifted is a                   It is often assumed that centroidal optimization on the
+name coined by [53], and it refers to gaps or defects produced               robot’s trunk is the key ingredient for dynamic and versatile
+between multiple-shooting nodes. Then, Mastalli et al. [46]                  locomotion, as the centroidal momentum of the robot’s trunk
+included a modification of the forward pass that numerically                 dominates the centroidal dynamics in robots with light-weight
+matches the gap contraction expected by a direct multiple-                   legs and arms. However, if we translate this assumption in
+shooting method with only equality constraints. This approach                nature, then we would not see cats recover from a fall or
+drives the iteration towards the feasibility of the problem. It              astronauts that reorient themselves in zero-gravity. Technically
+can be seen as a direct-indirect hybridization, and it can handle            speaking, this assumption removes the nonholonomic nature
+control limits [54].                                                         of the centroidal kinetic momentum of rotation of rigid body
+                                                                             systems [3], which in the case of flight phases is expressed as
+                                                                             (top row):
+C. Contribution
+                                                                                                       i
+                                                                                                           X> Ii
+   The scope of this paper is to achieve agile maneuvers in                             z             G
+                                                                                                     }|
+                                                                                     Nb                                     { 
+legged robots. For that, we first start by justifying –with a fresh                                                Ri Īcm
+                                                                                                                                    
+                                                                                     X    [xi − pG ]× mi                        ẋi
+view– the importance of full-body dynamics and predictive
+                                                                                                                        i             = constant,   (1)
+                                                                                                mi                   0          ωi
+                                                                                     i=0
+control. We then propose a hybrid model predictive control
+approach that performs such kind of motions by considering                   where xi describes the position of the body i with mass
+the robot’s full dynamics. To enhance convergence needed in                  mi , Īcm
+                                                                                    i  corresponds to its rotational inertia matrix about
+agile maneuvers, we formulate and solve a feasibility driven                 body’s CoM, Ri defines its orientation, pG is the CoM
+problem. Our predictive controller computes motion plans                     position of the rigid body system, [·]× constructs a skew-
+                                                                             symmetric matrix, and Nb is the number of rigid bodies. Note
+  3 With dense matrices, we can further leverage vectorization and code
+generation of matrix operations (e.g., [45]), which improves efficiency on     4 B and C refer to the version of the ANYmal robots, for example both are
+modern CPUs.                                                                 shown in Fig. 11.
+                                                                                                                                                              4
+
+
+
+                                                                                momentum of rotation in Eq. (1) remains similar when a robot
+                                                                                is walking, if we note its connection with the Euler equation:
+
+(a)                                                                                         z"       G
+                                                                                                    }|
+                                                                                                      k
+
+                                                                                               N
+                                                                                                            #{ Nf
+                                                                                                b
+                                                                                          d   X                X
+                                                                                                  (AkG )i vi =     [pj − pG ]× λj + τj ,                    (2)
+                                                                                          dt i=0               j=0
+
+                                                                                with                                 
+(b)                                                                                                          (AkG )i
+                                                                                                  (AG )i :=             = i X>
+                                                                                                                             G I i Ji
+                                                                                                              (AlG )i
+                                                                                as the row of the centroidal momentum matrix [16] associated
+Fig. 2. Building-up momentum and modifying the locked inertia tensor            to the joint i, Ji as the body Jacobian, vi relates the velocity
+from first principles of optimization. Both sequence of motions are optimized
+using the full dynamics and joint limits of the Talos robot. To reduce the      of body i to its predecessor, pj as the position of the contact j,
+torques required, the Talos robot performs: (a) two swinging motions needed     λj and τj as the forces and torques acting on this contact, with
+to achieve the handstand posture. (b) reduction of the locked inertia tensor    Nf number of contacts. Note that we use minimal coordinates
+needed to achieve a quicker jumping velocity and desired landing place.
+                                                                                in Eq. (2), as it is the conventional description used in the
+                                                                                centroidal dynamics [16]. Additionally, the term within the
+                                                                                square brackets in the LHS of Eq. (2) is the centroidal angular
+that the first term in the LHS term can be computed using                       momentum kG .
+spatial algebra5 as i X>G Ii , where XG is the spatial transform
+                                    i
+                                                                                   From the structure of the Euler equation, we observe that,
+between the total CoM and the body i, and Ii is its spatial                     given a well-designed kinematic path, a rigid body system can
+inertial. Additionally, for sake of simplicity, we describe the                 build up angular momentum to reduce the required contact
+bodies’ configuration and velocity using maximal coordinates                    forces and torques. Reduction on the contact forces and
+expressed in their CoM points.                                                  torques translates into lower joint torques, which increases the
+   1) Nonholonomic effect in flight phases: As the kinetic                      robots’ capability to perform agile and complex maneuvers.
+momentum of rotation has to be constant, we observe that                        This is also true for robots with light-weight legs, as we will
+it is possible to modify the robot’s posture by changing its                    report in Section V that our ANYmal robot could not execute
+locked inertial tensor (name coined in [15]). This statement                    multiple jumps if we do not track the angular momentum
+becomes clear if we express Eq. (1) in terms of the average                     accurately. Fig. 2a shows how the Talos humanoid robot
+spatial velocity introduced in [16], i.e.,                                      builds up momentum by swinging motions twice. This strategy
+                                                                                allows the robot to reach the handstand posture.
+                 z"
+                              IG
+                              }|                                                   3) System actuation considerations: As seen before, we
+                                      #{
+                   XNb                                                          can account for the nonholonomic effect using the centroidal
+                         i
+                             X>
+                              G Ii XG vG = constant,
+                                  i
+                                                                                dynamics too (not only using the full-body dynamics). Indeed,
+                   i=0
+
+
+where vG is the average spatial velocity, and IG is the (spatial)
+locked inertial tensor – also known as the centroidal composite                        control
+rigid body inertia (CCRBI) matrix [16]. Moreover, the top row
+                                                                                        state
+of differential constraint in Eq. (1) tells us that, to reach a
+desired orientation of the robot, each body needs to follow                                                          centroidal dynamics
+
+a specific path (i.e., path-dependent field) as it defines a
+nonholonomic evolution. It also tells us that to reach a desired                       control
+footstep location, from a flight phase, we need to plan the                             state
+entire kinematic path of each body along the (constant) angular                                                                 full dynamics
+momentum generated in the take-off phase. Indeed, Fig. 2b
+shows that if we optimize the motion with the full-body                         Fig. 3. System dimension of centroidal and full-body dynamics. The
+dynamics (using our formulation in Section III-B), then we                      complexity of algorithms for resolving optimal control problems depends on
+                                                                                the system dimension. In the centroidal dynamics, the state of the system is
+can generate a maneuver that increases the jumping velocity                     described by the linear lG ∈ R3 , angular kG ∈ R3 , and generalized position
+by reducing the locked inertia tensor. This increment in the                    q ∈ Rnv , and its inputs are the generalized velocity v ∈ Rnv and contact
+jumping velocity is crucial for landing in the desired location                 forces λC ∈ Rnf . Instead in the full-body dynamics, the state is defined by
+                                                                                the generalized position and velocity, and its input are joint torque commands
+(1.8 m from the bars).                                                          u ∈ Rnv −6 (assuming full actuation), where τb defines the force-bias vector
+   2) Nonholonomic effect in contact phases: The limitations                    as defined in Eq. (5). It means that if we use the centroidal dynamics, then
+                                                                                the complexity of optimal control problem scales with the number of contact
+of the above-mentioned assumption go beyond maneuvers                           forces. Consequentially, its dimension (i.e., nx + nu ) is lower compared with
+with flight phases. The nonholonomic structure of the kinetic                   the full-body dynamics when nf ≤ nv − 12. In case of quadruped robots,
+                                                                                the dimension of the centroidal dynamics is equals to or greater than full-
+                                                                                body dynamics if two feet or more are in contact (i.e., in trotting, pacing, and
+  5 For more details about spatial algebra see [56].                            walking gaits).
+                                                                                                                                               5
+
+
+
+the centroidal model projects the rigid body dynamics to                                Contact Surface           Foothold
+its CoM point given the full kinematics of the system [16].                             Segmentation              Planning
+Its inputs are the contact forces, instead of the joint torques
+                                                                   LiDAR                     Terrain          Contact Phase       Tracking
+as in the full-body dynamics. It means that the dimension of       Localization              Mapping          WB-MPC              Controller
+both models remains similar, with the dimension of the cen-
+troidal dynamics potentially being smaller or larger depending
+on whether the dimension of the contact forces is lower
+or larger than the joint commands (see Fig. 3). Therefore,
+using centroidal dynamics together with full kinematics does
+                                                                                      Drift Compensation
+not provide a significant reduction on the computation time
+needed to solve optimal control problems, as the complexity
+of these algorithms are often related with the dimension of the    Fig. 4. Overview of the locomotion pipeline. The hybrid whole-body MPC
+system and horizon, and their nonlinearities remain similar.       computes new policies (50 Hz to 100 Hz) and transmits it to a tracking
+For instance, the algorithm complexity of a Riccati recursion      controller which closes the loop with state estimation and sensing (400 Hz).
+                                                                   We use LiDAR localization to compensate for state estimation drift in the
+is approximately O(N (nx + nu )3 ) [57], where N is the            MPC (Section IV-D). We integrate open-source modules for terrain mapping
+optimization horizon, and nx + nu is the dimension of the          (elevation_mapping), contact surface segmentation (plane_seg), and
+dynamics computed from its state and control dimensions.           foothold planning (SL1M [58]) to automatically synthesize contact schedules
+                                                                   based on navigation goals (Section II-B3). Our key contributions, highlighted
+   Retrieving the joint torques from the centroidal dynamics re-   in blue, are described in Section III and IV-B.
+quires to re-compute the manipulator dynamics, which adds an
+unnecessary extra computation. Additionally, it defines highly
+nonlinear torque-limits constraints, which are not yet possible    experimentally supports the thesis exposed in the previous sub-
+to handle (by state-of-the-art solvers, e.g., [49]) fast enough    section.
+for MPC. A workaround is to compute the joint torques u by            2) Tracking controller: Our predictive controller computes
+assuming a quasi-static condition, e.g., u = J>                    local feedback policies at 50 Hz (or up to 100 Hz) and sends
+                                                 C λC . However,
+these assumptions do not hold in highly-dynamic maneuvers.         these – i.e., reference state and contact force trajectories along
+Therefore, it is more convenient to develop a predictive           with time-varying feedback gain matrices – to the tracking
+controller based on the full-body dynamics rather than based       controller for a given control horizon. The control horizon
+on the centroidal dynamics. Below, we present a locomotion         is typically around 40 ms (or 4 nodes), as it is enough to
+pipeline in which our predictive controller (core element)         cope with unexpected delays in the communication. Our MPC
+produces local policies using the robot’s full dynamics. As        and tracking controller communicate via ROS-TCP/IP. The
+the joint torques are explicitly represented, we can directly      tracking controller runs at 400 Hz, and upsamples the reference
+handle actuation limits.                                           state trajectory based on a system rollout/simulation. Our
+                                                                   Riccati-based state-feedback control constitutes what we refer
+                                                                   as motion-control system, which we describe in Section IV-B.
+B. Locomotion pipeline                                             Crucially, the feedback gain matrices are used directly to
+   The heart of our locomotion pipeline is a predictive con-       modify joint state and torque references for the low-level joint
+troller that computes local policies using the robot’s full dy-    controllers without the requirement of a separate tracking con-
+namics. We formulate it as a hybrid optimal control problem,       troller as in [30]. However, for comparison purpose, we also
+which includes contact and impulse dynamics defined from           develop an instantaneous controller based on inverse dynamics
+a contact schedule (Section III). Then, a Riccati-based state-     and hierarchical quadratic programming (Section IV-A).
+feedback controller follows the local and optimal policies            3) Perceptive footstep planning: As a first step, we re-
+computed by the predictive controller (Section IV). Our full-      construct a local terrain (elevation) map [59] using depth
+dynamics MPC is designed to track footstep plans given a           sensors and then segment various convex patches. As a second
+navigation goal. Fig. 4 depicts the different components of        step, we compute the optimal foothold locations and contact
+our locomotion pipeline, which we briefly describe below.          patches from the segmented terrain using SL1M [58], [60]
+   1) Hybrid MPC: The hybrid MPC, described in the next            and a contact-surface segmentation. Both footholds and convex
+section, re-computes the motion plans and policies at a fixed      patches are optimized based on a quasi-static assumption of
+update frequency. It accounts for delays in the communica-         the dynamics and chosen to achieve a desired navigation goal
+tion, as it predicts the initial state of system at the time at    and passed to the contact-phase MPC. With it, we compute the
+which the tracking controller receives the updated policy. This    contact schedule needed for the predictive controller. Below,
+predicted state considers drift corrections from LiDAR scans       we describe our full-dynamics MPC.
+(localization) as well. In most of our experiments, our MPC
+operates at 50 Hz, despite that it is capable to run at 100 Hz                               III. H YBRID MPC
+on laptop hardware with 1.25 sec of optimization horizon.             In this section, we first introduce the hybrid dynamics
+We discretize this horizon at 100 Hz, which represents 125         with time-based contact gains used in our model predictive
+nodes. The update rates of our full-dynamics MPC are thus          controller (Section III-A). Then, we describe our contac-
+comparable to update rates reported in literature using single-    phase optimal control formulation focused on feasibility (Sec-
+rigid body dynamics with full kinematics (e.g., [13]), which       tion III-B).
+                                                                                                                                                   6
+
+
+
+A. Hybrid dynamics with time-based contact gain events
+
+  We consider the hybrid dynamics of a rigid contact inter-       LF
+action as:
+
+          v̇ = fp (q, v, u), p ∈ P = {1, 2, · · · , Np }
+                                                            (3)   RF
+         v = ∆p (q, v− ),
+          +
+
+
+                                                                                                                                            time
+where fp (·) describes the evolution of the rigid body system
+under a set of predefined rigid contacts in phase p, ∆p (·)       Fig. 5. The hybrid dynamics and its time-based contact gain events given
+defines a rigid contact-gain transition between p + 1 and p       a known contact schedule. The diagram describes a dynamic walking gait
+phases, Np defines a number of contact phases, q and v are        for a bipedal robot, where LF and RF are the left and right feet. The active
+                                                                  phases are marked with the gray block; while during the inactive phase a
+the generalized position and velocity, v+ and v− represent the    desired swing motion is defined. The black dot indicates when an inactive
+generalized velocities post- and pre-contact gain respectively,   phase gains a contact, e.g., v+ = ∆3 (q, v− ). The contact gain instance
+and u is the joint torque command. Further details about the      creates a transition between different models, e.g., between v̇ = f3 (q, v, u)
+                                                                  and v̇ = f4 (q, v, u). Note that these transitions do not depend on the control
+rigid body dynamics and its contact-gain transition models will   inputs. To put it clearly and succinctly, we only describe the duration of the
+be formally described in the next section. Note that the term     first active and inactive phases for each contact/foot. Finally, given this desired
+contact-gain is a name coined in [56].                            contact schedule, the objective of our predictive controller is to find a sequence
+                                                                  of whole-body reference motions, control commands and feedback gains.
+   For each contact, there are two main phases: active and
+inactive. The active phase restricts the motion of its frame
+of reference, while the inactive one allows it to move freely     that exploits the sparsity of the contact dynamics and its
+towards a desired location. The contact-gain transitions occur    derivatives6 as:
+at each                                                                     N −1
+                                                                            X
+                                                                  min              kqk   qref k2Q + kvk k2N + kuk k2R + kλCk k2K
+           Nc                                                     xs ,us
+           X                                                                k=0
+                 ∆Tja + ∆Tji : j ∈ {1, 2, · · · , Nc },
+                                                                   s.t. if k is a contact-gain transition:
+           j=1
+                                                                             qk+1 = qk ,
+                                                                                                            −1 
+                                                                                                      J>             τbIk
+                                                                                                                       
+where Tja and Tji are the time duration of the active and                      vk+1      Mk
+                                                                                     =                 Ck                   ,     (impulse dyn.)
+inactive phases for the motion segment j, and Nc defines                      −ΛCk       JCk           0            −aICk
+the number of contacts (i.e., feet). Fig. 5 depicts the hybrid             else:
+dynamics given a predefined contact schedule: timings and                                Z tk +∆tk
+references for the swing-foot motions. With it, the objective                qk+1 = qk ⊕      vk+1 dt,
+of our predictive controller is to find a sequence of reference                                 tk
+                                                                                         Z tk +∆tk
+motions, control commands and feedback gains within a                        vk+1 = vk +      v̇k dt,                                 (integrator)
+receding horizon of length duration N . This receding horizon                                   tk
+could be shorter than the contact schedule duration.                          
+                                                                                v̇k
+                                                                                     
+                                                                                       Mk             J>
+                                                                                                            −1 
+                                                                                                                     τbCk
+                                                                                                                          
+                                                                                     =                 Ck                   ,      (contact dyn.)
+   1) Contact schedule: The contact schedule defines a set of                  −λCk     JCk            0            −aCCk
+active and inactive phases for each contact independently. It              CλCk ≥ c,                                               (friction-cone)
+allows us to define any kind of locomotion gait, or generally                           W ref
+speaking, any kind of motion through contacts. We define                   log ( p−1
+                                                                                   W
+                                                                                   Gk ·  pGk ) = 0,                                (contact pos.)
+                                                                           W −1     W ref
+a number of motion segments Nc for each contact c, with                      ṗGk − ṗGk = 0,                                   (contact velocity)
+each segment including an active phase first, followed by an               x ≤ xk ≤ x̄,                                            (state bounds)
+inactive phase. Similarly to [14], an active or inactive phase
+                                                                           u ≤ uk ≤ ū,                            (control bounds)
+could be removed if we define its timings ∆Tja = 0 or                                                                           (4)
+∆Tji = 0, respectively. This particular motion description can    where the state x = (q, v) ∈ X lies in a differential manifold
+be used to define any kind of behavior as the reference swing-    (with dimension nx ) formed by the configuration point q and
+foot motions allow us to use an optimization horizon that is      its tangent vector v ∈ Rnv , the control u ∈ Rnu are the
+different from the locomotion gait duration (Fig. 6).             input joint torque commands, Ck and Gk define respectively
+                                                                  the set of active and swing contacts given the running node k,
+                                                                  M ∈ Rnv ×nv is the joint-space inertia matrix, JC ∈ Rnf ×nv
+                                                                  is the contact Jacobian (full-rank matrix), λC , ΛC ∈ Rnf is the
+B. Hybrid optimal control (OC) formulation                        contact force / impulse, aC,I
+                                                                                             C   ∈ Rnf is the desired acceleration
+
+ Given a predefined contact sequence and timings, at each          6 We exploit the sparse structure of M and J during the matrix-matrix
+                                                                                                                c
+MPC step we formulate a hybrid optimal control problem            multiplications needed for the factorization.
+                                                                                                                                                                 7
+
+
+
+                                                                                τb . For regular phases the force-bias term and the constrained
+                                                                                acceleration are defined as
+                                                                                       τbC := Su + h(q, v), aCC := J̇C v + ψ(q, v),
+                                                                                where h ∈ Rnv describes the Coriolis and gravitational
+                                                                                forces, and ψ improves the numerical integration through
+                                                                                a Baumgarte stabilization strategy [64]. Instead for contact-
+                                                                                gain events, the force-bias term and constrained acceleration
+                                                                                describes an impulse instance, i.e.,
+                                                                                                                     −1  I 
+                                                                                                           M J>
+                                                                                                +  
+                                                                                                 v                        τb
+                                                                                                       =          C            ,          (5)
+                                                                                                −ΛC        JC 0           −aIC
+Fig. 6. Contact schedule, gait duration, and optimization horizon for a         with
+sequence of walking, trotting and jumping gaits. The color boxes in the
+gait diagram (top-right) describe the activation of each foot of the ANYmal                          τbI := Mv− , aIC := eJC v− ,
+robot: red, yellow, green and blue are for the LF, RF, LH, and RH feet,
+respectively. The ANYmal robot is flying while planning in real-time its        where ΛC is the contact impulse and, v− and v+ are the dis-
+pre-landing motion (partially displayed by the continuous gray curve) along     continuous changes in the generalized velocity (i.e., velocity
+the current optimization horizon depicted by the gray box, after it walked
+and trotted. The gait diagram in the top-right shows the current optimization   before and after impact, respectively), and e ∈ [0, 1] is the
+horizon (gray box), executed motion and unconsidered gaits.                     restitution coefficient that considers compression / expansion.
+                                                                                Note that the impulse dynamics computes the post impact
+                                                                                velocity v+ , which we numerically integrate for obtaining the
+in the contact / impulse constraint space, τbC,I ∈ Rnv is                       next configuration q.
+the force-bias vector which its definition changes for contact                     To increase efficiency, we do not factorize the entire matrix
+and impulse dynamics, W pG , W ṗG are the contact position                     defined in the contact dynamics. Instead, the system acceler-
+and velocity, and (C, c) describe the linearized friction cone                  ation and contact forces can be expressed as:
+or wrench cone [61]. Note that nv , nu and nf describe
+                                                                                                 v̇ = M−1 τb + J>
+                                                                                                                            
+the dimension of the rigid body system, number of actu-                                                                 C λC ,
+
+ated joints and contact forces, respectively. Furthermore, the                                 λC = M     c −1 (aC − JC M−1 τb ),            (6)
+configuration point lies in a differential manifold defined as
+                                                                                thanks to a blockwise matrix inversion, which is also com-
+q ∈ SE(3)×Rnj , where nj is the number of articulated joints,
+                                                                                monly described in the numerical optimization literature as
+and its integration and difference operations are defined by ⊕
+                                                                                Schur complement factorization [65]. The method boils down
+and .
+                                                                                to two Cholesky decompositions that compute M−1 and
+   1) Feasibility-driven formulation: Our optimal control for-                  c −1 = JC M−1 J> , where the latter term is known as the
+                                                                                M                   C
+mulation focuses on finding feasible solutions as we define                     Schur complement. M   c is also well-known in robotics as the
+regularization (cost) terms only. Indeed, as written in Eq. (4),                operational space inertia matrix [66]. We perform a similar
+we regularize the system configuration, velocity, control and                   procedure to compute the post-impact velocity and impulse
+contact forces around their origin, with the exception of                       in Eq. (6).
+the configuration where we use the reference robot’s pos-                          3) Analytical derivatives of hybrid dynamics: We apply
+ture qref ∈ SE(3) × Rnj . We define a set of diagonal                           the chain rule to analytically compute the derivatives of the
+weight matrices for the posture regularization Q ∈ Rnv ×nv ,                    system acceleration and contact forces (or post-impact velocity
+velocity regularization N ∈ Rnv ×nv , torque regularization                     and contact impulses). As we express contact forces as accel-
+R ∈ Rnu ×nu , and contact-force regularization K ∈ Rnf ×nf .                    erations in the contact constraint sub-space, we can indeed
+Our formulation can also regularize the controls around the                     compute the derivatives of the contact-forces analytically.
+quasi-static torques:                                                           These derivatives are needed to describe the friction-cone
+                                                                                constraints, force and quasi-static torque regularization. If we
+                    kSuk − g(qk ) + J>       2
+                                     Ck λCk kN ,                                apply the chain rule, the first-order Taylor approximation of
+                                                                                the system acceleration and contact forces are defined as:
+where S ∈ Rnu ×nv is the selection matrix, g(·) ∈ Rnv is the                                              xf                               f u
+gravity vector. We efficiently compute the partial derivatives                              z           }|       {              z         }|       {
+                                                                                                             ∂τ                                ∂τ
+                                                                                                                                               
+of the gravity vector based on the analytical derivatives of                                                                                                   (7)
+                                                                                             ∂ v̇     ∂ v̇
+                                                                                                                                  ∂ v̇   ∂ v̇
+                                                                                   δ v̇ =                       ∂x    δx +                      ∂u       δu,
+                                                                                              ∂τ       ∂aC      ∂aC                ∂τ     ∂aC   ∂aC
+the recursive Newton-Euler algorithm (RNEA) algorithm [62].                                                     ∂x                              ∂u
+                                                                                                      λx                                  λu
+  2) Efficient hybrid dynamics: As explained in [63], the                              z              }|    {               z            }|    {
+evolution of the systems dynamics can be described by (i)                              h                i ∂τ                h              i ∂τ 
+                                                                                δλ =       ∂λC       ∂λC       ∂x     δx +       ∂λC      ∂λC    ∂u      δu, (8)
+the stack of contact Jacobian expressed in the local frame JC                               ∂τ       ∂aC       ∂aC
+                                                                                                               ∂x
+                                                                                                                                  ∂τ      ∂aC    ∂aC
+                                                                                                                                                 ∂u
+and defined by the C indices, (ii) the desired acceleration in the
+constraint space aC (with Baumgarte stabilization [64]), (iii)                  where ∂τ
+                                                                                       ∂ v̇
+                                                                                            = M−1 − M−1 J>    c −1 JC M−1 , ∂ v̇ =
+                                                                                                             CM             ∂aC
+the joint-space inertia matrix M, and (iv) the force-bias vector                M−1 J>
+                                                                                     C
+                                                                                                     c −1 JC M−1 and ∂λC = M
+                                                                                       c −1 , ∂λC = −M
+                                                                                       M       ∂τ                      ∂aC
+                                                                                                                                c −1
+                                                                                                                                      8
+
+
+
+are the system-acceleration and contact-force Jacobians with            5) Contact placement and velocity constraints: As the con-
+respect to inverse dynamics and constrained-acceleration kine-       tact placement constraint generally lies on a SE(3) manifold,
+matics functions, respectively, ∂τ ∂x , ∂u are the derivatives
+                                        ∂τ
+                                                                     we explicitly express it in its tangent space using the log(·)
+of RNEA, and ∂x , ∂u are the forward kinematics (FK)
+                  ∂aC  ∂aC
+                                                                     operator. Furthermore, the term
+derivatives of the computed frame acceleration. The derivatives
+                                                                                                      W ref
+of contact dynamics depend on the analytical derivatives
+                                                                                             W
+                                                                                                 p−1
+                                                                                                  G ·  pG
+of RNEA, which favors the computational efficiency as de-
+scribed in [62].                                                     describes the inverse composition between the reference and
+                                                                     current contact placements [67], where W pref  G ,
+                                                                                                                        W
+                                                                                                                          pG represent
+   A similar procedure is used to compute the derivatives of the
+                                                                     the reference and current placements of the set of swing
+impulse dynamics described in Eq. (5). It involves computing
+                                                                     contacts G expressed in the inertial frame W, respectively.
+the post-impact velocity and contact impulse derivatives as
+                                                                     Note that we compute W pG using forward kinematics. The
+follows:
+                                                                     results of this operation lies in its tangent space, and it can
+         ∂τ       ∂RNEA(q, 0, v+ − v) ∂g(q)                          be interpreted as the difference between both placements, i.e.,
+                =                    −      ,                        W ref
+                                                                        pG      W
+                                                                                  pG . We compute the analytical derivatives of the
+        ∂w                 ∂w          ∂w
+        ∂aC         ∂FK(q, v+ , 0)                                   log(·) operator using P INOCCHIO [45], however, we suggest
+                = e                ,                          (9)    the reader to see [67] for technical details. We include a contact
+        ∂w              ∂w
+                                                                     velocity constraints to define the swing-foot velocity during
+where w describes q, v or u. Note that partial derivatives of        foothold events.
+the gravity vector with respect v and u are zero. As before, this       6) Inequality constraints and their resolution: We enforce
+procedure also favors computational efficiency, as it depends        the friction-cone, contact placement, and state bounds con-
+on the RNEA derivatives.                                             straints through quadratic penalization. For the sake of sim-
+   4) Friction / wrench cone constraints: The linearized mod-        plicity, we chose a quadratic penalty function, instead of a
+els of the friction or wrench cone (C, c) are computed from the      standard log-barrier method [65], as it shows good results in
+surface normal n̂ (or more precisely from its rotation matrix),      practice. Finally, we handle the control bounds explicitly as
+friction coefficient µ, and minimum / maximum normal forces          explained in Section III-C.
+(λ, λ̄). We use an inner representation of the friction cone for
+more robustness [61], i.e.,
+                                                                     C. Feasibility-driven resolution
+                         C := AW R>
+                                  C,                         (10)
+                                                                       We solve the optimal control problem in Eq. (4) at
+where (A, c) are defined as                                          each MPC update using a feasibility-driven DDP-type solver
+                                                                     which explicitly handles control constraints. This method is
+                                                                     particularly important for our model prective control (MPC)
+                                        
+                  1           0       −µ
+             −1              0       −µ                            due to three key properties:
+                  ..
+                                        
+                                                                       1) The feasibility-driven search correctly handles dynamic
+                   .
+                                        
+    A =                                  ∈ R(ne +1)×3 ,
+                                        
+             cos θn                                                      defects (gaps between the roll-out of a policy and the
+                           sin θ ne   −µ 
+                    e
+            − cos θne − sin θne −µ
+                                                                         state trajectory) and efficiently converges to feasible
+                                                                          solutions for agile motions.
+                  0           0        1
+     >
+                                                                       2) The explicit handling of control constraints, which are
+        = 1 1 . . . 1 λmin ∈ Rne +1 ,
+                                n̂
+                                   
+   c                                                                      also a limiting factor for agile maneuvers, allows our
+                                                                          robot to exploit its actuation limits and dynamics while
+with ne equals to the number of facets used in the linearized             still ensuring fast convergence.
+cone, θi is the angle of the facets i, λn̂min ≥ 0 is the               3) The Riccati recursion applied at each control step pro-
+minimum unilateral force along the normal contact direction               vides a local feedback control law. We exploit this
+n̂, and W RC ∈ SO(3) is the cone rotation matrix. We use                  property of DDP/iLQR-style methods in Section IV-B.
+the analytical derivatives of the contact forces (or impulses)
+in Eq. (8) to compute the first-order derivatives of the friction-      Below, we provide a brief description of our solver named
+cone constraints.                                                    B OX -FDDP, which we numerically evaluated in [54].
+   In case of six-dimensional contacts, we define a contact             1) The Box-FDDP algorithm: This algorithm solves non-
+wrench cone constraint as described in [61]. This contact            linear optimal control problems of the form:
+model constrains linear and angular accelerations required for                                 N −1
+instance for full surface contacts as on bipeds with flat feet
+                                                                                               X
+                                                                             min `N (xN ) +           `k (xk , uk )
+(as in Fig. 2). Concretely, it imposes limits for the center of              xs ,us
+                                                                                               k=0
+pressure to be inside the support area and yaw torques to be                 s.t. xk+1 = f (xk , uk ),     u ≤ uk + δuk ≤ ū,
+inside a predefined box. In the interests of space, we omit a
+complete description, however, it can be expressed in terms of       where `(·) describes the terminal or running costs, f (·) de-
+A and c. Note that we extend our previous work [55], [46]            scribes the nonlinear dynamics, and u, ū are the lower and
+by incorporating this friction/wrench-cone constraints.              upper control bounds, respectively.
+                                                                                                                                      9
+
+
+
+  In similar fashion to the FDDP algorithm [46], Box-FDDP              2) Accounting for communication and computation delays:
+builds a local approximation of the Hamiltonian Q while             As the predictive controller runs on a dedicated computer, it
+considering the dynamics infeasibility as:                          receives the information of the current state of the robot within
+                                                                    a predictable delay. To predict the changes in the robot state,
+            Qx    = `x + fxT Vx+ ,
+                                                                    we run a forward simulation, i.e.,
+            Qu    = `u + fuT Vx+ ,
+                                0                                                    xpred = fp0 (x0 , u0 , ∆tdelay ),
+           Qxx    = `xx + fxT (Vxx + µI)fx ,                (11)                      0
+
+           Qxu                  0
+                  = `xu + fxT (Vxx + µI)fu ,                        where fp0 (·) is the system dynamics given a current set
+                                0                                   of contacts p0 , ∆tdelay is the expected communication and
+           Quu    = `uu + fuT (Vxx + µI)fu + µI,
+                                                                    computation delay, x0 and u0 are the current state and control
+where `x , `u , and `xx , `xu , `uu are the Jacobians and           at the published time, and xpred
+                                                                                                  0    is the initial (predicted) state
+Hessians of the cost function; fx , fu are the Jacobians of the     used by the MPC. With this approach, we assume that the
+system dynamics; Vx0 , Vxx 0
+                              are the gradient and Hessian of       current joint torques u0 are applied in the delay interval, which
+the Value function with Vx+ := Vx0 + Vxx 0
+                                           f̄ , f̄ := f (x, u) x0   it is reasonable for short delay periods (∼2.5 ms).
+describes the dynamics infeasibility, and µ is the automatically       3) Warm-starting and regularization: We use direct-
+selected regularization.                                            indirect hybridization (we coined the term in our work [54]) to
+   This approximation is then used to compute an optimal pol-       formulate the optimal control problem. It means that we can
+icy projected in the free space, where the feed-forward control     initialize both: state and control trajectories. Thus, when we
+is obtained by solving the following quadratic program:             start the predictive controller, we define the state and control
+                            1                                       guesses for all the nodes as the robot’s nominal posture (i.e.,
+              k = arg min δu> Quu δu + Q>       u δu,               xnom := [qnom , 0]) and the quasi-static torque commands
+                        δu 2
+            s.t.          u ≤ u + δu ≤ ū,                          needed to maintain this posture uqstatic , respectively. We
+                                                                    compute the quasi-static torques as
+and the feedback gain is retrieved as
+                                                                                                            nom +
+                                                                                    λqstatic = S J>             ) g(qnom ), (12)
+                                                                         qstatic                              
+                                                                          u                            C (q
+                      K = −Q̂−1
+                             uu,f Qux ,
+                                                                    where ()+ is the pseudo-inverse, and λqstatic if the contact
+where Q̂−1
+        uu,f is the control Hessian of the free subspace, and       forces for the quasi-static condition. Otherwise, we use the
+this subspace is obtained from the above quadratic program.         previous solution to warm-start the common running nodes
+For increasing efficiency, we solve this quadratic program          between the current and next MPC updates. Furthermore, as
+using a Projected-Newton QP algorithm [68]. Finally, the local      in the startup procedure, we use the nominal posture and quasi-
+policy (k, K) is rolled out with a feasibility-driven approach.     static torques for the last running nodes, i.e., the nodes that we
+To accept a given step length, we use Goldstein condition.          include with the receded horizon. We avoid unnecessary online
+                                                                    computations by storing the results computed in Eq. (12).
+D. Receding horizon and implementation details                         The initial regularization provides information about how
+   As we know the number of limbs of the robots, the opti-          to compute the search direction. Larger regularization values
+mization horizon, and set of cost and constraints in advance,       compute a steepest descent direction, instead values close to
+we allocate the memory of the predictive controller once. This      zero compute a Newton direction. Therefore, it is recom-
+reduces the computation time and increases the determinism          mended to use a large value if we are far from a local minima.
+of the MPC loop. At each computation step of the predictive         However, as described above, our solver iteratively evaluates
+controller, we update the references of the above-mentioned         this condition and adapts its value, which could increase or
+optimal control problem efficiently and perform a single itera-     decrease. We use this updated regularization value to warm-
+tion of the OC solver. We account for expected communication        start the next step of the MPC. This approach matches the
+delays between the robot and the predictive controller. These       numerical evolution expected when we solve the problem
+delays affect the initial state used in the optimal control         completely.
+problem. Finally, we warm-start the trajectory of states x0s ,
+controls u0s , and initial regularization µ̂0 at each MPC step.                         IV. C ONTROL P OLICY
+This regularization value modifies the search direction from           In this section, we present two methods for building a
+Newton to steepest descent and vice versa (for more details         control policy from the outputs of a full-dynamics MPC.
+see Section III-C). Below, we provide more details.                 First, we describe an instantaneous whole-body controller
+   1) Efficient updates of the OC problem: If the current           (WBC) based on inverse dynamics and hierarchical quadratic
+contact schedule has not been changed by the footstep planner,      programming (Section IV-A). This motion-planning approach
+then, at each MPC step, we define the information of the            is broadly used to control quadruped (e.g., [69], [7]) and
+last running models only: the feet positions for the swinging       humanoid robots (e.g., [70], [71]), but it leads to sub-optimal
+contacts G, and the contact and friction-cone constraints for the   policies. Therefore, in Section IV-B, we introduce a novel
+active contacts C. Note that we have to define the last running     state-feedback controller (SFC) controller leveraging the Ric-
+models as we recede the horizon. Otherwise, we update the           cati gains computed by the MPC. This controller builds a local
+reference of each running model as we wish to generate a new        optimal policy from first principles of optimization (cf. Sec-
+contact schedule.                                                   tion III-C). It constitutes what we refer to as motion-control
+                                                                                                                                         10
+
+
+
+paradigm. Finally, we include details on state estimation and        acceleration, and xd , ẋd are the reference position and velocity
+drift compensation in Section IV-D.                                  of the task. We use this formulation to describe CoM and
+                                                                     swing-foot tasks computed by the MPC, in which the swing-
+A. Whole-body control                                                foot tracking has a higher priority.
+   Typically instantaneous control actions (or joint torque             3) Momentum policy: By employing the centroidal mo-
+commands) aim to track reference tasks while ensuring the            mentum matrix AG proposed in [16], [73], we formulate the
+physical realism both in terms of dynamics, balancing and            following quadratic program to track the reference centroidal
+joint limits. Common reference tasks in legged robotics are          momentum.
+CoM and swing-foot motions, body orientation, angular mo-                            1                                      2
+                                                                              min
+                                                                                                        
+                                                                                         AG 0 0 y + ȦG v − ḣG, d
+mentum, and contact force. This problem is formalized as a                      y    2                                      2
+quadratic program, which can incorporate slack variables to                   s.t.
+                                                                                                  
+                                                                                       0 0 C y ≤ 0,                                (15)
+allow temporal violations of the constraints (e.g., [5], [7]).                                       
+                                                                                     u ≤ 0 I 0 y ≤ ū,
+We can solve it with general-purpose quadratic optimization
+software as in [6], [7], or we can employ null-space projectors      where ḣG, d = [k̇>      l̇>      >
+                                                                                                         ∈ R6 is the reference rate of
+                                                                                        G, c    G, c ]
+to form hierarchical quadratic programs that encode task pri-        change in the centroidal momentum composed of linear com-
+orities as in [70], [72]. Below, we briefly describe our whole-      ponent and angular component. This user-tuned momentum
+body control approach that is formulated as a hierarchical           policy is defined as follows
+quadratic program. It extends previous work [72] by incor-
+porating momentum and contact forces tasks. Appendix A                     l̇G, c = m[r̈G, d + Kl (rG, d − rG ) + Dl (ṙG, d − ṙG )],
+explains its generic formulation and resolution for readers that           k̇G, c = k̇G, d + Dk (kG, d − kG ),                     (16)
+are not familiar with whole-body control based on a hierarchy
+of quadratic programs.                                               where rG, d ∈ R3 denotes the reference CoM position com-
+   1) System dynamics: We aim to track reference CoM                 puted by the MPC, rG ∈ R3 is the actual CoM position
+and swing-foot motions, centroidal momentum, and contact             observed by state estimators, m denotes the total mass of the
+forces computed from our full-dynamics MPC. To find these            robot, kG,d ∈ R3 and kG ∈ R3 are the reference and actual
+instantaneous torque commands, we define the highest priority        angular momentum, respectively, Kl and Di (i = l, k) are
+to the contact dynamics (physical realism), friction cone            feedback gains.
+(balancing), and torque limits (actuation). This means that our         4) Contact-force policy: After satisfying all the above
+first quadratic program is described as                              tasks, we use the redundancy to track the reference contact
+                                                     2              forces λd ∈ Rnf generated by the predictive controller when
+                 1 M −S −J>
+                                          
+                                    C y−       −h                    there are two or more feet in contact
+         min
+           y     2 JC       0     0          −J̇C v 2                                      1 
+                                                           (13)                     min
+                                                                                                        
+                                                                                               0 0 I y − λd 2
+                                                                                                                  2
+         s.t.
+                           
+                  0 0 C y ≤ 0,                                                        y    2
+                              
+                u ≤ 0 I 0 y ≤ ū,                                                   s.t.
+                                                                                                     
+                                                                                             0 0 C y ≤ 0,                     (17)
+                                                                                                         
+where y := [v̇ u λ] defines the decision variables, (M, h, S)                              u ≤ 0 I 0 y ≤ ū.
+describe the robots’ full dynamics, (JC , J̇C ) denotes the holo-    This task is important for dynamic gaits as contact forces
+nomic contact constraint, C denotes the friction or wrench           play an important role in the momentum generation. This last
+cone with unilateral constraints, and (u, ū) are the joint torque   quadratic program defines the contact-force policy.
+limits. For more details about these terms see Section III-B.           5) Flight phase control: With any whole-body controller,
+   2) Motion policy: When we formulate a cascaded task in
+                                                                     unfortunately, we need to treat flight phases (i.e., where no
+our whole-body control formulation, we observe from Eq. (22)
+                                                                     legs are in contact) as a special case. It is required since these
+in Appendix A that the inequality constraints defined
+                                                                     type of controllers are highly reliant on good state estimation,
+in Eq. (13) remain the same for each subsequent quadratic
+                                                                     and when the robot is flying, we can no longer integrate
+program. Indeed, the trajectory-tracking quadratic program
+                                                                     odometry from leg kinematics (cf. Section IV-D). To mitigate
+changes the quadratic cost only:
+                                                                     these significant inaccuracies in the state estimation, we rely
+                 1                                    2
+          min
+                                 
+                      JE 0 0 y + J̇E v − v̇E,d                       on a PD controller with feed-forward torques computed by
+            y    2                                    2             the MPC.
+          s.t.
+                             
+                   0 0 C y ≤ 0,                               (14)
+                                
+                 u ≤ 0 I 0 y ≤ ū.                                   B. Riccati-based state-feedback control
+This ensures the kinematic feasibility as JE v̇ + J̇E v = v̇E,d ,       As briefly discussed above, the classical whole-body con-
+where JE is the task Jacobian and the user-tuned motion policy       troller tracks a set of individual user-tuned tasks: CoM, swing-
+v̇E,d is described as                                                foot, angular momentum, and contact force tasks. Often, these
+                                                                     user-tuned tasks fill the gaps left by using reduced-order dy-
+               ẍd + Ke (xd − x) + De (ẋd − ẋ)
+                                                                     namics in the motion generation (e.g., inverted pendulum [11]
+with (Ke , De ) gains that map errors on trajectory tracking         or single-rigid body dynamics [19], [74]). However, instead
+into acceleration commands, ẍd is a feed-forward reference          of hand-tuning a set of sub-optimal policies that aim to track
+                                                                                                                                                                     11
+
+
+
+                                         CoM position
+                      y [m]
+                  0.020
+                                                                                 limitations of a motion-planning paradigm, i.e., it does not
+                  0.019                                                          follow the optimal policy.
+                  0.018
+                                                                                    1) Updating reference state from a system rollout: We
+                                                                                 interpolate the MPC references while guaranteeing the phys-
+                  0.017
+
+                  0.016
+
+                  0.015                                                          ical realism, as these references are often sampled at a
+                  0.014
+                      0.06    0.08      0.10       0.12       0.14
+                                                                         x [m]
+                                                                      0.16
+                                                                                 different discretization frequency compared with the control
+                                                                                 frequency (here, commonly, 100 Hz and 400 Hz, respectively).
+                                                                                 Hereto, we run a forward prediction of the reference state
+                                                                                 x∗ , through a system rollout, to compute the feedback term
+                                                                                 in Eq. (18). With the forward-predicted state, we then obtain
+                                                                                 the applied joint torques ud as well as desired joint position
+Fig. 7. Optimal policy for a forward trotting gait computed by our predictive    qj,d and velocities vj,d sent to the low-level joint-torque
+controller. As shown in the plot, the optimal policy changes locally given the
+current state of the system. For sake of simplicity, we display the policy on
+                                                                                 controller [75]. This forward-prediction and interpolation step
+the CoM motion, however, our predictive controller computes optimal policies     produces smoother joint torques, which is crucial for executing
+for the whole-body motion. For visualization, we use different scales for the    the policy on real hardware.
+CoM policy and ANYmal robot.
+                                                                                    2) Handling state estimation delays: Delays and inaccu-
+                                                                                 racies in the base state estimation affects the execution of
+                                                                                 control policy π, as its feedback action closes the loop on base
+an optimal trajectory, we could compute both optimal whole-
+                                                                                 pose and twist. Similarly to the whole-body controller during
+body motions and their local policies if we plan motions using
+                                                                                 flight phases (cf. Section IV-A5), we modify the state-feedback
+the full-body dynamics:
+                                                                                 gain K when the base estimate is unreliable. Concretely, we
+                                     u∗
+                                      ff                  K
+                                                                                 deactivate the components of feedback gain associated to the
+                      z }| { z }| {                                              base error signals when less than two feet are in contact as leg-
+ ud = π(model, x) = − Q̂−1          −1
+                        uu,f Qu − Q̂uu,f Qux (x
+                                                ∗
+                                                          x),                    odometry corrections are inaccurate [76]. It consists of setting
+                                                           (18)                  the base terms to zero, i.e.,
+where Q̂uu,f , Qux are the local approximation of the Hamil-
+                                                                                                     K = 0 Kjq 0 Kjv ,
+                                                                                                                            
+tonian as described in Section III-C1. This local and optimal
+policy around the optimal state x∗ is defined by an optimal                      where Kjq , Kjv ∈ Rnj ×nv are the feedback gains associated
+control problem (model) that considers cost, dynamics and                        to the joint positions and velocities, respectively. This holistic
+constraints. Indeed, it corresponds to the optimal cost-to-go                    approach allows to keep tracking of desired joint states closely
+V(x) as depicted in Fig. 7.                                                      to the optimal policy, which is mainly driven by the feed-
+   Since our optimal control solver (cf. Section III-C) com-                     forward torque u∗f f . Additionally, it adds robustness and
+putes the state-feedback gain matrix K as a byproduct of its                     compliance against inaccurate contact state estimates [76] as,
+backward pass, we can build a state-feedback controller that                     again, the system is driven by the optimal feed-forward torque
+strictly follows the optimal policy π ∈ Rnu . This helps to                      and joint-feedback actions following closely the policy π.
+achieve variable impedance based on the task priorities defined
+in the predictive controller and to guarantee torque limits, as                  C. Forward state prediction from system rollout
+the Riccati state-feedback matrix K couples feedback actions                       As mentioned earlier, while waiting for a new MPC update,
+between the different tasks and projects them to the free                        we wish to interpolate the reference state at the control-
+control space. As thus, control limits are handled implicitly.                   policy frequency. To do so, we perform a contact-consistent
+Another advantage of this approach is that there is no need
+for additional tuning as in the whole-body controller, which
+will unfortunately rewrite the policy. Furthermore, it is com-
+putationally inexpensive when compared with solving several
+quadratic programs during each control tick at runtime (as                       MPC
+described in Section IV-A). In practice, computing the policy
+takes less than 100 µs on our limited on-board hardware—this
+compares with 1 ms to 2 ms for the whole-body controller.
+                                                                                 WBC
+However, to make execution of the computed policy work                           SFC
+safely and reliably, several crucial modifications have to be                                           state prediction                   state prediction
+made as described below.
+   Our Riccati state-feedback controller differs from [30]. In                                                                                                    time
+this works, the authors proposed a feedback method that                          Fig. 8. Illustration of the state prediction between MPC and control discretiza-
+maps errors in the state into contact force commands, rather                     tion points. In the gray areas, we predict the reference states xd     t1 using the
+than joint torque commands. Then, the system is forward                          contact dynamics fp0 , which are subject to a desired set of active contacts Cp0 .
+                                                                                 This state is then used to compute a local control policy πk0 either from the
+simulated under such feedback term, which computes desired                       whole-body controller (WBC) or state-feedback controller (SFC). Note that
+accelerations and eventually reference torques via a whole-                      {k0 , k1 , · · · } describe the MPC discretization nodes and {t0 , t1 , · · · } are the
+body controller. This control architecture inherits the same                     time instances where we compute a new local policy.
+                                                                                                                                                                              12
+
+
+
+forward simulation using the feed-forward torque u∗f f . This     a state-of-the-art instantaneous controller. All the experimental
+computes the predicted (reference) states within the MPC          results are shown in the accompanying video or in https:
+period {xd1 , · · · , xdi+1 }:                                    //youtu.be/R8lFti7x5N8.
+                   xd1   =    fp (x∗ , u∗f f , h),
+                   xd2   = fp (xd1 , u∗f f , h),                  A. Experimental setup
+                         ..                                          We evaluate the performance of our hybrid MPC using two
+                          .
+                                                                  different ANYmal robots. Both ANYmal robots are series
+                 xdi+1   = fp (xdi , u∗f f , h),          (19)
+                                                                  B [75]. These quadrupeds have a nominal base height of
+where h is the control period, xdi is the predicted state at      ≈50 cm, weigh ≈30 kg, and their twelve series-elastic actu-
+controller time i, the MPC period is equals to ∆t = (i + 1)h,     ators are capable of achieving peak torques of 40 N m. The
+fp (·) defines the contact dynamics which are subject to a set    robots are equipped with depth and LiDAR sensors for terrain
+of desired active contacts Cp at phase p. We also consider the    perception and localization and mapping, respectively (A:
+reflected inertia of the actuators in the contact dynamics. We    M ULTISENSE SL-7 and rotating H OKUYO, B: R EALSENSE
+illustrate this concept in Fig. 8.                                D435 and V ELODYNE VLP-16).
+   1) State prediction in both controllers: We apply the             The state estimator and controller run on the onboard PC (2
+state prediction procedure in both the whole-body and state-      cores i7-7500U CPU @ 2.70 GHz), with the LiDAR localiza-
+feedback controllers, as they run at higher frequencies com-      tion running a separate identical onboard computer. The MPC
+pared with the MPC loop. In the state-feedback controller, we     runs on an offboard computer connected via E THERNET (A:
+use the predicted state xdi to compute the error in the state     8 cores i9-9980HK CPU @ 2.4 GHz, B: 6 cores i7-10875H
+xdi xi , where xi is the current measurement of the robot’s       CPU @ 2.3 GHz). The onboard and offboard computers
+state. In the whole-body controller, xdi is used to compute       communicate via a low-latency ROS communication layer
+the references of the CoM and swing-foot, momentum, and           (TCP, no-delay). Both offboard MPC computers are capable
+contact forces tasks.                                             of computing policy updates over a horizon of 1.25 s at a rate
+                                                                  in excess of 100 Hz. For determinism, we throttle the MPC
+                                                                  rate to 50 Hz.
+D. State estimation and drift compensation
+   We estimate the base pose and twist by fusing inertial
+sensing from the onboard IMU, and kinematic and contact in-       B. Computation frequency and communication delay
+formation using an extended Kalman filter (EKF). It computes
+both the base pose O M̂B ∈ SE(3) and twist O v̂B ∈ R6 with            First, we investigate the policy lag and age for PC setup
+respect to the odometry frame O. We use the state estimator       B. In Fig. 9, we can see that the transmission time from the
+provided on the ANYmal robot (TSIF, [77]).                        control computer remains below one control tick and that the
+   The above state estimator provides continuous and smooth       whole-body control policy updates are steady at 50 Hz. In our
+estimates, making it ideal for use in a closed-loop controller.   MPC pipeline, the policy transmission time is the time needed
+However, it accumulates drift due to inaccuracies in the kine-    to encode it from N UM P Y/P YTHON to E IGEN/C++, to send
+matics and contact interaction (e.g., point contact assumption    it to via E THERNET and ROS-TCP/IP, and to decode it upon
+ignores the geometry of the foot or compressibility of the        receipt. On average, updating the MPC problem takes 1 ms to
+foot or terrain). We correct this drift by matching successive    2 ms using P YTHON, and solving the updated problem takes
+LiDAR scans with the iterative closest point algorithm [78].      between 10 ms to 12 ms. This computation time depends on
+This provides the relative transform W M̂O between an inertial    the number of backward or forward passes performed by our
+frame W, which has limited drift but discontinuous updates,       B OX -FDDP solver.
+and the odometry frame O.
+   We can compensate the drift at either the MPC or controller
+                                                                  Transmission Time [ms]
+
+
+
+
+level. In the former case, we first transform the current
+                                                                                                                            Policy Age [ms]
+
+
+
+
+                                                                                           1.5                                                40
+robot measurements expressed in the odometry frame into the
+inertial one. Then, we transform the planned motion expressed
+                                                                                           1.0                                                20
+in the inertial frame into the odometry one. In the latter
+case, the MPC plans entirely in the inertial frame, while
+                                                                                           0.5                                                 0
+the controller transforms plans to the odometry frame upon                                       0       10            20                          0       10            20
+receipt. In practice, both cases perform equally well.                                               Experiment time [s]                               Experiment time [s]
+
+
+                         V. R ESULTS                              Fig. 9. Policy transmission time and policy age for a stair climbing
+                                                                  experiment. Left: Time for serialization from Python, communication via
+   In this section, we show experimental trials on the gener-     Ethernet, and deserialization of the policy between the computer running
+                                                                  the MPC and the control computer. The transmission time is consistently
+ation of agile and complex maneuvers on ANYmal robots.            less than one control tick. Right: Age of the executed policy/time since the
+We also show the benefits of following the optimal policy by      last MPC update. The red line indicates the theoretical maximum age for an
+comparing our Riccati-based state-feedback controller against     update rate of 50 Hz without considering roundtrip communication delay.
+                                                                                                                                                     13
+
+
+
+                                                                                    jumps continuously on the ANYmal robot, which were possi-
+                                                                                    ble only with our Riccati controller and when we considered
+                                                                                    the robot’s torque limits in our MPC. To assert the benefits
+                                                                                    of using full-body dynamics and tracking the optimal policy,
+(a)                                                                                 we planned the footstep locations for the entire motion in
+                                                                                    each of these experiments once. We imposed accurate torque
+                                                                                    limits of our ANYmal B, which are 40 N m, discretized the
+                                                                                    trajectory every 10 ms (100 Hz), re-planned the maneuver for
+                                                                                    a receding horizon of 1.25 s, and run the MPC and Riccati
+                                                                                    controller loops at 50 Hz and 400 Hz, respectively. Note that
+                                                                                    in the accompanying video we report more experimental trials.
+                                                                                       1) Climbing up industrial stairs: Handling torque limits is
+                                                                                    a key element to climb up industrial stairs with our ANYmal
+                                                                                    B robot. We built a scaffolding stair with 7 treads, which
+(b)                                                                                 resembles the stairs typically use in construction sites. Its riser
+                                                                                    height and tread length are 17 cm and 26 cm, respectively,
+                                                                                    which forms an inclination of 33°. This climbing task is
+                                                                                    challenging for the ANYmal B robot due to its limited
+                                                                                    actuation (i.e., torque limits). Indeed, our robot cannot climb
+                                                                                    up this stairs with the built-in controllers provided by ANY-
+Fig. 10. ANYmal balancing and following a CoM reference using state-
+feedback MPC with on-board computation. (a) the Riccati-based state-                botics [69], [81]. Fig. 11a displays the sequence of maneuvers
+feedback together with the high-frequency predictive control show variable          optimized in real-time by our MPC. This complex maneuver
+compliance through soft and strong interaction with the robot. (b) the control      was generated reactively after the robot missed three steps due
+pipeline is able to quickly stabilize contact perturbations. For this experiment,
+the MPC policy with time horizon 0.4 s is recomputed onboard at 90 Hz. To           to state estimation inaccuracies. Furthermore, Fig. 12a shows
+watch the video, click its respective figure or see https://youtu.be/               the optimized posture needed to reduce the torque commands
+R8lFti7x5N8                                                                         in the presence of a very small support region. In all the stairs-
+                                                                                    climbing experiments, we observed that the torque commands
+C. Variable impedance under state-feedback control                                  are usually below to 25 N m as shown in Fig. 12b. Finally, to
+                                                                                    achieve this posture, it was also important to track the optimal
+   We validated the ANYmal’s stability and compliance using
+                                                                                    policy, as it generated the optimal momenta. For more details
+our Riccati-based state-feedback controller. This controller
+                                                                                    see results reported in Section V-E.
+automatically incorporates, from first-principles of optimiza-
+                                                                                       2) Forward jumps onto pallet: We defined a sequence
+tion, compliance while guaranteeing stability and feasibility as
+                                                                                    of footholds and timings that describe a set of multiple
+defined in the MPC problem. Fig. 10 shows high compliance
+                                                                                    forward jumps onto a pallet with 12 cm of height. Our
+and stability that occurred when our MPC tracked a fixed CoM
+                                                                                    full-dynamics MPC generated and executed a total of five
+reference. In the first part of the experiment, we pushed the
+                                                                                    jumps on the ANYmal B robot. Each jump has a length
+ANYmal robot towards the ground. It moved compliantly
+                                                                                    of 20 cm and swing-foot height of 12 cm. Each flight and
+while still guaranteeing the torque limits and stability, which is
+                                                                                    jumping phases are 280 ms and 450 ms, respectively. The MPC
+very restrictive closer to the ground [79], [80]. In the second
+                                                                                    horizon is 1.25 s, which is longer than a single jumping gait.
+part of the experiment, we moved the ramp supporting the
+                                                                                    Fig. 11b depicts snapshots of this experiment. The Riccati
+hind feet (balance board). Here, our MPC controller adjusted
+                                                                                    state-feedback controller allowed our predictive controller to
+the trunk orientation and maintained the contact stability.
+                                                                                    make rapid changes in torso orientation. These rolling motions
+This strategy helps to reduce the torque limits while keeping
+                                                                                    help to account for inaccuracies in the state estimation that
+contact forces closely aligned with the gravitational field. The
+                                                                                    happened during the flight phases. These inaccuracies are in
+time horizon of the MPC was 0.4 s and we run it onboard
+                                                                                    the order of 10 to 18 cm per jump in vertical axis, if we
+at 90 Hz. Similarly, we have also explored the robustness
+                                                                                    fuse the odometry of leg only. It means that our predictive
+of our predictive control approach for balancing to different
+                                                                                    controller had to handle these inaccuracies in some jumps,
+contact properties, sudden disturbances (kicking), and walking
+                                                                                    as the correction from LiDAR scans occurred at 1 Hz. We
+gaits with unmodeled payloads. We included these qualitative
+                                                                                    performed other experiments on multiple jumps as reported
+evaluations in our accompanying video.
+                                                                                    in the accompanying. In those experiments, our classical
+                                                                                    whole-body controller destabilized the robot after a few jumps
+D. Agile maneuvers with full-dynamics MPC                                           (typically two). These are the limitations that we have observed
+   We tested our hybrid MPC and Riccati-based state-feedback                        when a controller does not track the MPC policy.
+controller in different agile maneuvers. Fig. 11 shows snap-                           3) Twist jumps in place: We conducted further experimen-
+shots of relevant instances in which our ANYmal B robot                             tal trials on jumping motions. Here, we defined the footholds
+performed industrial-like climbing stairs, forward jumps over                       and timings of multiple jumps that twisted the ANYmal robot
+a pallet, and rotating jumps on the spot. To the best knowledge                     by 30° each. We used the footstep timings, MPC horizon
+of the authors, our method is the first to generate multiple                        and jumping height defined in previous experiment (jumping
+                                                                                                                                                       14
+
+
+
+
+  (a)
+
+
+
+
+  (b)
+
+
+
+
+  (c)
+
+
+
+
+  (d)
+
+
+
+Fig. 11. Snapshots of different locomotion maneuvers computed by our hybrid model predictive control. All these experiments trials use the Riccati-
+based state-feedback controller described in Section IV-B and onboard state estimation based on proprioceptive and exteroceptive sources. (a) climbing up
+industrial stairs with 28 cm of length and 17 cm of height. (b) multiple forward jumps of 20 cm over a pallet of 12 cm of height. (c) multiple twist jumps
+of 30 degrees each one. (d) transfer of our MPC framework to the ANYmal C quadruped (50 kg). To watch the video, click its respective figure or see
+https://youtu.be/R8lFti7x5N8.
+
+
+                                                                                onto pallet). Fig. 11c shows the sequence of highly-dynamic
+                                                                                motions performed by the ANYmal robot. This sequence
+                                                                                consisted of three jumps that rotated the robot by a total of 90°.
+                                                                                In the first jump, we observed a high-impact landing instant
+                                                                                that produced an unexpected loss of contact in the RF foot. As
+(a)                                                                             before, this abrupt landing is due to inaccuracies in the state
+                                                                                estimation. However, in the next jump, our predictive and Ric-
+                                                                                cati controllers adjusted the ANYmal’s torso roll orientation
+                                                                                to account for a shorter take-off phase. This adaptation can
+                                                                                also be seen in the changing feedback gain matrices shown in
+                                                                                Fig. 13. During the flight phases (middle column), feedback
+                                                                                for the joint tracking and base-joint correlation are dominant.
+                                                                                Instead, stronger correlation between all joints can be observed
+                                                                                during the support phases. It is important to note that multiple
+(b)
+                                                                                jumps posed significant challenges in the motion generation,
+                                                                                as each jumps is highly influenced by the performance of the
+                                                                                previous one. In other words, landing appropriately leads to
+                                                                                an effective subsequent jump.
+Fig. 12. Posture and torque optimization for climbing stairs. (top) Support
+polygon (red), contact forces (purple) and CoM position and velocity (orange)   E. Comparison between state-feedback controller and whole-
+in an unexpected moment when the ANYmal robot was climbing the stairs.
+In the second picture of Fig. 11, we can see the actual robot. The small
+                                                                                body controller
+support polygon is due to an unexpected slippage of the LF foot, which            We compared our Riccati-based state-feedback control
+was triggered by inaccuracies in the state estimation. (bottom) Range of
+joint torques generated during the stairs climbing experiments. The reference
+                                                                                against the classical whole-body control on a walking gait
+torques computed by the state-feedback controller are in blue, while the        with step height of 15 cm (Fig. 14a). Both controllers tracked
+measured torques are in red.                                                    the CoM, joint and swing motions accurately, as reported
+                                                                                in Fig. 15. However, the classical whole-body controller
+                                                                                cannot track properly the torque commands (Fig. 14b). The
+                                                                                                                                                             15
+
+
+
+quality in the torque tracking is related to the accuracy
+in the generation of the optimal momenta. This is due to
+the nonholonomy nature of angular momenta, which cannot
+be properly tracked with a time-invariant momentum policy
+(used in whole-body controllers). Indeed, Fig. 16a provided                    (a)
+experimental evidence of this fact, since only the state-
+feedback controller tracked and tracks the angular momenta
+properly. The tracking inaccuracies in the angular momentum
+introduced by the whole-body controller translated, and often
+translates in practice, into higher torque commands (Fig. 14b),
+larger contact forces (Fig. 16b), and task deviations (Fig. 15c).                                    [Nm]                     [Nm]                    [Nm]
+
+In Fig. 15c, we show that the whole-body controller could not
+achieve the desired target step height of 15 cm and deviated
+from its lateral target position of 20 cm defined in the MPC.
+Note that (i) to cope for the errors in the momentum tracking,
+the MPC changes its reference position and velocity, which
+still leads to an accurate swing tracking, and (ii) we used                    (b)                      t [s]                    t [s]                    t [s]
+
+the same MPC formulation and weights for both experiments.
+However, these changes are not enough to achieve the desired
+step height and lateral motion. Despite that these tracking
+errors are not critical for quadrupedal walking, they destabilize
+our robot during multiple jumps.
+                                                                                                        t [s]                    t [s]                    t [s]
+
+   We obtained these results with a state-of-the-art and well-                 Fig. 14. Walking behavior and torque tracking comparison between the state-
+tuned whole-body controller. It incorporates a momentum pol-                   feedback controller (top row) and whole-body controller (bottom row). The
+                                                                               state-feedback controller increased the body rotation (or angular momenta),
+icy proposed by [16], [4] and integrates a contact-force policy                while whole-body controller kept the body straight. Increasing the angular
+that improves the torque and momentum tracking considerably.                   momenta may seem counter-intuitive, however, it reduced the knee (KFE)
+Note that these aspects increased importantly the tracking                     torque commands. Blue are reference/desired and red are measured torques.
+                                                                               Note that the WBC frequently commands torque references that cannot be
+performance of the whole-body controller. In our experiments,                  tracked (e.g., for the KFE joints), whereas the position tracking is good with
+we used diagonal matrices for the proportional and damping                     both controllers. To watch the video, click its respective figure or see https:
+gains in each task defined in the whole-body controller. These                 //youtu.be/R8lFti7x5N8.
+diagonal values are 60 and 90 for proportional and damping
+gains, respectively. Instead, for the swing task, they are 350
+                                                                                                            VI. C ONCLUSION
+and 25. Note that similar issues (i.e., higher torque commands,
+larger contact forces, and task deviations) appear with different                 In this work, we focused on the generation of agile and
+gains.                                                                         complex maneuvers in legged robots. We started by describing
+                                                                               the importance of considering the nonholonomic aspects of
+                                                                               the kinetic momenta and robot’s actuation limits, which are
+                                                                               neglected in state-of-the-art approaches due to its numerical
+                                                                               optimization complexity. We showed that predictive control
+                                                                               can nicely leverage these challenges by synthesizing motions
+                                                                               and control policies within the actuation limits. This is pos-
+                                                                               sible by employing the robot’s full or centroidal dynamics.
+                                                                               However, we explained that using the centroidal dynamics
+                                                                               model does not provide a computational benefit in predictive
+                                                                               control but rather a disadvantage, as it requires to re-compute
+                                                                               the manipulator dynamics for retrieving the joint torques
+                                                                               and developed advanced algorithms to handle these nonlinear
+                                                                               inequality constraints.
+                                                                                  To enable agile maneuvers in legged robots, we proposed
+                                                                               a hybrid model predictive control approach that relies on
+                                                                               contact and switch dynamics (i.e., robot’s full dynamics). We
+                                                                               extended this formulation by incorporating friction/wrench
+Fig. 13. From left to right, top row to bottom row: Visualization of desired   cone constraints via the analytical derivatives of the contact
+(gray) and measured (colored) states along with the feedback gain matrix for   and impulse forces. Our feasibility-driven formulation and
+the twist jump experiment shown in Fig. 11c. The feedback gain matrices
+used in the state-feedback controller change automatically during the motion
+                                                                               resolution both converge quickly enough for generating these
+execution and recover inconsistent contact timings and leg slippage. We        complex maneuvers in real-time. Our approach handles the
+display the normalized gaits using a the colormap described in the colorbar.   actuation limits efficiently, computes locally optimal feedback
+                                                                                                                                                                16
+
+
+
+
+(a)                                                                                (a)
+
+
+
+
+(b)                                                                                (b)
+
+
+
+
+                                                                                   Fig. 16. Momenta and contact force tracking comparison between state-
+                                                                                   feedback controller (top row) and whole-body controller (bottom row) for
+                                                                                   a walk gait cycle. Blue are reference/desired and red are measured values.
+                                                                                   The x-axis shows time in seconds and the y-axis shows the corresponding
+                                                                                   SI unit for the quantity. The SFC closely tracks the desired momenta—even
+                                                                                   if large—whereas the additional optimization in the WBC alters the desired
+                                                                                   references from the MPC. For visualization, we filtered the estimated contact
+                                                                                   forces using an 8th-order Butterworth low-pass filter with a cut-off frequency
+(c)                                                                                of 80 Hz, since they are susceptible to joint velocity and inertial acceleration
+                                                                                   noise.
+
+
+                                                                                   torques and contact forces. It also affects significantly the
+                                                                                   robot’s stability and its capabilities during the execution of
+                                                                                   agile maneuvers, and indeed, the ANYmal robot can only ex-
+Fig. 15. CoM, joint and contact position tracking comparison between state-        ecute multiple jumps continuously when it follows the optimal
+feedback controller (top row) and whole-body controller (bottom row) for a         policy computed by our MPC (i.e., via our Riccati-based state-
+walk gait cycle. Blue are reference/desired and red are measured quantities.
+The x-axis shows time in seconds and the y-axes are shown in m, rad and
+                                                                                   feedback controller). We provided theoretical and experimental
+m for the CoM, joint and swing plots, respectively. Both controllers tracked       evidence that show the benefits of our approach in a series of
+accurately these quantities. However, the SFC achieved the desired target          motions of progressively increasing complexity. Our approach
+step height of 15 cm, whereas the WBC cannot achieve the task requirement
+defined in the MPC. This latter one also deviated significantly from its lateral
+                                                                                   enabled the ANYmal B robot to execute multiple jumps and
+target position of 20 cm.                                                          to reduce the torques needed to climb stairs. To the best of our
+                                                                                   knowledge, our work is the first to generate agile maneuvers
+                                                                                   such as rotating jumps, multiple jumps or jumps over a pallet
+policies, and is easily transferred to other robots, such as the                   on the ANYmal robot, which has heavier legs and lower
+ANYmal C quadruped. As far as we know, we are the first                            control bandwidth (due to its series elastic actuators) than
+to achieve these aspects. Furthermore, we proposed a Riccati-                      small quadrupeds such as MIT’s Mini Cheetah [82] and Solo
+based state-feedback controller that follows the optimal policy                    robots [83].
+computed by the MPC. We showed that our controller properly
+generates the angular momentum, which justifies the impor-
+                                                                                                                  R EFERENCES
+tance of a motion-control paradigm and MPC with full-body
+dynamics. This is in contrast to whole-body controllers, which                      [1] D. Mayne, J. Rawlings, C. Rao, and P. Scokaert, “Constrained model
+fundamentally cannot track the angular momentum accurately                              predictive control: stability and optimality,” Automatica, vol. 36, no. 6,
+                                                                                        pp. 789–814, 2000.
+needed for generating multiple jumps. We demonstrated that,                         [2] R. W. Brockett, “Asymptotic stability and feedback stabilization,” in
+in practice, the motion-planning architecture increases the joint                       Differential Geometric Control Theory, 1983, pp. 181–191.
+                                                                                                                                                             17
+
+
+
+ [3] P.-B. Wieber, “Holonomy and nonholonomy in the dynamics of ar-             [25] A. Herzog, S. Schaal, and L. Righetti, “Structured contact force opti-
+     ticulated motion,” in Fast Motions in Biomechanics and Robotics:                mization for kino-dynamic motion generation,” in IEEE/RSJ Int. Conf.
+     Optimization and Feedback Control, M. Diehl and K. Mombaur, Eds.                Intell. Rob. Sys. (IROS), 2016, pp. 2703–2710.
+     Berlin, Heidelberg: Springer Berlin Heidelberg, 2006, pp. 411–425.         [26] B. Ponton, M. Khadiv, A. Meduri, and L. Righetti, “Efficient Multicon-
+ [4] P. M. Wensing and D. E. Orin, “Generation of dynamic humanoid                   tact Pattern Generation With Sequential Convex Approximations of the
+     behaviors through task-space control with conic optimization,” in IEEE          Centroidal Dynamics,” IEEE Trans. Robot. (T-RO), vol. 37, no. 5, pp.
+     Int. Conf. Rob. Autom. (ICRA), May 2013, pp. 3103–3109.                         1661–1679, Oct 2021.
+ [5] A. Herzog, L. Righetti, F. Grimminger, P. Pastor, and S. Schaal, “Bal-     [27] P. Shah, A. Meduri, W. Merkt, M. Khadiv, I. Havoutis, and L. Righetti,
+     ancing experiments on a torque-controlled humanoid with hierarchical            “Rapid Convex Optimization of Centroidal Dynamics using Block
+     inverse dynamics,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS), Sep.        Coordinate Descent,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS),
+     2014, pp. 981–988.                                                              2021, pp. 1658–1665.
+ [6] A. D. Prete and N. Mansard, “Robustness to joint-torque-tracking errors    [28] J. Di Carlo, P. M. Wensing, B. Katz, G. Bledt, and S. Kim, “Dynamic
+     in task-space inverse dynamics,” IEEE Trans. Robot. (T-RO), vol. 32,            Locomotion in the MIT Cheetah 3 Through Convex Model-Predictive
+     no. 5, pp. 1091–1105, Oct 2016.                                                 Control,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS), 2018, pp. 1–9.
+ [7] S. Fahmi, C. Mastalli, M. Focchi, and C. Semini, “Passive Whole-           [29] N. Rathod, A. Bratta, M. Focchi, M. Zanon, O. Villarreal, C. Semini, and
+     Body Control for Quadruped Robots: Experimental Validation Over                 A. Bemporad, “Model Predictive Control With Environment Adaptation
+     Challenging Terrain,” IEEE Robot. Automat. Lett. (RA-L), vol. 4, no. 3,         for Legged Locomotion,” IEEE Access, vol. 9, pp. 145 710–145 727,
+     pp. 2553–2560, July 2019.                                                       2021.
+ [8] P.-B. Wieber, “Trajectory Free Linear Model Predictive Control for         [30] R. Grandia, F. Farshidian, R. Ranftl, and M. Hutter, “Feedback MPC for
+     Stable Walking in the Presence of Strong Perturbations,” in IEEE Int.           Torque-Controlled Legged Robots,” in IEEE/RSJ Int. Conf. Intell. Rob.
+     Conf. Hum. Rob. (ICHR), Dec 2006, pp. 137–142.                                  Sys. (IROS), 2019, pp. 4730–4737.
+ [9] ——, “Viability and predictive control for safe locomotion,” in             [31] S. Kajita, F. Kanehiro, K. Kaneko, K. Fujiwara, K. Harada, K. Yokoi,
+     IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS), Sep. 2008, pp. 1103–1108.         and H. Hirukawa, “Biped walking pattern generation by using preview
+[10] S. Kuindersma, R. Deits, M. Fallon, A. Valenzuela, H. Dai, P. Frank,            control of zero-moment point,” in IEEE Int. Conf. Rob. Autom. (ICRA),
+     T. Koolen, P. Marion, and R. Tedrake, “Optimization-based locomotion            2003, pp. 1620–1626.
+     planning, estimation, and control design for Atlas,” Auton. Robots.,       [32] J. T. Betts, Practical Methods for Optimal Control and Estimation Using
+     vol. 40, pp. 429–455, 2016.                                                     Nonlinear Programming, 2nd ed. USA: Cambridge University Press,
+[11] C. Mastalli, I. Havoutis, M. Focchi, D. G. Caldwell, and C. Semini,             2009.
+     “Motion Planning for Quadrupedal Locomotion: Coupled Planning,             [33] J. Ahn, S. J. Jorgensen, S. H. Bang, and L. Sentis, “Versatile Locomotion
+     Terrain Mapping and Whole-Body Control,” IEEE Trans. Robot. (T-RO),             Planning and Control for Humanoid Robots,” Frontiers in Robotics and
+     vol. 36, no. 6, pp. 1635–1648, 2020.                                            AI, vol. 8, 2021.
+[12] G. Bledt and S. Kim, “Extracting Legged Locomotion Heuristics with         [34] K. Wang, G. Xin, S. Xin, M. Mistry, S. Vijayakumar, and P. Kormushev,
+     Regularized Predictive Control,” in IEEE Int. Conf. Rob. Autom. (ICRA),         “A unified model with inertia shaping for highly dynamic jumps of
+     May 2020, pp. 406–412.                                                          legged robots,” 2021, preprint, arXiv:2109.04581.
+[13] F. Farshidian, E. Jelavic, A. Satapathy, M. Giftthaler, and J. Buchli,     [35] Y. Tassa, T. Erez, and E. Todorov, “Synthesis and stabilization of
+     “Real-time motion planning of legged robots: A model predictive control         complex behaviors through online trajectory optimization,” in IEEE/RSJ
+     approach,” in IEEE Int. Conf. Hum. Rob. (ICHR), 2017, pp. 577–584.              Int. Conf. Intell. Rob. Sys. (IROS), 2012, pp. 4906–4913.
+[14] A. W. Winkler, D. C. Bellicoso, M. Hutter, and J. Buchli, “Gait and        [36] D. Mayne, “A second-order gradient method for determining optimal
+     Trajectory Optimization for Legged Systems through Phase-based End-             trajectories of non-linear discrete-time systems,” Int. J. Control, vol. 3,
+     Effector Parameterization,” IEEE Robot. Automat. Lett. (RA-L), vol. 3,          pp. 85–95, 1966.
+     pp. 1560–1567, 2018.                                                       [37] W. Li and E. Todorov, “Iterative Linear Quadratic Regulator Design for
+[15] J. E. Marsden and J. Ostrowski, “Symmetries in Motion: Geometric                Nonlinear Biological Movement Systems,” in ICINCO, 2004, pp. 222–
+     Foundations of Motion Control,” in Motion, Control, and Geometry:               229.
+     Proceedings of a Symposium, 1998, pp. 3–19.                                [38] E. Todorov, “Convex and analytically-invertible dynamics with contacts
+[16] D. E. Orin, A. Goswami, and S.-H. Lee, “Centroidal dynamics of a                and constraints: Theory and implementation in MuJoCo,” in IEEE Int.
+     humanoid robot,” Auton. Robots., vol. 35, pp. 161–176, 2013.                    Conf. Rob. Autom. (ICRA), 2014, pp. 6054–6061.
+[17] J. Carpentier, S. Tonneau, M. Naveau, O. Stasse, and N. Mansard,           [39] J. Koenemann, A. Del Prete, Y. Tassa, E. Todorov, O. Stasse, M. Ben-
+     “A versatile and efficient pattern generator for generalized legged             newitz, and N. Mansard, “Whole-body model-predictive control applied
+     locomotion,” in IEEE Int. Conf. Rob. Autom. (ICRA), 2016, pp. 3555–             to the HRP-2 humanoid,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS),
+     3561.                                                                           2015, pp. 3346–3351.
+[18] B. Ponton, A. Herzog, S. Schaal, and L. Righetti, “A convex model of       [40] M. Neunert, M. Stäuble, M. Giftthaler, C. D. Bellicoso, J. Carius,
+     humanoid momentum dynamics for multi-contact motion generation,”                C. Gehring, M. Hutter, and J. Buchli, “Whole-Body Nonlinear Model
+     in IEEE Int. Conf. Hum. Rob. (ICHR), 2016, pp. 842–849.                         Predictive Control Through Contacts for Quadrupeds,” IEEE Robot.
+[19] B. Aceituno-Cabezas, C. Mastalli, H. Dai, M. Focchi, A. Radulescu,              Automat. Lett. (RA-L), vol. 3, pp. 1458–1465, 2018.
+     D. G. Caldwell, J. Cappelletto, J. C. Grieco, G. Fernandez-Lopez, and      [41] P. E. Gill, W. Murray, and M. A. Saunders, “SNOPT: An SQP Algorithm
+     C. Semini, “Simultaneous Contact, Gait, and Motion Planning for Ro-             for Large-Scale Constrained Optimization,” SIAM Rev., vol. 47, pp. 99–
+     bust Multilegged Locomotion via Mixed-Integer Convex Optimization,”             131, 2005.
+     IEEE Robot. Automat. Lett. (RA-L), vol. 3, pp. 2531–2538, 2018.            [42] R. H. Byrd, J. Nocedal, and R. A. Waltz, “KNITRO: An integrated pack-
+[20] J. Wang, I. Chatzinikolaidis, C. Mastalli, W. Wolfslag, G. Xin, S. Ton-         age for nonlinear optimization,” in Large Scale Nonlinear Optimization,
+     neau, and S. Vijayakumar, “Automatic Gait Pattern Selection for Legged          35–59, 2006, 2006, pp. 35–59.
+     Robots,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS), Oct 2020, pp.    [43] A. Wächter and L. T. Biegler, “On the implementation of an interior-
+     3990–3997.                                                                      point filter line-search algorithm for large-scale nonlinear programming,”
+[21] H. Dai, A. Valenzuela, and R. Tedrake, “Whole-body motion planning              Mathematical Programming, vol. 106, pp. 25–57, 2006.
+     with centroidal dynamics and full kinematics,” in IEEE Int. Conf. Hum.     [44] G. Guennebaud, B. Jacob, et al., “Eigen v3,” http://eigen.tuxfamily.org,
+     Rob. (ICHR), 2014, pp. 295–302.                                                 2010.
+[22] K. Yunt and C. Glocker, “Trajectory optimization of mechanical hybrid      [45] J. Carpentier, G. Saurel, G. Buondonno, J. Mirabel, F. Lamiraux,
+     systems using SUMT,” in IEEE Int. Work. Adv. Mot. Contr. (AMC),                 O. Stasse, and N. Mansard, “The Pinocchio C++ library : A fast and
+     2006, pp. 665–671.                                                              flexible implementation of rigid body dynamics algorithms and their
+[23] M. Posa, C. Cantu, and R. Tedrake, “A direct method for trajectory              analytical derivatives,” in IEEE Int. Sym. Sys. Integ. (SII), 2019, pp.
+     optimization of rigid bodies through contact,” The Int. J. of Rob. Res.         614–619.
+     (IJRR), vol. 33, no. 1, pp. 69–81, 2014.                                   [46] C. Mastalli, R. Budhiraja, W. Merkt, G. Saurel, B. Hammoud,
+[24] C. Mastalli, I. Havoutis, M. Focchi, D. Caldwell., and C. Semini, “Hi-          M. Naveau, J. Carpentier, L. Righetti, S. Vijayakumar, and N. Mansard,
+     erarchical planning of dynamic movements without scheduled contact              “Crocoddyl: An Efficient and Versatile Framework for Multi-Contact
+     sequences,” in IEEE Int. Conf. Rob. Autom. (ICRA), May 2016, pp.                Optimal Control,” in IEEE Int. Conf. Rob. Autom. (ICRA), 2020, pp.
+     4636–4641.                                                                      2536–2542.
+                                                                                                                                                            18
+
+
+
+[47] Y. Tassa, N. Mansard, and E. Todorov, “Control-Limited Differential         [72] G. Xin, H. Lin, J. Smith, O. Cebe, and M. Mistry, “A Model-Based
+     Dynamic Programming,” in IEEE Int. Conf. Rob. Autom. (ICRA), 2014,               Hierarchical Controller for Legged Systems Subject to External Distur-
+     pp. 1168–1175.                                                                   bances,” in IEEE Int. Conf. Rob. Autom. (ICRA), 2018, pp. 4375–4382.
+[48] Z. Xie, C. K. Liu, and K. Hauser, “Differential dynamic programming         [73] P. Wensing and D. Orin, “Improved computation of the humanoid
+     with nonlinear constraints,” in IEEE Int. Conf. Rob. Autom. (ICRA),              centroidal dynamics and application for whole-body control,” Int. J. of
+     2017, pp. 695–702.                                                               Hum. Rob. (IJHR), vol. 13, 2016.
+[49] T. A. Howell, B. Jackson, and Z. Manchester, “ALTRO: A Fast Solver          [74] O. Melon, R. Orsolino, D. Surovik, M. Geisert, I. Havoutis, and
+     for Constrained Trajectory Optimization,” in IEEE/RSJ Int. Conf. Intell.         M. Fallon, “Receding-Horizon Perceptive Trajectory Optimization for
+     Rob. Sys. (IROS), 2019, pp. 7674–7679.                                           Dynamic Legged Locomotion with Learned Initialization,” in IEEE Int.
+[50] S. E. Kazdadi, J. Carpentier, and J. Ponce, “Equality Constrained                Conf. Rob. Autom. (ICRA), 2021, pp. 9805–9811.
+     Differential Dynamic Programming,” in IEEE Int. Conf. Rob. Autom.
+                                                                                 [75] M. Hutter, C. Gehring, A. Lauber, F. Gunther, C. D. Bellicoso,
+     (ICRA), 2021, pp. 8053–8059.
+                                                                                      V. Tsounis, P. Fankhauser, R. Diethelm, S. Bachmann, M. Bloesch,
+[51] J.-P. Sleiman, F. Farshidian, and M. Hutter, “Constraint Handling in
+                                                                                      H. Kolvenbach, M. Bjelonic, L. Isler, and K. Meyer, “ANYmal - toward
+     Continuous-Time DDP-Based Model Predictive Control,” in IEEE Int.
+                                                                                      legged robots for harsh environments,” Advanced Robotics, vol. 31,
+     Conf. Rob. Autom. (ICRA), 2021, pp. 8209–8215.
+                                                                                      no. 17, pp. 918–931, 2017.
+[52] M. Giftthaler, M. Neunert, M. Stäuble, J. Buchli, and M. Diehl, “A
+     Family of Iterative Gauss-Newton Shooting Methods for Nonlinear             [76] M. Camurri, M. Fallon, S. Bazeille, A. Radulescu, V. Barasuol, D. Cald-
+     Optimal Control,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS), 2018,         well, and C. Semini, “Probabilistic Contact Estimation and Impact
+     pp. 1–9.                                                                         Detection for State Estimation of Quadruped Robots,” IEEE Robot.
+[53] J. Albersmeyer and M. Diehl, “The Lifted Newton Method and Its                   Automat. Lett. (RA-L), vol. 2, no. 2, pp. 1023–1030, 2017.
+     Application in Optimization,” SIAM J. on Optimization, vol. 20, pp.         [77] M. Bloesch, M. Hutter, M. Hoepflinger, S. Leutenegger, C. Gehring,
+     1655–1684, 2010.                                                                 C. D. Remy, and R. Siegwart, “State Estimation for Legged Robots -
+[54] C. Mastalli, J. Marti-Saumell, W. Merkt, J. Sola, N. Mansard, and                Consistent Fusion of Leg Kinematics and IMU,” in Rob.: Sci. Sys. (RSS),
+     S. Vijayakumar, “A Direct-Indirect Hybridization Approach to Control-            2012.
+     Limited DDP,” 2020, preprint, arXiv:2010.00411.                             [78] F. Pomerleau, F. Colas, R. Siegwart, and S. Magnenat, “Comparing ICP
+[55] R. Budhiraja, J. Carpentier, C. Mastalli, and N. Mansard, “Differential          Variants on Real-World Data Sets,” Auton. Robots., vol. 34, 2013.
+     Dynamic Programming for Multi-Phase Rigid Contact Dynamics,” in             [79] R. Orsolino, M. Focchi, C. Mastalli, H. Dai, D. Caldwell, and C. Semini,
+     IEEE Int. Conf. Hum. Rob. (ICHR), 2018, pp. 1–9.                                 “Application of Wrench-Based Feasibility Analysis to the Online Tra-
+[56] R. Featherstone, Rigid Body Dynamics Algorithms. Berlin, Heidelberg:             jectory Optimization of Legged Robots,” IEEE Robot. Automat. Lett.
+     Springer-Verlag, 2007.                                                           (RA-L), vol. 3, no. 4, pp. 3363–3370, 2018.
+[57] J. B. J. G. Frison, “Efficient implementation of the Riccati recursion      [80] R. Orsolino, M. Focchi, S. Caron, G. Raiola, V. Barasuol, D. Caldwell,
+     for solving linear-quadratic control problems,” in IEEE Int. Conf. Contr.        and C. Semini, “Feasible Region: An Actuation-Aware Extension of the
+     Apps. (CCA), 2013, pp. 1117–1122.                                                Support Region,” IEEE Trans. Robot. (T-RO), vol. 36, no. 4, pp. 1239–
+[58] S. Tonneau, D. Song, P. Fernbach, N. Mansard, M. Taı̈x, and A. Del               1255, 2020.
+     Prete, “SL1M: Sparse L1-norm Minimization for contact planning on
+                                                                                 [81] P. Fankhauser, M. Bjelonic, C. Dario Bellicoso, T. Miki, and M. Hutter,
+     uneven terrain,” in IEEE Int. Conf. Rob. Autom. (ICRA), 2020, pp. 6604–
+                                                                                      “Robust rough-terrain locomotion with a quadrupedal robot,” in IEEE
+     6610.
+                                                                                      Int. Conf. Rob. Autom. (ICRA), 2018.
+[59] P. Fankhauser, M. Bloesch, C. Gehring, M. Hutter, and R. Siegwart,
+     “Robot-centric elevation mapping with uncertainty estimates,” in Int.       [82] G. Bledt, M. J. Powell, B. Katz, J. Di Carlo, P. M. Wensing, and S. Kim,
+     Conf. on Climb. and Walk. Rob. and the Supp. Techn. for Mob. Mach.               “Mit cheetah 3: Design and control of a robust, dynamic quadruped
+     (CLAWAR), 2014.                                                                  robot,” in IEEE/RSJ Int. Conf. Intell. Rob. Sys. (IROS), 2018.
+[60] D. Song, P. Fernbach, T. Flayols, A. Del Prete, N. Mansard, S. Tonneau,     [83] F. Grimminger, A. Meduri, M. Khadiv, J. Viereck, M. Wüthrich,
+     and Y. Kim, “Solving Footstep Planning as a Feasibility Problem Using            M. Naveau, V. Berenz, S. Heim, F. Widmaier, T. Flayols, J. Fiene,
+     L1-Norm Minimization,” IEEE Robot. Automat. Lett. (RA-L), vol. 6,                A. Badri-Spröwitz, and L. Righetti, “An open torque-controlled mod-
+     no. 3, pp. 5961–5968, 2021.                                                      ular robot architecture for legged locomotion research,” IEEE Robot.
+[61] S. Caron, Q. Pham, and Y. Nakamura, “Stability of surface contacts for           Automat. Lett. (RA-L), vol. 5, 2020.
+     humanoid robots: Closed-form formulae of the Contact Wrench Cone
+     for rectangular support areas,” in IEEE Int. Conf. Rob. Autom. (ICRA),
+     2015, pp. 5107–5112.
+[62] J. Carpentier and N. Mansard, “Analytical Derivatives of Rigid Body
+     Dynamics Algorithms,” in Rob.: Sci. Sys. (RSS), 2018.                                               A PPENDIX A
+[63] F. Udwadia and R. Kalaba, “A New Perspective on Constrained Mo-                         H IERARCHICAL WHOLE - BODY CONTROL
+     tion,” Proceedings of the Royal Society A: Mathematical, Physical and
+     Engineering Sciences, 1992.
+[64] J. Baumgarte, “Stabilization of constraints and integrals of motion in
+     dynamical systems,” Computer Methods in Applied Mechanics and                 We can impose each task of whole-body controller by solv-
+     Engineering, 1972.                                                          ing a hierarchy of quadratic programs. Indeed, the following
+[65] J. Nocedal and S. J. Wright, Numerical Optimization, 2nd ed. New
+     York, NY, USA: Springer, 2006.
+                                                                                 generic quadratic program can be used to describe each task:
+[66] O. Khatib, “A unified approach for motion and force control of robot
+     manipulators: The operational space formulation,” IEEE J. on Rob. and
+     Automat., vol. 3, no. 1, pp. 43–53, 1987.
+                                                                                                                1
+                                                                                                        min       kAi yi − ai k22
+[67] J.-L. Blanco, “A tutorial on SE(3) transformation parameterizations and                              yi    2                                        (20)
+     on-manifold optimization,” University of Malaga, Tech. Rep., 2010.
+[68] D. P. Bertsekas, “Projected newton methods for optimization problems
+                                                                                                        s.t.    bi ≤ Bi yi ≤ b̄i ,
+     with simple constraints,” SIAM Journal on Control and Optimization,
+     1982.
+[69] D. Bellicoso, C. Gehring, J. Hwangbo, P. Fankhauser, and M. Hutter,         where Ai , ai , Bi , bi , b̄i define the equality and inequality
+     “Perception-less terrain adaptation through whole body control and          constraints of the i-th task, respectively. Then, we can obtain
+     hierarchical optimization,” in IEEE Int. Conf. Hum. Rob. (ICHR), 2016,
+     pp. 558–564.
+                                                                                 the solution of the Nt tasks as
+[70] A. Herzog, N. Rotella, S. Mason, F. Grimminger, S. Schaal, and
+     L. Righetti, “Momentum control with hierarchical inverse dynamics on                                       i−1                         t −1
+                                                                                                                                           NY
+     a torque-controlled humanoid,” Auton. Robots., 2016.                                                       Y
+[71] A. Del Prete, F. Nori, G. Metta, and L. Natale, “Prioritized motion–force   y∗ = Λ(yn∗ ) = y1∗ +· · ·+           N (Ak )yi∗ +· · ·+           N (Ak )yn∗ ,
+     control of constrained fully-actuated robots: “Task Space Inverse Dy-                                      k=1                        k=1
+     namics”,” Rob. Autom. Sys., vol. 63, 2015.                                                                                                          (21)
+                                                                                                                                                                19
+
+
+
+where N (A) is the null-space projector of the A matrix, and                                                Guiyang Xin received the M.Sc. degree in me-
+yi∗ is computed by solving the following quadratic program:                                                 chanical engineering from the China University of
+                                                                                                            Geosciences, Wuhan, China, in 2012 and the Ph.D.
+                "            i−1
+                                            #      2                                                        degree in mechanical engineering from the Central
+          1           ∗
+                             Y                                                                              South University, Changsha, China, in 2018.
+    min      Ai Λ(yi−1 ) −        N (Ak )yi − ai                                                               He is currently an Associate Professor at the
+     yi   2
+                             k=1                   2                                                        Dalian University of Technology, Dalian, China.
+                  "             i−1
+                                              #                                                             From 2018 to 2021, he was a Postdoctoral Re-
+                                                                                                            searcher in the Institute of Perception, Action and
+                                Y
+                        ∗
+    s.t. bi ≤ Bi Λ(yi−1    )−        N (Ak )yi ≤ b̄i ,                                                      Behaviour at the University of Edinburgh, Edin-
+                               k=1                      (22)                                                burgh, U.K.. His research interests include legged
+                   ..                                                               robotics, impedance control, optimization-based control and teleoperation.
+                    .
+                   "             i−1
+                                              #
+                                 Y
+                         ∗
+          b1 ≤ B1 Λ(yi−1 ) −         N (Ak )yi ≤ b̄1 .
+                                          k=1
+
+The above formulation does not include slack variables in
+the inequality constraints, although it is possible to use them                                              Jaehyun Shim received the B.Eng. degree in me-
+                                                                                                             chanical engineering from the University of Tokyo,
+as explained in [5]. However, the use of quadratic costs to                                                  Tokyo, Japan in 2015 and the M.A.Sc. degree in me-
+incorporate equality constraints is equivalent to including slack                                            chanical engineering from the University of British
+variables.                                                                                                   Columbia, Vancouver, BC, Canada, in 2018.
+                                                                                                                He is currently a Software Engineer at the Uni-
+                                                                                                             versity of Edinburgh. He worked on developing
+                                                                                                             autonomous delivery robots as a Software Engineer
+                                                                                                             at ROBOTIS, Seoul, South Korea. His research inter-
+                                                                                                             ests include optimization-based planning and legged
+                                                                                                             robots.
+
+
+
+                           Carlos Mastalli received the M.Sc. degree in
+                           mechatronics engineering from the Simón Bolı́var
+                           University, Caracas, Venezuela, in 2013 and the
+                           Ph.D. degree in bio-engineering and robotics from
+                           the Istituto Italiano di Tecnologia, Genoa, Italy, in                             Michael Mistry received the B.S.E. in Mechanical
+                           2017.                                                                             Engineering & Electrical Engineering from the Uni-
+                             He is currently a Research Associate in the Uni-                                versity of Pennsylvania, USA, in 1998, the M.A.
+                           versity of Edinburgh and Alan Turing Institute, Ed-                               in Cognitive and Neural Systems from the Boston
+                           inburgh, U.K.. From 2017 to 2019, he was a Post-                                  University, USA, in 2002 and the Ph.D. in Computer
+                           doctoral Researcher in the Gepetto Team at LAAS-                                  Science from the University of Southern California,
+                           CNRS, Toulouse, France. Previously, he completed                                  USA, in 2009.
+his Ph.D. on “Planning and Execution of Dynamic Whole-Body Locomotion                                           He is a Professor and Personal Chair of Robotics
+on Challenging Terrain” under the supervision of I. Havoutis, C. Semini and D.                               at the School of Informatics, University of Edin-
+G. Caldwell. He was Invited Researcher in ETH Zürich, Zurich, Switzerland,                                  burgh, and the Director of the Centre for Doctoral
+in 2016. His research combines the formalism of model-based approaches with                                  Training in Robotics and Autonomous Systems at
+the exploration of vast robot’s data for legged robotics. He has contributions in   the Edinburgh Centre for Robotics. His research focuses on the principles
+optimal control, motion planning, whole-body control and machine learning           behind dexterous movement and control in robots and humans, particularly
+for legged locomotion.                                                              in environmental contact. Previously, Michael was a Senior Lecturer at the
+                                                                                    University of Birmingham, a postdoc at the Disney Research Lab at Carnegie
+                                                                                    Mellon University, a researcher at the ATR Computational Neuroscience Lab
+                                                                                    in Kyoto, Japan.
+
+
+
+
+                          Wolfgang Merkt received the B.Eng.(Hns) degree
+                          in mechanical engineering with management and                                        Ioannis Havoutis received the M.Sc. in artificial
+                          the M.Sc.(R) and Ph.D. degrees in robotics and                                       intelligence and Ph.D. in Informatics degrees from
+                          autonomous systems from the University of Edin-                                      the University of Edinburgh, Edinburgh, U.K.
+                          burgh, Edinburgh, U.K., in 2014, 2015 and 2019,                                         He is a Lecturer in Robotics at the University of
+                          respectively.                                                                        Oxford. He is part of the Oxford Robotics Institute
+                             He is currently a Postdoctoral Researcher at the                                  and a co-lead of the Dynamic Robot Systems group.
+                          Oxford Robotics Institute, University of Oxford.                                     His focus is on approaches for dynamic whole-body
+                          During his Ph.D., he worked on trajectory optimiza-                                  motion planning and control for legged robots in
+                          tion and warm starting optimal control for high-                                     challenging domains. From 2015 to 2017, he was
+                          dimensional systems and humanoid robots under the                                    a postdoc at the Robot Learning and Interaction
+supervision of S. Vijayakumar. His research interests include fast optimization-                               Group, at the Idiap Research Institute. Previously,
+based methods for planning and control, loco-manipulation, and legged robots.       from 2011 to 2015, he was a senior postdoc at the Dynamic Legged System
+                                                                                    lab the Istituto Italiano di Tecnologia. He holds a Ph.D. and M.Sc. from the
+                                                                                    University of Edinburgh.
+                                                                                  20
+
+
+
+                          Sethu Vijayakumar received the Ph.D. degree in
+                          computer science and engineering from the Tokyo
+                          Institute of Technology, Tokyo, Japan, in 1998.
+                             He is Professor of Robotics and a Director with
+                          the Institute of Perception, Action, and Behaviour,
+                          School of Informatics, University of Edinburgh,
+                          U.K., where he holds the Royal Academy of En-
+                          gineering Microsoft Research Chair in Learning
+                          Robotics. He also has additional appointments as
+                          an Adjunct Faculty with the University of Southern
+                          California, Los Angeles, CA, USA and a Visiting
+Research Scientist with the RIKEN Brain Science Institute, Tokyo. His
+research interests include statistical machine learning, robotics, planning and
+optimization in autonomous systems to human motor control, and optimality.
+Dr. Vijayakumar is a Fellow of the Royal Society of Edinburgh.
+

@@ -1,0 +1,82 @@
+{
+  "source_id": "HUMAN-MANSCI-2021-SPO",
+  "read_event_id": "5671c7e0f6504d48ad7d6506c0ba02cb",
+  "content_sha256": "130bfd92a1cfdadc4f8e3f047dbaaae7d30f731527a58c73a336a3d9d9aa36ef",
+  "claim": "Smart Predict-then-Optimize replaces pointwise prediction-error training with a downstream decision-regret loss and a tractable convex surrogate using the optimization problem structure. This supports training a contact representation by the impedance decisions it induces, but canonical SPO assumes a fixed known feasible set and does not calibrate uncertain contact-capacity constraints.",
+  "claim_locator": "Abstract; problem formulation; SPO and SPO+ loss derivation; consistency analysis; shortest-path and portfolio experiments",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary optimization-learning study; constraint-side contact migration is explicitly reader inference; configured paper_reader model gpt-5.4",
+  "problem_and_setting": "Applications predict unknown linear objective coefficients from features and then optimize over a fixed known feasible region. Standard regression ignores that small coefficient errors can cause high decision regret while large errors can be decision-irrelevant, particularly under predictor misspecification.",
+  "method_or_mechanism": "SPO loss measures the true decision error induced by predicted coefficients. Because it is nonconvex and discontinuous, SPO+ uses duality and downstream optimization-oracle calls to form a convex upper-bounding surrogate. The learning objective therefore weights parameter errors by their effect on the ranking and choice of feasible downstream decisions.",
+  "content_summary": "SPO establishes that prediction accuracy can be the wrong objective when predictions feed optimization. Theoretical upper-bound and conditional consistency results and shortest-path and portfolio experiments support optimization-aware training. Its canonical uncertainty is in objective coefficients, whereas target contact capacity defines constraints; it supplies no predictive set, coverage calibration, abstention, deadline, or fallback.",
+  "synthesis_role": "Positive Source Mechanism for action-relevant representation learning and a negative boundary for calibrated constraint uncertainty. It motivates impedance-decision regret or action equivalence as the encoder loss, but requires feasibility-aware constraint learning and calibrated robust optimization downstream.",
+  "development_link": "For RMC-DECISION-SUFFICIENT-CAPACITY-STATE, PASS_WITH_REQUIRED_ADAPTATION for CAP-ACTION-RELEVANT-STATE and qualified OBL-MINIMAL-DECISION-SUFFICIENCY: train the history/contact encoder against induced optimal impedance regret or action ranking. FAIL for CAP-CALIBRATED-CAPACITY-SET and OBL-HELDOUT-CAPACITY-CALIBRATION. Canonical SPO cannot establish joint feasibility when uncertainty moves from objective coefficients into contact constraints.",
+  "evidence": [
+    {
+      "locator": "Abstract and introduction",
+      "status": "author_reported",
+      "finding": "Pointwise prediction error can be poorly aligned with downstream decision quality, especially under misspecification."
+    },
+    {
+      "locator": "SPO loss formulation",
+      "status": "author_reported",
+      "finding": "SPO evaluates the true objective regret of the decision selected under predicted coefficients."
+    },
+    {
+      "locator": "SPO+ derivation",
+      "status": "author_reported",
+      "finding": "A convex surrogate uses the feasible region and optimization-oracle calls and upper-bounds the SPO loss."
+    },
+    {
+      "locator": "Consistency analysis",
+      "status": "author_reported",
+      "finding": "Statistical consistency is established under the stated distributional and regularity conditions."
+    },
+    {
+      "locator": "Shortest-path and portfolio experiments",
+      "status": "author_reported",
+      "finding": "Optimization-aware training improves reported downstream decision quality over prediction-error baselines, particularly with misspecified predictors."
+    },
+    {
+      "locator": "Canonical problem scope",
+      "status": "reader_inference",
+      "finding": "Because the feasible region is fixed and uncertainty lies in objective coefficients, SPO alone does not cover action-conditional contact-capacity constraints."
+    }
+  ],
+  "evidence_kind": [
+    "decision-regret loss",
+    "convex surrogate",
+    "consistency analysis",
+    "optimization benchmarks"
+  ],
+  "boundary_conditions": [
+    "The uncertain vector is a linear objective coefficient.",
+    "The feasible region is fixed and known.",
+    "No calibrated predictive set, marginal or conditional coverage, or distribution-shift abstention is supplied.",
+    "No online hard-feasibility, deadline, timeout, or deterministic fallback mechanism is supplied.",
+    "No latent-state minimality or identifiability theorem is supplied."
+  ],
+  "assumptions": [
+    "A downstream optimization oracle is available during training.",
+    "The feasible region represents admissible decisions.",
+    "Target migration can define meaningful robust impedance regret and action equivalence."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Prediction-error minimization can produce poor decisions despite small parameter error.",
+      "Misspecification worsens the prediction-decision mismatch."
+    ],
+    "inferred": [
+      "Canonical SPO cannot calibrate contact capacity or guarantee feasibility with uncertain constraints.",
+      "It cannot prove a learned contact state is minimal or identifiable.",
+      "It supplies no abstention or deadline-total fallback."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that SPO directly yields calibrated contact-capacity sets.",
+    "Any claim that SPO guarantees feasibility for uncertain constraints.",
+    "Any claim that decision-focused loss alone proves representation minimality."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved"
+}

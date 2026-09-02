@@ -1,0 +1,1191 @@
+                                         A General Safety Framework for Learning-Based
+                                             Control in Uncertain Robotic Systems
+                                                                     Jaime F. Fisac˚1 , Anayo K. Akametalu˚1 , Melanie N. Zeilinger2 ,
+                                                                        Shahab Kaynama3 , Jeremy Gillula4 , and Claire J. Tomlin1
+arXiv:1705.01292v3 [cs.RO] 14 Feb 2018
+
+
+
+
+                                            Abstract— The proven efficacy of learning-based control
+                                         schemes strongly motivates their application to robotic
+                                         systems operating in the physical world. However, guar-
+                                         anteeing correct operation during the learning process is
+                                         currently an unresolved issue, which is of vital importance
+                                         in safety-critical systems. We propose a general safety
+                                         framework based on Hamilton-Jacobi reachability methods
+                                         that can work in conjunction with an arbitrary learning algo-
+                                         rithm. The method exploits approximate knowledge of the
+                                         system dynamics to guarantee constraint satisfaction while
+                                         minimally interfering with the learning process. We further
+                                         introduce a Bayesian mechanism that refines the safety
+                                         analysis as the system acquires new evidence, reducing
+                                         initial conservativeness when appropriate while strength-
+                                         ening guarantees through real-time validation. The result
+                                         is a least-restrictive, safety-preserving control law that in-
+                                         tervenes only when (a) the computed safety guarantees
+                                         require it, or (b) confidence in the computed guarantees                 (a) With online guarantee validation   (b) Without online guarantee validation
+                                         decays in light of new observations. We prove theoretical
+                                         safety guarantees combining probabilistic and worst-case              Fig. 1: Hummingbird quadrotor learning a vertical flight policy
+                                         analysis and demonstrate the proposed framework experi-               under the requirement of not colliding. When the fan is turned
+                                         mentally on a quadrotor vehicle. Even though safety anal-             on, the system experiences an unmodeled disturbance that it
+                                         ysis is based on a simple point-mass model, the quadro-               has not previously encountered. This can lead to a ground col-
+                                         tor successfully arrives at a suitable controller by policy-
+                                         gradient reinforcement learning without ever crashing, and            lision even under robust safety policies (right). The proposed
+                                         safely retracts away from a strong external disturbance               Bayesian validation method detects the inconsistency and
+                                         introduced during flight.                                             prevents the vehicle from entering the uncertain region (left).
+                                                                                                               Video: www.eecs.berkeley.edu/~jfisac/safelearning
+
+                                                                I. I NTRODUCTION
+                                            Learning-based methods in control and artificial intelligence          research community. The auspicious results of deep rein-
+                                         are generating a considerable amount of excitement in the                 forcement learning schemes in virtual environments such as
+                                                                                                                   arcade videogames [32] and physics simulators [39], make
+                                            ˚ The first two authors contributed equally.
+                                                                                                                   these techniques extremely attractive for robotics applications,
+                                           This work was supported by the NSF CPS project ActionWebs under         in which complex dynamics and hard-to-model environments
+                                         grant 0931843, NSF CPS project FORCES under grant 1239166, and
+                                         by ONR under the HUNT, SMARTS and Embedded Humans MURIs,                  limit the effectiveness of purely model-based approaches.
+                                         and by AFOSR under the CHASE MURI. The research of J. F. Fisac            However, the difficulty of interpreting the inner workings of
+                                         received funding from the “la Caixa” Foundation. The research of A.K.     many machine learning algorithms (notably in the case of deep
+                                         Akametalu received funding from the NSF Bridge to Doctorate program.
+                                         The research of M.N. Zeilinger received funding from the EU FP7           neural networks), makes it challenging to make meaningful
+                                         (FP7/2007-2013) under grant PIOFGA-2011-301436-COGENT.                    statements about the behavior of a system during the learning
+                                           1 Department of Electrical Engineering and Computer Sciences,
+                                                                                                                   process, especially while the system has not yet converged
+                                         University of California, Berkeley. Cory Hall, Berkeley, CA 94720, United
+                                         States.                                                                   to a suitable control policy. While this may not be a critical
+                                           2 Department of Mechanical and Process Engineering, ETH Zurich.         issue in a simulated reality, it can quickly become a limiting
+                                         Rämistrasse 101, 8092 Zürich, Switzerland.                              factor when attempting to put such an algorithm in control of
+                                           3 Clearpath Robotics. 1425 Strasburg Rd, Suite 2A, Kitchener, ON
+                                         N2R 1H2, Canada.                                                          a system in the physical world, where certain failures, such
+                                           4 Electronic Frontier Foundation. 815 Eddy St, San Francisco, CA        as collisions, can result in damage that would severely hinder
+                                         94109, United States.                                                     or even terminate the learning process, in addition to material
+                                           Email: {jfisac, kakametalu, tomlin} @eecs.berkeley.edu,
+                                         mzeilinger@ethz.ch, skaynama@clearpath.ai,                                loss or human injury. We refer to systems in which certain
+                                         jeremy@eff.org                                                            failure states are unacceptable as safety-critical.
+   In the last decade, learning-based control schemes have            properties; this enabled solid theoretical guarantees at the
+been successfully demonstrated in robotics applications in            expense of substantially constraining the agent’s behavior; in
+which the safety-critical aspects were effectively removed or         a similar spirit, later work has considered constraining policy
+mitigated, typically by providing a manual fallback mechanism         search to the space of stabilizing controllers [38].
+or retrofitting the environment to allow safe failure. In [1], [10]      In risk-sensitive reinforcement learning [17], the expected
+a trained pilot was able to remotely take over control of             return was heuristically weighted with the probability (risk) of
+the autonomous helicopter at any time; the power slide car            reaching an “error state”; while this allowed for more general
+maneuvers in [27] were performed on an empty test track; and          learning strategies, no guarantees could be derived from the
+the aerobatic quadrotor in [29] was enclosed in a safety net.         heuristic effort. Nonetheless, the ideal problem formulation
+While mostly effective, these ad hoc methods tend to come             proposed in the paper, to maximize performance subject to
+with their own issues (pilot handoffs, for instance, are notori-      some maximum allowable risk, inspired later work (see [16]
+ously prone to result in accidents [22]) and do not generalize        for a survey) and is very much aligned with our own goals.
+well beyond the context of the particular demonstration. It              More recently, [33] proposed an ergodicity-based safe ex-
+therefore seems imperative to develop principled and provably         ploration policy for Markov decision processes (MDPs) with
+correct approaches to safety, attuned to the exploration-intense      uncertain transition measures, which imposed a constraint on
+needs of learning-based algorithms, that can be built into the        the probability, under the current belief, of being able to
+autonomous operation of learning robotic systems.                     return to the starting state. While practical online methods
+   Current efforts in policy transfer learning propose training       for updating the system’s belief on the transition dynamics are
+an initial control policy in simulation and then carrying it over     not discussed, and the toy grid-world demonstrations fall short
+to the physical system [9]. While progress in this direction is       of capturing the criticality of dynamics in many real-world
+likely to reduce overall training time, it does not eliminate         safety problems, the probabilistic safety analysis is extremely
+the risk of catastrophic system misbehavior. State-of-the art         powerful, and our work certainly takes inspiration from it.
+neural network policies have been shown to be vulnerable to           Recent safe exploration efforts in robotics concurrent with our
+small changes between training and testing conditions [23],           work use Gaussian processes to model uncertain dynamics,
+which inevitably arise between simulated and real systems.            but restrict safety analysis to local stability (i.e. region of
+Guaranteeing correct behavior of simulation-trained schemes           attraction) and do not consider state constraints [5], [6].
+in the real world thus remains an important unsolved problem.            The robust model-predictive control approach in [3] learns
+   Providing guarantees about a system’s evolution inevitably         about system dynamics for performance only, while enforcing
+requires some form of knowledge about the causal mechanisms           constraints based on a robust nominal model. The method
+that govern it. Fortunately, in practice it is never the case that    was successfully demonstrated on problems with nontrivial
+the designer of a robotic system has no knowledge whatsoever          dynamics, including quadrotor flight. However, using an a
+of its dynamics: making use of approximate knowledge is               priori model for safety at best constrains the system’s ability
+both possible and, we argue, advantageous for safety. Yet,            to explore, and at worst may fail to keep the real system safe.
+perfect knowledge of the dynamics can hardly if ever be safely           To explicitly account for model uncertainty, the safety
+assumed either. This motivates searching for points of rap-           problem can be studied as a differential game [30], in which
+prochement between data-driven and model-based techniques.            the controller must keep the system within the specified state
+   We identify three key properties that we believe any general       constraints (i.e. away from failure states) in spite of the actions
+safe learning framework should satisfy:                               of an adversarial disturbance: the optimal solution to this
+   ‚ High confidence. The framework should be able to keep            reachability game, obtainable through Hamilton-Jacobi meth-
+     the system safe with high probability given the available        ods [31], [34], has been used to guarantee safety in a variety
+     knowledge about the system and the environment.                  of engineering problems [13], [7], [21]. This robust, worst-
+   ‚ Modularity. The framework should work in conjunction             case analysis determines a safe region in the state space and a
+     with an arbitrary learning-based control algorithm, with-        control policy to remain inside it; a related approach involves
+     out requiring modifications to said algorithm.                   ensuring invariance through “barrier functions” [36], [41]. A
+   ‚ Minimal intervention. The framework should not in-               key advantage is that in the interior of this safe set one can
+     terfere with the learning process unless deemed strictly         execute any desired action, as long as the safe control is
+     necessary to ensure safety, and should return control to         applied at the boundary: in this sense, the technique yields
+     the learning algorithm as soon as possible.                      a least-restrictive control law, which naturally lends itself
+   We can use these criteria to evaluate the strengths and            to minimally constrained learning-based control. Initial work
+shortcomings of existing approaches to safety in intelligent          exploring this was presented in [19], [20].
+systems, and place our work in the context of prior research.            The above methods are subject, however, to the fundamental
+                                                                      limitation of any model-based safety analysis, namely, the
+                                                                      contingency of all guarantees upon the validity of the model.
+Related Work                                                          This faces designers with a difficult tradeoff. On the one
+   Early proposals of safe learning date back to the turn of the      hand, if, in order to guarantee safety under large or poorly
+century. Lyapunov-based reinforcement learning [35] allowed           understood uncertainty, they assume conservative bounds on
+a learning agent to switch between a number of pre-computed           model error, this will reduce the computed safe set, and thereby
+“base-level” controllers with desirable safety and performance        restrict the freedom of the learning algorithm. If, on the
+other hand, the assumed bounds fail to fully capture the true                           II. P ROBLEM F ORMULATION
+evolution of the state, the theoretical guarantees derived from      A. System Model and State-Dependent Uncertainty
+the model may not in fact apply to the real system.
+                                                                        The analysis in this paper considers a fully observable
+Contribution                                                         system whose underlying dynamics are assumed deterministic,
+                                                                     but only partially known. This modeling framework can in
+   In this work we propose a novel general safety framework
+                                                                     practice be applied to a wide range of systems for which an
+that combines model-based control-theoretical analysis with
+                                                                     approximate dynamic model is available but the exact behavior
+data-driven Bayesian inference to construct and maintain high-
+                                                                     is hard to model a priori (due to manufacturing tolerances,
+probability guarantees around an arbitrary learning-based con-
+                                                                     aerodynamic effects, uncertain environments, etc.).
+trol algorithm. Drawing on Hamilton-Jacobi robust optimal
+                                                                        We can formalize this as a dynamical system with state
+control techniques, it defines a least-restrictive supervisory
+                                                                     x P Rn , and two inputs, u P U Ă Rnu , d P D Ă Rnd (with U
+control law, which allows the system to freely execute its
+                                                                     and D compact) which we will refer to as the controller and
+learning-based policy almost everywhere, but imposes a com-
+                                                                     the disturbance:
+puted action at states where it is deemed critical for safety. The
+safety analysis is refined through Bayesian inference in light                                     x9 “ f px, u, dq.                             (1)
+of newly gathered evidence, both avoiding excessive conser-
+vativeness and improving reliability by rapidly imposing the         In this context, however, d is thought of as a deterministic
+computed safe actions if confidence in model-based guarantees        state-dependent disturbance capturing unmodeled dynamics,
+decreases due to unexpected observations.                            given by an unknown Lipschitz function d : Rn Ñ D. That
+   This paper consolidates the preliminary work presented in                                  ˘ write the unknown dynamics as
+                                                                     is, we could` in principle
+[19], [20], [2], extending the theoretical results to provide a      F px, uq “ f x, u, dpxq . Unlike F , f is a known function,
+unified treatment of model learning and guarantee validation,        with all uncertainty captured by dp¨q. The flow field f :
+and presenting significant novel experimental results. To our        Rn ˆ U ˆ D Ñ Rn is assumed uniformly continuous and
+knowledge this is the first work in the area of reachability         bounded, as well as Lipschitz in x and d for all u: this ensures
+analysis that reasons online about the validity of computed          that the unknown dynamics F are Lipschitz in x.
+guarantees and uses a resilient mechanism to continue exploit-          Letting U and D denote the collections of measurable1
+ing them under inaccurate prior assumptions on model error.          functions u : r0, 8q Ñ U and d : r0, 8q Ñ D respectively,
+   Our framework relies on reachability analysis for the model-      and allowing the controller and disturbance to choose any such
+based safety guarantees, and on Gaussian processes for the on-       signals, the evolution of the system from any initial state x is
+line Bayesian analysis. It is important to acknowledge that both     determined (see for example [11], Ch. 2, Theorems 1.1, 2.1)
+of these techniques are computationally intensive and scale          by the unique continuous trajectory ξ : r0, 8q Ñ Rn solving
+poorly with the dimensionality of the underlying continuous                        9
+                                                                                   ξpsq “ f pξpsq, upsq, dpsqq, a.e. s ě 0,
+spaces, which can generally limit their applicability to complex                                                                                 (2)
+dynamical systems. However, recent compositional approaches                        ξp0q “ x.
+have dramatically increased the tractability of lightly coupled      Note that this is a solution in Carathéodory’s extended sense,
+high-dimensional systems [25], [24], [7], [8], while new ana-        that is, it satisfies the differential equation almost everywhere
+lytic solutions entirely overcome the “curse of dimensionality”      (i.e. except on a subset of Lebesgue measure zero).
+in some relevant cases [12], [26]. The key contribution of this         Since dpxq is unknown, we attempt to bound it at each state
+work is in the principled methodology for incorporating safety       by a compact set D̂pxq Ď D, which is allowed to vary in the
+into learning-based systems: we thus focus our examples              state space. In Section III, we present a robust, least-restrictive
+on problems of low dimensionality, implicitly bypassing the          safety control law that enforces constraint satisfaction subject
+computational issues, and note that our method can readily be        to dpxq P D̂pxq. In Section IV, we present a Bayesian
+used in conjunction with these decomposition techniques to           approach to find a bound D̂pxq based on a Gaussian process
+extend its application to more complex systems.                      model of dpxq. Our overall approach therefore combines robust
+   We demonstrate our method on a quadrotor vehicle learning         (worst-case) guarantees with Bayesian (probabilistic) analysis,
+to track a vertical trajectory close to the ground (Fig. 1), using   by constructing the disturbance bound to reflect the local
+a policy gradient algorithm [28]. The reliability of our method      uncertainty around the inferred disturbance function.2
+is evidenced under uninformative policy initializations, inac-          Any model-based safety guarantees for the system will
+curate safe set estimation and strong unmodeled disturbances.        require that the bound D̂pxq correctly captures the unknown
+   The remainder of the paper is organized as follows: In
+Section II we introduce the modeling framework and for-                 1 A function f : X Ñ Y between two measurable spaces pX, Σ q and
+                                                                                                                                              X
+mally state the safe learning problem. Section III presents          pY, ΣY q is said to be measurable if the preimage of a measurable set in Y
+                                                                     is a measurable set in X, that is: @V P ΣY , f ´1 pV q P ΣX , with ΣX , ΣY
+the differential game analysis and derives some important            σ-algebras on X,Y .
+properties. The proposed methodology is described in Section            2 Alternative methods to providing the disturbance bounds (for example,
+
+IV with the proofs of its fundamental guarantees, as well            a conservative a priori estimate, or a system identification procedure) are
+as a computationally tractable alternative with weaker, but          possible, provided some basic conditions to ensure that the dynamical system
+                                                                     resulting from (2) with the restriction d P D̂pxq remains well defined. For the
+practically useful, properties. Lastly, in Section V we present      interested reader, sufficient conditions on D̂pxq are discussed in the Appendix.
+the experimental results.
+part of the dynamics given by dpxq, at least at some critical set            B. State Constraints
+of states x (discussed in Section III). One key insight in this                 A central element in our problem is the constraint set, which
+work is that the system should take action to ensure safety                  defines a region K Ď Rn of the state space, typically the com-
+not only when the model predicts that this action may be                     plement of all unacceptable failure states, where the system is
+necessary, but also when the system detects that the model                   required to remain throughout the learning process. This set
+itself may become unreliable in the predictable future.                      is assumed closed and time-invariant; no further assumptions
+   We state here a preliminary result that will be useful later on           (boundedness, connectedness, convexity, etc.) are needed.
+in the paper, and introduce the notion of local model reliability.              From closedness, we can implicitly characterize K as the
+   Proposition 1: If dpxq P int D̂pxq and the set-valued                     zero superlevel set of a Lipschitz surface function l : Rn Ñ R:
+map D̂ : Rn Ñ 2D is Lipschitz-continuous under the
+Hausdorff metric3 , then there exists ∆t ą 0 such that all                                        x P K ðñ lpxq ě 0.                        (4)
+possible trajectories
+                `              ` by˘ the system starting at x
+                      ˘ followed                                             This function always exists, since we can simply choose
+will satisfy d ξpτ q P D̂ ξpτ q for all τ P rt, t ` ∆ts.
+                                                                             lpxq “ ´sK pxq, which is Lipschitz continuous by definition.
+Proof: Let LD̂ be the Lipschitz (Hausdorff) constant of
+                                                                                To express whether a given trajectory ever violates the
+D̂, Ld the Lipschitz constant of d, and Cf a norm bound
+                                                                             constraints, let the functional V : Rn ˆ U ˆ D Ñ R assign to
+on the dynamics f . We then have that over an arbitrary
+                                                                             each initial state x and input signals up¨q, dp¨q the lowest value
+time interval rt, t ` ∆ts, regardless of the control and                                                       u,d
+                                                                             of lp¨q achieved by trajectory ξx,    p¨q over all times t ě 0:
+disturbance signals up¨q, dp¨q, any system trajectory starting                                                  D̂
+at ξptq “ x satisfies |ξpτ q ´ x| ď Cf ∆t, @τ P rt, t ` ∆ts.                                  `             ˘          ` u,d ˘
+                                                                                             V x, up¨q, dp¨q :“ inf l ξx,    ptq .           (5)
+This` implies both   ˘       |dpξpτ qq ´ dpxq| ď Ld Cf ∆t and                                                    tě0      D̂
+
+dH` D̂pξpτ qq, D̂pxq ď LD̂˘Cf ∆t. Requiring that the open ball               This outcome V will be strictly smaller than zero if there exists
+B dpxq, pLd ` LD̂ qCf ∆t be contained in D̂pxq ensures                       any t P r0, 8q at which the trajectory leaves the constraint set,
+dpξpτ qq P D̂pξpτ qq. Since dpxq P int D̂pxq, there must exist a             and will be nonnegative if the system remains ` in the constraint
+                                                                                                                                        ˘
+small enough ∆t ą 0 for which this condition is met.                         set for all of t ě 0. Denoting V u,d pxq “ V x, up¨q, dp¨q , the
+   We can further quantify this ∆t through the signed distance4              following statement follows from (4) and (5) by construction.
+to D̂pxq at the current dpxq.                                                   Proposition 2: The set of points x from which the system
+                                                                                          u,d
+   Corollary 1: If the Lipschitz constants are known, then                   trajectory ξx,    p¨q under given inputs up¨q P U, dp¨q P D will
+                                                                                            D̂
+dpxq P int D̂pxq implies dpξpτ qq P D̂pξpτ qq for all times                  remain in the constraint set K at all times t ě 0 is equal to
+τ P rt, t ` ∆ts, with                                                        the zero superlevel set of V u,d p¨q:
+                                      `    ˘
+                             ´sD̂pxq dpxq                                                         u,d
+                                                                               tx P Rn : @t ě 0, ξx,    ptq P Ku “ tx P Rn : V u,d p¨q ě 0u.
+                      ∆t “                   .                                                       D̂
+                              pLd ` LD̂ qCf                                     Guaranteeing safe evolution from a given point x P Rn
+   The disturbance bounds D̂ derived in this paper satisfy the               given an uncertainty bound D̂ requires determining whether
+hypothesis of Proposition 1 (see Appendix for details), and we               there exists a control input up¨q P U such that,          for all
+                                                                                                                                   ` u,d      ˘
+thus refer to the condition dpxq P int D̂pxq as the model being              disturbance inputs dp¨q P D satisfying dptq P D̂ ξx,       D̂
+                                                                                                                                           ptq ,
+locally reliable at x.                                                       the evolution of the system remains in K, or equivalently
+   Finally, we assume that the effect of the disturbance on                  V u,d pxq ě 0. In Section III, we review how to answer
+the dynamics is independent of the action applied by the                     this question using differential game theory and state some
+controller.                                                                  important properties of the associated solution.
+                  `            ˘     `   ˘     `    ˘
+            x9 “ f x, u, dpxq “ g x, u ` h dpxq .              (3)
+                                                                             C. Objective: Safe Learning
+with g : Rn ˆ Rnu Ñ Rn , h : Rnp Ñ Rn , where g, and
+h inherit Lipschitz continuity in their first argument from f                   Learning-based control aims to achieve desirable system
+and h is injective onto its image. This decoupling assumption,               behavior by autonomously improving a policy κl : Rn Ñ U,
+made for ease of exposition, is not strictly necessary, and the              typically seeking to optimize an objective function. Safe
+theoretical results in this paper can be easily adapted to the               learning additionally requires that certain constraints K re-
+coupled case.                                                                main satisfied while searching for such a policy.   ` With full˘
+   Throughout our analysis, we will use the notation ξx, u,d
+                                                              p¨q to         knowledge of the system dynamics F px, uq “ f x, u, dpxq ,
+                                                          D̂                 we would like to find a safe control policy κ˚ : Rn Ñ U
+denote the state trajectory t ÞÑ x corresponding to the initial
+                                                                             producing trajectories ξptq P K, @t ě 0, for the largest set of
+condition x P Rn , the control signal u P U and the disturbance
+                                                        ` u,d ˘              initial states x “ ξp0q, then restrict any learned policy so that
+signal d P D, subjecting the latter to satisfy dptq P D̂ ξx,    ptq
+                                                             D̂              κl pxq “ κ˚ pxq wherever required to ensure safety. When dpxq
+for all t ě 0.
+                                                                             is not known exactly, however, this problem cannot be solved.
+  3 The  Hausdorff metric (or Hausdorff distance) between any                   Instead, given an estimated disturbance set D̂pxq, we can
+two sets A and B in a metric space pM, dM q is defined as                    find an inner approximation of the set of safe states by
+dH pA, Bq “ maxt supaPA inf bPB dM pa, bq, supbPB inf aPA dM pa, bq u.       considering all the possible trajectories that can be produced
+  4 For any nonempty set M Ă Rm , the signed distance function
+sM : Rm Ñ R is defined as inf yPM |z ´ y| for points z P Rm zM and           under the bounded uncertainty dpxq P D̂pxq. Our goal, then,
+´ inf yPRm zM |z ´ y| for points z P M, where | ¨ | denotes a norm on Rm .   is to find the set of robustly safe states x for which there
+exists a control policy κ˚ that can keep the closed-loop system      prevent it from succeeding. Following [14], we define the set
+evolution in K, and consistently limit κl to ensure that κ˚ is       of nonanticipative strategies for the disturbance containing the
+applied when necessary. To formally state this, we introduce         functionals
+                                                                     `             B “ tβ : ˘U Ñ` D | @t ě 0, @up¨q, ûp¨q P ˘U,
+an important notion from robust control theory.                        upτ q “ ûpτ q a.e.τ ě 0 ñ βruspτ q “ βrûspτ q a.e.τ ě 0 u.
+   Definition 1: A subset M Ă Rn is a robust con-                    Since the disturbance and the control inputs are decoupled in
+trolled invariant set under uncertain dynamics x9 “ f px, u, dq,     the system dynamics, Isaacs’ minimax condition holds5 and
+d P D̂pxq, if there exists a feedback control policy κ : Rn Ñ U      the value of the game is well defined as:
+such that all possible system trajectories starting at ξp0q P M                                          `               ˘
+                                                                              V pxq :“ inf       sup V x, up¨q, βrusp¨q .         (6)
+are guaranteed to satisfy ξptq P M for all time t ě 0.                                    βrusp¨qPB up¨qPU
+   Given that trajectories are continuous, the system state can
+only leave M by crossing its boundary BM. Hence if M                 Under this information structure, we draw on the (infinite-
+is closed, applying the feedback policy κpxq for x P BM is           horizon) discriminating kernel concept from viability theory.
+enough to render M robust controlled invariant, allowing an            Definition 3: A point x P K is in K’s discriminating kernel
+                                                                                                            u,d
+arbitrary control action to be applied in the interior of M.         DiscD̂ pKq if the system trajectory ξx, D̂
+                                                                                                                starting at x, with
+   Definition 2: The safe set ΩD̂ is the maximal robust con-         both players acting optimally, remains in K for all time t ě 0:
+trolled invariant set under uncertain dynamics x9 “ f px, u, dq,              DiscD̂ pKq :“ tx P Rn : @βp¨q P B, Dup¨q P U ,
+d P D̂pxq, that is contained in the constraint set K.                                                       u,βrus
+   Success in safe learning therefore seems closely linked to                              @t ě 0, ξx,D̂ ptq P Ku .
+model uncertainty: a tighter bound D̂pxq on dpxq yields a less       The following classical result follows from Proposition 2.
+conservative safe set ΩD̂ , which in turn reduces the restrictions      Proposition 3: The discriminating kernel of the constraint
+on the learning process. However, an estimated bound that fails      set K is the zero superlevel set of the value function V :
+to fully capture dpxq may allow the system to execute control                       DiscD̂ pKq “ tx P Rn : V pxq ě 0u.
+actions resulting in a constraint violation. The disturbance            Further, from Definitions 2 and 3, it can be seen that the
+bound should thus be as tight as possible, to allow the system       discriminating kernel DiscD̂ pKq is identical to the safe set ΩD̂ .
+greater freedom in learning, yet wide enough to confidently             It has been shown that the value function for minimum
+capture the unknown dynamics, in order to ensure safety.             payoff games of the form presented in Section III-A (i.e.
+   In the following two sections, we formalize this tradeoff         games in which the payoff is the minimum of a state function
+and propose a framework to reason about safety guarantees            over time) can be characterized as the unique viscosity solution
+under uncertainty. Section III poses the safety problem as a         to a variational inequality involving an appropriate Hamilto-
+differential game between the controller and an adversarial          nian [4], [15]; an alternative formulation involves a modified
+disturbance, presenting a stronger result than commonly used         partial differential equation [30]. In a finite-horizon setting,
+in the reachability safety literature, which exploits the entire     with the game taking place over the compact time interval
+value function of the game rather than only its zero level           r0, T s, the value function V px, tq can be computed by solving
+set. Section IV leverages this result to provide a principled        the Hamilton-Jacobi-Isaacs (HJI) variational inequality:
+approach to global safety under model uncertainty, as well as             #                                                             +
+a fast local alternative that may often be useful in practice.                              BV                     BV
+                                                                     min lpxq´V px, tq,        px, tq`max min          px, tqf px, u, dq
+                                                                                            Bt          uPU dPD̂pxq Bx
+
+          III. S AFETY AS A D IFFERENTIAL G AME                                                                                      (7a)
+   The safety problem can be posed as a two-player zero-             V px, T q “ lpxq.                                                       (7b)
+sum differential game between the system controller and the
+                                                                        As long as there exists a nonempty safe set in the problem,
+disturbance. Intuitively, we are requiring the controller to keep
+                                                                     V px, tq becomes independent of t inside of this set as T Ñ 8.
+the system from violating the constraints for all possible dis-
+                                                                     We accordingly drop the dependence on t and recover V pxq
+turbance inputs within a certain family: by conducting a worst-
+                                                                     as defined in (6), which we refer to as the safety function.
+case analysis assuming an optimally adversarial disturbance,
+                                                                        Definition 4: The optimal safe policy κ˚ p¨q is the solution
+we implicitly protect the system against all “suboptimal”
+                                                                     to the optimization:6
+disturbances as well. We first introduce relevant background
+on differential games, and then present new enabling insights.                                                   BV
+                                                                                 κ˚ pxq “ arg max min                 pxqf px, u, dq.
+                                                                                                  uPU dPD̂pxq Bx
+
+A. Background: HJI Equation and Safe Set                             Policy κ˚ pxq attempts to drive the system to the safest possible
+                                                                     state always assuming an adversarial disturbance. If the distur-
+   To obtain a safe set and an associated safety policy, we          bance bound D̂pxq is correct everywhere, then one can allow
+formulate
+  `               ˘ whose outcome is given by the functional
+              a game                                                 the system to execute any desired control while in the interior
+V x, up¨q, dp¨q introduced in (5), negative for those trajecto-      of ΩD̂ , as long as the safety preserving action κ˚ pxq is taken
+      u,d
+ries ξx, D̂
+            p¨q that at some point violate the constraints K.
+                                                                        5 This means that we could have alternatively let the controller use nonan-
+   In the robust safety problem, the controller seeks to max-
+imize the outcome of the game, while the disturbance tries           ticipative strategies, without affecting the solution of the game.
+                                                                        6 While in general the solution need not be unique, we can always choose
+to minimize it: that is, the disturbance is trying to drive the      one element of the arg max set arbitrarily. Therefore we will assume for
+system out of the constraint set, and the controller wants to        simplicity a policy κ˚ : Rn Ñ U uniquely mapping states to control inputs.
+whenever the state reaches the boundary BΩD̂ ; the system is       guarantees that the system will remain in M. Therefore M is
+then guaranteed to remain inside ΩD̂ for all time. This least-     a robust controlled invariant set under D2 pxq.
+restrictive control law can be used in conjunction with an            Corollary 2: Let Qα “ tx P Rn : V pxq “ αu with
+arbitrary learning-based control policy κl pxq (which may be       α ě 0 be any nonnegative level set of the safety function
+repeatedly updated by the corresponding learning algorithm),       V , computed for some disturbance set D̂pxq. If dpxq P D̂pxq
+to produce a safe learning policy:                                 @x P Qα , then the superlevel set tx P Rn : V pxq ě αu is an
+                                                                   invariant set under the computed safe control policy κ˚ pxq.
+                                                                      This corollary, which follows from Propositions 4 and 5 by
+                        #
+                            κl pxq, if V pxq ą 0,
+               κpxq “                                        (8)   considering the singleton tdpxqu, is an important result that
+                            κ˚ pxq, otherwise.                     will be at the core of our data-driven safety enhancement.
+   Rather than imposing the optimal safe action κ˚ pxq, it         It provides a sufficient condition for safety, but unlike the
+would have, in principle, been sufficient to project the desired   standard HJI solution, it does not readily prescribe a least-
+κl pxq onto the set of control inputs that guarantee nonnegative   restrictive control law to exploit it: how should one determine
+local evolution of V for all d P D̂pxq. However, κ˚ pxq results    what candidate α ě 0 to choose, or whether a valid Qα exists
+in the greatest predicted increase in value, which is desirable    at all? Deciding when the safe controller should intervene
+under model uncertainty, as we will see in Section IV-C.           and what guarantees are possible is nontrivial and requires
+                                                                   additional analysis.
+                                                                      The next section proposes a Bayesian approach enabling the
+B. Invariance Properties of Level Sets                             safety controller to reason about its confidence in the model-
+   Traditionally, the implicit hypothesis made to guarantee        based guarantees described in this section. If this confidence
+safety using a least-restrictive law in the form of (8) has been   reaches a prescribed minimum value in light of the observed
+correctness of the estimated disturbance bound D̂ everywhere       data, the controller can intervene early to ensure that safety
+in the state space, (i.e. dpxq P D̂pxq @x P Rn ), or at            will be maintained with high probability.
+least everywhere in the constraint set K [30], [20]. We will
+now argue that the necessary hypothesis for safety is in fact                   IV. B AYESIAN S AFETY A NALYSIS
+much less stringent, by proving an important result that we
+will use in the following section to strengthen the proposed       A. Learning-Based Safe Learning
+safety framework and retain safety guarantees under partially         As we have seen, robust optimal control and dynamic game
+incorrect models.                                                  theory provide powerful analytical tools to study the safety of
+   Proposition 4: Any nonnegative superlevel set of V pxq is       a dynamical model. However, it is important to realize that
+a robust controlled invariant set with respect to d P D̂pxq.       the applicability of any theoretically derived guarantee to the
+      Proof: By Lipschitz continuity of f and l, we have that      real system is contingent upon the validity of the underlying
+V is Lipschitz continuous [14] and hence, by Rademacher’s          modeling assumptions; in the formulation considered here,
+theorem, almost everywhere differentiable. The convergence         this amounts to the state disturbance function dpxq being
+of V px, tq to V pxq as T Ñ 8 implies that at the limit            captured by the bound D̂pxq on at least a certain subset
+BV
+ Bt px, tq “ 0. Therefore, given any α ě 0, for any point          of the state space. The system designer therefore faces an
+x P tx | V pxq ě αu there must exist a control action u˚           inevitable tradeoff between risk and conservativeness, due to
+such that @d P D̂pxq, BV               ˚
+                          Bx pxqf px, u , dq ě 0; otherwise the    the impossibility of accounting for every aspect of the real
+right hand side of (7a) would be strictly negative for T Ñ 8,      system in a tractable model.
+contradicting convergence. Then, the value of V from any such         In many cases, choosing a parametric model a priori forces
+state x can always be kept from decreasing, so tx|V pxq ě αu       one to become overly conservative in order to ensure that the
+is a robust controlled invariant set with respect to d P D̂pxq.    system behavior will be adequately captured: this results in a
+                                                                   large bound D̂pxq on the disturbance, which typically leads
+   Proposition 5: Consider two disturbance sets D1 pxq and         to a small safe set ΩD̂ , limiting the learning agent’s ability
+D2 pxq, and a closed set M Ă Rn that is robustly controlled        to explore and perform the assigned tasks. In other cases,
+invariant under D1 pxq. If D2 pxq Ď D1 pxq @x P BM, then M         insufficient caution in the definition of the model can lead
+is robustly controlled invariant also under D2 pxq.                to an estimated disturbance set D̂pxq that fails to contain the
+       Proof: Consider an arbitrary trajectory ξxu,d
+                                                   0 ,D2
+                                                         P XD2     actual model error dpxq, and therefore the computed safe set
+under the disturbance set D2 pxq, starting at x0 P M, such         ΩD̂ may not in fact be controlled invariant in practice, which
+that for some τ ă 8, ξpτ q R M. Since trajectories in XD2          can end all safety guarantees.
+are continuous, there must then exist s P rt0 , τ s such that         In order to avoid excessive conservativeness and keep the-
+ξxu,d
+   0 ,D2
+         psq P BM. On the other hand, because M is robustly        oretical guarantees valid, it is imperative to have both a prin-
+controlled invariant under D1 pxq, we know that Dκ : Rn Ñ U        cipled method to refine the system model based on acquired
+such that no possible disturbance d P D1 pxq can drive the         measurements and a reliable mechanism to detect and react to
+system out of M. Since D2 pxq Ď D1 pxq @x P BM, the                model discrepancies with the real system’s behavior; both of
+same control policy κ˚ pxq on the boundary guarantees that         these elements are necessarily data-driven. We thus arrive at
+no disturbance d P D2 pxq Ď D1 pxq can drive the system out        what is perhaps the most important insight in this work: the
+of M. Hence, for ξxu,d 0 ,D2
+                             , switching to policy κ at time s     relation between safety and learning is reciprocal. Not only is
+safety a key requirement for learning in autonomous systems:                   finitely many points X˚ is distributed as a multivariate normal:
+learning about the real system’s behavior is itself indispensable
+                                                                               Erdj pX˚ q | d̂j , Xs “                                               (10a)
+to provide practical safety guarantees.
+   In the remainder of this section we propose a method
+                                                                                j           j
+                                                                               µ pX˚ q ` K pX˚ , XqpK         j
+                                                                                                                  pX, Xq ` pσnj q2 Iq´1 pd̂j ´ µj pXqq,
+for reasoning about the uncertain system dynamics, using
+Gaussian processes to regularly update the model used for                      covrdj pX˚ q | Xs “                                                   (10b)
+safety analysis, and introduce a Bayesian approach for online                    j                    j
+                                                                               K pX˚ , X˚ q ´ K pX˚ , XqpK          j
+                                                                                                                        pX, Xq ` pσnj q2 Iq´1 K j pX, X˚ q,
+validation of model-based guarantees in between updates. We
+then define an adaptive safety control strategy based on this                  where dji pXq “ dj pxi q, µji pXq “ µj pxi q, and for any
+real-time validation, which leverages the theoretical results                  X, X 1 the matrix K j pX, X 1 q is defined component-wise as
+                                                                                  j
+from Hamilton-Jacobi analysis to provide stronger guarantees                   Kik  pX, X 1 q “ k j pxi , x1k q. Note that whenever a new batch
+for safe learning under possible model inaccuracies.                           of data X is obtained the hyperparameters of the kernel
+                                                                               function are refitted, so the variance implicitly depends on
+                                                                               the measurements dj . If a single query point is considered,
+B. Gaussian Process                                                            i.e. X˚ “ tx˚ u, the marginalized Gaussian process posterior
+  To estimate the disturbance function dpxq over the state                     becomes a univariate normal distribution quantifying both the
+space, we model it as being drawn from a Gaussian process.                     expected value of the disturbance ` j function,
+                                                                                                                         ˘2     d¯j px˚ q, and the
+Gaussian processes are a powerful abstraction that extends                     uncertainty of this estimate, σ px˚ q ,
+multivariate Gaussian regression to the infinite-dimensional
+                                                                                                 d¯j px˚ q “ Erdj px˚ q|d̂j , Xs                     (11a)
+space of functions, allowing Bayesian inference based on                                         ` j       ˘2
+(possibly noisy) observations of a function’s value at finitely                                    σ px˚ q “ covrdj px˚ q|Xs .                       (11b)
+many points.7
+                                                                                  We can use the Bayesian machinery of Gaussian process
+  A Gaussian process is a random process or field defined                      regression to compute a likely bound D̂pxq on the disturbance
+by a mean function µ : Rn Ñ R and a positive semidefinite                      function dpxq based on the history of commanded inputs ui
+covariance kernel function k : Rn ˆ Rn Ñ R. We will treat                      and state measurements xi , i P t1, ..., N u. To this effect, we
+each component dj , j P t1, ..., nd u, of the disturbance function             assume that a method for approximately measuring the state
+as an independent Gaussian process:                                            derivatives is available (e.g. by numerical differentiation), and
+                   dj pxq „ GPpµj pxq, k j px, x1 qq.                   (9)    denote each of these measurements by fˆi . Based on (3), we
+                                                                               can obtain measurements of dpxi q from the residuals between
+A defining characteristic of a Gaussian process is that the                    the observed dynamics and the model’s prediction:
+marginal probability distribution of the function value at any
+                                                                                                              ´             ˘¯
+                                                                                                ˆ i q “ h´1 fˆi ´ g xi , ui .
+                                                                                                                    `
+                                                                                               dpx                                          (12)
+finite number of points is a multivariate Gaussian. This will
+allow us to obtain the disturbance bound D̂pxq as a Cartesian                                                       ˆ N qs are processed through
+                                                                                                     ˆ 1 q, . . . , dpx
+                                                                               The residuals d̂ “ rdpx
+product of confidence intervals for the components of dpxq at                  (10) to infer the marginal distribution of dpx˚ q for an arbitrary
+each state x, choosing the bound to capture a desired degree                   point x˚ , specified by the expected value d¯j px˚ q and the stan-
+of confidence.8                                                                dard deviation σ j px˚ q of each component of the disturbance.
+   Gaussian processes allow incorporating new observations                     This distribution can be used to construct a disturbance set
+in a nonparametric Bayesian setting. First, assume a prior                     D̂px˚ q Ď D at any point x˚ ; in practice, this will be done at
+Gaussian process distribution over the j-th component of dp¨q,                 finitely many points xi on a grid, and used in the numerical
+with mean µj p¨q and covariance kernel k j p¨, ¨q. The class of the            reachability computation to obtain the safety function and the
+prior mean function and covariance kernel function is chosen                   safe control policy.
+to capture the characteristics of the model (linearity, period-                   We now introduce the design parameter p as the desired
+icity, etc), and is associated to a set of hyperparameters θp .                marginal probability that the disturbance function dpxq will
+These are typically set to maximize the marginal likelihood of                 belong to the bound D̂pxq at each point x; typically, p should
+an available set of training data, or possibly to reflect some
+prior belief about the system.
+                                                                               be chosen to be close to 1. The     ? set D̂pxq is then chosen for
+                                                                               each x as follows. Let z “ 2 erf´1 pp1{nd q, where erfp¨q
+   Next, consider N measurements d̂j “ rdˆj1 , . . . , dˆjN s, ob-             denotes the Gauss error function; that is, define z so that the
+served with independent Gaussian noise ji „ N p0, pσnj q2 q at                probability that a sample from a standard normal distribution
+the points X “ rx1 , . . . , xN s, i.e. dˆji “ dj pxi q ` ji . Combined       N p0, 1q lies within r´z, zs is p1{nd . We construct D̂pxq by
+with the prior distribution (9), this new evidence induces a                   taking a Cartesian product of confidence intervals:
+Gaussian process posterior; in particular, the value of dj at                                   nd
+                                                                                                     rd¯j pxq ´ zσ j pxq, d¯j pxq ` zσ j pxqs.
+                                                                                                ź
+  7 We give here an overview of Gaussian process regression and direct the
+                                                                                     D̂pxq “                                                          (13)
+                                                                                                j“1
+interested reader to [37] for a more comprehensive introduction.
+   8 By assuming independence of disturbance components we are effectively                            j
+over-approximating the confidence ellipsoid in Rnd by its minimal containing          ` j component
+                                                                               Since each          ˘ d pxq is given by an independent Gaus-
+                                                                                        ¯      j
+                                                                               sian N d pxq, σ pxq , the probability of `dpxq lying
+box; a less conservative analysis could compute D̂pxq using a vector-valued                                                    ˘nd within the
+Gaussian process model, at the expense of heavier computation.                 above hyperrectangle is by construction p1{nd        “ p.
+   Remark 1: It is commonplace to use Gaussian distributions       remainder of this section, we will discuss how to update the be-
+to capture beliefs on variables that are otherwise known to be     lief on the disturbance function, and then provide two different
+bounded. While one might object that the unbounded support         theoretical criteria for safety intervention. The first criterion
+of (11) contradicts our problem formulation (in which the          provides global probabilistic guarantees, but has computational
+disturbance d took values from some compact set D Ă Rnd ),         challenges associated to its practical implementation. The
+the hyperrectangle D̂pxq in (13) is always a compact set. Note     alternative method only provides a local guarantee, but can
+that the theoretical input set D is never needed in practice, so   more easily be applied in real time.
+it can always be assumed to contain D̂pxq for all x.                   Let us denote Xold and d̂jold as the evidence used in
+   Under Lipschitz continuous prior means µj and covariance        computing the disturbance set D̂pxq, and Xnew and d̂jnew
+kernels k j , the disturbance bound (13) varies (Hausdorff)        as the evidence acquired online after the disturbance set is
+Lipschitz-continuously in x, satisfying the hypotheses of          computed. Conditioned on the old evidence, the function dj pxq
+Proposition 1. This is formalized and proved in the Appendix.      is normally distributed with mean and variance given by (10)
+   The safety analysis described in Section III can be carried     with X “ Xold and d̂j “ d̂jold , and the disturbance set is
+out by solving the Hamilton-Jacobi equation (7) for D̂pxq          given by (13). If we also condition on the new evidence and
+given by (13), which—based on the information available at         keep the hyperparameters fixed, then the mean and variance
+the time of computation—will be a correct disturbance bound        are updated by modifying (10) with X “ rXold , Xnew s and
+at any single state x with probability p. As the system goes on    d̂j “ rd̂jold , d̂jnew s.
+to gather new information, however, the posterior probability          Remark 2: Performing the update requires inverting
+for dpxq P D̂pxq will change at each x (and will typically no      K j prXold , Xnew s, rXold , Xnew sq. This can be done efficiently
+longer equal p). More generally, we have the following result.     employing standard techniques: since K j pXold , Xold q has
+   Proposition 6: Let q be the probability that dpxq P D̂pxq       already been inverted (in order to compute the disturbance
+for some state x with V pxq ě 0. Then the probability that         bound D̂), all that is needed is inverting the Schur Complement
+L˚f V pxq :“ Dx V pxq ¨ f px, κ˚ pxq, dpxqq ě 0 is at least q.     of K j pXold , Xold q in K j prXold , Xnew s, rXold , Xnew sq, which
+Proof: Omitting x for conciseness, we have: P pL˚f V ě 0q “        has the same size as K j pXnew , Xnew q.
+                                                                   Ideally we would incorporate Xnew and d̂jnew to relearn the
+   `                ˘ `       ˘     `               ˘ `        ˘
+P L˚f V ě 0|d P D̂ P d P D̂ `P L˚f V ě 0|d R D̂ P d R D̂ .
+   By Corollary 2, the first term evaluates to 1 ¨ q; the second   Gaussian process hyperparameters as quickly as new measure-
+term is nonnegative (and will typically be positive, since not     ments come in: otherwise new measured disturbance values
+all values of d R D̂ will be unfavorable for safety, and there     d̂jnew will only affect the posterior mean, with the variance
+may be some for which the input κ˚ pxq leads the system to         depending exclusively on where the measurements were made
+locally increase V ).                                              (Xnew ). However, performing this update online is computa-
+   Based on this result, we can begin to reason about the          tionally prohibitive. Instead, we update the hyperparameters
+guarantees of the reachability analysis applied to the real        every time a new estimated bound D̂ is produced for safety
+system in a Bayesian framework, inherited from the Gaussian        analysis, keeping them fixed in between. In practice the set
+process model.                                                     Xold will be much larger than Xnew , so the estimated hyper-
+                                                                   parameters would not be expected to change significantly.
+                                                                       Remark 3: In settings where conditions are slowly time-
+C. Online Safety Guarantee Validation                              varying, it may be desirable to give recently observed data
+   In order to ensure safety under the possibility of model        more weight than older observations. This can naturally be
+mismatch with the real system, it may become necessary to          encoded by the Gaussian process by appending time as an
+intervene not only on the boundary of the computed safe            additional dimension in X: points that are distant in time
+set, but also whenever the observed evolution of the system        would then be more weakly correlated, analogous to space.
+indicates that the model-based safety guarantees may lose              Based on the new Gaussian distribution, we can reason
+validity. Indeed, failure to take a safe action in time may lead   about the posterior confidence in the safety guarantees pro-
+to complete loss of guarantees if the system enters a region       duced by our original safety analysis, which relied on the
+of the state space where the model is consistently incorrect.      prior Gaussian distribution resulting from measurements d̂jold
+   While the estimated bound D̂ (Section IV-B) and the             at states Xold .
+associated safety guarantees (Section III) should certainly be         1) Global Bayesian safety analysis: The strongest result
+recomputed as frequently as possible in light of new evidence,     available for guaranteeing safety under the present frame-
+this process can typically take seconds or minutes, and in some    work is Corollary 2, which allows the system to exploit any
+cases may even require offline computation. This motivates the     superzero level set Qα (α ě 0) of the safety function V
+need to augment model-based guarantees through an online           throughout which the model is locally correct; all that is
+data-driven mechanism to quickly adapt to new incoming             needed is for such a Qα to exist for α P r0, V pxqs given
+informationeven as new, improved guarantees are computed.          the current state x.
+   Bayesian analysis allows us to update our belief on the             It is possible to devise a safety policy to fully exploit
+disturbance function as new observations are obtained. This        the sufficient condition in Corollary 2 in a Bayesian setting:
+in turn can be used to provide a probabilistic guarantee on        if the posterior probability that the corollary’s hypotheses
+the validity of the safety results obtained from the robust        will hold drops to some arbitrary global confidence threshold
+dynamical model generated from the older observations. In the      γ0 , the safe controller can override the learning agent. With
+probability γ0 , the corollary will still apply, in which case         Gaussians of about 25 dimensions [18], which drastically
+the system is guaranteed to remain safe for all time; even if          limits the number of sample points (S ˆ I « 25) that the
+Corollary 2 does not apply at this time (which could happen            marginal probability can be evaluated over, making it difficult
+with probability 1 ´ γ0 ), it is still possible that the disturbance   to obtain a useful estimate. In view of this, a viable approach
+dpxq will not consistently take adversarial values that force          may be to bound (14) below as follows:
+the computed safety function V pxq to decrease, in which                                              `                        ˘
+                                                                         γpxq ě γpxq :“ max P @x P Qα : dpxq P D̂pxq , (17)
+case the system may still evolve safely. Therefore, this policy                           αPr0,V pxqs
+guarantees a lower bound on the probability of maintaining
+                                                                       and approximately compute this as
+safety for all time.
+   In order to apply this safety criterion, the system needs to
+                                                                                                ˆľ  I                     ˙
+maintain a Bayesian posterior of the sufficient condition in                   γpxq « max P           dpxs,i q P D̂pxs,i q ,        (18)
+                                                                                        sPt1,...,Su
+                                                                                                        i“1
+Corollary 2. We refer to this posterior probability as the global
+safety confidence γpx; X, d̂j q, or γpxq for conciseness:              with the advantage that a separate multivariate Gaussian
+                 `                                               ˘     evaluation can be done now for each level set (I « 25).
+γpx; X, d̂j q :“ P Dα P r0, V pxqs, @x P Qα : dpxq P D̂pxq|X, d̂j .    Computing this approximate probability as the system explores
+                                                               (14)    its state space provides a decision mechanism to guarantee safe
+  Based on this, we propose the least-restrictive control law:         operation of the system with a desired degree of confidence,
+          #             `          ˘ `              ˘                  which the system designer or operator can adjust through the
+            κl pxq, if γpxq ą γ0 ^ V pxq ą 0 ,                         γ0 parameter.
+   κpxq “                                                 (15)
+            κ˚ pxq, otherwise,                                            2) Local Bayesian safety analysis: Evaluating the expression
+                                                                       in (18) is still computationally intensive, which can limit the
+so the system applies any action it desires if the global              practicality of this method for real-time validation of safety
+safety confidence is above the threshold, but applies the safe         guarantees in some applications, such as mobile robots relying
+controller once this is no longer the case.                            on on-board processing. An alternative is to replace the global
+   Note that if confidence in the safety guarantees is restored        safety analysis with a local criterion that offers much faster
+after applying the safety action the learning algorithm will be        computation traded off with a weaker safety guarantee.
+allowed to resume control of the system. This can happen by               Instead of relying on Corollary 2, this lighter method
+multiple mechanisms: moving to a region with higher V pxq              exploits Propositions 1 and 6. The system is allowed to explore
+will tend to increase the probability that some lower level            the computed safe set freely as long as the probability of
+set may satisfy the hypotheses of Corollary 2; moving to a             the estimated model D̂ being locally reliable remains above
+region with less inconsistency between expected and observed           a certain threshold λ0 ; if this threshold is reached, the safe
+dynamics will typically lead to higher posterior belief that           controller intervenes, and the system is guaranteed to locally
+nearby level sets will satisfy the hypotheses of Corollary 2;          maintain or increase the computed safety value V pxq with
+and generally acquiring new data may, in some cases, increase          probability no less than λ0 . While this local guarantee does
+the posterior confidence that Corollary 2 may apply.                   not ensure safety globally, it does constitute a useful heuristic
+   Computing the joint probability that the bound D̂pxq cap-           effort to prevent the system from entering unexplored and po-
+tures the Gaussian process dpxq everywhere on a level set Qα           tentially unsafe regions of the state space. Further, although the
+is not possible, since the set of functions dpxq satisfying this       method is not explicitly tracking the hypotheses of Corollary 2,
+condition is bounded on uncountably many dimensions, and               the local result becomes a global guarantee if these hypotheses
+thus not measurable in function space. Similarly, evaluating           do indeed hold.
+the joint probability for a continuum of level sets Qα for                We define the local safety confidence λpx; X, d̂j q, more
+α P r0, V pxqs is not feasible. Instead, exploiting the Lipschitz      concisely λpxq, as the posterior probability that dpxq will be
+assumption on dpxq, we can obtain the sought probability γpxq          contained in D̂pxq at the current state x, given all observations
+from a marginal distribution over a sufficiently dense set of          made until now:
+sample points on each Qα and a sufficiently dense collection                                          `                    j˘
+of level sets between 0 and V pxq.                                                  λpx; X, d̂j q :“ P dpxq P D̂pxq | X, d̂          (19)
+   We can then use numerical methods [18] to compute the
+                                                                       We then have the following local safety certificate.
+multivariate normal cumulative distribution function and esti-
+                                                                          Proposition 7: Let the disturbance dp¨q be distributed
+mate the marginal probability (using compact logic notation):
+                                                                       component-wise as nd independent Gaussian processes (9).
+                          S ľ I                                        The safety policy κ˚ p¨q is guaranteed to locally maintain or
+                       ˆł                            ˙
+            γpxq « P             dpxs,i q P D̂pxs,i q ,      (16)      increase the system’s computed safety V p¨q with probability
+                         s“1 i“1
+                                                                       greater than or equal to the local safety confidence λpxq.
+over S level sets 0 “ α0 ă ... ă αS “ V pxq and I sample               Proof: The proof follows directly from Propositions 1 and
+points from each level set Qαs . As the density of samples             6, and the definition of λpxq, noting that the boundary of
+increases with larger S and I, the marginal probability (16)           D̂pxq has zero Lebesgue measure and thus under any Gaussian
+asymptotically approaches the Gaussian process probability             distribution P pd P int D̂pxq|d P D̂pxqq “ 1.
+(14). Unfortunately, however, current numerical methods can               A local confidence threshold λ0 P p0, pq can be established
+only efficiently approximate these probabilities for multivariate      such that whenever λpxq ă λ0 the model is considered
+insufficiently reliable (reachability guarantees may fail locally
+with probability greater than 1 ´ λ0 ), and the safety control is
+applied. The proposed safety control strategy is therefore as
+follows:
+             #              `          ˘ `            ˘
+               κl pxq, if V pxq ą 0 ^ λpxq ą λ0 ,
+    κpxq “                                                   (20)
+               κ˚ pxq, otherwise,
+Similarly to (15), under this control law, if confidence on the
+local reliability of the model is restored after applying the
+safe action and making new observations, the system will be
+allowed to resume its learning process, as long as it is in the
+interior of the computed safe set.                                                           Fig. 2: Evolution of the probability distribution of the distur-
+   After generating a new Gaussian process model and defining                                bance dpxq at a particular state x. The prior distribution is used
+D̂pxq as described in Section IV-B, the prior probability                                    to compute the bound D̂pxq using confidence intervals, such
+with which the disturbance function dpxq belongs to the set                                  that it contains a specified probability mass p. As more data
+D̂pxq is by design p everywhere in the state space. As the                                   are obtained, the distribution may shift, leading to a different
+system evolves, more evidence is gathered in the form of                                     posterior probability mass contained within D̂pxq.
+measurements of the disturbance along the system trajectory,
+so that the belief that dpxq P D̂pxq is updated for each x.
+In particular, in the Gaussian process model, this additional
+evidence amounts to augmenting the covariance matrix K j in                                  decision making under uncertainty. The proposed framework
+(10) with additional data points and reevaluating the mean and                               therefore allows the system designer to adjust the degree of
+variance of the posterior distribution of dpxq. Based on the new                             conservativeness according to the needs and characteristics of
+Gaussian distribution, λpx; X, d̂j q can readily be evaluated for                            the system at hand.
+each x as
+                                                                                                             V. E XPERIMENTAL R ESULTS
+                   «     ˜                      ¸           ˜                      ¸ff
+         nd
+         ź  1                dj` pxq ´ mj pxq                   dj´ pxq ´ mj pxq
+λpxq “             erf                  ?           ´ erf                  ?             ,
+         j“1
+               2                  sj pxq 2                           sj pxq 2                   We demonstrate our framework on a practical application
+                                                                                   (21)      with an autonomous quadrotor helicopter learning a flight
+                                                                                             controller in different scenarios. Our method is tested on
+with dj` pxq “ d¯j pxq ` zσ j pxq, da    j        ¯j         j
+                                         ´ pxq “ d pxq ´ zσ pxq,                             the Stanford-Berkeley Testbed of Autonomous Rotorcraft for
+mj pxq “ Erdj pxq|X, d̂j s, sj pxq “ varpdj pxq|Xq; recall                                   Multi-Agent Control (STARMAC), using Ascending Tech-
+that z was defined to yield the desired probability mass p in                                nologies Pelican and Hummingbird quadrotors (Fig. 1). The
+D̂pxq at the time of safety computation, as per (13).                                        system receives full state feedback from a VICON motion cap-
+    Parameters p and λ0 (or, in its case, γ0 ) allow the system                              ture system. For the purpose of this series of experiments, the
+designer to choose the degree of conservativeness in the                                     vehicle’s dynamics are approximately decoupled through an
+system: while p regulates the amount of uncertainty accounted                                on-board controller responsible for providing lateral stability
+for by the robust model-based safety computation, λ0 (γ0 )                                   around hover and vertical flight; our framework is then used to
+determines the acceptable degradation in the resulting cer-                                  learn the feedback gains for a hybrid vertical flight controller.
+tificate’s posterior confidence before a safety intervention is                              The learning and safety controllers were implemented and
+initiated. A value of p close to 1 will lead to a large, high-                               executed in MATLAB, on a Lenovo Thinkpad with an Intel i7
+confidence D̂pxq throughout the state space, but this analysis                               processor that communicated wirelessly with the vehicle’s 1.99
+may result in a small or even empty safe set; on the other                                   GHz Quadcore Intel Atom processor. This was all done using
+hand, if p is low, D̂pxq will be smaller and the computed safe                               the Indigo version of the Robot Operating System (ROS)
+set will be larger, but guarantees are more likely to be deemed                              framework. Reachability computations are executed using the
+unreliable (as per λ0 or γ0 ) in light of later observations.                                Level Set Toolbox [31], employing the Lax-Friedrich approx-
+    In the case of local safety analysis, immediately after                                  imation for the numerical Hamiltonian; a weighted essentially
+computing a new model D̂, λpxq is by construction equal                                      nonoscillatory scheme for spatial derivatives; and a third-order
+to p everywhere in the state space. As more measurements                                     total variation diminishing Runge-Kutta scheme for the time
+are obtained, the posterior distribution over the disturbance                                derivative [34], [40]. Once the safety function and safety
+changes, as illustrated in Fig. 2, which can result in λpxq                                  policy have been computed, they are stored as look-up tables
+locally increasing or decreasing. If λ0 is chosen to be close                                that can be quickly consulted in constant time.
+to p, it is likely that the safety override will take place under                               The purpose of the results presented here is not to advance
+minor deviations with respect to the model’s prediction; as                                  the state of the art of quadrotor flight control or reinforce-
+λ0 becomes lower, however, the probability that the distur-                                  ment learning techniques, but to illustrate how the proposed
+bance will violate the modeling assumptions before the safety                                method can allow safe execution of an arbitrary learning-
+controller intervenes increases. This reflects the fundamental                               based controller without requiring any particular convergence
+tradeoff between risk and conservativeness in safety-critical                                rate guarantees. To fully demonstrate the reliability of our
+safe learning framework, in our first setup we let the vehicle        aggressively alternate between hovering at two altitudes, one
+begin its online learning in mid-air starting with a completely       of them (1.5 m) near the center of the room, the other (0.1 m)
+untrained controller. The general functioning of the framework        close to the floor.
+can be observed in the second flight experiment, in which                This first experiment illustrates the interplay between the
+the vehicle starts with a conservative model and iteratively          learning controller and the safety policy. The iterative safety
+computes empirical estimates of the disturbance, gradually            re-computation and Bayesian guarantee validation compo-
+expanding its computed safe set while avoiding overreliance           nents of the framework are not active here. Consistently, this
+on poor predictions. Finally, we include an experiment in             demonstration uses (8) as the least-restrictive safe policy.
+which an unexpected disturbance is introduced into the system.           The experiment, shown in Fig. 3, is initialized with the
+The vehicle reacts by immediately applying the safe action            vehicle in mid-air. Since all feature weights are initially set to
+dictated by its local safety policy and retracting from the           zero, the vehicle’s initial action is to enter free fall. However,
+perturbed region, successfully maintaining safety throughout          as the quadrotor is accelerated by gravity towards the floor,
+its trajectory. We show how the absence of online guarantee           the boundary of the computed safe set is reached, triggering
+validation in the same scenario can result in loss of safety.         the intervention of the safety controller, which automatically
+   We use an affine dynamical model of quadrotor vertical             overrides the learning controller and commands the maximum
+flight, with state equations:                                         available thrust to the motors (u “ 1), causing the vehicle
+                                                                      to decelerate and hover at a small distance from the ground.
+                  x9 1 “ x2
+                                                              (22)    For the next few seconds, there is some chattering near the
+                  x9 2 “ kT u ` g ` k0 ` dpxq                         boundary of the safe set, and the policy gradient algorithm
+where x1 is the vehicle’s altitude, x2 is its vertical velocity,      has some occasions to attempt to control the vehicle when
+and u P r0, 1s is the normalized motor thrust command. The            it is momentarily pushed into the interior of the safe set.
+gravitational acceleration is g “ ´9.8 m/s2 . The parameters          Initially it has little success, which leads the safety controller
+of the affine model kT and k0 are determined for the Pelican          to continually intervene to prevent the quadrotor from colliding
+and the Hummingbird vehicles through a simple on-the-ground           with the floor; this has the undesirable effect of slowing down
+experimental procedure—a scale is used to measure the normal          the learning process, since observations under this interference
+force reduction for different values of u. The state constraint       are uninformative about the behavior of the vehicle when
+K “ tx : 0 m ď x1 ď 2.8 mu encodes the position of the floor          actually executing the commands produced by the learning
+and the ceiling, which must be avoided. Finally, d is an              controller (which is an “on-policy” algorithm). However, at
+unknown, state-dependent scalar disturbance term representing         approximately t “ 40 s, the learning controller is able
+unmodeled forces in the system. We learn dpxq using a Gaus-           to make the vehicle ascend towards its tracking reference,
+sian process model, and generate D̂pxq as the marginal 95%            retaining control of the vehicle for a longer span of time and
+confidence interval at each x. We implement local Bayesian            accelerating the learning process. By t “ 60 s, the quadrotor is
+guarantee validation,                                                 approximately tracking the reference, with the safety controller
+                     a conservatively approximating
+                                          a              (21) by
+assuming sj pxq :“ varpdj pxq|Xq « varpdj pxq|Xold q, that            only intervening during the aggressive descent phase of the
+is, neglecting the (favorable but often small) reduction in un-       repeated trajectory, to ensure (under its conservative model)
+certainty due to Xnew . This was done for ease of prototyping.        that there is no risk of a ground collision. The controller
+   As the learning-based controller, we choose an easily              continues to learn in subsequent iterations, overall improving
+implementable policy gradient reinforcement learning algo-            its tracking accuracy.
+rithm [28], which learns the weights for a linear mapping                The remarkable result in this experiment is not in the
+from state features to control commands. Following [20], we           quality of the learned tracking controller after only a few
+define different features for positive and negative velocities and    seconds of active exploration (a merit that corresponds to
+position errors, since the (unmodeled) rotor dynamics may be          the reinforcement learning method [28]), but the system’s
+different in ascending and descending flight. This can be seen        ability to achieve competent performance at its task from an
+as the policy gradient algorithm learning the feedback gains          extremely poor initial policy while remaining safe at all times.
+for a hybrid proportional-integral-derivative (PID) controller.
+                                                                      B. When in Doubt
+A. From Fall to Flight                                                   In the second experiment, we demonstrate the iterative
+   To demonstrate the strength of Hamilton-Jacobi-based guar-         updating of the safe set and safety policy using observations
+antees for safely performing learning-based control on a phys-        of the system dynamics gathered over time, as well as the
+ical system, we first require a Pelican quadrotor to learn an ef-     online validation of the resulting guarantees. All components
+fective vertical trajectory tracking controller with an arbitrarily   of the framework are active during the test, namely learning
+poor initialization. To do this, the policy gradient algorithm is     controller, safety policy, iterative safety re-computation, and
+initialized with all feature weights set to 0. The pre-computed       Bayesian guarantee validation, with the main focus being on
+safety controller (numerically obtained using [31]) is based          the latter two.
+on a conservative uncertainty bound of ˘1.5 m/s2 everywhere              Here, the Pelican quadrotor attempts to safely track the
+in the state space; no new bounds are learned during this             same reference trajectory, while using the gathered information
+experiment. The reference trajectory requires the quadrotor to        about the system’s evolution to refine its notion of safety. In
+                   2.5         Reference   Learning          Override: max                                                Reference    Learning   Safety: max     Safety: min
+                                                                                                       1.8
+                                                                                                       1.8
+                   22
+             (m)
+           (m)
+
+
+                   1.5                                                                                 1.6
+                                                                                                       1.6
+    Altitude
+Altitude
+
+
+
+                   11                                                                                  1.4
+                                                                                                       1.4
+                   0.5
+
+                   00 0                                                                                1.2
+                                                                                                       1.2
+
+
+
+
+                                                                                                     (m)
+                     0    20
+                          20       40
+                                  40       60
+                                           60           80
+                                                        80        100
+                                                                  100        120
+                                                                             120    140
+                                                                                   140
+
+
+
+
+                                                                                            Altitude(m)
+                                               Time (s)
+                                              Time (s)                                                     11
+
+
+
+
+                                                                                           Altitude
+Fig. 3: Vehicle altitude and reference trajectory over time.                                           0.8
+                                                                                                       0.8
+Initial feedback gains are set to zero. When the learning
+                                                                                                       0.6
+                                                                                                       0.6
+controller (green) lets the vehicle drop, the safety control (red)
+takes over preventing a collision. Within a few seconds, the                                           0.4
+                                                                                                       0.4
+learned feedback gains allow rough trajectory tracking and are
+                                                                                                       0.2
+                                                                                                       0.2
+subsequently tuned as the vehicle attempts to minimize error.
+                                                                                                           00
+                                                                                                                00   55    10
+                                                                                                                           10     15
+                                                                                                                                  15      20 2525
+                                                                                                                                          20          30
+                                                                                                                                                       30       3535 4040
+                                                                                                                                              (s)
+                                                                                                                                         Time(s)
+                                                                                                                                       Time
+                                                                                          Fig. 4: Vehicle altitude and reference trajectory over time.
+this case, the policy gradient learning algorithm is initialized                          After flying with an initial conservative model, the vehicle
+to a hand-tuned set of parameter values. The initial dynamic                              computes a first Gaussian process model of the disturbance
+model available to the safety algorithm is identical to the one                           with only a few data points, resulting in an insufficiently
+used in the previous experiment, with a uniform uncertainty                               accurate bound. The safety policy detects the low confidence
+bound of ˘1.5m/s2 . However, the system is now allowed to                                 and refuses to follow the reference to low altitudes. Once
+update this bound, throughout the state space, based on the                               a more accurate disturbance bound is computed, tracking is
+disturbance posterior computed by a Gaussian process model.                               resumed, with a less restrictive safe set than the original one.
+   To learn the disturbance function, the system starts with
+a Gaussian process prior over dp¨q defined by a zero mean
+function and a squared exponential covariance function:
+                                                                                          with the initial conservative bound. After collecting 10 s of
+                           px ´ x1 qT L´1 px ´ x1 q
+                         ˆ                          ˙
+             1     2
+      kpx, x q “ σf exp                               ,     (23)                          data, a new disturbance bound D̂pxq is constructed using
+                                      2                                                   the corresponding Gaussian process posterior, from which a
+where L is a diagonal                                                                     second safety function V2 pxq and safe set Ω2 are computed
+                                     ‰ Li as the ith diagonal
+                           matrix, with
+element, and θp “ σf2 , σn2 , L1 , L2 are the hyperparameters,                            via Hamilton-Jacobi reachability analysis. This process takes
+                     “
+
+σf2 being the signal variance, σn2 the measurement noise                                  roughly 2 seconds, and at approximately t “ 12 s the new
+variance, and the Li the squared exponential’s characteristic                             safety guarantees and policy are substituted in.
+length for position and velocity respectively. The hyperparam-                               The Pelican continues its flight under the results of this new
+eters are chosen to maximize the marginal likelihood of the                               safety analysis: however, shortly after, the vehicle measures
+training data set, and are recomputed for each new batch of                               values of d that consistently approach the boundary of D̂pxq,
+data when a new disturbance model D̂pxq is generated for                                  and reacts by applying the safe control policy and locally
+safety analysis. Finally, the chosen prior mean and covariance                            climbing the computed safety function. This confidence-based
+kernel classes are both Lipschitz continuous, ensuring that all                           intervention takes place several times during the test run, as
+required technical conditions for the theoretical results hold                            the vehicle measures disturbances that lower its confidence
+(proofs are presented in the Appendix).                                                   in the local model bounds, effectively preventing the vehicle
+   The expressions (10), (11) give the marginal Gaussian pro-                             from approaching the ground.
+cess posterior on dpx˚ q for a query point x˚ . To numerically                               After a few seconds, a new Gaussian process posterior is
+compute the safe set, the system first evaluates (13) to obtain                           computed based on the first 20 s of flight data, resulting in an
+the disturbance bound D̂pxi q at every point xi on a state-space                          estimated safe set Ω3 , an intermediate result between the initial
+grid, as the 95% confidence interval (p “ 0.95) of the Gaussian                           conservative Ω1 and the overly permissive Ω2 (Fig. 5). The
+process posterior over dpxq; next, it performs the robust safety                          learning algorithm is then allowed to resume tracking under
+analysis by numerically solving the HJI equation (7) on this                              this new safety analysis, and no further safety overrides take
+grid (using [31]) and obtaining the safety function V pxq.                                place due to loss of safety confidence.
+   The trajectory followed by the quadrotor in this experiment                               This experiment demonstrates the algorithm’s ability to
+is shown in Fig. 4. The vehicle starts off with an a priori                               safely refine its notion of safety as more data become available,
+conservative global bound on dpxq and computes an initial                                 without requiring the process to consist in a series of strictly
+conservative safe set Ω1 (Fig. 5). It then attempts to track                              conservative under-approximations.
+the reference trajectory avoiding the unsafe regions by transi-
+tioning to the safe control u˚ pxq on BΩ1 . The disturbance is                            C. Gone with the Wind
+measured and monitored online during this test, under the local                             In this last experimental result, we display the efficacy
+safety confidence criterion, and found to be locally consistent                           of online safety guarantee validation in handling alterations
+                 44                                               4                                         With online guarantee validation
+                                                                                                                          With model validation
+                                                      Reference
+                                                                                                                Fan Off     Fan On
+                                                                                        1.5
+                                                                                         1.5
+                 33                                   Executed    ⌦4
+
+
+
+
+                                                                       Altitude (m)
+                                                                                  Altitude (m)
+                                                                                                 11
+
+                 22                                                                      0.5
+                                                                                        0.5
+                                                                  3
+         (m/s)
+Velocity (m/s)
+
+
+
+
+                                                                  ⌦3                             00
+                 11                                                                                   0    30                        60           90      120
+                                                                                                      0   30                      60              90   120
+                                                                                                                                Time (s)
+                                                                                                                                Time (s)
+                 00
+                                                                                                          Without online guarantee validation
+                                                                  ⌦                                                   Without model validation
+                                                                  22
+             -1
+             -1                                                                           1.5
+                                                                                           1.5
+                                                                                                                Fan Off     Fan On
+
+
+
+
+                                                                        Altitude (m)
+                                                                                  Altitude (m)
+                                                                                                 11
+             -2
+             -2                                                   ⌦1                      0.5
+                                                                                           0.5
+
+
+             -3
+             -3                                                   1                              00
+              -0.5
+              -0.5    00   0.5
+                           0.5   11     1.5
+                                          1.5    22   2.5
+                                                       2.5   33                                       0   30                      60              90
+                                 Altitude                                                             0   30                      60              90   120120
+                                 Altitude (m)
+                                           (m)                                                                                  Time (s)
+                                                                                                                                Time  (s)
+Fig. 5: Safe sets computed online by the safety algorithm as
+                                                                       Fig. 6: Vehicle altitude and reference trajectory over time,
+it gathers data and successively updates its Gaussian process
+                                                                       shown with and without online model validation. After the
+disturbance model. The vehicle’s trajectory eventually leaves
+                                                                       fan is turned on, the vehicle checking local model reliability
+the initial, conservative Ω1 , but remains in the converged safe
+                                                                       detects the inconsistency and overrides the learning controller,
+set (Ω4 ) at all times, even before this set is computed. While
+                                                                       avoiding the region with unmodeled dynamics; the vehicle
+the intermediate set Ω2 would have been overly permissive,
+                                                                       without model validation enters this region and collides with
+this is remedied by the intervention of the safety controller as
+                                                                       the ground multiple times. The behavior is repeated when the
+soon as the model is observed to behave poorly.
+                                                                       reference trajectory enters the perturbed region a second time.
+
+
+in operating conditions unforeseen by the system designer.
+All components of the framework are active, except for the
+                                                                       safety in more general conditions, given limited computational
+iterative safety re-computation, which is not used in this case.
+                                                                       resources and available knowledge about the system.
+   This experiment is performed using the lighter Humming-
+bird quadrotor, which is more agile than the Pelican but also
+                                                                                                                VI. C ONCLUSION
+more susceptible to wind. We initialize the disturbance set to a
+conservative range of ˘2 m/s2 , which amply captures the error            We have introduced a safe learning framework that com-
+in the double-integrator model for vertical flight. The vehicle        bines robust reachability guarantees from control theory with
+tracks a slow sinusoidal trajectory using policy gradient [28] to      Bayesian analysis based on empirical observations. This re-
+improve upon the manually initialized controller parameters.           sults in a minimally restrictive supervisory controller that can
+At approximately t “ 45 s an unmodeled disturbance is                  allow an arbitrary learning algorithm to safely explore its state
+introduced by activating a fan aimed laterally at the quadrotor.       and strategy spaces. As more data are gathered online, the
+The fan is positioned on the ground and angled slightly                framework allows the system to probabilistically reason about
+upward, so that its effect increases as the quadrotor flies            the validity of its robust model-based safety guarantees in light
+closer to the ground. The presence of the airflow causes               of the latest empirical evidence.
+the attitude and lateral position controllers to use additional           We firmly believe that providing strong and practically
+control authority to stabilize the quadrotor, which couples into       useful safety guarantees for systems that navigate unstructured
+the vertical dynamics as an unmodeled force.                           environments requires a rapprochement between model-based
+   The experiment is performed with and without the Bayesian           and data-driven techniques, often regarded as a dichotomy by
+guarantee validation component, with resulting trajectories            both theoreticians and practitioners. With this work we intend
+shown in Fig. 6. Without validation, the quadrotor violates the        to provide mathematical arguments and empirical evidence
+constraints, repeatedly striking the ground. With validation,          of the potential that the two approaches hold when used in
+the fan’s airflow is quickly detected as a discrepancy with            conjunction.
+the model near the floor, and the safety controller override is           Scaling up safety certificates as intelligent systems achieve
+triggered. The vehicle avoids entering the affected region for         increasing complexity poses an important open research prob-
+the remainder of the flight. Although only the local confidence        lem. Our prediction is that, as autonomous systems interact
+method is used, providing a strictly local safety guarantee,           increasingly closely with human beings, the graceful interplay
+the safe controller succeeds in maintaining safety throughout          of safety and learning, combining theoretical guarantees with
+the experiment. This provides strong evidence suggesting               empirical grounding, will become central to their success.
+that, beyond its theoretical guarantees, the local Bayesian
+analysis also constitutes an effective best-effort approach to
+                                       A PPENDIX                                          system dynamics f px, u, dq with d P D̂pxq into the standard
+    Restricting one of the control inputs d to a state-dependent                          form with fixed input sets (i.e. f˜D̂ px, u, dq with u P U, d P D),
+bound D̂pxq introduces questions as to whether a unique                                   so that all results from the differential games literature can
+Carathéodory solution to (2) continues to exist. The basic                               readily be applied to our formulation.
+existence and uniqueness theorems [11] assume fixed control                                   Let us now see that the posterior mean and standard
+sets. If the variation in the control sets can instead be expressed                       deviation of the components of dpxq are Lipschitz continuous
+through the dynamic equation itself without breaking the                                  functions of the state x under our Gaussian process framework.
+continuity conditions, then it is easy to extend the classical                                Proposition 9: Let the prior mean function µj be Lipschitz
+result to at least a class of space-dependent control sets. We                            continuous, and the covariance kernel k j be jointly Lipschitz
+introduce two technical assumptions, which give sufficient                                continuous, for the jth component of the disturbance function
+conditions for the existence and uniqueness of a solution to                              dpxq. Then the posterior mean d¯j pxq and standard deviation
+the dynamical equations, and prove that any disturbance set                               σ j pxq, as given by (10), (11) are Lipschitz continuous in x.
+D̂pxq obtained from a Gaussian process model with Lipschitz                                     Proof: The result follows from applying the hypotheses
+prior mean and covariance kernel satisfies these assumptions.                             to (10), (11). Note that the standard deviation σ j pxq is the
+    Assumption 1: For all x P Rn , D̂pxq is a closed defor-                               square root of the variance in (11); the square root function
+mation retract of D, that is, there exists a continuous map                               is Lipschitz everywhere except at 0, and Bayesian inference
+Hx : D ˆ r0, 1s Ñ D̂pxq such that for every d P D and                                     under nondegenerate prior and likelihood never results in 0
+dˆ P D̂pxq, Hx pd, 0q “ d, Hx pd, 1q P D̂pxq, Hx pd,  ˆ 1q “ d.
+                                                              ˆ                           posterior variance. Thus σ j p¨q is also Lipschitz.
+                                   n
+    Assumption 2: Let r : R ˆ D Ñ D be such that                                              The following proposition relates the state-dependent bound
+rpx, dq “ Hx pd, 1q as defined above. Then r is Lipschitz                                 D̂pxq obtained from Gaussian process regression to Assump-
+continuous in x, and uniformly continuous in d.                                           tions 1 and 2, ensuring that the dynamical system (2) is well-
+    Intuitively, the first assumption means that D can be con-                            defined, and therefore the associated dynamic game be solved
+tinuously deformed into D̂pxq for any x, while the second                                 using the methods presented in Section III.
+prevents the disturbance bound D̂pxq from changing abruptly                                   Proposition 10: Let the prior mean function µj be Lipschitz
+as one moves in the state space. The retraction map r allows                              continuous, and the covariance kernel k j be jointly Lipschitz
+us to absorb the state-dependence of the disturbance bound                                continuous in its two variables, for all components j of the
+into the system dynamics, enabling us to use the standard                                 disturbance function dpxq. Then the disturbance bound D̂pxq,
+analysis for differential games, which considers measurable                               as defined in (13), satisfies Assumptions 1 and 2.
+time signals drawn from fixed input sets. This is formalized                                    Proof: Assumption 1 holds independently of the Lips-
+in the following result.                                                                  chitz condition. The bound D̂pxq given by (13) is a compact
+    Proposition 8: `The        saturated      system      dynamics                        convex set in D. As a result, the retraction map πx : D Ñ
+f˜D̂ px, u, dq :“ f x, u, rpx, dq are bounded and uniformly                               D̂pxq assigning every d P D its (unique) nearest point in D̂pxq
+                                   ˘
+
+continuous in all variables, and Lipschitz in x.                                          is a Lipschitz continuous function (with Lipschitz constant
+                                                                                                                             ˆ “ dˆ for all dˆ P D̂pxq. Then,
+       Proof: Boundedness and uniform continuity of f˜D̂ in u                             equal to 1); of course with πx pdq
+are trivially inherited from f ; we therefore focus on d and x.                           the function Hx pd, tq :“ p1 ´ tqd ` tπx pdq is continuous by
+    First, since r is uniformly continuous in d, and f is Lipschitz                       composition and further satisfies Hx pd, 0q “ d, Hx pd, 1q P
+(hence uniformly continuous) in its third argument, we have                               D̂pxq, Hx pd,ˆ 1q “ dˆ for all d P D and dˆ P D̂pxq.
+by composition that f˜D̂ is uniformly continuous in d.                                        Assumption 2 can be shown to hold by noting that the
+    Lipschitz continuity in x is less immediate due to its                                extrema of each of the intervals in (13) are affine in d¯j pxq and
+appearance in both the first and third arguments of f . Again                             σ j pxq, which are Lipschitz continuous in x by Proposition 9.
+                                                                                          This implies that the position of all vertices of the hyperrect-
+by` composition, ˘ Lipschitz continuity of r in x implies that
+f y, u, rp¨, dq is also Lipschitz for all y P Rn , u P U and                              angle in (13) varies as a Lipschitz continuous function of x,
+d P D. Letting Lr be the Lipschitz constant of r and Lx be                                and so does, as a result, the nearest point in D̂pxq to any fixed
+the Lipschitz constant of f in its first argument, we have, for                           d P D. The map rpx, dq “ πx pdq is hence Lipschitz continuous
+any x, x̃ P Rn :                                                                          in x. Finally, since πx is Lipschitz continuous in d, r is also
+                                                                                          uniformly continuous in d.
+|f px, u, rpx, dqq ´ f px̃, u, rpx̃, dqq|
+                                                                                              Finally, we can show that, under the same Lipschitz assump-
+ď |f px, u, rpx, dqq ´ f px̃, u, rpx, dqq| ` |f px̃, u, rpx, dqq ´ f px̃, u, rpx̃, dqq|
+                                                                                          tions on the Gaussian process prior, the disturbance bound
+ď pLx ` Ld Lr q|x ´ x̃|
+                                                                                          D̂pxq is Lipschitz continuous under the Hausdorff distance,
+Thus f˜D̂ p¨, u, dq “ f p¨, u, rp¨, dqq is indeed Lipschitz in x.                         which we required in Proposition 1.
+   Corollary 3: The dynamical system given by (2) with d                                      Proposition 11: Let the prior mean function µj be Lipschitz
+constrained to lie in a state-dependent set D̂pxq satisfying                              continuous, and the covariance kernel k j be jointly Lipschitz
+Assumptions 1 and 2 has a unique continuous solution in the                               continuous in its two variables, for all components j of the
+extended (Carathéodory) sense.                                                           disturbance function dpxq. Then the set-valued map D̂ is
+   The above result is important in that it guarantees existence                          Lipschitz continuous under the Hausdorff distance.
+and uniqueness of system trajectories for any state-dependent                                   Proof: Since the disturbance set D̂pxq given by (13)
+disturbance bound D̂p¨q that satisfies Assumptions 1 and 2.                               is a hyperrectangle, the Hausdorff distance between the dis-
+Moreover, the above construction allows us to transform the                               turbance sets D̂px1 q and D̂px2 q is upper-bounded by the
+maximum distance between any pair of corners:                         [11]   E. A. Coddington and N. Levinson. Theory of ordinary
+                   `                ˘                                        differential equations. Tata McGraw-Hill, 1955.
+  δpx1 , x2 q :“ dH D̂px1 q, D̂px2 q ď max max |ci ´ ck | ,
+                                           i     k                    [12]   J. Darbon and S. Osher. “Algorithms for overcoming
+with ci ,ck used to enumerate all corners of each of the                     the curse of dimensionality for certain Hamilton-Jacobi
+two hyperrectangles. For simplicity of exposition, we use the                equations arising in control theory and elsewhere”.
+equivalence of all norms in Rdn to upper-bound the above,                    Research in the Mathematical Sciences 3.1 (2016).
+arbitrary norm in Rnd , by the infinity norm, up to a constant        [13]   J. Ding, J. Gillula, H. Huang, M. P. Vitus, W. Zhang,
+factor m, which in combination with (13) gives:                              and C. J. Tomlin. “Toward reachability-based controller
+                                                                             design for hybrid systems in robotics”. International
+δpx1 , x2 q ď m¨max |d¯j px1 q´d¯j px2 q|`|zσ j px1 q´zσ j px2 q| .
+                    `                                            ˘
+                  j                                                          Symposium on Artificial Intelligence, Robotics and Au-
+                                                                             tomation in Space (2011).
+Now, by Proposition 9, d¯j pxq and σ j pxq are Lipschitz contin-      [14]   L. C. Evans and P. E. Souganidis. “Differential games
+uous in x; let their respective constants be Ljµ and Ljσ . We                and representation formulas for solutions of Hamilton-
+then have                                                                    Jacobi-Isaacs equations”. Indiana University mathemat-
+      `               ˘            `            ˘
+   dH D̂px1 q, D̂px2 q ď m ¨ max Ljµ ` zLjσ |x1 ´ x2 | ,                     ics journal 33.5 (1984).
+                                  j
+                                                                      [15]   J. F. Fisac, M. Chen, C. J. Tomlin, and S. S. Sastry.
+which proves Hausdorff Lipschitz continuity of the set-valued                “Reach-avoid problems with time-varying dynamics,
+map D̂, with a Lipschitz constant LD̂ upper bounded by                       targets and constraints”. 18th International Conference
+m ¨ maxj Ljµ ` zLjσ .                                                        on Hybrid Systems Computation and Control (HSCC).
+                                                                             ACM Press, 2015.
+                           R EFERENCES                                [16]   J. Garcı́a and F. Fernández. “A Comprehensive Survey
+ [1]   P. Abbeel, A. Coates, M. Quigley, and A. Y. Ng.                       on Safe Reinforcement Learning”. Journal of Machine
+       “An application of reinforcement learning to aerobatic                Learning Research 16 (2015).
+       helicopter flight”. Advances in Neural Information Pro-        [17]   P. Geibel and F. Wysotzki. “Risk-sensitive reinforce-
+       cessing Systems (2007).                                               ment learning applied to control under constraints”.
+ [2]   A. K. Akametalu, J. F. Fisac, J. H. Gillula, S. Kaynama,              Journal of Artificial Intelligence Research 24 (2005).
+       M. N. Zeilinger, and C. J. Tomlin. “Reachability-based         [18]   A. Genz. “Numerical computation of multivariate nor-
+       safe learning with Gaussian processes”. Conference on                 mal probabilities”. Journal of computational and graph-
+       Decision and Control (2014).                                          ical statistics 1.2 (1992).
+ [3]   A. Aswani, H. Gonzalez, S. S. Sastry, and C. Tomlin.           [19]   J. H. Gillula and C. J. Tomlin. “Guaranteed Safe Online
+       “Provably safe and robust learning-based model predic-                Learning via Reachability: tracking a ground target us-
+       tive control”. Automatica 49.5 (2013).                                ing a quadrotor”. International Conference on Robotics
+ [4]   E. Barron. “Differential Games with Maximum Cost”.                    and Automation (2012).
+       Nonlinear analysis: Theory, methods & applications             [20]   J. H. Gillula and C. J. Tomlin. “Reducing Conserva-
+       (1990).                                                               tiveness in Safety Guarantees by Learning Disturbances
+ [5]   F. Berkenkamp, R. Moriconi, A. P. Schoellig, and                      Online: Iterated Guaranteed Safe Online Learning.”
+       A. Krause. “Safe learning of regions of attraction for                Robotics: Science and Systems (2012).
+       uncertain, nonlinear systems with Gaussian processes”.         [21]   S. L. Herbert, M. Chen, S. Han, S. Bansal, J. F. Fisac,
+       Conference on Decision and Control (2016).                            and C. J. Tomlin. “FaSTrack: a Modular Framework
+ [6]   F. Berkenkamp, M. Turchetta, A. P. Schoellig, and                     for Fast and Guaranteed Safe Motion Planning”. Con-
+       A. Krause. “Safe Model-based Reinforcement Learning                   ference on Decision and Control (submitted) (2017).
+       with Stability Guarantees”. Advances in Neural Infor-          [22]   A. Hobbs. “Unmanned aircraft systems”. Human factors
+       mation Processing Systems (2017).                                     in aviation. Ed. by E. Salas and D. Maurino. 2nd ed.
+ [7]   M. Chen, J. F. Fisac, S. Sastry, and C. J. Tomlin.                    Elsevier, 2010.
+       “Safe sequential path planning of multi-vehicle systems        [23]   S. Huang, N. Papernot, I. Goodfellow, Y. Duan, and
+       via double-obstacle Hamilton-Jacobi-Isaacs variational                P. Abbeel. “Adversarial Attacks on Neural Network
+       inequality”. European Control Conference (2015).                      Policies”. arXiv preprint (2017).
+ [8]   M. Chen, S. Herbert, and C. J. Tomlin. “Fast Reach-            [24]   S. Kaynama, I. M. Mitchell, M. Oishi, and G. A.
+       able Set Approximations via State Decoupling Distur-                  Dumont. “Scalable safety-preserving robust control syn-
+       bances”. Conference on Decision and Control (2016).                   thesis for continuous-time linear systems”. IEEE Trans-
+ [9]   P. Christiano, Z. Shah, I. Mordatch, J. Schneider,                    actions on Automatic Control 60.11 (2015).
+       T. Blackwell, J. Tobin, P. Abbeel, and W. Zaremba.             [25]   S. Kaynama and M. Oishi. “A modified Riccati trans-
+       “Transfer from Simulation to Real World through                       formation for decentralized computation of the viability
+       Learning Deep Inverse Dynamics Model”. arXiv                          kernel under LTI dynamics”. IEEE Transactions on
+       preprint (2016).                                                      Automatic Control 58.11 (2013).
+[10]   A. Coates, P. Abbeel, and A. Y. Ng. “Learning for              [26]   M. R. Kirchner, R. Mar, G. Hewer, J. Darbon, S. Osher,
+       control from multiple demonstrations”. International                  and Y. T. Chow. “Time-Optimal Collaborative Guidance
+       Conference on Machine Learning (2008).
+       using the Generalized Hopf Formula”. IEEE Control                                    Jaime F. Fisac is a Ph.D. candidate in Elec-
+       Systems Letters 2.2 (2017).                                                          trical Engineering and Computer Sciences at
+                                                                                            the University of California, Berkeley. He re-
+[27]   J. Z. Kolter, C. Plagemann, D. T. Jackson, A. Y. Ng,                                 ceived a B.S./M.S. degree in Electrical Engineer-
+       and S. Thrun. “A probabilistic approach to mixed                                     ing from the Universidad Politécnica de Madrid,
+       open-loop and closed-loop control, with application to                               Spain, in 2012, and a M.Sc. in Autonomous
+                                                                                            Vehicle Dynamics and Control from Cranfield
+       extreme autonomous driving”. International Conference                                University, UK, in 2013. He is a recipient of the
+       on Robotics and Automation (2010).                                                   “la Caixa” Foundation Fellowship (2013-2015).
+[28]   J. Z. Kolter and A. Y. Ng. “Policy search via the                                    His research interests lie in control theory, arti-
+                                                                                            ficial intelligence, and cognitive science, with a
+       signed derivative.” Robotics: Science and Systemsys-         focus on safety for robotic and AI systems operating closely with people.
+       tems (2009).
+                                                                                           Anayo K. Akametalu is a PhD. candidate in
+[29]   S. Lupashin, A. Schöllig, M. Sherback, and R.                                      Electrical Engineering and Computer Sciences
+       D’Andrea. “A simple learning strategy for high-speed                                at the University of California, Berkeley. He ob-
+       quadrocopter multi-flips”. International Conference on                              tained his B.S. degree in Electrical Engineering
+                                                                                           from the University of California, Santa Barbara
+       Robotics and Automation (2010).                                                     in 2012. His research interests lie at the intersec-
+[30]   I. M. Mitchell, A. M. Bayen, and C. J. Tomlin. “A time-                             tion of control theory and reinforcement learning.
+       dependent Hamilton-Jacobi formulation of reachable                                  He has been funded through the National Sci-
+                                                                                           ence Foundation Bridge to Doctorate Fellowship,
+       sets for continuous dynamic games”. IEEE Transactions                               UC Berkeley Chancellor’s Fellowship, and GEM
+       on Automatic Control 50.7 (2005).                                                   Fellowship. In 2016 he took a break from his
+[31]   I. Mitchell and J. Templeton. “A Toolbox of Hamilton-        graduate studies to work at Apple.
+       Jacobi Solvers for Analysis of Nondeterministic Con-                                Melanie N. Zeilinger is an Assistant Professor
+       tinuous and Hybrid Systems”. Hybrid Systems: Compu-                                 at the Department of Mechanical and Process
+                                                                                           Engineering, ETH Zurich, Switzerland. She re-
+       tation and Control (2005).                                                          ceived a Diploma in Engineering Cybernetics
+[32]   V. Mnih, K. Kavukcuoglu, D. Silver, A. a. Rusu, J.                                  (2006) from the University of Stuttgart, Germany,
+       Veness, M. G. Bellemare, A. Graves, M. Riedmiller,                                  and a Ph.D. in Electrical Engineering (2011)
+                                                                                           from ETH Zurich. She was a Marie Curie Fellow
+       A. K. Fidjeland, G. Ostrovski, S. Petersen, C. Beat-                                and Postdoctoral Researcher at the Max Planck
+       tie, A. Sadik, I. Antonoglou, H. King, D. Kumaran,                                  Institute for Intelligent Systems, Germany (until
+       D. Wierstra, S. Legg, and D. Hassabis. “Human-level                                 2015), UC Berkeley, CA (2012-14), and EPFL,
+                                                                                           Switzerland (2011-12). Her research interests
+       control through deep reinforcement learning”. Nature         include distributed control and optimization, as well as safe learning-
+       518.7540 (2015).                                             based control, with applications to human-in-the-loop systems.
+[33]   T. M. Moldovan and P. Abbeel. “Safe exploration in                                 Shahab Kaynama is a Senior Algorithms Archi-
+       Markov decision processes”. International Conference                               tect at Apple. Between 2014-2017 he was with
+       on Machine Learning (2012).                                                        Clearpath Robotics as an Autonomy Team Lead
+                                                                                          for Navigation and Controls, where he helped
+[34]   S. Osher and R. Fedkiw. Level set methods and dynamic                              launch its two OTTO flagship products. He was a
+       implicit surfaces. Vol. 153. Springer Science & Business                           Postdoctoral Research Scholar at UC Berkeley
+       Media, 2003.                                                                       (since 2012) and at the University of British
+                                                                                          Columbia (since 2014). Dr. Kaynama received a
+[35]   T. J. Perkins and A. G. Barto. “Lyapunov design for                                Ph.D. (2012) in Electrical and Computer Engi-
+       safe reinforcement learning”. The Journal of Machine                               neering from the University of British Columbia,
+       Learning Research 3 (2003).                                                        Canada and an M.Sc. (2006) in Advanced Con-
+                                                                    trol and Systems Engineering from the University of Manchester, UK.
+[36]   S. Prajna and A. Jadbabaie. “Safety verification of hy-
+                                                                                            Jeremy Gillula received a B.S. in Computer
+       brid systems using barrier certificates”. Hybrid Systems:                            Science from Caltech, CA, in 2006, and a M.S.
+       Computation and Control (2004).                                                      and Ph.D. in Computer Science from Stan-
+[37]   C. E. Rasmussen and C. K. I. Williams. Gaussian                                      ford University, CA, in 2011 and 2013. After
+                                                                                            spending eight months as a Postdoctoral Re-
+       processes for machine learning. MIT Press, 2006.                                     searcher at UC Berkeley, he became a Staff
+[38]   J. W. Roberts, I. R. Manchester, and R. Tedrake. “Feed-                              Technologist at the Electronic Frontier Founda-
+       back controller parameterizations for Reinforcement                                  tion, a San Francisco-based nonprofit organiza-
+                                                                                            tion dedicated to defending civil liberties in the
+       Learning”. Symposium on Adaptive Dynamic Program-                                    digital world.
+       ming and Reinforcement Learning (2011).
+[39]   J. Schulman, S. Levine, M. Jordan, and P. Abbeel.                                  Claire J. Tomlin is the Charles A. Desoer Pro-
+       “Trust Region Policy Optimization”. International Con-                             fessor of Engineering in Electrical Engineering
+       ference on Machine Learning (2015).                                                and Computer Sciences at the University of
+                                                                                          California, Berkeley. She was an Assistant, As-
+[40]   C.-W. Shu and S. Osher. “Efficient implementation of                               sociate, and Full Professor in Aeronautics and
+       essentially non-oscillatory shock-capturing schemes”.                              Astronautics at Stanford from 1998 to 2007, and
+       Journal of Computational Physics 77.2 (1988).                                      in 2005 joined Berkeley. Claire works in the area
+                                                                                          of control theory and hybrid systems, with appli-
+[41]   C. Sloth, G. J. Pappas, and R. Wisniewski. “Composi-                               cations to air traffic management, UAV systems,
+       tional safety analysis using barrier certificates”. Inter-                         energy, robotics, and systems biology. She is
+       national Conference on Hybrid Systems: Computation                                 a MacArthur Foundation Fellow (2006) and an
+                                                                    IEEE Fellow (2010), and in 2010 held the Tage Erlander Professorship
+       and Control (2012).                                          of the Swedish Research Council at KTH in Stockholm.
+

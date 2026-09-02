@@ -1,0 +1,223 @@
+{
+  "source": "human_web_search",
+  "queries": [
+    {
+      "query_id": "Q0090",
+      "results": [
+        {
+          "paper_id": "HUMAN-NEURIPS-2020-VALUE-EQUIVALENCE",
+          "title": "The Value Equivalence Principle for Model-Based Reinforcement Learning",
+          "authors": ["Christopher Grimm", "Andre Barreto", "Satinder P. Singh", "David Silver"],
+          "year": 2020,
+          "venue": "Advances in Neural Information Processing Systems 33",
+          "doi_or_stable_url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/3bb585ea00014b0e3ebe4c6dd165a358-Abstract.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-NEURIPS-2022-VES",
+          "title": "Deciding What to Model: Value-Equivalent Sampling for Reinforcement Learning",
+          "authors": ["Dilip Arumugam", "Benjamin Van Roy"],
+          "year": 2022,
+          "venue": "Advances in Neural Information Processing Systems 35",
+          "doi": "10.52202/068431-0656",
+          "doi_or_stable_url": "https://doi.org/10.52202/068431-0656",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0091",
+      "results": [
+        {
+          "paper_id": "HUMAN-MANSCI-2021-SPO",
+          "title": "Smart Predict, then Optimize",
+          "authors": ["Adam N. Elmachtoub", "Paul Grigas"],
+          "year": 2021,
+          "venue": "Management Science",
+          "doi": "10.1287/mnsc.2020.3922",
+          "doi_or_stable_url": "https://doi.org/10.1287/mnsc.2020.3922",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-NEURIPS-2025-FEASIBILITY-DFL",
+          "title": "Feasibility-Aware Decision-Focused Learning for Predicting Parameters in the Constraints",
+          "authors": ["Jayanta Mandi", "Marianne Defresne", "Senne Berden", "Tias Guns"],
+          "year": 2025,
+          "venue": "Advances in Neural Information Processing Systems 38",
+          "doi": "10.52202/085713-5451",
+          "doi_or_stable_url": "https://doi.org/10.52202/085713-5451",
+          "publication_type": "proceedings-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0092",
+      "results": [
+        {
+          "paper_id": "HUMAN-AUTOMATICA-2021-PSF",
+          "title": "A predictive safety filter for learning-based control of constrained nonlinear dynamical systems",
+          "authors": ["Kim Peter Wabersich", "Melanie N. Zeilinger"],
+          "year": 2021,
+          "venue": "Automatica",
+          "doi": "10.1016/j.automatica.2021.109597",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.automatica.2021.109597",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK",
+          "title": "A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems",
+          "authors": ["Jaime F. Fisac", "Anayo K. Akametalu", "Melanie N. Zeilinger", "Shahab Kaynama", "Jeremy Gillula", "Claire J. Tomlin"],
+          "year": 2019,
+          "venue": "IEEE Transactions on Automatic Control",
+          "doi": "10.1109/TAC.2018.2876389",
+          "doi_or_stable_url": "https://doi.org/10.1109/TAC.2018.2876389",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0093",
+      "results": [
+        {
+          "paper_id": "HUMAN-TAC-2017-CLF-CBF-QP",
+          "title": "Control Barrier Function Based Quadratic Programs for Safety Critical Systems",
+          "authors": ["Aaron D. Ames", "Xiangru Xu", "Jessy W. Grizzle", "Paulo Tabuada"],
+          "year": 2017,
+          "venue": "IEEE Transactions on Automatic Control",
+          "doi": "10.1109/TAC.2016.2638961",
+          "doi_or_stable_url": "https://doi.org/10.1109/TAC.2016.2638961",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0094",
+      "results": [
+        {
+          "paper_id": "HUMAN-RSS-2020-CONTACT-POMDP",
+          "title": "Controlling Contact-Rich Manipulation Under Partial Observability",
+          "authors": ["Florian Wirnshofer", "Philipp Sebastian Schmitt", "Georg von Wichert", "Wolfram Burgard"],
+          "year": 2020,
+          "venue": "Robotics: Science and Systems XVI",
+          "doi": "10.15607/RSS.2020.XVI.023",
+          "doi_or_stable_url": "https://doi.org/10.15607/RSS.2020.XVI.023",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-RSS-2023-TACTILE-FILTER",
+          "title": "Tactile-Filter: Interactive Tactile Perception for Part Mating",
+          "authors": ["Kei Ota", "Devesh K. Jha", "Hsiao-Yu Tung", "Joshua Tenenbaum"],
+          "year": 2023,
+          "venue": "Robotics: Science and Systems XIX",
+          "doi": "10.15607/RSS.2023.XIX.079",
+          "doi_or_stable_url": "https://doi.org/10.15607/RSS.2023.XIX.079",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "ZDySGaNsMn8J",
+          "title": "Real-Time Deformable-Contact-Aware Model Predictive Control for Force-Modulated Manipulation",
+          "authors": ["Lasitha Wijayarathne", "Ziyi Zhou", "Ye Zhao", "Frank L. Hammond"],
+          "year": 2023,
+          "venue": "IEEE Transactions on Robotics",
+          "doi": "10.1109/TRO.2023.3286070",
+          "doi_or_stable_url": "https://doi.org/10.1109/TRO.2023.3286070",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0095",
+      "results": [
+        {
+          "paper_id": "U1Trzk-2GRIJ",
+          "title": "Constrained Variable Impedance Control using Quadratic Programming",
+          "authors": ["Zhehao Jin", "Dongdong Qin", "Andong Liu", "Wen-An Zhang", "Li Yu"],
+          "year": 2022,
+          "venue": "2022 IEEE International Conference on Robotics and Automation",
+          "doi": "10.1109/ICRA46639.2022.9812210",
+          "doi_or_stable_url": "https://doi.org/10.1109/ICRA46639.2022.9812210",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-IJRR-2024-UNIFIED-FORCE-IMPEDANCE",
+          "title": "Unified force-impedance control",
+          "authors": ["Sami Haddadin", "Erfan Shahriari"],
+          "year": 2024,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/02783649241249194",
+          "doi_or_stable_url": "https://doi.org/10.1177/02783649241249194",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "GBHeodrYfZQJ",
+          "title": "Optimization-Based Variable Impedance Control of Robotic Manipulator for Medical Contact Tasks",
+          "authors": ["Junling Fu", "Ilaria Burzo", "Elisa Iovene", "Jianzhuang Zhao", "Giancarlo Ferrigno", "Elena De Momi"],
+          "year": 2024,
+          "venue": "IEEE Transactions on Instrumentation and Measurement",
+          "doi": "10.1109/TIM.2024.3372209",
+          "doi_or_stable_url": "https://doi.org/10.1109/TIM.2024.3372209",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0096",
+      "results": [
+        {
+          "paper_id": "HUMAN-ICML-2022-ASR",
+          "title": "Action-Sufficient State Representation Learning for Control with Structural Constraints",
+          "authors": ["Biwei Huang", "Chaochao Lu", "Liu Leqi", "Jose Miguel Hernandez-Lobato", "Clark Glymour", "Bernhard Scholkopf", "Kun Zhang"],
+          "year": 2022,
+          "venue": "Proceedings of the 39th International Conference on Machine Learning",
+          "doi_or_stable_url": "https://proceedings.mlr.press/v162/huang22f.html",
+          "publication_type": "proceedings-article"
+        },
+        {
+          "paper_id": "HUMAN-MANSCI-2021-SPO",
+          "title": "Smart Predict, then Optimize",
+          "authors": ["Adam N. Elmachtoub", "Paul Grigas"],
+          "year": 2021,
+          "venue": "Management Science",
+          "doi": "10.1287/mnsc.2020.3922",
+          "doi_or_stable_url": "https://doi.org/10.1287/mnsc.2020.3922",
+          "publication_type": "journal-article"
+        }
+      ]
+    },
+    {
+      "query_id": "Q0097",
+      "results": [
+        {
+          "paper_id": "HUMAN-AUTOMATICA-2021-PSF",
+          "title": "A predictive safety filter for learning-based control of constrained nonlinear dynamical systems",
+          "authors": ["Kim Peter Wabersich", "Melanie N. Zeilinger"],
+          "year": 2021,
+          "venue": "Automatica",
+          "doi": "10.1016/j.automatica.2021.109597",
+          "doi_or_stable_url": "https://doi.org/10.1016/j.automatica.2021.109597",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-TAC-2017-CLF-CBF-QP",
+          "title": "Control Barrier Function Based Quadratic Programs for Safety Critical Systems",
+          "authors": ["Aaron D. Ames", "Xiangru Xu", "Jessy W. Grizzle", "Paulo Tabuada"],
+          "year": 2017,
+          "venue": "IEEE Transactions on Automatic Control",
+          "doi": "10.1109/TAC.2016.2638961",
+          "doi_or_stable_url": "https://doi.org/10.1109/TAC.2016.2638961",
+          "publication_type": "journal-article"
+        },
+        {
+          "paper_id": "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK",
+          "title": "A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems",
+          "authors": ["Jaime F. Fisac", "Anayo K. Akametalu", "Melanie N. Zeilinger", "Shahab Kaynama", "Jeremy Gillula", "Claire J. Tomlin"],
+          "year": 2019,
+          "venue": "IEEE Transactions on Automatic Control",
+          "doi": "10.1109/TAC.2018.2876389",
+          "doi_or_stable_url": "https://doi.org/10.1109/TAC.2018.2876389",
+          "publication_type": "journal-article"
+        }
+      ]
+    }
+  ]
+}

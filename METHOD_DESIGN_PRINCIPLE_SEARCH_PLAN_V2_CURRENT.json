@@ -43,111 +43,71 @@
     "required_mechanism_changes": [
       {
         "mechanism_change_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
-        "causal_chain_ids": [
-          "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-        ],
+        "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
         "failed_relation_state_or_information_structure": "Safely observed pose, wrench and instantaneous motion are mapped through a calibration-fixed or prediction-accuracy-oriented contact representation that aliases histories and finite-area conditions whose future wrench capacity and optimal impedance actions differ.",
         "required_mechanism_change": "Replace that representation relation with a minimal action-conditional contact-capacity state or set that retains a history, geometry, tangential or uncertainty distinction only when it changes feasible normal-tangential gains, fallback, or held-out joint outcomes, and calibrate its coverage under the declared shifts.",
         "change_direction": "FROM prediction-sufficient point state that may alias gain-relevant conditions TO calibrated decision-sufficient action-conditional capacity state or set with explicit abstention outside supported coverage",
         "causal_position": "Between safely obtainable observation history and the impedance-selection variables, before gain choice and constraint evaluation",
         "activation_condition": "Held-out material, relaxation, finite-area geometry, friction, speed, dwell or loading history makes two currently aliased observation histories imply non-equivalent future capacity or impedance actions",
         "root_cause_resolution_rationale": "This directly repairs the diagnosed state-to-action aliasing relation while rejecting extra variables that improve model fit but do not change feasible actions or outcomes.",
-        "capability_ids": [
-          "CAP-ACTION-RELEVANT-STATE",
-          "CAP-CALIBRATED-CAPACITY-SET"
-        ],
-        "obligation_ids": [
-          "OBL-MINIMAL-DECISION-SUFFICIENCY",
-          "OBL-HELDOUT-CAPACITY-CALIBRATION"
-        ]
+        "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+        "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"]
       },
       {
         "mechanism_change_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
-        "causal_chain_ids": [
-          "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-        ],
+        "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
         "failed_relation_state_or_information_structure": "Performance-oriented normal-tangential gain selection is computed separately from contact capacity, interaction energy, actuator and gain-rate reachability, deadline, infeasibility and deterministic fallback, so post-hoc guards can change or invalidate the intended action.",
         "required_mechanism_change": "Make the realized impedance action the output of one update-time feasibility relation in which performance, capacity, interaction-energy, actuator, gain-rate, computation deadline, infeasibility and fallback jointly determine selection rather than sequentially correcting an independently optimized gain.",
         "change_direction": "FROM performance-first gain proposal followed by separate safety projection or fallback TO one total update-time decision relation whose feasible action and fallback are jointly conditioned on all physical, energetic and computational limits",
         "causal_position": "At the impedance decision and realization interface, before a new gain is rendered by the inner loop",
         "activation_condition": "A candidate gain lies near contact or wrench capacity, interaction-energy, actuator, gain-rate or solve-time boundaries where a separated guard would alter, delay or reject it",
         "root_cause_resolution_rationale": "This directly repairs the diagnosed selection-feasibility decoupling and permits a decisive comparison against post-hoc guards using realized-action equivalence.",
-        "capability_ids": [
-          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-          "CAP-DEADLINE-TOTALITY"
-        ],
-        "obligation_ids": [
-          "OBL-SAME-RELATION-HARD-LIMITS",
-          "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-        ]
+        "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+        "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"]
       }
     ],
     "required_capabilities": [
       {
         "capability_id": "CAP-ACTION-RELEVANT-STATE",
-        "mechanism_change_ids": [
-          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-        ],
+        "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
         "required_capability": "Compress observation history into distinctions sufficient for impedance action and outcome equivalence rather than generic contact reconstruction."
       },
       {
         "capability_id": "CAP-CALIBRATED-CAPACITY-SET",
-        "mechanism_change_ids": [
-          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-        ],
+        "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
         "required_capability": "Represent action-conditional future wrench, slip or moment capacity and uncertainty with empirically checkable held-out coverage and abstention."
       },
       {
         "capability_id": "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "mechanism_change_ids": [
-          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-        ],
+        "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
         "required_capability": "Choose coupled normal-tangential stiffness and damping only from actions jointly feasible for contact, energy, actuator and gain-rate limits."
       },
       {
         "capability_id": "CAP-DEADLINE-TOTALITY",
-        "mechanism_change_ids": [
-          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-        ],
+        "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
         "required_capability": "Return a deterministic feasible action or declared fallback within every update deadline, with timeout and infeasibility counted as decisions."
       }
     ],
     "design_obligations": [
       {
         "obligation_id": "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "mechanism_change_ids": [
-          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-        ],
-        "capability_ids": [
-          "CAP-ACTION-RELEVANT-STATE"
-        ]
+        "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+        "capability_ids": ["CAP-ACTION-RELEVANT-STATE"]
       },
       {
         "obligation_id": "OBL-HELDOUT-CAPACITY-CALIBRATION",
-        "mechanism_change_ids": [
-          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-        ],
-        "capability_ids": [
-          "CAP-CALIBRATED-CAPACITY-SET"
-        ]
+        "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+        "capability_ids": ["CAP-CALIBRATED-CAPACITY-SET"]
       },
       {
         "obligation_id": "OBL-SAME-RELATION-HARD-LIMITS",
-        "mechanism_change_ids": [
-          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-        ],
-        "capability_ids": [
-          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE"
-        ]
+        "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+        "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE"]
       },
       {
         "obligation_id": "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
-        "mechanism_change_ids": [
-          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-        ],
-        "capability_ids": [
-          "CAP-DEADLINE-TOTALITY"
-        ]
+        "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+        "capability_ids": ["CAP-DEADLINE-TOTALITY"]
       }
     ],
     "principle_search_context": {
@@ -209,10 +169,7 @@
           "structural_rationale": "The source community treats model distinctions as necessary only when they change Bellman updates, values, policies or regret, matching the target failure in which prediction-equivalent contact histories require different impedance actions.",
           "expected_problem_structure": "A detailed predictive model expends capacity on distinctions irrelevant to downstream planning while potentially losing distinctions that change decisions.",
           "expected_intervention_family": "Value-equivalent model classes, policy/value-function scoped Bellman equivalence and rate-distortion value-equivalent sampling",
-          "provenance_refs": [
-            "HUMAN-NEURIPS-2020-VALUE-EQUIVALENCE",
-            "HUMAN-NEURIPS-2022-VES"
-          ],
+          "provenance_refs": ["HUMAN-NEURIPS-2020-VALUE-EQUIVALENCE", "HUMAN-NEURIPS-2022-VES"],
           "disposition": "EXPLORE"
         },
         {
@@ -224,10 +181,7 @@
           "structural_rationale": "This community changes the prediction-learning relation so errors are weighted by downstream objective, constraint, infeasibility or regret rather than generic prediction accuracy.",
           "expected_problem_structure": "Predicted parameters appear inside a downstream constrained optimization problem, and statistically accurate predictions can still yield poor or infeasible decisions.",
           "expected_intervention_family": "SPO loss, decision loss, feasibility-aware decision-focused learning and end-to-end predict-then-optimize",
-          "provenance_refs": [
-            "HUMAN-MANSCI-2021-SPO",
-            "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"
-          ],
+          "provenance_refs": ["HUMAN-MANSCI-2021-SPO", "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"],
           "disposition": "EXPLORE"
         },
         {
@@ -239,10 +193,7 @@
           "structural_rationale": "The source problem explicitly separates an arbitrary nominal action from a certified safe action under uncertain dynamics, making it a high-value structural comparator for deciding whether supervisory filtering truly matches or fails the target RMC.",
           "expected_problem_structure": "A nominal performance policy can leave a robust controlled-invariant set when dynamics or confidence differ from the model.",
           "expected_intervention_family": "Least-restrictive safety supervisor, predictive safety filter, terminal safe set, recursive feasibility and confidence-triggered backup",
-          "provenance_refs": [
-            "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK",
-            "HUMAN-AUTOMATICA-2021-PSF"
-          ],
+          "provenance_refs": ["HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK", "HUMAN-AUTOMATICA-2021-PSF"],
           "disposition": "EXPLORE"
         },
         {
@@ -254,9 +205,7 @@
           "structural_rationale": "This community places performance, invariant-set safety and actuator limits in the optimization that produces the applied action, potentially matching the target intervention more closely than a separate safety supervisor.",
           "expected_problem_structure": "A performance control objective must be realized without leaving a forward-invariant safe set under input limits.",
           "expected_intervention_family": "CLF-CBF-QP, zeroing control barrier functions, soft performance constraints and hard safety constraints",
-          "provenance_refs": [
-            "HUMAN-TAC-2017-CLF-CBF-QP"
-          ],
+          "provenance_refs": ["HUMAN-TAC-2017-CLF-CBF-QP"],
           "disposition": "EXPLORE"
         },
         {
@@ -268,10 +217,7 @@
           "structural_rationale": "The source problem learns context-conditioned uncertain objective or constraint parameters but evaluates and calibrates them through the robust feasible decisions they induce, matching the target need to turn contact observations into capacity sets used inside optimal impedance selection.",
           "expected_problem_structure": "Point predictions can be accurate on average yet induce infeasible or risk-misaligned downstream decisions when uncertain parameters define constraints.",
           "expected_intervention_family": "Predict-then-calibrate uncertainty sets, robust contextual optimization, feasibility-aware decision loss and smart robust-constraint surrogates",
-          "provenance_refs": [
-            "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
-            "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"
-          ],
+          "provenance_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"],
           "disposition": "EXPLORE"
         },
         {
@@ -283,9 +229,7 @@
           "structural_rationale": "The source problem must return an executable feasible decision under a hard deliberation budget, and its intervention maintains a feasible incumbent while monotonically improving quality until interruption; this directly matches deadline-total impedance selection better than a safety supervisor.",
           "expected_problem_structure": "Exact optimization may exceed the action deadline, while returning no solution or an infeasible partial iterate is unacceptable.",
           "expected_intervention_family": "Fast feasible incumbent, monotone anytime refinement, explicit suboptimality bound and deadline interruption",
-          "provenance_refs": [
-            "HUMAN-NIPS-2003-ARA-STAR"
-          ],
+          "provenance_refs": ["HUMAN-NIPS-2003-ARA-STAR"],
           "disposition": "EXPLORE"
         }
       ],
@@ -293,132 +237,48 @@
         {
           "terminology_map_id": "TM-VALUE-EQUIVALENCE",
           "domain_hypothesis_id": "DH-AB-VALUE-EQUIVALENT-MODELING",
-          "canonical_problem_terms": [
-            "model irrelevance for planning",
-            "decision regret",
-            "planning-equivalent abstraction"
-          ],
-          "canonical_variable_state_relation_terms": [
-            "Bellman-update equivalence",
-            "policy and value-function test sets",
-            "value equivalence"
-          ],
-          "canonical_intervention_terms": [
-            "value-equivalent model",
-            "value-equivalent sampling",
-            "rate-distortion abstraction"
-          ],
-          "canonical_method_families": [
-            "model-based reinforcement learning",
-            "decision-relevant model compression"
-          ],
-          "evidence_refs": [
-            "HUMAN-NEURIPS-2020-VALUE-EQUIVALENCE",
-            "HUMAN-NEURIPS-2022-VES"
-          ],
-          "search_read_provenance": [
-            "Q0090",
-            "Q0096"
-          ],
+          "canonical_problem_terms": ["model irrelevance for planning", "decision regret", "planning-equivalent abstraction"],
+          "canonical_variable_state_relation_terms": ["Bellman-update equivalence", "policy and value-function test sets", "value equivalence"],
+          "canonical_intervention_terms": ["value-equivalent model", "value-equivalent sampling", "rate-distortion abstraction"],
+          "canonical_method_families": ["model-based reinforcement learning", "decision-relevant model compression"],
+          "evidence_refs": ["HUMAN-NEURIPS-2020-VALUE-EQUIVALENCE", "HUMAN-NEURIPS-2022-VES"],
+          "search_read_provenance": ["Q0090", "Q0096"],
           "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
           "plan_item_id": "MDV3-TERM-VALUE-EQUIVALENCE"
         },
         {
           "terminology_map_id": "TM-DECISION-FOCUSED",
           "domain_hypothesis_id": "DH-AB-DECISION-FOCUSED-OPTIMIZATION",
-          "canonical_problem_terms": [
-            "predict-then-optimize mismatch",
-            "decision loss",
-            "constraint-parameter infeasibility"
-          ],
-          "canonical_variable_state_relation_terms": [
-            "predicted cost or constraint parameter to downstream optimizer",
-            "regret",
-            "feasibility gap"
-          ],
-          "canonical_intervention_terms": [
-            "SPO loss",
-            "decision-focused learning",
-            "feasibility-aware decision loss"
-          ],
-          "canonical_method_families": [
-            "smart predict-then-optimize",
-            "end-to-end constrained optimization learning"
-          ],
-          "evidence_refs": [
-            "HUMAN-MANSCI-2021-SPO",
-            "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"
-          ],
-          "search_read_provenance": [
-            "Q0091",
-            "Q0096"
-          ],
+          "canonical_problem_terms": ["predict-then-optimize mismatch", "decision loss", "constraint-parameter infeasibility"],
+          "canonical_variable_state_relation_terms": ["predicted cost or constraint parameter to downstream optimizer", "regret", "feasibility gap"],
+          "canonical_intervention_terms": ["SPO loss", "decision-focused learning", "feasibility-aware decision loss"],
+          "canonical_method_families": ["smart predict-then-optimize", "end-to-end constrained optimization learning"],
+          "evidence_refs": ["HUMAN-MANSCI-2021-SPO", "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"],
+          "search_read_provenance": ["Q0091", "Q0096"],
           "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
           "plan_item_id": "MDV3-TERM-DECISION-FOCUSED"
         },
         {
           "terminology_map_id": "TM-PREDICTIVE-SAFETY",
           "domain_hypothesis_id": "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION",
-          "canonical_problem_terms": [
-            "risk-sensitive contextual optimization",
-            "uncertain constraint parameters",
-            "robust decision infeasibility"
-          ],
-          "canonical_variable_state_relation_terms": [
-            "context to calibrated uncertainty set",
-            "robust feasible decision",
-            "coverage-to-risk relation"
-          ],
-          "canonical_intervention_terms": [
-            "predict-then-calibrate",
-            "contextual uncertainty set",
-            "robust counterpart"
-          ],
-          "canonical_method_families": [
-            "robust contextual linear programming",
-            "calibrated predict-then-optimize"
-          ],
-          "evidence_refs": [
-            "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
-            "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"
-          ],
-          "search_read_provenance": [
-            "Q0092",
-            "Q0097",
-            "11add6039b784d0eb2fd39501fdded49"
-          ],
+          "canonical_problem_terms": ["risk-sensitive contextual optimization", "uncertain constraint parameters", "robust decision infeasibility"],
+          "canonical_variable_state_relation_terms": ["context to calibrated uncertainty set", "robust feasible decision", "coverage-to-risk relation"],
+          "canonical_intervention_terms": ["predict-then-calibrate", "contextual uncertainty set", "robust counterpart"],
+          "canonical_method_families": ["robust contextual linear programming", "calibrated predict-then-optimize"],
+          "evidence_refs": ["HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "HUMAN-NEURIPS-2025-FEASIBILITY-DFL"],
+          "search_read_provenance": ["Q0092", "Q0097", "11add6039b784d0eb2fd39501fdded49"],
           "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
           "plan_item_id": "MDV3-TERM-PREDICTIVE-SAFETY"
         },
         {
           "terminology_map_id": "TM-CLF-CBF-QP",
           "domain_hypothesis_id": "DH-AB-ANYTIME-FEASIBLE-INCUMBENT",
-          "canonical_problem_terms": [
-            "limited deliberation time",
-            "deadline-bounded planning",
-            "interruptible solution quality"
-          ],
-          "canonical_variable_state_relation_terms": [
-            "feasible incumbent",
-            "suboptimality bound",
-            "elapsed computation to decision quality"
-          ],
-          "canonical_intervention_terms": [
-            "anytime feasible-first search",
-            "monotone incumbent refinement",
-            "deadline interruption"
-          ],
-          "canonical_method_families": [
-            "anytime heuristic search",
-            "bounded-suboptimal planning"
-          ],
-          "evidence_refs": [
-            "HUMAN-NIPS-2003-ARA-STAR"
-          ],
-          "search_read_provenance": [
-            "Q0093",
-            "Q0097"
-          ],
+          "canonical_problem_terms": ["limited deliberation time", "deadline-bounded planning", "interruptible solution quality"],
+          "canonical_variable_state_relation_terms": ["feasible incumbent", "suboptimality bound", "elapsed computation to decision quality"],
+          "canonical_intervention_terms": ["anytime feasible-first search", "monotone incumbent refinement", "deadline interruption"],
+          "canonical_method_families": ["anytime heuristic search", "bounded-suboptimal planning"],
+          "evidence_refs": ["HUMAN-NIPS-2003-ARA-STAR"],
+          "search_read_provenance": ["Q0093", "Q0097"],
           "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
           "plan_item_id": "MDV3-TERM-CLF-CBF-QP"
         }
@@ -435,27 +295,13 @@
       "query": "value-equivalent model Bellman update policy value-function set rate-distortion value-equivalent sampling decision regret",
       "purpose": "Ground the source community's native terms for deciding which model distinctions must be retained because they change planning values, policies or regret.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "TERMINOLOGY_GROUNDING",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-VALUE-EQUIVALENT-MODELING"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
+      "domain_hypothesis_ids": ["DH-AB-VALUE-EQUIVALENT-MODELING"],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
       "priority_tier": "HIGH_CITATION_BACKBONE",
@@ -463,12 +309,7 @@
       "year_to": 2026,
       "page": 1,
       "exact_title": false,
-      "target_venues": [
-        "NeurIPS",
-        "ICML",
-        "JMLR",
-        "Artificial Intelligence"
-      ],
+      "target_venues": ["NeurIPS", "ICML", "JMLR", "Artificial Intelligence"],
       "expected_close_condition": "Recover stable native terminology for the source problem, retained-information relation, intervention family, guarantees and regret boundaries, sufficient to formulate an exact Source Mechanism search."
     },
     {
@@ -476,27 +317,13 @@
       "query": "smart predict then optimize SPO loss decision-focused learning constraint prediction infeasibility suboptimality regret",
       "purpose": "Ground the predict-then-optimize community's native terms for training predictions against downstream decisions, including constraint infeasibility and regret.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "TERMINOLOGY_GROUNDING",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-DECISION-FOCUSED-OPTIMIZATION"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
+      "domain_hypothesis_ids": ["DH-AB-DECISION-FOCUSED-OPTIMIZATION"],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
       "priority_tier": "HIGH_CITATION_BACKBONE",
@@ -504,15 +331,7 @@
       "year_to": 2026,
       "page": 1,
       "exact_title": false,
-      "target_venues": [
-        "NeurIPS",
-        "ICML",
-        "JMLR",
-        "Operations Research",
-        "Management Science",
-        "UAI",
-        "L4DC"
-      ],
+      "target_venues": ["NeurIPS", "ICML", "JMLR", "Operations Research", "Management Science", "UAI", "L4DC"],
       "expected_close_condition": "Recover canonical problem, variable-relation, loss, method-family and boundary terms sufficient to distinguish decision-focused intervention from ordinary prediction training."
     },
     {
@@ -520,27 +339,13 @@
       "query": "robust contextual optimization predict then calibrate uncertainty set chance constraint decision feasibility",
       "purpose": "Ground robust contextual optimization terminology for calibrated context-conditioned constraint sets that directly define downstream feasible decisions.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "TERMINOLOGY_GROUNDING",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
+      "domain_hypothesis_ids": ["DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION"],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
       "priority_tier": "HIGH_CITATION_BACKBONE",
@@ -548,12 +353,7 @@
       "year_to": 2026,
       "page": 1,
       "exact_title": false,
-      "target_venues": [
-        "NeurIPS",
-        "ICML",
-        "Operations Research",
-        "Management Science"
-      ],
+      "target_venues": ["NeurIPS", "ICML", "Operations Research", "Management Science"],
       "expected_close_condition": "Recover native terms that connect calibrated uncertainty coverage to the robust feasible decision, distinct from post-hoc safety filtering."
     },
     {
@@ -561,27 +361,13 @@
       "query": "anytime planning feasible incumbent deadline interruption bounded suboptimality optimization",
       "purpose": "Ground anytime-planning terminology for returning a feasible incumbent by a hard deadline while using remaining time to improve decision quality.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "TERMINOLOGY_GROUNDING",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-ANYTIME-FEASIBLE-INCUMBENT"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
+      "domain_hypothesis_ids": ["DH-AB-ANYTIME-FEASIBLE-INCUMBENT"],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
       "priority_tier": "HIGH_CITATION_BACKBONE",
@@ -589,11 +375,7 @@
       "year_to": 2026,
       "page": 1,
       "exact_title": false,
-      "target_venues": [
-        "NeurIPS",
-        "AAAI",
-        "ICAPS"
-      ],
+      "target_venues": ["NeurIPS", "AAAI", "ICAPS"],
       "expected_close_condition": "Recover canonical feasible-incumbent, interruption and bound terminology sufficient to test migration into update-time impedance optimization."
     },
     {
@@ -601,24 +383,12 @@
       "query": "contact-rich manipulation belief state controller switching tactile uncertainty impedance action wrench capacity history",
       "purpose": "Preserve formal same-field provenance and test whether recent contact-rich mechanisms already implement action-conditional impedance-capacity state rather than only pose belief or active sensing.",
       "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
@@ -627,14 +397,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "IEEE Transactions on Robotics",
-        "The International Journal of Robotics Research",
-        "Robotics: Science and Systems",
-        "CoRL",
-        "ICRA",
-        "IROS"
-      ],
+      "target_venues": ["IEEE Transactions on Robotics", "The International Journal of Robotics Research", "Robotics: Science and Systems", "CoRL", "ICRA", "IROS"],
       "expected_close_condition": "Find an explicit contact-state intervention that changes downstream impedance or wrench-capacity decisions, or confirm the same-field branch remains pose-belief, perception or generic control focused."
     },
     {
@@ -642,24 +405,12 @@
       "query": "variable impedance quadratic program energy tank contact loss actuator gain rate real-time infeasibility fallback",
       "purpose": "Preserve formal same-field provenance and test whether recent impedance methods jointly encode physical, energetic, actuator, gain-rate, deadline and fallback limits in the applied-action relation.",
       "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
@@ -668,15 +419,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "IEEE Transactions on Robotics",
-        "IEEE Transactions on Automation Science and Engineering",
-        "IEEE Robotics and Automation Letters",
-        "The International Journal of Robotics Research",
-        "RSS",
-        "ICRA",
-        "IROS"
-      ],
+      "target_venues": ["IEEE Transactions on Robotics", "IEEE Transactions on Automation Science and Engineering", "IEEE Robotics and Automation Letters", "The International Journal of Robotics Research", "RSS", "ICRA", "IROS"],
       "expected_close_condition": "Find a same-field method whose realized impedance action is jointly feasible and deadline-total, or establish which hard-limit and fallback relations remain absent."
     },
     {
@@ -684,24 +427,12 @@
       "query": "decision-focused representation value-equivalent modeling downstream decision loss constrained optimization review",
       "purpose": "Formally execute the Academic Bridge that discovers communities in which retained state or predictions are judged by downstream decisions rather than reconstruction accuracy.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "DOMAIN_DISCOVERY",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
@@ -710,15 +441,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "NeurIPS",
-        "ICML",
-        "JMLR",
-        "Management Science",
-        "Operations Research",
-        "UAI",
-        "L4DC"
-      ],
+      "target_venues": ["NeurIPS", "ICML", "JMLR", "Management Science", "Operations Research", "UAI", "L4DC"],
       "expected_close_condition": "Confirm the value-equivalent and decision-focused source communities and identify any nonredundant alternative community before terminology closure."
     },
     {
@@ -726,24 +449,12 @@
       "query": "robust contextual optimization calibrated uncertainty constraints anytime feasible decision deadline review",
       "purpose": "Formally execute the Academic Bridge toward calibrated robust optimization and anytime feasible-decision communities, where modeling, constraints and decision latency are coupled.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "DOMAIN_DISCOVERY",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
@@ -752,14 +463,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "NeurIPS",
-        "ICML",
-        "AAAI",
-        "ICAPS",
-        "Operations Research",
-        "Management Science"
-      ],
+      "target_venues": ["NeurIPS", "ICML", "AAAI", "ICAPS", "Operations Research", "Management Science"],
       "expected_close_condition": "Confirm robust contextual optimization and anytime feasible-incumbent communities as intervention-level candidates, excluding supervisory filtering except as a negative boundary."
     },
     {
@@ -767,37 +471,21 @@
       "query": "\"Deciding What to Model: Value-Equivalent Sampling for Reinforcement Learning\"",
       "purpose": "Retrieve the exact top-venue Source Problem-Intervention pair for value-equivalent retention and test whether its intervention, not merely its vocabulary, maps to action-relevant contact-state compression.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-VALUE-EQUIVALENT-MODELING"
-      ],
-      "terminology_map_ids": [
-        "TM-VALUE-EQUIVALENCE"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
+      "domain_hypothesis_ids": ["DH-AB-VALUE-EQUIVALENT-MODELING"],
+      "terminology_map_ids": ["TM-VALUE-EQUIVALENCE"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2022,
       "year_to": 2022,
       "page": 1,
       "exact_title": true,
-      "target_venues": [
-        "NeurIPS"
-      ],
+      "target_venues": ["NeurIPS"],
       "expected_close_condition": "Recover full intervention details, scope, guarantees and failure boundaries needed for an intervention-level PASS or FAIL judgment."
     },
     {
@@ -805,37 +493,21 @@
       "query": "\"Smart Predict, then Optimize\" SPO loss decision error",
       "purpose": "Retrieve the exact high-impact Source Problem-Intervention pair for downstream-decision loss and test whether it can define contact representation sufficiency without collapsing capacity uncertainty.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-DECISION-FOCUSED-OPTIMIZATION"
-      ],
-      "terminology_map_ids": [
-        "TM-DECISION-FOCUSED"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
+      "domain_hypothesis_ids": ["DH-AB-DECISION-FOCUSED-OPTIMIZATION"],
+      "terminology_map_ids": ["TM-DECISION-FOCUSED"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2017,
       "year_to": 2021,
       "page": 1,
       "exact_title": false,
-      "target_venues": [
-        "Management Science"
-      ],
+      "target_venues": ["Management Science"],
       "expected_close_condition": "Recover full loss construction, decision-equivalence claim, assumptions and boundaries for intervention-level comparison."
     },
     {
@@ -843,42 +515,21 @@
       "query": "\"Feasibility-Aware Decision-Focused Learning for Predicting Parameters in the Constraints\"",
       "purpose": "Retrieve the exact elite-venue mechanism that penalizes predicted constraint parameters through downstream feasibility and compare its joint decision relation with the target capacity-conditioned impedance choice.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-CALIBRATED-CAPACITY-SET",
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE"
-      ],
-      "obligation_ids": [
-        "OBL-HELDOUT-CAPACITY-CALIBRATION",
-        "OBL-SAME-RELATION-HARD-LIMITS"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE", "RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-CALIBRATED-CAPACITY-SET", "CAP-COUPLED-FEASIBLE-GAIN-CHOICE"],
+      "obligation_ids": ["OBL-HELDOUT-CAPACITY-CALIBRATION", "OBL-SAME-RELATION-HARD-LIMITS"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING", "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY",
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-DECISION-FOCUSED-OPTIMIZATION"
-      ],
-      "terminology_map_ids": [
-        "TM-DECISION-FOCUSED"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY", "TMS-JOINT-FEASIBILITY"],
+      "domain_hypothesis_ids": ["DH-AB-DECISION-FOCUSED-OPTIMIZATION"],
+      "terminology_map_ids": ["TM-DECISION-FOCUSED"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2025,
       "year_to": 2025,
       "page": 1,
       "exact_title": true,
-      "target_venues": [
-        "NeurIPS"
-      ],
+      "target_venues": ["NeurIPS"],
       "expected_close_condition": "Recover how feasibility is represented in training and whether calibration, online hard limits, deadlines and fallback are or are not provided."
     },
     {
@@ -886,39 +537,21 @@
       "query": "\"Predict-then-Calibrate: A New Perspective of Robust Contextual LP\"",
       "purpose": "Retrieve the exact NeurIPS Source Problem-Intervention pair and test whether calibrated uncertainty sets can be migrated into contact-capacity modeling and the feasible set of optimal impedance selection.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION"
-      ],
-      "terminology_map_ids": [
-        "TM-PREDICTIVE-SAFETY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
+      "domain_hypothesis_ids": ["DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION"],
+      "terminology_map_ids": ["TM-PREDICTIVE-SAFETY"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2023,
       "year_to": 2023,
       "page": 1,
       "exact_title": true,
-      "target_venues": [
-        "NeurIPS"
-      ],
+      "target_venues": ["NeurIPS"],
       "expected_close_condition": "Recover the actual calibration, uncertainty-set and robust-decision relation plus marginal/conditional coverage boundaries."
     },
     {
@@ -926,39 +559,21 @@
       "query": "\"ARA*: Anytime A* with Provable Bounds on Sub-Optimality\"",
       "purpose": "Retrieve the exact NIPS Source Problem-Intervention pair and test migration of feasible-first incumbent maintenance and monotone deadline-bounded refinement into optimal impedance computation.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-ANYTIME-FEASIBLE-INCUMBENT"
-      ],
-      "terminology_map_ids": [
-        "TM-CLF-CBF-QP"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
+      "domain_hypothesis_ids": ["DH-AB-ANYTIME-FEASIBLE-INCUMBENT"],
+      "terminology_map_ids": ["TM-CLF-CBF-QP"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2003,
       "year_to": 2003,
       "page": 1,
       "exact_title": true,
-      "target_venues": [
-        "NeurIPS"
-      ],
+      "target_venues": ["NeurIPS"],
       "expected_close_condition": "Recover the feasible-incumbent invariant, refinement schedule, interruption semantics and assumptions for an intervention-level PASS or FAIL judgment."
     },
     {
@@ -966,24 +581,12 @@
       "query": "control-oriented system identification soft contact model optimal impedance closed-loop performance finite-area history tangential wrench",
       "purpose": "Test whether the target field already learns soft-contact dynamics by their effect on optimal impedance and closed-loop outcomes, rather than by standalone prediction fit, and recover the exact model-to-controller interface if it exists.",
       "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
@@ -992,13 +595,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "IEEE Transactions on Robotics",
-        "The International Journal of Robotics Research",
-        "Robotics: Science and Systems",
-        "CoRL",
-        "ICRA"
-      ],
+      "target_venues": ["IEEE Transactions on Robotics", "The International Journal of Robotics Research", "Robotics: Science and Systems", "CoRL", "ICRA"],
       "expected_close_condition": "Recover a same-field method in which the learned contact state and uncertainty are selected because they change the impedance decision, or close the branch as prediction-oriented only."
     },
     {
@@ -1006,24 +603,12 @@
       "query": "variable impedance nonlinear model predictive control recursive feasibility early termination feasible iterate real-time soft contact",
       "purpose": "Test whether recent impedance or contact MPC makes the actually rendered normal-tangential gains the output of a recursively feasible, interruption-safe optimization relation.",
       "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
@@ -1032,14 +617,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "IEEE Transactions on Robotics",
-        "IEEE Transactions on Control Systems Technology",
-        "Automatica",
-        "IEEE Control Systems Letters",
-        "L4DC",
-        "ICRA"
-      ],
+      "target_venues": ["IEEE Transactions on Robotics", "IEEE Transactions on Control Systems Technology", "Automatica", "IEEE Control Systems Letters", "L4DC", "ICRA"],
       "expected_close_condition": "Recover a target-adjacent applied-action relation that preserves feasibility under early termination, or identify the exact missing physical and deadline obligations."
     },
     {
@@ -1047,24 +625,12 @@
       "query": "control-oriented model learning system identification downstream closed-loop objective differentiable predictive control task-oriented dynamics model",
       "purpose": "Discover communities that train a dynamics model through the downstream closed-loop control objective while retaining only control-relevant state, as a possible single mechanism unifying VES and SPO.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE", "CAP-CALIBRATED-CAPACITY-SET"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY", "OBL-HELDOUT-CAPACITY-CALIBRATION"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "DOMAIN_DISCOVERY",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
@@ -1073,14 +639,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "Automatica",
-        "IEEE Transactions on Automatic Control",
-        "NeurIPS",
-        "ICML",
-        "L4DC",
-        "CoRL"
-      ],
+      "target_venues": ["Automatica", "IEEE Transactions on Automatic Control", "NeurIPS", "ICML", "L4DC", "CoRL"],
       "expected_close_condition": "Identify a real source community and native terminology whose intervention jointly changes learned dynamics/state and downstream control behavior, or close this unifying branch."
     },
     {
@@ -1088,24 +647,12 @@
       "query": "anytime feasible model predictive control early termination feasible iterate recursive feasibility interruption real-time optimization review",
       "purpose": "Discover optimization and MPC communities where every interruptible iterate is feasible and directly executable, rather than relying on a separately repaired nominal action.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "DOMAIN_DISCOVERY",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
       "domain_hypothesis_ids": [],
       "terminology_map_ids": [],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
@@ -1114,14 +661,7 @@
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "Automatica",
-        "IEEE Transactions on Automatic Control",
-        "Mathematical Programming",
-        "L4DC",
-        "ICAPS",
-        "NeurIPS"
-      ],
+      "target_venues": ["Automatica", "IEEE Transactions on Automatic Control", "Mathematical Programming", "L4DC", "ICAPS", "NeurIPS"],
       "expected_close_condition": "Recover native terms and one credible problem-intervention family for interruption-safe feasible control optimization, distinct from post-hoc shielding."
     },
     {
@@ -1129,43 +669,21 @@
       "query": "anytime feasible model predictive control suboptimal MPC feasible solution early termination recursive feasibility",
       "purpose": "Search within the grounded anytime-feasible-incumbent paradigm for a control-native Source Mechanism whose retained feasible iterate is the actually applied action at any deadline.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
+      "mechanism_change_ids": ["RMC-JOINT-UPDATE-TIME-FEASIBILITY"],
+      "capability_ids": ["CAP-COUPLED-FEASIBLE-GAIN-CHOICE", "CAP-DEADLINE-TOTALITY"],
+      "obligation_ids": ["OBL-SAME-RELATION-HARD-LIMITS", "OBL-DEADLINE-INFEASIBILITY-FALLBACK"],
+      "causal_chain_ids": ["CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-ANYTIME-FEASIBLE-INCUMBENT"
-      ],
-      "terminology_map_ids": [
-        "TM-CLF-CBF-QP"
-      ],
+      "target_mechanism_signature_refs": ["TMS-JOINT-FEASIBILITY"],
+      "domain_hypothesis_ids": ["DH-AB-ANYTIME-FEASIBLE-INCUMBENT"],
+      "terminology_map_ids": ["TM-CLF-CBF-QP"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2000,
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "Automatica",
-        "IEEE Transactions on Automatic Control",
-        "IEEE Transactions on Control Systems Technology",
-        "L4DC",
-        "ICAPS"
-      ],
+      "target_venues": ["Automatica", "IEEE Transactions on Automatic Control", "IEEE Transactions on Control Systems Technology", "L4DC", "ICAPS"],
       "expected_close_condition": "Recover a feasible-iterate invariant, interruption semantics, recursive-feasibility conditions and suboptimality boundary suitable for an intervention-level PASS or FAIL."
     },
     {
@@ -1173,242 +691,22 @@
       "query": "decision-focused control-oriented system identification downstream MPC loss learned dynamics closed-loop regret",
       "purpose": "Search the already grounded decision-focused paradigm for a dynamics-model intervention that unifies representation selection and optimizer-mediated training rather than adding separate VES and SPO modules.",
       "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
-      ],
+      "mechanism_change_ids": ["RMC-DECISION-SUFFICIENT-CAPACITY-STATE"],
+      "capability_ids": ["CAP-ACTION-RELEVANT-STATE"],
+      "obligation_ids": ["OBL-MINIMAL-DECISION-SUFFICIENCY"],
+      "causal_chain_ids": ["CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"],
       "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY"
-      ],
-      "domain_hypothesis_ids": [
-        "DH-AB-DECISION-FOCUSED-OPTIMIZATION"
-      ],
-      "terminology_map_ids": [
-        "TM-DECISION-FOCUSED"
-      ],
+      "target_mechanism_signature_refs": ["TMS-DECISION-SUFFICIENT-CAPACITY"],
+      "domain_hypothesis_ids": ["DH-AB-DECISION-FOCUSED-OPTIMIZATION"],
+      "terminology_map_ids": ["TM-DECISION-FOCUSED"],
       "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
       "priority_tier": "TARGETED_GAP_FOLLOWUP",
       "year_from": 2015,
       "year_to": 2026,
       "page": 2,
       "exact_title": false,
-      "target_venues": [
-        "Automatica",
-        "IEEE Transactions on Automatic Control",
-        "NeurIPS",
-        "ICML",
-        "L4DC",
-        "CoRL"
-      ],
+      "target_venues": ["Automatica", "IEEE Transactions on Automatic Control", "NeurIPS", "ICML", "L4DC", "CoRL"],
       "expected_close_condition": "Recover a full dynamics-model Problem–Intervention pair that changes model learning through downstream control regret, or confirm VES and SPO remain only complementary abstractions."
-    },
-    {
-      "plan_item_id": "MDV6-TARGET-CAUSAL-EQUIVALENCE",
-      "query": "continuous soft-contact scanning variable impedance predictive control normal tangential force tracking slip contact loss constraints energy passivity actuator real-time",
-      "purpose": "Perform the final Target-specific Problem–Intervention and causal-equivalence search against the closest constrained and predictive variable-impedance mechanisms, explicitly including constrained impedance QPs, SCBF predictive impedance, MPC variable impedance with energy tanks, and learning-based predictive impedance, to determine which complete obligations remain unsolved.",
-      "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET",
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION",
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY",
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [],
-      "terminology_map_ids": [],
-      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
-      "priority_tier": "TARGETED_GAP_FOLLOWUP",
-      "year_from": 2015,
-      "year_to": 2026,
-      "page": 2,
-      "exact_title": false,
-      "target_venues": [
-        "IEEE Transactions on Robotics",
-        "IEEE/ASME Transactions on Mechatronics",
-        "The International Journal of Robotics Research",
-        "Robotics: Science and Systems",
-        "ICRA",
-        "IROS"
-      ],
-      "expected_close_condition": "Compare each recovered intervention with the full Target chain: action-conditional calibrated capacity under held-out shifts plus one applied-action relation covering joint performance, wrench, energy, actuator, infeasibility, fallback and update deadline. Treat any method missing either half as a nearest prior or component source, not as the transferred complete solution."
-    },
-    {
-      "plan_item_id": "MDV8-PRIOR-CONSTRAINED-VIC-QP",
-      "query": "Constrained variable impedance control using quadratic programming",
-      "purpose": "Recover the exact closest prior that directly optimizes bounded impedance parameters and compare its applied-action relation, contact representation, guarantees, failure handling and timing contract with the full Target problem.",
-      "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [],
-      "terminology_map_ids": [],
-      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
-      "priority_tier": "TARGETED_GAP_FOLLOWUP",
-      "year_from": 2022,
-      "year_to": 2022,
-      "page": 1,
-      "exact_title": true,
-      "target_venues": [
-        "IEEE International Conference on Robotics and Biomimetics"
-      ],
-      "expected_close_condition": "Determine whether direct constrained impedance QPs already provide the complete calibrated-capacity and deadline-total applied-action intervention; record each missing causal obligation."
-    },
-    {
-      "plan_item_id": "MDV8-PRIOR-SCBF-PREDICTIVE-IMPEDANCE",
-      "query": "Model-based predictive impedance variation for obstacle avoidance in safe human-robot collaboration",
-      "purpose": "Recover the exact predictive SCBF impedance prior and test whether safe-set-constrained impedance variation is causally equivalent to capacity-conditioned soft-contact scanning under held-out shifts and hard update deadlines.",
-      "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [],
-      "terminology_map_ids": [],
-      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
-      "priority_tier": "TARGETED_GAP_FOLLOWUP",
-      "year_from": 2024,
-      "year_to": 2024,
-      "page": 1,
-      "exact_title": true,
-      "target_venues": [
-        "IEEE Transactions on Robotics"
-      ],
-      "expected_close_condition": "Separate conditional modeled-safe-set invariance and mean runtime from Target requirements for calibrated action-conditional contact capacity, infeasibility and worst-case deadline totality."
-    },
-    {
-      "plan_item_id": "MDV8-PRIOR-MPC-VIC-ENERGY-TANK",
-      "query": "Model predictive variable impedance control of manipulators for adaptive precision-compliance tradeoff",
-      "purpose": "Recover the exact MPC variable-impedance prior with state constraints and tank-based passivity, then test causal equivalence to the Target joint capacity, performance, energy, actuator and deadline decision relation.",
-      "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [],
-      "terminology_map_ids": [],
-      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
-      "priority_tier": "TARGETED_GAP_FOLLOWUP",
-      "year_from": 2022,
-      "year_to": 2022,
-      "page": 1,
-      "exact_title": true,
-      "target_venues": [
-        "IEEE/ASME Transactions on Mechatronics"
-      ],
-      "expected_close_condition": "Determine whether MPC plus energy-tank correction already unifies the actually applied action and all Target constraints, including held-out capacity uncertainty, solver infeasibility, early termination and fallback."
-    },
-    {
-      "plan_item_id": "MDV8-PRIOR-LEARNING-PREDICTIVE-IMPEDANCE",
-      "query": "Learning-Based Predictive Impedance Control Towards Safe Predefined-Time Physical Robotic Interaction",
-      "purpose": "Recover the exact learning-based predictive impedance prior closest to soft-contact scanning and test whether its context tuner, energy logic and predefined-time behavior solve the full Target under held-out material, geometry, sliding and history shifts.",
-      "search_dimension": "SAME_FIELD_MECHANISM",
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET",
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION",
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "search_step": "SOURCE_SEARCH",
-      "target_mechanism_signature_refs": [
-        "TMS-DECISION-SUFFICIENT-CAPACITY",
-        "TMS-JOINT-FEASIBILITY"
-      ],
-      "domain_hypothesis_ids": [],
-      "terminology_map_ids": [],
-      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
-      "priority_tier": "TARGETED_GAP_FOLLOWUP",
-      "year_from": 2025,
-      "year_to": 2025,
-      "page": 1,
-      "exact_title": true,
-      "target_venues": [
-        "IEEE/RSJ International Conference on Intelligent Robots and Systems"
-      ],
-      "expected_close_condition": "Determine whether the learned context tuner provides a minimal calibrated action-conditional capacity state and whether predefined convergence differs from per-update solver deadline totality and fallback."
     }
   ]
 }

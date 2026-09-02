@@ -1,22 +1,23 @@
 {
   "schema_version": 1,
   "run_id": "impedance-control-landscape-e2e",
-  "review_request_id": "ee49d1c09f2f47b0918fba9a6d05b82e",
-  "reviewer": "gpt-5",
-  "verdict_id": "ROOT-CAUSE-VERDICT-ee49d1c09f2f47b0918fba9a6d05b82e",
-  "analysis_id": "RCA-P-SOFTSCAN-STATE-01-v1",
-  "reviewed_analysis_sha256": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-  "problem_contract_sha256": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-  "evidence_capsule_sha256": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
+  "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+  "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+  "reviewed_analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+  "problem_contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+  "necessity_closure_sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+  "necessity_verdict_sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
   "decision": "DIAGNOSIS_READY",
   "reasons": [
-    "The observations faithfully preserve the contract's supported physical phenomena, bounded simple-control adequacy, operating conditions, and unresolved decision-value question.",
-    "The grouping separates spatial and temporal state aliasing, hidden wrench constraints, and closed-loop absorption while explicitly representing their overlap.",
-    "The causal traces and four primary chains connect operating changes through representation failures and intermediate prediction or constraint errors to impedance decisions and held-out outcomes.",
-    "Competing sensor, resource, friction, disturbance, proxy, endpoint, uncertainty-envelope, and latency explanations are paired with discriminating evidence.",
-    "Supported physical and comparator claims are distinguished from preliminary action-value and regime-boundary claims, consistent with the evidence capsule's stated limits.",
-    "Intervention targets address minimal observable representations and the closed-loop sensitivity boundary required by the research contract.",
-    "Each primary chain has a testable falsifier based on matched resources, observability, action equivalence, and prespecified held-out outcome margins."
+    "The analysis remains bound to the accepted residual RF-HELDOUT-JOINT-IMPEDANCE-REGRET and explains only the suffix beyond the strongest directly evaluated simple baseline: held-out excess joint cost, contact loss or slip, hard-limit failure, or inability to choose condition-dependent coupled gains.",
+    "The five observations faithfully distinguish dynamic contact mismatch, finite-area wrench-capacity change, contact-agnostic gain choice, rendered-impedance energetic risk, and the separation between contact prediction and impedance selection, with epistemic labels that do not assert an established residual effect magnitude.",
+    "The three clusters are causally coherent and nonredundant: contact-state aliasing concerns decision-relevant representation, decision decoupling concerns the missing contact-to-gain relation, and safety coupling concerns whether a changing gain is physically and computationally realizable.",
+    "The depth traces progress from held-out condition changes through representation or feasibility mechanisms to non-equivalent impedance actions and registered residual endpoints; the key unverified links are explicitly marked preliminary and assigned discriminating observations.",
+    "The two primary chains jointly cover the accepted residual: one explains why fixed, scheduled, model-agnostic, or separated predictor-planner actions may cease to be outcome-equivalent under held-out contact changes, while the other explains why nominal online gain improvements may fail once energy, wrench, actuator, gain-rate, deadline, infeasibility, and fallback constraints are applied.",
+    "Strong competing explanations remain live, including sufficiency of measured-wrench feedback, conservative fixed gains, memoryless finite-area prediction, matched retuning, compute latency, and post-hoc guards; equivalence tests can falsify both proposed mechanisms and would collapse the residual rather than preserve an unnecessary method claim."
   ],
   "issues": [],
   "observation_fidelity": "PASS",
@@ -26,10 +27,13 @@
   "evidence_calibration": "PASS",
   "intervention_relevance": "PASS",
   "falsifiability": "PASS",
+  "residual_failure_alignment": "PASS",
   "reviewed_artifact_hashes": {
-    "idea-stage/RESEARCH_CONTRACT.md": "cac57b1ee7361c18ac6bf52386ce8c9df51a7c12b0f5aacebf3314f336925d8b",
-    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "187cd6ac4b885567844fab5a983f5bdf2b911613a746d4f5df202e84c1782d81",
-    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "d3f6796790a24b3e421bd34ce92886e754caa98a093839692bf8745bbda85525",
-    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "4f77c9c0fa464a8327317a4c706d313ef2209a4c3975e6475393bfc3c3666fdd"
+    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
   }
 }

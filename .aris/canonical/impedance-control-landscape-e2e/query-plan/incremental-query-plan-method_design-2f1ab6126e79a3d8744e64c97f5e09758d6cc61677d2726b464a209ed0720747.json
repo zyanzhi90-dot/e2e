@@ -1,0 +1,380 @@
+{
+  "schema_version": 2,
+  "coverage_gaps": [],
+  "search_strategy": {
+    "priority_order": [
+      "RECENT_AUTHORITATIVE_REVIEWS",
+      "HIGH_CITATION_BACKBONE",
+      "RECENT_ELITE_FRONTIER",
+      "TARGETED_GAP_FOLLOWUP"
+    ],
+    "discovery_sources": [
+      "Google Scholar citation and related-work graph",
+      "IEEE Xplore",
+      "PMLR and official NeurIPS proceedings",
+      "Robotics: Science and Systems proceedings",
+      "publisher pages for top journals"
+    ],
+    "time_range": {
+      "year_from": 2000,
+      "year_to": 2026
+    },
+    "screening_requirement": "TITLE_ABSTRACT_FOR_ALL_RETRIEVED_CANDIDATES",
+    "saturation_criteria": [
+      "Each RMC has at least one same-field mechanism query and one real cross-domain Academic Bridge query",
+      "Recovered domains expose their own terminology for the target relation rather than only target-domain words",
+      "At least two non-duplicate strong Source Problem-Intervention pairs per RMC are available for full-text causal screening, or the domain is explicitly closed for lack of credible isomorphism",
+      "Search distinguishes intervention efficacy and boundary evidence from algorithm-name or task similarity"
+    ]
+  },
+  "method_design_context": {
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+    "root_cause_analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "problem_id": "P-SOFTSCAN-STATE-01",
+    "problem_version": 2,
+    "problem_contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "causal_chain_ids": [
+      "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
+      "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+    ],
+    "required_mechanism_changes": [
+      {
+        "mechanism_change_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+        "causal_chain_ids": [
+          "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
+        ],
+        "failed_relation_state_or_information_structure": "Safely observed pose, wrench and instantaneous motion are mapped through a calibration-fixed or prediction-accuracy-oriented contact representation that aliases histories and finite-area conditions whose future wrench capacity and optimal impedance actions differ.",
+        "required_mechanism_change": "Replace that representation relation with a minimal action-conditional contact-capacity state or set that retains a history, geometry, tangential or uncertainty distinction only when it changes feasible normal-tangential gains, fallback, or held-out joint outcomes, and calibrate its coverage under the declared shifts.",
+        "change_direction": "FROM prediction-sufficient point state that may alias gain-relevant conditions TO calibrated decision-sufficient action-conditional capacity state or set with explicit abstention outside supported coverage",
+        "causal_position": "Between safely obtainable observation history and the impedance-selection variables, before gain choice and constraint evaluation",
+        "activation_condition": "Held-out material, relaxation, finite-area geometry, friction, speed, dwell or loading history makes two currently aliased observation histories imply non-equivalent future capacity or impedance actions",
+        "root_cause_resolution_rationale": "This directly repairs the diagnosed state-to-action aliasing relation while rejecting extra variables that improve model fit but do not change feasible actions or outcomes.",
+        "capability_ids": [
+          "CAP-ACTION-RELEVANT-STATE",
+          "CAP-CALIBRATED-CAPACITY-SET"
+        ],
+        "obligation_ids": [
+          "OBL-MINIMAL-DECISION-SUFFICIENCY",
+          "OBL-HELDOUT-CAPACITY-CALIBRATION"
+        ]
+      },
+      {
+        "mechanism_change_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+        "causal_chain_ids": [
+          "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+        ],
+        "failed_relation_state_or_information_structure": "Performance-oriented normal-tangential gain selection is computed separately from contact capacity, interaction energy, actuator and gain-rate reachability, deadline, infeasibility and deterministic fallback, so post-hoc guards can change or invalidate the intended action.",
+        "required_mechanism_change": "Make the realized impedance action the output of one update-time feasibility relation in which performance, capacity, interaction-energy, actuator, gain-rate, computation deadline, infeasibility and fallback jointly determine selection rather than sequentially correcting an independently optimized gain.",
+        "change_direction": "FROM performance-first gain proposal followed by separate safety projection or fallback TO one total update-time decision relation whose feasible action and fallback are jointly conditioned on all physical, energetic and computational limits",
+        "causal_position": "At the impedance decision and realization interface, before a new gain is rendered by the inner loop",
+        "activation_condition": "A candidate gain lies near contact or wrench capacity, interaction-energy, actuator, gain-rate or solve-time boundaries where a separated guard would alter, delay or reject it",
+        "root_cause_resolution_rationale": "This directly repairs the diagnosed selection-feasibility decoupling and permits a decisive comparison against post-hoc guards using realized-action equivalence.",
+        "capability_ids": [
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+          "CAP-DEADLINE-TOTALITY"
+        ],
+        "obligation_ids": [
+          "OBL-SAME-RELATION-HARD-LIMITS",
+          "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
+        ]
+      }
+    ],
+    "required_capabilities": [
+      {
+        "capability_id": "CAP-ACTION-RELEVANT-STATE",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+        ],
+        "required_capability": "Compress observation history into distinctions sufficient for impedance action and outcome equivalence rather than generic contact reconstruction."
+      },
+      {
+        "capability_id": "CAP-CALIBRATED-CAPACITY-SET",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+        ],
+        "required_capability": "Represent action-conditional future wrench, slip or moment capacity and uncertainty with empirically checkable held-out coverage and abstention."
+      },
+      {
+        "capability_id": "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+        "mechanism_change_ids": [
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "required_capability": "Choose coupled normal-tangential stiffness and damping only from actions jointly feasible for contact, energy, actuator and gain-rate limits."
+      },
+      {
+        "capability_id": "CAP-DEADLINE-TOTALITY",
+        "mechanism_change_ids": [
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "required_capability": "Return a deterministic feasible action or declared fallback within every update deadline, with timeout and infeasibility counted as decisions."
+      }
+    ],
+    "design_obligations": [
+      {
+        "obligation_id": "OBL-MINIMAL-DECISION-SUFFICIENCY",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+        ],
+        "capability_ids": [
+          "CAP-ACTION-RELEVANT-STATE"
+        ]
+      },
+      {
+        "obligation_id": "OBL-HELDOUT-CAPACITY-CALIBRATION",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+        ],
+        "capability_ids": [
+          "CAP-CALIBRATED-CAPACITY-SET"
+        ]
+      },
+      {
+        "obligation_id": "OBL-SAME-RELATION-HARD-LIMITS",
+        "mechanism_change_ids": [
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "capability_ids": [
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE"
+        ]
+      },
+      {
+        "obligation_id": "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+        "mechanism_change_ids": [
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "capability_ids": [
+          "CAP-DEADLINE-TOTALITY"
+        ]
+      }
+    ],
+    "principle_search_context": {
+      "target_mechanism_signatures": [
+        {
+          "target_mechanism_signature_id": "TMS-DECISION-SUFFICIENT-CAPACITY",
+          "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+          "domain_neutral_failure_structure": "A predictor or representation distinguishes states according to reconstruction or average prediction error but collapses contexts that induce different downstream constrained decisions and consequences.",
+          "causal_or_computational_variable_or_relation": "Information retained from partial history as a sufficient statistic for downstream action and constraint decisions",
+          "current_relation_or_state": "Prediction-sufficient point representation with no guarantee of downstream action equivalence or calibrated tail coverage",
+          "required_intervention": "Select or learn a minimal decision-equivalent representation and calibrated action-conditional outcome/capacity set, abstaining where coverage is unsupported",
+          "change_direction": "FROM prediction-sufficient point state that may alias gain-relevant conditions TO calibrated decision-sufficient action-conditional capacity state or set with explicit abstention outside supported coverage",
+          "causal_position": "Between safely obtainable observation history and the impedance-selection variables, before gain choice and constraint evaluation",
+          "activation_condition": "Held-out material, relaxation, finite-area geometry, friction, speed, dwell or loading history makes two currently aliased observation histories imply non-equivalent future capacity or impedance actions"
+        },
+        {
+          "target_mechanism_signature_id": "TMS-JOINT-FEASIBILITY",
+          "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+          "domain_neutral_failure_structure": "A nominal decision is optimized for performance using uncertain parameters, then a separate shield, projection or scheduler alters it when hard feasibility is checked, breaking the nominal decision-outcome relation.",
+          "causal_or_computational_variable_or_relation": "Coupling between decision variables, uncertain constraint capacity, resource feasibility and a total fallback policy",
+          "current_relation_or_state": "Performance-first proposal followed by separate constraint correction, timeout handling or fallback",
+          "required_intervention": "Produce the realized action from one feasibility-aware decision relation that internalizes uncertain physical constraints and computation/fallback availability",
+          "change_direction": "FROM performance-first gain proposal followed by separate safety projection or fallback TO one total update-time decision relation whose feasible action and fallback are jointly conditioned on all physical, energetic and computational limits",
+          "causal_position": "At the impedance decision and realization interface, before a new gain is rendered by the inner loop",
+          "activation_condition": "A candidate gain lies near contact or wrench capacity, interaction-energy, actuator, gain-rate or solve-time boundaries where a separated guard would alter, delay or reject it"
+        }
+      ],
+      "domain_hypotheses": [
+        {
+          "domain_hypothesis_id": "DH-VALUE-EQUIVALENT-REPRESENTATION",
+          "rmc_id": "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+          "target_mechanism_signature_ref": "TMS-DECISION-SUFFICIENT-CAPACITY",
+          "source_channel": "MODEL_PRIOR",
+          "domain_or_research_community_or_paradigm": "Decision-focused learning, value-equivalent models, predictive-state representations and task-oriented compression",
+          "structural_rationale": "These communities study which environmental distinctions must be preserved because they change a downstream policy, value or optimization decision, rather than because they reduce generic prediction error.",
+          "expected_problem_structure": "High-dimensional or partially observed histories contain distinctions irrelevant to decision quality and others whose aliasing changes actions or regret.",
+          "expected_intervention_family": "Decision-loss training, value-equivalent compression, predictive sufficient statistics or action-conditional set prediction",
+          "provenance_refs": [],
+          "disposition": "EXPLORE"
+        },
+        {
+          "domain_hypothesis_id": "DH-PREDICTIVE-SAFETY-FEASIBILITY",
+          "rmc_id": "RMC-JOINT-UPDATE-TIME-FEASIBILITY",
+          "target_mechanism_signature_ref": "TMS-JOINT-FEASIBILITY",
+          "source_channel": "MODEL_PRIOR",
+          "domain_or_research_community_or_paradigm": "Predictive safety filters, runtime assurance, feasibility-aware predict-then-optimize and robust constrained control",
+          "structural_rationale": "These communities study how a nominal performance action, uncertain constraint parameters and a certified backup or fallback can be made one recursively feasible real-time decision.",
+          "expected_problem_structure": "Nominal actions become unsafe or unavailable when constraints, uncertainty or computation are checked only after optimization.",
+          "expected_intervention_family": "Predictive feasible-set filtering, feasibility-aware decision loss, recursive feasibility with terminal safe sets, or total runtime-assurance selection",
+          "provenance_refs": [],
+          "disposition": "EXPLORE"
+        }
+      ],
+      "terminology_maps": [],
+      "decision_targets": [
+        "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
+        "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY"
+      ]
+    }
+  },
+  "queries": [
+    {
+      "plan_item_id": "MDV2-SAME-RMC1",
+      "query": "contact-rich robot control partial observability history-dependent contact state impedance selection action-conditioned wrench capacity",
+      "purpose": "Recover same-field mechanisms that make contact state decision-relevant to impedance actions, and establish the strongest domain-native alternatives before cross-domain transfer.",
+      "search_dimension": "SAME_FIELD_MECHANISM",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "capability_ids": [
+        "CAP-ACTION-RELEVANT-STATE",
+        "CAP-CALIBRATED-CAPACITY-SET"
+      ],
+      "obligation_ids": [
+        "OBL-MINIMAL-DECISION-SUFFICIENCY",
+        "OBL-HELDOUT-CAPACITY-CALIBRATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
+      ],
+      "search_step": "SOURCE_SEARCH",
+      "target_mechanism_signature_refs": [
+        "TMS-DECISION-SUFFICIENT-CAPACITY"
+      ],
+      "domain_hypothesis_ids": [],
+      "terminology_map_ids": [],
+      "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2018,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [
+        "IEEE Transactions on Robotics",
+        "The International Journal of Robotics Research",
+        "Robotics: Science and Systems",
+        "CoRL",
+        "ICRA",
+        "IROS"
+      ],
+      "expected_close_condition": "Identify papers with an explicit partially observed or history-dependent contact problem, an intervention on the state-information relation, and evidence that the intervention changes downstream control actions or outcomes."
+    },
+    {
+      "plan_item_id": "MDV2-BRIDGE-RMC1",
+      "query": "decision-focused learning value-equivalent representation sufficient statistic downstream constrained optimization uncertainty review",
+      "purpose": "Use scholarly bridge results to discover the source communities and native terms for representations judged by downstream decision equivalence rather than prediction accuracy.",
+      "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "mechanism_change_ids": [
+        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE"
+      ],
+      "capability_ids": [
+        "CAP-ACTION-RELEVANT-STATE",
+        "CAP-CALIBRATED-CAPACITY-SET"
+      ],
+      "obligation_ids": [
+        "OBL-MINIMAL-DECISION-SUFFICIENCY",
+        "OBL-HELDOUT-CAPACITY-CALIBRATION"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING"
+      ],
+      "search_step": "DOMAIN_DISCOVERY",
+      "target_mechanism_signature_refs": [
+        "TMS-DECISION-SUFFICIENT-CAPACITY"
+      ],
+      "domain_hypothesis_ids": [],
+      "terminology_map_ids": [],
+      "decision_target": "DT-RECOVER-SOURCE-PAIR-DECISION-SUFFICIENCY",
+      "priority_tier": "RECENT_AUTHORITATIVE_REVIEWS",
+      "year_from": 2015,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [
+        "NeurIPS",
+        "ICML",
+        "JMLR",
+        "Operations Research",
+        "Management Science",
+        "UAI",
+        "L4DC"
+      ],
+      "expected_close_condition": "Recover at least two credible communities with native terminology and primary papers whose intervention changes retained information according to downstream action, regret or feasibility."
+    },
+    {
+      "plan_item_id": "MDV2-SAME-RMC2",
+      "query": "variable impedance online stiffness damping selection joint passivity energy tank contact wrench constraints real-time feasibility robot",
+      "purpose": "Recover same-field mechanisms that couple gain choice with energetic and contact feasibility, including evidence on whether post-hoc guards are equivalent.",
+      "search_dimension": "SAME_FIELD_MECHANISM",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "capability_ids": [
+        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+        "CAP-DEADLINE-TOTALITY"
+      ],
+      "obligation_ids": [
+        "OBL-SAME-RELATION-HARD-LIMITS",
+        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+      ],
+      "search_step": "SOURCE_SEARCH",
+      "target_mechanism_signature_refs": [
+        "TMS-JOINT-FEASIBILITY"
+      ],
+      "domain_hypothesis_ids": [],
+      "terminology_map_ids": [],
+      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
+      "priority_tier": "RECENT_ELITE_FRONTIER",
+      "year_from": 2015,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [
+        "IEEE Transactions on Robotics",
+        "IEEE Transactions on Automation Science and Engineering",
+        "IEEE Robotics and Automation Letters",
+        "IJRR",
+        "RSS",
+        "ICRA",
+        "IROS"
+      ],
+      "expected_close_condition": "Identify mechanisms where impedance gains themselves are jointly constrained by contact and energy feasibility at update time, with explicit real-time, infeasibility or fallback behavior."
+    },
+    {
+      "plan_item_id": "MDV2-BRIDGE-RMC2",
+      "query": "predictive safety filter runtime assurance feasibility-aware predict-then-optimize uncertain constraints recursive feasibility review",
+      "purpose": "Discover source communities and native terms for replacing performance-first decisions plus post-hoc correction with a total feasibility-aware real-time decision.",
+      "search_dimension": "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM",
+      "mechanism_change_ids": [
+        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+      ],
+      "capability_ids": [
+        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+        "CAP-DEADLINE-TOTALITY"
+      ],
+      "obligation_ids": [
+        "OBL-SAME-RELATION-HARD-LIMITS",
+        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
+      ],
+      "causal_chain_ids": [
+        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+      ],
+      "search_step": "DOMAIN_DISCOVERY",
+      "target_mechanism_signature_refs": [
+        "TMS-JOINT-FEASIBILITY"
+      ],
+      "domain_hypothesis_ids": [],
+      "terminology_map_ids": [],
+      "decision_target": "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY",
+      "priority_tier": "RECENT_AUTHORITATIVE_REVIEWS",
+      "year_from": 2015,
+      "year_to": 2026,
+      "page": 1,
+      "exact_title": false,
+      "target_venues": [
+        "IEEE Transactions on Automatic Control",
+        "Automatica",
+        "NeurIPS",
+        "ICML",
+        "L4DC",
+        "SafeComp",
+        "RSS"
+      ],
+      "expected_close_condition": "Recover at least two credible source paradigms with explicit nominal-action, uncertain-feasibility and safe-fallback relations, plus primary evidence of intervention efficacy and assumptions."
+    }
+  ]
+}

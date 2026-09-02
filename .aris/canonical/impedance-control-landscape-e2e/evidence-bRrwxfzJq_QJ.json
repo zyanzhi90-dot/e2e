@@ -1,0 +1,274 @@
+{
+  "source_id": "bRrwxfzJq_QJ",
+  "read_event_id": "d1940cea5788426a8b1cd14fea6f7b29",
+  "content_sha256": "28996a3c2bde018fdc1e96b57bc63c5dd63aa27b5cffd83bba4e772778880701",
+  "claim": "BOX-FDDP supports warm-started, single-iteration feasibility-driven constrained policy updates and Riccati feedback for empirical real-time MPC. It does not establish that every intermediate iterate is feasible or specify an interruption-safe deadline rule returning a previously certified feasible incumbent. It therefore supports fast feasibility restoration and RTI-like continuation, not deadline-total feasible-incumbent return.",
+  "claim_locator": [
+    "Abstract",
+    "FDDP background",
+    "Section III-C",
+    "MPC implementation",
+    "State-feedback discussion",
+    "Experiments and Conclusion"
+  ],
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "Solver formulation, implementation, and timing are author-reported; the absence of interruption-safe totality and per-iterate feasibility is an explicitly bounded reader inference.",
+  "problem_and_setting": "Full-body hybrid legged-robot MPC must solve a nonlinear OCP with contact switching, dynamics equalities, torque/control limits, and friction/wrench-cone conditions within millisecond-scale control cycles. ANYmal experiments use predefined contact sequences and timings supplied by a planner.",
+  "method_or_mechanism": "BOX-FDDP uses lifted multiple shooting and a feasibility-driven rollout that contracts dynamic defects. A bound-constrained QP computes feed-forward controls, feedback gains are obtained on the free-control subspace, and a Goldstein condition accepts steps. Each MPC update performs one warm-started solver iteration, reusing states, controls, and regularization. Riccati gains render task-priority-dependent feedback, while explicit control bounds are handled through projection onto the free-control space.",
+  "content_summary": "The paper combines full-body hybrid predictive control, explicit actuation bounds, feasibility-driven BOX-FDDP updates, and Riccati feedback. Memory is preallocated; MPC runs at 50–100 Hz, with onboard operation reported around 90 Hz, while a 400 Hz tracking controller executes the policy. The approach empirically handles agile motions, disturbances, payload mismatch, stairs, jumps, torque saturation, slippage, and contact-timing error. Because trajectories may begin infeasible and feasibility is restored iteratively, it does not prove feasibility of every intermediate iterate or safe output under arbitrary interruption.",
+  "synthesis_role": "Positive mechanism evidence for warm-started one-iteration constrained policy updates and Riccati gain rendering; negative boundary evidence against interpreting fast convergence as interruption-safe, deadline-total feasible-incumbent return.",
+  "development_link": "For RMC-JOINT-UPDATE-TIME-FEASIBILITY, adopt feasibility-driven warm-started joint policy/gain updates as a computational precedent, but add an explicit certified-feasible-incumbent retention and deadline-return relation. Additional machinery is required for continuous soft-contact uncertainty and hard contact-constraint guarantees.",
+  "evidence": [
+    {
+      "locator": "Section III-C",
+      "status": "author-reported",
+      "finding": "Each MPC update uses a feasibility-driven DDP-type solver that explicitly handles control constraints."
+    },
+    {
+      "locator": "FDDP background",
+      "status": "author-reported",
+      "finding": "Dynamic gaps contract and iterations are driven toward feasibility, showing an iterative feasibility-restoration mechanism."
+    },
+    {
+      "locator": "MPC implementation",
+      "status": "author-reported",
+      "finding": "Each update performs one solver iteration and warm-starts states, controls, and regularization from the previous MPC solution."
+    },
+    {
+      "locator": "MPC implementation",
+      "status": "author-reported",
+      "finding": "MPC computes policies at 50–100 Hz while the tracking controller runs at 400 Hz; delay compensation assumes current torque persists for about 2.5 ms."
+    },
+    {
+      "locator": "State-feedback discussion",
+      "status": "author-reported",
+      "finding": "Riccati gains follow the optimal MPC policy and yield task-priority-dependent variable feedback, with control limits projected to the free-control subspace."
+    },
+    {
+      "locator": "Formulation and absence of an interruption contract",
+      "status": "reader-inferred",
+      "finding": "Gap contraction and empirical timing do not prove every intermediate iterate feasible or guarantee return of a certified feasible incumbent under arbitrary interruption."
+    }
+  ],
+  "evidence_kind": [
+    "full-text solver formulation",
+    "real-time implementation",
+    "hardware experiments",
+    "negative guarantee boundary"
+  ],
+  "boundary_conditions": [
+    "Contact sequence and timings are predefined by a planner.",
+    "Validation is on ANYmal under the reported rigid-body/contact model and control architecture.",
+    "Control bounds are explicit, but some friction and wrench-cone inequalities are quadratic penalties.",
+    "The method may start from dynamically infeasible trajectories and iteratively contracts defects.",
+    "Reported 50–100 Hz or approximately 90 Hz execution is empirical and platform-specific.",
+    "No result certifies a feasible output after arbitrary solver interruption.",
+    "The paper does not evaluate calibrated uncertainty or held-out soft-material, geometry, sliding, and contact-history generalization."
+  ],
+  "assumptions": [
+    "A useful warm start from the preceding MPC solution is available.",
+    "The planned contact schedule is supplied and sufficiently accurate.",
+    "The rigid-body and contact model is adequate for prediction.",
+    "Current torque can be treated as applied during an approximately 2.5 ms delay.",
+    "A 400 Hz tracking controller can execute the local policy between MPC updates.",
+    "Penalty treatment of friction and wrench-cone violations is acceptable in the reported experiments."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Experiments encounter model mismatch, disturbances, payload mismatch, slippage, torque limits, and contact-timing errors; results are empirical rather than universal guarantees."
+    ],
+    "inferred": [
+      "Intermediate iterates need not be dynamically feasible.",
+      "A single warm-started iteration does not itself guarantee feasible output before every deadline.",
+      "No certified-feasible-incumbent retention and deadline-return rule is specified.",
+      "Penalized friction and wrench-cone inequalities are not proven hard-satisfied at every iterate.",
+      "The evidence cannot support calibrated contact uncertainty or held-out soft-contact generalization."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that BOX-FDDP proves every intermediate iterate feasible.",
+    "Any claim that it establishes a hard worst-case computation deadline.",
+    "Any claim that it returns a certified feasible incumbent under arbitrary interruption.",
+    "Any claim that penalized friction and wrench constraints are hard-satisfied at every iterate."
+  ],
+  "verification_status": "Verified by an independent paper_reader against Controller-supplied inline full-text content only; no external search or local-path access was performed by the reviewer. Model identifier: gpt-5.6-sol.",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-c98ff49c018d046dbfc1cf229f323b5d67ee3858db9e41079f699be8eaf09bd5.json",
+    "query_plan_sha256": "6028427a61e8e32e71635c7f78a026316e20e2a7b37bb21db12f33fb5c797173",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+    "root_cause_analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "actual_hit_query_ids": [
+      "Q0113"
+    ],
+    "mechanism_change_ids": [
+      "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+    ],
+    "capability_ids": [
+      "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+      "CAP-DEADLINE-TOTALITY"
+    ],
+    "obligation_ids": [
+      "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+      "OBL-SAME-RELATION-HARD-LIMITS"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+    ],
+    "search_dimensions": [
+      "SAME_FIELD_MECHANISM"
+    ],
+    "search_steps": [
+      "SOURCE_SEARCH"
+    ],
+    "target_mechanism_signature_refs": [
+      "TMS-JOINT-FEASIBILITY"
+    ],
+    "domain_hypothesis_ids": [],
+    "terminology_map_ids": [],
+    "decision_targets": [
+      "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY"
+    ],
+    "phase_binding_anchor": {
+      "phase": "method_design",
+      "required_inputs": {
+        "idea-stage/ACTIVE_FIELD_MAP.md": {
+          "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+          "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "producer_phase": "landscape",
+          "registered_at": "2026-08-22T04:18:43Z"
+        },
+        "idea-stage/RESEARCH_CONTRACT.md": {
+          "path": "idea-stage\\RESEARCH_CONTRACT.md",
+          "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+          "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+          "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/NECESSITY_CLOSURE.json": {
+          "path": "idea-stage\\NECESSITY_CLOSURE.json",
+          "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/NECESSITY_VERDICT.json": {
+          "path": "idea-stage\\NECESSITY_VERDICT.json",
+          "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+          "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+          "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "producer_phase": "root_cause_analysis",
+          "registered_at": "2026-09-01T08:18:49Z"
+        },
+        "idea-stage/ROOT_CAUSE_VERDICT.json": {
+          "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+          "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          "producer_phase": "root_cause_gate",
+          "registered_at": "2026-09-01T09:16:18Z",
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T09:16:28Z",
+            "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+            "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+            }
+          }
+        }
+      },
+      "lifecycle_return_event_id": null,
+      "active_problem_binding": {
+        "problem_id": "P-SOFTSCAN-STATE-01",
+        "version": 2,
+        "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+        "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+      },
+      "accepted_rca_binding": {
+        "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+        "lifecycle_return_event_id": null
+      },
+      "design_obligation_binding": {
+        "source": "method_design_query_context",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "capability_ids": [
+          "CAP-ACTION-RELEVANT-STATE",
+          "CAP-CALIBRATED-CAPACITY-SET",
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+          "CAP-DEADLINE-TOTALITY"
+        ],
+        "obligation_ids": [
+          "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+          "OBL-HELDOUT-CAPACITY-CALIBRATION",
+          "OBL-MINIMAL-DECISION-SUFFICIENCY",
+          "OBL-SAME-RELATION-HARD-LIMITS"
+        ],
+        "principle_search_context_sha256": "0239804f7cb757668e3cda5bc3ac50f1c3fc396ecbedf76074f23b5b6d3df1ce"
+      }
+    },
+    "admission_decision_id": "admission-3ba5fe81d3c14940906bd0e1c911bfac"
+  }
+}

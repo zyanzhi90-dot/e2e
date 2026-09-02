@@ -1,0 +1,270 @@
+{
+  "source_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+  "read_event_id": "331633c7b6a54ecf9435f30def6ba7d0",
+  "content_sha256": "7359442161d50716db575a28683ee9796f211d4a52560f5766592eb2b691594d",
+  "claim": "Predict-then-Calibrate converts arbitrary predictions into context-conditioned box or ellipsoidal uncertainty sets through independent residual calibration and inserts them into robust contextual optimization. It is strong mechanism evidence for replacing point contact models with calibrated capacity sets that shape optimal impedance decisions, subject to a nontrivial constraint-side robust counterpart and target-distribution validation.",
+  "claim_locator": "Abstract; Sections 1, 3-5; Algorithms 1-2; Propositions 1-4; shortest-path and fractional-knapsack experiments; Conclusion",
+  "access_level": "full_text",
+  "decision_grade": "decision_grade",
+  "epistemic_status": "primary NeurIPS theoretical and empirical study; constraint-side impedance migration is explicitly reader inference; configured paper_reader model gpt-5.6-sol",
+  "problem_and_setting": "A contextual decision must be made from covariates before an uncertain objective is observed. Risk-neutral predict-then-optimize does not quantify uncertainty or align the decision with a requested risk profile, while some robust approaches restrict predictors or impose strong distributional assumptions.",
+  "method_or_mechanism": "Train any predictor on one split, use residuals from independent calibration splits to construct context-conditioned box or ellipsoidal U_alpha(z), perform a final coverage adjustment, and insert U_alpha(z) into a tractable robust contextual LP. The box method calibrates coordinatewise residual bounds; the ellipsoid method predicts residual norm or shape. The framework extends to distributionally robust contextual LP.",
+  "content_summary": "The method disentangles prediction from calibration while reconnecting them through the robust downstream decision. Proposition 1 gives population-average coverage and a robustness implication for the robust solution; later propositions analyze conservatism and a DRO extension. Experiments report coverage near requested levels and improved robust objective with better prediction or calibration. Guarantees are marginal under calibration sampling from P, not per-context conditional or arbitrary-shift guarantees.",
+  "synthesis_role": "Primary positive Source Mechanism for held-out contact-capacity calibration and partial architecture evidence for embedding that set into optimal impedance selection. It complements decision-focused constraint learning: one aligns model errors with selected actions, the other converts residual uncertainty into a set with explicit coverage.",
+  "development_link": "PASS for the calibration half of RMC-DECISION-SUFFICIENT-CAPACITY-STATE, CAP-CALIBRATED-CAPACITY-SET, and OBL-HELDOUT-CAPACITY-CALIBRATION after mapping context to observation history and the uncertain vector to future wrench/slip/moment-capacity parameters. The overall RMC remains qualified because source uncertainty is in an LP objective and target capacity enters nonlinear constraints. FAIL as a complete RMC-JOINT-UPDATE-TIME-FEASIBILITY intervention: the paper omits target hard limits, deadline, timeout, fallback, passivity, and closed-loop stability.",
+  "evidence": [
+    {
+      "locator": "Algorithms 1-2",
+      "status": "author_reported",
+      "finding": "Independent residual calibration constructs context-conditioned box or ellipsoidal uncertainty sets followed by an additional coverage adjustment."
+    },
+    {
+      "locator": "Proposition 1",
+      "status": "author_reported",
+      "finding": "The sets attain population-average coverage for a new sample from P, and coverage extends to a robustness guarantee for the corresponding robust solution."
+    },
+    {
+      "locator": "Propositions 2-3",
+      "status": "author_reported",
+      "finding": "Better prediction or calibration can reduce unnecessary conservatism in illustrative linear programs."
+    },
+    {
+      "locator": "Proposition 4",
+      "status": "author_reported",
+      "finding": "A distributionally robust contextual-LP generalization result is supplied under smoothness and boundedness assumptions."
+    },
+    {
+      "locator": "Section 5 experiments",
+      "status": "author_reported",
+      "finding": "A 60/20/20 prediction/calibration/final-adjustment split yields reported coverage close to requested risk levels and better robust objectives when prediction or calibration improves."
+    },
+    {
+      "locator": "Conclusion and target comparison",
+      "status": "reader_inference",
+      "finding": "The context-dependent set can be migrated to action-conditional contact capacity, but marginal coverage cannot be relabeled conditional and a nonlinear target robust counterpart must be derived and validated."
+    }
+  ],
+  "evidence_kind": [
+    "split residual calibration",
+    "context-conditioned uncertainty sets",
+    "robust contextual optimization",
+    "coverage proposition",
+    "optimization benchmarks"
+  ],
+  "boundary_conditions": [
+    "Source uncertainty enters an LP objective; target capacity primarily enters constraints.",
+    "No robust counterpart is derived for nonlinear contact, wrench capacity, impedance stability, energy, actuator, or gain-rate constraints.",
+    "Coverage is population-average or marginal, not conditional at every context.",
+    "Calibration assumes exchangeability or sampling from P and not arbitrary post-calibration shift.",
+    "No explicit abstention, hard deadline, timeout, deterministic fallback, passivity, or closed-loop stability is supplied."
+  ],
+  "assumptions": [
+    "Prediction and calibration splits are independent.",
+    "Calibration samples and deployment samples are exchangeable or drawn from P.",
+    "The uncertainty set admits a tractable robust optimization counterpart.",
+    "Target migration has suitable contact-capacity parameterization and held-out data."
+  ],
+  "reported_or_inferred_failures": {
+    "reported": [
+      "Individual conditional coverage is not provided and is identified as harder future work.",
+      "Poor calibration can create unnecessary conservatism."
+    ],
+    "inferred": [
+      "Directly copying the objective-side guarantee to nonlinear contact constraints is invalid.",
+      "Context-conditioned does not imply conditional coverage.",
+      "The method cannot establish update-time totality or closed-loop stability alone."
+    ]
+  },
+  "conflicts_with": [
+    "Any claim that Proposition 1 guarantees per-context conditional coverage.",
+    "Any claim that training-distribution independence means arbitrary deployment-shift robustness.",
+    "Any claim that plug-in compatibility proves tractability for contact and impedance constraints."
+  ],
+  "verification_status": "verified by configured paper_reader against Controller-supplied admitted full-text content; read event and content hash preserved",
+  "method_design_search_context": {
+    "query_plan_path": ".aris\\canonical\\impedance-control-landscape-e2e\\query-plan\\incremental-query-plan-method_design-41a081d290ac9c39d2d1ed0a967aee85d3f2cb8a2a04e052ac1f7dec6a97e209.json",
+    "query_plan_sha256": "1cac7e9d3a5a9c8fd9103ae066aef316e534bc5e22f52cba70af7e6611ecc406",
+    "root_cause_analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+    "root_cause_analysis_sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "active_field_map_sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "search_mode": "PRINCIPLE_SEARCH",
+    "actual_hit_query_ids": [
+      "Q0100",
+      "Q0105",
+      "Q0109"
+    ],
+    "mechanism_change_ids": [
+      "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+    ],
+    "capability_ids": [
+      "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+      "CAP-DEADLINE-TOTALITY"
+    ],
+    "obligation_ids": [
+      "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+      "OBL-SAME-RELATION-HARD-LIMITS"
+    ],
+    "causal_chain_ids": [
+      "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
+    ],
+    "search_dimensions": [
+      "CROSS_DOMAIN_STRUCTURAL_ISOMORPHISM"
+    ],
+    "search_steps": [
+      "DOMAIN_DISCOVERY",
+      "SOURCE_SEARCH",
+      "TERMINOLOGY_GROUNDING"
+    ],
+    "target_mechanism_signature_refs": [
+      "TMS-JOINT-FEASIBILITY"
+    ],
+    "domain_hypothesis_ids": [
+      "DH-AB-ROBUST-CONTEXTUAL-OPTIMIZATION"
+    ],
+    "terminology_map_ids": [
+      "TM-PREDICTIVE-SAFETY"
+    ],
+    "decision_targets": [
+      "DT-RECOVER-SOURCE-PAIR-JOINT-FEASIBILITY"
+    ],
+    "phase_binding_anchor": {
+      "phase": "method_design",
+      "required_inputs": {
+        "idea-stage/ACTIVE_FIELD_MAP.md": {
+          "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+          "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "producer_phase": "landscape",
+          "registered_at": "2026-08-22T04:18:43Z"
+        },
+        "idea-stage/RESEARCH_CONTRACT.md": {
+          "path": "idea-stage\\RESEARCH_CONTRACT.md",
+          "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+          "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+          "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "producer_phase": "problem_human_acceptance",
+          "registered_at": "2026-09-01T07:38:27Z"
+        },
+        "idea-stage/NECESSITY_CLOSURE.json": {
+          "path": "idea-stage\\NECESSITY_CLOSURE.json",
+          "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/NECESSITY_VERDICT.json": {
+          "path": "idea-stage\\NECESSITY_VERDICT.json",
+          "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "producer_phase": "problem_necessity",
+          "registered_at": "2026-09-01T08:10:47Z",
+          "problem_version_binding": {
+            "problem_id": "P-SOFTSCAN-STATE-01",
+            "version": 2,
+            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+          },
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T08:10:47Z",
+            "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+            "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+            }
+          }
+        },
+        "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+          "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+          "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "producer_phase": "root_cause_analysis",
+          "registered_at": "2026-09-01T08:18:49Z"
+        },
+        "idea-stage/ROOT_CAUSE_VERDICT.json": {
+          "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+          "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          "producer_phase": "root_cause_gate",
+          "registered_at": "2026-09-01T09:16:18Z",
+          "acceptance": {
+            "status": "accepted",
+            "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+            "reviewer": "gpt-5.6-sol",
+            "reviewer_family": "openai",
+            "review_independence": "independent-context",
+            "accepted_at": "2026-09-01T09:16:28Z",
+            "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+            "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+            "reviewed_artifact_bindings": {
+              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+              "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+            }
+          }
+        }
+      },
+      "lifecycle_return_event_id": null,
+      "active_problem_binding": {
+        "problem_id": "P-SOFTSCAN-STATE-01",
+        "version": 2,
+        "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+        "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+      },
+      "accepted_rca_binding": {
+        "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+        "lifecycle_return_event_id": null
+      },
+      "design_obligation_binding": {
+        "source": "method_design_query_context",
+        "mechanism_change_ids": [
+          "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+          "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+        ],
+        "capability_ids": [
+          "CAP-ACTION-RELEVANT-STATE",
+          "CAP-CALIBRATED-CAPACITY-SET",
+          "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+          "CAP-DEADLINE-TOTALITY"
+        ],
+        "obligation_ids": [
+          "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+          "OBL-HELDOUT-CAPACITY-CALIBRATION",
+          "OBL-MINIMAL-DECISION-SUFFICIENCY",
+          "OBL-SAME-RELATION-HARD-LIMITS"
+        ],
+        "principle_search_context_sha256": "0239804f7cb757668e3cda5bc3ac50f1c3fc396ecbedf76074f23b5b6d3df1ce"
+      }
+    },
+    "admission_decision_id": "admission-8844b6faf1804263b85264c7f3ab1c8f"
+  }
+}

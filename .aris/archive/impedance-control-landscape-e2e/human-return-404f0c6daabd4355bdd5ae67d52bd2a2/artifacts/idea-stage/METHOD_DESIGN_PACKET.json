@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R5-PAPER-SHAPE",
+  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R4",
   "problem_binding": {
     "problem_id": "P-SOFTSCAN-STATE-01",
     "problem_version": 2,
@@ -404,8 +404,8 @@
   "candidate_principles": [
     {
       "principle_id": "P-CAPACITY-CONDITIONED-FEASIBLE-INCUMBENT",
-      "principle_version": "3",
-      "parent_version": "2",
+      "principle_version": "2",
+      "parent_version": "1",
       "principle": "Represent continuous soft contact by a minimal calibrated action-conditional capacity state, and use it inside an anytime robust horizon program whose verified feasible incumbent is the only action that may be rendered at any deadline.",
       "origin_type": "REPRESENTATION_TRANSFORMATION",
       "origin_ref_id": "RT-CAPACITY-TO-INCUMBENT-RELATION",
@@ -426,42 +426,6 @@
         {"assumption_id": "A-BUDGET-A", "assumption": "Capacity construction and full incumbent verification fit the update budget.", "failure_consequence": "The method is not online executable."}
       ],
       "target_domain_operationalization": ["History candidates include finite contact area/local geometry, 6-D wrench, scan/slip kinematics and loading memory; nested decision-value tests decide retention.", "The learned output is an action-conditional future margin set for force/moment, slip, contact loss, energy and actuator/gain-rate limits, not a complete material model.", "The calibration/support population is the predeclared set of in-envelope post-training contact episodes and probed impedance actions; a pair is unsupported when no pre-outcome covariate-and-action neighborhood has adequate calibration mass for an applicable residual law.", "UNSUPPORTED produces the envelope-conservative margin set, and the incumbent is selected only from the admissible actions induced by that set; abstention is therefore internal to, rather than an override of, the Candidate relation.", "The horizon objective jointly scores force regulation, trajectory tracking, contact loss and slip; every hard limit acts on the same coupled impedance policy.", "Only a verified feasible policy is rendered; solver internals never become robot commands."],
-      "paper_level_method_shape": {
-        "working_title": "Decision-Calibrated Contact Capacity with Anytime Feasible-Incumbent Impedance Control",
-        "methodological_core": "The paper would expose one computational object, an action-conditional contact-capacity relation, and one online contract, verified-incumbent-only rendering. The capacity relation is not an auxiliary predictor attached to a conventional controller: it defines both the robust feasible set and the performance ranking of the normal-tangential impedance sequence. The incumbent contract is not an external safety filter: it is the only route by which an impedance command becomes applied.",
-        "state_and_decision_variables": {
-          "history_state": "At update k, h_k contains only safely observable recent contact-frame pose/velocity, normal-tangential wrench, contact-area or local-geometry descriptors, scan/slip kinematics, loading/dwell history, interaction-energy ledger and previously applied gains. A learned encoder z_k=E(h_k) is retained only up to robust impedance-decision equivalence.",
-          "impedance_action": "a_k=(k_n,k_t,d_n,d_t) parameterizes positive normal-tangential stiffness and damping in the current contact frame, with actuator-compatible magnitude and gain-rate bounds. A horizon policy A_k=(a_k,...,a_{k+H-1}) is the online decision variable.",
-          "capacity_margin": "For every pair (z_k,a), C_theta returns a horizon-indexed vector of lower confidence margins for normal-force regulation, wrench and torque headroom, friction/slip reserve, contact-retention reserve, interaction-energy/passivity budget and actuator/gain-rate feasibility. It deliberately omits reconstructive environment detail that cannot change the admissible or preferred impedance."
-        },
-        "capacity_construction": [
-          "Train E and C_theta with a combination of exact future-margin error and downstream robust impedance regret, so errors are weighted by whether they change feasible actions, gain ranking or joint outcome rather than by generic state reconstruction.",
-          "On a disjoint calibration split, convert residuals of the exact controller-consumed margin vector into one-sided action-conditional uncertainty sets for the declared episode-action population. The formal claim remains marginal over that population; no arbitrary or pointwise conditional coverage is asserted.",
-          "Before an outcome is observed, a fixed covariate-action applicability rule decides whether the calibrated residual law applies. Supported pairs use the calibrated set; unsupported in-envelope pairs use the envelope-conservative physical margin set. Both enter the same robust program."
-        ],
-        "online_decision_relation": "At update k, solve a robust receding-horizon program over A_k that minimizes the declared joint force-regulation, trajectory-tracking, contact-loss and slip objective subject to the worst-case C_theta margin set, coupled normal-tangential impedance dynamics, wrench/torque, interaction-energy, actuator and gain-rate constraints. A shifted previously verified sequence, completed by the declared conservative terminal action, is the initial incumbent. A trial sequence may replace it only after the full horizon relation verifies every hard margin for the exact sequence to be committed.",
-        "deadline_and_failure_semantics": "The controller stores the verified incumbent and its capacity/support binding atomically. At the update deadline, solver timeout, numerical failure or rejected improvement, the renderer applies only the first action of that stored incumbent. Unsupported context changes the capacity set before optimization and verification; it never triggers an after-the-fact override. Thus additional computation may improve objective value but cannot change whether an admissible action exists, conditional on the stated incumbent-initialization assumption.",
-        "paper_method_flow": [
-          "Define the contact-frame impedance dynamics, action class, joint performance objective and hard margin vector.",
-          "Derive decision-equivalent history compression and action-conditional capacity learning.",
-          "Define split calibration, support applicability and the conservative unsupported relation.",
-          "Form the capacity-conditioned robust horizon program and the full-sequence verifier.",
-          "Specify shifted initialization, atomic commit and deadline rendering as one total applied-action map.",
-          "State conditional recursive-feasibility, capacity-coverage and applied-action-identity propositions without claiming they have already been empirically established."
-        ],
-        "source_mechanism_migrations": [
-          {"source": "HUMAN-NEURIPS-2022-VES", "migration_status": "PASS_FOR_REPRESENTATION", "migrated_mechanism": "Define representational equivalence by downstream value or policy effect rather than full prediction.", "target_adaptation": "Replace Bellman-value equivalence with equality, within tolerance, of robust feasible impedance sets, gain ranking and held-out joint outcome under the declared action class.", "resulting_role": "Determines which contact-history information is retained."},
-          {"source": "HUMAN-MANSCI-2021-SPO", "migration_status": "PASS_WITH_TARGET_ADAPTATION", "migrated_mechanism": "Weight prediction error by the downstream decision regret it induces.", "target_adaptation": "Move from linear objective coefficients and a fixed feasible region to nonlinear sequential contact margins whose errors may change feasibility as well as cost.", "resulting_role": "Shapes encoder and capacity losses around impedance decisions instead of reconstruction."},
-          {"source": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "migration_status": "PARTIAL_CALIBRATION_ONLY", "migrated_mechanism": "Use disjoint prediction and residual-calibration splits to construct an optimizer-consumed uncertainty set.", "target_adaptation": "The target applies one-sided residual sets to nonlinear, action-conditional constraint margins and adds a pre-outcome support rule; these are Target hypotheses, not guarantees supplied by the Source.", "resulting_role": "Provides the calibration discipline, not joint feasibility or deadline totality."},
-          {"source": "bRrwxfzJq_QJ", "migration_status": "IMPLEMENTATION_PRECEDENT_NOT_CAUSAL_SOURCE", "migrated_mechanism": "Warm-started feasibility-driven constrained policy updates may be used as a solver realization.", "target_adaptation": "Add exact calibrated soft-contact constraints, a separately verified incumbent, atomic commit and explicit deadline return.", "resulting_role": "Potential solver component only; BOX-FDDP is not credited with interruption totality."}
-        ],
-        "claim_boundary": "The proposed method shape is conditional on useful history information, population-scoped capacity calibration, a nonempty conservative set, an initialized fully verifiable horizon incumbent and completion of capacity construction plus verification within the update budget. It does not yet claim that these conditions hold experimentally, that coverage is arbitrary-shift conditional, or that a particular numerical solver is sufficient."
-      },
-      "contributions": [
-        {"contribution_id": "C-A1", "contribution": "A decision-sufficient, action-conditional contact-capacity representation for continuous soft scanning.", "advance_over_current_field": "It changes the learning target from environment or next-state fidelity to the exact future margins that determine robust normal-tangential impedance feasibility and ranking, and retains contact history only when it changes those decisions.", "migration_account": "Migrates value-equivalent representation and decision-regret learning from VES and SPO, with Target-specific robust constrained impedance equivalence."},
-        {"contribution_id": "C-A2", "contribution": "A population-scoped calibration and support semantics for the exact nonlinear margin vector consumed by impedance optimization.", "advance_over_current_field": "It replaces unqualified point predictions with one-sided calibrated capacity sets and makes unsupported in-envelope pairs enter an internal envelope-conservative admissible set rather than an external heuristic fallback.", "migration_account": "Migrates only the split residual-calibration discipline of Predict-then-Calibrate; nonlinear constraint-side action conditioning and support-aware conservative replacement are explicit Target adaptations still requiring later validation."},
-        {"contribution_id": "C-A3", "contribution": "An anytime robust impedance relation in which only a fully verified feasible incumbent may become the applied command.", "advance_over_current_field": "It couples joint performance and all hard limits on the same gain sequence while making timeout and solver failure affect achieved cost, not the identity or declared feasibility of the rendered action.", "migration_account": "Derived from the accepted update-time totality RMC and the capacity-to-incumbent representation transformation. BOX-FDDP supplies a possible warm-started solver precedent but is not claimed as the Source of the incumbent or deadline contract."}
-      ],
       "target_intervention_novelty": {
         "novelty_closure_id": "NOV-CCFI-R3",
         "nearest_target_prior_evidence_refs": ["U1Trzk-2GRIJ", "ctEq_owme9kJ", "xlNjdqnC2fMJ", "4tr9C5LNwYwJ"],
@@ -486,12 +450,12 @@
       ],
       "evidence_refs": ["HUMAN-NEURIPS-2022-VES", "HUMAN-MANSCI-2021-SPO", "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "bRrwxfzJq_QJ", "U1Trzk-2GRIJ", "ctEq_owme9kJ", "xlNjdqnC2fMJ", "4tr9C5LNwYwJ"],
       "status": "ACTIVE",
-      "status_rationale": "R5 preserves the R4-reviewed Principle while developing a paper-level method shape: explicit contact-history, impedance-action and margin objects; decision-focused capacity learning; population-scoped calibration/support semantics; one robust horizon relation; and verified-incumbent-only deadline rendering. Source migrations and non-migrations are separated so algorithmic maturity does not create a false genealogy."
+      "status_rationale": "R4 closes both accepted causal chains with one shared, population-scoped capacity relation and incumbent-based totality; Source services are evidence-bounded and the history delta is now killed by calibrated memoryless equivalence."
     },
     {
       "principle_id": "P-CAPACITY-CONDITIONED-VIABILITY-RELATION",
-      "principle_version": "3",
-      "parent_version": "2",
+      "principle_version": "2",
+      "parent_version": "1",
       "principle": "Represent continuous soft contact by a minimal calibrated action-conditional capacity state, and let it parameterize one viability-certified admissible impedance relation containing both the performance-selected action and a directly evaluable certified backup.",
       "origin_type": "REPRESENTATION_TRANSFORMATION",
       "origin_ref_id": "RT-CAPACITY-TO-VIABILITY-RELATION",
@@ -512,43 +476,6 @@
         {"assumption_id": "A-BUDGET-B", "assumption": "Certificate and backup evaluation fit the update budget.", "failure_consequence": "Deadline totality fails."}
       ],
       "target_domain_operationalization": ["Use the same nested history and action-conditional future-margin set as the incumbent candidate.", "The calibration/support population is the predeclared set of in-envelope post-training contact episodes and probed impedance actions; a pair is unsupported when no pre-outcome covariate-and-action neighborhood has adequate calibration mass for an applicable residual law.", "UNSUPPORTED produces the envelope-conservative margin set, which parameterizes the same certified admissible set containing the backup action; abstention never invokes an external supervisor.", "The augmented certificate state includes contact/support state, interaction-energy budget and previous gains so passivity/energy and gain-rate limits are not downstream corrections.", "The certified action set contains coupled normal-tangential stiffness/damping satisfying wrench, capacity, energy and actuator margins.", "The performance optimizer and backup policy select only members of that set; there is no independently optimized nominal gain to override."],
-      "paper_level_method_shape": {
-        "working_title": "Decision-Calibrated Contact Capacity as a Viability Relation for Deadline-Total Impedance Control",
-        "methodological_core": "The paper would expose one capacity-conditioned viability relation rather than a learned nominal controller followed by a safety filter. The same relation defines which normal-tangential impedances are admissible, which member minimizes joint performance loss and which directly evaluable member is returned when performance optimization is unavailable. The certificate is therefore part of action definition, not a downstream correction.",
-        "state_and_decision_variables": {
-          "history_state": "At update k, h_k and z_k=E(h_k) have the same decision-sufficient meaning as in Candidate A: safely observable contact-frame motion, wrench, local geometry/contact extent, slip/loading history, energy ledger and previous gains are retained only when they change the viable impedance relation.",
-          "augmented_viability_state": "s_k=(x_k,z_k,e_k,a_{k-1}) combines measured robot/contact state x_k, decision-sufficient capacity state z_k, remaining interaction-energy or passivity budget e_k and the previously applied gain vector a_{k-1}.",
-          "impedance_action": "a_k=(k_n,k_t,d_n,d_t) is restricted to a low-dimensional positive normal-tangential contact-frame parameterization with magnitude and rate bounds. This restriction is a necessary Target adaptation that keeps the certified set and backup selector online-evaluable rather than an arbitrary architectural simplification.",
-          "capacity_margin": "C_theta(z_k,a_k) returns the same calibrated lower margin set for force/wrench, friction/slip, contact retention, energy and actuator feasibility; it parameterizes the certificate rather than a separate prediction display."
-        },
-        "capacity_construction": [
-          "Use VES-style decision equivalence and SPO-style downstream regret to train E and C_theta for viable-set and impedance-decision fidelity rather than complete environment reconstruction.",
-          "Use a disjoint residual-calibration split to form one-sided sets for the exact certificate-consumed margin vector on the declared episode-action population.",
-          "Apply the pre-outcome support rule before certificate evaluation. Unsupported in-envelope pairs use the envelope-conservative margin set, so abstention changes the parameters of the same viability relation and never switches to an unrelated supervisor."
-        ],
-        "online_decision_relation": "Define V_cap as the set of augmented states from which at least one bounded normal-tangential impedance keeps every worst-case capacity, wrench/torque, slip/contact, energy and gain-rate margin nonnegative under the declared update relation. At state s_k, A_v(s_k) contains exactly the actions whose calibrated worst-case successor remains in V_cap and satisfies the current hard margins. The performance selector minimizes the joint force, trajectory, contact-loss and slip objective over A_v(s_k). A second selector, derived from the same low-dimensional set, returns the member maximizing the minimum certified margin with minimum gain change; it is the internal backup, not an independently designed controller.",
-        "deadline_and_failure_semantics": "The backup selector is evaluated before or independently of the interruptible performance search and is stored with the exact capacity/support binding. If a performance solution is unavailable, incomplete or not a member of A_v(s_k) at the deadline, the stored backup member is rendered. The deadline map therefore always selects from the same certified relation, conditional on nonemptiness and timely backup evaluation; it never generates a nominal action outside the set and then projects or overrides it.",
-        "paper_method_flow": [
-          "Define the contact-frame impedance action class, augmented contact-energy-gain state and joint hard margin vector.",
-          "Derive decision-sufficient action-capacity learning, calibration and support-aware conservative replacement.",
-          "Construct the capacity-conditioned robust viability or barrier relation and state its conditional invariance semantics.",
-          "Derive the low-dimensional admissible impedance set A_v, the performance selector and the same-set maximum-margin backup selector.",
-          "Specify deadline rendering as a total selector over A_v, including unsupported context and interrupted optimization.",
-          "State nonemptiness, conditional invariance, coverage and applied-action-membership propositions without representing later empirical validation as completed."
-        ],
-        "source_mechanism_migrations": [
-          {"source": "HUMAN-NEURIPS-2022-VES", "migration_status": "PASS_FOR_REPRESENTATION", "migrated_mechanism": "Define representation quality by downstream value or policy effect.", "target_adaptation": "Use equality of capacity-conditioned viable sets, selected impedances and joint outcomes as the Target distortion.", "resulting_role": "Determines the smallest history state required by the certificate and decision relation."},
-          {"source": "HUMAN-MANSCI-2021-SPO", "migration_status": "PASS_WITH_TARGET_ADAPTATION", "migrated_mechanism": "Train predictions against induced decision regret.", "target_adaptation": "Extend the loss from linear objective decisions to changes in nonlinear viability-set membership, backup availability and robust impedance outcome.", "resulting_role": "Prevents representation capacity from being spent on contact detail irrelevant to viable impedance choice."},
-          {"source": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "migration_status": "PARTIAL_CALIBRATION_ONLY", "migrated_mechanism": "Use independent residual calibration to produce an optimizer-consumed uncertainty set.", "target_adaptation": "Apply one-sided sets to nonlinear action-conditional certificate margins and add support-aware conservative replacement; the Source does not prove invariance, hard-limit coupling or deadline totality.", "resulting_role": "Supplies calibration discipline only."},
-          {"source": "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK and ctEq_owme9kJ", "migration_status": "FORMAL_BASIS_AND_NEGATIVE_BOUNDARY_NOT_FULL_PASS_SOURCE", "migrated_mechanism": "Controlled-invariant sets and predictive barrier inequalities show how an admissible-action relation can preserve a modeled set.", "target_adaptation": "Move the capacity state, energy ledger, previous gains and all hard margins into the certificate, and generate both performance and backup actions inside the same relation. This deliberately rejects the Source pattern of an independent nominal action followed by override.", "resulting_role": "Supports the first-principles certificate derivation but is not misreported as an intervention-level Source for the full Target relation."}
-        ],
-        "claim_boundary": "The proposed method shape is conditional on useful history information, population-scoped margin calibration, a nonempty and nonvacuous capacity-conditioned viability set, validity of the augmented-state transition/certificate model and timely direct backup evaluation. It does not yet claim empirical invariance, unconditional safety, arbitrary-shift coverage, real-time scalability or superiority to the feasible-incumbent alternative."
-      },
-      "contributions": [
-        {"contribution_id": "C-B1", "contribution": "A decision-sufficient, action-conditional contact-capacity state whose fidelity is defined by the viable normal-tangential impedance decisions it preserves.", "advance_over_current_field": "It replaces full environment identification and memoryless gain tuning with the smallest history representation that preserves calibrated hard-margin and joint-outcome decisions under contact-history aliases.", "migration_account": "Migrates VES decision equivalence and SPO decision-regret learning, with viability-set membership and robust impedance outcome as the Target decision objects."},
-        {"contribution_id": "C-B2", "contribution": "A support-aware one-sided calibration semantics for the nonlinear capacity margins used by an impedance certificate.", "advance_over_current_field": "It makes unsupported in-envelope context-action pairs parameterize an internal envelope-conservative certified set instead of silently extrapolating or invoking an external guard.", "migration_account": "Migrates Predict-then-Calibrate data splitting and residual-set construction only; constraint-side action conditioning, support detection and certificate coupling are Target adaptations whose validity remains to be tested."},
-        {"contribution_id": "C-B3", "contribution": "A single capacity-conditioned viability relation containing both the joint-performance impedance and a deadline-ready backup impedance.", "advance_over_current_field": "It removes the causal separation between nominal gain selection and safety correction: force/trajectory performance, contact/slip, wrench, energy, actuator, gain-rate and computation availability all determine membership in the same applied-action set.", "migration_account": "Derived from the accepted total-feasibility RMC using controlled-invariance and predictive-barrier mathematics as formal basis. The HJ supervisor and SCBF-MPC papers are explicitly not claimed as full Source migrations because their nominal/override architecture and Target coverage differ."}
-      ],
       "target_intervention_novelty": {
         "novelty_closure_id": "NOV-CCVR-R3",
         "nearest_target_prior_evidence_refs": ["U1Trzk-2GRIJ", "ctEq_owme9kJ", "xlNjdqnC2fMJ", "4tr9C5LNwYwJ"],
@@ -573,9 +500,9 @@
       ],
       "evidence_refs": ["HUMAN-NEURIPS-2022-VES", "HUMAN-MANSCI-2021-SPO", "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK", "U1Trzk-2GRIJ", "ctEq_owme9kJ", "xlNjdqnC2fMJ", "4tr9C5LNwYwJ"],
       "status": "ACTIVE",
-      "status_rationale": "R5 preserves the R4-reviewed Principle while developing a paper-level method shape: explicit augmented contact-capacity-energy-gain state; one calibrated viability relation; same-set performance and backup selectors; and deadline-total rendering. The low-dimensional normal-tangential action class is a Target real-time necessity, while HJ/SCBF evidence is kept as formal basis and negative boundary rather than falsely promoted to a full Source migration."
+      "status_rationale": "R4 closes both accepted causal chains with one shared, population-scoped capacity relation and certificate-based totality; Source services are evidence-bounded and the history delta is now killed by calibrated memoryless equivalence."
     }
   ],
-  "relevant_history_refs": ["principle-33e1bc20ff5e418598970edea6e82a77", "principle-034a5c67b88c49fb9a7fedf862b52583", "principle-aeea38b719134df1bf5704ed937f3ebc", "principle-71a6b8a53cd7401d8d9bedb0cc7c9af2", "principle-92057ecb8aef4edd9b45c209d2b0686f"],
-  "return_feedback_refs": ["return-2161408c494444c6a7cbdb50af83ed83", "return-9385b864d4a94f31aa211a726be3ff49", "human-return-404f0c6daabd4355bdd5ae67d52bd2a2"]
+  "relevant_history_refs": ["principle-33e1bc20ff5e418598970edea6e82a77", "principle-034a5c67b88c49fb9a7fedf862b52583", "principle-aeea38b719134df1bf5704ed937f3ebc"],
+  "return_feedback_refs": ["return-2161408c494444c6a7cbdb50af83ed83", "return-9385b864d4a94f31aa211a726be3ff49"]
 }
