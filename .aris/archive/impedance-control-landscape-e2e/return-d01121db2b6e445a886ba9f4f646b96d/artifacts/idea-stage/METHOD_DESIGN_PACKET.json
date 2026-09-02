@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R14-FULL-ENVELOPE-AUTHORITY",
+  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R13-COMPLETE-P-L-H",
   "problem_binding": {
     "problem_id": "P-SOFTSCAN-STATE-01",
     "problem_version": 2,
@@ -636,8 +636,8 @@
   "candidate_principles": [
     {
       "principle_id": "P-HEREDITARY-CONTACT-CAPACITY-TOTAL-IMPEDANCE",
-      "principle_version": 4,
-      "parent_version": 3,
+      "principle_version": 3,
+      "parent_version": 2,
       "principle": "A bounded hereditary finite-area normal-tangential contact-capacity set, governed by explicit calibration authority, is updated from scan history and consumed by one robust, energy-aware, deadline-total four-gain impedance relation.",
       "origin_type": "REPRESENTATION_TRANSFORMATION",
       "origin_ref_id": "RT-R11-PHYSICAL",
@@ -715,7 +715,7 @@
       "target_domain_operationalization": [
         "Use the lowest-order nonnegative generalized-Maxwell/Prony normal bank that passes held-out action equivalence, a finite-area indentation/curvature proxy and a LuGre-type bounded pre-slip state with load-dependent tangential-force and torsional-moment limit surface.",
         "Propagate an independently valid offline physical envelope; intersect a fixed-facet containing set with wrench/kinematic consistency strips and bounded drift; use a conservative outer approximation. Set containment is the method need, while projected EW-RLS is only a real-time center/update realization and set-MHE/multiple-model is the strongest estimator rival.",
-        "Hard-authority invariant: the independently calibrated full-envelope object constrains every hard margin in every SCAN cycle, including SUPPORTED and the undetected interval after an abrupt admitted change. A contracted online set may shape nominal cost and may add constraints, but can never remove, reduce or relax any full-envelope constraint. ADAPTING_IN_ENVELOPE drops contraction-derived performance authority while retaining full-envelope hard authority; OUTSIDE_ENVELOPE permits only WITHDRAW. Hence safety does not depend on alarm latency; online adaptation recovers ranking and reduces optional conservatism only inside the full-envelope hard-feasible set.",
+        "Hard authority has three states: SUPPORTED uses a contracted set only after containment and action-order re-entry certification; any alarm, expansion or unresolved in-envelope inconsistency enters ADAPTING_IN_ENVELOPE before publication and immediately restores the independently calibrated full-envelope set for hard constraints; observations outside that envelope/support enter OUTSIDE_ENVELOPE and permit only WITHDRAW. Scanning during adaptation is allowed only if robustly feasible for the full envelope, so a stale contraction can never relax a margin.",
         "Select a_i=(log k_n,log d_n,log k_t,log d_t) over a short receding horizon, with positivity and rate limits. Four scan-frame diagonal gains are the concrete minimal action class; richer SPD/cross-axis impedance is a falsifying rival.",
         "For every authorized outcome-set member constrain six-axis wrench, finite-area contact/slip/moment capacity, contact retention, actuator/joint/gain limits and a discrete interaction-energy budget including bounded reference, delay and inner-loop work; jointly penalize normal-force error, tangential path error, contact-loss/slip risk and gain variation.",
         "Before optional optimization verify a registered withdrawal that stops tangential motion, selects dissipative rate-limited gains and unloads along the last trusted normal. Publish atomically only a fully checked scan action before deadline, otherwise WITHDRAW. RTI-SQP, fixed horizon/facets and estimator numerics are WCET-qualified realizations, not scientific necessity claims."
@@ -753,7 +753,7 @@
             "query_id": "Q0168"
           }
         ],
-        "uncovered_residual_delta": "[imoj6X2imAgJ] Prior variable/effect: a learned interaction-dynamics point model upstream of MPVIC changes predicted interaction under unknown dynamics. R13-P instead changes the hard-authority object to a hereditary finite-area containing physical capacity set at the representation-to-constraint interface; activation is decision-changing relaxation/pre-slip/geometry history; residual delta is containment plus full-envelope-authorized four-gain total action. [xlNjdqnC2fMJ] Prior variable/effect: online soft-environment estimates and passivity/safety constraints modify MPVIC under unknown disturbance. R13-P changes scalar/environment estimates to a history-bearing finite-area capacity set and makes full-envelope hard authority invariant through the applied action; activation is admitted calibration-out contact; residual delta is normal-tangential force/moment capacity and deadline-total realization. [j4KJ1EdUyYAJ] Prior variable/effect: a scalar identified contact/environment relation feeds optimal impedance for unknown terrain. R13-P moves from scalar trial/point identification to online hereditary finite-area set-valued capacity before gain feasibility; activation is material/geometry/sliding/history aliasing; residual delta is coupled four-gain robust selection with energy/actuator/deadline constraints. [ZDySGaNsMn8J] Prior variable/effect: finite-area deformable-contact prediction enters MPC while impedance remains predefined. R13-P changes the decision variable itself to online normal/tangential impedance and adapts the containing contact state during scanning; activation is when finite-area capacity changes feasible gains; residual delta is adaptive gain authorization and total publication.",
+        "uncovered_residual_delta": "Closest physical, learned, adaptive/passivity and finite-area MPC priors cover pieces, but not an online hereditary finite-area containing capacity set under three-state authority inside the same deadline-total four-gain relation.",
         "mechanism_delta": "Replace scalar/preidentified contact prediction by an authorized hereditary finite-area set consumed by one total constrained action.",
         "scientific_delta": "Test whether the strongest-simple interpretable physical family suffices for calibration-out joint force/path/contact decisions.",
         "disposition": "RESTRUCTURED_DELTA"
@@ -782,11 +782,11 @@
           ],
           "observable": "containment, contraction/action recovery and WCET after abrupt in-envelope change",
           "pattern_a": "chosen bounded update recovers a useful containing set without stale-margin relaxation",
-          "rival_type": "PRINCIPLE",
-          "rival_id": "P-BOUNDED-SET-MHE-ADAPTATION-RIVAL",
-          "pattern_b": "A bounded set-MHE or multiple-model update operating under the same full-envelope hard-authority invariant achieves equal-or-better containment, action recovery and WCET.",
-          "activation_condition": "Abrupt and gradual admitted in-envelope changes, evaluated from the pre-detection cycle through recontraction",
-          "killer_criterion": "Replace fixed-facet membership if the registered set-MHE rival dominates containment, action recovery or WCET without weakening the full-envelope invariant.",
+          "rival_type": "RIVAL_RCA",
+          "rival_id": "ALT-CONSERVATIVE-FIXED-GAIN-SAFETY",
+          "pattern_b": "set-MHE or multiple-model adaptation is equal or better",
+          "activation_condition": "Declared continuous soft-contact scanning envelope",
+          "killer_criterion": "Replace the chosen update if the rival matches or improves containment and action recovery at no greater WCET.",
           "cheapest_informative_rationale": "Counterfactual replay and shadow robust optimization on identical recorded transitions precede new hardware trials."
         },
         {
@@ -845,12 +845,12 @@
         "xlNjdqnC2fMJ"
       ],
       "status": "REVISED",
-      "status_rationale": "Complete strongest-simple physical Method, prioritized but not unique until P/L/H representation killers resolve family sufficiency. R14 makes the full envelope invariant for all hard margins and binds adaptation to a formal set-MHE rival."
+      "status_rationale": "Complete strongest-simple physical Method, prioritized but not unique until P/L/H representation killers resolve family sufficiency."
     },
     {
       "principle_id": "P-STRUCTURED-LEARNED-DECISION-OUTCOME-TOTAL-ACTION",
-      "principle_version": 3,
-      "parent_version": 2,
+      "principle_version": 2,
+      "parent_version": 1,
       "principle": "A structurally constrained causal temporal outcome tube, with bounded support-authorized adaptation, drives one robust, energy-aware, deadline-total four-gain impedance relation.",
       "origin_type": "REPRESENTATION_TRANSFORMATION",
       "origin_ref_id": "RT-R11-LEARNED",
@@ -917,7 +917,7 @@
       "target_domain_operationalization": [
         "Use a dilated causal TCN with fixed history window as the concrete default because it evaluates the full window in parallel under fixed WCET. Inputs are pose/twist, six-axis wrench, normal/curvature proxy, reference and applied gains; outputs are candidate-action-conditioned multistep wrench, contact/slip/moment, energy and actuator margins. Hard layers enforce no-contact zero wrench, compressive support, dissipative budget and coupled finite-area capacity. Train with multistep fit plus robust impedance decision regret and simultaneous one-sided margin loss; GRU/state-space replaces TCN only if action-equivalence/WCET Evidence dominates.",
         "Offline split calibration yields the full-envelope simultaneous outcome tube. Online adaptation is restricted to a bounded affine last layer and low-dimensional bias set updated by fixed-facet membership; center affects cost, every authorized member constrains actions. Set-MHE/multiple-model remains a rival.",
-        "Hard-authority invariant: the independently calibrated full-envelope object constrains every hard margin in every SCAN cycle, including SUPPORTED and the undetected interval after an abrupt admitted change. A contracted online set may shape nominal cost and may add constraints, but can never remove, reduce or relax any full-envelope constraint. ADAPTING_IN_ENVELOPE drops contraction-derived performance authority while retaining full-envelope hard authority; OUTSIDE_ENVELOPE permits only WITHDRAW. Hence safety does not depend on alarm latency; online adaptation recovers ranking and reduces optional conservatism only inside the full-envelope hard-feasible set.",
+        "Hard authority has three states: SUPPORTED uses a contracted set only after containment and action-order re-entry certification; any alarm, expansion or unresolved in-envelope inconsistency enters ADAPTING_IN_ENVELOPE before publication and immediately restores the independently calibrated full-envelope set for hard constraints; observations outside that envelope/support enter OUTSIDE_ENVELOPE and permit only WITHDRAW. Scanning during adaptation is allowed only if robustly feasible for the full envelope, so a stale contraction can never relax a margin.",
         "Select a_i=(log k_n,log d_n,log k_t,log d_t) over a short receding horizon, with positivity and rate limits. Four scan-frame diagonal gains are the concrete minimal action class; richer SPD/cross-axis impedance is a falsifying rival.",
         "For every authorized outcome-set member constrain six-axis wrench, finite-area contact/slip/moment capacity, contact retention, actuator/joint/gain limits and a discrete interaction-energy budget including bounded reference, delay and inner-loop work; jointly penalize normal-force error, tangential path error, contact-loss/slip risk and gain variation.",
         "Before optional optimization verify a registered withdrawal that stops tangential motion, selects dissipative rate-limited gains and unloads along the last trusted normal. Publish atomically only a fully checked scan action before deadline, otherwise WITHDRAW. RTI-SQP, fixed horizon/facets and estimator numerics are WCET-qualified realizations, not scientific necessity claims."
@@ -955,7 +955,7 @@
             "query_id": "Q0168"
           }
         ],
-        "uncovered_residual_delta": "[imoj6X2imAgJ] Prior variable/effect: learned interaction dynamics provide a point predictor before MPVIC. R13-L changes that variable to an action-conditional simultaneous outcome tube trained for robust action/margin equivalence; activation is history-dependent model mismatch; residual delta is calibrated hard authority, bounded in-contact adaptation and deadline-total applied action. [xlNjdqnC2fMJ] Prior variable/effect: online environment estimation plus passivity/safety modifies MPVIC. R13-L replaces named/point environment estimation with a structure-constrained causal normal-tangential outcome tube at the constraint-authority interface; activation is calibration-out history/support shift; residual delta is simultaneous coverage and full-envelope invariant authority. [j4KJ1EdUyYAJ] Prior variable/effect: scalar contact identification feeds optimal impedance. R13-L removes the scalar constitutive bottleneck and learns the minimum causal statistic that changes robust gain order; activation is nonparametric material/geometry/friction/history interaction; residual delta is multistep tube-authorized four-gain constrained selection. [ZDySGaNsMn8J] Prior variable/effect: finite-area model predicts contact for MPC with predefined impedance. R13-L learns finite-area wrench/contact/slip/moment outcomes conditioned on candidate impedance and optimizes that impedance; activation is action-dependent capacity uncertainty; residual delta is online tube adaptation and total action.",
+        "uncovered_residual_delta": "Learned MPVIC precedes MPC, but current Evidence does not cover a decision-trained causal normal-tangential outcome tube with simultaneous hard-margin calibration, support-authorized adaptation and deadline-total scan/withdrawal.",
         "mechanism_delta": "Replace generic point learned dynamics by a structure-constrained, decision-sufficient simultaneous outcome tube that alone authorizes applied gain.",
         "scientific_delta": "Test learned temporal outcome sufficiency without treating neural extrapolation as authority.",
         "disposition": "RESTRUCTURED_DELTA"
@@ -985,11 +985,11 @@
           ],
           "observable": "containment, contraction/action recovery and WCET after abrupt in-envelope change",
           "pattern_a": "chosen bounded update recovers a useful containing set without stale-margin relaxation",
-          "rival_type": "PRINCIPLE",
-          "rival_id": "P-BOUNDED-SET-MHE-ADAPTATION-RIVAL",
-          "pattern_b": "A bounded set-MHE or multiple-model update operating under the same full-envelope hard-authority invariant achieves equal-or-better containment, action recovery and WCET.",
-          "activation_condition": "Abrupt and gradual admitted in-envelope changes, evaluated from the pre-detection cycle through recontraction",
-          "killer_criterion": "Replace fixed-facet membership if the registered set-MHE rival dominates containment, action recovery or WCET without weakening the full-envelope invariant.",
+          "rival_type": "RIVAL_RCA",
+          "rival_id": "ALT-CONSERVATIVE-FIXED-GAIN-SAFETY",
+          "pattern_b": "set-MHE or multiple-model adaptation is equal or better",
+          "activation_condition": "Declared continuous soft-contact scanning envelope",
+          "killer_criterion": "Replace the chosen update if the rival matches or improves containment and action recovery at no greater WCET.",
           "cheapest_informative_rationale": "Counterfactual replay and shadow robust optimization on identical recorded transitions precede new hardware trials."
         },
         {
@@ -1048,7 +1048,7 @@
         "bRrwxfzJq_QJ"
       ],
       "status": "REVISED",
-      "status_rationale": "Complete learned Method: TCN is a concrete WCET default, while the scientific claim is structured decision-sufficient outcome learning with calibrated authority. R14 makes the full envelope invariant for all hard margins and binds adaptation to a formal set-MHE rival.",
+      "status_rationale": "Complete learned Method: TCN is a concrete WCET default, while the scientific claim is structured decision-sufficient outcome learning with calibrated authority.",
       "origin_chain_refs": [
         "RT-R11-LEARNED",
         "FP-R11-DECISION-OUTCOME",
@@ -1059,8 +1059,8 @@
     },
     {
       "principle_id": "P-HYBRID-DECISION-OUTCOME-TOTAL-ACTION",
-      "principle_version": 3,
-      "parent_version": 2,
+      "principle_version": 2,
+      "parent_version": 1,
       "principle": "A hereditary finite-area physical capacity set plus a bounded causal decision-residual tube, under common calibration authority, drives one robust, energy-aware, deadline-total four-gain relation.",
       "origin_type": "REPRESENTATION_TRANSFORMATION",
       "origin_ref_id": "RT-R11-HYBRID",
@@ -1126,7 +1126,7 @@
       "target_domain_operationalization": [
         "Use P's lowest-order generalized-Maxwell/finite-area LuGre skeleton. Train a zero-centered causal TCN only on residual multistep wrench, contact/slip/moment, energy and actuator margins; penalize residual size and decision regret and collapse exactly to P when residual action effect is below tolerance.",
         "Maintain bounded physical and affine residual sets and propagate their dependence through shared scenario/support indices, not naive independent interval addition. Full physical-plus-residual envelope governs ADAPTING_IN_ENVELOPE. The concrete fixed-facet joint update competes with set-MHE/multiple-model.",
-        "Hard-authority invariant: the independently calibrated full-envelope object constrains every hard margin in every SCAN cycle, including SUPPORTED and the undetected interval after an abrupt admitted change. A contracted online set may shape nominal cost and may add constraints, but can never remove, reduce or relax any full-envelope constraint. ADAPTING_IN_ENVELOPE drops contraction-derived performance authority while retaining full-envelope hard authority; OUTSIDE_ENVELOPE permits only WITHDRAW. Hence safety does not depend on alarm latency; online adaptation recovers ranking and reduces optional conservatism only inside the full-envelope hard-feasible set.",
+        "Hard authority has three states: SUPPORTED uses a contracted set only after containment and action-order re-entry certification; any alarm, expansion or unresolved in-envelope inconsistency enters ADAPTING_IN_ENVELOPE before publication and immediately restores the independently calibrated full-envelope set for hard constraints; observations outside that envelope/support enter OUTSIDE_ENVELOPE and permit only WITHDRAW. Scanning during adaptation is allowed only if robustly feasible for the full envelope, so a stale contraction can never relax a margin.",
         "Select a_i=(log k_n,log d_n,log k_t,log d_t) over a short receding horizon, with positivity and rate limits. Four scan-frame diagonal gains are the concrete minimal action class; richer SPD/cross-axis impedance is a falsifying rival.",
         "For every authorized outcome-set member constrain six-axis wrench, finite-area contact/slip/moment capacity, contact retention, actuator/joint/gain limits and a discrete interaction-energy budget including bounded reference, delay and inner-loop work; jointly penalize normal-force error, tangential path error, contact-loss/slip risk and gain variation.",
         "Before optional optimization verify a registered withdrawal that stops tangential motion, selects dissipative rate-limited gains and unloads along the last trusted normal. Publish atomically only a fully checked scan action before deadline, otherwise WITHDRAW. RTI-SQP, fixed horizon/facets and estimator numerics are WCET-qualified realizations, not scientific necessity claims."
@@ -1164,7 +1164,7 @@
             "query_id": "Q0168"
           }
         ],
-        "uncovered_residual_delta": "[imoj6X2imAgJ] Prior variable/effect: a learned interaction model drives MPVIC. R13-H restricts learning to the zero-collapsible decision residual of a hereditary finite-area skeleton and calibrates the dependent sum; activation is persistent action-changing physical-model residual; residual delta is complementarity-tested hard authority and total action. [xlNjdqnC2fMJ] Prior variable/effect: online environment estimation and passivity/safety constrain MPVIC. R13-H jointly adapts physical capacity and bounded residual outcomes while the full composed envelope remains hard-authoritative; activation is admitted change with physical bias; residual delta is dependent uncertainty composition and strict P/L complementarity. [j4KJ1EdUyYAJ] Prior variable/effect: scalar identified contact feeds optimal impedance. R13-H replaces it with hereditary finite-area physics plus only the missing decision residual before robust four-gain choice; activation is aliased history plus model-form error; residual delta is zero-collapse, joint calibration and total constraints. [ZDySGaNsMn8J] Prior variable/effect: finite-area contact MPC retains predefined impedance. R13-H uses finite-area physics as a skeleton, corrects action-relevant outcome bias, and makes impedance the constrained decision; activation is residual-dependent change in feasible gain; residual delta is adaptive composed-set authorization and deadline-total rendering.",
+        "uncovered_residual_delta": "Current closest priors do not cover a zero-collapsible hereditary physical skeleton plus jointly calibrated decision-residual tube with hard authority in one total action.",
         "mechanism_delta": "Restrict learning to persistent action-changing physical residual and authorize only the calibrated composed set.",
         "scientific_delta": "Establish the complementarity regime between physical sufficiency and learned flexibility.",
         "disposition": "RESTRUCTURED_DELTA"
@@ -1194,11 +1194,11 @@
           ],
           "observable": "containment, contraction/action recovery and WCET after abrupt in-envelope change",
           "pattern_a": "chosen bounded update recovers a useful containing set without stale-margin relaxation",
-          "rival_type": "PRINCIPLE",
-          "rival_id": "P-BOUNDED-SET-MHE-ADAPTATION-RIVAL",
-          "pattern_b": "A bounded set-MHE or multiple-model update operating under the same full-envelope hard-authority invariant achieves equal-or-better containment, action recovery and WCET.",
-          "activation_condition": "Abrupt and gradual admitted in-envelope changes, evaluated from the pre-detection cycle through recontraction",
-          "killer_criterion": "Replace fixed-facet membership if the registered set-MHE rival dominates containment, action recovery or WCET without weakening the full-envelope invariant.",
+          "rival_type": "RIVAL_RCA",
+          "rival_id": "ALT-CONSERVATIVE-FIXED-GAIN-SAFETY",
+          "pattern_b": "set-MHE or multiple-model adaptation is equal or better",
+          "activation_condition": "Declared continuous soft-contact scanning envelope",
+          "killer_criterion": "Replace the chosen update if the rival matches or improves containment and action recovery at no greater WCET.",
           "cheapest_informative_rationale": "Counterfactual replay and shadow robust optimization on identical recorded transitions precede new hardware trials."
         },
         {
@@ -1258,7 +1258,7 @@
         "bRrwxfzJq_QJ"
       ],
       "status": "REVISED",
-      "status_rationale": "Complete hybrid Method with zero-collapse and strict complementarity; reject it if P suffices or the physical skeleton has no support/data value. R14 makes the full envelope invariant for all hard margins and binds adaptation to a formal set-MHE rival.",
+      "status_rationale": "Complete hybrid Method with zero-collapse and strict complementarity; reject it if P suffices or the physical skeleton has no support/data value.",
       "origin_chain_refs": [
         "RT-R11-PHYSICAL",
         "RT-R11-HYBRID",
@@ -1267,153 +1267,6 @@
         "FP-R11-TOTAL-RELATION"
       ],
       "origin_chain_rationale": "The physical skeleton and residual restriction are separate Target transformations; VES/SPO scope retained residual information by action effect. Hybrid necessity is not imported from a Source and must satisfy the explicit complementarity killer."
-    },
-    {
-      "principle_id": "P-BOUNDED-SET-MHE-ADAPTATION-RIVAL",
-      "principle_version": 1,
-      "parent_version": null,
-      "principle": "A bounded-horizon set-membership moving-horizon estimator maintains the candidate-specific authorized uncertainty object, while the same full-envelope-invariant robust four-gain SCAN/WITHDRAW relation determines action.",
-      "origin_type": "REPRESENTATION_TRANSFORMATION",
-      "origin_ref_id": "RT-R11-TOTAL-ACTION",
-      "origin_chain_refs": [
-        "RT-R11-PHYSICAL",
-        "FP-R11-DECISION-OUTCOME",
-        "RT-R11-TOTAL-ACTION",
-        "FP-R11-TOTAL-RELATION"
-      ],
-      "origin_chain_rationale": "The physical representation and total-action interventions have separate Target derivations. VES and SPO are Evidence-informed Target derivations for action-equivalence scoping and decision-aware loss; no formal Source transfer is claimed.",
-      "alignment_ref_id": null,
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET",
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION",
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "activation_conditions": [
-        "The true contact remains inside the declared finite-area hereditary/pre-slip envelope but can leave the calibration population.",
-        "Relaxation, contact area or tangential pre-slip changes a current four-gain decision.",
-        "At least one wrench, contact, interaction-energy, actuator, gain-rate or deadline margin can become active."
-      ],
-      "intervention": "Replace the fixed-facet one-step intersection/update with bounded set-MHE over a finite observation window, jointly estimating contact state and parameters while preserving the identical independently calibrated full-envelope hard-authority invariant.",
-      "changed_structure": "Only the online contraction estimator changes; representation, hard full-envelope constraints, robust gain action, energy state and total publication remain identical.",
-      "root_cause_resolution_rationale": "Set-MHE is a credible bounded-adaptation rival because windowed state/parameter consistency can improve contraction under latent contact memory, but it does not repair an additional accepted RMC beyond the simpler fixed-facet update.",
-      "failure_conditions": [
-        "The best bounded physical family leaves a persistent action-changing residual under admitted contacts.",
-        "A calibrated memoryless finite-area law is action-equivalent.",
-        "The parameter set cannot contract before the changed decision is needed.",
-        "Four diagonal contact-frame gains are dominated by a richer action class under matched constraints.",
-        "Energy accounting or withdrawal feasibility is not containing in the admitted envelope.",
-        "Nonoptional update and publication exceed the reserved deadline."
-      ],
-      "fatal_assumptions": [
-        {
-          "assumption_id": "A-R14-MHE-BENEFIT",
-          "assumption": "Windowed joint estimation produces materially better containing contraction or action recovery than fixed-facet membership.",
-          "failure_consequence": "Without this benefit, extra state, tuning and WCET burden make set-MHE unnecessary."
-        },
-        {
-          "assumption_id": "A-R14-MHE-WCET",
-          "assumption": "The bounded-horizon estimator has certified WCET compatible with the control deadline.",
-          "failure_consequence": "It cannot replace the selected update."
-        },
-        {
-          "assumption_id": "A-R14-MHE-AUTH",
-          "assumption": "Set-MHE never relaxes the independent full-envelope hard constraints.",
-          "failure_consequence": "It is inadmissible as a rival."
-        }
-      ],
-      "target_domain_operationalization": [
-        "Use the same P, L or H representation and full-envelope hard constraints; only substitute a bounded-window set-MHE that returns a containing outer set for the fixed-facet recursive intersection.",
-        "Hard-authority invariant: the independently calibrated full-envelope object constrains every hard margin in every SCAN cycle, including SUPPORTED and the undetected interval after an abrupt admitted change. A contracted online set may shape nominal cost and may add constraints, but can never remove, reduce or relax any full-envelope constraint. ADAPTING_IN_ENVELOPE drops contraction-derived performance authority while retaining full-envelope hard authority; OUTSIDE_ENVELOPE permits only WITHDRAW. Hence safety does not depend on alarm latency; online adaptation recovers ranking and reduces optional conservatism only inside the full-envelope hard-feasible set.",
-        "Warm-start the estimator with fixed horizon and certified iteration budget; reject any estimate whose outer set or verification is incomplete at deadline.",
-        "Use the returned center for cost and its contraction only for additional restriction; the full-envelope object remains hard-authoritative."
-      ],
-      "target_intervention_novelty": {
-        "novelty_closure_id": "NOV-R14-SET-MHE-ADAPTATION-RIVAL",
-        "nearest_target_prior_evidence_refs": [
-          "j4KJ1EdUyYAJ",
-          "_8NXx8-VkcgJ",
-          "Ubx3Xkv4y2kJ",
-          "ZDySGaNsMn8J",
-          "imoj6X2imAgJ",
-          "xlNjdqnC2fMJ"
-        ],
-        "causal_equivalent_intervention_check": "PARTIALLY_COVERED",
-        "evidence_search_provenance": [
-          {
-            "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
-            "plan_item_id": "MDV2-BRIDGE-RMC1",
-            "query_id": "Q0165"
-          },
-          {
-            "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
-            "plan_item_id": "MDV2-SAME-RMC1",
-            "query_id": "Q0166"
-          },
-          {
-            "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
-            "plan_item_id": "MDV2-SAME-RMC2",
-            "query_id": "Q0167"
-          },
-          {
-            "query_plan_sha256": "ed6367b83f1e952062f3cb5f417e26c4f2d3fbb2a3f4d03866fed5935048c074",
-            "plan_item_id": "MDV2-BRIDGE-RMC2",
-            "query_id": "Q0168"
-          }
-        ],
-        "uncovered_residual_delta": "Set-MHE is registered as the credible bounded-adaptation rival, not claimed as a new complete Target Method. Current Evidence does not show an action-relevant advantage over the selected fixed-facet recursive membership under identical full-envelope authority.",
-        "mechanism_delta": "Windowed joint state/parameter set estimation replaces recursive fixed-facet intersection only.",
-        "scientific_delta": "No independent scientific delta is retained absent demonstrated action-relevant estimator benefit.",
-        "disposition": "RESTRUCTURED_DELTA"
-      },
-      "provisional_scientific_delta": "None retained: this formal rival isolates estimator adaptation for the killer comparison.",
-      "substantive_difference": "Estimator window/state coupling only; all scientific representation and action mechanisms are held fixed.",
-      "predictions": [
-        {
-          "prediction_id": "PR-R14-MHE-VS-RECURSIVE",
-          "assumption_ids": [
-            "A-R14-MHE-BENEFIT",
-            "A-R14-MHE-WCET",
-            "A-R14-MHE-AUTH"
-          ],
-          "observable": "containment, contraction sharpness, recovered action order and WCET on identical abrupt/gradual changes",
-          "pattern_a": "Set-MHE materially improves contraction or action recovery while retaining containment and WCET",
-          "rival_type": "PRINCIPLE",
-          "rival_id": "P-HEREDITARY-CONTACT-CAPACITY-TOTAL-IMPEDANCE",
-          "pattern_b": "Fixed-facet recursive membership is equal in containment/action recovery at lower burden",
-          "activation_condition": "Identical admitted in-envelope change trajectories from pre-detection through recontraction",
-          "killer_criterion": "Keep set-MHE rejected unless it yields a repeatable action-relevant gain at acceptable WCET without weakening full-envelope authority.",
-          "cheapest_informative_rationale": "Run both estimators offline on identical recorded histories before any control experiment."
-        }
-      ],
-      "evidence_refs": [
-        "j4KJ1EdUyYAJ",
-        "_8NXx8-VkcgJ",
-        "Ubx3Xkv4y2kJ",
-        "ZDySGaNsMn8J",
-        "HUMAN-IJRR-2011-PSR",
-        "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
-        "bRrwxfzJq_QJ",
-        "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK",
-        "imoj6X2imAgJ",
-        "xlNjdqnC2fMJ"
-      ],
-      "status": "REJECTED",
-      "status_rationale": "REJECTED as a core Candidate by strongest-simple-rival necessity: no current Evidence establishes action-relevant benefit over recursive fixed-facet membership at equal authority and WCET. It remains the formally bound adaptation rival."
     }
   ],
   "relevant_history_refs": [
@@ -1470,12 +1323,7 @@
     "idea-stage/METHOD_SELECTION_JUSTIFICATION_R12.md",
     "principle-a258a59e06364a0f8a49aa3091f7161e",
     "idea-stage/METHOD_SYNTHESIS_COMPLETE_R13.md",
-    "idea-stage/METHOD_SELECTION_JUSTIFICATION_R13.md",
-    "principle-f8b6f3724049491982d9986674002432",
-    "principle-885f7e85102d493b93c4bae3d120d950",
-    "principle-821b95ede1524d758a7f44adc3d4ba84",
-    "idea-stage/METHOD_SYNTHESIS_COMPLETE_R14.md",
-    "idea-stage/METHOD_SELECTION_JUSTIFICATION_R14.md"
+    "idea-stage/METHOD_SELECTION_JUSTIFICATION_R13.md"
   ],
   "return_feedback_refs": [
     "return-2161408c494444c6a7cbdb50af83ed83",
@@ -1488,8 +1336,7 @@
     "human-return-2d107937502844eda62afc8aa1bc7d8f",
     "return-06dcaa39d888413b9c3be1e3ec5f7c6d",
     "return-3739800a52be440f883a8fde777d216e",
-    "return-1990721bb56e4638b36baff8050decf9",
-    "return-d01121db2b6e445a886ba9f4f646b96d"
+    "return-1990721bb56e4638b36baff8050decf9"
   ]
 }
 

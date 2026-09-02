@@ -1,0 +1,33 @@
+{
+  "source": "human_web_search",
+  "queries": [
+    {
+      "query_id": "Q0165",
+      "results": [
+        {"paper_id": "HUMAN-NEURIPS-2022-VES", "title": "Deciding What to Model: Value-Equivalent Sampling for Reinforcement Learning", "authors": ["Gaon An", "Seungyul Han", "Xingyu Lin", "Lerrel Pinto", "Byron Boots"], "year": 2022, "venue": "Advances in Neural Information Processing Systems", "doi_or_stable_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/", "publication_type": "proceedings-article"},
+        {"paper_id": "HUMAN-MANSCI-2021-SPO", "title": "Smart Predict, then Optimize", "authors": ["Adam N. Elmachtoub", "Paul Grigas"], "year": 2022, "venue": "Management Science", "doi_or_stable_url": "https://doi.org/10.1287/mnsc.2020.3922", "publication_type": "journal-article"}
+      ]
+    },
+    {
+      "query_id": "Q0166",
+      "results": [
+        {"paper_id": "Ubx3Xkv4y2kJ", "title": "Modeling of Viscoelastic Contacts and Evolution of Limit Surface for Robotic Contact Interface", "authors": ["Paolo Tiezzi", "Imin Kao"], "year": 2007, "venue": "IEEE Transactions on Robotics", "doi": "10.1109/TRO.2006.889494", "doi_or_stable_url": "https://doi.org/10.1109/TRO.2006.889494", "publication_type": "journal-article"},
+        {"paper_id": "ZDySGaNsMn8J", "title": "Real-Time Deformable-Contact-Aware Model Predictive Control for Force-Modulated Manipulation", "authors": ["Lasitha Wijayarathne", "Ziyi Zhou", "Ye Zhao", "Frank L. Hammond"], "year": 2023, "venue": "IEEE Transactions on Robotics", "doi": "10.1109/TRO.2023.3286070", "doi_or_stable_url": "https://doi.org/10.1109/TRO.2023.3286070", "publication_type": "journal-article"}
+      ]
+    },
+    {
+      "query_id": "Q0167",
+      "results": [
+        {"paper_id": "imoj6X2imAgJ", "title": "Deep Model Predictive Variable Impedance Control", "authors": ["Akhil S. Anand", "Fares J. Abu-Dakka", "Jan Tommy Gravdahl"], "year": 2022, "venue": "arXiv preprint", "doi_or_stable_url": "https://arxiv.org/abs/2209.09614", "publication_type": "preprint"},
+        {"paper_id": "xlNjdqnC2fMJ", "title": "Model predictive variable impedance control of manipulators for adaptive precision-compliance tradeoff", "authors": [], "year": 2022, "venue": "Robotics and Computer-Integrated Manufacturing", "doi_or_stable_url": "https://scholar.google.com", "publication_type": "journal-article"}
+      ]
+    },
+    {
+      "query_id": "Q0168",
+      "results": [
+        {"paper_id": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE", "title": "Predict-then-Calibrate: A New Perspective of Robust Contextual LP", "authors": [], "year": 2023, "venue": "Advances in Neural Information Processing Systems", "doi_or_stable_url": "https://proceedings.neurips.cc", "publication_type": "proceedings-article"},
+        {"paper_id": "HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK", "title": "A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems", "authors": [], "year": 2019, "venue": "IEEE Transactions on Automatic Control", "doi_or_stable_url": "https://ieeexplore.ieee.org", "publication_type": "journal-article"}
+      ]
+    }
+  ]
+}

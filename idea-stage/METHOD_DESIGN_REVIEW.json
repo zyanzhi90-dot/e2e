@@ -1,13 +1,10 @@
 {
   "schema_version": 1,
   "run_id": "impedance-control-landscape-e2e",
-  "review_request_id": "55faf8c4dec948c2adc87784705d4ad8",
+  "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
   "reviewer": "gpt-5.6-sol",
-  "reviewer_role": "independent_method_reviewer",
-  "actual_model_identifier": "gpt-5.6-sol",
-  "verdict_id": "d2a17e5c9b7f4a3a8e6c1f0d5b4c9231",
+  "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
   "decision": "PRINCIPLE_PACKET_READY",
-  "summary": "R9形成了一个科学上连贯、现实可实现且可直接进入Principle Test Design的单一Candidate。它以决策充分的动作条件接触算子真实在线更新校准外但包络内的材料、几何、滑动与历史变化，并由同一混合applied-action relation生成法向—切向阻抗或预验证撤离动作。全部剩余不确定性均被明确为可证伪的fatal assumptions或实现/实验自由度，而不是缺失的Method-core关系。",
   "reviewed_artifact_hashes": {
     "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
     "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
@@ -19,106 +16,34 @@
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
-    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
     ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-    "idea-stage/METHOD_DESIGN_PACKET.json": "0678f3fa45f89162f7cb5246b850c9ce7d0ce46f46584c7d10411dc68205f284"
+    "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
   },
   "reviewed_artifact": {
     "path": "idea-stage/METHOD_DESIGN_PACKET.json",
-    "sha256": "0678f3fa45f89162f7cb5246b850c9ce7d0ce46f46584c7d10411dc68205f284"
+    "sha256": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
   },
-  "reviewed_artifact_sha256": "0678f3fa45f89162f7cb5246b850c9ce7d0ce46f46584c7d10411dc68205f284",
   "findings": [
-    "项目根、managed .codex层和19项request bindings均已直接只读核验；全部观测SHA-256与Controller请求一致。",
-    "两个RMC分别由accepted contact-state aliasing与selection-feasibility decoupling causal chain真实蕴含，没有改变Problem identity，也没有发现RCA_CONFLICT。",
-    "RMC到Capability、Design Obligation和active Principle的因果链完整：表示充分性、校准与support、同关系硬约束、deadline与fallback均有明确闭合关系。",
-    "R9不再把校准外变化仅作为检测或拒绝事件。ADAPTING-IN-ENVELOPE状态通过漂移扩张、set-membership更新和projected RLS更新低维residual relation；性能和信息动作均须先满足当前set-robust authority。",
-    "观测到阻抗的生成链明确：接触坐标观测和历史形成z，候选四维法向—切向增益序列进入action-conditional operator，受支持校准或adaptive set约束后由同一短时域优化产生实际阻抗。",
-    "SCAN、WITHDRAW、contact/wrench、energy、actuator、gain-rate、solver completion和deadline被纳入同一hybrid applied-action relation；withdrawal tuple的可行性与WCET被诚实列为fatal assumptions，而不是委托给未定义的外部guard。",
-    "Source迁移边界诚实：VES/SPO通过intervention-level PASS支撑decision-relevant representation；Predict-then-Calibrate和BOX-FDDP均保留FAIL边界，只迁移split-calibration discipline或warm-start precedent；PSR、MPVIC和finite-area证据仅作为Target derivation依据。",
-    "R9对A/B的降级具有科学理由：可行动作存在性由始终枚举的withdrawal member给出，atomic feasible publishing成为求解实现，而更强的在线高维viability非空假设不再是核心Principle所必需。单一active Candidate的CONSTRAINED判断可接受。",
-    "Early Target Intervention Novelty被限定为RESTRUCTURED_DELTA，并明确区别于NNBO、MPVIC、静态GP force MPC和预定义阻抗的deformable-contact MPC；未把待验证的Target additions归因给Source。",
-    "四个prediction均保留observable、Pattern A、相关Rival RCA Pattern B、activation condition、killer criterion和cheapest-informative rationale；未包含具体执行集或成本。",
-    "当前METHOD_SYNTHESIS_COMPLETE_R9.md已作为辅助说明读取，但正式判断以绑定的METHOD_DESIGN_PACKET.json为科学authority。"
-  ],
-  "method_core_findings": [
-    "PASS：accepted Problem、Necessity residual、RCA、两条RMC及R9核心干预保持同一问题身份和因果闭合。",
-    "PASS：材料、几何、滑动和接触历史变化通过history/action-conditioned latent operator及在线低维residual-set更新实际改变未来margin、可行集和阻抗排序，而非只触发拒绝。",
-    "PASS：时变法向—切向阻抗由观测历史、候选增益rollout、authority-specific margins与joint objective共同生成。",
-    "PASS：硬contact/wrench、interaction energy、actuator、gain-rate、compute outcome、fallback及withdrawal均作用于最终发布的同一action tuple。",
-    "PASS：withdrawal totality没有被夸大为任意状态安全；适用性严格受withdrawal envelope、单调卸载和WCET条件约束。",
-    "PASS：Source机制、Target adaptation及未由Source支持的新增干预已清楚分开。",
-    "PASS：未验证的coverage、稳定性、实时性、性能优势和校准外适应效果均保持prospective、conditional和可证伪。",
-    "未发现足以导致REVISE_PRINCIPLES的缺失Method-core relation。"
-  ],
-  "implementation_experiment_findings": [
-    "局部法向、接触框架、slip/contact-patch proxy及六维wrench的具体估计器、带宽和误差界可在Test Design中确定；主包已经规定其必须进入margin和失败审计。",
-    "GRU或causal TCN、latent/residual维数、椭球或zonotope、horizon及RTI-SQP实现属于允许的implementation freedom，但必须服从decision-equivalence和WCET裁剪。",
-    "独立episode calibration、pre-outcome leverage/neighborhood support、sequential residual audit及delayed re-entry buffer需要后续操作化和依赖条件验证。",
-    "bounded-drift、residual representability和set outer-approximation conservatism必须在各类held-out shift及其组合上验证；若不成立，应缩小adaptation envelope或拒绝该机制。",
-    "withdrawal envelope、last-trusted-normal卸载、gain-rate/actuator/wrench/energy可行性及lookup/publish WCET需要故障注入和时序证据。",
-    "energy tank中的reference work、frame rotation、sampling/delay、inner-loop realization和actuator work必须由E_loss或更紧模型覆盖；当前主包已将遗漏列为fatal assumption。",
-    "四增益action class若不能覆盖cross-tangent或rotation相关的决策差异，应依据证据扩展，而不能将其误差归给predictor。"
-  ],
-  "candidate_assessments": [
-    {
-      "principle_id": "P-CAPACITY-CONDITIONED-FEASIBLE-INCUMBENT",
-      "principle_version": "3",
-      "status": "MERGED_HISTORY_ONLY",
-      "causal_chain_closure": "历史上闭合两条RMC，但其固定校准capacity和incumbent机制不单独完成R9要求的calibration-out adaptation。",
-      "fatal_assumption_judgment": "可验证incumbent在每个binding下及时存在是高风险且可杀死该分支的假设；R9不再依赖它提供action existence。",
-      "target_constraint_fit": "对同关系硬约束和deadline identity适配良好，但作为独立核心对当前在线适应目标不完整。",
-      "method_completeness": "R5范围内完整并由immutable history保留；作为当前Candidate已合理合并。"
-    },
-    {
-      "principle_id": "P-CAPACITY-CONDITIONED-VIABILITY-RELATION",
-      "principle_version": "3",
-      "status": "MERGED_HISTORY_ONLY",
-      "causal_chain_closure": "历史上以capacity-conditioned certified set闭合两条RMC，但不单独提供R9的校准外在线更新。",
-      "fatal_assumption_judgment": "非空且有用的高维viability/certificate set是强fatal assumption，当前证据不要求将其保留为核心Principle。",
-      "target_constraint_fit": "能统一性能与backup，但计算和非空性负担超过实现deadline totality所必需的最小结构。",
-      "method_completeness": "R5范围内完整并保留为历史替代；作为当前Candidate已合理合并。"
-    },
-    {
-      "principle_id": "P-ADAPTIVE-CONTACT-FEASIBLE-INCUMBENT",
-      "principle_version": 1,
-      "status": "MERGED_HISTORY_ONLY",
-      "causal_chain_closure": "R8已闭合support-state适应与三态action map，但SCAN totality仍由跨binding incumbent persistence承担。",
-      "fatal_assumption_judgment": "快速capacity/support变化时shifted incumbent可能失效；该风险真实且会杀死该renderer分支。",
-      "target_constraint_fit": "适合连续扫描性能，但并非hybrid withdrawal存在性所必需的科学机制。",
-      "method_completeness": "R8方法形态完整；R9保留其atomic feasible publishing作为实现而非独立Principle。"
-    },
-    {
-      "principle_id": "P-ADAPTIVE-CONTACT-VIABILITY-RELATION",
-      "principle_version": 1,
-      "status": "MERGED_HISTORY_ONLY",
-      "causal_chain_closure": "R8通过在线适应与same-set viability backup闭合两条链。",
-      "fatal_assumption_judgment": "authority变化时viability set持续非空、非空泛且可实时求解是强fatal assumption。",
-      "target_constraint_fit": "可提供更强scan-continuation性质，但不是accepted RMC所要求的最小total-action结构。",
-      "method_completeness": "R8方法形态完整；R9合理避免将其更强假设预设为核心。"
-    },
-    {
-      "principle_id": "P-DECISION-SUFFICIENT-ADAPTIVE-CONTACT-TOTAL-ACTION",
-      "principle_version": 1,
-      "status": "ACTIVE_READY",
-      "causal_chain_closure": "完整闭合contact-state-to-action aliasing与gain-selection-to-feasibility decoupling，并将两条链连接为同一观测—authority—impedance—applied-action关系。",
-      "fatal_assumption_judgment": "八项fatal assumptions覆盖representation sufficiency、adaptive representability、drift containment、calibration、robust margins、energy accounting、withdrawal及WCET；均具体、可杀死核心机制且没有被伪装成已成立事实。",
-      "target_constraint_fit": "直接处理正常/切向阻抗、有限接触wrench、slip/contact、energy、actuator、gain-rate、deadline和撤离，并明确校准外在线适应边界。",
-      "method_completeness": "达到论文级Method语义完整度和直接test-design readiness；具体模型尺寸、set representation、solver配置与频率可留作实现自由度。"
-    }
-  ],
-  "required_revisions": [],
-  "nonblocking_recommendations": [
-    "Test Design应优先杀伤A-R9-ADAPTIVE-REPRESENTABILITY、A-R9-WITHDRAWAL-TOTALITY和A-R9-ENERGY-ACCOUNTING，因为三者分别决定实际校准外恢复、hybrid relation存在性和物理可行性。",
-    "支持域验证应区分simultaneous marginal coverage、false support、adaptive-set containment和delayed calibrated re-entry，避免把它们合并为单一accuracy指标。",
-    "实时验证应记录nominal、verified、published和physically realized action identity，并覆盖强制中断、空scan set、support switch、set inconsistency及withdrawal。",
-    "整体结果必须把频繁withdrawal计入连续扫描性能；满足deadline totality但长期撤离不能被解释为解决accepted residual。"
+    "All live request-bound artifacts were readable and every observed SHA-256 matched the Controller binding.",
+    "Problem fit and Method fit pass. Each surviving P, L, and H Candidate preserves the accepted residual Problem identity, binds both accepted causal chains and RMCs, and closes the RMC-to-Capability-to-Design-Obligation chain through an action-conditional outcome object and one robust deadline-total normal-tangential impedance relation.",
+    "R14 closes the abrupt-change authority defect. The independently calibrated full-envelope object constrains every hard wrench, contact, energy, actuator, gain-rate, and publication margin in every SCAN cycle, explicitly including SUPPORTED operation and the undetected interval after an abrupt admitted change. Online contractions may shape cost or add restrictions but cannot remove, reduce, or relax a full-envelope constraint, so hard authority does not depend on alarm latency.",
+    "R14 closes the adaptation-rival defect. P-BOUNDED-SET-MHE-ADAPTATION-RIVAL@1 is registered as the rejected strongest estimator rival, and every active P, L, and H adaptation prediction names that Principle, uses identical admitted-change histories and full-envelope authority, compares containment, action recovery, and WCET, and supplies a replacement criterion for the fixed-facet update.",
+    "R14 closes the Candidate-by-prior novelty defect. Each active Candidate explicitly compares its changed causal or computational relation, position and direction, activation condition, the prior mechanism's actual role, and the remaining Target causal delta against imoj6X2imAgJ, xlNjdqnC2fMJ, j4KJ1EdUyYAJ, and ZDySGaNsMn8J. The comparisons acknowledge partial prior coverage and retain only the non-equivalent Target intervention.",
+    "The UNDERCONSTRAINED disposition is scientifically honest. Current Evidence does not eliminate the hereditary physical, structured learned, or physical-plus-residual representation family. P is correctly presented only as the strongest-simple priority; L requires demonstrated physical-family bias with calibrated learned coverage, and H requires the strict complementarity regime against both P and L.",
+    "All three surviving Candidates are concrete paper-level implementable routes rather than abstract mechanism categories: each specifies its causal state, uncertainty object, update relation, candidate-action-conditioned prediction, four-gain action, robust constraints, energy account, deadline publication rule, fatal assumptions, failure conditions, and discriminating predictions. Their Principle statements remain algorithm-independent, while TCN/GRU choice, fixed facets, estimator center, horizon, facet count, and RTI-SQP are demoted to falsifiable implementation choices.",
+    "P, L, and H are substantively distinct in representation mechanism and provisional Scientific Delta. H is not mere module concatenation because learning is restricted to a zero-collapsible action-changing residual, physical and residual uncertainty retain dependence through shared support indices, and H survives only when strict complementarity over both simpler Candidates is demonstrated.",
+    "The first-principles and representation-transform derivations are substantive and cover both RMCs. MODEL_PRIOR and ACADEMIC_BRIDGE discovery are separated from Evidence, scholarly search/read provenance is recorded, domain terminology and Source-search provenance are present for explored paradigms, and no failed search or fixed-budget exhaustion is used as scientific closure.",
+    "Source accounting is appropriately conservative. VES, SPO, Predict-then-Calibrate, safety supervision, and solver work inform Target-side derivation or boundary analysis, but no formal cross-domain Source transfer, Source genealogy, or PASS alignment is claimed. The Candidates therefore bind to real Target derivations rather than unsupported migrated mechanisms.",
+    "The prediction set contains discriminating killer-test concepts with observables, Candidate and Rival patterns, activation conditions, killer criteria, and cheapest-informative rationales. The packet contains no concrete test plan, execution set, or execution cost.",
+    "Containment, empirical benefit, representation superiority, calibration validity, withdrawal feasibility, deadline compliance, novelty, and safety are all left for later validation; none is represented as established by unperformed experiments. No RCA conflict is present."
   ],
   "return_guidance": null
 }

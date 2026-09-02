@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "79cf3789f9ff44d5b866363468f8c73a",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "376140cbab2241ed98a17490901a71b7",
+  "decision": "REVISE_PRINCIPLES",
+  "reviewed_artifact_hashes": {
+    "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+    "idea-stage/METHOD_DESIGN_PACKET.json": "fae3b3658a6ca65c1bdb5413edf9ec4a289a0fdc60cbad171b80e2127bd8a1a4"
+  },
+  "reviewed_artifact": {
+    "path": "idea-stage/METHOD_DESIGN_PACKET.json",
+    "sha256": "fae3b3658a6ca65c1bdb5413edf9ec4a289a0fdc60cbad171b80e2127bd8a1a4"
+  },
+  "findings": [
+    "Independent-context review confirmed that every request-declared artifact was readable and every observed SHA-256 matched the live binding.",
+    "Problem fit passes. The decision-sufficient adaptive outcome relation addresses accepted contact-state-to-action aliasing, and the total constrained scan-or-withdraw relation addresses gain-selection-to-feasibility decoupling without changing the accepted Problem, residual Necessity envelope, RCA, or RMC identity.",
+    "The UNDERCONSTRAINED disposition is scientifically honest: physical, structured-learned, and physical-residual representations remain substantively different intervention mechanisms, and current Evidence does not eliminate any independently of the planned comparison. The packet also correctly demotes recurrent architecture, set geometry, estimator brand, solver brand, information bonus, and fixed numerical horizon.",
+    "The packet is not yet selection-ready because its Candidate origin bindings identify only the representation transformations. The shared decisive RMC2 intervention—constraint-internalized energy, robust scan feasibility, deadline-total publication, and registered withdrawal—is described elsewhere by FP-R11-TOTAL-RELATION but is not incorporated into each Candidate's declared origin chain. Thus the RMC-to-Capability/Obligation-to-complete-Principle closure is descriptive rather than fully bound for every Candidate.",
+    "The killer-test concepts do not cover every retained decisive structure against its strongest simple rival. Physical P lacks a direct representation discriminator against the calibrated memoryless finite-area rival; adaptation concepts compare mainly with fixed conservative impedance rather than a credible alternative bounded-adaptation mechanism; and each TOTAL prediction jointly varies uncertainty authority, accumulated energy, infeasibility, timeout, withdrawal, and post-hoc guarding. No Candidate-specific concept independently discriminates the four-gain action class from the strongest richer action class or optimizer-consumed energy from an action-equivalent post-hoc mechanism.",
+    "Early Target Intervention Novelty closure is insufficiently intervention-level. Each Candidate is marked PARTIALLY_COVERED and RESTRUCTURED_DELTA using a conjunction-level residual, while provenance Q0144/Q0145 covers only the probabilistic MPVIC and NNBO searches. It does not separately establish causal-equivalence separation for physical-only, structured-learned, and hybrid representation interventions at the required variable or relation, direction, causal position, activation condition, and prior demonstrated effect.",
+    "The ACADEMIC_BRIDGE discovery provenance is internally inconsistent. The packet reports DE-BRIDGE-RMC1 and DE-BRIDGE-RMC2 as HYPOTHESES_REGISTERED under plan items MDV3-BRIDGE-DISCOVERY-RMC1 and MDV3-BRIDGE-DISCOVERY-RMC2, but the referenced search history records their executions Q0123 and Q0124 as failed. Later successful terminology and exact-source searches can support the Evidence cards, but they do not validate the packet's claimed discovery execution. This must be corrected rather than retained as a post-hoc discovery story.",
+    "The packet contains no concrete Principle Test Plan, execution set, or cost, which is appropriate for this phase. No accepted upstream premise is contradicted, so RCA_CONFLICT is not warranted."
+  ],
+  "return_guidance": {
+    "missing_evidence": [
+      "Accurate ACADEMIC_BRIDGE discovery provenance for both RMCs, binding each registered hypothesis to an actually successful scholarly search/read execution, or an honest closure if the declared discovery executions produced no additional hypothesis.",
+      "A complete per-Candidate origin chain that binds both the representation intervention and the shared constraint-internalized total-action intervention to their real derivations or Evidence-valid Source-plus-PASS origins.",
+      "Separate strongest-simple-rival killer concepts for calibrated memoryless versus history-bearing representation, bounded set adaptation versus credible alternative adaptation, four-gain versus richer action class, optimizer-consumed energy versus post-hoc correction, and withdrawal/deadline totality versus action hold or feasible-incumbent alternatives.",
+      "Candidate-specific Target closest-prior closures that test causal equivalence for P, L, and H separately rather than treating novelty of the complete conjunction as sufficient."
+    ],
+    "decision_target": "method_design",
+    "required_check": [
+      "Preserve the scientifically honest UNDERCONSTRAINED P/L/H competition, but make every Candidate a complete causally bound Principle covering both accepted RMCs.",
+      "Replace the failed ACADEMIC_BRIDGE execution claims with exact successful query/read provenance and register every genuinely discovered hypothesis; do not infer discovery retroactively from later-known sources.",
+      "Split conflated TOTAL and adaptation predictions so each observable, Pattern A, strongest Rival Pattern B, activation condition, and killer criterion isolates one retained intervention mechanism.",
+      "Redo Early Target Intervention Novelty for each surviving Candidate at intervention level, including the closest physical, learned MPVIC, adaptive/passivity-aware MPVIC, and hybrid contact-model competitors supported by current formal Evidence.",
+      "Retain implementation demotions and do not re-elevate GRU/TCN, estimator geometry, solver brand, fixed horizon, or information-seeking excitation without new necessity evidence."
+    ]
+  }
+}

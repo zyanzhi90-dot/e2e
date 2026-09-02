@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "8e53617a1cb34c0ca143faa9da314338",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "7e9fb7e89b9a4a21ac0a55512057c1ab",
+  "decision": "REVISE_PRINCIPLES",
+  "reviewed_artifact_hashes": {
+    "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TASE-2023-3282974.json": "7807d1764e8739aa1bc5568ed90c2e0f2b58d90d21475567f0d662b2bc03f500",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-USER-TRO-2022-3216078.json": "23124e2f9ca15b38b12f4184cc71df3284fda0fda8a120a8ad6f7a16c5e98b9f",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-QPuQ4sfxSTIJ.json": "2cf12a19e72e4934ece0de74a422068c8103d0dc8085d4f97248034d71e23f7a",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ctEq_owme9kJ.json": "61702b2e896a7c4bd466515382c083024cb311efa4cd1502c017ddcb45b76782",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+    "idea-stage/METHOD_DESIGN_PACKET.json": "dee7d657014d9a99920b4a5817b0e500ec35254dc7abe9f96451c2717826792a"
+  },
+  "reviewed_artifact": {
+    "path": "idea-stage/METHOD_DESIGN_PACKET.json",
+    "sha256": "dee7d657014d9a99920b4a5817b0e500ec35254dc7abe9f96451c2717826792a"
+  },
+  "findings": [
+    "Every Controller-declared binding was readable and its observed SHA-256 matched the live request.",
+    "Problem fit passes. The structured history/capacity intervention remains bound to contact-state-to-action aliasing, and the total SCAN/WITHDRAW relation remains bound to gain-selection/feasibility decoupling without changing the accepted Problem, residual envelope, RCA, or RMC identity.",
+    "Method fit and necessity do not pass. The packet declares CONSTRAINED and retains one surviving R10 mechanism, but its own PR-R10-HYBRID-NECESSITY treats calibrated physical or memoryless action equivalence and pure-learned dominance as unresolved killers. The formal Evidence does not eliminate those routes: _8NXx8-VkcgJ explicitly does not establish universal Hunt-Crossley inadequacy, Ubx3Xkv4y2kJ leaves online identifiability and action relevance unproved, ZDySGaNsMn8J demonstrates a physical deformable-contact MPC under narrower assumptions, and imoj6X2imAgJ establishes limitations of one learned MPVIC realization rather than impossibility of a structurally constrained learned decision model. These are open discriminators, not scientific constraints that determine a unique solution space.",
+    "Several decisive R10 choices are asserted as uniquely necessary without a clean mechanism-specific killer concept. PR-R10-ADAPTIVE-RECOVERY compares the selected set adaptation mainly with fixed conservative impedance, not with passive adaptation, alternative bounded estimators, moving-horizon identification, or multiple-model robustification. PR-R10-MULTISTEP-JOINT-DECISION jointly varies horizon, hard-margin propagation, integrated energy accounting, and post-hoc guarding, so a Pattern-A result cannot attribute necessity to the multistep choice or the optimizer-consumed energy choice separately. The four-gain action-class choice and the lexicographic information-action choice likewise lack direct strongest-rival discrimination.",
+    "The R10 provenance record is not synchronized with the new method. The surviving Candidate binds its origin to RT-POINT-OR-BLACKBOX-TO-STRUCTURED-HYBRID-R10, which derives the representation change but not the selected drift/reset adaptation, multistep four-gain relation, integrated energy authority, or withdrawal totality. FP-CONTINUOUS-DECISION-ADAPTATION still describes the older posterior/forgetting/covariance-inflation route, while the search closure rationale still describes the R9 frozen-latent design. The R10 synthesis also calls finite-area/contact-capacity and model-to-MPC mechanisms migrated, but the formal Source records contain no corresponding Source Intervention, genealogy, boundaries, and PASS alignment for those migrated roles.",
+    "The Early Target Intervention Novelty closure remains too aggregate for the redesigned R10 mechanism. It lists five nearest-prior Evidence references but provides search provenance for only the NNBO and probabilistic-MPVIC items and does not separately close intervention-level causal equivalence for structured physical-plus-residual modeling, in-contact set adaptation, multistep energy-constrained impedance selection, and total withdrawal. A unique conjunction is not sufficient separation when the necessity of multiple conjuncts remains unresolved.",
+    "Scientific strength therefore fails at this Gate despite the method being coherent and plausibly testable in broad outline. Its present delta combines several unresolved choices, and the current killer concepts cannot determine which intervention is necessary or which scientific claim survives a mixed result. The packet contains no concrete Test Plan, execution set, or cost, which is appropriate for this phase.",
+    "No accepted upstream premise is contradicted; RCA_CONFLICT is not warranted."
+  ],
+  "return_guidance": {
+    "missing_evidence": [
+      "A defensible solution-space closure showing that physical-only, structurally constrained learned, single-envelope robust, passive-adaptation, and alternative bounded-adaptation mechanisms fail a fixed RMC or Target constraint; otherwise multiple substantively distinct surviving Candidates are required under an UNDERCONSTRAINED assessment.",
+      "R10-specific derivations and provenance for drift/reset set adaptation, four-gain multistep selection, optimizer-consumed energy authority, and withdrawal totality, including formal Source records and PASS alignments for any mechanism claimed as migrated, or explicit classification as Evidence-informed Target derivation.",
+      "Separate killer-test concepts for the decisive choices whose current rivals are conflated: passive versus decision-gated information, set-membership/reset versus credible alternative adaptation, one-step versus multistep prediction, integrated energy authority versus post-hoc correction, and the four-gain action class versus the strongest richer action class.",
+      "Intervention-level nearest-prior closure for each retained R10 scientific delta at the correct variable or relation, direction, causal position, activation condition, and demonstrated prior effect."
+    ],
+    "decision_target": "method_design",
+    "required_check": [
+      "Change solution_space_constraint_assessment to UNDERCONSTRAINED and retain substantively different viable mechanism Candidates, unless accepted constraints and formal Evidence genuinely eliminate each rival independently of the planned empirical result.",
+      "Rebuild the R10 origin chain so every retained core intervention is causally derived from the RMCs or bound to an Evidence-valid Source plus PASS alignment. Remove stale R9 posterior and frozen-latent rationale from the current derivation.",
+      "Audit all nine decisive choices using the fixed five Method-fit criteria. Delete choices that are merely implementation preferences, and add only mechanisms whose removal re-exposes a specified RMC failure.",
+      "Split the combined predictions so Pattern A, Pattern B, activation, and killer criterion discriminate one decisive intervention from its strongest mechanism-level rival without confounding another core choice.",
+      "Redo the provisional Target novelty closure for the resulting surviving Candidate set; do not retain RESTRUCTURED_DELTA merely from the novelty of the complete module conjunction."
+    ]
+  }
+}
