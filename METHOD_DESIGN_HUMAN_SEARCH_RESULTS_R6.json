@@ -1,0 +1,141 @@
+{
+  "source": "human_web_search",
+  "queries": [
+    {
+      "query_id": "Q0146",
+      "results": []
+    },
+    {
+      "query_id": "Q0147",
+      "results": []
+    },
+    {
+      "query_id": "Q0148",
+      "results": []
+    },
+    {
+      "query_id": "Q0149",
+      "results": []
+    },
+    {
+      "query_id": "Q0150",
+      "results": []
+    },
+    {
+      "query_id": "Q0151",
+      "results": []
+    },
+    {
+      "query_id": "Q0152",
+      "results": []
+    },
+    {
+      "query_id": "Q0153",
+      "results": []
+    },
+    {
+      "query_id": "Q0154",
+      "results": []
+    },
+    {
+      "query_id": "Q0155",
+      "results": []
+    },
+    {
+      "query_id": "Q0156",
+      "results": []
+    },
+    {
+      "query_id": "Q0157",
+      "results": []
+    },
+    {
+      "query_id": "Q0158",
+      "results": []
+    },
+    {
+      "query_id": "Q0159",
+      "results": []
+    },
+    {
+      "query_id": "Q0160",
+      "results": []
+    },
+    {
+      "query_id": "Q0161",
+      "results": []
+    },
+    {
+      "query_id": "Q0162",
+      "results": []
+    },
+    {
+      "query_id": "Q0163",
+      "results": []
+    },
+    {
+      "query_id": "Q0164",
+      "results": []
+    },
+    {
+      "query_id": "Q0145",
+      "results": [
+        {
+          "paper_id": "j4KJ1EdUyYAJ",
+          "title": "Neural-Network-Based Optimal Impedance Control for Robots in Physical Interaction With Soft Environments",
+          "authors": [
+            "Haiyi Kong",
+            "Guangzhu Peng",
+            "Guang Li",
+            "Chenguang Yang"
+          ],
+          "year": 2025,
+          "venue": "IEEE Transactions on Systems, Man, and Cybernetics: Systems",
+          "doi": "10.1109/TSMC.2025.3579017",
+          "doi_or_stable_url": "https://doi.org/10.1109/TSMC.2025.3579017",
+          "publication_type": "journal-article",
+          "abstract": "A Hunt-Crossley soft-environment law is identified from interaction data, then an uncertainty-aware nonlinear optimal-control problem is approximated by a critic network to adapt impedance; validation is one-dimensional and assumes prior identification with fixed environment parameters during a trial."
+        }
+      ]
+    },
+    {
+      "query_id": "Q0143",
+      "results": [
+        {
+          "paper_id": "HUMAN-IJRR-2011-PSR",
+          "title": "Closing the learning-planning loop with predictive state representations",
+          "authors": [
+            "Byron Boots",
+            "Sajid M. Siddiqi",
+            "Geoffrey J. Gordon"
+          ],
+          "year": 2011,
+          "venue": "The International Journal of Robotics Research",
+          "doi": "10.1177/0278364911404092",
+          "doi_or_stable_url": "https://doi.org/10.1177/0278364911404092",
+          "publication_type": "journal-article",
+          "abstract": "A spectral algorithm learns a compact predictive state directly from action-observation sequences and closes the loop by planning in that state; consistency and compactness depend on the stated structural, rank, and sampling assumptions."
+        }
+      ]
+    },
+    {
+      "query_id": "Q0144",
+      "results": [
+        {
+          "paper_id": "imoj6X2imAgJ",
+          "title": "Deep Model Predictive Variable Impedance Control",
+          "authors": [
+            "Akhil S. Anand",
+            "Fares J. Abu-Dakka",
+            "Jan Tommy Gravdahl"
+          ],
+          "year": 2022,
+          "venue": "arXiv preprint",
+          "doi_or_stable_url": "https://arxiv.org/abs/2209.09614",
+          "publication_type": "preprint",
+          "abstract": "A probabilistic ensemble learns Cartesian response under variable impedance through uncertainty-seeking exploration, and cross-entropy MPC adapts stiffness across tasks; the reported method is offline or fine-tuned, unconstrained, normal-contact-discontinuity agnostic, and lacks passivity or safety guarantees."
+        }
+      ]
+    }
+  ]
+}

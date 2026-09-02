@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R8-CLOSED-SUPPORT-ACTION-RELATION",
+  "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R6-ADAPTIVE-DECISION-CONTACT",
   "problem_binding": {
     "problem_id": "P-SOFTSCAN-STATE-01",
     "problem_version": 2,
@@ -1086,11 +1086,11 @@
         "closure_rationale": "Same-field evidence supports fast constrained updates only within its explicit boundary; no cross-domain Source passes full intervention-level alignment for nonlinear soft-contact joint feasibility plus interruption totality. The two active totality mechanisms therefore remain first-principles/representation-derived Target candidates rather than falsely credited transfers."
       }
     ],
-    "closure_rationale": "R8 reuses the accepted R5 Source Mechanisms and the human-approved R6 targeted bindings. No new search is needed for the R7 return because it identified two internal relation-semantics defects, not a knowledge gap: the adapting feasible set must be an explicit subset of the independently valid envelope set, and the third support state must return a defined withdrawal action. PSR and MPVIC remain Evidence-informed Target derivations; incumbent persistence and viability remain live scan-mode alternatives."
+    "closure_rationale": "R6 reuses the accepted R5 Source Mechanisms and adds only the human-approved targeted binding of the exact NNBO baseline (Q0145), predictive-state representation (Q0143), and probabilistic model-predictive variable impedance (Q0144). Together with the existing finite-area/history evidence, they close the specific re-anchoring gap: replace fixed scalar contact identification by an adaptive decision-sufficient predictive operator, while treating calibration, robust optimization, incumbent retention and viability as bounded internal mechanisms rather than a stitched scientific headline."
   },
   "solution_space_constraint_assessment": {
-    "disposition": "UNDERCONSTRAINED",
-    "constraint_basis": "The accepted first RMC and R6/R7 returns constrain the scientific center to a support-state-aware adaptive decision-sufficient contact operator. The second RMC still admits two causally different scan-mode totality mechanisms: verified-incumbent persistence or a capacity-conditioned viability relation. R8 closes both over the same three-state total map, including a constant-time preverified withdrawal action outside the adaptation envelope. Current Evidence does not eliminate either scan-mode mechanism."
+    "disposition": "CONSTRAINED",
+    "constraint_basis": "The accepted RCA requires both a history-conditioned decision-sufficient contact relation and one total constraint-aware applied-action relation. R6 evidence shows that verified-incumbent and viability/barrier branches are alternative renderers of the second requirement, not rival repairs of calibration-out contact aliasing. The minimal scientific core is therefore one adaptive decision-sufficient contact operator feeding constrained normal-tangential impedance selection; A and B remain preserved implementation branches rather than independent active Principles."
   },
   "candidate_principles": [
     {
@@ -1243,7 +1243,7 @@
         "bRrwxfzJq_QJ"
       ],
       "status": "MERGED",
-      "status_rationale": "This is an intentionally abbreviated R7 summary, not an altered claim of exact preservation. The exact reviewed R5 Candidate and paper-level method shape remain immutable in .aris/archive/impedance-control-landscape-e2e/human-return-31074cfbc46e4473a7aae727901e0610/artifacts/idea-stage/METHOD_DESIGN_PACKET.json and idea-stage/METHOD_SYNTHESIS_HUMAN_SELECTION_DRAFTS.md. Its totality mechanism is now inherited by one R7 integrated Candidate; the R5 record is not deleted or rewritten."
+      "status_rationale": "Preserved exactly as a reviewed R5 branch and design evidence, but merged into R6 as an internal real-time feasibility renderer. Its incumbent or viability mechanism does not itself update the contact relation under calibration-out material, geometry, sliding or history changes, so it is not retained as an independent core scientific Principle."
     },
     {
       "principle_id": "P-CAPACITY-CONDITIONED-VIABILITY-RELATION",
@@ -1393,13 +1393,13 @@
         "HUMAN-MANSCI-2021-SPO"
       ],
       "status": "MERGED",
-      "status_rationale": "This is an intentionally abbreviated R7 summary, not an altered claim of exact preservation. The exact reviewed R5 Candidate and paper-level method shape remain immutable in .aris/archive/impedance-control-landscape-e2e/human-return-31074cfbc46e4473a7aae727901e0610/artifacts/idea-stage/METHOD_DESIGN_PACKET.json and idea-stage/METHOD_SYNTHESIS_HUMAN_SELECTION_DRAFTS.md. Its totality mechanism is now inherited by one R7 integrated Candidate; the R5 record is not deleted or rewritten."
+      "status_rationale": "Preserved exactly as a reviewed R5 branch and design evidence, but merged into R6 as an internal real-time feasibility renderer. Its incumbent or viability mechanism does not itself update the contact relation under calibration-out material, geometry, sliding or history changes, so it is not retained as an independent core scientific Principle."
     },
     {
-      "principle_id": "P-ADAPTIVE-CONTACT-FEASIBLE-INCUMBENT",
+      "principle_id": "P-ADAPTIVE-DECISION-SUFFICIENT-CONTACT-OPERATOR",
       "principle_version": 1,
       "parent_version": null,
-      "principle": "Represent continuous soft contact by a recursively adapted, decision-sufficient action-conditional operator. At every update, classify the pre-outcome context-action pair as supported, unsupported-but-inside the adaptation envelope, or outside that envelope but inside the declared withdrawal envelope. Supported scan actions use calibrated margins; adapting scan actions must belong to an independently valid envelope-feasible set and posterior belief may only further restrict them or shape their objective; outside-envelope states return a preverified withdrawal impedance/reference action in constant time. The remaining scan-mode decision is rendered by incumbent persistence or viability. In SUPPORTED or ADAPTING scan mode, totality is realized by verified-incumbent persistence; OUTSIDE-ENVELOPE returns u_wd directly.",
+      "principle": "Represent continuous soft contact by the smallest recursively updated action-conditional predictive operator that preserves constrained normal-tangential impedance feasibility and ranking; adapt that operator from closed-loop innovations and acquire information only through impedance actions already admissible under the same constraints; then select and render impedance through one deadline-total constrained relation.",
       "origin_type": "REPRESENTATION_TRANSFORMATION",
       "origin_ref_id": "RT-FIXED-CONTACT-LAW-TO-ADAPTIVE-PREDICTIVE-OPERATOR",
       "alignment_ref_id": null,
@@ -1425,67 +1425,53 @@
       ],
       "activation_conditions": [
         "A material, local geometry, sliding condition, speed, dwell or loading-history change inside the declared physical envelope changes the predicted contact margin or preferred feasible impedance.",
-        "A pre-outcome support score or sequential residual audit makes the initial calibrated relation inapplicable, while at least one action remains admissible under the envelope-conservative relation.",
-        "The optimizer faces active physical or computation constraints and must return an applied gain at every declared update."
+        "Posterior disagreement or normalized innovation is large enough to alter feasibility or cost ordering, and an informative action remains admissible."
       ],
-      "intervention": "Construct and adapt the support-aware predictive contact operator. In SUPPORTED scan mode verify RTI-SQP candidates in F_cal; in ADAPTING scan mode verify them in F_adapt, which is always a subset of F_env. Atomically replace the shifted incumbent only after verification, otherwise return it. OUTSIDE-ENVELOPE bypasses the optimizer and returns the preverified withdrawal tuple u_wd before the same deadline.",
-      "changed_structure": "NNBO fixed scalar preidentified contact law -> history- and action-conditioned predictive contact operator with explicit support state -> active in-envelope adaptation under a valid envelope relation -> posterior-aware constrained normal-tangential impedance selection -> one of two explicit totality mechanisms.",
-      "root_cause_resolution_rationale": "The contact operator preserves exactly the history information that changes feasible impedance or its ranking. During calibration-out adaptation, F_adapt is constructed so F_adapt is a subset of F_env by definition; posterior belief can veto actions or shape objective/information value but cannot relax F_env before audited re-entry. Leaving the adaptation envelope activates a controller-internal withdrawal branch with a preverified dissipative gain/reference action and constant-time lookup. Thus all three support states produce an applied action while arbitrary-shift performance or safety is not claimed. The scan-mode totality mechanism remains open between incumbent persistence and viability certification.",
+      "intervention": "Encode the observed action-wrench-motion history into a predictive state z_k; map z_k and candidate gain sequence a=(k_n,d_n,k_t,d_t) to a posterior over future force error, tangential tracking error, slip/contact-loss margins, wrench, interaction energy and actuator load; update a low-dimensional adaptive readout after every observation using forgetting Bayesian recursive least squares with innovation-triggered covariance inflation; include a bounded one-step information-gain term only when uncertainty changes the optimizer's decision; and solve a robust or chance-constrained receding-horizon gain problem whose verified feasible incumbent is the deadline output.",
+      "changed_structure": "the NNBO chain of preidentified scalar fixed-parameter environment model followed by unconstrained optimal impedance becomes one online-adaptive, action-conditional contact-to-constrained-impedance relation",
+      "root_cause_resolution_rationale": "The predictive operator separates histories only when they imply different gain feasibility or outcomes, while recursive posterior adaptation and admissible information acquisition repair in-envelope calibration-out changes. Applying all hard limits to the same gain variables and returning only a verified member repairs selection-rendering decoupling without elevating the renderer into the scientific headline.",
       "failure_conditions": [
         "The observation history does not distinguish decision-relevant contact aliases before a gain change is needed.",
-        "The declared adaptation envelope does not imply a nonempty conservative scan relation for the current unsupported regime.",
-        "No admissible impedance variation provides enough excitation to adapt before the regime changes again.",
-        "A delayed locally stationary calibration buffer cannot be formed, so calibrated re-entry is unavailable and only envelope-conservative operation remains claimable.",
-        "The four-gain contact-frame action class cannot achieve the required joint performance.",
-        "The selected scan-mode totality mechanism cannot return an admissible action by the update deadline.",
-        "The preverified withdrawal action is infeasible, late, or fails to monotonically unload within the declared withdrawal envelope."
+        "No admissible impedance variation provides enough excitation to track the changing operator.",
+        "Posterior uncertainty sets are miscalibrated or exclude the realized margin process.",
+        "The low-dimensional contact-frame gain class cannot achieve the required joint performance.",
+        "No feasible incumbent exists or its verification exceeds the update deadline."
       ],
       "fatal_assumptions": [
         {
-          "assumption_id": "A-R7-PREDICTIVE-SUFFICIENCY",
-          "assumption": "A compact action-observation history state predicts every future outcome and margin needed to preserve impedance feasibility and ranking over the declared action class.",
-          "failure_consequence": "The representation must expand or the claim envelope must narrow; otherwise contact histories remain decision-aliased."
+          "assumption_id": "A-R6-PREDICTIVE-SUFFICIENCY",
+          "assumption": "A compact action-observation history state predicts every future margin needed to preserve impedance feasibility and ranking over the declared action class.",
+          "failure_consequence": "The representation must expand or the claim envelope must narrow; otherwise the optimizer acts on aliased contact states."
         },
         {
-          "assumption_id": "A-R7-ENVELOPE-MARGIN",
-          "assumption": "For every unsupported-but-in-envelope state, declared physics, actuator bounds and contact-retention limits define a nonempty conservative margin relation independently of the adaptive posterior.",
-          "failure_consequence": "The method cannot continue adaptation safely in that state and must narrow the envelope or stop."
+          "assumption_id": "A-R6-ADAPTABILITY",
+          "assumption": "In-envelope calibration-out changes are locally learnable from naturally occurring or constraint-feasible informative impedance variation faster than they invalidate the decision.",
+          "failure_consequence": "The method may detect uncertainty but cannot claim recovery of useful optimal adaptation."
         },
         {
-          "assumption_id": "A-R7-ADAPTABILITY",
-          "assumption": "In-envelope changes are locally learnable from natural or margin-feasible information actions before their decision relevance expires.",
-          "failure_consequence": "The method can remain conservative but cannot claim online recovery of useful optimal impedance."
+          "assumption_id": "A-R6-UNCERTAINTY",
+          "assumption": "The posterior plus population-scoped calibration produces conservative enough one-sided margins for the optimizer-consumed outcomes.",
+          "failure_consequence": "Constraint semantics and robust gain selection are invalid."
         },
         {
-          "assumption_id": "A-R7-LOCAL-CALIBRATION",
-          "assumption": "After adaptation, a delayed, non-overlapping residual buffer can satisfy the declared local-stationarity and dependence conditions needed for the predeclared empirical calibration audit.",
-          "failure_consequence": "Posterior decision recovery may be observed, but calibrated-margin re-entry cannot be claimed."
-        },
-        {
-          "assumption_id": "A-R8-WITHDRAWAL-TOTALITY",
-          "assumption": "Every state admitted to the OUTSIDE-ADAPTATION-ENVELOPE branch remains inside a separately declared withdrawal envelope in which a preverified dissipative impedance and normal-unload reference are robot-side feasible, rate compliant, and retrievable before the same update deadline.",
-          "failure_consequence": "The three-state applied-action relation is not total; the claim envelope must narrow or a lower-level certified emergency relation is required."
-        },
-        {
-          "assumption_id": "A-R7-INCUMBENT-PERSISTENCE",
-          "assumption": "A current verified incumbent exists and its shifted sequence remains admissible or can be conservatively repaired before the deadline as the contact state and margin authority change.",
-          "failure_consequence": "The incumbent branch loses totality even if the adaptive contact operator is valid."
+          "assumption_id": "A-R6-TOTALITY",
+          "assumption": "A verified admissible gain or fallback exists at initialization and can be updated or returned within every declared deadline.",
+          "failure_consequence": "The applied-action relation is not total in the claimed envelope."
         }
       ],
       "target_domain_operationalization": [
-        "Use the instantaneous contact frame and a minimal action a_k=(k_n,d_n,k_t,d_t). The observation y_k contains pose, indentation and velocity, six-axis wrench, scan tangent/normal, slip/contact indicators, previous gain and interaction-energy ledger; z_k=E(y_0:k,a_0:k-1) is a predictive state, not a material label.",
-        "The operator predicts an H-step posterior over normal-force error, tangential trajectory error, contact retention, slip/friction capacity, wrench, interaction energy and actuator load conditional on a candidate impedance sequence.",
-        "Offline training combines multistep predictive likelihood with feasible-set disagreement and constrained decision regret relative to a higher-information teacher. Nested-state pruning removes features whose omission does not change the declared feasible set or impedance ranking.",
-        "At each update, a pre-outcome applicability map S_k(z,a) classifies each candidate pair. SUPPORTED means the pair lies in the declared calibration population and passes the support audit; ADAPTING-IN-ENVELOPE means initial calibration is inapplicable but the pair lies in the adaptation envelope; OUTSIDE-ENVELOPE means scan adaptation is no longer defensible but the measured robot/contact state remains inside a separately declared withdrawal envelope.",
-        "For SUPPORTED pairs, the optimizer consumes calibrated one-sided margins M_cal. For ADAPTING-IN-ENVELOPE pairs define F_env={a:g_env,j(z,a,w)>=0 for every j and every w in W_env}. Then F_adapt=F_env intersect F_veto, with F_veto determined by posterior lower margins only when it is nonempty and contains the declared fallback; otherwise F_veto is the whole action set. Therefore F_adapt is always a subset of F_env. The posterior may add restrictions or shape cost/information value, but can never shrink W_env or relax any g_env constraint. Covariance inflation is never called coverage.",
-        "The frozen representation backbone feeds a low-dimensional Bayesian/RLS readout. Every observed outcome updates its mean and covariance; persistent normalized innovation increases forgetting and covariance. If uncertainty can change an active margin or gain ranking, the optimizer may choose an information-bearing impedance only from the current valid admissible relation.",
-        "Re-entry from ADAPTING-IN-ENVELOPE to SUPPORTED requires a delayed residual buffer not reused for the readout update, a predeclared effective sample size, a local-stationarity/dependence check and success of the empirical one-sided calibration audit. Until then the envelope relation remains authoritative even if posterior prediction or decision regret improves.",
-        "The horizon objective minimizes expected normal-force and tangential tracking loss, contact-loss/slip risk and gain variation, with a bounded information-value term only for decision-relevant uncertainty. It imposes the current-state margins on wrench, contact/friction, interaction energy, actuator effort and gain magnitude/rate.",
-        "OUTSIDE-ENVELOPE bypasses scan optimization in the same update and returns the preverified withdrawal tuple u_wd=(WITHDRAW,a_wd,r_wd): tangential reference speed goes to zero, gains move within rate bounds to a dissipative withdrawal setting, and the normal reference unloads along the last verified normal until the measured contact force is below the release threshold. u_wd is a constant-time lookup checked against robot-side wrench, energy, actuator and gain-rate bounds within the declared withdrawal envelope. No adaptation performance or arbitrary-shift safety claim is made in this branch.",
-        "In SUPPORTED or ADAPTING scan mode, initialize from a feasible sequence and publish a replacement only after complete verification in F_cal or F_adapt. Timeout returns the incumbent. OUTSIDE-ENVELOPE has priority over incumbent logic and returns u_wd by constant-time lookup; a feasibility-restoration solve never certifies totality by itself."
+        "Use the instantaneous contact frame and a minimal four-parameter scan impedance a_k=(k_n,d_n,k_t,d_t); orthogonal tangential and rotational gains remain fixed within declared bounds unless evidence shows their variation changes the decision.",
+        "Let y_k contain pose/indentation and velocity, six-axis wrench, scan tangent/normal, slip/contact indicators, previous gain, and interaction-energy ledger; z_k=E(y_{0:k},a_{0:k-1}) is a predictive rather than material-identification state.",
+        "The operator predicts an H-step distribution of force and tangent tracking errors plus one-sided margins for contact retention, friction/slip, wrench, energy and actuator limits conditional on the candidate gain sequence.",
+        "Offline learning uses multistep predictive likelihood plus decision distortion: feasible-set disagreement and downstream constrained cost regret relative to a higher-information teacher. Nested-state pruning removes features without held-out decision value.",
+        "Online learning freezes the representation backbone and recursively adapts a low-dimensional outcome readout and covariance. Persistent innovation increases forgetting and covariance; subsequent data changes both predicted mean and uncertainty, so in-envelope shift handling is adaptation, not unsupported rejection.",
+        "If uncertainty is decision-relevant, the same constrained optimizer values an admissible gain perturbation by expected reduction of active-margin and cost uncertainty. If no informative admissible action exists, it keeps the safest feasible action and records that optimality recovery is unavailable.",
+        "The horizon optimizer minimizes expected force-regulation and tangential-tracking loss plus contact-loss/slip risk, gain variation and decision-gated information cost, subject to posterior robust or chance constraints on force/torque, contact/friction, interaction energy, actuator limits and gain magnitude/rate.",
+        "An RTI-SQP implementation warm-starts from the shifted previously verified gain sequence. A candidate iterate replaces the incumbent only after the same posterior-margin verification; timeout returns the incumbent. Barrier/viability is an optional alternative renderer only if a useful nonempty certificate can later be justified.",
+        "Outside the declared physical envelope the method stops or transitions to an external system-level emergency policy; no arbitrary-shift adaptation or coverage claim is made."
       ],
       "target_intervention_novelty": {
-        "novelty_closure_id": "NOV-ADSCO-R7-PROVISIONAL",
+        "novelty_closure_id": "NOV-ADSCO-R6-PROVISIONAL",
         "nearest_target_prior_evidence_refs": [
           "j4KJ1EdUyYAJ",
           "imoj6X2imAgJ",
@@ -1505,504 +1491,147 @@
             "query_id": "Q0144"
           }
         ],
-        "uncovered_residual_delta": "NNBO acts after trial-fixed scalar Hunt-Crossley identification and leaves abrupt/time-varying parameters open. MPVIC couples a probabilistic ensemble to uncertainty-seeking offline data acquisition and a separate deployment stiffness MPC in unconstrained free-space tasks; it does not establish continual soft-contact readout adaptation, state-dependent valid margins or admissible online information actions. The remaining Target delta is the adaptive decision-sufficient contact operator with explicit support-state semantics, constrained normal-tangential selection and a total applied-action relation.",
-        "mechanism_delta": "At the causal position before gain selection, replace fixed scalar contact parameters with a history/action posterior; on pre-outcome support loss inside the envelope, switch margin authority from population calibration to an independently conservative envelope relation, adapt using only actions admissible under that relation, and require a delayed audit before calibrated re-entry.",
-        "scientific_delta": "Determine whether this support-aware active contact adaptation recovers useful constrained normal-tangential impedance decisions under calibration-out changes, while preserving explicit failure boundaries and one total applied action.",
+        "uncovered_residual_delta": "NNBO identifies a scalar Hunt-Crossley model before interaction and leaves abrupt or time-varying parameters for future work; MPVIC learns a probabilistic Cartesian model and plans stiffness but is offline or fine-tuned, unconstrained and not a continuous finite-area soft-contact adaptation method; uncertainty-tightened MPC does not select coupled impedance under history shift.",
+        "mechanism_delta": "A predictive contact operator is defined by constrained impedance decisions, recursively adapted under shift, and coupled to admissible information acquisition and the same constrained gain optimizer.",
+        "scientific_delta": "Tests whether decision-sufficient online contact adaptation, rather than more complete material reconstruction or a safety renderer as headline, enables useful constrained normal-tangential optimal impedance across declared calibration-out changes.",
         "disposition": "RESTRUCTURED_DELTA"
       },
-      "provisional_scientific_delta": "A support-state-aware adaptive decision-sufficient contact operator that converts calibration-out soft-contact changes into constrained impedance decision recovery rather than detection or refusal, paired with one of two still-competing totality mechanisms. Variant A adds interruption-safe verified-incumbent persistence without making the optimizer itself the paper headline.",
-      "substantive_difference": "Relative to NNBO, the modeled object, update timing and optimizer all change: fixed scalar material parameters become a history/action posterior over joint outcomes and margins; pre-identification becomes continual local adaptation with explicit margin-authority states; and unconstrained scalar optimal control becomes constrained belief-space selection of normal/tangential stiffness and damping. Incumbent and viability mechanisms remain subordinate but scientifically distinct realizations of the accepted totality requirement. Its totality claim depends on persistence of a previously verified sequence, not construction of an invariant set.",
+      "provisional_scientific_delta": "An online-adaptive predictive contact operator that changes only when constrained impedance decisions change, with decision-relevant uncertainty reduced through feasible impedance actions and consumed directly by a deadline-total normal-tangential optimizer.",
+      "substantive_difference": "Relative to NNBO, the contact object changes from fixed scalar material parameters to a history- and action-conditioned posterior over joint contact outcomes; identification moves from a preliminary phase to continuous recursive adaptation; and scalar unconstrained optimal control becomes constrained belief-space receding-horizon selection of normal and tangential stiffness/damping. Relative to A/B, feasibility rendering remains necessary but is subordinate to the adaptive contact-to-decision mechanism.",
       "predictions": [
         {
-          "prediction_id": "PR-R7-REPRESENTATION",
+          "prediction_id": "PR-R6-REPRESENTATION",
           "assumption_ids": [
-            "A-R7-PREDICTIVE-SUFFICIENCY"
+            "A-R6-PREDICTIVE-SUFFICIENCY"
           ],
-          "observable": "Matched-compute held-out feasible-set agreement and impedance regret for scalar NNBO state, full physical features and the predictive state",
+          "observable": "Matched-compute held-out feasible-set agreement and impedance regret for scalar NNBO state, full physical features and the proposed predictive state",
           "pattern_a": "The predictive state matches the high-information teacher within tolerance while scalar NNBO aliases histories and full reconstruction adds no decision value.",
           "rival_type": "RIVAL_RCA",
           "rival_id": "ALT-CALIBRATED-MEMORYLESS-MODEL-SUFFICIENT",
-          "pattern_b": "A calibrated memoryless or scalar contact state is decision-equivalent on the same shifts, margins and action class.",
+          "pattern_b": "A calibrated memoryless or scalar contact state is decision-equivalent on the same shifts and margins.",
           "activation_condition": "Held-out material, geometry, sliding or loading-history aliases occur.",
-          "killer_criterion": "No reproducible feasible-set or impedance-decision advantage over the calibrated memoryless rival kills the representation delta.",
-          "cheapest_informative_rationale": "Paired replay of identical histories and action probes isolates representation value before controller trials."
+          "killer_criterion": "No reproducible downstream decision advantage over the calibrated memoryless rival kills the representation delta.",
+          "cheapest_informative_rationale": "Paired offline replay of identical histories and action probes isolates representation value before controller trials."
         },
         {
-          "prediction_id": "PR-R7-DECISION-RECOVERY",
+          "prediction_id": "PR-R6-ADAPTATION",
           "assumption_ids": [
-            "A-R7-ADAPTABILITY",
-            "A-R7-ENVELOPE-MARGIN"
+            "A-R6-ADAPTABILITY",
+            "A-R6-UNCERTAINTY"
           ],
-          "observable": "After an in-envelope shift, posterior prediction error, feasible-action set and constrained impedance regret under passive update versus admissible decision-gated information actions",
-          "pattern_a": "Both methods remain inside M_env, but recursive adaptation changes the posterior and feasible gains; admissible information actions shorten recovery of decision quality relative to passive adaptation and fixed conservative gains.",
+          "observable": "After an in-envelope abrupt or gradual shift, time to recover calibrated margin prediction and constrained impedance regret under passive update versus decision-gated feasible excitation",
+          "pattern_a": "Recursive updates change the posterior mean/covariance and feasible gains, and feasible information actions shorten recovery without extra violations.",
           "rival_type": "RIVAL_RCA",
           "rival_id": "ALT-CONSERVATIVE-FIXED-GAIN-SAFETY",
-          "pattern_b": "The posterior changes without recovering decision quality, or recovery requires inadmissible excitation, so the fixed conservative action is decision-equivalent or superior.",
-          "activation_condition": "The shift changes active margins and at least one M_env-admissible informative action exists.",
-          "killer_criterion": "Failure to recover decision quality inside the declared horizon despite admissible excitation, or any reliance on an action outside the active margin relation, kills active OOC handling.",
-          "cheapest_informative_rationale": "Logged shift replay can compare estimates, active margins and decisions before physical scanning."
+          "pattern_b": "Only unsupported detection occurs, or useful recovery requires inadmissible excitation or per-condition retraining, leaving a conservative fixed action as the only reliable response.",
+          "activation_condition": "The shift changes active contact margins and at least one informative admissible action exists.",
+          "killer_criterion": "Failure to recover decision quality inside the declared adaptation horizon, despite admissible excitation, kills the active OOC-handling claim.",
+          "cheapest_informative_rationale": "A logged model-in-the-loop shift replay can compare posterior and decisions before physical scanning."
         },
         {
-          "prediction_id": "PR-R7-MARGIN-VALIDITY",
+          "prediction_id": "PR-R6-CONSTRAINED-TOTALITY",
           "assumption_ids": [
-            "A-R7-ENVELOPE-MARGIN",
-            "A-R7-LOCAL-CALIBRATION"
+            "A-R6-UNCERTAINTY",
+            "A-R6-TOTALITY"
           ],
-          "observable": "State-labelled violations and sharpness under M_cal before shift, M_env during adaptation, and local M_cal after declared re-entry",
-          "pattern_a": "Every adapting action lies in F_adapt and therefore in F_env; posterior belief only adds a veto or shapes the objective. Calibrated re-entry occurs only after the delayed audit. OUTSIDE-ENVELOPE returns u_wd before the deadline.",
+          "observable": "Membership of every rendered gain in the optimizer-defined hard-margin set under forced interruption, infeasibility and uncertainty inflation",
+          "pattern_a": "Every deadline returns the verified incumbent from the same feasible relation; only achieved cost degrades with less compute.",
           "rival_type": "RIVAL_RCA",
-          "rival_id": "ALT-CALIBRATED-MEMORYLESS-MODEL-SUFFICIENT",
-          "pattern_b": "A calibrated memoryless relation meets the same validity and sharpness targets, an adapting action violates F_env because posterior belief relaxed it, or the outside-envelope branch lacks a timely feasible withdrawal action.",
-          "activation_condition": "A supported pair becomes unsupported but stays in the physical envelope.",
-          "killer_criterion": "Any adapting action outside F_env, unsupported calibrated re-entry, late/infeasible u_wd within the withdrawal envelope, or decision-equivalent calibrated-memoryless margins kills the corresponding relation claim.",
-          "cheapest_informative_rationale": "Sequential residual replay directly separates decision recovery from margin applicability."
-        },
-        {
-          "prediction_id": "PR-R7-INCUMBENT-TOTALITY",
-          "assumption_ids": [
-            "A-R7-INCUMBENT-PERSISTENCE",
-            "A-R7-ENVELOPE-MARGIN",
-            "A-R8-WITHDRAWAL-TOTALITY"
-          ],
-          "observable": "Membership and latency of every applied tuple under interruption, infeasibility, support-state switching and OUTSIDE-ENVELOPE activation",
-          "pattern_a": "SUPPORTED/ADAPTING deadlines return a verified incumbent in F_cal/F_adapt; OUTSIDE-ENVELOPE returns feasible u_wd by constant-time lookup.",
-          "rival_type": "PRINCIPLE",
-          "rival_id": "P-ADAPTIVE-CONTACT-VIABILITY-RELATION",
-          "pattern_b": "Incumbent shift loses feasibility under fast capacity motion, whereas an invariant viability set still supplies an admissible backup.",
-          "activation_condition": "A margin becomes active or support authority switches near a deadline.",
-          "killer_criterion": "Any scan-mode deadline without an admissible incumbent, any adapting action outside F_env, or any late/infeasible u_wd within the declared withdrawal envelope kills this branch.",
-          "cheapest_informative_rationale": "Interruption and support-state replay directly audits persistence."
+          "rival_id": "ALT-POSTHOC-GUARD-EQUIVALENT",
+          "pattern_b": "The nominal gain is later projected, overridden, or absent at a deadline, so selected and applied actions diverge.",
+          "activation_condition": "A physical, uncertainty or computation margin becomes active.",
+          "killer_criterion": "Any in-envelope update without a timely admissible output kills the total-relation claim.",
+          "cheapest_informative_rationale": "Solver interruption and constraint-activation replay directly audits the relation without asserting final performance."
         }
       ],
       "evidence_refs": [
+        "j4KJ1EdUyYAJ",
+        "HUMAN-IJRR-2011-PSR",
+        "imoj6X2imAgJ",
         "HUMAN-NEURIPS-2022-VES",
         "HUMAN-MANSCI-2021-SPO",
         "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
-        "bRrwxfzJq_QJ",
-        "_8NXx8-VkcgJ",
         "Ubx3Xkv4y2kJ",
+        "_8NXx8-VkcgJ",
         "ZDySGaNsMn8J",
         "9vRJMR2dgG4J",
-        "j4KJ1EdUyYAJ",
-        "HUMAN-IJRR-2011-PSR",
-        "imoj6X2imAgJ"
+        "bRrwxfzJq_QJ"
       ],
       "status": "ACTIVE",
-      "status_rationale": "Active R7 integrated Candidate A. It preserves the re-anchored adaptive contact core and incorporates the reviewed R5 incumbent mechanism as the causal repair for update-time totality.",
+      "status_rationale": "This is the minimal R6 re-anchoring that directly repairs both accepted RMCs and the user's calibration-out requirement. It retains R5 A/B mechanisms only in the roles evidence supports: incumbent as the chosen real-time renderer, viability as an optional alternative, conformal calibration as population-scoped uncertainty calibration, and robust optimization as constraint semantics.",
       "paper_level_methodology": {
-        "working_title": "Support-Aware Adaptive Decision-Sufficient Contact Operators for Constrained Normal-Tangential Impedance Control",
-        "central_relation": "(history, candidate impedance, support state) -> adaptive posterior plus currently valid margins -> constrained impedance decision -> total applied action",
-        "contact_operator": "z_k=E(h_k); p_Theta(o_k:k+H | z_k,a_k:k+H-1), with o containing force/tangent errors, contact/slip events, wrench, interaction energy and actuator load. E and the outcome heads are trained by multistep likelihood plus feasible-set and decision-regret distortion, and pruned by decision equivalence.",
-        "online_adaptation": "Frozen nonlinear features phi(z,a) feed a low-dimensional Bayesian/RLS readout. Innovations update mean and covariance at every step; normalized-innovation persistence controls forgetting. An information-value term is enabled only when posterior uncertainty can change an active margin or action ranking, and its action must already satisfy the current authoritative margin relation.",
-        "uncertainty_states": "SUPPORTED uses population-calibrated F_cal. ADAPTING-IN-ENVELOPE uses F_adapt=F_env intersect F_veto, so membership always implies every independently valid envelope constraint; posterior belief may only add a veto or shape the objective. OUTSIDE-ENVELOPE returns the preverified constant-time withdrawal tuple u_wd inside a separately declared withdrawal envelope. Delayed non-overlapping residual auditing is required before calibrated re-entry.",
-        "decision_objective": "Minimize expected normal-force and tangential trajectory error, contact-loss/slip risk, gain variation and bounded decision-relevant information cost over a short horizon, subject to current-state wrench, contact/friction, energy, actuator and gain/rate margins.",
+        "working_title": "Adaptive Decision-Sufficient Contact Operators for Constrained Normal-Tangential Impedance Control",
+        "central_relation": "(history, candidate impedance) -> adaptive posterior over contact outcomes and hard margins -> one constrained impedance decision",
+        "online_update": "For frozen nonlinear features phi(z_k,a_k), use mu_k=W_k phi and Sigma_k=Sigma_noise+phi^T P_k phi. A forgetting Bayesian/RLS update changes W_k and P_k after each observed outcome; a sustained normalized innovation inflates P_k and lowers the forgetting factor. This is a concrete local adaptation choice because a full-network online update would be too slow and difficult to bound, while fixed features retain learned cross-condition structure.",
+        "decision_objective": "Over a short horizon, minimize expected weighted force and tangential trajectory error, CVaR or upper confidence bounds for slip/contact loss, and gain variation; subtract bounded expected information gain only where posterior sensitivity shows that uncertainty can change an active constraint or gain ranking.",
+        "constraint_relation": "The same gain sequence must satisfy posterior one-sided limits for force/torque, contact retention and friction, interaction-energy ledger, actuator effort, gain bounds/rates and terminal incumbent feasibility. Population conformal residuals may calibrate initial scale on declared exchangeable episodes but are not claimed to guarantee post-shift adaptation.",
         "analysis_scope": [
-          "Decision-equivalence: operator-equivalent histories induce equivalent robust feasible sets and gain rankings up to declared distortion.",
-          "Conditional adaptation: bounded local drift plus persistent admissible excitation yields bounded readout error; decision recovery and calibration re-entry are distinct propositions.",
-          "Margin-state validity: each applied action is assessed only against M_cal or M_env whose applicability was decided pre-outcome.",
-          "Conditional totality is variant-specific and remains to be proven, not assumed achieved."
+          "Decision-equivalence proposition: operator-equivalent histories induce the same robust feasible set and gain ranking up to the declared distortion tolerance.",
+          "Conditional adaptation result: under bounded drift and persistent admissible excitation, local posterior error remains bounded; the exact rate and constants remain to be derived, not assumed achieved.",
+          "Conditional totality proposition: with a feasible initial incumbent, conservative posterior margins and within-budget verification, interruption changes cost but not existence of the applied action."
         ],
         "baseline_delta": [
-          "fixed scalar Hunt-Crossley parameters -> history/action posterior over joint outcomes and margins",
-          "trial pre-identification -> continual local adaptation under explicit support states",
-          "unconstrained one-dimensional critic/HJB -> constrained short-horizon normal-tangential impedance selection",
-          "conditional nominal output -> total applied action via incumbent persistence or viability relation"
-        ],
-        "totality_renderer": "Warm-started RTI-SQP with atomic verified-incumbent replacement; timeout returns the incumbent."
+          "NNBO scalar fixed Hunt-Crossley parameters -> history-conditioned posterior over normal-tangential wrench, slip/contact and energy-relevant outcomes.",
+          "NNBO pre-identification -> continuous local posterior update with decision-gated feasible information acquisition.",
+          "NNBO one-dimensional unconstrained HJB/critic relation -> short-horizon constrained optimization of normal/tangential stiffness and damping.",
+          "NNBO conditional model/critic analysis without physical hard limits -> optimizer-consumed wrench, energy, actuator, gain-rate and deadline semantics."
+        ]
       },
+      "source_mechanism_migrations": [
+        {
+          "source": "HUMAN-IJRR-2011-PSR",
+          "migrated_mechanism": "State as conditional predictions of observable action-observation tests.",
+          "target_adaptation": "Core tests become short impedance probes and their predicted outcomes are wrench, slip/contact and task margins; recursive spectral guarantees are not transferred as contact guarantees.",
+          "actual_role": "Supplies the observable history-state form."
+        },
+        {
+          "source": "HUMAN-NEURIPS-2022-VES and HUMAN-MANSCI-2021-SPO",
+          "migrated_mechanism": "Retain and train model information according to downstream value or decision regret.",
+          "target_adaptation": "Distortion is feasible-set mismatch plus constrained impedance regret rather than Bellman error or linear-program cost.",
+          "actual_role": "Makes the contact operator decision-sufficient rather than a larger digital twin."
+        },
+        {
+          "source": "imoj6X2imAgJ",
+          "migrated_mechanism": "Probabilistic dynamics uncertainty and information-seeking actions coupled to MPC impedance choice.",
+          "target_adaptation": "Move from offline free-space stiffness planning to continuous contact readout adaptation, decision-gated safe excitation, normal-tangential gains and hard margins.",
+          "actual_role": "Supplies the partial model-uncertainty-action loop, not the full Target method."
+        },
+        {
+          "source": "Ubx3Xkv4y2kJ",
+          "migrated_mechanism": "Finite-area viscoelastic history changes normal force, tangential capacity and moment limits.",
+          "target_adaptation": "Use those as outcome families the predictive operator must preserve when decision-relevant, rather than fitting the paper's complete constitutive law online.",
+          "actual_role": "Prevents scalar memoryless contact aliasing."
+        },
+        {
+          "source": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE and bRrwxfzJq_QJ",
+          "migrated_mechanism": "Split residual calibration and warm-started feasibility-oriented optimization.",
+          "target_adaptation": "Calibration is limited to initial one-sided scale on a declared population; verified-incumbent retention is added as an internal deadline renderer. Neither Source is credited with OOC adaptation or full totality.",
+          "actual_role": "Implementation discipline, not core Principle."
+        }
+      ],
       "contributions": [
         {
-          "contribution": "A decision-sufficient soft-contact operator trained and pruned by the constrained impedance decisions it must preserve.",
-          "advance": "Changes the NNBO modeled object from fixed scalar material parameters to a minimal history/action posterior over joint contact outcomes and margins.",
-          "provenance": "Formal migration of VES/SPO decision relevance; PSR and finite-area contact work are Evidence-informed derivations."
+          "contribution": "A decision-sufficient soft-contact operator whose state and outputs are defined by the constrained normal-tangential impedance decisions they preserve, replacing NNBO's fixed scalar environment parameters without requiring universal material reconstruction.",
+          "why_it_matters": "It retains finite-area, tangential and history information exactly where the accepted RCA says scalar/contact-fixed models alias different decisions.",
+          "migration_account": "PSR supplies observable predictive state; VES/SPO supply downstream decision sufficiency; both are adapted to contact-margin and impedance-feasible-set objects."
         },
         {
-          "contribution": "A three-state calibration-out adaptation semantics with an independently valid envelope relation during adaptation and a delayed audit for calibrated re-entry.",
-          "advance": "Actually learns from new material, geometry, sliding and contact history while continuing bounded operation; separates decision recovery from coverage applicability.",
-          "provenance": "Target-derived repair; conformal/split calibration supplies only bounded discipline, not a post-shift guarantee."
+          "contribution": "A concrete in-envelope calibration-out adaptation mechanism that recursively changes the contact posterior and, only when decision-relevant, selects constraint-feasible informative impedance variation.",
+          "why_it_matters": "It addresses new materials, geometry, sliding and loading history by learning during the scan rather than merely flagging unsupported input or freezing to a conservative policy.",
+          "migration_account": "MPVIC's probabilistic model and information-seeking loop are moved into continuous soft contact and bounded by the same physical constraints; no zero-shot or arbitrary-shift claim is made."
         },
         {
-          "contribution": "A posterior-aware constrained normal-tangential impedance problem in which information and task actions obey the same current-state physical margins.",
-          "advance": "Explains why the new representation cannot feed NNBO unchanged: action-conditioned uncertainty and coupled outcomes require belief-space constrained selection.",
-          "provenance": "MPVIC is only an Evidence-informed precedent for probabilistic model/action coupling; continual safe contact adaptation is not attributed to it."
-        },
-        {
-          "contribution": "A closed three-state applied-action relation that maps loss of the adaptation envelope to a preverified dissipative withdrawal impedance/reference action within the same deadline.",
-          "advance": "Makes support loss an internal controller decision while preserving a strict claim boundary instead of delegating the actually applied action to an unspecified external policy.",
-          "provenance": "Target-derived totality closure; no arbitrary-shift safety effect is attributed to a Source."
-        },
-        {
-          "contribution": "An interruption-total rendering semantics based on atomic verified-incumbent replacement under the same support-state margin relation.",
-          "advance": "Ensures that learning, optimization and deadlines refer to the actually applied impedance.",
-          "provenance": "R5 incumbent branch retained; BOX-FDDP is only a warm-start/feasibility-restoration precedent."
+          "contribution": "A unified constrained receding-horizon relation that turns the adaptive posterior into time-varying normal and tangential stiffness/damping while enforcing wrench, contact, interaction-energy, actuator, gain-rate and deadline requirements on the actually rendered action.",
+          "why_it_matters": "The optimizer must change with the representation: posterior action-conditioned outcome distributions cannot be consumed by NNBO's scalar unconstrained optimal relation.",
+          "migration_account": "Robust/calibrated margins and feasible-incumbent computation are used as internal semantics; A/B are preserved but demoted from competing scientific headlines."
         }
       ],
       "key_technical_risks": [
-        "The physical envelope may be too conservative to retain informative actions.",
-        "Closed-loop dependence may prevent a defensible local calibration re-entry audit.",
-        "Frozen features may not span a genuinely novel contact regime.",
-        "Four gain coordinates may be too restrictive, while a richer matrix harms identifiability and timing.",
-        "Posterior propagation plus totality certification may exceed the update deadline."
-      ],
-      "causal_equivalence_mappings": [
-        {
-          "prior": "j4KJ1EdUyYAJ",
-          "causal_position": "Contact representation and update before impedance optimization",
-          "direction": "Source estimates one scalar fixed-trial Hunt-Crossley relation, then learns scalar optimal interaction under matched uncertainty; Target maps history and candidate normal-tangential impedance to posterior outcomes/margins and updates the readout during scanning.",
-          "activation_condition": "Source assumes a bounded identified trial and does not activate on abrupt/time-varying parameters; Target activates on pre-outcome support loss or persistent innovation inside a declared envelope.",
-          "source_actual_effect": "Online EWRLS identifies fixed contact parameters after excitation; a critic approximates the modified HJB and Newton inversion supplies reference position.",
-          "target_only_additions": "Decision-sufficient representation, continual calibration-out adaptation, state-specific valid hard margins, safe information actions, coupled gains and deadline totality."
-        },
-        {
-          "prior": "imoj6X2imAgJ",
-          "causal_position": "Probabilistic dynamics learning, information acquisition and deployment impedance MPC",
-          "direction": "Source uses an ensemble and uncertainty-seeking CEM to collect offline data, followed by separate deployment CEM stiffness planning; Target performs continual low-dimensional contact readout updates and allows information value only inside the active admissible margin relation.",
-          "activation_condition": "Source exploration is a training/data-collection phase for free-space task transfer; Target adaptation activates during continuous contact when support or innovations indicate a decision-relevant shift.",
-          "source_actual_effect": "Improved sample-efficient learning and planned variable stiffness in reported unconstrained tasks.",
-          "target_only_additions": "Finite-area/history-aware outcomes, normal-tangential impedance, nonlinear wrench/contact/energy constraints, local calibration re-entry and total rendering."
-        }
-      ],
-      "mechanism_provenance": [
-        {
-          "evidence": "HUMAN-NEURIPS-2022-VES and HUMAN-MANSCI-2021-SPO",
-          "classification": "FORMAL_SOURCE_MIGRATION",
-          "supported_mechanism": "Score and train a representation by downstream decision/value distortion rather than generic fit.",
-          "target_adaptation": "Use feasible-set mismatch and constrained impedance regret.",
-          "actual_role": "Defines decision sufficiency."
-        },
-        {
-          "evidence": "HUMAN-IJRR-2011-PSR",
-          "classification": "EVIDENCE_INFORMED_TARGET_DERIVATION",
-          "supported_mechanism": "Predictive state as conditional predictions of observable tests.",
-          "target_adaptation": "Impedance-conditioned wrench/contact outcome tests.",
-          "actual_role": "Motivates the observable state form; no PSR learning guarantee is transferred."
-        },
-        {
-          "evidence": "imoj6X2imAgJ",
-          "classification": "EVIDENCE_INFORMED_TARGET_DERIVATION",
-          "supported_mechanism": "Probabilistic ensemble, offline uncertainty-seeking data acquisition, and separate deployment stiffness MPC.",
-          "target_adaptation": "Continual contact readout update and margin-feasible online information action.",
-          "actual_role": "Precedent for the model-uncertainty-action loop only; continual adaptation is Target-derived."
-        },
-        {
-          "evidence": "Ubx3Xkv4y2kJ",
-          "classification": "EVIDENCE_INFORMED_TARGET_DERIVATION",
-          "supported_mechanism": "Finite-area viscoelastic history changes force, tangential capacity and moment limits.",
-          "target_adaptation": "Make these predicted outcome families when decision-relevant.",
-          "actual_role": "Physical basis against scalar memoryless aliasing."
-        },
-        {
-          "evidence": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE and bRrwxfzJq_QJ",
-          "classification": "BOUNDED_IMPLEMENTATION_PRECEDENT",
-          "supported_mechanism": "Split calibration discipline and warm-started feasibility-oriented computation.",
-          "target_adaptation": "Population calibration is not extended to post-shift coverage; incumbent retention, local re-entry audit and nonlinear margin semantics are Target assumptions.",
-          "actual_role": "Implementation discipline, not the scientific core."
-        }
-      ]
-    },
-    {
-      "principle_id": "P-ADAPTIVE-CONTACT-VIABILITY-RELATION",
-      "principle_version": 1,
-      "parent_version": null,
-      "principle": "Represent continuous soft contact by a recursively adapted, decision-sufficient action-conditional operator. At every update, classify the pre-outcome context-action pair as supported, unsupported-but-inside the adaptation envelope, or outside that envelope but inside the declared withdrawal envelope. Supported scan actions use calibrated margins; adapting scan actions must belong to an independently valid envelope-feasible set and posterior belief may only further restrict them or shape their objective; outside-envelope states return a preverified withdrawal impedance/reference action in constant time. The remaining scan-mode decision is rendered by incumbent persistence or viability. In SUPPORTED or ADAPTING scan mode, totality is realized by a capacity-conditioned viability relation and same-set backup; OUTSIDE-ENVELOPE returns u_wd directly.",
-      "origin_type": "REPRESENTATION_TRANSFORMATION",
-      "origin_ref_id": "RT-FIXED-CONTACT-LAW-TO-ADAPTIVE-PREDICTIVE-OPERATOR",
-      "alignment_ref_id": null,
-      "mechanism_change_ids": [
-        "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
-        "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
-      ],
-      "capability_ids": [
-        "CAP-ACTION-RELEVANT-STATE",
-        "CAP-CALIBRATED-CAPACITY-SET",
-        "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
-        "CAP-DEADLINE-TOTALITY"
-      ],
-      "obligation_ids": [
-        "OBL-MINIMAL-DECISION-SUFFICIENCY",
-        "OBL-HELDOUT-CAPACITY-CALIBRATION",
-        "OBL-SAME-RELATION-HARD-LIMITS",
-        "OBL-DEADLINE-INFEASIBILITY-FALLBACK"
-      ],
-      "causal_chain_ids": [
-        "CHAIN-CONTACT-STATE-TO-ACTION-ALIASING",
-        "CHAIN-GAIN-SELECTION-TO-FEASIBILITY-DECOUPLING"
-      ],
-      "activation_conditions": [
-        "A material, local geometry, sliding condition, speed, dwell or loading-history change inside the declared physical envelope changes the predicted contact margin or preferred feasible impedance.",
-        "A pre-outcome support score or sequential residual audit makes the initial calibrated relation inapplicable, while at least one action remains admissible under the envelope-conservative relation.",
-        "The optimizer faces active physical or computation constraints and must return an applied gain at every declared update."
-      ],
-      "intervention": "Construct and adapt the support-aware predictive contact operator. In SUPPORTED scan mode form the viability relation inside F_cal; in ADAPTING scan mode form it inside F_adapt, which is always a subset of F_env. Optimize only inside a nonempty invariant inner set and use its same-set backup on interruption. OUTSIDE-ENVELOPE bypasses the viability solve and returns the preverified withdrawal tuple u_wd before the same deadline.",
-      "changed_structure": "NNBO fixed scalar preidentified contact law -> history- and action-conditioned predictive contact operator with explicit support state -> active in-envelope adaptation under a valid envelope relation -> posterior-aware constrained normal-tangential impedance selection -> one of two explicit totality mechanisms.",
-      "root_cause_resolution_rationale": "The contact operator preserves exactly the history information that changes feasible impedance or its ranking. During calibration-out adaptation, F_adapt is constructed so F_adapt is a subset of F_env by definition; posterior belief can veto actions or shape objective/information value but cannot relax F_env before audited re-entry. Leaving the adaptation envelope activates a controller-internal withdrawal branch with a preverified dissipative gain/reference action and constant-time lookup. Thus all three support states produce an applied action while arbitrary-shift performance or safety is not claimed. The scan-mode totality mechanism remains open between incumbent persistence and viability certification.",
-      "failure_conditions": [
-        "The observation history does not distinguish decision-relevant contact aliases before a gain change is needed.",
-        "The declared adaptation envelope does not imply a nonempty conservative scan relation for the current unsupported regime.",
-        "No admissible impedance variation provides enough excitation to adapt before the regime changes again.",
-        "A delayed locally stationary calibration buffer cannot be formed, so calibrated re-entry is unavailable and only envelope-conservative operation remains claimable.",
-        "The four-gain contact-frame action class cannot achieve the required joint performance.",
-        "The selected scan-mode totality mechanism cannot return an admissible action by the update deadline.",
-        "The preverified withdrawal action is infeasible, late, or fails to monotonically unload within the declared withdrawal envelope."
-      ],
-      "fatal_assumptions": [
-        {
-          "assumption_id": "A-R7-PREDICTIVE-SUFFICIENCY",
-          "assumption": "A compact action-observation history state predicts every future outcome and margin needed to preserve impedance feasibility and ranking over the declared action class.",
-          "failure_consequence": "The representation must expand or the claim envelope must narrow; otherwise contact histories remain decision-aliased."
-        },
-        {
-          "assumption_id": "A-R7-ENVELOPE-MARGIN",
-          "assumption": "For every unsupported-but-in-envelope state, declared physics, actuator bounds and contact-retention limits define a nonempty conservative margin relation independently of the adaptive posterior.",
-          "failure_consequence": "The method cannot continue adaptation safely in that state and must narrow the envelope or stop."
-        },
-        {
-          "assumption_id": "A-R7-ADAPTABILITY",
-          "assumption": "In-envelope changes are locally learnable from natural or margin-feasible information actions before their decision relevance expires.",
-          "failure_consequence": "The method can remain conservative but cannot claim online recovery of useful optimal impedance."
-        },
-        {
-          "assumption_id": "A-R7-LOCAL-CALIBRATION",
-          "assumption": "After adaptation, a delayed, non-overlapping residual buffer can satisfy the declared local-stationarity and dependence conditions needed for the predeclared empirical calibration audit.",
-          "failure_consequence": "Posterior decision recovery may be observed, but calibrated-margin re-entry cannot be claimed."
-        },
-        {
-          "assumption_id": "A-R8-WITHDRAWAL-TOTALITY",
-          "assumption": "Every state admitted to the OUTSIDE-ADAPTATION-ENVELOPE branch remains inside a separately declared withdrawal envelope in which a preverified dissipative impedance and normal-unload reference are robot-side feasible, rate compliant, and retrievable before the same update deadline.",
-          "failure_consequence": "The three-state applied-action relation is not total; the claim envelope must narrow or a lower-level certified emergency relation is required."
-        },
-        {
-          "assumption_id": "A-R7-VIABILITY-NONEMPTY",
-          "assumption": "A useful robust inner viability set remains nonempty and can be certified as the adaptive contact posterior and margin authority change.",
-          "failure_consequence": "The viability branch collapses to stopping or excessive conservatism even if the adaptive contact operator is valid."
-        }
-      ],
-      "target_domain_operationalization": [
-        "Use the instantaneous contact frame and a minimal action a_k=(k_n,d_n,k_t,d_t). The observation y_k contains pose, indentation and velocity, six-axis wrench, scan tangent/normal, slip/contact indicators, previous gain and interaction-energy ledger; z_k=E(y_0:k,a_0:k-1) is a predictive state, not a material label.",
-        "The operator predicts an H-step posterior over normal-force error, tangential trajectory error, contact retention, slip/friction capacity, wrench, interaction energy and actuator load conditional on a candidate impedance sequence.",
-        "Offline training combines multistep predictive likelihood with feasible-set disagreement and constrained decision regret relative to a higher-information teacher. Nested-state pruning removes features whose omission does not change the declared feasible set or impedance ranking.",
-        "At each update, a pre-outcome applicability map S_k(z,a) classifies each candidate pair. SUPPORTED means the pair lies in the declared calibration population and passes the support audit; ADAPTING-IN-ENVELOPE means initial calibration is inapplicable but the pair lies in the adaptation envelope; OUTSIDE-ENVELOPE means scan adaptation is no longer defensible but the measured robot/contact state remains inside a separately declared withdrawal envelope.",
-        "For SUPPORTED pairs, the optimizer consumes calibrated one-sided margins M_cal. For ADAPTING-IN-ENVELOPE pairs define F_env={a:g_env,j(z,a,w)>=0 for every j and every w in W_env}. Then F_adapt=F_env intersect F_veto, with F_veto determined by posterior lower margins only when it is nonempty and contains the declared fallback; otherwise F_veto is the whole action set. Therefore F_adapt is always a subset of F_env. The posterior may add restrictions or shape cost/information value, but can never shrink W_env or relax any g_env constraint. Covariance inflation is never called coverage.",
-        "The frozen representation backbone feeds a low-dimensional Bayesian/RLS readout. Every observed outcome updates its mean and covariance; persistent normalized innovation increases forgetting and covariance. If uncertainty can change an active margin or gain ranking, the optimizer may choose an information-bearing impedance only from the current valid admissible relation.",
-        "Re-entry from ADAPTING-IN-ENVELOPE to SUPPORTED requires a delayed residual buffer not reused for the readout update, a predeclared effective sample size, a local-stationarity/dependence check and success of the empirical one-sided calibration audit. Until then the envelope relation remains authoritative even if posterior prediction or decision regret improves.",
-        "The horizon objective minimizes expected normal-force and tangential tracking loss, contact-loss/slip risk and gain variation, with a bounded information-value term only for decision-relevant uncertainty. It imposes the current-state margins on wrench, contact/friction, interaction energy, actuator effort and gain magnitude/rate.",
-        "OUTSIDE-ENVELOPE bypasses scan optimization in the same update and returns the preverified withdrawal tuple u_wd=(WITHDRAW,a_wd,r_wd): tangential reference speed goes to zero, gains move within rate bounds to a dissipative withdrawal setting, and the normal reference unloads along the last verified normal until the measured contact force is below the release threshold. u_wd is a constant-time lookup checked against robot-side wrench, energy, actuator and gain-rate bounds within the declared withdrawal envelope. No adaptation performance or arbitrary-shift safety claim is made in this branch.",
-        "Augment z_k with interaction-energy and gain-rate states. In SUPPORTED or ADAPTING scan mode compute a robust controlled-invariant inner set inside F_cal or F_adapt and keep a certified same-set backup. If the scan set is empty or the adaptation envelope is left, OUTSIDE-ENVELOPE has priority and returns u_wd by constant-time lookup."
-      ],
-      "target_intervention_novelty": {
-        "novelty_closure_id": "NOV-ADSCO-R7-PROVISIONAL",
-        "nearest_target_prior_evidence_refs": [
-          "j4KJ1EdUyYAJ",
-          "imoj6X2imAgJ",
-          "9vRJMR2dgG4J",
-          "ZDySGaNsMn8J"
-        ],
-        "causal_equivalent_intervention_check": "PARTIALLY_COVERED",
-        "evidence_search_provenance": [
-          {
-            "query_plan_sha256": "c3d2e724efde59c42a7ddd568777d3ba45f06b6505f57c95cb4de073fb7d2626",
-            "plan_item_id": "MDR6-SOURCE-NNBO-BASELINE",
-            "query_id": "Q0145"
-          },
-          {
-            "query_plan_sha256": "c3d2e724efde59c42a7ddd568777d3ba45f06b6505f57c95cb4de073fb7d2626",
-            "plan_item_id": "MDR6-SOURCE-PROBABILISTIC-IMPEDANCE-MPC",
-            "query_id": "Q0144"
-          }
-        ],
-        "uncovered_residual_delta": "NNBO acts after trial-fixed scalar Hunt-Crossley identification and leaves abrupt/time-varying parameters open. MPVIC couples a probabilistic ensemble to uncertainty-seeking offline data acquisition and a separate deployment stiffness MPC in unconstrained free-space tasks; it does not establish continual soft-contact readout adaptation, state-dependent valid margins or admissible online information actions. The remaining Target delta is the adaptive decision-sufficient contact operator with explicit support-state semantics, constrained normal-tangential selection and a total applied-action relation.",
-        "mechanism_delta": "At the causal position before gain selection, replace fixed scalar contact parameters with a history/action posterior; on pre-outcome support loss inside the envelope, switch margin authority from population calibration to an independently conservative envelope relation, adapt using only actions admissible under that relation, and require a delayed audit before calibrated re-entry.",
-        "scientific_delta": "Determine whether this support-aware active contact adaptation recovers useful constrained normal-tangential impedance decisions under calibration-out changes, while preserving explicit failure boundaries and one total applied action.",
-        "disposition": "RESTRUCTURED_DELTA"
-      },
-      "provisional_scientific_delta": "A support-state-aware adaptive decision-sufficient contact operator that converts calibration-out soft-contact changes into constrained impedance decision recovery rather than detection or refusal, paired with one of two still-competing totality mechanisms. Variant B adds a same-relation invariant admissible set and certified backup rather than relying on shifted incumbent persistence.",
-      "substantive_difference": "Relative to NNBO, the modeled object, update timing and optimizer all change: fixed scalar material parameters become a history/action posterior over joint outcomes and margins; pre-identification becomes continual local adaptation with explicit margin-authority states; and unconstrained scalar optimal control becomes constrained belief-space selection of normal/tangential stiffness and damping. Incumbent and viability mechanisms remain subordinate but scientifically distinct realizations of the accepted totality requirement. Its totality claim depends on nonempty controlled invariance and backup successor membership, not retention of a prior optimizer result.",
-      "predictions": [
-        {
-          "prediction_id": "PR-R7-REPRESENTATION",
-          "assumption_ids": [
-            "A-R7-PREDICTIVE-SUFFICIENCY"
-          ],
-          "observable": "Matched-compute held-out feasible-set agreement and impedance regret for scalar NNBO state, full physical features and the predictive state",
-          "pattern_a": "The predictive state matches the high-information teacher within tolerance while scalar NNBO aliases histories and full reconstruction adds no decision value.",
-          "rival_type": "RIVAL_RCA",
-          "rival_id": "ALT-CALIBRATED-MEMORYLESS-MODEL-SUFFICIENT",
-          "pattern_b": "A calibrated memoryless or scalar contact state is decision-equivalent on the same shifts, margins and action class.",
-          "activation_condition": "Held-out material, geometry, sliding or loading-history aliases occur.",
-          "killer_criterion": "No reproducible feasible-set or impedance-decision advantage over the calibrated memoryless rival kills the representation delta.",
-          "cheapest_informative_rationale": "Paired replay of identical histories and action probes isolates representation value before controller trials."
-        },
-        {
-          "prediction_id": "PR-R7-DECISION-RECOVERY",
-          "assumption_ids": [
-            "A-R7-ADAPTABILITY",
-            "A-R7-ENVELOPE-MARGIN"
-          ],
-          "observable": "After an in-envelope shift, posterior prediction error, feasible-action set and constrained impedance regret under passive update versus admissible decision-gated information actions",
-          "pattern_a": "Both methods remain inside M_env, but recursive adaptation changes the posterior and feasible gains; admissible information actions shorten recovery of decision quality relative to passive adaptation and fixed conservative gains.",
-          "rival_type": "RIVAL_RCA",
-          "rival_id": "ALT-CONSERVATIVE-FIXED-GAIN-SAFETY",
-          "pattern_b": "The posterior changes without recovering decision quality, or recovery requires inadmissible excitation, so the fixed conservative action is decision-equivalent or superior.",
-          "activation_condition": "The shift changes active margins and at least one M_env-admissible informative action exists.",
-          "killer_criterion": "Failure to recover decision quality inside the declared horizon despite admissible excitation, or any reliance on an action outside the active margin relation, kills active OOC handling.",
-          "cheapest_informative_rationale": "Logged shift replay can compare estimates, active margins and decisions before physical scanning."
-        },
-        {
-          "prediction_id": "PR-R7-MARGIN-VALIDITY",
-          "assumption_ids": [
-            "A-R7-ENVELOPE-MARGIN",
-            "A-R7-LOCAL-CALIBRATION"
-          ],
-          "observable": "State-labelled violations and sharpness under M_cal before shift, M_env during adaptation, and local M_cal after declared re-entry",
-          "pattern_a": "Every adapting action lies in F_adapt and therefore in F_env; posterior belief only adds a veto or shapes the objective. Calibrated re-entry occurs only after the delayed audit. OUTSIDE-ENVELOPE returns u_wd before the deadline.",
-          "rival_type": "RIVAL_RCA",
-          "rival_id": "ALT-CALIBRATED-MEMORYLESS-MODEL-SUFFICIENT",
-          "pattern_b": "A calibrated memoryless relation meets the same validity and sharpness targets, an adapting action violates F_env because posterior belief relaxed it, or the outside-envelope branch lacks a timely feasible withdrawal action.",
-          "activation_condition": "A supported pair becomes unsupported but stays in the physical envelope.",
-          "killer_criterion": "Any adapting action outside F_env, unsupported calibrated re-entry, late/infeasible u_wd within the withdrawal envelope, or decision-equivalent calibrated-memoryless margins kills the corresponding relation claim.",
-          "cheapest_informative_rationale": "Sequential residual replay directly separates decision recovery from margin applicability."
-        },
-        {
-          "prediction_id": "PR-R7-VIABILITY-TOTALITY",
-          "assumption_ids": [
-            "A-R7-VIABILITY-NONEMPTY",
-            "A-R7-ENVELOPE-MARGIN",
-            "A-R8-WITHDRAWAL-TOTALITY"
-          ],
-          "observable": "Nonemptiness, recursive membership, backup availability and withdrawal latency under capacity motion, interruption and OUTSIDE-ENVELOPE activation",
-          "pattern_a": "SUPPORTED/ADAPTING nominal and backup actions remain in a nonempty set inside F_cal/F_adapt; OUTSIDE-ENVELOPE returns feasible u_wd by constant-time lookup.",
-          "rival_type": "PRINCIPLE",
-          "rival_id": "P-ADAPTIVE-CONTACT-FEASIBLE-INCUMBENT",
-          "pattern_b": "A useful invariant set cannot be certified or is too conservative, while a verified incumbent remains feasible and higher performing.",
-          "activation_condition": "Capacity and energy/gain-rate margins evolve near a deadline.",
-          "killer_criterion": "Empty scan set, uncertified successor/backup, any adapting action outside F_env, or any late/infeasible u_wd within the declared withdrawal envelope kills this branch.",
-          "cheapest_informative_rationale": "Reachability and closed-loop set replay probes viability before hardware execution."
-        }
-      ],
-      "evidence_refs": [
-        "HUMAN-NEURIPS-2022-VES",
-        "HUMAN-MANSCI-2021-SPO",
-        "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
-        "bRrwxfzJq_QJ",
-        "_8NXx8-VkcgJ",
-        "Ubx3Xkv4y2kJ",
-        "ZDySGaNsMn8J",
-        "9vRJMR2dgG4J",
-        "j4KJ1EdUyYAJ",
-        "HUMAN-IJRR-2011-PSR",
-        "imoj6X2imAgJ"
-      ],
-      "status": "ACTIVE",
-      "status_rationale": "Active R7 integrated Candidate B. It preserves the re-anchored adaptive contact core and incorporates the reviewed R5 viability mechanism as the causal repair for update-time totality.",
-      "paper_level_methodology": {
-        "working_title": "Support-Aware Adaptive Decision-Sufficient Contact Operators for Constrained Normal-Tangential Impedance Control",
-        "central_relation": "(history, candidate impedance, support state) -> adaptive posterior plus currently valid margins -> constrained impedance decision -> total applied action",
-        "contact_operator": "z_k=E(h_k); p_Theta(o_k:k+H | z_k,a_k:k+H-1), with o containing force/tangent errors, contact/slip events, wrench, interaction energy and actuator load. E and the outcome heads are trained by multistep likelihood plus feasible-set and decision-regret distortion, and pruned by decision equivalence.",
-        "online_adaptation": "Frozen nonlinear features phi(z,a) feed a low-dimensional Bayesian/RLS readout. Innovations update mean and covariance at every step; normalized-innovation persistence controls forgetting. An information-value term is enabled only when posterior uncertainty can change an active margin or action ranking, and its action must already satisfy the current authoritative margin relation.",
-        "uncertainty_states": "SUPPORTED uses population-calibrated F_cal. ADAPTING-IN-ENVELOPE uses F_adapt=F_env intersect F_veto, so membership always implies every independently valid envelope constraint; posterior belief may only add a veto or shape the objective. OUTSIDE-ENVELOPE returns the preverified constant-time withdrawal tuple u_wd inside a separately declared withdrawal envelope. Delayed non-overlapping residual auditing is required before calibrated re-entry.",
-        "decision_objective": "Minimize expected normal-force and tangential trajectory error, contact-loss/slip risk, gain variation and bounded decision-relevant information cost over a short horizon, subject to current-state wrench, contact/friction, energy, actuator and gain/rate margins.",
-        "analysis_scope": [
-          "Decision-equivalence: operator-equivalent histories induce equivalent robust feasible sets and gain rankings up to declared distortion.",
-          "Conditional adaptation: bounded local drift plus persistent admissible excitation yields bounded readout error; decision recovery and calibration re-entry are distinct propositions.",
-          "Margin-state validity: each applied action is assessed only against M_cal or M_env whose applicability was decided pre-outcome.",
-          "Conditional totality is variant-specific and remains to be proven, not assumed achieved."
-        ],
-        "baseline_delta": [
-          "fixed scalar Hunt-Crossley parameters -> history/action posterior over joint outcomes and margins",
-          "trial pre-identification -> continual local adaptation under explicit support states",
-          "unconstrained one-dimensional critic/HJB -> constrained short-horizon normal-tangential impedance selection",
-          "conditional nominal output -> total applied action via incumbent persistence or viability relation"
-        ],
-        "totality_renderer": "Capacity-conditioned robust inner viability set with same-set certified backup action."
-      },
-      "contributions": [
-        {
-          "contribution": "A decision-sufficient soft-contact operator trained and pruned by the constrained impedance decisions it must preserve.",
-          "advance": "Changes the NNBO modeled object from fixed scalar material parameters to a minimal history/action posterior over joint contact outcomes and margins.",
-          "provenance": "Formal migration of VES/SPO decision relevance; PSR and finite-area contact work are Evidence-informed derivations."
-        },
-        {
-          "contribution": "A three-state calibration-out adaptation semantics with an independently valid envelope relation during adaptation and a delayed audit for calibrated re-entry.",
-          "advance": "Actually learns from new material, geometry, sliding and contact history while continuing bounded operation; separates decision recovery from coverage applicability.",
-          "provenance": "Target-derived repair; conformal/split calibration supplies only bounded discipline, not a post-shift guarantee."
-        },
-        {
-          "contribution": "A posterior-aware constrained normal-tangential impedance problem in which information and task actions obey the same current-state physical margins.",
-          "advance": "Explains why the new representation cannot feed NNBO unchanged: action-conditioned uncertainty and coupled outcomes require belief-space constrained selection.",
-          "provenance": "MPVIC is only an Evidence-informed precedent for probabilistic model/action coupling; continual safe contact adaptation is not attributed to it."
-        },
-        {
-          "contribution": "A closed three-state applied-action relation that maps loss of the adaptation envelope to a preverified dissipative withdrawal impedance/reference action within the same deadline.",
-          "advance": "Makes support loss an internal controller decision while preserving a strict claim boundary instead of delegating the actually applied action to an unspecified external policy.",
-          "provenance": "Target-derived totality closure; no arbitrary-shift safety effect is attributed to a Source."
-        },
-        {
-          "contribution": "A capacity-conditioned viability relation whose nominal and backup impedance actions share the same support-state margins.",
-          "advance": "Makes feasibility recursive under interruption rather than depending on a shifted incumbent.",
-          "provenance": "R5 viability branch retained; safety/barrier literature supplies a conditional formal basis, not a transferred contact guarantee."
-        }
-      ],
-      "key_technical_risks": [
-        "The physical envelope may be too conservative to retain informative actions.",
-        "Closed-loop dependence may prevent a defensible local calibration re-entry audit.",
-        "Frozen features may not span a genuinely novel contact regime.",
-        "Four gain coordinates may be too restrictive, while a richer matrix harms identifiability and timing.",
-        "Posterior propagation plus totality certification may exceed the update deadline."
-      ],
-      "causal_equivalence_mappings": [
-        {
-          "prior": "j4KJ1EdUyYAJ",
-          "causal_position": "Contact representation and update before impedance optimization",
-          "direction": "Source estimates one scalar fixed-trial Hunt-Crossley relation, then learns scalar optimal interaction under matched uncertainty; Target maps history and candidate normal-tangential impedance to posterior outcomes/margins and updates the readout during scanning.",
-          "activation_condition": "Source assumes a bounded identified trial and does not activate on abrupt/time-varying parameters; Target activates on pre-outcome support loss or persistent innovation inside a declared envelope.",
-          "source_actual_effect": "Online EWRLS identifies fixed contact parameters after excitation; a critic approximates the modified HJB and Newton inversion supplies reference position.",
-          "target_only_additions": "Decision-sufficient representation, continual calibration-out adaptation, state-specific valid hard margins, safe information actions, coupled gains and deadline totality."
-        },
-        {
-          "prior": "imoj6X2imAgJ",
-          "causal_position": "Probabilistic dynamics learning, information acquisition and deployment impedance MPC",
-          "direction": "Source uses an ensemble and uncertainty-seeking CEM to collect offline data, followed by separate deployment CEM stiffness planning; Target performs continual low-dimensional contact readout updates and allows information value only inside the active admissible margin relation.",
-          "activation_condition": "Source exploration is a training/data-collection phase for free-space task transfer; Target adaptation activates during continuous contact when support or innovations indicate a decision-relevant shift.",
-          "source_actual_effect": "Improved sample-efficient learning and planned variable stiffness in reported unconstrained tasks.",
-          "target_only_additions": "Finite-area/history-aware outcomes, normal-tangential impedance, nonlinear wrench/contact/energy constraints, local calibration re-entry and total rendering."
-        }
-      ],
-      "mechanism_provenance": [
-        {
-          "evidence": "HUMAN-NEURIPS-2022-VES and HUMAN-MANSCI-2021-SPO",
-          "classification": "FORMAL_SOURCE_MIGRATION",
-          "supported_mechanism": "Score and train a representation by downstream decision/value distortion rather than generic fit.",
-          "target_adaptation": "Use feasible-set mismatch and constrained impedance regret.",
-          "actual_role": "Defines decision sufficiency."
-        },
-        {
-          "evidence": "HUMAN-IJRR-2011-PSR",
-          "classification": "EVIDENCE_INFORMED_TARGET_DERIVATION",
-          "supported_mechanism": "Predictive state as conditional predictions of observable tests.",
-          "target_adaptation": "Impedance-conditioned wrench/contact outcome tests.",
-          "actual_role": "Motivates the observable state form; no PSR learning guarantee is transferred."
-        },
-        {
-          "evidence": "imoj6X2imAgJ",
-          "classification": "EVIDENCE_INFORMED_TARGET_DERIVATION",
-          "supported_mechanism": "Probabilistic ensemble, offline uncertainty-seeking data acquisition, and separate deployment stiffness MPC.",
-          "target_adaptation": "Continual contact readout update and margin-feasible online information action.",
-          "actual_role": "Precedent for the model-uncertainty-action loop only; continual adaptation is Target-derived."
-        },
-        {
-          "evidence": "Ubx3Xkv4y2kJ",
-          "classification": "EVIDENCE_INFORMED_TARGET_DERIVATION",
-          "supported_mechanism": "Finite-area viscoelastic history changes force, tangential capacity and moment limits.",
-          "target_adaptation": "Make these predicted outcome families when decision-relevant.",
-          "actual_role": "Physical basis against scalar memoryless aliasing."
-        },
-        {
-          "evidence": "HUMAN-NEURIPS-2023-PREDICT-CALIBRATE and bRrwxfzJq_QJ",
-          "classification": "BOUNDED_IMPLEMENTATION_PRECEDENT",
-          "supported_mechanism": "Split calibration discipline and warm-started feasibility-oriented computation.",
-          "target_adaptation": "Population calibration is not extended to post-shift coverage; incumbent retention, local re-entry audit and nonlinear margin semantics are Target assumptions.",
-          "actual_role": "Implementation discipline, not the scientific core."
-        }
+        "Safe excitation may be too weak for adaptation before the contact regime changes again.",
+        "Frozen features may not span truly novel deformation or friction regimes, making last-layer adaptation biased.",
+        "Posterior calibration under dependent closed-loop trajectories is harder than exchangeable offline calibration.",
+        "Joint uncertainty propagation and hard-margin verification may exceed the scan update budget.",
+        "The four-gain contact-frame action class may be too restrictive, while a richer matrix impedance may destroy identifiability and real-time feasibility."
       ]
     }
   ],
@@ -2014,13 +1643,6 @@
     "principle-92057ecb8aef4edd9b45c209d2b0686f",
     "principle-bc5ce11900694775b11e4ace33fe2959",
     "principle-83e4d0d4071a4dfcb9402ba30aa5803a",
-    "principle-ebab09edfba847579bc56eeb39265b49",
-    "principle-480b2e4f634342c3ba976ef0171bed06",
-    "principle-5eb3207d7d464a73b0e37149731258cd",
-    "principle-9b5148b0e7a740689f40120cea387832",
-    "principle-3edbdd787b654265a913e126f698205c",
-    "principle-007802bc732b49d2b81cc1008a9bff93",
-    "principle-462e6fad152c440fa00b68480166d2b0",
     "P-CAPACITY-CONDITIONED-FEASIBLE-INCUMBENT@3",
     "P-CAPACITY-CONDITIONED-VIABILITY-RELATION@3",
     "idea-stage/METHOD_SYNTHESIS_HUMAN_SELECTION_DRAFTS.md"
@@ -2029,8 +1651,6 @@
     "return-2161408c494444c6a7cbdb50af83ed83",
     "return-9385b864d4a94f31aa211a726be3ff49",
     "human-return-404f0c6daabd4355bdd5ae67d52bd2a2",
-    "human-return-31074cfbc46e4473a7aae727901e0610",
-    "return-2e4cf01fc1114b7ab16dab821b4c9bf5",
-    "return-1b2fe5f83aea4bc085985a7175224eb4"
+    "human-return-31074cfbc46e4473a7aae727901e0610"
   ]
 }

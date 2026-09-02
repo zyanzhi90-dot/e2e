@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "run_id": "impedance-control-landscape-e2e",
+  "review_request_id": "1cc82ff2f95f460399b73478e9f49538",
+  "reviewer": "gpt-5.6-sol",
+  "verdict_id": "a85da59aeb814d2d9cd891c332fb630f",
+  "decision": "REVISE_PRINCIPLES",
+  "reviewed_artifact_hashes": {
+    "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+    "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-9vRJMR2dgG4J.json": "f2cfab988614128e678b82123316b233a5e0b67a4be2a257bab82719f3431700",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+    ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+    "idea-stage/METHOD_DESIGN_PACKET.json": "ad6bde4859ada0d391f42170c902e8dd869c45a262c50d165025e6daca6ae029"
+  },
+  "reviewed_artifact": {
+    "path": "idea-stage/METHOD_DESIGN_PACKET.json",
+    "sha256": "ad6bde4859ada0d391f42170c902e8dd869c45a262c50d165025e6daca6ae029"
+  },
+  "findings": [
+    "Every live-request binding was readable and its observed SHA-256 matched the Controller-declared hash.",
+    "Both RMCs remain entailed by the accepted residual causal chains. The history-to-action-capacity change addresses contact-state aliasing, and the total applied-action change addresses selection-feasibility decoupling without changing the accepted Problem identity.",
+    "The RMC-to-Capability-to-Obligation structure closes causally. First-principles, representation-transformation, same-field, and cross-domain records are substantive; MODEL_PRIOR and ACADEMIC_BRIDGE hypotheses, scholarly provenance, terminology grounding, Source boundaries, and search-space closures are reviewable and do not rely merely on budget exhaustion.",
+    "The packet now classifies PSR and MPVIC honestly as Evidence-informed Target derivations rather than passed Source transfers. Its NNBO and MPVIC causal-equivalence mappings explicitly distinguish causal position, direction, activation condition, Source actual effect, and Target-only additions such as continual contact adaptation, admissible information actions, nonlinear hard margins, and deadline totality.",
+    "The solution space is correctly assessed as UNDERCONSTRAINED. The two active integrated Candidates share the adaptive contact core but remain scientifically distinct: one obtains totality through verified-incumbent persistence, while the other requires a nonempty capacity-conditioned viability relation with a certified backup.",
+    "The reviewed R5 incumbent and viability records are preserved through their immutable archived packet and Principle-history hashes. The current MERGED entries accurately identify themselves as abbreviated summaries rather than claiming exact in-place preservation.",
+    "Both active Candidates provide a paper-level methodological shape, explicit causal deltas, fatal assumptions, risks, nearest-prior separation, and discriminating killer concepts. The packet contains no concrete Principle Test Plan, execution set, or cost.",
+    "The support-state applied-action relation is not total as written. SUPPORTED pairs use M_cal and ADAPTING-IN-ENVELOPE pairs use M_env with posterior scenarios, but OUTSIDE-ENVELOPE explicitly has neither relation and invokes an external emergency/stop policy. That external transition is not an optimizer-consumed admissible-action relation and therefore reintroduces the separation between the Candidate decision and the action actually applied for one of the packet's three declared states.",
+    "The ADAPTING-IN-ENVELOPE composition is also scientifically ambiguous: describing the optimizer input as M_env intersected with posterior scenario margins does not establish whether the independently valid envelope relation remains a hard outer authority or whether an uncalibrated adaptive posterior can narrow the uncertainty object and relax a required bound. Posterior inflation is correctly not called coverage, and calibrated re-entry is correctly separated from decision recovery, but the current mathematical semantics do not yet prove that every adapting action is constrained by a presently valid relation."
+  ],
+  "return_guidance": {
+    "missing_evidence": [
+      "A reviewable three-state applied-action derivation in which SUPPORTED, ADAPTING-IN-ENVELOPE, and OUTSIDE-ENVELOPE each map to a presently valid controller-consumed admissible relation and a defined applied action. A claim-bounded withdrawal or stop may serve OUTSIDE-ENVELOPE only if it is incorporated into the total relation with explicit feasibility and latency semantics rather than delegated to an unspecified external policy.",
+      "A precise composition rule for M_env and adaptive posterior scenarios showing that posterior estimates can shape cost, information value, or further restrict actions but can never relax the independently valid envelope constraints before a successful delayed calibration audit."
+    ],
+    "decision_target": "method_design",
+    "required_check": [
+      "Revise both active integrated Candidates so the support-state map and total applied-action map close over all three declared states. Specify the OUTSIDE-ENVELOPE admissible withdrawal/stop relation, its activation event, applied action, and deadline behavior, while retaining the scientific claim boundary and avoiding any arbitrary-shift safety claim.",
+      "Define the ADAPTING-IN-ENVELOPE feasible set mathematically so every informative and performance action must satisfy M_env regardless of posterior belief. State explicitly whether posterior scenarios only add restrictions or influence the objective; do not use set intersection in a way that can shrink an uncertainty set and weaken robust enforcement.",
+      "Propagate these semantics through each Candidate's intervention, operationalization, failure conditions, fatal assumptions, paper-level methodology, and killer concepts so an outside-envelope transition or an invalid posterior-envelope composition can falsify the corresponding totality claim."
+    ]
+  }
+}
