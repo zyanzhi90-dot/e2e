@@ -796,11 +796,23 @@ lifted force variables通过 \(\bar F_{e,k}=h_c(\bar x_k;\hat\eta_k)\) 与动态
 
 ## 6.4 Scientific Contributions（final wording）
 
-1. **Robotic-ultrasound methods either prescribe impedance or adapt normal stiffness from current force/tissue estimates, while contact-aware MPC uses future soft contact only for feedforward torque. We formulate future-contact-conditioned impedance co-design: predicted probe-specific normal–tangential contact jointly determines nominal torque and the minimal stiffness pair, enabling anticipatory force–path–slip trade-offs.**
+最终只保留三条主贡献；其层级依次是 **target-domain capability → closed-loop mechanism → real-time constrained realization**，而不是三个可拆卸模块。
 
-2. **Predictive impedance priors optimize gains through learned or probabilistic interaction models, but do not close them with deformable probe contact and T-RO’s force-modulated solver. We derive a mean–deviation coupling that maps normal–tangential gains to future contact statistics and constraints, with an explicit authority test that freezes impedance when the coupling vanishes.**
+1. **利用未来探头--组织接触状态，在线联合选择法向--切向阻抗。** 现有机器人超声方法已具有示范变阻抗、当前力/组织估计驱动的在线法向刚度 QP，以及预测软接触的 torque MPC，但尚未让未来 probe-specific deformable normal--tangential contact 联合决定 \(k_n,k_t\)。R15 建立这一关系，使相同当前测量、不同未来接触演化能够产生不同阻抗决策。
 
-3. **Medical VIC already combines stiffness QPs, tissue estimates, and energy tanks, while general MPVIC supplies multistep gain optimization. We derive a probe-contact-horizon QP that jointly enforces force, slip, retention, actuator, and damping margins, and uses the same predicted deviation envelope to authorize gain/reference work before publishing an action.**
+2. **把未来软接触预测从 nominal force/motion planning 扩展为 feedback-impedance decision state。** 一般 predictive/risk-sensitive impedance 已能根据未来交互与不确定性调节 gains；R15 对连续软组织滑动接触重新推导 mean--deviation dynamics：未来几何与接触参数既改变 nominal contact trajectory，也通过 \(A_{cl}(k_n,k_t)\) 改变 feedback deviation，二者共同决定 force、slip、contact-retention 与 actuator margins；zero-authority 时冻结 gains。
+
+3. **推导面向连续扫描的 probe-contact-horizon sensitivity impedance QP。** 现有 ultrasound QP、online stiffness QP 与通用 multistep MPVIC 均不足以单独构成创新；R15 将整段 future deformable-contact 与 closed-loop deviation 对 \((k_n,k_t)\) 的敏感度压缩为两变量约束 QP，同时处理 future force、slip、contact retention、actuator、gain/damping 与 energy-admissibility margins，并由原非线性模型复验候选动作。
+
+其中独立在线决策量是 \((k_n,k_t)\)，\((d_n,d_t)\) 由局部闭环极点/阻尼比关系导出。Energy tank 不列为独立创新：它只作为第 3 条中的 safety/assurance mechanism；除非进一步得到超出现有 medical/ultrasound VIC 的 robustness/passivity theorem，否则不升级为第 4 条贡献。
+
+对应的 paper-ready English wording（每条少于 60 个英文单词）为：
+
+1. **Robotic-ultrasound methods learn impedance from demonstrations, adapt normal stiffness from current contact, or predict soft contact only for motion/torque. We formulate future-contact-conditioned normal–tangential impedance: predicted probe–tissue evolution jointly selects \(k_n,k_t\), allowing identical current measurements but different future geometry, deformation, or sliding conditions to produce different feedback mechanics.**
+
+2. **Predictive impedance priors anticipate uncertain interaction, but do not close feedback-gain selection with probe-specific deformable sliding contact. We derive coupled nominal and deviation dynamics in which future contact shapes mean interaction while \(A_{cl}(k_n,k_t)\) shapes force, slip, retention, and actuator margins; an authority test freezes gains when this coupling cannot change outcomes.**
+
+3. **Ultrasound stiffness QPs are reactive, whereas generic MPVIC lacks probe-specific sliding-contact constraints. We derive a two-variable contact-horizon sensitivity QP whose coefficients encode future deformable-contact and closed-loop-deviation effects on force, slip, retention, actuator, gain/damping, and energy margins, followed by exact nonlinear revalidation for real-time publication of a feasible impedance action.**
 
 ## 6.5 唯一未闭合的决定性接口与最小验证
 

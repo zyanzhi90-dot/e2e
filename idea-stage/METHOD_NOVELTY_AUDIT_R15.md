@@ -67,11 +67,13 @@ _{\text{future probe--tissue contact}}
 |---|---|---|---|---|
 | T-RO 2023 deformable-contact-aware MPC | smooth normal/sliding contact dynamics；DDP/IK/Projection ADMM；future force/motion planning | 击穿 contact-aware MPC、sliding contact prediction 与 real-time distributed solver novelty | low-level impedance predefined；future contact 不选择 feedback gains | **backbone prior** |
 | Dyck RA-L 2022 | arbitrary surface task coordinates；signed-distance/normal alignment；passivity-based ultrasound impedance | 击穿 surface-frame impedance、normal alignment 和 passive ultrasound contact novelty | fixed classical impedance；无 future contact-conditioned gain optimization | **geometry/control-coordinate prior** |
+| Duan et al. RA-L 2022 | 多任务 constrained QP 协调 force、position、orientation、energy 与 posture；由医生示范学习 variable-impedance gains；真实 scoliosis ultrasound scans | 击穿 ultrasound optimization-based control、demonstration-derived variable impedance 与多目标扫描 novelty | QP 优化任务控制而非在线 gain；gain schedule 来自示范而非 future contact mechanics | **demonstration-based target-domain prior** |
 | Beber ICRA 2024 | HC tissue map；online stiffness QP；force/penetration/energy constraints；tank；dummy-torso ultrasound and contact-loss tests | 击穿“组织参数驱动的超声 VIC”、QP、tank、force/penetration constraints | current-point/offline map relation；重点为 normal force；无 sliding n/t dynamics、horizon contact evolution 或 \(k_t\) decision | **strongest target-domain mechanism prior** |
 | Fu TIM 2024 | closed-loop online stiffness QP；energy tank；linear probe；soft/hard transitions and continuous scan | 击穿 medical online stiffness optimization、QP real-time feasibility 与 ultrasound validation novelty | \(N=1\)、current force-error、normal-only decision、fixed high tangential stiffness | **strongest simple reactive baseline** |
 | Fu T-RO 2025 | QP VIC + shared control；global tank；gain-change and moving-reference power；medical contact experiments | 击穿 global tank、moving-reference power accounting 和 shared-control packaging novelty | bilateral/haptic objective；single-step normal stiffness；无 autonomous future n/t contact relation | **energy-accounting prior** |
 | AuSoScan TMECH 2025 | cylinder--plane normal/sliding contact model inside torque MPC；real ultrasound scanning | 击穿 probe geometry、soft-contact MPC 和 normal/sliding model novelty | action is joint torque；impedance is not optimized from future contact | **closest target-task model prior** |
 | Xue et al. RAS 2025 MPVIC | HC estimator；multistep MPC；mode-based variable impedance；constraints；tank passivity；human-arm/ultrasound-like validation | 击穿 “MPC+VIC+soft model+constraints+passivity” 作为整体组合的 novelty | one-dimensional normal interaction；target impedance comes from safety/performance modes rather than probe sliding-contact horizon | **strongest adjacent integrated prior** |
+| Hammoud et al. RA-L 2021 | risk-sensitive contact optimization jointly generates state/control trajectories and local feedback gains；unknown contact-location uncertainty produces anticipatory stiffness/damping schedules | 击穿一般的“未来接触/不确定性使阻抗提前变化” novelty | legged contact；无 continuous probe sliding、soft-tissue constitutive n/t state、force/slip/retention constraints | **closest contact-anticipation prior** |
 | Haninger et al. RAS 2023 GP-MPIC | online trajectory/impedance optimization；belief mean/covariance；chance force and contact-stability constraints | 击穿 covariance propagation、uncertainty-conditioned impedance 与 joint trajectory/impedance planning novelty | learned force-over-state model；无 probe-specific deformable n/t contact、slip/retention relation或 T-RO decomposition | **closest predictive-authority prior** |
 | Pollayil et al. T-RO 2023 | online stiffness/damping planning；perturbation-induced tracking bounds；gain constraints；analytic/numerical real-time solution | 击穿 constrained optimal impedance planning 与独立 stiffness/damping 选择 novelty | 不建模 contacted environment 或 probe sliding mechanics；无 force/slip/contact-loss decision | **closest model-based gain-planning prior** |
 | Roveda et al. Artificial Intelligence 2022 Q-LMPVIC | learned pHRC dynamics/uncertainty；MPC objective；online setpoint/damping optimization；Lyapunov constraints；Q-learning approximation | 击穿 learned predictive impedance、online approximation 与 Lyapunov-constrained planning novelty | pHRC vertical interaction；无 physical probe/tissue constitutive state、n/t scanning constraints 或 tank relation | **closest learning-based predictive prior** |
@@ -100,7 +102,7 @@ Xue et al. 已经把 nonlinear soft-environment estimation、multistep MPC、mod
 
 ### 3.1 已被击穿的旧 claim
 
-旧 contribution 2 暗示“mean--deviation/covariance 使 nominal zero-error 时 gains 获得 authority”本身是新贡献。该表述不能保留。Haninger et al. 已显式令 impedance-dependent dynamics 传播 mean/covariance，并以 covariance cost、chance force constraint 和 contact-stability constraint优化 impedance；Anand et al. 已用 learned dynamics预测 stiffness sequence 的未来结果；Roveda et al. 已将 learned uncertainty、MPC、Lyapunov constraints 与在线 impedance action 结合；Pollayil et al. 也已在扰动响应约束下在线选择 stiffness/damping。
+旧 contribution 2 暗示“mean--deviation/covariance 使 nominal zero-error 时 gains 获得 authority”本身是新贡献。该表述不能保留。Hammoud et al. 已由 risk-sensitive contact optimization 联合生成 state/control trajectory 与 local feedback gains，并在不确定接触前后形成 anticipatory impedance schedule；Haninger et al. 已显式令 impedance-dependent dynamics 传播 mean/covariance，并以 covariance cost、chance force constraint 和 contact-stability constraint优化 impedance；Anand et al. 已用 learned dynamics预测 stiffness sequence 的未来结果；Roveda et al. 已将 learned uncertainty、MPC、Lyapunov constraints 与在线 impedance action 结合；Pollayil et al. 也已在扰动响应约束下在线选择 stiffness/damping。
 
 ### 3.2 可保留的新 claim
 
@@ -185,15 +187,29 @@ R15 可声明的不是一般 covariance authority，而是其在 **T-RO feedforw
 
 ## 6. Reconstructed Scientific Contributions
 
-以下三条是最终建议 wording；每条均少于 60 个英文单词。
+最终只保留三条主贡献。三条的层级依次是 **target-domain capability → closed-loop mechanism → real-time constrained realization**；它们不是三个可拆卸模块，而是同一因果链的 formulation、mechanics 与 solver 三层。
 
-1. **Robotic-ultrasound methods either prescribe impedance or adapt normal stiffness from current force/tissue estimates, while contact-aware MPC uses future soft contact only for feedforward torque. We formulate future-contact-conditioned impedance co-design: predicted probe-specific normal–tangential contact jointly determines nominal torque and the minimal stiffness pair, enabling anticipatory force–path–slip trade-offs.**
+### 6.1 中文论文式表述
 
-2. **Predictive impedance priors optimize gains through learned or probabilistic interaction models, but do not close them with deformable probe contact and T-RO’s force-modulated solver. We derive a mean–deviation coupling that maps normal–tangential gains to future contact statistics and constraints, with an explicit authority test that freezes impedance when the coupling vanishes.**
+1. **利用未来探头--组织接触状态，在线联合选择法向--切向阻抗。** 现有机器人超声方法已具有示范变阻抗、当前力/组织估计驱动的在线法向刚度 QP，以及预测软接触的 torque MPC，但尚未让未来 probe-specific deformable normal--tangential contact 联合决定 \(k_n,k_t\)。R15 建立这一目标领域关系，使相同当前测量、不同未来接触演化能够产生不同阻抗决策。
 
-3. **Medical VIC already combines stiffness QPs, tissue estimates, and energy tanks, while general MPVIC supplies multistep gain optimization. We derive a probe-contact-horizon QP that jointly enforces force, slip, retention, actuator, and damping margins, and uses the same predicted deviation envelope to authorize gain/reference work before publishing an action.**
+2. **把未来软接触预测从 nominal force/motion planning 扩展为 feedback-impedance decision state。** 一般 predictive/risk-sensitive impedance 已能根据未来交互与不确定性调节 gains；R15 的新增不是“预测阻抗”本身，而是对连续软组织滑动接触重新推导 mean--deviation dynamics：未来几何与接触参数既改变 nominal contact trajectory，也通过 \(A_{cl}(k_n,k_t)\) 改变 feedback deviation，二者共同决定 force、slip、contact-retention 与 actuator margins；zero-authority 时冻结 gains。
 
-三条贡献的层级分别是：**new target-domain formulation → new architecture-specific control relation → real-time constrained realization/assurance relation**。QP、covariance、tank 等只能在 how 中出现，不能成为句首名词。
+3. **推导面向连续扫描的 probe-contact-horizon sensitivity impedance QP。** 现有 ultrasound QP、online stiffness QP 与通用 multistep MPVIC 均不足以单独构成创新；R15 的算法差异是将整段 future deformable-contact 与 closed-loop deviation 对 \((k_n,k_t)\) 的敏感度压缩为两变量约束 QP，同时处理 future force、slip、contact retention、actuator、gain/damping 与 energy-admissibility margins，并由原非线性模型复验候选动作。
+
+这里“在线联合选择法向--切向阻抗”的**最小充分参数化**是独立优化 \((k_n,k_t)\)，而 \((d_n,d_t)\) 由局部闭环极点/阻尼比关系导出；因此不应暗示四个 gains 均独立在线优化。第 2 条也不应写成所有未来量都“经过 \(A_{cl}\)”：nominal contact rollout 直接决定均值项，而 \(A_{cl}\) 专门赋予 feedback gains 对偏差与风险包络的独立作用。
+
+### 6.2 Paper-ready English wording
+
+以下英文版本逐条保持“closest prior → remaining gap → added relation → value”，且每条少于 60 个英文单词。
+
+1. **Robotic-ultrasound methods learn impedance from demonstrations, adapt normal stiffness from current contact, or predict soft contact only for motion/torque. We formulate future-contact-conditioned normal–tangential impedance: predicted probe–tissue evolution jointly selects \(k_n,k_t\), allowing identical current measurements but different future geometry, deformation, or sliding conditions to produce different feedback mechanics.**
+
+2. **Predictive impedance priors anticipate uncertain interaction, but do not close feedback-gain selection with probe-specific deformable sliding contact. We derive coupled nominal and deviation dynamics in which future contact shapes mean interaction while \(A_{cl}(k_n,k_t)\) shapes force, slip, retention, and actuator margins; an authority test freezes gains when this coupling cannot change outcomes.**
+
+3. **Ultrasound stiffness QPs are reactive, whereas generic MPVIC lacks probe-specific sliding-contact constraints. We derive a two-variable contact-horizon sensitivity QP whose coefficients encode future deformable-contact and closed-loop-deviation effects on force, slip, retention, actuator, gain/damping, and energy margins, followed by exact nonlinear revalidation for real-time publication of a feasible impedance action.**
+
+Energy tank 不列为第 4 条贡献。Beber 2024 和 Fu 2025 已分别覆盖 ultrasound/medical VIC 中的 tank-constrained modulation 与 global moving-reference energy accounting。R15 的 predicted-envelope debit 作为第 3 条的 safety/assurance mechanism；只有未来形成超出现有工作的 robustness/passivity theorem，才可升级为独立理论贡献。
 
 ---
 
@@ -251,10 +267,12 @@ R15 可声明的不是一般 covariance authority，而是其在 **T-RO feedforw
 
 - L. Wijayarathne et al., *Real-Time Deformable-Contact-Aware Model Predictive Control for Force-Modulated Manipulation*, IEEE T-RO, 2023. DOI: [10.1109/TRO.2023.3286070](https://doi.org/10.1109/TRO.2023.3286070).
 - M. Dyck et al., *Impedance Control on Arbitrary Surfaces for Ultrasound Scanning Using Discrete Differential Geometry*, IEEE RA-L, 2022. DOI: [10.1109/LRA.2022.3184800](https://doi.org/10.1109/LRA.2022.3184800).
+- A. Duan et al., *Ultrasound-Guided Assistive Robots for Scoliosis Assessment With Optimization-Based Control and Variable Impedance*, IEEE RA-L, 2022. DOI: [10.1109/LRA.2022.3186504](https://doi.org/10.1109/LRA.2022.3186504).
 - L. Beber et al., *A Passive Variable Impedance Control Strategy with Viscoelastic Parameters Estimation of Soft Tissues for Safe Ultrasonography*, ICRA, 2024. DOI: [10.1109/ICRA57147.2024.10610167](https://doi.org/10.1109/ICRA57147.2024.10610167).
 - J. Fu et al., *Optimization-Based Variable Impedance Control of Robotic Manipulator for Medical Contact Tasks*, IEEE TIM, 2024. DOI: [10.1109/TIM.2024.3372209](https://doi.org/10.1109/TIM.2024.3372209).
 - J. Fu et al., *Human-Inspired Active Compliant and Passive Shared Control Framework for Robotic Contact-Rich Tasks in Medical Applications*, IEEE T-RO, 2025. DOI: [10.1109/TRO.2025.3548493](https://doi.org/10.1109/TRO.2025.3548493).
 - A. Duan et al., *AuSoScan: Automatic Scoliosis Assessment by Ultrasound Scanning With Soft Contact Control*, IEEE/ASME TMECH, 2025. DOI: [10.1109/TMECH.2025.3583041](https://doi.org/10.1109/TMECH.2025.3583041).
+- B. Hammoud et al., *Impedance Optimization for Uncertain Contact Interactions Through Risk Sensitive Optimal Control*, IEEE RA-L, 2021. DOI: [10.1109/LRA.2021.3068951](https://doi.org/10.1109/LRA.2021.3068951).
 - K. Haninger et al., *Model Predictive Impedance Control With Gaussian Processes for Human and Environment Interaction*, Robotics and Autonomous Systems, 2023. DOI: [10.1016/j.robot.2023.104431](https://doi.org/10.1016/j.robot.2023.104431).
 - M. J. Pollayil et al., *Choosing Stiffness and Damping for Optimal Impedance Planning*, IEEE T-RO, 2023. DOI: [10.1109/TRO.2022.3216078](https://doi.org/10.1109/TRO.2022.3216078).
 - L. Roveda et al., *Q-Learning-Based Model Predictive Variable Impedance Control for Physical Human-Robot Collaboration*, Artificial Intelligence, 2022. DOI: [10.1016/j.artint.2022.103771](https://doi.org/10.1016/j.artint.2022.103771).
@@ -264,4 +282,4 @@ R15 可声明的不是一般 covariance authority，而是其在 **T-RO feedforw
 - J. M. S. Ducaju et al., *Model-Based Predictive Impedance Variation for Obstacle Avoidance in Safe Human–Robot Collaboration*, IEEE TASE, 2025. DOI: [10.1109/TASE.2024.3508718](https://doi.org/10.1109/TASE.2024.3508718).
 - J. Xue et al., *Model Predictive Variable Impedance Control Towards Safe Robotic Interaction in Unknown Disturbance-Rich Environments*, Robotics and Autonomous Systems, 2025. DOI: [10.1016/j.robot.2025.104961](https://doi.org/10.1016/j.robot.2025.104961).
 
-审计优先使用仓库中的原论文、decision-grade Evidence Cards 与 Active Field Map；只对 Beber ICRA 2024 及“future probe n/t contact-conditioned impedance”缺口进行了定向补检索。检索到 Beber 后，相关 target-domain mechanism 已足以压实 novelty 边界，故停止扩展，未重新开启领域综述。
+审计优先使用仓库中的原论文、decision-grade Evidence Cards 与 Active Field Map；只对 Beber ICRA 2024、Duan RA-L 2022、Hammoud RA-L 2021 及“future probe n/t contact-conditioned impedance”缺口进行了定向补核。上述 priors 已足以压实 target-domain 与 anticipatory-impedance novelty 边界，故停止扩展，未重新开启领域综述。
