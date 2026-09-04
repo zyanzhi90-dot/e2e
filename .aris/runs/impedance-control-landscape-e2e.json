@@ -2193,7 +2193,7 @@
     ]
   },
   "created": "2026-08-12T10:39:56Z",
-  "updated": "2026-09-02T18:52:09Z",
+  "updated": "2026-09-04T12:22:58Z",
   "phases": [
     {
       "phase": "landscape",
@@ -2837,25 +2837,60 @@
     },
     {
       "phase": "method_design",
-      "status": "accepted",
-      "artifact": "idea-stage/METHOD_DESIGN_PACKET.json",
-      "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-      "reviewer": "gpt-5.6-sol",
-      "reviewer_family": "openai",
-      "review_independence": "independent-context",
-      "acceptance_status": "accepted",
+      "status": "running",
+      "artifact": null,
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-09-02T18:52:09Z",
-      "review_request": null,
-      "history_recorded_for_reviewed_sha256": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
-      "validated_artifacts": {
-        "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
-        "idea-stage/METHOD_DESIGN.md": "881552b6646894eea384578ebbfc054e2d02e2b59d3bf63474da37aceb1279f6",
-        "idea-stage/METHOD_DESIGN_REVIEW.json": "0955a6819aae9d34496a4d50908e2bf2f177c693b100683d85c4ad1eb0ebae1c"
+      "updated": "2026-09-04T11:45:18Z",
+      "review_request": {
+        "id": "bd0191261958485f8c7ae30e767afcab",
+        "run_id": "impedance-control-landscape-e2e",
+        "phase": "method_design",
+        "gate": "principle_packet_semantic_review",
+        "required_reviewer_role": "independent_method_reviewer",
+        "accepted_verdicts": [
+          "PRINCIPLE_PACKET_READY"
+        ],
+        "terminal_verdicts": [],
+        "allowed_review_verdicts": [
+          "PRINCIPLE_PACKET_READY",
+          "REVISE_PRINCIPLES",
+          "RCA_CONFLICT"
+        ],
+        "artifact_bindings": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+          "idea-stage/METHOD_DESIGN_PACKET.json": "d1a7d88cd90dbaec1c2a07a7d610dd7a8421a1740a22ca91f8053b0eaf525050"
+        },
+        "issued_by": "ARISController",
+        "created_at": "2026-09-04T12:22:58Z",
+        "return_feedback": {
+          "id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+          "at": "2026-09-04T11:44:51Z",
+          "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation.",
+          "from_phase": "principle_human_selection",
+          "return_target": "method_design",
+          "decision": "request_revision"
+        },
+        "finalized_at": "2026-09-04T12:22:58Z"
       },
-      "gate_verdict": "PRINCIPLE_PACKET_READY",
+      "history_recorded_for_reviewed_sha256": "d1a7d88cd90dbaec1c2a07a7d610dd7a8421a1740a22ca91f8053b0eaf525050",
+      "validated_artifacts": null,
+      "gate_verdict": null,
       "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
       "reviewed_artifact_hashes": {
         "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
@@ -2879,224 +2914,7 @@
         ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
         "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
       },
-      "handoff_artifacts": {
-        "idea-stage/METHOD_DESIGN_PACKET.json": {
-          "path": "idea-stage\\METHOD_DESIGN_PACKET.json",
-          "sha256": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
-          "size_bytes": 91652,
-          "status": "active",
-          "producer_phase": "method_design",
-          "registered_at": "2026-09-02T18:52:06Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
-          },
-          "problem_version_binding": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 2,
-            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-            "reviewer": "gpt-5.6-sol",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-09-02T18:52:09Z",
-            "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
-            "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
-            "reviewed_artifact_bindings": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-              "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-              "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
-            }
-          }
-        },
-        "idea-stage/METHOD_DESIGN.md": {
-          "path": "idea-stage\\METHOD_DESIGN.md",
-          "sha256": "881552b6646894eea384578ebbfc054e2d02e2b59d3bf63474da37aceb1279f6",
-          "size_bytes": 15805,
-          "status": "active",
-          "producer_phase": "method_design",
-          "registered_at": "2026-09-02T18:52:06Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
-          },
-          "problem_version_binding": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 2,
-            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-            "reviewer": "gpt-5.6-sol",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-09-02T18:52:09Z",
-            "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
-            "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
-            "reviewed_artifact_bindings": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-              "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-              "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
-            }
-          }
-        },
-        "idea-stage/METHOD_DESIGN_REVIEW.json": {
-          "path": "idea-stage\\METHOD_DESIGN_REVIEW.json",
-          "sha256": "0955a6819aae9d34496a4d50908e2bf2f177c693b100683d85c4ad1eb0ebae1c",
-          "size_bytes": 7829,
-          "status": "active",
-          "producer_phase": "method_design",
-          "registered_at": "2026-09-02T18:52:06Z",
-          "provenance": {
-            "controller": "ARISController",
-            "run_id": "impedance-control-landscape-e2e",
-            "executor_model": "codex-gpt-5.6-sol"
-          },
-          "upstream_snapshot": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
-          },
-          "problem_version_binding": {
-            "problem_id": "P-SOFTSCAN-STATE-01",
-            "version": 2,
-            "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
-          },
-          "acceptance": {
-            "status": "accepted",
-            "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-            "reviewer": "gpt-5.6-sol",
-            "reviewer_family": "openai",
-            "review_independence": "independent-context",
-            "accepted_at": "2026-09-02T18:52:09Z",
-            "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
-            "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
-            "reviewed_artifact_bindings": {
-              "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-              "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-              "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-              "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-              "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-              "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-              ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-              "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
-            }
-          }
-        }
-      },
+      "handoff_artifacts": null,
       "return_guidance": null,
       "design_cycle_id": "MDCYCLE-SOFTSCAN-V2-R14-FULL-ENVELOPE-AUTHORITY",
       "acceptance_artifacts": null,
@@ -3117,7 +2935,7 @@
       "executor_model": "codex-gpt-5.6-sol",
       "executor_family": "openai",
       "human_decision": null,
-      "updated": "2026-09-02T16:29:56Z",
+      "updated": "2026-09-04T11:44:51Z",
       "handoff_artifacts": null,
       "acceptance_artifacts": null,
       "validated_artifacts": null,
@@ -106924,6 +106742,456 @@
           "obligation_ids": [
             "OBL-SAME-RELATION-HARD-LIMITS"
           ]
+        },
+        "evidence:HUMAN-NEURIPS-2022-VES@readopt-aa14c17f2d63481c81b7e690cbb2b799": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json",
+          "validator_result": "PASS",
+          "sha256": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+          "read_event_id": "ee99a4a530c746128398cbdf1ac23d96",
+          "accepted_at": "2026-09-01T12:31:47Z",
+          "evidence_key": "evidence:HUMAN-NEURIPS-2022-VES",
+          "phase_binding_anchor": {
+            "phase": "method_design",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              },
+              "idea-stage/RESEARCH_CONTRACT.md": {
+                "path": "idea-stage\\RESEARCH_CONTRACT.md",
+                "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                "producer_phase": "problem_human_acceptance",
+                "registered_at": "2026-09-01T07:38:27Z"
+              },
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+                "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                "producer_phase": "problem_human_acceptance",
+                "registered_at": "2026-09-01T07:38:27Z"
+              },
+              "idea-stage/NECESSITY_CLOSURE.json": {
+                "path": "idea-stage\\NECESSITY_CLOSURE.json",
+                "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+                "producer_phase": "problem_necessity",
+                "registered_at": "2026-09-01T08:10:47Z",
+                "problem_version_binding": {
+                  "problem_id": "P-SOFTSCAN-STATE-01",
+                  "version": 2,
+                  "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+                },
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T08:10:47Z",
+                  "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+                  "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+                  }
+                }
+              },
+              "idea-stage/NECESSITY_VERDICT.json": {
+                "path": "idea-stage\\NECESSITY_VERDICT.json",
+                "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+                "producer_phase": "problem_necessity",
+                "registered_at": "2026-09-01T08:10:47Z",
+                "problem_version_binding": {
+                  "problem_id": "P-SOFTSCAN-STATE-01",
+                  "version": 2,
+                  "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+                },
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T08:10:47Z",
+                  "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+                  "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+                  }
+                }
+              },
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+                "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+                "producer_phase": "root_cause_analysis",
+                "registered_at": "2026-09-01T08:18:49Z"
+              },
+              "idea-stage/ROOT_CAUSE_VERDICT.json": {
+                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+                "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+                "producer_phase": "root_cause_gate",
+                "registered_at": "2026-09-01T09:16:18Z",
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T09:16:28Z",
+                  "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+                  "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+                    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+                  }
+                }
+              }
+            },
+            "lifecycle_return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+            "active_problem_binding": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+            },
+            "accepted_rca_binding": {
+              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+              "lifecycle_return_event_id": null
+            },
+            "design_obligation_binding": {
+              "source": "method_design_query_context",
+              "mechanism_change_ids": [
+                "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+                "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+              ],
+              "capability_ids": [
+                "CAP-ACTION-RELEVANT-STATE",
+                "CAP-CALIBRATED-CAPACITY-SET",
+                "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+                "CAP-DEADLINE-TOTALITY"
+              ],
+              "obligation_ids": [
+                "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+                "OBL-HELDOUT-CAPACITY-CALIBRATION",
+                "OBL-MINIMAL-DECISION-SUFFICIENCY",
+                "OBL-SAME-RELATION-HARD-LIMITS"
+              ],
+              "principle_search_context_sha256": "67595e38dfcee1f0fd1930c7710b938b84ae975949bdb4904ec5a4266b029118"
+            }
+          },
+          "re_adopted_at": "2026-09-04T12:10:25Z",
+          "obligation_ids": [
+            "OBL-MINIMAL-DECISION-SUFFICIENCY"
+          ]
+        },
+        "evidence:HUMAN-MANSCI-2021-SPO@readopt-79ba2e3e6c0f46d38a4a7fafd844258d": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json",
+          "validator_result": "PASS",
+          "sha256": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+          "read_event_id": "5671c7e0f6504d48ad7d6506c0ba02cb",
+          "accepted_at": "2026-09-01T12:31:48Z",
+          "evidence_key": "evidence:HUMAN-MANSCI-2021-SPO",
+          "phase_binding_anchor": {
+            "phase": "method_design",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              },
+              "idea-stage/RESEARCH_CONTRACT.md": {
+                "path": "idea-stage\\RESEARCH_CONTRACT.md",
+                "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                "producer_phase": "problem_human_acceptance",
+                "registered_at": "2026-09-01T07:38:27Z"
+              },
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+                "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                "producer_phase": "problem_human_acceptance",
+                "registered_at": "2026-09-01T07:38:27Z"
+              },
+              "idea-stage/NECESSITY_CLOSURE.json": {
+                "path": "idea-stage\\NECESSITY_CLOSURE.json",
+                "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+                "producer_phase": "problem_necessity",
+                "registered_at": "2026-09-01T08:10:47Z",
+                "problem_version_binding": {
+                  "problem_id": "P-SOFTSCAN-STATE-01",
+                  "version": 2,
+                  "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+                },
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T08:10:47Z",
+                  "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+                  "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+                  }
+                }
+              },
+              "idea-stage/NECESSITY_VERDICT.json": {
+                "path": "idea-stage\\NECESSITY_VERDICT.json",
+                "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+                "producer_phase": "problem_necessity",
+                "registered_at": "2026-09-01T08:10:47Z",
+                "problem_version_binding": {
+                  "problem_id": "P-SOFTSCAN-STATE-01",
+                  "version": 2,
+                  "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+                },
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T08:10:47Z",
+                  "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+                  "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+                  }
+                }
+              },
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+                "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+                "producer_phase": "root_cause_analysis",
+                "registered_at": "2026-09-01T08:18:49Z"
+              },
+              "idea-stage/ROOT_CAUSE_VERDICT.json": {
+                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+                "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+                "producer_phase": "root_cause_gate",
+                "registered_at": "2026-09-01T09:16:18Z",
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T09:16:28Z",
+                  "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+                  "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+                    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+                  }
+                }
+              }
+            },
+            "lifecycle_return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+            "active_problem_binding": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+            },
+            "accepted_rca_binding": {
+              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+              "lifecycle_return_event_id": null
+            },
+            "design_obligation_binding": {
+              "source": "method_design_query_context",
+              "mechanism_change_ids": [
+                "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+                "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+              ],
+              "capability_ids": [
+                "CAP-ACTION-RELEVANT-STATE",
+                "CAP-CALIBRATED-CAPACITY-SET",
+                "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+                "CAP-DEADLINE-TOTALITY"
+              ],
+              "obligation_ids": [
+                "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+                "OBL-HELDOUT-CAPACITY-CALIBRATION",
+                "OBL-MINIMAL-DECISION-SUFFICIENCY",
+                "OBL-SAME-RELATION-HARD-LIMITS"
+              ],
+              "principle_search_context_sha256": "67595e38dfcee1f0fd1930c7710b938b84ae975949bdb4904ec5a4266b029118"
+            }
+          },
+          "re_adopted_at": "2026-09-04T12:10:26Z",
+          "obligation_ids": [
+            "OBL-MINIMAL-DECISION-SUFFICIENCY"
+          ]
+        },
+        "evidence:HUMAN-NEURIPS-2023-PREDICT-CALIBRATE@readopt-0b021f9ad1ea48fca4d67977d7ae1fcb": {
+          "path": ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json",
+          "validator_result": "PASS",
+          "sha256": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+          "read_event_id": "331633c7b6a54ecf9435f30def6ba7d0",
+          "accepted_at": "2026-09-01T12:35:03Z",
+          "evidence_key": "evidence:HUMAN-NEURIPS-2023-PREDICT-CALIBRATE",
+          "phase_binding_anchor": {
+            "phase": "method_design",
+            "required_inputs": {
+              "idea-stage/ACTIVE_FIELD_MAP.md": {
+                "path": "idea-stage\\ACTIVE_FIELD_MAP.md",
+                "sha256": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+                "producer_phase": "landscape",
+                "registered_at": "2026-08-22T04:18:43Z"
+              },
+              "idea-stage/RESEARCH_CONTRACT.md": {
+                "path": "idea-stage\\RESEARCH_CONTRACT.md",
+                "sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                "producer_phase": "problem_human_acceptance",
+                "registered_at": "2026-09-01T07:38:27Z"
+              },
+              "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": {
+                "path": "idea-stage\\PROBLEM_EVIDENCE_CAPSULE.md",
+                "sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                "producer_phase": "problem_human_acceptance",
+                "registered_at": "2026-09-01T07:38:27Z"
+              },
+              "idea-stage/NECESSITY_CLOSURE.json": {
+                "path": "idea-stage\\NECESSITY_CLOSURE.json",
+                "sha256": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+                "producer_phase": "problem_necessity",
+                "registered_at": "2026-09-01T08:10:47Z",
+                "problem_version_binding": {
+                  "problem_id": "P-SOFTSCAN-STATE-01",
+                  "version": 2,
+                  "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+                },
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T08:10:47Z",
+                  "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+                  "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+                  }
+                }
+              },
+              "idea-stage/NECESSITY_VERDICT.json": {
+                "path": "idea-stage\\NECESSITY_VERDICT.json",
+                "sha256": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+                "producer_phase": "problem_necessity",
+                "registered_at": "2026-09-01T08:10:47Z",
+                "problem_version_binding": {
+                  "problem_id": "P-SOFTSCAN-STATE-01",
+                  "version": 2,
+                  "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                  "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+                },
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "a8d4752676604f84ad6bf7fa19c12f1e",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T08:10:47Z",
+                  "review_request_id": "3836d61b9e8842dfb5b0bb5436c719d6",
+                  "reviewer_agent_id": "01a05bec-d0e8-7462-89ee-07b0c1449c4f",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81"
+                  }
+                }
+              },
+              "idea-stage/ROOT_CAUSE_ANALYSIS.json": {
+                "path": "idea-stage\\ROOT_CAUSE_ANALYSIS.json",
+                "sha256": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+                "producer_phase": "root_cause_analysis",
+                "registered_at": "2026-09-01T08:18:49Z"
+              },
+              "idea-stage/ROOT_CAUSE_VERDICT.json": {
+                "path": "idea-stage\\ROOT_CAUSE_VERDICT.json",
+                "sha256": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+                "producer_phase": "root_cause_gate",
+                "registered_at": "2026-09-01T09:16:18Z",
+                "acceptance": {
+                  "status": "accepted",
+                  "verdict_id": "6f5c2e8dcb2e4df79a3bd87c8a6e2f41",
+                  "reviewer": "gpt-5.6-sol",
+                  "reviewer_family": "openai",
+                  "review_independence": "independent-context",
+                  "accepted_at": "2026-09-01T09:16:28Z",
+                  "review_request_id": "36e5bb989d3d40588965aed20ad81e45",
+                  "reviewer_agent_id": "01a05c0e-949c-7ec1-9914-ae4a3e15f310",
+                  "reviewed_artifact_bindings": {
+                    "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+                    "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+                    "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+                    "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+                    "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+                    "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
+                  }
+                }
+              }
+            },
+            "lifecycle_return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+            "active_problem_binding": {
+              "problem_id": "P-SOFTSCAN-STATE-01",
+              "version": 2,
+              "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+              "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+            },
+            "accepted_rca_binding": {
+              "analysis_id": "RCA-P-SOFTSCAN-STATE-01-V2",
+              "lifecycle_return_event_id": null
+            },
+            "design_obligation_binding": {
+              "source": "method_design_query_context",
+              "mechanism_change_ids": [
+                "RMC-DECISION-SUFFICIENT-CAPACITY-STATE",
+                "RMC-JOINT-UPDATE-TIME-FEASIBILITY"
+              ],
+              "capability_ids": [
+                "CAP-ACTION-RELEVANT-STATE",
+                "CAP-CALIBRATED-CAPACITY-SET",
+                "CAP-COUPLED-FEASIBLE-GAIN-CHOICE",
+                "CAP-DEADLINE-TOTALITY"
+              ],
+              "obligation_ids": [
+                "OBL-DEADLINE-INFEASIBILITY-FALLBACK",
+                "OBL-HELDOUT-CAPACITY-CALIBRATION",
+                "OBL-MINIMAL-DECISION-SUFFICIENCY",
+                "OBL-SAME-RELATION-HARD-LIMITS"
+              ],
+              "principle_search_context_sha256": "67595e38dfcee1f0fd1930c7710b938b84ae975949bdb4904ec5a4266b029118"
+            }
+          },
+          "re_adopted_at": "2026-09-04T12:10:28Z",
+          "obligation_ids": [
+            "OBL-SAME-RELATION-HARD-LIMITS"
+          ]
         }
       }
     },
@@ -107073,7 +107341,7 @@
   },
   "scientific_core": {
     "status": "ACTIVE",
-    "current_phase": "principle_human_selection",
+    "current_phase": "method_design",
     "accepted_artifacts": {
       "idea-stage/PROBLEM_CANDIDATES.md": {
         "path": "idea-stage\\PROBLEM_CANDIDATES.md",
@@ -107413,222 +107681,6 @@
             "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
             "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
             "idea-stage/ROOT_CAUSE_ANALYSIS.md": "bf9cc3dbc29afe0a16ef51de32daabdbead2bbacc036c8e96c85c58fed5111d0"
-          }
-        }
-      },
-      "idea-stage/METHOD_DESIGN_PACKET.json": {
-        "path": "idea-stage\\METHOD_DESIGN_PACKET.json",
-        "sha256": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
-        "size_bytes": 91652,
-        "status": "active",
-        "producer_phase": "method_design",
-        "registered_at": "2026-09-02T18:52:06Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
-        },
-        "problem_version_binding": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 2,
-          "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-          "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-          "reviewer": "gpt-5.6-sol",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-09-02T18:52:09Z",
-          "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
-          "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
-          "reviewed_artifact_bindings": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-            "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
-          }
-        }
-      },
-      "idea-stage/METHOD_DESIGN.md": {
-        "path": "idea-stage\\METHOD_DESIGN.md",
-        "sha256": "881552b6646894eea384578ebbfc054e2d02e2b59d3bf63474da37aceb1279f6",
-        "size_bytes": 15805,
-        "status": "active",
-        "producer_phase": "method_design",
-        "registered_at": "2026-09-02T18:52:06Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
-        },
-        "problem_version_binding": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 2,
-          "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-          "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-          "reviewer": "gpt-5.6-sol",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-09-02T18:52:09Z",
-          "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
-          "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
-          "reviewed_artifact_bindings": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-            "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
-          }
-        }
-      },
-      "idea-stage/METHOD_DESIGN_REVIEW.json": {
-        "path": "idea-stage\\METHOD_DESIGN_REVIEW.json",
-        "sha256": "0955a6819aae9d34496a4d50908e2bf2f177c693b100683d85c4ad1eb0ebae1c",
-        "size_bytes": 7829,
-        "status": "active",
-        "producer_phase": "method_design",
-        "registered_at": "2026-09-02T18:52:06Z",
-        "provenance": {
-          "controller": "ARISController",
-          "run_id": "impedance-control-landscape-e2e",
-          "executor_model": "codex-gpt-5.6-sol"
-        },
-        "upstream_snapshot": {
-          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
-        },
-        "problem_version_binding": {
-          "problem_id": "P-SOFTSCAN-STATE-01",
-          "version": 2,
-          "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-          "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
-        },
-        "acceptance": {
-          "status": "accepted",
-          "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
-          "reviewer": "gpt-5.6-sol",
-          "reviewer_family": "openai",
-          "review_independence": "independent-context",
-          "accepted_at": "2026-09-02T18:52:09Z",
-          "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
-          "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
-          "reviewed_artifact_bindings": {
-            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
-            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
-            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
-            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
-            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
-            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
-            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
-            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
-            "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
           }
         }
       }
@@ -111342,6 +111394,255 @@
         },
         "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\return-d01121db2b6e445a886ba9f4f646b96d\\artifacts\\idea-stage\\METHOD_DESIGN_REVIEW.json",
         "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\METHOD_DESIGN_PACKET.json",
+        "sha256": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
+        "size_bytes": 91652,
+        "status": "invalidated",
+        "producer_phase": "method_design",
+        "registered_at": "2026-09-02T18:52:06Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 2,
+          "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
+          "reviewer": "gpt-5.6-sol",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-09-02T18:52:09Z",
+          "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
+          "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+            "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
+          }
+        },
+        "invalidated_at": "2026-09-04T11:44:51Z",
+        "invalidation": {
+          "return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+          "from_phase": "principle_human_selection",
+          "return_target": "method_design",
+          "decision": "request_revision",
+          "approval_request_id": "0fd6dd7de2554d2e8971dd802fbd7874",
+          "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\human-return-fcd5a878e9414da5b07527fb9a6fa8c9\\artifacts\\idea-stage\\METHOD_DESIGN_PACKET.json",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\METHOD_DESIGN.md",
+        "sha256": "881552b6646894eea384578ebbfc054e2d02e2b59d3bf63474da37aceb1279f6",
+        "size_bytes": 15805,
+        "status": "invalidated",
+        "producer_phase": "method_design",
+        "registered_at": "2026-09-02T18:52:06Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 2,
+          "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
+          "reviewer": "gpt-5.6-sol",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-09-02T18:52:09Z",
+          "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
+          "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+            "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
+          }
+        },
+        "invalidated_at": "2026-09-04T11:44:51Z",
+        "invalidation": {
+          "return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+          "from_phase": "principle_human_selection",
+          "return_target": "method_design",
+          "decision": "request_revision",
+          "approval_request_id": "0fd6dd7de2554d2e8971dd802fbd7874",
+          "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\human-return-fcd5a878e9414da5b07527fb9a6fa8c9\\artifacts\\idea-stage\\METHOD_DESIGN.md",
+        "archive_status": "archived"
+      },
+      {
+        "path": "idea-stage\\METHOD_DESIGN_REVIEW.json",
+        "sha256": "0955a6819aae9d34496a4d50908e2bf2f177c693b100683d85c4ad1eb0ebae1c",
+        "size_bytes": 7829,
+        "status": "invalidated",
+        "producer_phase": "method_design",
+        "registered_at": "2026-09-02T18:52:06Z",
+        "provenance": {
+          "controller": "ARISController",
+          "run_id": "impedance-control-landscape-e2e",
+          "executor_model": "codex-gpt-5.6-sol"
+        },
+        "upstream_snapshot": {
+          "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+          "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+          "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+          "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+          "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+          "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+          ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060"
+        },
+        "problem_version_binding": {
+          "problem_id": "P-SOFTSCAN-STATE-01",
+          "version": 2,
+          "contract_sha256": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+          "evidence_capsule_sha256": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32"
+        },
+        "acceptance": {
+          "status": "accepted",
+          "verdict_id": "5d7c4f0e8b1a49d0a6e7c2f31498bd65",
+          "reviewer": "gpt-5.6-sol",
+          "reviewer_family": "openai",
+          "review_independence": "independent-context",
+          "accepted_at": "2026-09-02T18:52:09Z",
+          "review_request_id": "6b66de69fa104a8b8da9e92484ae7c1b",
+          "reviewer_agent_id": "01a06371-a170-7d52-8b0c-5b7adef9e8d8",
+          "reviewed_artifact_bindings": {
+            "idea-stage/ACTIVE_FIELD_MAP.md": "c1cb1d60c0aca8329465f6c33837ce28c200dd5591b8cb46453b6d744f9a48d7",
+            "idea-stage/RESEARCH_CONTRACT.md": "0b107ec8b177e29e4a1770ff1a6b3a2765f06a506d1b7093171c96c6321fd9f5",
+            "idea-stage/PROBLEM_EVIDENCE_CAPSULE.md": "2a11f572f53aa2d7bf82f56826f61cb35bcc88f0df0aae4be1cdd77a76027b32",
+            "idea-stage/NECESSITY_CLOSURE.json": "8cdffde60027bbd8d5695ec2d7817fa3015c36f6c9a04043cf05ab427d7bfc81",
+            "idea-stage/NECESSITY_VERDICT.json": "a7598220a221586b353fdd46e87c4824dfb889d132d3981ee76a0190c61d1e29",
+            "idea-stage/ROOT_CAUSE_ANALYSIS.json": "080bce6e7acef9c486ff7618052246a288fe8d97bd82083db3d3a7cd6bf40077",
+            "idea-stage/ROOT_CAUSE_VERDICT.json": "681f2a09ce605cbcb58545a3223664d81e21499b9272d7317bce1ea03d93c90c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2022-VES.json": "76f6c2a1c3f8d3cb909c19eb8e62396cd172286d4acc6493bc0a6778349128a1",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-MANSCI-2021-SPO.json": "abaa4dbc12393c2833e68c98f350d8356669e7a155ccfcd2551cf4fd9faab1e3",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-NEURIPS-2023-PREDICT-CALIBRATE.json": "14c5162239b923178e21b0337719f1a5b5a98879ac09770632686e94ecd18aa2",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-xlNjdqnC2fMJ.json": "c5abbea44eeb4e80a70c74f1c28a8fb2c534f00e0ecc56a70d174cadd09b84b3",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-bRrwxfzJq_QJ.json": "5e9beedf1b99ac0bfbeed298241fd5ae839eae8cc3f2f362431d0e2c9f341aaa",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-j4KJ1EdUyYAJ.json": "5b1b20bd3d10c2f9f91e7b7a969fcfbd3aca8b91cc9493bfce1fb3ba47b4ea8c",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-_8NXx8-VkcgJ.json": "996f679931d39a198662eaad566b0af4594f2e52970f7667df7a8c98783922ee",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-Ubx3Xkv4y2kJ.json": "19b913258fe8451fcf21618b59363c15851345a0c704ea52b4ea01c0378645b9",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-ZDySGaNsMn8J.json": "e2d89b8d2ee2825134abc5b3729cd7d266ecd3c0792d81177da71c8f9ab8554e",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-IJRR-2011-PSR.json": "1b4177764933696f043d2bc0e63db5821110d93f4053f7f54659bf043fc1c8c6",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-HUMAN-TAC-2019-GENERAL-SAFETY-FRAMEWORK.json": "6bc0a703f8df74740dfb49199d30b223ad90bcdd696666f3d6ade2ef00d3d20b",
+            ".aris\\canonical\\impedance-control-landscape-e2e\\evidence-imoj6X2imAgJ.json": "19ceda0c113414d9de4e16161e0a0b96cd229d5f8bfac0cf5dbf6c3f9337c060",
+            "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae"
+          }
+        },
+        "invalidated_at": "2026-09-04T11:44:51Z",
+        "invalidation": {
+          "return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+          "from_phase": "principle_human_selection",
+          "return_target": "method_design",
+          "decision": "request_revision",
+          "approval_request_id": "0fd6dd7de2554d2e8971dd802fbd7874",
+          "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation."
+        },
+        "archive_path": ".aris\\archive\\impedance-control-landscape-e2e\\human-return-fcd5a878e9414da5b07527fb9a6fa8c9\\artifacts\\idea-stage\\METHOD_DESIGN_REVIEW.json",
+        "archive_status": "archived"
       }
     ],
     "return_history": [
@@ -111934,6 +112235,28 @@
             "Correct each adaptation prediction's rival identity and activation condition so its observable, Pattern A, Pattern B, and killer criterion discriminate the chosen bounded update from a credible bounded set-MHE, multiple-model, or equivalent adaptive mechanism."
           ]
         }
+      },
+      {
+        "id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+        "at": "2026-09-04T11:44:51Z",
+        "archive_root": ".aris\\archive\\impedance-control-landscape-e2e\\human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+        "invalidated_phases": [
+          "method_design",
+          "principle_human_selection"
+        ],
+        "invalidated_artifact_paths": [
+          "idea-stage\\METHOD_DESIGN_PACKET.json",
+          "idea-stage\\METHOD_DESIGN.md",
+          "idea-stage\\METHOD_DESIGN_REVIEW.json"
+        ],
+        "confirmed_in": "explicit_human_command",
+        "selected_id": null,
+        "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation.",
+        "return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+        "from_phase": "principle_human_selection",
+        "return_target": "method_design",
+        "decision": "request_revision",
+        "approval_request_id": "0fd6dd7de2554d2e8971dd802fbd7874"
       }
     ],
     "lessons": [],
@@ -112052,19 +112375,7 @@
         }
       }
     },
-    "approval_request": {
-      "id": "0fd6dd7de2554d2e8971dd802fbd7874",
-      "gate": "principle_selection",
-      "phase": "principle_human_selection",
-      "requires_selection": true,
-      "artifact_bindings": {
-        "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
-        "idea-stage/METHOD_DESIGN.md": "881552b6646894eea384578ebbfc054e2d02e2b59d3bf63474da37aceb1279f6",
-        "idea-stage/METHOD_DESIGN_REVIEW.json": "0955a6819aae9d34496a4d50908e2bf2f177c693b100683d85c4ad1eb0ebae1c"
-      },
-      "issued_by": "ARISController",
-      "created_at": "2026-09-02T18:52:09Z"
-    },
+    "approval_request": null,
     "review_request": null,
     "approvals": [
       {
@@ -112169,6 +112480,21 @@
         },
         "confirmed_in": "explicit_human_command",
         "at": "2026-09-02T16:29:56Z"
+      },
+      {
+        "gate": "principle_selection",
+        "phase": "principle_human_selection",
+        "decision": "request_revision",
+        "selected_id": null,
+        "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation.",
+        "approval_request_id": "0fd6dd7de2554d2e8971dd802fbd7874",
+        "artifact_bindings": {
+          "idea-stage/METHOD_DESIGN_PACKET.json": "cf575e8306301f0e8e275c2e1e057903b45c60e6bfc333c06fed14e1510f5bae",
+          "idea-stage/METHOD_DESIGN.md": "881552b6646894eea384578ebbfc054e2d02e2b59d3bf63474da37aceb1279f6",
+          "idea-stage/METHOD_DESIGN_REVIEW.json": "0955a6819aae9d34496a4d50908e2bf2f177c693b100683d85c4ad1eb0ebae1c"
+        },
+        "confirmed_in": "explicit_human_command",
+        "at": "2026-09-04T11:44:51Z"
       }
     ],
     "transition_log": [
@@ -112639,6 +112965,18 @@
         "from": "method_design",
         "to": "principle_human_selection",
         "reason": "formal_gate_accepted"
+      },
+      {
+        "timestamp": "2026-09-04T11:44:51Z",
+        "from": "principle_human_selection",
+        "to": "method_design",
+        "reason": "human_gate_return",
+        "decision": "request_revision",
+        "selected_id": null,
+        "human_feedback": "R14 is not accepted for principle selection. Revise Method Design using an existing complete method as the sole backbone: derive Route A from T-RO deformable-contact-aware DDP+IK+Projection+ADMM-MPC and Route B from NNBO environment-model-to-HJB-to-single-critic-to-optimal-impedance. For each, identify the exact ultrasound scanning failure, migrate only the most fitting mature source mechanism, modify the governing equations, and rederive state, dynamics, action, objective, constraints, solver, stability/passivity, and real-time realization. The core capability is future-soft-contact-state-driven online normal-tangential impedance selection. Do not preselect A2-I/A2-II, do not retain P/L/H as an unprioritized mechanism collection, and use learning only for a demonstrated action-changing residual. Compare fully derived A and B under the same real robot ultrasound task and converge to one Final Method, or leave only one preferred route plus one precise unresolved interface and minimal decisive validation.",
+        "approval_request_id": "0fd6dd7de2554d2e8971dd802fbd7874",
+        "return_event_id": "human-return-fcd5a878e9414da5b07527fb9a6fa8c9",
+        "archive_root": ".aris\\archive\\impedance-control-landscape-e2e\\human-return-fcd5a878e9414da5b07527fb9a6fa8c9"
       }
     ],
     "problem_versions": [
