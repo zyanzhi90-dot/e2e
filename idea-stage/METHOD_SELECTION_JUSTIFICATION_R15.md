@@ -17,9 +17,11 @@ R15 只修改 T-RO 的一个失败接口：原方法预测未来 deformable cont
 3. **参数化最小**：只优化 `K_n,K_t`；`D_n,D_t` 由局部有效质量、环境斜率和阻尼比导出。四增益只有在 matched comparison 中改变 action/outcome 才升级。
 4. **求解形式更明确**：DDP 只更新 nominal torque；每节点两个 log-stiffness 由 future covariance/contact-margin sensitivities 构造的小型 convex QP 更新，candidate 再经 exact nonlinear Projection 验证。
 5. **目标约束自然兼容**：T-RO 的 Projection block 可承载 wrench、slip、contact retention、actuator、gain-rate、tank 和 robust tightening。
-6. **Source Mechanism 局部且必要**：AuSoScan 只修探头几何；NNBO 只提供 projected EW-RLS；Fu TIM 2024 只提供医疗 stiffness-QP realization；Fu T-RO 2025 只提供 moving-reference energy accounting；MPVIC 只提供预测增益 authority。
+6. **Source Mechanism 局部且必要**：AuSoScan 只修探头几何；NNBO 只提供 projected EW-RLS；Fu TIM 2024 只提供医疗 stiffness-QP realization；Fu T-RO 2025 只提供 moving-reference energy accounting；MPVIC 只提供预测增益 authority。Beber ICRA 2024 不新增模块，而是证明 ultrasound 中 tissue model + stiffness QP + physical/tank constraints 已是 prior，因而收紧 novelty boundary。
 
-## Fu 2024/2025 是否应替代 R15
+## 直接医疗/超声 VIC priors 是否应替代 R15
+
+Beber et al., ICRA 2024 已把 HC 黏弹组织参数图、在线 Cartesian stiffness QP、force/maximum-penetration bounds 和 tank energy/power constraints 用于 ultrasound dummy 扫描，并测试 contact loss。因此“tissue-aware ultrasound VIC”“QP + physical constraints + tank”均不能算 R15 novelty。其决策来自当前点的离线组织图与当前 impedance wrench，重点仍是法向 force；没有 future sliding-contact rollout、`k_t` decision 或 horizon slip/contact-retention relation，故不能获得本任务目标能力。
 
 不应整体替代，但必须修改 R15。Fu TIM 2024 已在 KUKA、六维力传感器和线阵超声探头上证明：以当前 force error 为目标的 `N=1` bounded QP 可以实时优化法向刚度，并显著改善软/硬转换扫描。因此“online stiffness optimization + QP + ultrasound validation”是 closest prior，不是 R15 的贡献。
 
@@ -33,7 +35,7 @@ P_{mod}=\tfrac12e^T\dot Ke+\dot p_{ref}^TKe.
 
 这暴露了旧 R15 只对 \(\tfrac12e^T\Delta Ke\) 记账的不完整性。最终 R15 因此采用 Fu-style 小型 QP 作为 impedance block，并以 predicted deviation envelope 上的最坏 `P_mod` debit 修正 tank；bilateral teleoperation、haptic feedback 与 human-control loop 不迁移。
 
-Fu 型控制器同时成为 killer baseline：若 `N=1` normal QP 在 matched ultrasound transitions 上与 R15 的 joint force--path、slip/contact-loss 和 safety-margin outcome 等效，则 horizon covariance 与 `k_t` 没有必要，Final Method 应简化为 Fu 型方案。
+Beber/Fu 型控制器共同成为 killer baselines：若 current tissue-map QP 或 `N=1` normal QP 在 matched ultrasound transitions 上与 R15 的 joint force--path、slip/contact-loss 和 safety-margin outcome 等效，则 horizon covariance 与 `k_t` 没有必要，Final Method 应简化为更简单的 target-domain 方案。
 
 ## 为什么淘汰 A2-I
 

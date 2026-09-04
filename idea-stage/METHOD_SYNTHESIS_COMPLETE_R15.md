@@ -33,6 +33,7 @@
 | 均值--偏差控制权分离 | 用户提供的 model-predictive impedance/GP 原文公式；与 `9vRJMR2dgG4J` 的 uncertainty-tightened force MPC 证据一致 | 阻抗改变闭环状态转移与协方差，即使 nominal error 为零仍有独立作用 | 不要求 GP；本轮使用局部接触 Jacobian 与有界噪声 |
 | 局部参数更新 | NNBO `j4KJ1EdUyYAJ` | projected EW-RLS 作为探头接触参数中心的低阶在线估计器 | 不迁移 HJB/single critic 到 Route A |
 | 时变阻抗安全 | `3HbLu0M801YJ`、`xlNjdqnC2fMJ` | 显式计算 \(\tfrac12e^T\Delta K e\) 并由 tank 授权 | 不声称一般主动扫描闭环全局无源 |
+| 超声组织模型驱动 VIC | Beber et al., ICRA 2024, DOI `10.1109/ICRA57147.2024.10610167` | HC 参数图、force/penetration constraints、在线 stiffness QP 与 tank 的目标领域基线 | 不迁移离线全表面触诊、current-point normal-focused decision |
 | 医疗接触在线 QP | Fu et al., IEEE TIM 2024, DOI `10.1109/TIM.2024.3372209` | 有界在线 stiffness QP 的标准形式、单步实时实现与超声探头基线 | 不迁移 PID 目标、`N=1`、仅法向优化或固定高切向刚度 |
 | 移动参考能量核算 | Fu et al., IEEE T-RO 2025, DOI `10.1109/TRO.2025.3548493` | robot-side 功率项 \(\tfrac12e^T\dot Ke+\dot p_{ref}^TKe\) 与 tank lower/upper bounds | 不迁移 bilateral teleoperation、haptic feedback 或其整系统无源定理 |
 
@@ -44,6 +45,7 @@
 |---|---|---|---|
 | T-RO deformable-contact MPC：把 \(\dot F_e\) 与 robot dynamics 一起放进 DDP/IK/Projection ADMM | future contact 改变 nominal torque/trajectory | 映射到 Target 的完整主干，**PASS** | 其 impedance 预定义，正是待修接口 |
 | AuSoScan：以 cylinder--plane pressure/deformation 描述超声探头，并建模 sliding asymmetry | 改变 \(F_n(\delta)\)、局部斜率和切向阻力 | 只迁移 geometry baseline，**PASS** | asymmetry/resistance 只有 action-changing 才激活 |
+| Beber ICRA 2024：用离线 HC 组织参数图构造 force/penetration bounds，并在当前步 stiffness QP 中加入 tank constraints | 证明超声场景中 tissue mechanics、QP、physical bounds 与 tank 可形成统一 VIC | 作为 strongest target-domain mechanism prior 与 killer baseline，**PASS** | 无 future sliding-contact rollout、无 \(k_t\) decision，不替换 R15 核心关系 |
 | Model-Based Variable Impedance Learning Control：把未来 stiffness sequence 作为 predictive action | 未来 interaction rollout 可以对 gain sequence 排序 | 迁移“gain 必须通过未来结果被选择”的关系，**PASS** | learned free-space dynamics、CEM 和无硬约束实现不迁移 |
 | Model Predictive Impedance Control with Gaussian Processes：同一 nominal force 可由不同 impedance 实现，impedance 通过闭环矩阵改变 covariance | 以 mean/covariance cost 和 chance constraint 消除 nominal authority 冗余 | 迁移 mean--deviation control-authority split，**PASS** | GP 不是必要条件；本方法使用 probe physics + bounded uncertainty |
 | NNBO：HC 参数识别后，用 HJB single critic 得到 optimal force relation | 轻量更新 nonlinear environment relation | projected EW-RLS 映射到局部参数中心，**PASS**；整套 HJB 映射在 n/t constrained gains 上 **FAIL** | 不把 critic 与 MPC 并列 |
@@ -51,7 +53,7 @@
 | Fu TIM 2024：由当前 force error 构造有界 stiffness QP，`N=1`，仅优化探头法向刚度 | 证明医疗/超声接触中小型 QP 在线选刚度是成熟可实现的 | 迁移 QP realization，**PASS**；作为 strongest simple baseline | 不足以产生 future-conditioned \((k_n,k_t)\)，不能替代 mean--deviation prediction |
 | Fu T-RO 2025：在共享控制中把 \(\tfrac12e^T\dot Ke+\dot p_{ref}^TKe\) 纳入全局 tank | 修复 moving reference 下只计算 \(\Delta K\) 的能量漏项 | 迁移 robot-side modulation-power ledger，**PASS** | 双边/触觉控制与 human input 对自主扫描无必要，**FAIL** |
 
-因此 Source genealogy 是 `T-RO 主干 → AuSoScan geometry replacement → predictive-impedance gain authority → Fu-style convex impedance update → robot-side modulation-energy authorization`。Fu 的 QP 和 tank 都只替换 R15 已经存在的 solver/energy 接口，不形成第二个控制器。NNBO 只在 estimator 接口提供局部机制；它的 HJB 分支经重推后被淘汰。这里的箭头表示同一主线的逐项替换，不表示把多个完整系统串联。
+因此 Source genealogy 是 `T-RO 主干 → AuSoScan geometry replacement → predictive-impedance gain authority → Fu-style convex impedance update → robot-side modulation-energy authorization`。Beber 的工作不新增需要迁移的模块，而是把“tissue mechanics + ultrasound VIC + QP + tank”整体划入 prior，并升级为 target-domain killer baseline。Fu 的 QP 和 tank 都只替换 R15 已经存在的 solver/energy 接口，不形成第二个控制器。NNBO 只在 estimator 接口提供局部机制；它的 HJB 分支经重推后被淘汰。这里的箭头表示同一主线的逐项替换，不表示把多个完整系统串联。
 
 ### Fu 2024/2025 补审：它们改变了什么，未改变什么
 
@@ -329,8 +331,8 @@ m_{\mathrm{eff},i}\ddot e_i+(d_i+c_{e,i})\dot e_i+(k_i+k_{e,i})e_i=0,
 
 \[
 m_{\mathrm{eff},i}=
-\left(e_i^TJ_cM^{-1}J_c^Te_i\right)^{-1},quad
-k_{e,i}=\frac{\partial F_i}{\partial p_i},quad
+\left(e_i^TJ_cM^{-1}J_c^Te_i\right)^{-1},\quad
+k_{e,i}=\frac{\partial F_i}{\partial p_i},\quad
 c_{e,i}=\frac{\partial F_i}{\partial v_i}.
 \]
 
@@ -367,7 +369,7 @@ J=\sum_{j=0}^{H-1} [&
 随机扰动与 epistemic 接触包络必须分开处理。对每个 \(\eta^v\in\operatorname{Vert}(\mathcal E)\) 或其保守 support-function 上界，先 rollout \((\bar x^v,P^v)\)；\(\beta\sigma\) 只收紧该 vertex 下的随机 deviation，不能替代对 \(\mathcal E\) 的 worst-case 检查。对每个 horizon 节点和每个保留 vertex 约束：
 
 \[
-q^-\le\bar q\pm\beta\sigma_q\le q^+,quad
+q^-\le\bar q\pm\beta\sigma_q\le q^+,\quad
 \dot q^-\le\bar{\dot q}\pm\beta\sigma_{\dot q}\le\dot q^+,
 \]
 
@@ -704,21 +706,22 @@ f_i^*=k_ie_i+d_i\dot e_i.
 | Closest prior | 已经解决 | 对同一真实超声任务仍缺 | R15 的最小新增关系 |
 |---|---|---|---|
 | T-RO deformable-contact-aware MPC | 未来 deformable contact、robot dynamics、DDP/IK/Projection ADMM | feedback impedance predefined；future contact 只选择 nominal torque | future contact → `A_cl,P` → `k_n,k_t` → robust applied action |
+| Beber ICRA 2024 ultrasound VIC | HC tissue map、online stiffness QP、force/penetration/tank constraints、dummy-torso/contact-loss validation | current-point/offline-map 驱动、重点为法向 force；无 future sliding-contact evolution、`k_t` decision 或 horizon slip/retention relation | 用 future n/t contact sensitivities 替换 current-point impedance wrench relation |
 | Fu TIM 2024 medical VIC | 在线有界 stiffness QP、energy tank、线阵超声探头与软/硬转换验证 | `N=1`、当前 force-error 驱动、仅法向刚度；无 future n/t contact/slip/uncertainty relation | 用 T-RO horizon 的闭环敏感度替换 current-error QP 系数，同时保持小型 QP realization |
 | Fu T-RO 2025 shared control | moving-reference/stiffness/haptic power的全局 tank；医疗接触与用户实验 | 面向 human shared control；仍是单步法向 stiffness，固定切向高刚度；其 bilateral theorem 不适用于自主 feedforward scan | 只迁移 robot-side `P_mod`，对 predicted deviation envelope 记账，不迁移 haptic/teleoperation |
-| GP model-predictive impedance control / MPVIC | gains 通过未来闭环 outcome 或 uncertainty 被排序 | 非 probe-specific n/t deformable contact；不保持 T-RO 的 force-modulated robot/contact solver 与完整 scan constraints | mean--deviation authority 与 T-RO contact/Projection 的单主线闭合 |
+| GP model-predictive impedance control / Jin/Xue MPVIC | gains 通过未来闭环 outcome、uncertainty、constraints 或 safety modes 被排序 | 非 probe-specific n/t deformable contact；不保持 T-RO 的 force-modulated robot/contact solver 与完整 scan constraints | architecture-specific mean--deviation authority 与 T-RO contact/Projection 的单主线闭合 |
 
-这个比较给出一个可证伪的 necessity 边界：若在 matched replay 中 Fu 式 `N=1` normal QP 与 R15 的 joint force--path、slip/contact-loss 和安全 margin 无显著差异，则 future horizon 与 `k_t` 不必要，R15 应退化为更简单的 Fu 型方案；不能以“预测更先进”为理由保留复杂度。
+这个比较给出一个可证伪的 necessity 边界：若在 matched replay 中 Beber 式 current tissue-map QP 或 Fu 式 `N=1` normal QP 与 R15 的 joint force--path、slip/contact-loss 和安全 margin 无显著差异，则 future horizon 与 `k_t` 不必要，R15 应退化为更简单的 target-domain 方案；不能以“预测更先进”为理由保留复杂度。
 
 ## 5.2 Final Method 三判据审计
 
 ### Problem fit：PASS，但问题陈述必须收窄
 
-Fu 两篇工作已经直接覆盖并在医疗接触硬件上验证“根据当前法向 force error 在线调整刚度”这一宽问题。因此 R15 不能再以一般 force tracking 或 online VIC 为问题。剩余且与超声连续扫描直接相关的问题是：在当前测量尚未显露变化时，未来 probe geometry、组织斜率、切向阻力与 friction capacity 已预示 force overshoot、slip 或 contact loss，控制器如何提前联合改变法向顺应性与切向路径保持。R15 的 `A_cl → P → constraints` 关系正好作用于这一缺口。
+Beber ICRA 2024 与 Fu 两篇工作已经直接覆盖“根据组织参数或当前法向 force error 在线调整超声接触刚度”，并包含 QP、physical constraints、tank 和医疗接触验证。因此 R15 不能再以一般 force tracking、tissue-aware VIC 或 online stiffness QP 为问题。剩余且与超声连续扫描直接相关的问题是：在当前测量尚未显露变化时，未来 probe geometry、组织斜率、切向阻力与 friction capacity 已预示 force overshoot、slip 或 contact loss，控制器如何提前联合改变法向顺应性与切向路径保持。R15 的 `A_cl → P → constraints` 关系正好作用于这一缺口。
 
 ### Method fit / necessity：CONDITIONAL PASS
 
-相对直接采用 Fu QP，R15 只保留三个额外自由度来源：horizon、normal--tangential stiffness pair、future deviation/uncertainty。它不独立优化 damping，不引入 actor/second MPC/learned residual；QP 复用 T-RO rollout 的 sensitivities，energy ledger 复用同一 deviation set。复杂度的必要条件是存在 current-state aliasing：相同当前 force/error、不同未来 contact trajectory 导致不同最优 `(k_n,k_t)`。matched replay 若不能观察到这一 action/outcome difference，审计结论自动降级为 Fu 型单步法向 QP。
+相对直接采用 Beber/Fu QP，R15 只保留三个额外自由度来源：horizon、normal--tangential stiffness pair、future deviation/uncertainty。它不独立优化 damping，不引入 actor/second MPC/learned residual；QP 复用 T-RO rollout 的 sensitivities，energy ledger 复用同一 deviation set。复杂度的必要条件是存在 current-state aliasing：相同当前 force/error、不同未来 contact trajectory 导致不同最优 `(k_n,k_t)`。matched replay 若不能观察到这一 action/outcome difference，审计结论自动降级为 current-step target-domain QP。
 
 ### Scientific strength：FORMULA-CLOSED，EMPIRICALLY OPEN
 
@@ -789,23 +792,21 @@ lifted force variables通过 \(\bar F_{e,k}=h_c(\bar x_k;\hat\eta_k)\) 与动态
 
 > 将预测的 deformable-contact trajectory 从仅服务于 feedforward torque 的外生信息，改造成同时决定 contact-frame feedback dynamics 的闭环状态；在同一个 DDP/IK/Projection ADMM 问题中，由未来 normal--tangential contact state 联合选择 nominal torque 与最小充分 impedance，并以显式 uncertainty、energy 和 deadline authority 决定可发布动作。
 
-相对 Fu 的 medical online stiffness QP、现有 stiffness/damping planning 和 MPVIC，本方法的残余差异是 probe-specific future normal--tangential deformable contact、mean/deviation control-authority separation、future-sensitivity QP，以及 moving-reference energy 在预测不确定性包络上的授权。在线 gain optimization、QP、MPC、uncertainty 或 energy tank 本身均不构成 novelty。
+相对 Beber/Fu 的 ultrasound/medical online stiffness QP、现有 stiffness/damping planning 和 Haninger/Jin/Xue MPVIC，本方法的残余差异不是任何单独组件，而是 probe-specific future normal--tangential deformable contact 共同决定 nominal torque、feedback gains、contact margins 与 modulation-energy authority 的整体关系。在线 gain optimization、QP、MPC、covariance、uncertainty、tissue estimation 或 energy tank 本身均不构成 novelty。完整审计见 `METHOD_NOVELTY_AUDIT_R15.md`。
 
 ## 6.4 Scientific Contributions（final wording）
 
-1. **T-RO contact-aware MPC predicts deformable contact but executes predefined feedback impedance; Fu's medical VIC optimizes only current normal stiffness. We establish a future-contact-to-closed-loop relation in which predicted probe normal--tangential states select the minimal stiffness pair, enabling anticipatory force--path robustness rather than reactive force correction.**
+1. **Robotic-ultrasound methods either prescribe impedance or adapt normal stiffness from current force/tissue estimates, while contact-aware MPC uses future soft contact only for feedforward torque. We formulate future-contact-conditioned impedance co-design: predicted probe-specific normal–tangential contact jointly determines nominal torque and the minimal stiffness pair, enabling anticipatory force–path–slip trade-offs.**
 
-2. **Predictive impedance methods can lose gain authority on zero-error nominal rollouts. We separate feedforward mean dynamics from impedance-dependent deviation dynamics and derive a non-redundancy condition through covariance propagation, making future uncertainty—not artificial nominal error—the reason for changing impedance.**
+2. **Predictive impedance priors optimize gains through learned or probabilistic interaction models, but do not close them with deformable probe contact and T-RO’s force-modulated solver. We derive a mean–deviation coupling that maps normal–tangential gains to future contact statistics and constraints, with an explicit authority test that freezes impedance when the coupling vanishes.**
 
-3. **Fu's medical QP provides mature online stiffness optimization but lacks horizon contact constraints. We derive a future-sensitivity impedance QP whose coefficients come from T-RO closed-loop contact rollouts, retaining convex gain updates while jointly enforcing force, slip, contact-retention, actuator, and gain-rate authority.**
-
-4. **Existing medical tanks account for stiffness variation within reactive or bilateral controllers. We derive a robust robot-side ledger covering gain-change and moving-reference work over the predicted deviation envelope, so every published gain schedule has explicit energy authority while active feedforward remains outside the passivity claim.**
+3. **Medical VIC already combines stiffness QPs, tissue estimates, and energy tanks, while general MPVIC supplies multistep gain optimization. We derive a probe-contact-horizon QP that jointly enforces force, slip, retention, actuator, and damping margins, and uses the same predicted deviation envelope to authorize gain/reference work before publishing an action.**
 
 ## 6.5 唯一未闭合的决定性接口与最小验证
 
 公式关系已经闭合；唯一尚未由现有证据证明的是目标硬件上的 WCET 和 model reduction fidelity。最小验证不是新一轮路线调研，而是：
 
-1. 在记录的真实 ultrasound scan transitions 上比较 fixed impedance、Fu 式 `N=1` reactive normal-stiffness QP、naive nominal A2-II 与 CMI-MPC，验证 future horizon 与 `k_t` 是否改变 force variance、slip/contact-loss margin 和 joint force/path outcome；
+1. 在记录的真实 ultrasound scan transitions 上比较 fixed impedance、Beber 式 current tissue-map QP、Fu 式 `N=1` reactive normal-stiffness QP、naive nominal A2-II 与 CMI-MPC，验证 future horizon 与 `k_t` 是否改变 force variance、slip/contact-loss margin 和 joint force/path outcome；
 2. 比较 full covariance 与 contact-reduced covariance 的 action order 和 constraint decisions；
 3. 在目标控制器固定 horizon/iterations 下测 99.9% latency，并强制 timeout/infeasibility，确认每周期只发布 verified SCAN 或 WITHDRAW；
 4. 若 reduced formulation 不能保留 action order，或 WCET 超过 deadline 且无 verified incumbent，则淘汰实时扫描声明；不通过增加 learning 模块补救。
