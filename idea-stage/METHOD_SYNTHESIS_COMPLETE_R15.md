@@ -19,7 +19,7 @@
 1. nominal mean rollout，由 \(\tau_{\mathrm{ff}}\) 决定；
 2. closed-loop deviation/covariance rollout，由 \((K_n,K_t)\) 通过 \(A_{\mathrm{cl}}\) 决定。
 
-阻尼不是四个自由增益中的额外搜索维，而由接触局部动力学和选定刚度导出。能量罐只授权时变 feedback impedance 的能量注入，不把主动轨迹跟踪错误宣称为全系统无源。学习 residual 在本轮没有满足进入条件，故不纳入 Final Method。
+阻尼不是四个自由增益中的额外搜索维，而由接触局部动力学和选定刚度导出。Fu et al. 的医疗接触 QP 不替代这条关系：它是当前测力误差驱动的单步法向刚度优化，缺少 future normal--tangential contact、slip/contact-loss 与 uncertainty authority；但它提供了两个应当迁移的成熟机制：把 impedance update 实现为小型 QP，以及用能量账本约束时变刚度。最终 R15 因此把原先含糊的“DDP 同时搜索 gains”收敛为 **DDP nominal block + future-sensitivity impedance QP**，并把 tank 从仅计算 gain-change energy 修正为同时计算 moving-reference work。学习 residual 在本轮没有满足进入条件，故不纳入 Final Method。
 
 ---
 
@@ -33,6 +33,8 @@
 | 均值--偏差控制权分离 | 用户提供的 model-predictive impedance/GP 原文公式；与 `9vRJMR2dgG4J` 的 uncertainty-tightened force MPC 证据一致 | 阻抗改变闭环状态转移与协方差，即使 nominal error 为零仍有独立作用 | 不要求 GP；本轮使用局部接触 Jacobian 与有界噪声 |
 | 局部参数更新 | NNBO `j4KJ1EdUyYAJ` | projected EW-RLS 作为探头接触参数中心的低阶在线估计器 | 不迁移 HJB/single critic 到 Route A |
 | 时变阻抗安全 | `3HbLu0M801YJ`、`xlNjdqnC2fMJ` | 显式计算 \(\tfrac12e^T\Delta K e\) 并由 tank 授权 | 不声称一般主动扫描闭环全局无源 |
+| 医疗接触在线 QP | Fu et al., IEEE TIM 2024, DOI `10.1109/TIM.2024.3372209` | 有界在线 stiffness QP 的标准形式、单步实时实现与超声探头基线 | 不迁移 PID 目标、`N=1`、仅法向优化或固定高切向刚度 |
+| 移动参考能量核算 | Fu et al., IEEE T-RO 2025, DOI `10.1109/TRO.2025.3548493` | robot-side 功率项 \(\tfrac12e^T\dot Ke+\dot p_{ref}^TKe\) 与 tank lower/upper bounds | 不迁移 bilateral teleoperation、haptic feedback 或其整系统无源定理 |
 
 上述迁移均位于同一条 T-RO 因果链上的替换接口；没有新增第二个并行控制器。原论文公式用于核对主线，新出现的 mean--deviation 关系、最小阻尼参数化和 Route B 淘汰结论在下文显式推导。
 
@@ -46,8 +48,53 @@
 | Model Predictive Impedance Control with Gaussian Processes：同一 nominal force 可由不同 impedance 实现，impedance 通过闭环矩阵改变 covariance | 以 mean/covariance cost 和 chance constraint 消除 nominal authority 冗余 | 迁移 mean--deviation control-authority split，**PASS** | GP 不是必要条件；本方法使用 probe physics + bounded uncertainty |
 | NNBO：HC 参数识别后，用 HJB single critic 得到 optimal force relation | 轻量更新 nonlinear environment relation | projected EW-RLS 映射到局部参数中心，**PASS**；整套 HJB 映射在 n/t constrained gains 上 **FAIL** | 不把 critic 与 MPC 并列 |
 | MPVIC/passivity 工作：用 tank 或等价能量状态限制时变 stiffness 注入 | 将增益变化的正能量纳入 action authority | 映射到 feedback-gain update，**PASS** | 仅声明 feedback port；主动 feedforward/reference 另算外部供给 |
+| Fu TIM 2024：由当前 force error 构造有界 stiffness QP，`N=1`，仅优化探头法向刚度 | 证明医疗/超声接触中小型 QP 在线选刚度是成熟可实现的 | 迁移 QP realization，**PASS**；作为 strongest simple baseline | 不足以产生 future-conditioned \((k_n,k_t)\)，不能替代 mean--deviation prediction |
+| Fu T-RO 2025：在共享控制中把 \(\tfrac12e^T\dot Ke+\dot p_{ref}^TKe\) 纳入全局 tank | 修复 moving reference 下只计算 \(\Delta K\) 的能量漏项 | 迁移 robot-side modulation-power ledger，**PASS** | 双边/触觉控制与 human input 对自主扫描无必要，**FAIL** |
 
-因此 Source genealogy 是 `T-RO 主干 → AuSoScan geometry replacement → predictive-impedance gain authority → feedback-energy authorization`。NNBO 只在 estimator 接口提供局部机制；它的 HJB 分支经重推后被淘汰。这里的箭头表示同一主线的逐项替换，不表示把四个完整系统串联。
+因此 Source genealogy 是 `T-RO 主干 → AuSoScan geometry replacement → predictive-impedance gain authority → Fu-style convex impedance update → robot-side modulation-energy authorization`。Fu 的 QP 和 tank 都只替换 R15 已经存在的 solver/energy 接口，不形成第二个控制器。NNBO 只在 estimator 接口提供局部机制；它的 HJB 分支经重推后被淘汰。这里的箭头表示同一主线的逐项替换，不表示把多个完整系统串联。
+
+### Fu 2024/2025 补审：它们改变了什么，未改变什么
+
+Fu TIM 2024 在低速医疗接触中令
+
+\[
+F_{ext}=K_c\tilde x-D_c\dot x,
+\]
+
+并以当前测力误差的 PID 补偿构造单步 QP：
+
+\[
+\min_{K_c}\ \tfrac12K_c^TGK_c+b^TK_c,
+\quad K_{min}\preceq K_c\preceq K_{max},\quad |F_{ext}|\le F_{max},
+\]
+
+\[
+G=\tilde x^TQ\tilde x+R,\qquad
+b=Q\tilde x(D_c\dot x-F_{des}-F_{com})-RK_{min}.
+\]
+
+其 passivity regulator 将 `K_c=K_cons+K_v`，令 `T(x_t)=0.5 x_t^2`，并按
+
+\[
+\dot T=\sigma\dot{\tilde x}^{T}D_c\dot{\tilde x}
++\tilde x^TK_v\dot{\tilde x}
+\]
+
+存入耗散、支付 variable-stiffness work；当 tank 低于 `E_min` 时关断 `K_v`，实际退回 `K_min`。这是成熟的当前步 passivity gate，但没有在 horizon 内为未来 gain/reference schedule 预留能量。
+
+其实时实现取 `N=1`，只优化探头 `z` 轴刚度，`x/y` 轴保持高刚度。KUKA LWR4+、六维力传感器和线阵超声探头实验覆盖软/硬材料转换、斜面和连续滑扫；TIM 论文报告扫描最大 RMSE 从 constant-stiffness 的 `2.04 N` 降至 `0.57 N`。这使它成为必须击败的 **reactive normal-stiffness QP**，也排除了“医疗超声中在线刚度 QP”本身作为创新。
+
+但该 QP 的预测量来自当前 spring--damper 与 force error，而不是未来 deformable-contact rollout；它不区分法向保持与切向滑移容量，不传播模型不确定性，也没有让未来接触状态改变 `k_t`。因此它能解决材料变化后的快速 force correction，却不能区分“当前测量相同、未来几何/摩擦状态不同”的两个扫描决策。用它整体替换 R15 会消除本任务的目标能力。
+
+Fu T-RO 2025 把上述 QP 放入 human--robot shared control，并指出时变 stiffness 与移动参考共同引入
+
+\[
+P_{mod}=\tfrac12\tilde x^T\dot K_c\tilde x+\dot x_{rd}^TK_c\tilde x
+\]
+
+这一非无源功率；全局 energy tank 对该功率、触觉反馈和阻尼耗散统一记账，在能量低时关断主动项并注入附加阻尼。论文在 `1 kHz` haptic loop、在线 QP、线阵超声探头、软/硬及转换材料上验证，并报告自主实验最大 median force error `0.25 N`。它证明 moving-reference term 不能被 R15 的旧 \(\tfrac12e^T\Delta K e\) 账本忽略；但 bilateral teleoperation、haptic force 与 human command 并不是自主扫描缺口，迁移它们只会形成不必要的第二主线。
+
+补审后的选择不是默认保留旧 R15，而是：**保留 future mean--deviation relation；用 Fu 的 QP 结构把 impedance update 凸化；用 Fu 的 robot-side 功率分解补全 energy ledger。** 两篇直接相关顶刊工作已经闭合 solver 与 energy 两个接口，剩余问题是本方法自身的 action-fidelity/WCET 实验，而不是缺少另一个 Source Mechanism，故不再扩展检索。
 
 ---
 
@@ -343,30 +390,36 @@ d_i(k_i)\in[d_i^-,d_i^+].
 
 离线校准包络 \(\mathcal E\) 对 hard constraints 始终有效；在线收缩的 \((\hat\eta,P_\eta)\) 可改善 nominal ranking 或增加约束，但不能删除任何 full-envelope vertex 或放宽其 hard margin。固定 facet/vertex 数是实时实现参数；若 vertex 枚举过大，必须使用能证明外包络包含性的 support-function/zonotope 近似。这样估计误差不会在检测延迟期间取消安全约束。
 
-### 时变 impedance 的 feedback-port 能量授权
+### 时变 impedance 与移动参考的 robot-side 能量授权
 
-定义 feedback storage
-
-\[
-V_{K,k}=\tfrac12\delta p_{c,k}^TK_{c,k}\delta p_{c,k}.
-\]
-
-增益变化可能注入
+定义接触坐标系误差 `e_c = p_c_ref - p_c = -delta p_c`、
+`delta v_c = dot p_c - dot p_c_ref = -dot e_c` 与 feedback storage
 
 \[
-\Delta E_{K,k}^+=
-\max\left(0,\tfrac12\delta p_{c,k}^T
-(K_{c,k+1}-K_{c,k})\delta p_{c,k}\right).
+V_{K,k}=\tfrac12e_{c,k}^TK_{c,k}e_{c,k}.
 \]
 
-能量罐递推
+旧 R15 只计算 gain-change injection；Fu T-RO 2025 的 robot-side 功率分解表明，移动参考还会通过 \(\dot p_c^{ref,T}K_ce_c\) 做功。对一个离散预测步，定义保守 modulation-energy debit
 
 \[
-E_{T,k+1}=\min(E_T^{\max},E_{T,k}+h\rho_d\delta v_c^TD_c\delta v_c)
--\Delta E_{K,k}^+,
+\overline{\Delta E}_{mod,k}^+=
+\sup_{(e_c,\eta)\in\mathcal D_k\times\mathcal E}
+\left[
+\tfrac12e_c^T(K_{c,k+1}-K_{c,k})e_c
++h\dot p_{c,k}^{ref,T}K_{c,k}e_c
+\right]_+,
 \]
 
-并施加 \(E_{T,k+1}\ge E_T^{\min}\)。于是 feedback gain schedule 不会使用未记账的能量。\(\tau_{ff}\) 与移动参考是主动供给，另受 torque/work/contact constraints 约束；因此理论声明限定为“时变 feedback impedance 的 port-passivity/energy authorization”，不夸大为主动扫描整体无源。
+其中 \(\mathcal D_k\) 是由同一 mean--deviation predictor 给出的 containing deviation set；因此 tank 不是只对 nominal error 记账。能量罐递推为
+
+\[
+E_{T,k+1}=\min(E_T^{\max},E_{T,k}
++h\rho_d \delta v_{c,k}^TD_{c,k}\delta v_{c,k})
+-\overline{\Delta E}_{mod,k}^+,
+\]
+
+并施加 `E_T,k+1 >= E_T,min`。若没有能量，优化器必须减小/冻结 `K_c` 或选择 WITHDRAW，而不是事后裁剪一个已经联合验证的 action。这里 debit 覆盖 gain variation 与 reference-motion elastic work；
+\(\tau_{ff}\) 仍是显式主动供给，另受 task、torque 与 contact constraints 约束。因此可声明的是 robot-side impedance/reference-modulation channel 的能量授权，不是含主动 feedforward 的整机全局无源。Fu T-RO 的 bilateral passivity theorem 依赖其 haptic/teleoperation interconnection，不能原样移植。
 
 ### Deadline-total applied-action relation
 
@@ -388,14 +441,55 @@ a_{wd}(b_k), & \text{otherwise}.
 
 推出。该条件必须在完整 robot/probe envelope 上离线验证；若存在某个 admissible state 使卸载动作也不可行，则 totality claim 立即失败，必须缩小 operating envelope，而不能继续叠加 safety module。
 
-### Solver 保持 T-RO 主干
+### Solver：T-RO 主干内的 future-sensitivity impedance QP
 
-- **DDP block**：优化 \(\tau_{ff}\)、nominal robot/contact trajectory，同时递推 \(P\) 和小维度 \((k_n,k_t)\)。
+Fu TIM/T-RO 证明单步 stiffness QP 在医疗接触中成熟，但直接使用其当前误差 QP 会丢失 future-contact authority。R15 的最小修改是保留 T-RO 的 DDP nominal block，并把 gain update 写成同一 ADMM 内的序列凸 QP，而不是让 DDP 黑箱式地同时搜索 gains。
+
+用 \(\ell_j=[\log k_{n,j},\log k_{t,j}]^T\) 保证正刚度。在当前 nominal/contact/gain iterate \((\bar x_j,\bar P_j,\bar\ell_j)\) 上，定义
+
+\[
+A_j=A_{cl,j}(\bar\ell_j),\qquad
+A_{\ell,j,r}=\left.\frac{\partial A_{cl,j}}{\partial\ell_{j,r}}\right|_{\bar\ell_j}.
+\]
+
+对每个 horizon gain 分量 `r`，协方差敏感度显式递推：
+
+\[
+\begin{aligned}
+S_{P,j+1}^{(r)}={}&A_jS_{P,j}^{(r)}A_j^T
++A_{\ell,j,r}\bar P_jA_j^T
++A_j\bar P_jA_{\ell,j,r}^T
++S_{W,j}^{(r)},\\
+S_{P,0}^{(r)}={}&0,
+\end{aligned}
+\]
+
+其中不作用于节点 `j` 的分量令 `A_{ell,j,r}=0`；`S_W` 只在 noise map 随 gain 改变时非零。由此得到 future force/path statistics、slip/contact-loss margin 和 torque feedback margin 对整段 `Delta ell` 的 Jacobian `J_y,J_g`。impedance block 求解
+
+\[
+\begin{aligned}
+\min_{\Delta\ell,s}\quad &
+\tfrac12\|J_y\Delta\ell+\bar y-y^{ref}\|_Q^2
++\tfrac12\|\Delta\ell\|_R^2+\tfrac{\rho_s}{2}\|s\|^2,\\
+\mathrm{s.t.}\quad &
+\bar g_h+J_{g_h}\Delta\ell\le0,\\
+&\bar g_s+J_{g_s}\Delta\ell\le s,\quad s\ge0,\\
+&\ell^-\le\bar\ell+\Delta\ell\le\ell^+,\quad
+|\ell_j-\ell_{j-1}|\le r,\quad\|\Delta\ell\|_\infty\le r_{tr},\\
+&d_i^-\le \bar d_i+J_{d_i}\Delta\ell_i\le d_i^+,\qquad
+\widehat E_{T,j+1}^{lb}(\Delta\ell)\ge E_T^{min}.
+\end{aligned}
+\]
+
+`g_h` 包含 force、slip、contact retention、joint/torque 和 full-envelope constraints，不允许 slack；`g_s` 只包含 task-risk surrogate。\(\widehat E_T^{lb}\) 是由 modulation-energy supremum 的保守 affine upper bound 得到的 tank-energy lower bound；square-root damping 也使用 trust region 上的保守 affine bound，使子问题保持 QP。candidate 随后必须回代原 nonlinear mean--deviation/contact/tank equations 做 exact acceptance；不通过则缩小 trust region 或保留上一 verified incumbent。
+
+- **DDP block**：只优化 \(\tau_{ff}\) 与 nominal robot/contact trajectory。
+- **Impedance QP block**：用未来闭环敏感度优化每节点 `(k_n,k_t)`，而不是当前 force error。
 - **IK block**：保持末端 scan path 与 robot configuration 的一致性。
-- **Projection block**：投影 joint/torque/contact/slip/gain-rate/damping/tank/robust margins。
-- **ADMM consensus**：对共享 \(q,\dot q,F_e,\tau_{ff},k\) 做固定次数协调。
+- **Projection block**：对 exact nonlinear joint/torque/contact/slip/gain-rate/damping/tank/robust margins 做验证和投影。
+- **ADMM consensus**：对共享 \(q,\dot q,F_e,\tau_{ff},k\) 做固定次数协调，并始终保存 verified incumbent。
 
-不新增外层 CEM、第二个 MPC 或 actor。协方差矩阵可只保留 contact-relevant reduced subspace，gain block 每节点只有两个变量。
+当 `H=1`、删除 covariance/slip/contact-loss sensitivity、固定 `k_t` 且用当前 PID force target 代替 `y_ref` 时，该 block 退化为 Fu 的医疗 stiffness QP；因此 Fu 是 R15 的严格简化基线，而不是并列模块。R15 不新增外层 CEM、第二个 MPC 或 actor。协方差可只保留 contact-relevant reduced subspace，gain block 每节点只有两个变量。
 
 ## 2.9 每个控制周期的完整算法
 
@@ -403,17 +497,17 @@ a_{wd}(b_k), & \text{otherwise}.
 2. 更新 projected EW-RLS 的 \(\hat\eta,P_\eta\)，并检查其是否仍位于校准包络 \(\mathcal E\)。
 3. 用上一周期解 warm start；rollout cylinder-probe nominal contact 与 robot dynamics。
 4. 沿 nominal rollout 计算 \(k_e,c_e,m_{eff}\)，由候选 \((k_n,k_t)\) 导出 \((d_n,d_t)\)。
-5. 递推 \(A_{cl}\) 和 reduced covariance \(P\)，计算 contact-loss、slip、torque 和 joint tightened margins。
-6. 在原 DDP/IK/Projection ADMM 中联合更新 \(\tau_{ff}\) 与 \((k_n,k_t)\)，同时满足 energy-tank 和 gain-rate 约束。
-7. 在截止时间前验证 incumbent 的所有 hard constraints 和 tank balance；通过后原子发布整个首节点 \((\tau_{ff},K_c,D_c)\)。
-8. 低层高频执行 feedback law；高层保持短时域滚动。
+5. 递推 \(A_{cl}\)、reduced covariance \(P\) 及其对整段 \(\ell=[\log k_n,\log k_t]\) 的敏感度，计算 contact-loss、slip、torque 和 joint tightened margins。
+6. DDP 更新 nominal \(\tau_{ff}\)；future-sensitivity QP 更新 \((k_n,k_t)\)；IK/Projection/ADMM 在固定迭代预算内协调两者。
+7. 对 QP candidate 回代 exact nonlinear dynamics、full contact envelope 和包含 moving-reference work 的 tank balance；只有 hard constraints 全部通过才更新 verified incumbent。
+8. 在截止时间前原子发布 incumbent 的整个首节点 \((\tau_{ff},K_c,D_c)\)，低层高频执行 feedback law，高层保持短时域滚动。
 9. 若无可验证 incumbent、求解超时、接触状态越出 \(\mathcal E\)，执行预验证 WITHDRAW：停止切向推进、使用耗散且 rate-limited 的 gain，并沿最后可信法向卸载。
 
 ## 2.10 理论闭合与实时判断
 
 ### Dynamics closure
 
-nominal \(f_p\)、deviation \(A_{cl}\)、noise/parameter covariance、gain-derived damping 和 tank 都有显式递推；horizon 内 estimator 固定，无代数环。
+nominal \(f_p\)、deviation \(A_{cl}\)、noise/parameter covariance、gain sensitivity、gain-derived damping 和含 reference work 的 tank 都有显式递推；horizon 内 estimator 固定，无代数环。QP 只是这些方程在 trust region 内的局部求解形式，发布前的 exact rollout 防止线性化被误当成真实可行性。
 
 ### Control authority / redundancy
 
@@ -425,7 +519,7 @@ nominal \(f_p\)、deviation \(A_{cl}\)、noise/parameter covariance、gain-deriv
 
 ### Stability / passivity
 
-冻结 gain 时，\(m_{eff}>0\)、\(k+k_e>0\)、\(d+c_e>0\) 给出局部渐近稳定二阶模态；时变 gain 的正能量由 tank 支付。结论是局部闭环稳定 + feedback-port 能量约束，不是对任意组织、任意参考和任意 delay 的全局稳定证明。
+冻结 gain 时，\(m_{eff}>0\)、\(k+k_e>0\)、\(d+c_e>0\) 给出局部渐近稳定二阶模态；时变 gain 与 moving reference 的正 modulation energy 由 robust tank debit 支付。结论是局部闭环稳定 + robot-side impedance/reference-modulation energy authorization；主动 \(\tau_{ff}\)、未建模通信延迟以及超出 \(\mathcal E\) 的组织仍不在无源性声明内。
 
 ### Constraint feasibility / deadline totality
 
@@ -433,7 +527,7 @@ nominal \(f_p\)、deviation \(A_{cl}\)、noise/parameter covariance、gain-deriv
 
 ### Real-time feasibility
 
-T-RO 原系统报告约 150 ms 平均高层求解及 100 Hz force loop，证明其主干可上硬件，但没有证明本方法的 deadline。新增变量每节点仅两个，且可用 contact-reduced covariance；合理目标是 5--10 Hz 高层与 500--1000 Hz 内层。**WCET 仍是唯一决定性实现接口**：必须在目标控制器上验证固定 horizon、固定 ADMM/DDP 次数、reduced covariance 和完整 projection 的 99.9% latency；若不能在 deadline 内产生 verified incumbent，Final Method 只允许 WITHDRAW，不能声称实时扫描成立。
+T-RO 原系统报告约 150 ms 平均高层求解及 100 Hz force loop；Fu 的医疗系统证明 `N=1` stiffness QP 可在线运行且 haptic loop 达 `1 kHz`，但两者都没有证明本方法的 horizon sensitivity、robust projection 与 exact acceptance 的 deadline。新增 gain block 是每节点两个变量的凸 QP，协方差可降到 contact-relevant subspace；合理目标是 5--10 Hz 高层与 500--1000 Hz 内层。**WCET 仍是唯一决定性实现接口**：必须在目标控制器上验证固定 horizon、固定 ADMM/DDP/QP 次数、reduced covariance 和完整 projection 的 99.9% latency；若不能在 deadline 内产生 verified incumbent，Final Method 只允许 WITHDRAW，不能声称实时扫描成立。
 
 ---
 
@@ -600,10 +694,35 @@ f_i^*=k_ie_i+d_i\dot e_i.
 | control authority | mean 与 covariance 两条通道可辨识 | nominal error 为零时 gain realization 奇异 |
 | hard constraints | 原 Projection block 可自然扩展 | constrained HJB 不是原结构 |
 | stability/passivity | 局部极点 + feedback tank，声明边界明确 | 原 UUB 不传播到时变 n/t impedance |
-| 实时性 | 新增每节点2变量，仍需 WCET 验证 | 修复后需在线 NLP，轻量优势消失 |
+| 实时性 | 每节点2变量的 convex impedance QP，仍需整链 WCET 验证 | 修复后需在线 NLP，轻量优势消失 |
 | Scientific Delta | contact prediction 从“只选 torque”变为“同时选 future closed-loop compliance” | 方法身份不稳定 |
 
 唯一首选为 Route A。Route B 是有价值的失败推导，它排除了“只换 contact model 后继续 NNBO”的表面融合。
+
+## 5.1 与 strongest closest priors 的直接比较
+
+| Closest prior | 已经解决 | 对同一真实超声任务仍缺 | R15 的最小新增关系 |
+|---|---|---|---|
+| T-RO deformable-contact-aware MPC | 未来 deformable contact、robot dynamics、DDP/IK/Projection ADMM | feedback impedance predefined；future contact 只选择 nominal torque | future contact → `A_cl,P` → `k_n,k_t` → robust applied action |
+| Fu TIM 2024 medical VIC | 在线有界 stiffness QP、energy tank、线阵超声探头与软/硬转换验证 | `N=1`、当前 force-error 驱动、仅法向刚度；无 future n/t contact/slip/uncertainty relation | 用 T-RO horizon 的闭环敏感度替换 current-error QP 系数，同时保持小型 QP realization |
+| Fu T-RO 2025 shared control | moving-reference/stiffness/haptic power的全局 tank；医疗接触与用户实验 | 面向 human shared control；仍是单步法向 stiffness，固定切向高刚度；其 bilateral theorem 不适用于自主 feedforward scan | 只迁移 robot-side `P_mod`，对 predicted deviation envelope 记账，不迁移 haptic/teleoperation |
+| GP model-predictive impedance control / MPVIC | gains 通过未来闭环 outcome 或 uncertainty 被排序 | 非 probe-specific n/t deformable contact；不保持 T-RO 的 force-modulated robot/contact solver 与完整 scan constraints | mean--deviation authority 与 T-RO contact/Projection 的单主线闭合 |
+
+这个比较给出一个可证伪的 necessity 边界：若在 matched replay 中 Fu 式 `N=1` normal QP 与 R15 的 joint force--path、slip/contact-loss 和安全 margin 无显著差异，则 future horizon 与 `k_t` 不必要，R15 应退化为更简单的 Fu 型方案；不能以“预测更先进”为理由保留复杂度。
+
+## 5.2 Final Method 三判据审计
+
+### Problem fit：PASS，但问题陈述必须收窄
+
+Fu 两篇工作已经直接覆盖并在医疗接触硬件上验证“根据当前法向 force error 在线调整刚度”这一宽问题。因此 R15 不能再以一般 force tracking 或 online VIC 为问题。剩余且与超声连续扫描直接相关的问题是：在当前测量尚未显露变化时，未来 probe geometry、组织斜率、切向阻力与 friction capacity 已预示 force overshoot、slip 或 contact loss，控制器如何提前联合改变法向顺应性与切向路径保持。R15 的 `A_cl → P → constraints` 关系正好作用于这一缺口。
+
+### Method fit / necessity：CONDITIONAL PASS
+
+相对直接采用 Fu QP，R15 只保留三个额外自由度来源：horizon、normal--tangential stiffness pair、future deviation/uncertainty。它不独立优化 damping，不引入 actor/second MPC/learned residual；QP 复用 T-RO rollout 的 sensitivities，energy ledger 复用同一 deviation set。复杂度的必要条件是存在 current-state aliasing：相同当前 force/error、不同未来 contact trajectory 导致不同最优 `(k_n,k_t)`。matched replay 若不能观察到这一 action/outcome difference，审计结论自动降级为 Fu 型单步法向 QP。
+
+### Scientific strength：FORMULA-CLOSED，EMPIRICALLY OPEN
+
+state、nominal/deviation dynamics、action、objective、hard/soft constraints、damping map、energy recursion、sequential solver、exact acceptance 与 deadline fallback 已形成闭合链；closest-prior limiting case 也可显式恢复。理论边界是局部 frozen-gain stability 与 robot-side modulation-energy authorization，不夸大全系统无源。顶会顶刊级强度仍取决于两个结果：future `(k_n,k_t)` 相对 Fu baseline 的 action-changing benefit，以及目标硬件上的 reduction fidelity/WCET。它们是验证条件，不再是待补文献接口。
 
 ---
 
@@ -613,7 +732,7 @@ f_i^*=k_ie_i+d_i\dot e_i.
 
 算法无关的科学原则是：
 
-> **对每个候选 nominal action 与最小 normal--tangential impedance，使用未来软接触状态同时预测 nominal interaction outcome 和 feedback-conditioned closed-loop deviation outcome；只在同一关系中对 task cost、contact/wrench、actuator、gain-change energy 与 deadline 均有 authority 的 action 才可发布。**
+> **对每个候选 nominal action 与最小 normal--tangential impedance，使用未来软接触状态同时预测 nominal interaction outcome 和 feedback-conditioned closed-loop deviation outcome；只在同一关系中对 task cost、contact/wrench、actuator、impedance/reference-modulation energy 与 deadline 均有 authority 的 action 才可发布。**
 
 这个原则不依赖 DDP、ADMM、Gaussian covariance 或某一种 tank 实现。T-RO + DDP/IK/Projection ADMM 是本项目最自然的具体 realization，因为它已经具有所需 contact/robot 主干和约束分裂；reduced covariance、fixed vertices、EW-RLS、energy tank 和 WITHDRAW 轨迹则是必须被原则测试证伪/确认的 realization hypotheses。这样可以清楚区分 Scientific Delta 与 solver engineering。
 
@@ -625,7 +744,8 @@ M_0 &: \text{T-RO spherical deformable-contact torque MPC + predefined impedance
 M_1 &: \text{cylinder-probe normal/sliding contact + bounded local estimation},\\
 M_2 &: \text{nominal mean rollout + feedback-dependent deviation/covariance rollout},\\
 M_3 &: \text{action }[\tau_{ff},k_n,k_t],\ d_n,d_t\text{ from local closed-loop poles},\\
-M_* &: \text{robust, energy-authorized, deadline-total DDP/IK/Projection ADMM}.
+M_* &: \text{DDP nominal + future-sensitivity impedance QP},\\
+&\quad\text{with robust energy-authorized, deadline-total IK/Projection ADMM}.
 \end{aligned}
 \]
 
@@ -661,7 +781,7 @@ P_{k+1}=A_{cl,k}(\bar x_k,k_k,\hat\eta_k)P_kA_{cl,k}^T+W_k.
 
 lifted force variables通过 \(\bar F_{e,k}=h_c(\bar x_k;\hat\eta_k)\) 与动态状态相等约束，不再被当作缺少演化方程的自由状态。
 
-这就是 prediction/optimal-control relation：未来接触的 geometry、force slope、sliding state 和 uncertainty 改变 \(A_{cl}\)、\(W\) 及 tightened constraints，从而在线选择 \((k_n,k_t)\)。
+这就是 prediction/optimal-control relation：未来接触的 geometry、force slope、sliding state 和 uncertainty 改变 \(A_{cl}\)、\(W\)、covariance sensitivities、tightened constraints 及可用 modulation-energy，从而由 horizon QP 在线选择 \((k_n,k_t)\)；DDP 仍只负责 nominal torque/trajectory。两个 blocks 通过原 ADMM consensus 与 exact Projection closure 相连，而不是串联两个控制器。
 
 ## 6.3 Scientific Delta
 
@@ -669,13 +789,23 @@ lifted force variables通过 \(\bar F_{e,k}=h_c(\bar x_k;\hat\eta_k)\) 与动态
 
 > 将预测的 deformable-contact trajectory 从仅服务于 feedforward torque 的外生信息，改造成同时决定 contact-frame feedback dynamics 的闭环状态；在同一个 DDP/IK/Projection ADMM 问题中，由未来 normal--tangential contact state 联合选择 nominal torque 与最小充分 impedance，并以显式 uncertainty、energy 和 deadline authority 决定可发布动作。
 
-相对现有 online stiffness/damping planning 和 MPVIC，本方法的残余差异是 probe-specific normal--tangential deformable contact、mean/deviation control-authority separation，以及与 T-RO 原 solver 的单主线融合。在线 gain optimization 本身不构成 novelty。
+相对 Fu 的 medical online stiffness QP、现有 stiffness/damping planning 和 MPVIC，本方法的残余差异是 probe-specific future normal--tangential deformable contact、mean/deviation control-authority separation、future-sensitivity QP，以及 moving-reference energy 在预测不确定性包络上的授权。在线 gain optimization、QP、MPC、uncertainty 或 energy tank 本身均不构成 novelty。
 
-## 6.4 唯一未闭合的决定性接口与最小验证
+## 6.4 Scientific Contributions（final wording）
+
+1. **T-RO contact-aware MPC predicts deformable contact but executes predefined feedback impedance; Fu's medical VIC optimizes only current normal stiffness. We establish a future-contact-to-closed-loop relation in which predicted probe normal--tangential states select the minimal stiffness pair, enabling anticipatory force--path robustness rather than reactive force correction.**
+
+2. **Predictive impedance methods can lose gain authority on zero-error nominal rollouts. We separate feedforward mean dynamics from impedance-dependent deviation dynamics and derive a non-redundancy condition through covariance propagation, making future uncertainty—not artificial nominal error—the reason for changing impedance.**
+
+3. **Fu's medical QP provides mature online stiffness optimization but lacks horizon contact constraints. We derive a future-sensitivity impedance QP whose coefficients come from T-RO closed-loop contact rollouts, retaining convex gain updates while jointly enforcing force, slip, contact-retention, actuator, and gain-rate authority.**
+
+4. **Existing medical tanks account for stiffness variation within reactive or bilateral controllers. We derive a robust robot-side ledger covering gain-change and moving-reference work over the predicted deviation envelope, so every published gain schedule has explicit energy authority while active feedforward remains outside the passivity claim.**
+
+## 6.5 唯一未闭合的决定性接口与最小验证
 
 公式关系已经闭合；唯一尚未由现有证据证明的是目标硬件上的 WCET 和 model reduction fidelity。最小验证不是新一轮路线调研，而是：
 
-1. 在记录的真实 ultrasound scan transitions 上比较 fixed impedance、naive nominal A2-II 与 CMI-MPC，验证 gain 是否改变 force variance、slip/contact-loss margin 和 joint force/path outcome；
+1. 在记录的真实 ultrasound scan transitions 上比较 fixed impedance、Fu 式 `N=1` reactive normal-stiffness QP、naive nominal A2-II 与 CMI-MPC，验证 future horizon 与 `k_t` 是否改变 force variance、slip/contact-loss margin 和 joint force/path outcome；
 2. 比较 full covariance 与 contact-reduced covariance 的 action order 和 constraint decisions；
 3. 在目标控制器固定 horizon/iterations 下测 99.9% latency，并强制 timeout/infeasibility，确认每周期只发布 verified SCAN 或 WITHDRAW；
 4. 若 reduced formulation 不能保留 action order，或 WCET 超过 deadline 且无 verified incumbent，则淘汰实时扫描声明；不通过增加 learning 模块补救。
